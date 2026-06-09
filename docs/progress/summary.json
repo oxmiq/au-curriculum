@@ -1,0 +1,63 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-06-02T20:45:42Z",
+  "_note": "Derived by build_summary.py from per-module progress/*.json \u2014 do not hand-edit.",
+  "modules": {},
+  "weeks": {
+    "week-01": {
+      "completed": 0,
+      "total": 5,
+      "percent": 0
+    },
+    "week-02": {
+      "completed": 0,
+      "total": 5,
+      "percent": 0
+    },
+    "week-03": {
+      "completed": 0,
+      "total": 5,
+      "percent": 0
+    },
+    "week-04": {
+      "completed": 0,
+      "total": 5,
+      "percent": 0
+    },
+    "week-05": {
+      "completed": 0,
+      "total": 5,
+      "percent": 0
+    },
+    "week-06": {
+      "completed": 0,
+      "total": 6,
+      "percent": 0
+    },
+    "week-07": {
+      "completed": 0,
+      "total": 5,
+      "percent": 0
+    },
+    "week-08": {
+      "completed": 0,
+      "total": 5,
+      "percent": 0
+    },
+    "week-09": {
+      "completed": 0,
+      "total": 5,
+      "percent": 0
+    },
+    "week-10": {
+      "completed": 0,
+      "total": 5,
+      "percent": 0
+    }
+  },
+  "overall": {
+    "completed": 0,
+    "total": 51,
+    "percent": 0
+  }
+}

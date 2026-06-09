@@ -1,0 +1,107 @@
+/* ============================================================
+   OxBlood — OXMIQ brand, applied to MkDocs Material
+   Light / cream default. Oxblood (#8B0000) is a FUNCTIONAL
+   highlight, not wallpaper. Monospaced authority: Oxygen Mono
+   on every heading. Fonts self-hosted (SIL OFL) — no CDN,
+   keeps the site offline-capable.
+   ============================================================ */
+
+/* ---- self-hosted Oxygen / Oxygen Mono ---- */
+@font-face{
+  font-family:"Oxygen";
+  src:url("fonts/Oxygen-Regular.ttf") format("truetype");
+  font-weight:400; font-style:normal; font-display:swap;
+}
+@font-face{
+  font-family:"Oxygen";
+  src:url("fonts/Oxygen-Bold.ttf") format("truetype");
+  font-weight:700; font-style:normal; font-display:swap;
+}
+@font-face{
+  font-family:"Oxygen Mono";
+  src:url("fonts/OxygenMonospace.ttf") format("truetype");
+  font-weight:400; font-style:normal; font-display:swap;
+}
+
+/* ---- Material color variables → OxBlood ---- */
+:root,
+[data-md-color-scheme="default"]{
+  /* brand palette (mirror of the OxBlood design system) */
+  --ox-blood:#8B0000;
+  --ox-blood-mid:#6B0000;
+  --ox-cream:#F5F0E4;
+  --ox-cream-2:#EDE8DC;
+  --ox-ink:#1A1A1A;
+  --ox-body:#363636;
+  --ox-muted:#666666;
+  --ox-gold:#C4992B;
+  --ox-green:#2E7D32;
+
+  /* primary = oxblood (header / nav accents) */
+  --md-primary-fg-color:#8B0000;
+  --md-primary-fg-color--light:#6B0000;
+  --md-primary-fg-color--dark:#6B0000;
+  --md-primary-bg-color:#F5F0E4;          /* text/icons on the oxblood bar */
+  --md-primary-bg-color--light:#EDE8DC;
+
+  /* accent = oxblood (links, hover, focus) */
+  --md-accent-fg-color:#8B0000;
+  --md-accent-fg-color--transparent:rgba(139,0,0,.10);
+
+  /* surfaces = cream */
+  --md-default-bg-color:#F5F0E4;
+  --md-default-fg-color:#1A1A1A;
+  --md-default-fg-color--light:#363636;
+  --md-default-fg-color--lighter:#666666;
+  --md-default-fg-color--lightest:#EDE8DC;
+
+  --md-typeset-color:#363636;
+  --md-typeset-a-color:#8B0000;
+
+  /* code on cream */
+  --md-code-bg-color:#EDE8DC;
+  --md-code-fg-color:#1A1A1A;
+
+  /* footer ink */
+  --md-footer-bg-color:#1A1A1A;
+  --md-footer-bg-color--dark:#141414;
+
+  /* fonts (Material reads these; explicit rules below as backstop) */
+  --md-text-font:"Oxygen";
+  --md-code-font:"Oxygen Mono";
+}
+
+/* ---- typography ---- */
+body, input, .md-typeset{
+  font-family:"Oxygen", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+code, pre, kbd, .md-typeset code, .md-typeset pre{
+  font-family:"Oxygen Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* monospaced authority — headings + chrome in Oxygen Mono */
+.md-typeset h1,.md-typeset h2,.md-typeset h3,
+.md-typeset h4,.md-typeset h5,.md-typeset h6,
+.md-header__title,.md-nav__title,.md-tabs__link,.md-ellipsis{
+  font-family:"Oxygen Mono","Oxygen",monospace;
+  letter-spacing:-.01em;
+}
+
+/* ---- header: oxblood bar, cream wordmark ---- */
+.md-header{
+  background-color:var(--ox-blood);
+  box-shadow:0 0 .2rem rgba(0,0,0,.1),0 .2rem .4rem rgba(0,0,0,.18);
+}
+.md-header__title{font-weight:700}
+
+/* ---- breathing room + engineered section rhythm (brand) ---- */
+.md-grid{max-width:62rem}
+.md-typeset h2{
+  border-left:3px solid var(--ox-blood);
+  padding-left:.6rem;
+  margin-top:2.2em;
+}
+.md-typeset h1{color:var(--ox-ink)}
+
+/* selection + admonition accents on brand */
+::selection{background:rgba(139,0,0,.18)}

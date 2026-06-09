@@ -1,0 +1,32 @@
+site_name: Oxmiq × AU Internship
+site_description: 10-week inference-engineering, agents & Capsule curriculum
+docs_dir: docs
+use_directory_urls: true
+
+theme:
+  name: material
+  font: false                       # self-host Oxygen / Oxygen Mono (see stylesheets/oxblood.css) — offline-safe
+  logo: assets/OXMIQ-logo-white.png
+  favicon: assets/OXMIQ-logo-oxblood.png
+  palette:
+    scheme: default                 # light; cream + oxblood applied via oxblood.css
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+
+extra_css:
+  - stylesheets/oxblood.css
+
+nav:
+  - Home: index.md
+  - Curriculum Map: kb/graph.html
+  - Dependency Graph: kb/edge-graph.html
+  - My Progress: kb/timeline.html
+  - Week 1 — Orientation:
+      - Overview: lessons/week-01/index.md
+      - "Day 1 · Welcome & Context": lessons/week-01/module-1/index.md
+
+# linked from lesson pages, intentionally not a sidebar entry
+not_in_nav: |
+  /lessons/**/assignment.md

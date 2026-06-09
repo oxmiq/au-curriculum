@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dependency Graph — Oxmiq × AU Internship</title>
+<style>
+  :root{
+    /* OxBlood — OXMIQ brand tokens (light / cream) */
+    --bg:#F5F0E4;--surface:#EFEADD;--surface-2:#FBF9F3;--line:rgba(26,26,26,.10);
+    --line-strong:rgba(26,26,26,.22);--text:#1A1A1A;--muted:#666666;--faint:#9C9486;
+    --mono:"Oxygen Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Oxygen",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    --edge:rgba(26,26,26,.22);--edge-done:#2E7D32;--ok:#2E7D32;--wip:#C4992B;
+    --p-orientation:#666666;--p-inference:#8B0000;--p-agents:#C4992B;
+    --p-bridge:#2D2926;--p-capsule:#2E7D32;--p-capstone:#1A1A1A;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:radial-gradient(1100px 520px at 50% -8%,rgba(139,0,0,.06),transparent 60%),var(--bg);
+    color:var(--text);font-family:var(--sans);padding:36px 20px 70px;
+  }
+  .wrap{max-width:1100px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--p-inference);margin:0 0 8px}
+  h1{font-family:var(--mono);font-weight:600;font-size:24px;margin:0 0 4px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:13.5px;margin:0}
+  .switch{font-family:var(--mono);font-size:12px;margin:14px 0 4px;display:flex;gap:6px;align-items:center}
+  .switch a{color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:7px;padding:5px 11px}
+  .switch a.active{color:var(--text);border-color:var(--line-strong);background:var(--surface)}
+  .switch a:hover{color:var(--text)}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:14px 0 4px;font-family:var(--mono);font-size:11px}
+  .legend span{display:inline-flex;align-items:center;gap:6px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .dot{width:9px;height:9px;border-radius:99px;display:inline-block}
+  .canvas{margin-top:14px;overflow:auto;border:1px solid var(--line);border-radius:12px;background:
+    linear-gradient(var(--line) 1px,transparent 1px) 0 0/100% 40px,
+    linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/40px 100%,var(--surface)}
+  svg{display:block}
+  /* nodes (HTML inside foreignObject) */
+  .node{height:100%;border:1px solid var(--line-strong);border-left:3px solid var(--phase);border-radius:9px;
+    background:var(--surface-2);padding:7px 9px;display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--text);
+    transition:transform .12s ease,box-shadow .12s ease;overflow:hidden}
+  a.node:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(26,26,26,.14);border-color:var(--phase)}
+  .node .top{display:flex;align-items:center;gap:6px}
+  .node .day{font-family:var(--mono);font-size:10px;color:var(--faint)}
+  .node .st{margin-left:auto;font-size:12px;line-height:1}
+  .st-passed{color:var(--ok)} .st-wip{color:var(--wip)}
+  .st-dot{width:6px;height:6px;border-radius:99px;background:var(--faint);display:inline-block}
+  .node .ttl{font-size:11.5px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .node.passed{background:color-mix(in srgb,var(--phase) 14%,var(--surface-2))}
+  .node.locked{opacity:.4}
+  .node.next{border-color:var(--phase);box-shadow:0 0 0 2px color-mix(in srgb,var(--phase) 45%,transparent)}
+  .next-tag{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--phase);margin-left:auto}
+  footer{margin-top:22px;color:var(--faint);font-size:12px;font-family:var(--mono)}
+  .err{background:#F7E7E4;border:1px solid #E0B4AE;color:#8B0000;padding:16px;border-radius:10px;font-family:var(--mono);font-size:13px}
+  .err code{color:#6B0000}
+  @media (prefers-reduced-motion:reduce){.node{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow" id="eyebrow">Loading…</p>
+  <h1>Dependency Graph</h1>
+  <p class="sub">Every concept and what it unlocks. Follow the arrows.</p>
+  <div class="switch">
+    <span style="color:var(--faint)">view:</span>
+    <a href="graph.html">Tree</a>
+    <a href="edge-graph.html" class="active">Graph</a>
+    <a href="timeline.html">Timeline</a>
+  </div>
+  <div id="legend" class="legend"></div>
+  <div class="canvas" id="canvas"><p style="font-family:var(--mono);color:var(--muted);padding:20px">Loading graph…</p></div>
+  <footer id="footer"></footer>
+</div>
+
+<script>
+const GRAPH_URL   = "graph.json";
+const SUMMARY_URL = "../progress/summary.json";
+const LESSON_BASE = "../";
+
+const PHASE_COLOR = {
+  orientation:"var(--p-orientation)",inference:"var(--p-inference)",agents:"var(--p-agents)",
+  bridge:"var(--p-bridge)",capsule:"var(--p-capsule)",capstone:"var(--p-capstone)"
+};
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const lessonHref = m => LESSON_BASE + String(m.lesson||"").replace(/index\.md$/,"");
+
+// layout constants
+const PAD=34, COL_W=182, ROW_H=120, NODE_W=156, NODE_H=58;
+
+async function load(){
+  let graph, summary;
+  try{
+    [graph,summary]=await Promise.all([
+      fetch(GRAPH_URL).then(r=>{if(!r.ok)throw new Error(GRAPH_URL);return r.json();}),
+      fetch(SUMMARY_URL).then(r=>r.ok?r.json():{modules:{}}).catch(()=>({modules:{}}))
+    ]);
+  }catch(e){
+    document.getElementById("canvas").innerHTML=
+      `<div class="err">Couldn't load <code>${esc(e.message)}</code>. Serve over HTTP (mkdocs serve), not file://.</div>`;
+    return;
+  }
+  render(graph,summary);
+}
+
+const statusOf=(s,id)=>(s.modules&&s.modules[id]&&s.modules[id].status)||"not_started";
+
+function render(graph,summary){
+  // index modules + positions (serpentine: even weeks L→R, odd weeks R→L)
+  const pos={}, nodes=[];
+  let maxCols=0;
+  graph.weeks.forEach((w,wi)=>{
+    maxCols=Math.max(maxCols,w.modules.length);
+    w.modules.forEach((m,mi)=>{
+      const col = (wi%2===0)? mi : (w.modules.length-1-mi);
+      const x=PAD+col*COL_W, y=PAD+wi*ROW_H;
+      pos[m.id]={x,y,cx:x+NODE_W/2,cy:y+NODE_H/2};
+      nodes.push({...m,phase:w.phase,week:w});
+    });
+  });
+
+  // status helpers + next-up
+  const passed=id=>statusOf(summary,id)==="passed";
+  const prereqsMet=m=>(m.prereqs||[]).every(passed);
+  const ordered=[...nodes].sort((a,b)=>(a.day||0)-(b.day||0));
+  let nextId=null;
+  for(const m of ordered){ if(statusOf(summary,m.id)!=="passed"&&prereqsMet(m)){nextId=m.id;break;} }
+
+  const W=PAD*2+(maxCols-1)*COL_W+NODE_W;
+  const H=PAD*2+(graph.weeks.length-1)*ROW_H+NODE_H;
+
+  // edges
+  let edges="";
+  nodes.forEach(m=>{
+    (m.prereqs||[]).forEach(pid=>{
+      const a=pos[pid], b=pos[m.id]; if(!a||!b) return;
+      const done = passed(pid)&&passed(m.id);
+      const dim  = statusOf(summary,m.id)==="not_started" && !prereqsMet(m);
+      // gentle S-curve: vertical-biased control points
+      const midY=(a.cy+b.cy)/2;
+      const d=`M ${a.cx} ${a.cy} C ${a.cx} ${midY}, ${b.cx} ${midY}, ${b.cx} ${b.cy}`;
+      const stroke = done? "var(--edge-done)" : "var(--edge)";
+      const op = dim? .35 : (done? .95 : .7);
+      edges+=`<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${done?2:1.5}" opacity="${op}" marker-end="url(#arrow)"/>`;
+    });
+  });
+
+  // nodes as foreignObject
+  let fos="";
+  nodes.forEach(m=>{
+    const p=pos[m.id], color=PHASE_COLOR[m.phase]||"var(--muted)";
+    const st=statusOf(summary,m.id), isNext=m.id===nextId;
+    const locked = st==="not_started" && !prereqsMet(m) && !isNext;
+    let icon, cls="node";
+    if(st==="passed"){icon=`<span class="st st-passed">✓</span>`;cls+=" passed";}
+    else if(st==="in_progress"){icon=`<span class="st st-wip">◐</span>`;}
+    else if(isNext){icon=`<span class="next-tag">next</span>`;cls+=" next";}
+    else{icon=`<span class="st"><i class="st-dot"></i></span>`;}
+    if(locked)cls+=" locked";
+    const dayLbl=`D${m.day??"?"}`;
+    const body=`<div class="top"><span class="day">${dayLbl}</span>${icon}</div><div class="ttl">${esc(m.title)}</div>`;
+    const el = locked
+      ? `<div class="${cls}" style="--phase:${color}" title="${esc(m.title)} · locked">${body}</div>`
+      : `<a class="${cls}" style="--phase:${color}" href="${esc(lessonHref(m))}" title="${esc(m.title)}">${body}</a>`;
+    fos+=`<foreignObject x="${p.x}" y="${p.y}" width="${NODE_W}" height="${NODE_H}">${el}</foreignObject>`;
+  });
+
+  document.getElementById("canvas").innerHTML=`
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--edge)"/>
+        </marker>
+      </defs>
+      <g>${edges}</g>
+      ${fos}
+    </svg>`;
+
+  // header + legend
+  document.getElementById("eyebrow").textContent=graph.program||"Curriculum";
+  document.getElementById("legend").innerHTML=
+    (graph.phases||[]).map(p=>`<span><i class="dot" style="background:${PHASE_COLOR[p.id]||"var(--muted)"}"></i>${esc(p.title)}</span>`).join("")
+    +`<span><i class="dot" style="background:var(--ok)"></i>Passed</span><span><i class="dot" style="background:var(--wip)"></i>In progress</span>`;
+  document.getElementById("footer").textContent="fast-follow edge-graph · same graph.json + summary.json as the tree view · arrows point from a concept to what it unlocks";
+}
+
+load();
+</script>
+</body>
+</html>
