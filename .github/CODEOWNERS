@@ -1,7 +1,0 @@
-# Upstream-owned (read-only for students; protects pull from conflicts).
-# Replace with real team handles before the cohort forks.
-/docs/lessons/   @oxmiq/curriculum
-/docs/kb/        @oxmiq/curriculum
-/skills/         @oxmiq/platform
-/mkdocs.yml      @oxmiq/platform
-/agents.md       @oxmiq/platform
