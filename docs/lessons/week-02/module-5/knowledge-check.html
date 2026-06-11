@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz — Week 2 · GPU & Memory</title>
+<style>
+  :root{
+    --bg:#0b0d10;--surface:#14171d;--surface-2:#1b1f27;--line:rgba(255,255,255,.08);
+    --text:#e7e9ee;--muted:#8b91a0;--faint:#5b616e;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    --ok:#34d399;--bad:#fb7185;--accent:#22d3ee;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;padding:40px 20px 80px}
+  .wrap{max-width:720px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 6px}
+  h1{font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 24px}
+  .q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+  .q .stem{font-weight:600;margin:0 0 14px}
+  .q .num{font-family:var(--mono);color:var(--faint);font-size:12px;margin-right:8px}
+  label.opt{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;cursor:pointer}
+  label.opt:hover{background:var(--surface-2)}
+  label.opt input{margin-top:3px;accent-color:var(--accent)}
+  .q.correct{border-color:color-mix(in srgb,var(--ok) 50%,transparent)}
+  .q.wrong{border-color:color-mix(in srgb,var(--bad) 50%,transparent)}
+  .explain{font-size:13px;color:var(--muted);margin:10px 0 0;padding-top:10px;border-top:1px solid var(--line);display:none}
+  .q.graded .explain{display:block}
+  .mark{font-family:var(--mono);font-size:12px;margin-left:8px}
+  .mark.ok{color:var(--ok)} .mark.bad{color:var(--bad)}
+  button{font-family:var(--mono);font-size:14px;background:var(--accent);color:#04181c;border:0;border-radius:8px;padding:11px 20px;cursor:pointer;font-weight:600}
+  button:hover{filter:brightness(1.08)}
+  #result{margin-top:18px;font-family:var(--mono);font-size:15px;display:none}
+  #result.show{display:block}
+  #result .score{font-size:24px;font-weight:600}
+  .verdict-pass{color:var(--ok)} .verdict-fail{color:var(--bad)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow" id="eyebrow"></p>
+  <h1 id="title"></h1>
+  <p class="sub" id="sub"></p>
+  <div id="quiz"></div>
+  <button id="check">Check answers</button>
+  <div id="result"></div>
+</div>
+
+<script>
+/* Item bank drawn from Inference Engineering Flashcards Days 6–9 + Glossary
+   entries: bandwidth, FLOPs, roofline, memory hierarchy.                       */
+const QUIZ = {
+  module: "week-02/module-5",
+  title: "Week 2 · Inference: GPU & Memory (Friday canonical)",
+  pass: 0.66,
+  questions: [
+    {
+      stem: "One forward pass through a transformer produces…",
+      options: [
+        "The entire response",
+        "Exactly one output token",
+        "All input embeddings",
+        "One output sentence"
+      ],
+      answer: 1,
+      explain: "Generation loops one forward pass per token; that's why decode is sequential and memory-bound."
+    },
+    {
+      stem: "An H100 SXM5 has roughly:",
+      options: [
+        "24 GB GDDR6X, 1 TB/s",
+        "40 GB HBM2, 1.5 TB/s",
+        "80 GB HBM3, ~3.35 TB/s",
+        "192 GB HBM3e, 8 TB/s"
+      ],
+      answer: 2,
+      explain: "80 GB HBM3 and ~3.35 TB/s — the two numbers everyone should know cold."
+    },
+    {
+      stem: "Tensor Cores are…",
+      options: [
+        "Larger CUDA cores",
+        "Specialized units that accelerate matrix multiplication",
+        "On-chip caches",
+        "Networking hardware"
+      ],
+      answer: 1,
+      explain: "Tensor Cores do small dense matrix-multiply-accumulate in one cycle — the AI workhorse."
+    },
+    {
+      stem: "Order these from fastest to slowest interconnect:",
+      options: [
+        "PCIe → NVLink → InfiniBand → Ethernet",
+        "NVLink → PCIe → InfiniBand → Ethernet",
+        "InfiniBand → NVLink → PCIe → Ethernet",
+        "NVLink → InfiniBand → PCIe → Ethernet"
+      ],
+      answer: 1,
+      explain: "Intra-node NVLink (900 GB/s) > PCIe (~64 GB/s) > InfiniBand (~50 GB/s per NIC) > Ethernet."
+    },
+    {
+      stem: "Why is decode memory-bound for a single user?",
+      options: [
+        "Because attention is O(N²)",
+        "Because the GPU re-reads all model weights from HBM per output token, doing only a tiny amount of math per byte",
+        "Because the CPU is the bottleneck",
+        "Because the network can't keep up"
+      ],
+      answer: 1,
+      explain: "Arithmetic intensity ≈ 2 ops/byte vs ridge of ~295 → Tensor Cores idle ~99% of the time."
+    },
+    {
+      stem: "Time to read 16 GB of weights from HBM at 3.35 TB/s is roughly:",
+      options: ["48 µs", "0.5 ms", "4.8 ms", "48 ms"],
+      answer: 2,
+      explain: "16 / 3350 s ≈ 4.8 ms — the decode latency floor before any math."
+    },
+    {
+      stem: "The 'ridge point' of a roofline is:",
+      options: [
+        "Peak FLOPs ÷ memory bandwidth",
+        "Bandwidth ÷ peak FLOPs",
+        "Cache size ÷ register count",
+        "Network bandwidth ÷ PCIe bandwidth"
+      ],
+      answer: 0,
+      explain: "Intensity at which compute and bandwidth ceilings meet (≈ 295 ops/byte for H100 FP16)."
+    },
+    {
+      stem: "Where on the roofline does prefill typically sit?",
+      options: [
+        "Memory-bound (left of ridge)",
+        "Compute-bound (right of ridge, hitting the Tensor Core ceiling)",
+        "Network-bound",
+        "Below both ceilings"
+      ],
+      answer: 1,
+      explain: "Prefill processes all input tokens in parallel → big GEMMs → high intensity → compute-bound."
+    },
+    {
+      stem: "Why does kernel fusion make code faster when it does the same math?",
+      options: [
+        "It uses more FLOPs",
+        "It keeps intermediate values in registers instead of writing them to HBM",
+        "It compiles to better SIMD",
+        "It uses Tensor Cores instead of CUDA cores"
+      ],
+      answer: 1,
+      explain: "FlashAttention is exactly this trick — fewer HBM round-trips, same algebra."
+    },
+    {
+      stem: "Pick the BEST classification of these workloads:",
+      options: [
+        "Decode = compute-bound · Prefill = memory-bound",
+        "Decode = memory-bound · Prefill = compute-bound",
+        "Both = compute-bound",
+        "Both = network-bound"
+      ],
+      answer: 1,
+      explain: "The single most important sentence in Phase 1."
+    },
+    {
+      stem: "What is **temporal locality**?",
+      options: [
+        "Reading nearby memory addresses",
+        "Reading the same address again soon",
+        "Doing math in parallel",
+        "Writing back to disk"
+      ],
+      answer: 1,
+      explain: "Temporal = same value reused; spatial = neighbouring addresses."
+    },
+    {
+      stem: "Doubling memory bandwidth on a memory-bound kernel roughly:",
+      options: [
+        "Has no effect — it's compute-bound",
+        "Roughly doubles throughput",
+        "Halves throughput",
+        "Increases latency"
+      ],
+      answer: 1,
+      explain: "Memory-bound = bandwidth ceiling — more bandwidth lifts the ceiling proportionally."
+    }
+  ]
+};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+$("#eyebrow").textContent = "Canonical quiz · the bar";
+$("#title").textContent = QUIZ.title;
+$("#sub").textContent = `${QUIZ.questions.length} questions · pass ${Math.round(QUIZ.pass*100)}%`;
+
+$("#quiz").innerHTML = QUIZ.questions.map((q,i)=>`
+  <div class="q" id="q${i}">
+    <p class="stem"><span class="num">Q${i+1}</span>${esc(q.stem)}<span class="mark" id="m${i}"></span></p>
+    ${q.options.map((o,j)=>`
+      <label class="opt"><input type="radio" name="q${i}" value="${j}"><span>${esc(o)}</span></label>`).join("")}
+    <p class="explain">${esc(q.explain)}</p>
+  </div>`).join("");
+
+$("#check").addEventListener("click",()=>{
+  let correct=0;
+  QUIZ.questions.forEach((q,i)=>{
+    const picked=document.querySelector(`input[name="q${i}"]:checked`);
+    const qel=$("#q"+i), mel=$("#m"+i);
+    qel.classList.add("graded");
+    const ok = picked && Number(picked.value)===q.answer;
+    if(ok){correct++;qel.classList.add("correct");qel.classList.remove("wrong");mel.textContent="✓ correct";mel.className="mark ok";}
+    else{qel.classList.add("wrong");qel.classList.remove("correct");mel.textContent=picked?"✗ incorrect":"— no answer";mel.className="mark bad";}
+  });
+  const total=QUIZ.questions.length, passed=correct/total>=QUIZ.pass;
+  const r=$("#result"); r.classList.add("show");
+  r.innerHTML=`<div class="score">${correct} / ${total}</div>
+    <div class="${passed?"verdict-pass":"verdict-fail"}">${passed?"PASSED — record it and move on":"below the bar — review the lesson and retry"}</div>`;
+  r.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+</script>
+</body>
+</html>
