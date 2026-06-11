@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **cost / million tokens** = (GPU $/hour × hours) / (tokens served × utilization). **Decode dominates** end-to-end cost for chat workloads. **Dedicated breaks even with API** somewhere around 30–50% utilization.
 > **Pre-reading:** "Cost of inference" blog with worked numbers — Pre-Lecture Reading **Reader 10** (~15 min).
-> **Source:** [Study Guide §A.7 economics](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
+> **Source:** [Study Guide §A.7 economics](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
 
 ---
 
@@ -101,7 +101,7 @@ Cohort produces a one-page **cost model** for the Week 4 system. Includes: $/hr,
 
 ## Connect forward
 
-Friday: Phase 1 wrap. **[The canonical quiz](quiz.html)** is the 15% open-book assessment. Tomorrow is reflection + Phase 2 (Prompt Engineering) pre-read.
+Friday: Phase 1 wrap. **[The canonical quiz](knowledge-check.html)** is the 15% open-book assessment. Tomorrow is reflection + Phase 2 (Prompt Engineering) pre-read.
 
 ---
 

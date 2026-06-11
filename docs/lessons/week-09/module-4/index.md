@@ -132,7 +132,7 @@ Cohort can articulate how Phases 1, 2, 3 compose into a real product. Schedule +
 
 ## Connect forward
 
-Friday: **timed sprint** + [the canonical quiz](quiz.html). Cold-run the full benchmark workflow in 20 min. The capstone begins Monday.
+Friday: **timed sprint** + [the canonical quiz](knowledge-check.html). Cold-run the full benchmark workflow in 20 min. The capstone begins Monday.
 
 ---
 

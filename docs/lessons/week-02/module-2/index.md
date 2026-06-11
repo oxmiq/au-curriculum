@@ -2,7 +2,7 @@
 
 > **Concept of the day:** GPU anatomy. SMs, Tensor Cores, CUDA Cores, HBM, L2 cache. Analogy: SM = factory floor, Tensor Core = specialized machine, HBM = warehouse.
 > **Pre-reading:** Pre-Lecture Reading **Reader 5 — Computer architecture primer** (~10 min) + H100 1-page spec.
-> **Source:** [Pre-Lecture Reading § Reader 5](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Pre_Lecture_Reading.md) · [Study Guide Ch 3 + §A.3](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
+> **Source:** [Pre-Lecture Reading § Reader 5](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Pre_Lecture_Reading.md) · [Study Guide Ch 3 + §A.3](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
 
 ---
 

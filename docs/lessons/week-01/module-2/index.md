@@ -2,7 +2,7 @@
 
 > **Concept of the day:** The shell as your primary tool. Pipes, redirects, grep, awk, basic scripting.
 > **Pre-reading:** [MIT Missing Semester — Shell chapter](https://missing.csail.mit.edu/2020/course-shell/) (~20 min).
-> **Source:** [Week 1 Orientation Student Guide § Day 2](../../../planning/source-material/Orientation/Orientation-Student-Guide.md).
+> **Source:** [Week 1 Orientation Student Guide § Day 2](../../../../planning/source-material/Orientation/Orientation-Student-Guide.md).
 
 ---
 

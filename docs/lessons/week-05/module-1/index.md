@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **TTFT, ITL/TPS, throughput, percentiles (P50/P95/P99)**. Means lie; percentiles tell the truth. **Goodhart's Law:** once a metric becomes a target it stops being a good metric.
 > **Pre-reading:** "Latency vs throughput in LLM serving" — Pre-Lecture Reading **Reader 10** (production metrics) (~15 min).
-> **Source:** [Study Guide §A.7](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary: TTFT, ITL, P99](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
+> **Source:** [Study Guide §A.7](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary: TTFT, ITL, P99](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
 
 ---
 

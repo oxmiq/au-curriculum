@@ -118,7 +118,7 @@ Cohort agrees on the storage convention for Week 9 runs.
 
 ## Connect forward
 
-Friday: **reliability & diagnostics** — known quirks, how to diagnose breakages, how to file a bug report that gets fixed. Then **[the canonical quiz](quiz.html)**.
+Friday: **reliability & diagnostics** — known quirks, how to diagnose breakages, how to file a bug report that gets fixed. Then **[the canonical quiz](knowledge-check.html)**.
 
 ---
 

@@ -2,7 +2,7 @@
 
 > **Concept of the day:** What is Oxmiq? Why remote GPUs matter. The 10-week journey.
 > **Pre-reading:** None — first day.
-> **Source:** [Week 1 Orientation Student Guide § Day 1](../../../planning/source-material/Orientation/Orientation-Student-Guide.md).
+> **Source:** [Week 1 Orientation Student Guide § Day 1](../../../../planning/source-material/Orientation/Orientation-Student-Guide.md).
 
 ---
 

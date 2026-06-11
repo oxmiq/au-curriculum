@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **perplexity** for sanity, **benchmarks** for comparison, **task evals** for production decisions. Public benchmarks are gameable; your own eval suite is the only one that matters. **Quantization quality must be measured, not assumed.**
 > **Pre-reading:** "Evaluating LLMs" overview — Pre-Lecture Reading **Reader 10** (~20 min).
-> **Source:** [Study Guide §A.7 evaluation](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary: perplexity, MMLU](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
+> **Source:** [Study Guide §A.7 evaluation](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary: perplexity, MMLU](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
 
 ---
 

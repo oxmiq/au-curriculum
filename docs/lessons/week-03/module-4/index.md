@@ -2,7 +2,7 @@
 
 > **Concept of the day:** fewer bits → less data to move → faster decode. FP16 → FP8 → FP4 progression. **Float > int** (dynamic range). Sensitivity ladder: weights → activations → KV → attention.
 > **Pre-reading:** "What is quantization?" — Pre-Lecture Reading **Reader 7** (~20 min).
-> **Source:** [Study Guide §A.5 quantization](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary entries: FP16, FP8, INT4](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
+> **Source:** [Study Guide §A.5 quantization](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary entries: FP16, FP8, INT4](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
 
 ---
 
@@ -77,7 +77,7 @@ Cohort agrees on a *default starting point* for new model deployments. Most sett
 
 ## Connect forward
 
-Friday: consolidation. We build the **memory budget calculator** — given GPU, model, context, batch → does it fit, and what does it cost at each precision level? Then [the canonical quiz](quiz.html).
+Friday: consolidation. We build the **memory budget calculator** — given GPU, model, context, batch → does it fit, and what does it cost at each precision level? Then [the canonical quiz](knowledge-check.html).
 
 ---
 

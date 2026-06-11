@@ -1,7 +1,7 @@
 # Day 48 · Analyze & Recommend
 
 > **Concept of the day:** raw data does not persuade. **A comparison table + a cost calculation + a defended recommendation** persuade. Today: compile, calculate, conclude. Build the presentation around the **claim sentence** (see capstone deliverable).
-> **Source template:** [Day-48 Presentation Outline](../../../planning/source-material/Capstone/Day-48-Presentation-Outline.md).
+> **Source template:** [Day-48 Presentation Outline](../../../../planning/source-material/Capstone/Day-48-Presentation-Outline.md).
 
 ---
 

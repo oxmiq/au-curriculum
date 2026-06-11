@@ -2,7 +2,7 @@
 
 > **Concept of the day:** the memory hierarchy. Data movement is the real cost. Most inference time = moving data, not computing.
 > **Pre-reading:** "Why bandwidth matters more than compute" — Pre-Lecture Reading **Reader 5 (memory section)** + Study Guide §A.3 (~20 min).
-> **Source:** [Pre-Lecture Reading § Reader 5 memory subsection](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Pre_Lecture_Reading.md) · [Study Guide §A.3](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary entries: bandwidth, HBM, L2](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
+> **Source:** [Pre-Lecture Reading § Reader 5 memory subsection](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Pre_Lecture_Reading.md) · [Study Guide §A.3](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary entries: bandwidth, HBM, L2](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
 
 ---
 

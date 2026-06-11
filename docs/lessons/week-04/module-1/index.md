@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **TP** splits each layer's matrices across GPUs. Used for one model that's too big for one GPU, or to reduce per-token decode latency. **NVLink required** — TP is intra-node only.
 > **Pre-reading:** "Tensor parallelism explained" — Pre-Lecture Reading **Reader 6** (parallelism overview) (~20 min).
-> **Source:** [Study Guide §A.5](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
+> **Source:** [Study Guide §A.5](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
 
 ---
 

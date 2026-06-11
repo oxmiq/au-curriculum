@@ -1,6 +1,6 @@
 # Week 10 — Capstone · Deliverable (40% of program grade)
 
-> **Source templates:** [Capstone Guide](../../../planning/source-material/Capstone/Capstone-Guide.md) + Day-46–50 templates linked from the [week overview](index.md).
+> **Source templates:** [Capstone Guide](../../../../planning/source-material/Capstone/Capstone-Guide.md) + Day-46–50 templates linked from the [week overview](index.md).
 
 ## The deliverable
 
@@ -21,7 +21,7 @@ Backed by:
 
 ## Grading rubric (Day 49 panel)
 
-Per [Day-49 Assessment Rubric](../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md), 8 dimensions equally weighted:
+Per [Day-49 Assessment Rubric](../../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md), 8 dimensions equally weighted:
 
 1. Use case clarity
 2. Technical depth (Phase 1 vocabulary correct throughout)

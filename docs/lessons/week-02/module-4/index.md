@@ -2,7 +2,7 @@
 
 > **Concept of the day:** ops:byte ratio. The roofline model. Which ceiling you're hitting. **Punchline: prefill = compute. Decode = memory.**
 > **Pre-reading:** Pre-Lecture Reading **Reader 4 (complexity, memory, attention math)** + Study Guide §A.5 roofline subsection (~15 min).
-> **Source:** [Pre-Lecture Reading § Reader 4](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Pre_Lecture_Reading.md) · [Study Guide §A.5](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Problem Sets — Day 9 set](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Problem_Sets.md).
+> **Source:** [Pre-Lecture Reading § Reader 4](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Pre_Lecture_Reading.md) · [Study Guide §A.5](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Problem Sets — Day 9 set](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Problem_Sets.md).
 
 ---
 
@@ -92,7 +92,7 @@ Pairs share their punchlines. Best one goes on the cohort wall. Friday's quiz te
 
 ## Connect forward
 
-Friday: consolidation — Feynman teach-back across the four concepts (pipeline, GPU anatomy, memory hierarchy, roofline). Then the canonical [quiz](quiz.html).
+Friday: consolidation — Feynman teach-back across the four concepts (pipeline, GPU anatomy, memory hierarchy, roofline). Then the canonical [quiz](knowledge-check.html).
 
 ---
 

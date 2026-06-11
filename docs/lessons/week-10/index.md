@@ -7,11 +7,11 @@
 
 | Day | Topic | Page | Source template |
 |---|---|---|---|
-| 46 (Mon) | Kickoff & Planning | [01-kickoff-and-planning.md](01-kickoff-and-planning.md) | [Day-46 Charter Template](../../../planning/source-material/Capstone/Day-46-Charter-Template.md) |
-| 47 (Tue) | Execute | [02-execute.md](02-execute.md) | [Day-47 Execution Checklist](../../../planning/source-material/Capstone/Day-47-Execution-Checklist.md) |
-| 48 (Wed) | Analyze & Recommend | [03-analyze-recommend.md](03-analyze-recommend.md) | [Day-48 Presentation Outline](../../../planning/source-material/Capstone/Day-48-Presentation-Outline.md) |
-| 49 (Thu) | Present | [04-present.md](04-present.md) | [Day-49 Assessment Rubric](../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md) |
-| 50 (Fri) | Close | [05-close.md](05-close.md) | [Day-50 Retrospective Form](../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md) |
+| 46 (Mon) | Kickoff & Planning | [Day 1 · Kickoff And Planning](../module-1/index.md) | [Day-46 Charter Template](../../../planning/source-material/Capstone/Day-46-Charter-Template.md) |
+| 47 (Tue) | Execute | [Day 2 · Execute](../module-2/index.md) | [Day-47 Execution Checklist](../../../planning/source-material/Capstone/Day-47-Execution-Checklist.md) |
+| 48 (Wed) | Analyze & Recommend | [Day 3 · Analyze Recommend](../module-3/index.md) | [Day-48 Presentation Outline](../../../planning/source-material/Capstone/Day-48-Presentation-Outline.md) |
+| 49 (Thu) | Present | [Day 4 · Present](../module-4/index.md) | [Day-49 Assessment Rubric](../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md) |
+| 50 (Fri) | Close | [Day 5 · Close](../module-5/index.md) | [Day-50 Retrospective Form](../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md) |
 
 ## The bar
 

@@ -1,7 +1,7 @@
 # Day 49 · Present
 
 > **Concept of the day:** today is the assessed deliverable. **15 minutes presentation + 10 minutes Q&A** per team, graded against the rubric. Everyone presents. Peers and panel both score. The capstone grade — 40% of the program — is set today.
-> **Source template:** [Day-49 Assessment Rubric](../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md).
+> **Source template:** [Day-49 Assessment Rubric](../../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md).
 
 ---
 
@@ -30,7 +30,7 @@ The presentation IS the hiring signal. It demonstrates: technical depth, decisio
 
 ## What the rubric scores
 
-Per [Day-49 Assessment Rubric](../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md), each of:
+Per [Day-49 Assessment Rubric](../../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md), each of:
 
 | Dimension | What earns top marks |
 |---|---|

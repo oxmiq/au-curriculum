@@ -1,7 +1,7 @@
 # Day 50 · Close
 
 > **Concept of the day:** the program ends with **reflection, career mapping, and your story.** What did you learn? Where are you going? How does this become a portfolio piece an employer can read? Today is soft in structure and high in stakes for what happens next.
-> **Source template:** [Day-50 Retrospective Form](../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md).
+> **Source template:** [Day-50 Retrospective Form](../../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md).
 
 ---
 
@@ -11,7 +11,7 @@ A capstone you can't talk about isn't a capstone. Day 50 turns Week 10 into a st
 
 ## Today's milestones
 
-1. **Fill the retrospective form** ([template](../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md)) — honestly.
+1. **Fill the retrospective form** ([template](../../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md)) — honestly.
 2. **1:1 individual feedback** from instructor — specific to your contribution, your strengths, your growth edges.
 3. **Career mapping session** — paths from here:
    - **Hiring path** — Oxmiq + partner companies — what roles fit, what's the bar.

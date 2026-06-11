@@ -2,7 +2,7 @@
 
 > **Concept of the day:** the inference pipeline. Tokenize → embed → layers → logits → sample. One forward pass = one token out.
 > **Pre-reading:** Inference Engineering Pre-Lecture Reading — **Reader 1 (AI in production)** (~15 min).
-> **Source:** [Pre-Lecture Reading § Reader 1](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Pre_Lecture_Reading.md) · [Study Guide Ch 0 + §A.0](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
+> **Source:** [Pre-Lecture Reading § Reader 1](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Pre_Lecture_Reading.md) · [Study Guide Ch 0 + §A.0](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
 
 ---
 

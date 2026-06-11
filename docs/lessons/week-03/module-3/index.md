@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **FlashAttention** = fuse attention into one kernel, minimize HBM trips (lossless). **PagedAttention** = virtual memory for the KV cache, modeled on OS paging.
 > **Pre-reading:** FlashAttention blog summary + paper abstract — Pre-Lecture Reading **Reader 4** (~20 min).
-> **Source:** [Study Guide §A.5](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Lecture Slides Day 13](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Lecture_Slides.md).
+> **Source:** [Study Guide §A.5](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Lecture Slides Day 13](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Lecture_Slides.md).
 
 ---
 

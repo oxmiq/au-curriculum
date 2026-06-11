@@ -2,7 +2,7 @@
 
 > **Concept of the day:** LLMs **hallucinate** when they extrapolate beyond their training or context. Guardrails: ground on source, allow "I don't know," chain into validation steps. **Prompt evals** catch regressions before users do. Anthropic tutorial Chapters 8–9.
 > **Pre-reading:** Anthropic tutorial **Ch 8 (Avoiding Hallucinations)** + **Ch 9 (Complex Prompts from Scratch)** (~25 min).
-> **Source:** [Student Guide Module 4](../../../planning/source-material/Prompt%20Engineering/Prompt-Engineering-Student-Guide.md) · [Problem Sets §Set 30](../../../planning/source-material/Prompt%20Engineering/Prompt-Engineering-Problem-Sets.md).
+> **Source:** [Student Guide Module 4](../../../../planning/source-material/Prompt%20Engineering/Prompt-Engineering-Student-Guide.md) · [Problem Sets §Set 30](../../../../planning/source-material/Prompt%20Engineering/Prompt-Engineering-Problem-Sets.md).
 
 ---
 

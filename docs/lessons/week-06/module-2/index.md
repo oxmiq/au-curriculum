@@ -2,7 +2,7 @@
 
 > **Concept of the day:** an **agent** is an LLM in a loop that **Perceives → Plans → Acts → Observes → Repeats** until a goal is met. **ReAct** = Reason + Act, the simplest viable pattern. Phase 1's faster decode + Week 6's reliable prompts are *what makes this work at all*.
 > **Pre-reading:** AI Agents Student Guide **Module 0 — Why Now?** (~20 min).
-> **Source:** [Student Guide Module 0](../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Student%20Guide.md) · [Pre-Lecture Reading](../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Pre-Lecture%20Reading.md).
+> **Source:** [Student Guide Module 0](../../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Student%20Guide.md) · [Pre-Lecture Reading](../../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Pre-Lecture%20Reading.md).
 
 ---
 

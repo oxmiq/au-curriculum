@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **tools** = functions the agent can call to act on the world. Each call has a **schema** the model must respect. **MCP (Model Context Protocol)** is the emerging standard for exposing tools across model providers — write once, plug into any compatible agent.
 > **Pre-reading:** AI Agents Student Guide **Module 2 — Action Layer** + Anthropic MCP overview (~25 min).
-> **Source:** [Student Guide Module 2](../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Student%20Guide.md) · [Glossary: MCP](../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Glossary.md).
+> **Source:** [Student Guide Module 2](../../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Student%20Guide.md) · [Glossary: MCP](../../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Glossary.md).
 
 ---
 

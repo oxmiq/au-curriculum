@@ -2,7 +2,7 @@
 
 > **Concept of the day:** Branch, commit (conventional format), push, PR. Why commit messages matter.
 > **Pre-reading:** [Atlassian Git Tutorial — Basic Workflow](https://www.atlassian.com/git/tutorials/saving-changes) (~15 min).
-> **Source:** [Week 1 Orientation Student Guide § Day 3](../../../planning/source-material/Orientation/Orientation-Student-Guide.md).
+> **Source:** [Week 1 Orientation Student Guide § Day 3](../../../../planning/source-material/Orientation/Orientation-Student-Guide.md).
 
 ---
 

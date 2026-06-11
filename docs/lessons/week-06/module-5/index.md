@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **multi-agent** systems split work across specialized agents communicating through a structured protocol. **Planner-worker** (decomposer + executors) and **supervisor-worker** (delegating manager) are the two dominant patterns. The cost: more LLM calls, more failure modes. The benefit: parallelism, specialization, and the ability to scale beyond a single context window.
 > **Pre-reading:** Student Guide **Module 4 — Orchestration Layer** (~20 min).
-> **Source:** [Student Guide Module 4](../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Student%20Guide.md).
+> **Source:** [Student Guide Module 4](../../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Student%20Guide.md).
 
 ---
 
@@ -117,7 +117,7 @@ Cohort agrees on **the team-project agent architecture** for Friday's 10% Phase-
 
 ## Connect forward
 
-Friday: **case studies + design synthesis**. The team project drops; Phase 2 wraps; we shift to **building** the inference stack in Phase 3 (Capsule). Then **[the canonical quiz](quiz.html)**.
+Friday: **case studies + design synthesis**. The team project drops; Phase 2 wraps; we shift to **building** the inference stack in Phase 3 (Capsule). Then **[the canonical quiz](knowledge-check.html)**.
 
 ---
 

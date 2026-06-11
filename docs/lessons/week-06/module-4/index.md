@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **tool output is untrusted input**. Indirect prompt injection (e.g. **EchoLeak**) hides instructions in fetched data. Defenses: output filtering, allowlists, least-privilege scopes, audit trails, human-in-the-loop on writes.
 > **Pre-reading:** Student Guide **Module 3 — Governance Layer** + Glossary "EchoLeak" (~25 min).
-> **Source:** [Student Guide Module 3](../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Student%20Guide.md) · [Glossary](../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Glossary.md).
+> **Source:** [Student Guide Module 3](../../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Student%20Guide.md) · [Glossary](../../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Glossary.md).
 
 ---
 

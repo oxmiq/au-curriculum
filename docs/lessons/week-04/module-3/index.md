@@ -2,7 +2,7 @@
 
 > **Concept of the day:** a small **draft** model proposes K tokens; the big **target** model verifies them in **one** parallel forward pass. Convert sequential memory-bound decode into batched-style verification. 2–3× speedup typical.
 > **Pre-reading:** "Speculative decoding explained" — Pre-Lecture Reading **Reader 8** (~15 min).
-> **Source:** [Study Guide §A.5](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
+> **Source:** [Study Guide §A.5](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
 
 ---
 

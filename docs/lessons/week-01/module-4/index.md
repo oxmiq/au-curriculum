@@ -2,7 +2,7 @@
 
 > **Concept of the day:** CPU vs GPU. Matrix multiplication = parallelism. Training vs serving. The journey of a prompt.
 > **Pre-reading:** 15-min video on what a GPU is (facilitator shares link).
-> **Source:** [Week 1 Orientation Student Guide § Day 4](../../../planning/source-material/Orientation/Orientation-Student-Guide.md).
+> **Source:** [Week 1 Orientation Student Guide § Day 4](../../../../planning/source-material/Orientation/Orientation-Student-Guide.md).
 
 ---
 
@@ -63,7 +63,7 @@ Collect the open GPU questions — those become Friday's open-lab agenda.
 
 ## Connect forward
 
-Friday: consolidation. We make sure shell, git, and the GPU mental model all stuck — then take the [Week 1 quiz](quiz.html). Monday we open the GPU and look inside.
+Friday: consolidation. We make sure shell, git, and the GPU mental model all stuck — then take the [Week 1 quiz](knowledge-check.html). Monday we open the GPU and look inside.
 
 ---
 

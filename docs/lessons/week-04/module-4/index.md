@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **Continuous batching** = new requests join the running batch every step. Engines (vLLM, TGI, TensorRT-LLM) bundle this with PagedAttention, FlashAttention, quantization, scheduling. PyTorch alone is *not* a production serving stack.
 > **Pre-reading:** vLLM landing page + "what is continuous batching" — Pre-Lecture Reading **Reader 9** (~15 min).
-> **Source:** [Study Guide §A.5](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary: vLLM, TGI, TensorRT-LLM](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
+> **Source:** [Study Guide §A.5](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary: vLLM, TGI, TensorRT-LLM](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
 
 ---
 
@@ -102,7 +102,7 @@ Cohort can recite: **continuous batching + PagedAttention + FlashAttention + qua
 
 ## Connect forward
 
-Friday: design a serving system end-to-end. Then **[the canonical quiz](quiz.html)**.
+Friday: design a serving system end-to-end. Then **[the canonical quiz](knowledge-check.html)**.
 
 ---
 

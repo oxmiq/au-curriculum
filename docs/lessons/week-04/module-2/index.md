@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **PP** splits the model by layer depth across nodes — needed when one node isn't enough. **EP** distributes experts in MoE models across GPUs. **Pipeline bubbles** = the idle time PP creates.
 > **Pre-reading:** Pipeline parallelism overview + Mixtral architecture — Pre-Lecture Reading **Reader 6** (~20 min).
-> **Source:** [Study Guide §A.5](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
+> **Source:** [Study Guide §A.5](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
 
 ---
 

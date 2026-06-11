@@ -1,7 +1,7 @@
 # Day 46 · Kickoff & Planning
 
 > **Concept of the day:** the capstone starts with a **charter** — a one-page commitment to use case, model, hardware, and eval plan. Today is when vague ideas become concrete decisions. Peer-review keeps everyone honest.
-> **Source template:** [Day-46 Charter Template](../../../planning/source-material/Capstone/Day-46-Charter-Template.md).
+> **Source template:** [Day-46 Charter Template](../../../../planning/source-material/Capstone/Day-46-Charter-Template.md).
 > **Input you walk in with:** your Week 9 Day 45 retrospective, specifically the "capstone seed" section.
 
 ---

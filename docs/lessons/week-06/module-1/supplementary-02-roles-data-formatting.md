@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **role assignment** raises performance ceiling. **Data delimiters** defend against injection. **Structured output** (JSON / XML) is non-negotiable for production. Anthropic tutorial Chapters 3–5.
 > **Pre-reading:** Anthropic tutorial **Ch 3 (Roles)** + **Ch 4 (Separating Data and Instructions)** + **Ch 5 (Output Formatting)** (~25 min).
-> **Source:** [Student Guide Module 2](../../../planning/source-material/Prompt%20Engineering/Prompt-Engineering-Student-Guide.md).
+> **Source:** [Student Guide Module 2](../../../../planning/source-material/Prompt%20Engineering/Prompt-Engineering-Student-Guide.md).
 
 ---
 

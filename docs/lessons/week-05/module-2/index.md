@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **autoscale, warm pools, load balancing, observability, rollout strategies**. The operational layer that turns a serving stack into a service.
 > **Pre-reading:** "Deploying LLMs in production" — Pre-Lecture Reading **Reader 10** (~20 min).
-> **Source:** [Study Guide §A.7](../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
+> **Source:** [Study Guide §A.7](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
 
 ---
 

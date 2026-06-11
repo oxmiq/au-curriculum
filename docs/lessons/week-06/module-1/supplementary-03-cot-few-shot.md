@@ -2,7 +2,7 @@
 
 > **Concept of the day:** **Chain-of-Thought** (CoT) = "think step by step" — measurable lift on reasoning, at decode-token cost. **Few-shot** = show 2–5 examples — high lift on format and style adherence. Both are free, both are bounded.
 > **Pre-reading:** Anthropic tutorial **Ch 6 (Pre-cognition / CoT)** + **Ch 7 (Using Examples)** (~20 min).
-> **Source:** [Student Guide Module 3](../../../planning/source-material/Prompt%20Engineering/Prompt-Engineering-Student-Guide.md).
+> **Source:** [Student Guide Module 3](../../../../planning/source-material/Prompt%20Engineering/Prompt-Engineering-Student-Guide.md).
 
 ---
 
