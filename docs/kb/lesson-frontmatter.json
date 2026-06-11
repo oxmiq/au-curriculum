@@ -1,0 +1,598 @@
+{
+  "_notes": {
+    "purpose": "Stub frontmatter map for docs/lessons/week-XX/module-Y/index.md, derived from docs/kb/concepts.json. When a lesson body is authored, its YAML frontmatter (introduces / depends_on / related) can be lifted from the matching entry here.",
+    "derivation": "introduces = concepts whose introduced_in lists this module; depends_on = union of prereqs of those concepts, minus any introduced by the same module; related = concepts whose also_used_in lists this module.",
+    "regen": "python3 scripts/derive_lesson_frontmatter.py"
+  },
+  "modules": {
+    "week-01/module-1": {
+      "introduces": [],
+      "depends_on": [],
+      "related": []
+    },
+    "week-01/module-2": {
+      "introduces": [
+        "shell-basics"
+      ],
+      "depends_on": [],
+      "related": []
+    },
+    "week-01/module-3": {
+      "introduces": [
+        "git-workflow"
+      ],
+      "depends_on": [
+        "shell-basics"
+      ],
+      "related": []
+    },
+    "week-01/module-4": {
+      "introduces": [
+        "ai-stack-overview"
+      ],
+      "depends_on": [],
+      "related": []
+    },
+    "week-01/module-5": {
+      "introduces": [],
+      "depends_on": [],
+      "related": []
+    },
+    "week-02/module-1": {
+      "introduces": [
+        "context-window",
+        "inference-vs-training",
+        "token"
+      ],
+      "depends_on": [
+        "ai-stack-overview"
+      ],
+      "related": []
+    },
+    "week-02/module-2": {
+      "introduces": [
+        "latency-throughput",
+        "temperature"
+      ],
+      "depends_on": [
+        "inference-vs-training",
+        "token"
+      ],
+      "related": []
+    },
+    "week-02/module-3": {
+      "introduces": [],
+      "depends_on": [],
+      "related": []
+    },
+    "week-02/module-4": {
+      "introduces": [],
+      "depends_on": [],
+      "related": []
+    },
+    "week-02/module-5": {
+      "introduces": [],
+      "depends_on": [],
+      "related": []
+    },
+    "week-03/module-1": {
+      "introduces": [
+        "transformer-architecture"
+      ],
+      "depends_on": [
+        "ai-stack-overview"
+      ],
+      "related": []
+    },
+    "week-03/module-2": {
+      "introduces": [
+        "self-attention"
+      ],
+      "depends_on": [
+        "transformer-architecture"
+      ],
+      "related": []
+    },
+    "week-03/module-3": {
+      "introduces": [
+        "kv-cache"
+      ],
+      "depends_on": [
+        "self-attention"
+      ],
+      "related": []
+    },
+    "week-03/module-4": {
+      "introduces": [
+        "flash-attention"
+      ],
+      "depends_on": [
+        "gpu-memory-hierarchy",
+        "self-attention"
+      ],
+      "related": []
+    },
+    "week-03/module-5": {
+      "introduces": [
+        "mla",
+        "moe"
+      ],
+      "depends_on": [
+        "kv-cache",
+        "self-attention",
+        "transformer-architecture"
+      ],
+      "related": []
+    },
+    "week-04/module-1": {
+      "introduces": [
+        "gpu-memory-hierarchy"
+      ],
+      "depends_on": [
+        "ai-stack-overview"
+      ],
+      "related": []
+    },
+    "week-04/module-2": {
+      "introduces": [
+        "gpu-generations"
+      ],
+      "depends_on": [
+        "gpu-memory-hierarchy"
+      ],
+      "related": []
+    },
+    "week-04/module-3": {
+      "introduces": [
+        "cuda-stack"
+      ],
+      "depends_on": [
+        "gpu-generations"
+      ],
+      "related": []
+    },
+    "week-04/module-4": {
+      "introduces": [
+        "constrained-decoding",
+        "continuous-batching",
+        "inference-engines",
+        "paged-attention"
+      ],
+      "depends_on": [
+        "cuda-stack",
+        "kv-cache",
+        "latency-throughput",
+        "structured-output"
+      ],
+      "related": []
+    },
+    "week-04/module-5": {
+      "introduces": [],
+      "depends_on": [],
+      "related": []
+    },
+    "week-05/module-1": {
+      "introduces": [
+        "quantization"
+      ],
+      "depends_on": [
+        "inference-engines"
+      ],
+      "related": []
+    },
+    "week-05/module-2": {
+      "introduces": [
+        "speculative-decoding"
+      ],
+      "depends_on": [
+        "inference-engines"
+      ],
+      "related": []
+    },
+    "week-05/module-3": {
+      "introduces": [
+        "tensor-parallelism"
+      ],
+      "depends_on": [
+        "gpu-generations",
+        "inference-engines"
+      ],
+      "related": []
+    },
+    "week-05/module-4": {
+      "introduces": [
+        "disaggregated-serving"
+      ],
+      "depends_on": [
+        "continuous-batching",
+        "tensor-parallelism"
+      ],
+      "related": [
+        "prompt-caching"
+      ]
+    },
+    "week-05/module-5": {
+      "introduces": [
+        "inference-cost"
+      ],
+      "depends_on": [
+        "inference-engines",
+        "quantization",
+        "tensor-parallelism"
+      ],
+      "related": []
+    },
+    "week-06/module-1": {
+      "introduces": [
+        "attention-position-bias",
+        "chat-completion-api",
+        "prompt-clarity",
+        "prompt-position",
+        "specificity",
+        "system-prompt",
+        "temperature-determinism",
+        "user-turn",
+        "vagueness-traps"
+      ],
+      "depends_on": [
+        "self-attention",
+        "temperature",
+        "token"
+      ],
+      "related": [
+        "temperature",
+        "token"
+      ]
+    },
+    "week-06/module-2": {
+      "introduces": [
+        "delimiter-discipline",
+        "delimiters",
+        "prefill",
+        "prompt-caching",
+        "prompt-injection",
+        "role-prompting",
+        "structured-output"
+      ],
+      "depends_on": [
+        "kv-cache",
+        "system-prompt"
+      ],
+      "related": [
+        "constrained-decoding",
+        "system-prompt"
+      ]
+    },
+    "week-06/module-3": {
+      "introduces": [
+        "chain-of-thought",
+        "example-selection",
+        "few-shot",
+        "few-shot-learning",
+        "in-context-learning",
+        "reasoning-models",
+        "scratchpad",
+        "self-consistency"
+      ],
+      "depends_on": [
+        "chat-completion-api",
+        "delimiters",
+        "temperature"
+      ],
+      "related": []
+    },
+    "week-06/module-4": {
+      "introduces": [
+        "abstention-guard",
+        "citation-discipline",
+        "citation-grounding",
+        "complex-prompt-composition",
+        "false-premise-defense",
+        "hallucination"
+      ],
+      "depends_on": [
+        "delimiters",
+        "role-prompting",
+        "specificity",
+        "structured-output",
+        "temperature"
+      ],
+      "related": [
+        "attention-position-bias",
+        "specificity",
+        "temperature-determinism"
+      ]
+    },
+    "week-06/module-5": {
+      "introduces": [
+        "eval-suite",
+        "handoff-format",
+        "llm-as-judge",
+        "prompt-as-code",
+        "prompt-chaining",
+        "prompt-evals",
+        "rag",
+        "rag-trust",
+        "tool-use"
+      ],
+      "depends_on": [
+        "citation-grounding",
+        "complex-prompt-composition",
+        "context-window",
+        "delimiter-discipline",
+        "prompt-injection",
+        "structured-output"
+      ],
+      "related": [
+        "chain-of-thought",
+        "citation-grounding",
+        "context-window",
+        "structured-output"
+      ]
+    },
+    "week-07/module-1": {
+      "introduces": [
+        "agent-loop",
+        "four-capabilities"
+      ],
+      "depends_on": [
+        "chain-of-thought",
+        "flash-attention",
+        "inference-cost",
+        "moe",
+        "tool-use"
+      ],
+      "related": [
+        "chain-of-thought",
+        "in-context-learning",
+        "moe",
+        "prompt-chaining",
+        "reasoning-models",
+        "role-prompting",
+        "system-prompt"
+      ]
+    },
+    "week-07/module-2": {
+      "introduces": [
+        "a2a",
+        "mcp",
+        "tool-manifest"
+      ],
+      "depends_on": [
+        "agent-loop",
+        "tool-use"
+      ],
+      "related": [
+        "few-shot",
+        "rag",
+        "structured-output",
+        "tool-use"
+      ]
+    },
+    "week-07/module-3": {
+      "introduces": [
+        "agent-governance",
+        "blast-radius"
+      ],
+      "depends_on": [
+        "agent-loop",
+        "prompt-injection",
+        "tool-use"
+      ],
+      "related": [
+        "citation-discipline",
+        "citation-grounding",
+        "delimiter-discipline",
+        "delimiters",
+        "hallucination",
+        "prompt-injection",
+        "rag-trust"
+      ]
+    },
+    "week-07/module-4": {
+      "introduces": [
+        "multi-agent-orchestration",
+        "value-accrual"
+      ],
+      "depends_on": [
+        "a2a",
+        "agent-loop",
+        "inference-cost"
+      ],
+      "related": []
+    },
+    "week-07/module-5": {
+      "introduces": [
+        "agent-case-studies"
+      ],
+      "depends_on": [
+        "agent-governance",
+        "agent-loop"
+      ],
+      "related": [
+        "eval-suite",
+        "prompt-evals"
+      ]
+    },
+    "week-08/module-1": {
+      "introduces": [
+        "capsule-architecture",
+        "capsule-install"
+      ],
+      "depends_on": [
+        "ai-stack-overview"
+      ],
+      "related": []
+    },
+    "week-08/module-2": {
+      "introduces": [
+        "capsule-environments",
+        "fleet-discovery"
+      ],
+      "depends_on": [
+        "capsule-install"
+      ],
+      "related": []
+    },
+    "week-08/module-3": {
+      "introduces": [
+        "capsule-connections",
+        "capsule-direct-vs-webrtc",
+        "capsule-routing-tags"
+      ],
+      "depends_on": [
+        "fleet-discovery"
+      ],
+      "related": []
+    },
+    "week-08/module-4": {
+      "introduces": [
+        "capsule-docker",
+        "capsule-files-storage",
+        "capsule-onedrive-mount",
+        "capsule-stream",
+        "nvidia-container-toolkit"
+      ],
+      "depends_on": [
+        "capsule-connections",
+        "capsule-direct-vs-webrtc",
+        "capsule-environments"
+      ],
+      "related": []
+    },
+    "week-08/module-5": {
+      "introduces": [
+        "capsule-bug-report",
+        "capsule-cleanup",
+        "capsule-reliability",
+        "nvidia-smi"
+      ],
+      "depends_on": [
+        "capsule-connections"
+      ],
+      "related": []
+    },
+    "week-09/module-1": {
+      "introduces": [
+        "capsule-benchmark"
+      ],
+      "depends_on": [
+        "capsule-reliability",
+        "inference-engines",
+        "latency-throughput"
+      ],
+      "related": [
+        "capsule-docker",
+        "continuous-batching",
+        "gpu-generations",
+        "inference-engines",
+        "latency-throughput",
+        "nvidia-smi",
+        "paged-attention"
+      ]
+    },
+    "week-09/module-2": {
+      "introduces": [
+        "benchmark-methodology"
+      ],
+      "depends_on": [
+        "capsule-benchmark"
+      ],
+      "related": [
+        "kv-cache",
+        "latency-throughput",
+        "quantization",
+        "tensor-parallelism"
+      ]
+    },
+    "week-09/module-3": {
+      "introduces": [
+        "interactive-evaluation"
+      ],
+      "depends_on": [
+        "benchmark-methodology",
+        "prompt-evals",
+        "quantization"
+      ],
+      "related": [
+        "eval-suite",
+        "llm-as-judge",
+        "prompt-evals",
+        "quantization"
+      ]
+    },
+    "week-09/module-4": {
+      "introduces": [
+        "capsule-mcp",
+        "capsule-scheduling"
+      ],
+      "depends_on": [
+        "benchmark-methodology",
+        "capsule-connections",
+        "mcp"
+      ],
+      "related": [
+        "capsule-direct-vs-webrtc",
+        "inference-cost",
+        "mcp",
+        "prompt-injection",
+        "rag",
+        "structured-output",
+        "system-prompt",
+        "tool-use"
+      ]
+    },
+    "week-09/module-5": {
+      "introduces": [],
+      "depends_on": [],
+      "related": []
+    },
+    "week-10/module-1": {
+      "introduces": [
+        "capstone-integration"
+      ],
+      "depends_on": [
+        "agent-loop",
+        "capsule-mcp",
+        "complex-prompt-composition",
+        "interactive-evaluation"
+      ],
+      "related": [
+        "agent-governance",
+        "agent-loop",
+        "inference-cost",
+        "tool-use"
+      ]
+    },
+    "week-10/module-2": {
+      "introduces": [
+        "capstone-eval-discipline"
+      ],
+      "depends_on": [
+        "benchmark-methodology",
+        "prompt-evals"
+      ],
+      "related": [
+        "eval-suite",
+        "inference-cost",
+        "prompt-as-code",
+        "prompt-evals"
+      ]
+    },
+    "week-10/module-3": {
+      "introduces": [],
+      "depends_on": [],
+      "related": []
+    },
+    "week-10/module-4": {
+      "introduces": [],
+      "depends_on": [],
+      "related": []
+    },
+    "week-10/module-5": {
+      "introduces": [],
+      "depends_on": [],
+      "related": []
+    }
+  }
+}

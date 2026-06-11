@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inference Engineering — Visual Flashcards</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --ink: #f1f5f9;
+    --ink-dim: #94a3b8;
+    --rule: #334155;
+    --cat-fund: #2563eb;
+    --cat-models: #7c3aed;
+    --cat-hw: #64748b;
+    --cat-sw: #ea580c;
+    --cat-tech: #dc2626;
+    --cat-modal: #16a34a;
+    --cat-prod: #0d9488;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  header { padding: 28px 32px 12px; max-width: 1320px; margin: 0 auto; }
+  header h1 { margin: 0; font-size: 32px; letter-spacing: -0.02em; font-weight: 800; }
+  header h1 span { color: #f97316; }
+  header .sub { color: var(--ink-dim); margin-top: 6px; font-size: 15px; }
+  .controls { padding: 16px 32px; max-width: 1320px; margin: 0 auto;
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .controls .label { color: var(--ink-dim); font-size: 13px; margin-right: 4px; }
+  .filter-btn { background: var(--surface); color: var(--ink); border: 1px solid var(--rule);
+    border-radius: 999px; padding: 6px 14px; font-size: 13px; cursor: pointer;
+    font-weight: 600; letter-spacing: 0.02em; transition: all 0.15s ease; }
+  .filter-btn:hover { border-color: #f97316; }
+  .filter-btn.active { background: #f97316; color: #0f172a; border-color: #f97316; }
+  .filter-btn[data-cat="fund"].active { background: var(--cat-fund); border-color: var(--cat-fund); color: white; }
+  .filter-btn[data-cat="models"].active { background: var(--cat-models); border-color: var(--cat-models); color: white; }
+  .filter-btn[data-cat="hw"].active { background: var(--cat-hw); border-color: var(--cat-hw); color: white; }
+  .filter-btn[data-cat="sw"].active { background: var(--cat-sw); border-color: var(--cat-sw); color: white; }
+  .filter-btn[data-cat="tech"].active { background: var(--cat-tech); border-color: var(--cat-tech); color: white; }
+  .filter-btn[data-cat="modal"].active { background: var(--cat-modal); border-color: var(--cat-modal); color: white; }
+  .filter-btn[data-cat="prod"].active { background: var(--cat-prod); border-color: var(--cat-prod); color: white; }
+
+  .hint { padding: 0 32px; max-width: 1320px; margin: 0 auto 12px;
+    color: var(--ink-dim); font-size: 13px; }
+
+  .grid {
+    padding: 16px 32px 80px; max-width: 1320px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .card { perspective: 1200px; height: 320px; cursor: pointer; }
+  .card.hidden { display: none; }
+  .card-inner {
+    position: relative; width: 100%; height: 100%;
+    transition: transform 0.55s cubic-bezier(.2,.8,.2,1);
+    transform-style: preserve-3d;
+  }
+  .card.flipped .card-inner { transform: rotateY(180deg); }
+
+  .face {
+    position: absolute; inset: 0;
+    border-radius: 14px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+  .face.back { transform: rotateY(180deg); }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 10px; border-radius: 999px;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: white; align-self: flex-start;
+  }
+  .card[data-cat="fund"] .badge { background: var(--cat-fund); }
+  .card[data-cat="models"] .badge { background: var(--cat-models); }
+  .card[data-cat="hw"] .badge { background: var(--cat-hw); }
+  .card[data-cat="sw"] .badge { background: var(--cat-sw); }
+  .card[data-cat="tech"] .badge { background: var(--cat-tech); }
+  .card[data-cat="modal"] .badge { background: var(--cat-modal); }
+  .card[data-cat="prod"] .badge { background: var(--cat-prod); }
+
+  .card[data-cat="fund"] .face { border-top: 3px solid var(--cat-fund); }
+  .card[data-cat="models"] .face { border-top: 3px solid var(--cat-models); }
+  .card[data-cat="hw"] .face { border-top: 3px solid var(--cat-hw); }
+  .card[data-cat="sw"] .face { border-top: 3px solid var(--cat-sw); }
+  .card[data-cat="tech"] .face { border-top: 3px solid var(--cat-tech); }
+  .card[data-cat="modal"] .face { border-top: 3px solid var(--cat-modal); }
+  .card[data-cat="prod"] .face { border-top: 3px solid var(--cat-prod); }
+
+  .front { padding: 16px 16px 14px; }
+  .front .icon {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    margin: 6px 0;
+  }
+  .front .icon svg { width: 100px; height: 100px; }
+  .front .term {
+    font-size: 19px; font-weight: 700; line-height: 1.2;
+    text-align: center; color: var(--ink);
+    padding: 0 6px;
+  }
+  .front .flip-hint {
+    font-size: 10px; color: var(--ink-dim); text-align: center; margin-top: 8px;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  .back { padding: 18px 18px 16px; }
+  .back .def {
+    flex: 1; display: flex; align-items: center;
+    font-size: 14px; line-height: 1.5; color: var(--ink);
+    margin-top: 10px;
+  }
+  .back .def strong { color: #f97316; }
+
+  @media print {
+    body { background: white; color: black; }
+    header, .controls, .hint { display: none; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+      padding: 12px; page-break-inside: auto; }
+    .card { height: 240px; perspective: none; cursor: default; page-break-inside: avoid; }
+    .card-inner { transform: none !important; transform-style: flat; }
+    .face { box-shadow: none; border: 1px solid #ccc; background: white !important;
+      page-break-inside: avoid; }
+    .face.back { display: none; }
+    .badge { color: white !important; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Inference <span>Engineering</span> · Flashcards</h1>
+  <div class="sub">100 high-yield study cards. Click any card to flip it. Use the filters to study by topic.</div>
+</header>
+<div class="controls">
+  <span class="label">Filter:</span>
+  <button class="filter-btn active" data-cat="all">All</button>
+  <button class="filter-btn" data-cat="fund">Fundamentals</button>
+  <button class="filter-btn" data-cat="models">Models</button>
+  <button class="filter-btn" data-cat="hw">Hardware</button>
+  <button class="filter-btn" data-cat="sw">Software</button>
+  <button class="filter-btn" data-cat="tech">Techniques</button>
+  <button class="filter-btn" data-cat="modal">Modalities</button>
+  <button class="filter-btn" data-cat="prod">Production</button>
+</div>
+<div class="hint">Tip: press <strong>F</strong> to flip all visible cards, or <strong>R</strong> to reset.</div>
+<div class="grid" id="grid"></div>
+
+<!-- SVG library: each card references a symbol by id. Strokes use currentColor so the
+     icon picks up the card's category color via CSS. -->
+<svg width="0" height="0" style="position: absolute" aria-hidden="true">
+  <defs>
+    <!-- 1. ARROW FLOW (inference / pipeline) -->
+    <symbol id="i-flow" viewBox="0 0 100 100">
+      <rect x="6" y="36" width="22" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+      <rect x="40" y="36" width="22" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+      <rect x="74" y="36" width="22" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M28 50 L40 50 M62 50 L74 50" stroke="currentColor" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+      <defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+        <path d="M0 0 L6 3 L0 6 Z" fill="currentColor"/></marker></defs>
+    </symbol>
+
+    <!-- 2. TRAINING vs INFERENCE — gears/factory + chat -->
+    <symbol id="i-train-infer" viewBox="0 0 100 100">
+      <circle cx="28" cy="50" r="16" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M28 30 L28 26 M28 70 L28 74 M48 50 L52 50 M8 50 L4 50
+               M14 36 L11 33 M42 36 L45 33 M14 64 L11 67 M42 64 L45 67"
+            stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M58 36 L92 36 L92 60 L82 60 L78 70 L74 60 L58 60 Z"
+            fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- 3. THREE LAYERS / stack -->
+    <symbol id="i-stack" viewBox="0 0 100 100">
+      <rect x="14" y="26" width="72" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+      <rect x="14" y="44" width="72" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+      <rect x="14" y="62" width="72" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+      <text x="50" y="36" text-anchor="middle" font-size="9" fill="currentColor">runtime</text>
+      <text x="50" y="54" text-anchor="middle" font-size="9" fill="currentColor">infra</text>
+      <text x="50" y="72" text-anchor="middle" font-size="9" fill="currentColor">tooling</text>
+    </symbol>
+
+    <!-- 4. SIX TECHNIQUES / hexagon grid -->
+    <symbol id="i-six" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="30" cy="30" r="10"/>
+        <circle cx="50" cy="30" r="10"/>
+        <circle cx="70" cy="30" r="10"/>
+        <circle cx="30" cy="70" r="10"/>
+        <circle cx="50" cy="70" r="10"/>
+        <circle cx="70" cy="70" r="10"/>
+      </g>
+      <g fill="currentColor">
+        <circle cx="30" cy="30" r="2"/><circle cx="50" cy="30" r="2"/><circle cx="70" cy="30" r="2"/>
+        <circle cx="30" cy="70" r="2"/><circle cx="50" cy="70" r="2"/><circle cx="70" cy="70" r="2"/>
+      </g>
+    </symbol>
+
+    <!-- 5. CLOCK / latency -->
+    <symbol id="i-clock" viewBox="0 0 100 100">
+      <circle cx="50" cy="52" r="30" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M50 32 L50 52 L66 60" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <circle cx="50" cy="52" r="3" fill="currentColor"/>
+      <path d="M50 16 L50 22 M86 52 L80 52 M50 88 L50 82 M14 52 L20 52"
+            stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- 6. STREAMING TOKENS / flowing dots -->
+    <symbol id="i-stream" viewBox="0 0 100 100">
+      <path d="M8 50 Q26 30 50 50 T92 50" stroke="currentColor" stroke-width="2.5" fill="none"/>
+      <circle cx="18" cy="44" r="3" fill="currentColor"/>
+      <circle cx="36" cy="36" r="3" fill="currentColor"/>
+      <circle cx="54" cy="50" r="3" fill="currentColor"/>
+      <circle cx="72" cy="48" r="3" fill="currentColor"/>
+      <circle cx="86" cy="50" r="3" fill="currentColor"/>
+    </symbol>
+
+    <!-- 7. BELL CURVE -->
+    <symbol id="i-bell" viewBox="0 0 100 100">
+      <path d="M10 80 Q30 80 38 60 Q44 30 50 30 Q56 30 62 60 Q70 80 90 80"
+            fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M10 80 L90 80" stroke="currentColor" stroke-width="2"/>
+      <path d="M50 80 L50 30" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/>
+      <path d="M66 80 L66 60" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/>
+      <text x="50" y="92" text-anchor="middle" font-size="7" fill="currentColor">P50</text>
+      <text x="66" y="92" text-anchor="middle" font-size="7" fill="currentColor">P95</text>
+    </symbol>
+
+    <!-- 8. SCALES / latency vs throughput -->
+    <symbol id="i-scales" viewBox="0 0 100 100">
+      <path d="M50 20 L50 76 M30 76 L70 76" stroke="currentColor" stroke-width="3"/>
+      <path d="M50 30 L20 50 M50 30 L80 50" stroke="currentColor" stroke-width="2.5"/>
+      <rect x="8" y="50" width="24" height="14" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <rect x="68" y="50" width="24" height="14" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <text x="20" y="61" text-anchor="middle" font-size="7" fill="currentColor">lat</text>
+      <text x="80" y="61" text-anchor="middle" font-size="7" fill="currentColor">tps</text>
+    </symbol>
+
+    <!-- 9. MATRIX MULTIPLY -->
+    <symbol id="i-matmul" viewBox="0 0 100 100">
+      <g stroke="currentColor" stroke-width="2" fill="none">
+        <rect x="6" y="32" width="22" height="36"/>
+        <line x1="6" y1="44" x2="28" y2="44"/>
+        <line x1="6" y1="56" x2="28" y2="56"/>
+        <line x1="14" y1="32" x2="14" y2="68"/>
+        <line x1="22" y1="32" x2="22" y2="68"/>
+      </g>
+      <text x="38" y="55" font-size="14" fill="currentColor" font-weight="700">×</text>
+      <g stroke="currentColor" stroke-width="2" fill="none">
+        <rect x="48" y="32" width="22" height="36"/>
+        <line x1="48" y1="44" x2="70" y2="44"/>
+        <line x1="48" y1="56" x2="70" y2="56"/>
+        <line x1="56" y1="32" x2="56" y2="68"/>
+        <line x1="64" y1="32" x2="64" y2="68"/>
+      </g>
+      <text x="80" y="55" font-size="14" fill="currentColor" font-weight="700">=</text>
+      <rect x="88" y="46" width="8" height="8" fill="currentColor"/>
+    </symbol>
+
+    <!-- 10. ATTENTION / web of connections -->
+    <symbol id="i-attention" viewBox="0 0 100 100">
+      <g fill="currentColor">
+        <circle cx="20" cy="50" r="4"/><circle cx="40" cy="30" r="4"/>
+        <circle cx="60" cy="30" r="4"/><circle cx="80" cy="50" r="4"/>
+        <circle cx="40" cy="70" r="4"/><circle cx="60" cy="70" r="4"/>
+      </g>
+      <g stroke="currentColor" stroke-width="1.5" opacity="0.6">
+        <line x1="20" y1="50" x2="40" y2="30"/>
+        <line x1="20" y1="50" x2="60" y2="30"/>
+        <line x1="20" y1="50" x2="80" y2="50"/>
+        <line x1="20" y1="50" x2="40" y2="70"/>
+        <line x1="20" y1="50" x2="60" y2="70"/>
+        <line x1="40" y1="30" x2="60" y2="30"/>
+        <line x1="40" y1="30" x2="80" y2="50"/>
+        <line x1="60" y1="30" x2="80" y2="50"/>
+        <line x1="80" y1="50" x2="40" y2="70"/>
+        <line x1="80" y1="50" x2="60" y2="70"/>
+      </g>
+    </symbol>
+
+    <!-- 11. KV CACHE / stacked memory -->
+    <symbol id="i-kv" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="20" y="22" width="60" height="10" rx="1"/>
+        <rect x="20" y="34" width="60" height="10" rx="1"/>
+        <rect x="20" y="46" width="60" height="10" rx="1"/>
+        <rect x="20" y="58" width="60" height="10" rx="1"/>
+        <rect x="20" y="70" width="60" height="10" rx="1"/>
+      </g>
+      <text x="50" y="29" text-anchor="middle" font-size="6" fill="currentColor" font-family="monospace">K0 V0</text>
+      <text x="50" y="41" text-anchor="middle" font-size="6" fill="currentColor" font-family="monospace">K1 V1</text>
+      <text x="50" y="53" text-anchor="middle" font-size="6" fill="currentColor" font-family="monospace">K2 V2</text>
+      <text x="50" y="65" text-anchor="middle" font-size="6" fill="currentColor" font-family="monospace">K3 V3</text>
+      <text x="50" y="77" text-anchor="middle" font-size="6" fill="currentColor" font-family="monospace">K4 V4</text>
+    </symbol>
+
+    <!-- 12. MOE / branching to experts -->
+    <symbol id="i-moe" viewBox="0 0 100 100">
+      <circle cx="20" cy="50" r="6" fill="currentColor"/>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M26 50 L60 22"/>
+        <path d="M26 50 L60 38"/>
+        <path d="M26 50 L60 54"/>
+        <path d="M26 50 L60 70"/>
+        <path d="M26 50 L60 86"/>
+      </g>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="60" y="16" width="28" height="12" rx="2"/>
+        <rect x="60" y="32" width="28" height="12" rx="2"/>
+        <rect x="60" y="48" width="28" height="12" rx="2"/>
+        <rect x="60" y="64" width="28" height="12" rx="2"/>
+        <rect x="60" y="80" width="28" height="12" rx="2"/>
+      </g>
+      <g fill="currentColor">
+        <rect x="60" y="32" width="28" height="12" rx="2" opacity="0.3"/>
+        <rect x="60" y="64" width="28" height="12" rx="2" opacity="0.3"/>
+      </g>
+    </symbol>
+
+    <!-- 13. DENOISING / noise to image -->
+    <symbol id="i-denoise" viewBox="0 0 100 100">
+      <rect x="8" y="28" width="22" height="44" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+      <g fill="currentColor" opacity="0.7">
+        <circle cx="14" cy="36" r="1"/><circle cx="20" cy="40" r="1"/><circle cx="26" cy="34" r="1"/>
+        <circle cx="14" cy="50" r="1"/><circle cx="22" cy="54" r="1"/><circle cx="18" cy="62" r="1"/>
+        <circle cx="26" cy="46" r="1"/><circle cx="14" cy="62" r="1"/><circle cx="26" cy="64" r="1"/>
+      </g>
+      <path d="M34 50 L42 50" stroke="currentColor" stroke-width="2" marker-end="url(#arrow2)"/>
+      <defs><marker id="arrow2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+        <path d="M0 0 L6 3 L0 6 Z" fill="currentColor"/></marker></defs>
+      <rect x="44" y="28" width="22" height="44" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M48 60 Q55 30 62 60" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M68 50 L76 50" stroke="currentColor" stroke-width="2" marker-end="url(#arrow2)"/>
+      <rect x="78" y="28" width="14" height="44" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="85" cy="50" r="6" fill="currentColor"/>
+    </symbol>
+
+    <!-- 14. ROOFLINE / arithmetic intensity -->
+    <symbol id="i-roofline" viewBox="0 0 100 100">
+      <path d="M14 80 L86 80 M14 80 L14 18" stroke="currentColor" stroke-width="2"/>
+      <path d="M14 80 L40 30 L86 30" stroke="currentColor" stroke-width="3" fill="none"/>
+      <line x1="40" y1="30" x2="40" y2="80" stroke="currentColor" stroke-width="1" stroke-dasharray="3 2"/>
+      <text x="40" y="92" text-anchor="middle" font-size="7" fill="currentColor">ops:byte</text>
+      <text x="22" y="60" font-size="7" fill="currentColor">mem</text>
+      <text x="60" y="24" text-anchor="middle" font-size="7" fill="currentColor">compute</text>
+    </symbol>
+
+    <!-- 15. FLASH / FlashAttention -->
+    <symbol id="i-flash" viewBox="0 0 100 100">
+      <path d="M58 14 L34 50 L48 50 L42 86 L66 50 L52 50 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- 16. PAGE / PagedAttention -->
+    <symbol id="i-pages" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="14" y="22" width="22" height="22" rx="2"/>
+        <rect x="40" y="22" width="22" height="22" rx="2"/>
+        <rect x="66" y="22" width="22" height="22" rx="2"/>
+        <rect x="14" y="56" width="22" height="22" rx="2"/>
+        <rect x="40" y="56" width="22" height="22" rx="2"/>
+        <rect x="66" y="56" width="22" height="22" rx="2"/>
+      </g>
+      <g fill="currentColor" opacity="0.4">
+        <rect x="14" y="22" width="22" height="22" rx="2"/>
+        <rect x="66" y="22" width="22" height="22" rx="2"/>
+        <rect x="40" y="56" width="22" height="22" rx="2"/>
+      </g>
+    </symbol>
+
+    <!-- 17. CHIP / GPU -->
+    <symbol id="i-chip" viewBox="0 0 100 100">
+      <rect x="22" y="22" width="56" height="56" rx="4" fill="none" stroke="currentColor" stroke-width="3"/>
+      <rect x="32" y="32" width="36" height="36" rx="2" fill="currentColor" opacity="0.2" stroke="currentColor" stroke-width="2"/>
+      <g stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <path d="M30 14 L30 22 M42 14 L42 22 M54 14 L54 22 M66 14 L66 22"/>
+        <path d="M30 78 L30 86 M42 78 L42 86 M54 78 L54 86 M66 78 L66 86"/>
+        <path d="M14 30 L22 30 M14 42 L22 42 M14 54 L22 54 M14 66 L22 66"/>
+        <path d="M78 30 L86 30 M78 42 L86 42 M78 54 L86 54 M78 66 L86 66"/>
+      </g>
+    </symbol>
+
+    <!-- 18. TENSOR CORE / matrix highlighted -->
+    <symbol id="i-tensor-core" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="24" y="24" width="52" height="52"/>
+        <line x1="24" y1="37" x2="76" y2="37"/>
+        <line x1="24" y1="50" x2="76" y2="50"/>
+        <line x1="24" y1="63" x2="76" y2="63"/>
+        <line x1="37" y1="24" x2="37" y2="76"/>
+        <line x1="50" y1="24" x2="50" y2="76"/>
+        <line x1="63" y1="24" x2="63" y2="76"/>
+      </g>
+      <g fill="currentColor" opacity="0.7">
+        <rect x="37" y="37" width="13" height="13"/>
+        <rect x="50" y="50" width="13" height="13"/>
+        <rect x="63" y="63" width="13" height="13"/>
+      </g>
+    </symbol>
+
+    <!-- 19. HBM / stacked memory layers -->
+    <symbol id="i-hbm" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="20" y="20" width="60" height="10" rx="1"/>
+        <rect x="20" y="32" width="60" height="10" rx="1"/>
+        <rect x="20" y="44" width="60" height="10" rx="1"/>
+        <rect x="20" y="56" width="60" height="10" rx="1"/>
+        <rect x="20" y="68" width="60" height="10" rx="1"/>
+      </g>
+      <g fill="currentColor" opacity="0.3">
+        <rect x="20" y="20" width="60" height="10" rx="1"/>
+        <rect x="20" y="44" width="60" height="10" rx="1"/>
+        <rect x="20" y="68" width="60" height="10" rx="1"/>
+      </g>
+      <text x="84" y="51" font-size="10" font-weight="700" fill="currentColor">HBM</text>
+    </symbol>
+
+    <!-- 20. NVLINK / connected nodes -->
+    <symbol id="i-nvlink" viewBox="0 0 100 100">
+      <g fill="currentColor">
+        <circle cx="25" cy="25" r="8"/><circle cx="75" cy="25" r="8"/>
+        <circle cx="25" cy="75" r="8"/><circle cx="75" cy="75" r="8"/>
+      </g>
+      <g stroke="currentColor" stroke-width="3" fill="none">
+        <line x1="33" y1="25" x2="67" y2="25"/>
+        <line x1="25" y1="33" x2="25" y2="67"/>
+        <line x1="75" y1="33" x2="75" y2="67"/>
+        <line x1="33" y1="75" x2="67" y2="75"/>
+        <line x1="33" y1="33" x2="67" y2="67"/>
+        <line x1="67" y1="33" x2="33" y2="67"/>
+      </g>
+    </symbol>
+
+    <!-- 21. SHRINK / quantization -->
+    <symbol id="i-shrink" viewBox="0 0 100 100">
+      <rect x="12" y="20" width="36" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+      <text x="30" y="56" text-anchor="middle" font-size="12" fill="currentColor" font-weight="700">FP16</text>
+      <path d="M52 50 L66 50" stroke="currentColor" stroke-width="3" marker-end="url(#arrow3)"/>
+      <defs><marker id="arrow3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+        <path d="M0 0 L6 3 L0 6 Z" fill="currentColor"/></marker></defs>
+      <rect x="68" y="36" width="22" height="28" rx="2" fill="currentColor" opacity="0.2"
+            stroke="currentColor" stroke-width="3"/>
+      <text x="79" y="54" text-anchor="middle" font-size="9" fill="currentColor" font-weight="700">FP8</text>
+    </symbol>
+
+    <!-- 22. SPECULATIVE / draft + verify -->
+    <symbol id="i-spec" viewBox="0 0 100 100">
+      <circle cx="20" cy="50" r="6" fill="currentColor"/>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="44" cy="30" r="6"/>
+        <circle cx="60" cy="30" r="6"/>
+        <circle cx="76" cy="30" r="6"/>
+        <circle cx="44" cy="70" r="6"/>
+        <circle cx="60" cy="70" r="6"/>
+      </g>
+      <line x1="26" y1="50" x2="38" y2="30" stroke="currentColor" stroke-width="2"/>
+      <line x1="26" y1="50" x2="38" y2="70" stroke="currentColor" stroke-width="2"/>
+      <line x1="50" y1="30" x2="54" y2="30" stroke="currentColor" stroke-width="2"/>
+      <line x1="66" y1="30" x2="70" y2="30" stroke="currentColor" stroke-width="2"/>
+      <line x1="50" y1="70" x2="54" y2="70" stroke="currentColor" stroke-width="2"/>
+      <path d="M40 26 L42 30 L48 24" stroke="currentColor" stroke-width="2" fill="none"/>
+      <path d="M56 26 L58 30 L64 24" stroke="currentColor" stroke-width="2" fill="none"/>
+      <line x1="72" y1="26" x2="80" y2="34" stroke="currentColor" stroke-width="2"/>
+      <line x1="72" y1="34" x2="80" y2="26" stroke="currentColor" stroke-width="2"/>
+    </symbol>
+
+    <!-- 23. PREFIX MATCH / overlapping prefixes -->
+    <symbol id="i-prefix" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="10" y="28" width="60" height="14" rx="2"/>
+        <rect x="10" y="58" width="60" height="14" rx="2"/>
+      </g>
+      <g fill="currentColor" opacity="0.4">
+        <rect x="10" y="28" width="40" height="14" rx="2"/>
+        <rect x="10" y="58" width="40" height="14" rx="2"/>
+      </g>
+      <text x="30" y="39" text-anchor="middle" font-size="8" fill="currentColor" font-weight="700">cached</text>
+      <text x="30" y="69" text-anchor="middle" font-size="8" fill="currentColor" font-weight="700">cached</text>
+      <text x="60" y="39" text-anchor="middle" font-size="8" fill="currentColor">new</text>
+      <text x="60" y="69" text-anchor="middle" font-size="8" fill="currentColor">new</text>
+      <path d="M74 50 L88 50" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- 24. TENSOR PARALLELISM / matrix split -->
+    <symbol id="i-tp" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="22" y="22" width="56" height="56"/>
+      </g>
+      <line x1="36" y1="22" x2="36" y2="78" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2"/>
+      <line x1="50" y1="22" x2="50" y2="78" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2"/>
+      <line x1="64" y1="22" x2="64" y2="78" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2"/>
+      <g fill="currentColor" opacity="0.7">
+        <rect x="22" y="22" width="14" height="56"/>
+      </g>
+      <g fill="currentColor" opacity="0.5">
+        <rect x="36" y="22" width="14" height="56"/>
+      </g>
+      <g fill="currentColor" opacity="0.3">
+        <rect x="50" y="22" width="14" height="56"/>
+      </g>
+      <g fill="currentColor" opacity="0.15">
+        <rect x="64" y="22" width="14" height="56"/>
+      </g>
+      <text x="50" y="92" text-anchor="middle" font-size="7" fill="currentColor">G0 · G1 · G2 · G3</text>
+    </symbol>
+
+    <!-- 25. EXPERT PARALLELISM / experts distributed -->
+    <symbol id="i-ep" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="6" y="22" width="22" height="22" rx="2"/>
+        <rect x="32" y="22" width="22" height="22" rx="2"/>
+        <rect x="58" y="22" width="22" height="22" rx="2"/>
+        <rect x="6" y="58" width="22" height="22" rx="2"/>
+        <rect x="32" y="58" width="22" height="22" rx="2"/>
+        <rect x="58" y="58" width="22" height="22" rx="2"/>
+      </g>
+      <g fill="currentColor">
+        <circle cx="17" cy="33" r="3"/><circle cx="21" cy="36" r="2"/>
+        <circle cx="43" cy="30" r="3"/><circle cx="46" cy="36" r="2"/>
+        <circle cx="69" cy="33" r="3"/><circle cx="73" cy="36" r="2"/>
+        <circle cx="13" cy="68" r="3"/><circle cx="17" cy="72" r="2"/>
+        <circle cx="39" cy="66" r="3"/><circle cx="44" cy="71" r="2"/>
+        <circle cx="65" cy="68" r="3"/><circle cx="71" cy="72" r="2"/>
+      </g>
+    </symbol>
+
+    <!-- 26. PIPELINE / sequential stages -->
+    <symbol id="i-pipeline" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="6" y="40" width="18" height="20" rx="2"/>
+        <rect x="30" y="40" width="18" height="20" rx="2"/>
+        <rect x="54" y="40" width="18" height="20" rx="2"/>
+        <rect x="78" y="40" width="18" height="20" rx="2"/>
+      </g>
+      <g stroke="currentColor" stroke-width="2.5" fill="none">
+        <path d="M24 50 L30 50 M48 50 L54 50 M72 50 L78 50"/>
+      </g>
+      <text x="15" y="54" text-anchor="middle" font-size="8" fill="currentColor">L1</text>
+      <text x="39" y="54" text-anchor="middle" font-size="8" fill="currentColor">L2</text>
+      <text x="63" y="54" text-anchor="middle" font-size="8" fill="currentColor">L3</text>
+      <text x="87" y="54" text-anchor="middle" font-size="8" fill="currentColor">L4</text>
+    </symbol>
+
+    <!-- 27. DISAGG / split prefill + decode -->
+    <symbol id="i-disagg" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="8" y="20" width="36" height="60" rx="3"/>
+        <rect x="56" y="20" width="36" height="60" rx="3"/>
+      </g>
+      <text x="26" y="44" text-anchor="middle" font-size="9" fill="currentColor" font-weight="700">PRE-</text>
+      <text x="26" y="56" text-anchor="middle" font-size="9" fill="currentColor" font-weight="700">FILL</text>
+      <text x="74" y="44" text-anchor="middle" font-size="9" fill="currentColor" font-weight="700">DE-</text>
+      <text x="74" y="56" text-anchor="middle" font-size="9" fill="currentColor" font-weight="700">CODE</text>
+      <path d="M44 50 L56 50" stroke="currentColor" stroke-width="2.5" marker-end="url(#arrowDis)"/>
+      <defs><marker id="arrowDis" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+        <path d="M0 0 L6 3 L0 6 Z" fill="currentColor"/></marker></defs>
+    </symbol>
+
+    <!-- 28. CONTAINER / Docker box -->
+    <symbol id="i-container" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="14" y="34" width="72" height="44" rx="2"/>
+        <line x1="14" y1="48" x2="86" y2="48"/>
+        <line x1="38" y1="48" x2="38" y2="78"/>
+        <line x1="62" y1="48" x2="62" y2="78"/>
+      </g>
+      <path d="M40 30 L60 30 L62 34 L38 34 Z" fill="currentColor" opacity="0.7"/>
+      <circle cx="50" cy="22" r="4" fill="currentColor"/>
+    </symbol>
+
+    <!-- 29. CLOUD / multi-cloud -->
+    <symbol id="i-cloud" viewBox="0 0 100 100">
+      <path d="M28 60 Q14 60 14 46 Q14 32 30 32 Q34 22 48 22 Q66 22 70 38 Q86 38 86 52 Q86 66 70 66 Z"
+            fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <g fill="currentColor" opacity="0.4">
+        <circle cx="35" cy="50" r="5"/>
+        <circle cx="50" cy="50" r="5"/>
+        <circle cx="65" cy="50" r="5"/>
+      </g>
+    </symbol>
+
+    <!-- 30. SCALE OUT / replicas -->
+    <symbol id="i-scale" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="10" y="40" width="20" height="20" rx="2"/>
+        <rect x="40" y="40" width="20" height="20" rx="2"/>
+        <rect x="70" y="40" width="20" height="20" rx="2"/>
+      </g>
+      <g fill="currentColor" opacity="0.6">
+        <rect x="10" y="40" width="20" height="20" rx="2"/>
+        <rect x="40" y="40" width="20" height="20" rx="2"/>
+        <rect x="70" y="40" width="20" height="20" rx="2"/>
+      </g>
+      <path d="M20 30 L80 30" stroke="currentColor" stroke-width="2" stroke-linecap="round" marker-end="url(#scaleArr)"/>
+      <defs><marker id="scaleArr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+        <path d="M0 0 L6 3 L0 6 Z" fill="currentColor"/></marker></defs>
+      <text x="50" y="80" text-anchor="middle" font-size="8" fill="currentColor">replicas</text>
+    </symbol>
+
+    <!-- 31. SNOWFLAKE / cold start -->
+    <symbol id="i-snow" viewBox="0 0 100 100">
+      <g stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none">
+        <path d="M50 16 L50 84"/>
+        <path d="M20 33 L80 67"/>
+        <path d="M20 67 L80 33"/>
+        <path d="M50 20 L46 26 M50 20 L54 26 M50 80 L46 74 M50 80 L54 74"/>
+        <path d="M24 35 L28 39 M28 31 L24 35 M76 65 L72 61 M72 69 L76 65"/>
+        <path d="M24 65 L28 61 M28 69 L24 65 M76 35 L72 39 M72 31 L76 35"/>
+      </g>
+    </symbol>
+
+    <!-- 32. CANARY / gradual ramp -->
+    <symbol id="i-canary" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="10" y="60" width="14" height="20" rx="1"/>
+        <rect x="28" y="50" width="14" height="30" rx="1"/>
+        <rect x="46" y="40" width="14" height="40" rx="1"/>
+        <rect x="64" y="30" width="14" height="50" rx="1"/>
+        <rect x="82" y="20" width="14" height="60" rx="1"/>
+      </g>
+      <g fill="currentColor" opacity="0.6">
+        <rect x="10" y="60" width="14" height="20" rx="1"/>
+        <rect x="28" y="50" width="14" height="30" rx="1"/>
+        <rect x="46" y="40" width="14" height="40" rx="1"/>
+        <rect x="64" y="30" width="14" height="50" rx="1"/>
+        <rect x="82" y="20" width="14" height="60" rx="1"/>
+      </g>
+    </symbol>
+
+    <!-- 33. EYE / observability -->
+    <symbol id="i-eye" viewBox="0 0 100 100">
+      <path d="M10 50 Q30 22 50 22 Q70 22 90 50 Q70 78 50 78 Q30 78 10 50 Z"
+            fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <circle cx="50" cy="50" r="14" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <circle cx="50" cy="50" r="6" fill="currentColor"/>
+    </symbol>
+
+    <!-- 34. SPEECH / audio waveform -->
+    <symbol id="i-audio" viewBox="0 0 100 100">
+      <g stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <line x1="10" y1="50" x2="10" y2="50"/>
+        <line x1="18" y1="42" x2="18" y2="58"/>
+        <line x1="26" y1="34" x2="26" y2="66"/>
+        <line x1="34" y1="40" x2="34" y2="60"/>
+        <line x1="42" y1="26" x2="42" y2="74"/>
+        <line x1="50" y1="38" x2="50" y2="62"/>
+        <line x1="58" y1="20" x2="58" y2="80"/>
+        <line x1="66" y1="36" x2="66" y2="64"/>
+        <line x1="74" y1="44" x2="74" y2="56"/>
+        <line x1="82" y1="40" x2="82" y2="60"/>
+        <line x1="90" y1="46" x2="90" y2="54"/>
+      </g>
+    </symbol>
+
+    <!-- 35. CAMERA / vision/image -->
+    <symbol id="i-camera" viewBox="0 0 100 100">
+      <path d="M14 30 L30 30 L36 22 L64 22 L70 30 L86 30 L86 76 L14 76 Z"
+            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+      <circle cx="50" cy="52" r="14" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <circle cx="50" cy="52" r="7" fill="currentColor"/>
+    </symbol>
+
+    <!-- 36. VIDEO / film strip -->
+    <symbol id="i-video" viewBox="0 0 100 100">
+      <rect x="14" y="24" width="72" height="52" rx="3" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="20" y="24" width="6" height="6"/>
+        <rect x="32" y="24" width="6" height="6"/>
+        <rect x="44" y="24" width="6" height="6"/>
+        <rect x="56" y="24" width="6" height="6"/>
+        <rect x="68" y="24" width="6" height="6"/>
+        <rect x="20" y="70" width="6" height="6"/>
+        <rect x="32" y="70" width="6" height="6"/>
+        <rect x="44" y="70" width="6" height="6"/>
+        <rect x="56" y="70" width="6" height="6"/>
+        <rect x="68" y="70" width="6" height="6"/>
+      </g>
+      <path d="M40 40 L60 50 L40 60 Z" fill="currentColor"/>
+    </symbol>
+
+    <!-- 37. EMBEDDING / vector -->
+    <symbol id="i-embed" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="14" y="42" width="72" height="16" rx="2"/>
+      </g>
+      <g fill="currentColor">
+        <rect x="16" y="44" width="6" height="12"/>
+        <rect x="24" y="44" width="6" height="12" opacity="0.4"/>
+        <rect x="32" y="44" width="6" height="12" opacity="0.8"/>
+        <rect x="40" y="44" width="6" height="12" opacity="0.2"/>
+        <rect x="48" y="44" width="6" height="12" opacity="0.6"/>
+        <rect x="56" y="44" width="6" height="12" opacity="0.9"/>
+        <rect x="64" y="44" width="6" height="12" opacity="0.3"/>
+        <rect x="72" y="44" width="6" height="12" opacity="0.7"/>
+        <rect x="80" y="44" width="4" height="12" opacity="0.5"/>
+      </g>
+    </symbol>
+
+    <!-- 38. BENCHMARK / dashboard -->
+    <symbol id="i-bench" viewBox="0 0 100 100">
+      <rect x="10" y="20" width="80" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <line x1="10" y1="32" x2="90" y2="32" stroke="currentColor" stroke-width="2"/>
+      <circle cx="18" cy="26" r="2" fill="currentColor"/>
+      <circle cx="26" cy="26" r="2" fill="currentColor" opacity="0.6"/>
+      <circle cx="34" cy="26" r="2" fill="currentColor" opacity="0.3"/>
+      <path d="M16 70 L26 60 L36 65 L46 50 L56 55 L66 42 L76 48 L86 38"
+            fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <line x1="16" y1="74" x2="86" y2="74" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+    </symbol>
+
+    <!-- 39. CHECKMARK / quality eval -->
+    <symbol id="i-check" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="32" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M34 50 L46 62 L66 38" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </symbol>
+
+    <!-- 40. KEY / API / authentication -->
+    <symbol id="i-key" viewBox="0 0 100 100">
+      <circle cx="32" cy="50" r="14" fill="none" stroke="currentColor" stroke-width="3"/>
+      <circle cx="32" cy="50" r="4" fill="currentColor"/>
+      <path d="M46 50 L84 50 M76 50 L76 58 M68 50 L68 60" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+    </symbol>
+
+  </defs>
+</svg>
+
+<script>
+// Cards: [category, term, definition, svg-id]
+const CARDS = [
+  // ----- FUNDAMENTALS -----
+  ["fund","Inference","Serving AI models in production — using trained weights to answer user requests.","i-flow"],
+  ["fund","Training vs. inference","<strong>Training</strong> learns weights from data (one-time capital expense). <strong>Inference</strong> uses those weights at runtime (continuous operational expense).","i-train-infer"],
+  ["fund","Three inference layers","<strong>Runtime</strong> (single instance) → <strong>Infrastructure</strong> (scaling, multi-cloud) → <strong>Tooling</strong> (developer abstraction).","i-stack"],
+  ["fund","Six runtime techniques","Batching · Caching · Quantization · Speculation · Parallelism · Disaggregation.","i-six"],
+  ["fund","Generative AI","A class of models that <strong>create new content</strong> (text, images, audio, video, code) by learning patterns from training data. Distinct from predictive ML.","i-flow"],
+  ["fund","Open vs. closed model","<strong>Open</strong>: weights are publicly available (Llama, DeepSeek). <strong>Closed</strong>: proprietary, API-only (GPT-5, Claude).","i-stack"],
+  ["fund","TTFT","<strong>Time to First Token</strong>. Latency metric driven by prefill (compute-bound). Lower = app feels snappier.","i-clock"],
+  ["fund","Perceived TPS","<strong>Tokens per second</strong> observed by one user during streaming. Driven by decode (memory-bound).","i-stream"],
+  ["fund","Inter-token latency (ITL)","Time between consecutive tokens. <strong>perceived TPS = 1000 / ITL_ms</strong>. ITL 10 ms = 100 TPS/user.","i-clock"],
+  ["fund","Latency percentiles","<strong>P50</strong> = median, <strong>P90</strong>/<strong>P95</strong>/<strong>P99</strong> = 1 in 10 / 20 / 100 requests slower. Optimize P99, not just the mean.","i-bell"],
+  ["fund","Inference time vs. end-to-end","Inference time = on-GPU only. End-to-end = what user sees (includes network, queueing, client overhead).","i-clock"],
+  ["fund","Online vs. offline","<strong>Online</strong>: user is waiting → optimize latency. <strong>Offline</strong>: batch jobs → optimize throughput.","i-scales"],
+  ["fund","Shared vs. dedicated","<strong>Shared</strong>: public API, pay per token, zero ops. <strong>Dedicated</strong>: rented GPUs, pay per hour, full control. Switch at scale.","i-stack"],
+  ["fund","Throughput vs. latency","<strong>Latency</strong> = how long one request takes. <strong>Throughput</strong> = how many requests/sec. These are usually in tension; batching trades one for the other.","i-scales"],
+  ["fund","Goodhart's Law","\"When a measure becomes a target, it ceases to be a good measure.\" Why public benchmarks get gamed.","i-bench"],
+
+  // ----- MODELS -----
+  ["models","Linear layer","Simplest neural-network layer: <strong>y = xW + b</strong>. Matmul plus a bias vector.","i-matmul"],
+  ["models","Activation function","Nonlinear, mostly differentiable function (ReLU, SiLU, SwiGLU) inserted between linear layers. Prevents collapse of stacked matmuls.","i-flow"],
+  ["models","Tokenizer","Maps strings to integer IDs deterministically. Vocabulary typically >100K tokens. ~4:3 token-to-word ratio in English.","i-flow"],
+  ["models","Logits","Vector of unnormalized scores (one per vocab token) emitted by the LM head. <strong>Softmax → probabilities → sample</strong>.","i-embed"],
+  ["models","Sampling","Strategies for picking the next token from logits: <strong>greedy</strong> (deterministic), <strong>temperature</strong> (random scale), <strong>top-k</strong>, <strong>top-p</strong> (nucleus).","i-flow"],
+  ["models","Prefill","<strong>Compute-bound</strong> phase. Process all input tokens in parallel, build the KV cache. Drives TTFT.","i-matmul"],
+  ["models","Decode","<strong>Memory-bandwidth-bound</strong> phase. Generate one output token per forward pass autoregressively. Drives TPS.","i-stream"],
+  ["models","Attention","<strong>Attention(Q,K,V) = softmax(QK^T / √d_k) V</strong>. Q = query, K = keys (prior), V = values, d_k = head dim.","i-attention"],
+  ["models","Multi-head attention","Many independent attention computations in parallel. Each head specializes in different relationships (syntax, co-reference, long-range).","i-attention"],
+  ["models","Self vs. cross-attention","<strong>Self</strong>: Q, K, V from same sequence (LLMs). <strong>Cross</strong>: Q from one, K/V from another (e.g., image gen conditions on text).","i-attention"],
+  ["models","KV cache","Stored K and V for each prior token. Turns attention from <strong>O(N²) to O(N)</strong>. Lives on GPU memory by default.","i-kv"],
+  ["models","Mixture of Experts","Linear layers split into many sparse experts; a router activates a few per token. Qwen3-235B-A22B: 22B active of 235B total.","i-moe"],
+  ["models","Iterative denoising","Image / video archetype: start from noise in latent space, refine over ~50 steps.","i-denoise"],
+  ["models","Latent space","Low-dimensional representation (128×128) where denoising happens — ~1% of pixel space.","i-denoise"],
+  ["models","Classifier-free guidance","Each denoising step runs 2 passes (with prompt + without), combined by guidance scale. 50 steps × 2 = <strong>100 forward passes</strong>.","i-denoise"],
+
+  // ----- BOTTLENECKS / ANALYSIS -----
+  ["fund","Arithmetic intensity","Ops per byte of memory traffic for a kernel. Compare to GPU's ops:byte ratio to diagnose compute- vs memory-bound.","i-roofline"],
+  ["fund","Ops:byte ratio","GPU peak compute / memory bandwidth. H100 FP16 ≈ <strong>295</strong>. Intensity > ops:byte = compute-bound; less = memory-bound.","i-roofline"],
+  ["fund","Roofline model","Visualization of arithmetic intensity vs. bandwidth & compute ceilings. Shows whether to optimize memory or compute.","i-roofline"],
+  ["fund","Three core bottlenecks","<strong>LLM prefill</strong> = compute-bound. <strong>LLM decode</strong> = memory-bound. <strong>Image/video gen</strong> = compute-bound.","i-roofline"],
+
+  // ----- ATTENTION OPTIMIZATION -----
+  ["tech","FlashAttention","Lossless optimized attention kernel — minimizes HBM reads/writes. FA-3 = Hopper, FA-4 = Blackwell.","i-flash"],
+  ["tech","PagedAttention","Partitions KV cache into fixed-size pages accessed by lookup table. Reduces VRAM fragmentation.","i-pages"],
+  ["tech","Sliding-window attention","Lossy variant: each token attends to last <strong>w</strong> tokens. <strong>O(N²) → O(Nw)</strong>, w typically 8K-32K.","i-attention"],
+
+  // ----- HARDWARE -----
+  ["hw","Streaming Multiprocessor (SM)","GPU compute unit. Contains Tensor Cores, CUDA Cores, SFUs, and L1 cache. H100 has 132.","i-chip"],
+  ["hw","Tensor Core","Hardware unit for matrix multiply-accumulate (MMA): D = A×B + C. <strong>The most important compute for inference.</strong>","i-tensor-core"],
+  ["hw","CUDA Core","General-purpose scalar arithmetic unit on a GPU. Handles ops Tensor Cores don't.","i-chip"],
+  ["hw","HBM","<strong>High-Bandwidth Memory</strong>. GPU VRAM. Generations: HBM3, HBM3e, HBM4 (Rubin). Stacked DRAM with very wide buses.","i-hbm"],
+  ["hw","L2 cache","Global on-chip GPU cache shared across all SMs. <strong>50 MB</strong> on H100.","i-stack"],
+  ["hw","FLOPS dense vs. sparse","Inference uses dense FLOPS. Sparse Tensor Cores skip zeros (2:4 sparsity) but rare in inference. Always compare dense.","i-tensor-core"],
+  ["hw","H100","Hopper. <strong>80 GB HBM, 3.35 TB/s, 989 TFLOPS FP16 / 1,979 FP8</strong>. Today's workhorse.","i-chip"],
+  ["hw","H200","Hopper. <strong>141 GB HBM, 4.8 TB/s</strong>. Better for memory-bound decode.","i-chip"],
+  ["hw","B200","Blackwell. <strong>192 GB, ~8 TB/s, ~5 PFLOPS FP8</strong>. Adds FP4 and microscaling formats. New gold standard.","i-chip"],
+  ["hw","NVLink","GPU-to-GPU intra-node interconnect. <strong>900 GB/s on Hopper, 1,800 GB/s on Blackwell.</strong>","i-nvlink"],
+  ["hw","NVSwitch","All-to-all communication layer on top of NVLink. Connects all GPUs in a node.","i-nvlink"],
+  ["hw","InfiniBand","Inter-node interconnect. <strong>~400 Gb/s per NIC</strong>. Drastically slower than NVLink — shapes parallelism choices.","i-nvlink"],
+  ["hw","Node","Standard 8-GPU chassis with NVLink + NVSwitch. The base unit of multi-GPU inference.","i-stack"],
+  ["hw","MIG","<strong>Multi-Instance GPU</strong>. Splits one GPU into up to 7 compute slices / 8 memory slices. For small models.","i-tp"],
+  ["hw","NVL72","Rack-scale Blackwell system: <strong>72 GPUs + 36 Grace CPUs, all on NVLink</strong>. For trillion-param serving.","i-nvlink"],
+  ["hw","Grace CPU","ARM-based NVIDIA CPU with NVLink-C2C to paired GPU. 900 GB/s CPU↔GPU. Used in GH200, GB200.","i-chip"],
+
+  // ----- SOFTWARE -----
+  ["sw","CUDA kernel","User-defined function that runs in parallel on the GPU. NVIDIA's GPU programming primitive.","i-chip"],
+  ["sw","Kernel fusion","Combine multiple kernels into one to <strong>avoid HBM round-trips</strong>. Critical for memory-bound decode.","i-flash"],
+  ["sw","cuBLAS / cuDNN","NVIDIA's linear algebra and deep-learning primitive libraries. Underlying engines for almost all ML work.","i-stack"],
+  ["sw","GEMM","<strong>General Matrix-Matrix Multiplication</strong>. The dominant operation in inference. Implemented in cuBLAS.","i-matmul"],
+  ["sw","FlashInfer","Library of optimized attention + sampling kernels for LLM inference.","i-flash"],
+  ["sw","safetensors","Hugging Face's safe weight format. Doesn't execute code on load (unlike pickle). Memory-mapped for fast loading.","i-stack"],
+  ["sw","ONNX","Open Neural Network Exchange. Stores weights + execution graph. Portable across hardware.","i-stack"],
+  ["sw","vLLM","Most widely-used inference engine. <strong>Broadest hardware support</strong> (NVIDIA, AMD, Intel, TPU). Easy to use.","i-flow"],
+  ["sw","SGLang","Inference engine with strong MoE support (DeepSeek, Kimi). Flexible frontend language. Supports image / video gen.","i-flow"],
+  ["sw","TensorRT-LLM","NVIDIA's high-performance inference engine. <strong>Best raw perf on Hopper/Blackwell</strong>, NVFP4-native. Harder to use.","i-flash"],
+  ["sw","NVIDIA Dynamo","Distributed serving system above engines. KV reuse, disaggregation, multi-node orchestration. For huge deployments.","i-stack"],
+  ["sw","torch.compile","PyTorch's graph capture + kernel fusion. Targets a specific GPU; cache compiled engines for fast cold starts.","i-flash"],
+
+  // ----- TECHNIQUES -----
+  ["tech","FP8 (E4M3)","8-bit floating point. Sweet spot for inference quality + perf. 4-bit exponent + 3-bit mantissa + 1 sign bit.","i-shrink"],
+  ["tech","MXFP8 / MXFP4","Microscaling 8-/4-bit. Block of 32 values shares a scale factor → better outlier preservation. Blackwell-native.","i-shrink"],
+  ["tech","NVFP4","NVIDIA's proprietary 4-bit format. Block of 16 + global 32-bit factor. Highest granularity 4-bit option.","i-shrink"],
+  ["tech","Why float beats int","Floats have an exponent → <strong>dynamic range</strong> to preserve outliers. Integers clip outliers, hurting attention quality.","i-shrink"],
+  ["tech","PTQ vs. QAT","<strong>Post-training quantization</strong>: calibrate after training (the only option for open models). <strong>Quantization-aware training</strong>: train weights + scales jointly.","i-shrink"],
+  ["tech","Sensitivity to quantization","Least → most sensitive: <strong>weights → activations → KV cache → attention</strong>. Softmax stays at original precision.","i-attention"],
+  ["tech","Speculative decoding","Draft tokens cheaply, target model validates. <strong>N+1 tokens per pass.</strong> Only useful when batch size is low (spare compute).","i-spec"],
+  ["tech","Draft-target speculation","Smaller separate draft model (≥10× smaller, same family). Quick OOTB but most overhead.","i-spec"],
+  ["tech","Medusa","Fine-tune extra decoder heads onto the target. 2-4 draft tokens per pass.","i-spec"],
+  ["tech","EAGLE","Purpose-built draft model trained on target's hidden states. Up to 8 draft tokens. <strong>Production go-to.</strong>","i-spec"],
+  ["tech","N-gram speculation","Build n-gram dictionary at prefill; match suffixes during decode. <strong>Excellent for code completion.</strong>","i-spec"],
+  ["tech","Prefix caching","Reuse KV cache for shared prefix across requests. Improves TTFT. <strong>Rule: novel tokens last.</strong>","i-prefix"],
+  ["tech","KV cache tiers","<strong>G1 GPU VRAM</strong> > G2 CPU RAM > G3 Local SSD > G4 Networked SSD. Bandwidth descending.","i-hbm"],
+  ["tech","Cache-aware routing","Route a user's conversation back to the same replica so their prefix cache hits.","i-prefix"],
+  ["tech","Tensor Parallelism","Split each layer's weights across GPUs in a node. <strong>Lowest latency.</strong> Needs all-reduce — not multi-node friendly.","i-tp"],
+  ["tech","Expert Parallelism","Shard MoE experts across GPUs. <strong>Highest throughput.</strong> Multi-node friendly (low communication).","i-ep"],
+  ["tech","Pipeline Parallelism","Split successive layers across GPUs. Multi-node fallback for dense models. <strong>Pipeline bubbles waste compute.</strong>","i-pipeline"],
+  ["tech","Disaggregation","Separate prefill and decode onto independent engines. Each sized for its bottleneck.","i-disagg"],
+  ["tech","xPyD notation","<strong>x</strong> prefill engines + <strong>y</strong> decode engines serving one model. e.g. 5P3D = 5 prefill, 3 decode.","i-disagg"],
+  ["tech","Conditional disaggregation","Requests try decode first; only forwarded to prefill if input is large and uncached. Production default.","i-disagg"],
+
+  // ----- MODALITIES -----
+  ["modal","VLM","<strong>Vision-Language Model.</strong> LLM + small vision encoder. Adds ~1,000 tokens per image.","i-camera"],
+  ["modal","Embedding model","Encodes input to fixed-length semantic vector. Used for RAG, search, recommendations. Big batches, scale horizontally.","i-embed"],
+  ["modal","Matryoshka representation","Embedding where the prefix of the vector encodes more meaning. Variable dimensionality without retraining.","i-embed"],
+  ["modal","Real-Time Factor (RTF)","How fast ASR transcribes audio. <strong>RTF 1000× = an hour in 4 seconds.</strong> Optimized Whisper hits this.","i-audio"],
+  ["modal","Voice Activity Detection","Small model that detects speech vs. silence. Used to chunk audio for streaming ASR. Pipeline: <strong>VAD → ASR → LLM → TTS.</strong>","i-audio"],
+  ["modal","Time to first sentence","User-meaningful TTS latency metric. More useful than time to first byte — a single audio byte isn't intelligible.","i-audio"],
+  ["modal","Context Parallelism","Used by video gen models. <strong>Replicates weights across all GPUs; splits attention computation via ring attention.</strong>","i-tp"],
+  ["modal","Ring attention","GPUs pass partial attention results around a ring. Mechanism behind Context Parallelism.","i-attention"],
+  ["modal","ASR (Whisper)","<strong>Automatic Speech Recognition.</strong> Encoder-decoder. Decoder is LLM-like; TensorRT-LLM is the main optimization tool.","i-audio"],
+  ["modal","TTS","<strong>Text-to-Speech.</strong> Modern models are LLMs with audio token vocabulary; audio decoder (SNAC) converts tokens to waveform.","i-audio"],
+  ["modal","Image generation pipeline","Three components: <strong>text encoder + denoising model + VAE</strong>. ~50 steps × 2 passes = ~100 forward passes/image.","i-camera"],
+  ["modal","VAE","<strong>Variational Autoencoder.</strong> Decodes denoised latent into pixel-space image (or encodes pixels into latent).","i-camera"],
+  ["modal","Video latent space","3D: width × height × time. Modern models hold the entire video in latent space and denoise it together.","i-video"],
+
+  // ----- PRODUCTION -----
+  ["prod","Container","Running, isolated package of an app and its dependencies. Built from an image, defined by a Dockerfile.","i-container"],
+  ["prod","NIM","<strong>NVIDIA Inference Microservice.</strong> Pre-built container for a specific model.","i-container"],
+  ["prod","Autoscaling","Adjust the number of replicas based on traffic / utilization. Match concurrency target to engine's batch size.","i-scale"],
+  ["prod","Continuous batching","Token-level interleaving of requests so GPU slots are always utilized. <strong>Default in modern engines.</strong>","i-stream"],
+  ["prod","Cold start","Time from launching a replica to first response. Mitigate: <strong>slim images, cached engines, weights near GPU.</strong>","i-snow"],
+  ["prod","Scale to zero","Drop to 0 replicas when idle. Good for dev / predictable workloads. <strong>Bad for latency-sensitive low traffic.</strong>","i-snow"],
+  ["prod","Active-active","Multiple regions serve live traffic at once. Failures transparent. Higher cost, complex. <strong>For global consumer apps.</strong>","i-cloud"],
+  ["prod","Active-passive","Hot standby idle until failover. Cheaper. <strong>For internal or compliance-critical workloads.</strong>","i-cloud"],
+  ["prod","Hyperscaler vs. neocloud","AWS/GCP (premium, broad) vs. CoreWeave/Nebius (GPU-focused) vs. resellers like SF Compute (spot markets).","i-cloud"],
+  ["prod","Procurement modes","<strong>Reserved</strong> (long-term, discounted) + <strong>on-demand</strong> (flexible) + <strong>spot</strong> (cheap, preemptible). Production mixes all three.","i-cloud"],
+  ["prod","Geo-aware load balancing","Roughly 5 ms per time zone. Route users to a nearby datacenter to stay inside latency budgets.","i-cloud"],
+  ["prod","Canary deployment","Route a small % of live traffic to a new deployment, ramp up gradually. <strong>Preferred for GPU workloads.</strong>","i-canary"],
+  ["prod","Blue-green deployment","Two identical environments, cut over fully. <strong>Doubles GPU spend</strong> — bad for inference.","i-canary"],
+  ["prod","WebSocket","Bidirectional, low-overhead streaming protocol. <strong>Backbone of real-time voice products.</strong>","i-audio"],
+  ["prod","gRPC","Structured, schema-enforced service-to-service streaming. Used for inter-service real-time comms.","i-flow"],
+  ["prod","Observability","Production visibility. Three pillars: <strong>logs, metrics, traces</strong>. Send to Grafana, Datadog, PagerDuty, Sentry.","i-eye"],
+  ["prod","LoRA","<strong>Low-Rank Adaptation</strong>. Lightweight fine-tuning. Production inference often swaps between thousands of LoRAs for one base model.","i-key"],
+
+  // Quality
+  ["fund","Evals","Task-specific tests that mirror real-world product use. Used to confirm a model is useful and to establish a baseline.","i-check"],
+  ["tech","Quantization quality check","Run perplexity comparison + intelligence benchmarks + custom evals. Differences should be indistinguishable from noise.","i-check"],
+  ["tech","Baseline","Recorded performance/quality measurement before optimization. <strong>Always establish one first.</strong>","i-bench"],
+];
+
+const grid = document.getElementById("grid");
+const catNames = {
+  fund: "Fundamentals", models: "Models", hw: "Hardware",
+  sw: "Software", tech: "Techniques", modal: "Modalities", prod: "Production"
+};
+
+CARDS.forEach((c, idx) => {
+  const [cat, term, def, icon] = c;
+  const div = document.createElement("div");
+  div.className = "card";
+  div.dataset.cat = cat;
+  div.innerHTML = `
+    <div class="card-inner">
+      <div class="face front">
+        <span class="badge">${catNames[cat]}</span>
+        <div class="icon" style="color: var(--cat-${cat})">
+          <svg><use href="#${icon}"></use></svg>
+        </div>
+        <div class="term">${term}</div>
+        <div class="flip-hint">click to flip</div>
+      </div>
+      <div class="face back">
+        <span class="badge">${catNames[cat]}</span>
+        <div class="def">${def}</div>
+      </div>
+    </div>
+  `;
+  div.addEventListener("click", () => div.classList.toggle("flipped"));
+  grid.appendChild(div);
+});
+
+// Filter buttons
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const cat = btn.dataset.cat;
+    document.querySelectorAll(".card").forEach(card => {
+      card.classList.remove("flipped");
+      if (cat === "all" || card.dataset.cat === cat) {
+        card.classList.remove("hidden");
+      } else {
+        card.classList.add("hidden");
+      }
+    });
+  });
+});
+
+// Keyboard shortcuts
+document.addEventListener("keydown", e => {
+  if (e.key.toLowerCase() === "f") {
+    document.querySelectorAll(".card:not(.hidden)").forEach(c => c.classList.toggle("flipped"));
+  } else if (e.key.toLowerCase() === "r") {
+    document.querySelectorAll(".card").forEach(c => c.classList.remove("flipped"));
+  }
+});
+
+console.log(`${CARDS.length} flashcards loaded.`);
+</script>
+</body>
+</html>

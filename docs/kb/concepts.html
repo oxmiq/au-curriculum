@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept Library — Oxmiq × AU Internship</title>
+<style>
+  :root{
+    --bg:#0b0d10;--surface:#14171d;--surface-2:#1b1f27;--line:rgba(255,255,255,.08);
+    --line-strong:rgba(255,255,255,.16);--text:#e7e9ee;--muted:#8b91a0;--faint:#5b616e;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    --p-foundations:#7c8aa0;--p-inference:#22d3ee;--p-prompting:#a78bfa;
+    --p-agents:#fbbf24;--p-capsule:#34d399;--p-capstone:#fb7185;
+    --accent:#22d3ee;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:radial-gradient(1100px 520px at 50% -8%,rgba(34,211,238,.06),transparent 60%),var(--bg);
+    color:var(--text);font-family:var(--sans);padding:36px 20px 70px;
+  }
+  .wrap{max-width:1100px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+  h1{font-family:var(--mono);font-weight:600;font-size:24px;margin:0 0 4px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 18px}
+  .switch{font-family:var(--mono);font-size:12px;margin:14px 0 4px;display:flex;gap:6px;align-items:center}
+  .switch a{color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:7px;padding:5px 11px}
+  .switch a.active{color:var(--text);border-color:var(--line-strong);background:var(--surface)}
+  .switch a:hover{color:var(--text)}
+  .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0 14px}
+  .search{flex:1;min-width:280px;background:var(--surface);border:1px solid var(--line);border-radius:9px;
+    padding:10px 14px;color:var(--text);font:14px var(--sans);outline:none}
+  .search:focus{border-color:var(--accent)}
+  .phase-chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:7px;border:1px solid var(--line);
+    color:var(--muted);cursor:pointer;background:var(--surface);user-select:none}
+  .chip.active{color:var(--text);border-color:var(--phase);box-shadow:inset 0 0 0 1px var(--phase)}
+  .chip .dot{display:inline-block;width:7px;height:7px;border-radius:99px;background:var(--phase);margin-right:6px;vertical-align:middle}
+  .stats{font-family:var(--mono);font-size:11px;color:var(--faint);margin:0 0 10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+  .card{background:var(--surface-2);border:1px solid var(--line-strong);border-left:3px solid var(--phase);
+    border-radius:9px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+  .card .head{display:flex;align-items:baseline;gap:8px}
+  .card .title{font-size:15px;font-weight:600;line-height:1.25}
+  .card .id{font-family:var(--mono);font-size:10px;color:var(--faint);margin-left:auto}
+  .card .desc{font-size:13px;color:var(--text);opacity:.85;line-height:1.45}
+  .meta{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+  .row{font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;gap:6px;align-items:flex-start;flex-wrap:wrap}
+  .row .lbl{color:var(--faint);text-transform:uppercase;letter-spacing:.08em;min-width:62px;flex-shrink:0}
+  .pill{display:inline-block;padding:2px 7px;border-radius:5px;background:var(--surface);border:1px solid var(--line);color:var(--text);margin:0 4px 4px 0;font-size:10.5px}
+  .anchor{background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.3);color:var(--accent)}
+  .anchor .v{font-weight:600}
+  .anchor .l{color:var(--muted);font-weight:400;margin-left:4px}
+  .assess{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.3);color:#fbbf24}
+  .src{background:rgba(167,139,250,.06);border-color:rgba(167,139,250,.25);color:#c4b5fd}
+  footer{margin-top:28px;color:var(--faint);font-size:12px;font-family:var(--mono)}
+  .err{background:#2a1416;border:1px solid #5b2327;color:#fca5a5;padding:16px;border-radius:10px;font-family:var(--mono);font-size:13px}
+  .err code{color:#fde68a}
+  .empty{color:var(--muted);font-family:var(--mono);font-size:13px;padding:30px;text-align:center;border:1px dashed var(--line);border-radius:9px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow" id="eyebrow">Concept library</p>
+  <h1>Concepts</h1>
+  <p class="sub">Every learnable idea in the program, with the appendices that teach it, the facts to memorise, and the problems that test it.</p>
+  <div class="switch">
+    <span style="color:var(--faint)">view:</span>
+    <a href="graph.html">Module tree</a>
+    <a href="edge-graph.html">Module graph</a>
+    <a href="concepts.html" class="active">Concept library</a>
+  </div>
+  <div class="controls">
+    <input class="search" id="q" type="search" placeholder="Search concepts, descriptions, sources… (e.g. ‘kv cache’, ‘agent-loop’, ‘EchoLeak’)">
+    <div class="phase-chips" id="chips"></div>
+  </div>
+  <p class="stats" id="stats"></p>
+  <div id="grid" class="grid"><p class="empty">Loading concepts…</p></div>
+  <footer id="footer"></footer>
+</div>
+
+<script>
+const CONCEPTS_URL = "concepts.json";
+const PHASE_COLOR = {
+  foundations:"var(--p-foundations)",inference:"var(--p-inference)",prompting:"var(--p-prompting)",
+  agents:"var(--p-agents)",capsule:"var(--p-capsule)",capstone:"var(--p-capstone)"
+};
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+let DATA = null;
+let activePhases = new Set();
+let q = "";
+
+async function load(){
+  try{
+    DATA = await fetch(CONCEPTS_URL).then(r=>{if(!r.ok)throw new Error(CONCEPTS_URL);return r.json();});
+  }catch(e){
+    document.getElementById("grid").innerHTML =
+      `<div class="err">Couldn't load <code>${esc(e.message)}</code>. Serve over HTTP (mkdocs serve), not file://.</div>`;
+    return;
+  }
+  buildChips();
+  render();
+  document.getElementById("q").addEventListener("input", e=>{ q = e.target.value.toLowerCase().trim(); render(); });
+}
+
+function buildChips(){
+  const phases = DATA.phases || [];
+  const html = phases.map(p =>
+    `<span class="chip" data-id="${esc(p.id)}" style="--phase:${PHASE_COLOR[p.id]||'var(--muted)'}">
+       <i class="dot"></i>${esc(p.title)}
+     </span>`
+  ).join("");
+  const el = document.getElementById("chips");
+  el.innerHTML = html;
+  el.querySelectorAll(".chip").forEach(chip=>{
+    chip.addEventListener("click", ()=>{
+      const id = chip.dataset.id;
+      if(activePhases.has(id)) activePhases.delete(id); else activePhases.add(id);
+      chip.classList.toggle("active");
+      render();
+    });
+  });
+}
+
+function matchesSearch(c){
+  if(!q) return true;
+  const hay = [
+    c.id, c.title, c.description||"",
+    (c.sources||[]).join(" "),
+    (c.tags||[]).join(" "),
+    (c.numerical_anchors||[]).map(a=>`${a.value} ${a.label} ${a.citation}`).join(" "),
+    (c.assessed_by||[]).map(a=>`${a.file} ${a.problem_id}`).join(" "),
+  ].join(" ").toLowerCase();
+  return q.split(/\s+/).every(tok=>hay.includes(tok));
+}
+
+function render(){
+  const total = DATA.concepts.length;
+  const filtered = DATA.concepts.filter(c =>
+    (activePhases.size===0 || activePhases.has(c.phase)) && matchesSearch(c)
+  );
+  document.getElementById("stats").textContent =
+    `Showing ${filtered.length} of ${total} concepts` +
+    (activePhases.size ? ` · phase: ${[...activePhases].join(", ")}` : "") +
+    (q ? ` · search: "${q}"` : "");
+
+  if(!filtered.length){
+    document.getElementById("grid").innerHTML = `<p class="empty">No concepts match that filter.</p>`;
+    return;
+  }
+  document.getElementById("grid").innerHTML = filtered.map(card).join("");
+}
+
+function card(c){
+  const color = PHASE_COLOR[c.phase] || "var(--muted)";
+  const intro = (c.introduced_in||[]).map(m=>`<span class="pill">${esc(m)}</span>`).join("");
+  const also = (c.also_used_in||[]).map(m=>`<span class="pill">${esc(m)}</span>`).join("");
+  const prereqs = (c.prereqs||[]).map(p=>`<span class="pill">${esc(p)}</span>`).join("");
+  const sources = (c.sources||[]).map(s=>`<span class="pill src">${esc(s)}</span>`).join("");
+  const anchors = (c.numerical_anchors||[]).map(a=>
+    `<span class="pill anchor"><span class="v">${esc(a.value)}</span><span class="l">${esc(a.label)}</span></span>`
+  ).join("");
+  const assess = (c.assessed_by||[]).map(a=>
+    `<span class="pill assess">${esc(a.problem_id)} <span class="l">${esc(a.difficulty||"")}</span></span>`
+  ).join("");
+
+  const rows = [
+    intro    && `<div class="row"><span class="lbl">Intro</span><span>${intro}</span></div>`,
+    prereqs  && `<div class="row"><span class="lbl">Prereqs</span><span>${prereqs}</span></div>`,
+    also     && `<div class="row"><span class="lbl">Also in</span><span>${also}</span></div>`,
+    anchors  && `<div class="row"><span class="lbl">Anchors</span><span>${anchors}</span></div>`,
+    assess   && `<div class="row"><span class="lbl">Tested by</span><span>${assess}</span></div>`,
+    sources  && `<div class="row"><span class="lbl">Sources</span><span>${sources}</span></div>`,
+  ].filter(Boolean).join("");
+
+  return `
+    <div class="card" style="--phase:${color}">
+      <div class="head">
+        <div class="title">${esc(c.title)}</div>
+        <div class="id">${esc(c.id)}</div>
+      </div>
+      <div class="desc">${esc(c.description||"")}</div>
+      <div class="meta">${rows}</div>
+    </div>`;
+}
+
+document.getElementById("footer").textContent =
+  "Concept library · backed by docs/kb/concepts.json (v0.2) · regenerate with scripts/enhance_kb.py";
+
+load();
+</script>
+</body>
+</html>

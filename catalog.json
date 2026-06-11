@@ -1,0 +1,402 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-07T11:58:19Z",
+  "module_count": 10,
+  "modules": [
+    {
+      "id": "module-01",
+      "title": "Week 1 · Orientation & Foundations",
+      "index": "docs/lessons/module-01/index.md",
+      "assignment": "docs/lessons/module-01/assignment.md",
+      "quiz": "docs/lessons/module-01/quiz.html",
+      "days": [
+        {
+          "id": "01",
+          "slug": "welcome-and-context",
+          "title": "Day 1 · Welcome & Context",
+          "path": "docs/lessons/module-01/01-welcome-and-context.md"
+        },
+        {
+          "id": "02",
+          "slug": "shell-and-linux",
+          "title": "Day 2 · Shell & Linux",
+          "path": "docs/lessons/module-01/02-shell-and-linux.md"
+        },
+        {
+          "id": "03",
+          "slug": "git-workflow",
+          "title": "Day 3 · Git Workflow",
+          "path": "docs/lessons/module-01/03-git-workflow.md"
+        },
+        {
+          "id": "04",
+          "slug": "how-computers-run-ai",
+          "title": "Day 4 · How Computers Run AI (GPU Primer)",
+          "path": "docs/lessons/module-01/04-how-computers-run-ai.md"
+        }
+      ],
+      "source_material": [
+        "planning/source-material/Orientation",
+        "planning/source-material/Orientation/Orientation-Student-Guide.md"
+      ]
+    },
+    {
+      "id": "module-02",
+      "title": "Week 2 · Inference Engineering — The GPU & Memory",
+      "index": "docs/lessons/module-02/index.md",
+      "assignment": "docs/lessons/module-02/assignment.md",
+      "quiz": "docs/lessons/module-02/quiz.html",
+      "days": [
+        {
+          "id": "01",
+          "slug": "prompt-pipeline",
+          "title": "Day 6 · What Happens When You Send a Prompt",
+          "path": "docs/lessons/module-02/01-prompt-pipeline.md"
+        },
+        {
+          "id": "02",
+          "slug": "meet-the-gpu",
+          "title": "Day 7 · Meet the GPU",
+          "path": "docs/lessons/module-02/02-meet-the-gpu.md"
+        },
+        {
+          "id": "03",
+          "slug": "memory-bottleneck",
+          "title": "Day 8 · Memory Is the Bottleneck",
+          "path": "docs/lessons/module-02/03-memory-bottleneck.md"
+        },
+        {
+          "id": "04",
+          "slug": "compute-vs-memory-bound",
+          "title": "Day 9 · Compute-Bound vs Memory-Bound",
+          "path": "docs/lessons/module-02/04-compute-vs-memory-bound.md"
+        }
+      ],
+      "source_material": [
+        "planning/source-material/Inference Engineering",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Glossary.md",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Pre_Lecture_Reading.md",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Problem_Sets.md",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
+      ]
+    },
+    {
+      "id": "module-03",
+      "title": "Week 3 · Inference Engineering — Attention & KV Cache",
+      "index": "docs/lessons/module-03/index.md",
+      "assignment": "docs/lessons/module-03/assignment.md",
+      "quiz": "docs/lessons/module-03/quiz.html",
+      "days": [
+        {
+          "id": "01",
+          "slug": "prefill-and-decode",
+          "title": "Day 11 · Prefill and Decode",
+          "path": "docs/lessons/module-03/01-prefill-and-decode.md"
+        },
+        {
+          "id": "02",
+          "slug": "kv-cache",
+          "title": "Day 12 · The KV Cache",
+          "path": "docs/lessons/module-03/02-kv-cache.md"
+        },
+        {
+          "id": "03",
+          "slug": "flash-and-paged-attention",
+          "title": "Day 13 · FlashAttention & PagedAttention",
+          "path": "docs/lessons/module-03/03-flash-and-paged-attention.md"
+        },
+        {
+          "id": "04",
+          "slug": "quantization",
+          "title": "Day 14 · Quantization",
+          "path": "docs/lessons/module-03/04-quantization.md"
+        }
+      ],
+      "source_material": [
+        "planning/source-material/Inference Engineering",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Flashcards.md",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Glossary.md",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Lecture_Slides.md",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
+      ]
+    },
+    {
+      "id": "module-04",
+      "title": "Week 4 · Inference Engineering — Scaling & Stacks",
+      "index": "docs/lessons/module-04/index.md",
+      "assignment": "docs/lessons/module-04/assignment.md",
+      "quiz": "docs/lessons/module-04/quiz.html",
+      "days": [
+        {
+          "id": "01",
+          "slug": "tensor-parallelism",
+          "title": "Day 16 · Tensor Parallelism",
+          "path": "docs/lessons/module-04/01-tensor-parallelism.md"
+        },
+        {
+          "id": "02",
+          "slug": "pipeline-expert-parallelism",
+          "title": "Day 17 · Pipeline & Expert Parallelism",
+          "path": "docs/lessons/module-04/02-pipeline-expert-parallelism.md"
+        },
+        {
+          "id": "03",
+          "slug": "speculative-decoding",
+          "title": "Day 18 · Speculative Decoding",
+          "path": "docs/lessons/module-04/03-speculative-decoding.md"
+        },
+        {
+          "id": "04",
+          "slug": "serving-engines",
+          "title": "Day 19 · Serving Engines & Continuous Batching",
+          "path": "docs/lessons/module-04/04-serving-engines.md"
+        }
+      ],
+      "source_material": [
+        "planning/source-material/Inference Engineering",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Glossary.md",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
+      ]
+    },
+    {
+      "id": "module-05",
+      "title": "Week 5 · Inference Engineering — Metrics, Production & Economics",
+      "index": "docs/lessons/module-05/index.md",
+      "assignment": "docs/lessons/module-05/assignment.md",
+      "quiz": "docs/lessons/module-05/quiz.html",
+      "days": [
+        {
+          "id": "01",
+          "slug": "metrics",
+          "title": "Day 21 · Metrics That Matter",
+          "path": "docs/lessons/module-05/01-metrics.md"
+        },
+        {
+          "id": "02",
+          "slug": "production-patterns",
+          "title": "Day 22 · Production Patterns",
+          "path": "docs/lessons/module-05/02-production-patterns.md"
+        },
+        {
+          "id": "03",
+          "slug": "evaluation-quality",
+          "title": "Day 23 · Evaluation & Quality",
+          "path": "docs/lessons/module-05/03-evaluation-quality.md"
+        },
+        {
+          "id": "04",
+          "slug": "cost-economics",
+          "title": "Day 24 · Cost & Economics",
+          "path": "docs/lessons/module-05/04-cost-economics.md"
+        }
+      ],
+      "source_material": [
+        "planning/source-material/Inference Engineering",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Glossary.md",
+        "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
+      ]
+    },
+    {
+      "id": "module-06",
+      "title": "Week 6 · Prompt Engineering",
+      "index": "docs/lessons/module-06/index.md",
+      "assignment": "docs/lessons/module-06/assignment.md",
+      "quiz": "docs/lessons/module-06/quiz.html",
+      "days": [
+        {
+          "id": "01",
+          "slug": "prompt-structure",
+          "title": "Day 26 · Prompt Structure & Clarity",
+          "path": "docs/lessons/module-06/01-prompt-structure.md"
+        },
+        {
+          "id": "02",
+          "slug": "roles-data-formatting",
+          "title": "Day 27 · Roles, Data Separation & Output Formatting",
+          "path": "docs/lessons/module-06/02-roles-data-formatting.md"
+        },
+        {
+          "id": "03",
+          "slug": "cot-few-shot",
+          "title": "Day 28 · Chain-of-Thought & Few-Shot",
+          "path": "docs/lessons/module-06/03-cot-few-shot.md"
+        },
+        {
+          "id": "04",
+          "slug": "hallucinations-evals",
+          "title": "Day 29 · Hallucinations, Complex Prompts & Evals",
+          "path": "docs/lessons/module-06/04-hallucinations-evals.md"
+        }
+      ],
+      "source_material": [
+        "planning/source-material/Prompt Engineering",
+        "planning/source-material/Prompt Engineering/Prompt-Engineering-Pre-Lecture-Reading.md",
+        "planning/source-material/Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+        "planning/source-material/Prompt Engineering/Prompt-Engineering-Student-Guide.md"
+      ]
+    },
+    {
+      "id": "module-07",
+      "title": "Week 7 · AI Agents — Architecture & Protocols",
+      "index": "docs/lessons/module-07/index.md",
+      "assignment": "docs/lessons/module-07/assignment.md",
+      "quiz": "docs/lessons/module-07/quiz.html",
+      "days": [
+        {
+          "id": "01",
+          "slug": "agent-loop",
+          "title": "Day 31 · The Agent Loop (ReAct)",
+          "path": "docs/lessons/module-07/01-agent-loop.md"
+        },
+        {
+          "id": "02",
+          "slug": "tools-and-mcp",
+          "title": "Day 32 · Tools & MCP",
+          "path": "docs/lessons/module-07/02-tools-and-mcp.md"
+        },
+        {
+          "id": "03",
+          "slug": "governance-security",
+          "title": "Day 33 · Governance & Security",
+          "path": "docs/lessons/module-07/03-governance-security.md"
+        },
+        {
+          "id": "04",
+          "slug": "orchestration-multi-agent",
+          "title": "Day 34 · Orchestration & Multi-Agent",
+          "path": "docs/lessons/module-07/04-orchestration-multi-agent.md"
+        }
+      ],
+      "source_material": [
+        "planning/source-material/AI Agents",
+        "planning/source-material/AI Agents/AI Agents - Glossary.md",
+        "planning/source-material/AI Agents/AI Agents - Pre-Lecture Reading.md",
+        "planning/source-material/AI Agents/AI Agents - Student Guide.md"
+      ]
+    },
+    {
+      "id": "module-08",
+      "title": "Week 8 · Capsule — Foundations & Operations",
+      "index": "docs/lessons/module-08/index.md",
+      "assignment": "docs/lessons/module-08/assignment.md",
+      "quiz": "docs/lessons/module-08/quiz.html",
+      "days": [
+        {
+          "id": "01",
+          "slug": "architecture-install",
+          "title": "Day 36 · Capsule Architecture & Installation",
+          "path": "docs/lessons/module-08/01-architecture-install.md"
+        },
+        {
+          "id": "02",
+          "slug": "environments-fleet",
+          "title": "Day 37 · Environments & Fleet Discovery",
+          "path": "docs/lessons/module-08/02-environments-fleet.md"
+        },
+        {
+          "id": "03",
+          "slug": "connecting",
+          "title": "Day 38 · Connecting to Machines",
+          "path": "docs/lessons/module-08/03-connecting.md"
+        },
+        {
+          "id": "04",
+          "slug": "files-storage-streaming",
+          "title": "Day 39 · Files, Storage & Streaming",
+          "path": "docs/lessons/module-08/04-files-storage-streaming.md"
+        }
+      ],
+      "source_material": [
+        "planning/source-material/Capsule Power User",
+        "planning/source-material/Capsule Power User/Capsule-Power-User-Cheatsheet.md",
+        "planning/source-material/Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ]
+    },
+    {
+      "id": "module-09",
+      "title": "Week 9 · Capsule — Benchmarking & Evaluation",
+      "index": "docs/lessons/module-09/index.md",
+      "assignment": "docs/lessons/module-09/assignment.md",
+      "quiz": "docs/lessons/module-09/quiz.html",
+      "days": [
+        {
+          "id": "01",
+          "slug": "first-benchmark",
+          "title": "Day 41 · Your First Benchmark",
+          "path": "docs/lessons/module-09/01-first-benchmark.md"
+        },
+        {
+          "id": "02",
+          "slug": "varying-parameters",
+          "title": "Day 42 · Varying Parameters",
+          "path": "docs/lessons/module-09/02-varying-parameters.md"
+        },
+        {
+          "id": "03",
+          "slug": "interactive-eval",
+          "title": "Day 43 · Interactive Evaluation",
+          "path": "docs/lessons/module-09/03-interactive-eval.md"
+        },
+        {
+          "id": "04",
+          "slug": "scheduling-mcp",
+          "title": "Day 44 · Scheduling & MCP",
+          "path": "docs/lessons/module-09/04-scheduling-mcp.md"
+        }
+      ],
+      "source_material": [
+        "planning/source-material/Capstone/Day-46-Charter-Template.md",
+        "planning/source-material/Capsule Power User",
+        "planning/source-material/Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ]
+    },
+    {
+      "id": "module-10",
+      "title": "Week 10 · Capstone Project",
+      "index": "docs/lessons/module-10/index.md",
+      "assignment": "docs/lessons/module-10/assignment.md",
+      "quiz": null,
+      "days": [
+        {
+          "id": "01",
+          "slug": "kickoff-and-planning",
+          "title": "Day 46 · Kickoff & Planning",
+          "path": "docs/lessons/module-10/01-kickoff-and-planning.md"
+        },
+        {
+          "id": "02",
+          "slug": "execute",
+          "title": "Day 47 · Execute",
+          "path": "docs/lessons/module-10/02-execute.md"
+        },
+        {
+          "id": "03",
+          "slug": "analyze-recommend",
+          "title": "Day 48 · Analyze & Recommend",
+          "path": "docs/lessons/module-10/03-analyze-recommend.md"
+        },
+        {
+          "id": "04",
+          "slug": "present",
+          "title": "Day 49 · Present",
+          "path": "docs/lessons/module-10/04-present.md"
+        },
+        {
+          "id": "05",
+          "slug": "close",
+          "title": "Day 50 · Close",
+          "path": "docs/lessons/module-10/05-close.md"
+        }
+      ],
+      "source_material": [
+        "planning/source-material/Capstone",
+        "planning/source-material/Capstone/Capstone-Guide.md",
+        "planning/source-material/Capstone/Day-46-Charter-Template.md",
+        "planning/source-material/Capstone/Day-47-Execution-Checklist.md",
+        "planning/source-material/Capstone/Day-48-Presentation-Outline.md",
+        "planning/source-material/Capstone/Day-49-Assessment-Rubric.md",
+        "planning/source-material/Capstone/Day-50-Retrospective-Form.md"
+      ]
+    }
+  ]
+}

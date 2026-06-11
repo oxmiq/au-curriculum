@@ -1,0 +1,2692 @@
+{
+  "schema_version": "0.2",
+  "_notes": {
+    "purpose": "Concept-level knowledge graph for the AU × Oxmiq curriculum. Sits one level finer than docs/kb/graph.json (which is module-level). Each concept node is a single learnable idea; prereq edges define a learning order across phases.",
+    "source": "Concepts extracted from planning/source-material/ across all four content phases (Inference Engineering, Prompt Engineering, AI Agents, Capsule Power User) plus Week 1 foundations from curriculum-mindmap.md.",
+    "first_pass": "This is v0.1 — intentionally not exhaustive. ~100 concepts cover the spine; per-lesson frontmatter (introduces: / depends_on:) will refine this over time.",
+    "schema": {
+      "id": "kebab-case, globally unique",
+      "title": "human-readable name",
+      "phase": "one of: foundations | inference | prompting | agents | capsule | capstone",
+      "introduced_in": "list of module IDs from docs/kb/graph.json where the concept is first or substantively taught",
+      "also_used_in": "list of module IDs where the concept is reinforced or applied (optional)",
+      "prereqs": "list of concept IDs that should come before this one",
+      "description": "1–2 sentence pedagogical summary",
+      "sources": "optional pointers into planning/source-material/ files",
+      "tags": "optional free-form tags for filtering",
+      "numerical_anchors": "optional list of {value, label, citation} for citable facts attached to this concept",
+      "assessed_by": "optional list of {file, problem_id, difficulty} pointing into the Problem Sets appendices"
+    },
+    "changelog": "v0.2 (3 Jun 2026): closed the 10-item KB-enhancement backlog. Added 17 dangling concepts + 7 Capsule splits; backfilled sources across every concept from phase-default appendix list; introduced numerical_anchors and assessed_by fields and populated them from the fortified appendices; added cross-phase also_used_in edges so the Phase-1-vocab-made-operational spine becomes visible to the edge-graph renderer."
+  },
+  "phases": [
+    {
+      "id": "foundations",
+      "title": "Foundations & Orientation",
+      "weeks": [
+        1
+      ]
+    },
+    {
+      "id": "inference",
+      "title": "Inference Engineering",
+      "weeks": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "prompting",
+      "title": "Prompt Engineering",
+      "weeks": [
+        6
+      ]
+    },
+    {
+      "id": "agents",
+      "title": "AI Agents",
+      "weeks": [
+        7
+      ]
+    },
+    {
+      "id": "capsule",
+      "title": "Capsule Hands-On",
+      "weeks": [
+        8,
+        9
+      ]
+    },
+    {
+      "id": "capstone",
+      "title": "Capstone",
+      "weeks": [
+        10
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "id": "shell-basics",
+      "title": "Shell & Linux fundamentals",
+      "phase": "foundations",
+      "introduced_in": [
+        "week-01/module-2"
+      ],
+      "prereqs": [],
+      "description": "Navigating a Unix-like filesystem, running commands, piping output, basic permissions. Baseline for everything that follows.",
+      "tags": [
+        "prerequisite",
+        "tooling"
+      ]
+    },
+    {
+      "id": "git-workflow",
+      "title": "Git workflow",
+      "phase": "foundations",
+      "introduced_in": [
+        "week-01/module-3"
+      ],
+      "prereqs": [
+        "shell-basics"
+      ],
+      "description": "Branch, commit, push, PR. The collaboration substrate for every code artifact in the program.",
+      "tags": [
+        "prerequisite",
+        "tooling"
+      ]
+    },
+    {
+      "id": "ai-stack-overview",
+      "title": "How computers run AI — the three-layer mental model",
+      "phase": "foundations",
+      "introduced_in": [
+        "week-01/module-4"
+      ],
+      "prereqs": [],
+      "description": "Application → inference engine → hardware. The mental scaffolding the rest of the curriculum hangs off.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Study_Guide.md (Ch 0)"
+      ],
+      "tags": [
+        "mental-model"
+      ]
+    },
+    {
+      "id": "inference-vs-training",
+      "title": "Inference vs. training",
+      "phase": "inference",
+      "introduced_in": [
+        "week-02/module-1"
+      ],
+      "prereqs": [
+        "ai-stack-overview"
+      ],
+      "description": "Training writes the weights; inference uses them. Different hardware, different cost shape, different failure modes.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Study_Guide.md",
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Inference Engineering/Inference_Engineering_Problem_Sets.md",
+          "problem_id": "6.1",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "token",
+      "title": "Token",
+      "phase": "inference",
+      "introduced_in": [
+        "week-02/module-1"
+      ],
+      "also_used_in": [
+        "week-06/module-1"
+      ],
+      "prereqs": [
+        "inference-vs-training"
+      ],
+      "description": "The unit the model processes — a word fragment, ~4 chars in English. Pricing, context windows, and latency are all measured in tokens.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "~4 chars / token (English)",
+          "label": "rule of thumb",
+          "citation": "Inference Engineering/Inference_Engineering_Glossary.md"
+        },
+        {
+          "value": "~0.75 tokens / English word",
+          "label": "OpenAI tokenizer stat",
+          "citation": "Inference Engineering/Inference_Engineering_Glossary.md"
+        }
+      ]
+    },
+    {
+      "id": "context-window",
+      "title": "Context window",
+      "phase": "inference",
+      "introduced_in": [
+        "week-02/module-1"
+      ],
+      "also_used_in": [
+        "week-06/module-5"
+      ],
+      "prereqs": [
+        "token"
+      ],
+      "description": "Maximum input+output tokens a model can process per request. Drives architecture choices (RAG vs. stuffing, chaining vs. monolith).",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "200K tokens",
+          "label": "Claude Sonnet 4 context limit",
+          "citation": "Prompt Engineering/Prompt-Engineering-Flashcards.md"
+        },
+        {
+          "value": "1M tokens",
+          "label": "Gemini 1.5 Pro context limit",
+          "citation": "Prompt Engineering/Prompt-Engineering-Flashcards.md"
+        }
+      ]
+    },
+    {
+      "id": "temperature",
+      "title": "Temperature & sampling",
+      "phase": "inference",
+      "introduced_in": [
+        "week-02/module-2"
+      ],
+      "also_used_in": [
+        "week-06/module-1"
+      ],
+      "prereqs": [
+        "token"
+      ],
+      "description": "Sampling parameter controlling output randomness. T=0 is deterministic; T=0.7 is typical chat default.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ]
+    },
+    {
+      "id": "latency-throughput",
+      "title": "Latency vs. throughput",
+      "phase": "inference",
+      "introduced_in": [
+        "week-02/module-2"
+      ],
+      "also_used_in": [
+        "week-09/module-1",
+        "week-09/module-2"
+      ],
+      "prereqs": [
+        "inference-vs-training"
+      ],
+      "description": "Latency = time per request; throughput = requests per second. Optimizing one often hurts the other.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Inference Engineering/Inference_Engineering_Problem_Sets.md",
+          "problem_id": "21.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "Inference Engineering/Inference_Engineering_Problem_Sets.md",
+          "problem_id": "21.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "transformer-architecture",
+      "title": "Transformer architecture",
+      "phase": "inference",
+      "introduced_in": [
+        "week-03/module-1"
+      ],
+      "prereqs": [
+        "ai-stack-overview"
+      ],
+      "description": "Stack of self-attention + feedforward layers. The architecture behind every modern LLM.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ]
+    },
+    {
+      "id": "self-attention",
+      "title": "Self-attention mechanism",
+      "phase": "inference",
+      "introduced_in": [
+        "week-03/module-2"
+      ],
+      "prereqs": [
+        "transformer-architecture"
+      ],
+      "description": "Each token attends to all previous tokens via Q×Kᵀ×V. The mechanism that makes transformers parallelizable in training.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ]
+    },
+    {
+      "id": "kv-cache",
+      "title": "KV cache",
+      "phase": "inference",
+      "introduced_in": [
+        "week-03/module-3"
+      ],
+      "also_used_in": [
+        "week-09/module-2"
+      ],
+      "prereqs": [
+        "self-attention"
+      ],
+      "description": "Cached key/value tensors from past tokens, so each new token only computes against fresh K/V. The reason streaming generation is fast.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "2 × n_layers × n_heads × d_head × seq_len × dtype_bytes",
+          "label": "KV cache footprint formula",
+          "citation": "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "Inference Engineering/Inference_Engineering_Problem_Sets.md",
+          "problem_id": "12.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "Inference Engineering/Inference_Engineering_Problem_Sets.md",
+          "problem_id": "12.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "flash-attention",
+      "title": "FlashAttention",
+      "phase": "inference",
+      "introduced_in": [
+        "week-03/module-4"
+      ],
+      "prereqs": [
+        "self-attention",
+        "gpu-memory-hierarchy"
+      ],
+      "description": "IO-aware attention algorithm that tiles the computation to keep work in SRAM. Major speedup over naive attention.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "2-4× wall-clock speedup",
+          "label": "FlashAttention v2 vs naive attention",
+          "citation": "Inference Engineering/Inference_Engineering_Flashcards.md"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "Inference Engineering/Inference_Engineering_Problem_Sets.md",
+          "problem_id": "13.1",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "moe",
+      "title": "Mixture of Experts (MoE)",
+      "phase": "inference",
+      "introduced_in": [
+        "week-03/module-5"
+      ],
+      "also_used_in": [
+        "week-07/module-1"
+      ],
+      "prereqs": [
+        "transformer-architecture"
+      ],
+      "description": "Architecture where only a subset of expert sub-networks activate per token. Lower compute-per-token at the cost of memory footprint.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ]
+    },
+    {
+      "id": "mla",
+      "title": "Multi-head Latent Attention (MLA)",
+      "phase": "inference",
+      "introduced_in": [
+        "week-03/module-5"
+      ],
+      "prereqs": [
+        "self-attention",
+        "kv-cache"
+      ],
+      "description": "Attention variant that compresses KV cache via low-rank projection. DeepSeek's contribution to making long-context affordable.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ]
+    },
+    {
+      "id": "gpu-memory-hierarchy",
+      "title": "GPU memory hierarchy",
+      "phase": "inference",
+      "introduced_in": [
+        "week-04/module-1"
+      ],
+      "prereqs": [
+        "ai-stack-overview"
+      ],
+      "description": "Registers → SRAM → HBM → system RAM. The hierarchy that determines whether your kernel is compute-bound or memory-bound.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ]
+    },
+    {
+      "id": "gpu-generations",
+      "title": "GPU generations (Pascal → Hopper → Blackwell)",
+      "phase": "inference",
+      "introduced_in": [
+        "week-04/module-2"
+      ],
+      "also_used_in": [
+        "week-09/module-1"
+      ],
+      "prereqs": [
+        "gpu-memory-hierarchy"
+      ],
+      "description": "Generational changes in tensor cores, memory bandwidth, NVLink. Why hardware choice changes the inference economics.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ]
+    },
+    {
+      "id": "cuda-stack",
+      "title": "The CUDA → engine stack",
+      "phase": "inference",
+      "introduced_in": [
+        "week-04/module-3"
+      ],
+      "prereqs": [
+        "gpu-generations"
+      ],
+      "description": "CUDA kernels → cuDNN → framework (PyTorch) → inference engine (vLLM, TensorRT-LLM, SGLang).",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ]
+    },
+    {
+      "id": "inference-engines",
+      "title": "Inference engines (vLLM / TensorRT-LLM / SGLang)",
+      "phase": "inference",
+      "introduced_in": [
+        "week-04/module-4"
+      ],
+      "also_used_in": [
+        "week-09/module-1"
+      ],
+      "prereqs": [
+        "cuda-stack"
+      ],
+      "description": "The runtime that actually serves the model. Implements batching, KV cache management, paged attention, scheduling.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ]
+    },
+    {
+      "id": "continuous-batching",
+      "title": "Continuous (in-flight) batching",
+      "phase": "inference",
+      "introduced_in": [
+        "week-04/module-4"
+      ],
+      "prereqs": [
+        "inference-engines",
+        "latency-throughput"
+      ],
+      "description": "Inserting new requests into the batch as soon as space frees, instead of waiting for the full batch to finish. Throughput unlock.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "also_used_in": [
+        "week-09/module-1"
+      ]
+    },
+    {
+      "id": "paged-attention",
+      "title": "Paged attention",
+      "phase": "inference",
+      "introduced_in": [
+        "week-04/module-4"
+      ],
+      "prereqs": [
+        "kv-cache",
+        "continuous-batching"
+      ],
+      "description": "vLLM's KV cache management: variable-length KVs allocated in fixed pages. Reduces memory fragmentation.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "also_used_in": [
+        "week-09/module-1"
+      ]
+    },
+    {
+      "id": "quantization",
+      "title": "Quantization (FP16 / INT8 / INT4)",
+      "phase": "inference",
+      "introduced_in": [
+        "week-05/module-1"
+      ],
+      "also_used_in": [
+        "week-09/module-3",
+        "week-09/module-2"
+      ],
+      "prereqs": [
+        "inference-engines"
+      ],
+      "description": "Trading numeric precision for memory and speed. Trade-off curve against output quality must be measured per task.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "4× memory reduction",
+          "label": "FP16 → INT4 ratio",
+          "citation": "Inference Engineering/Inference_Engineering_Flashcards.md"
+        },
+        {
+          "value": "1-3% accuracy drop typical",
+          "label": "INT8 PTQ on instruction-tuned LLMs",
+          "citation": "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "Inference Engineering/Inference_Engineering_Problem_Sets.md",
+          "problem_id": "14.1",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "speculative-decoding",
+      "title": "Speculative decoding",
+      "phase": "inference",
+      "introduced_in": [
+        "week-05/module-2"
+      ],
+      "prereqs": [
+        "inference-engines"
+      ],
+      "description": "Small draft model proposes N tokens; large model verifies in parallel. Latency win when draft is right.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "1.5-2.5× latency win",
+          "label": "typical draft-target setup, accept rate ~0.7",
+          "citation": "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "Inference Engineering/Inference_Engineering_Problem_Sets.md",
+          "problem_id": "18.1",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "tensor-parallelism",
+      "title": "Tensor / pipeline / data parallelism",
+      "phase": "inference",
+      "introduced_in": [
+        "week-05/module-3"
+      ],
+      "also_used_in": [
+        "week-09/module-2"
+      ],
+      "prereqs": [
+        "gpu-generations",
+        "inference-engines"
+      ],
+      "description": "Three axes for splitting a model across multiple GPUs. Each has different communication costs and ideal workloads.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Inference Engineering/Inference_Engineering_Problem_Sets.md",
+          "problem_id": "16.1",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "disaggregated-serving",
+      "title": "Prefill–decode disaggregation",
+      "phase": "inference",
+      "introduced_in": [
+        "week-05/module-4"
+      ],
+      "prereqs": [
+        "continuous-batching",
+        "tensor-parallelism"
+      ],
+      "description": "Run prefill (compute-bound) on one GPU pool and decode (memory-bound) on another. Frontier serving pattern.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ]
+    },
+    {
+      "id": "inference-cost",
+      "title": "Inference cost & economics",
+      "phase": "inference",
+      "introduced_in": [
+        "week-05/module-5"
+      ],
+      "also_used_in": [
+        "week-10/module-1",
+        "week-09/module-4",
+        "week-10/module-2"
+      ],
+      "prereqs": [
+        "quantization",
+        "tensor-parallelism",
+        "inference-engines"
+      ],
+      "description": "Cost per million tokens, ~10×/year decline, shared vs. dedicated, reserved vs. spot. Price per *completed task* is the right unit.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "~10×/year decline",
+          "label": "inference $/Mtok trajectory 2023-2026",
+          "citation": "Inference Engineering/Inference_Engineering_Study_Guide.md (Ch 9)"
+        },
+        {
+          "value": "$0.15 / Mtok input",
+          "label": "GPT-4o-mini input price (May 2025)",
+          "citation": "Inference Engineering/Inference_Engineering_Flashcards.md (N5)"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "Inference Engineering/Inference_Engineering_Problem_Sets.md",
+          "problem_id": "24.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "Inference Engineering/Inference_Engineering_Problem_Sets.md",
+          "problem_id": "24.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "chat-completion-api",
+      "title": "Chat-completion API anatomy",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-1"
+      ],
+      "prereqs": [
+        "token",
+        "temperature"
+      ],
+      "description": "Structure of a chat-completion request: messages array with role-tagged turns, model, sampling params.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Student-Guide.md",
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "system-prompt",
+      "title": "System prompt",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-1"
+      ],
+      "also_used_in": [
+        "week-06/module-2",
+        "week-07/module-1",
+        "week-09/module-4"
+      ],
+      "prereqs": [
+        "chat-completion-api"
+      ],
+      "description": "Whole-conversation instructions sent with role=system. Conventionally holds persona, rules, output schema; cached at scale.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "user-turn",
+      "title": "User turn",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-1"
+      ],
+      "prereqs": [
+        "chat-completion-api"
+      ],
+      "description": "Per-request payload sent with role=user. Holds the dynamic content; rules belong in the system prompt.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "vagueness-traps",
+      "title": "The three vagueness traps",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-1"
+      ],
+      "prereqs": [
+        "chat-completion-api"
+      ],
+      "description": "Undefined audience, undefined format, undefined success criteria. The diagnostic checklist for every ‘the model isn’t giving me what I want’ complaint.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "specificity",
+      "title": "Specificity beats vagueness",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-1"
+      ],
+      "also_used_in": [
+        "week-06/module-4"
+      ],
+      "prereqs": [
+        "vagueness-traps"
+      ],
+      "description": "A specific prompt narrows the model’s output distribution. The single highest-leverage fix in prompt engineering.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "26.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "26.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "prompt-position",
+      "title": "Instruction position in long prompts",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-1"
+      ],
+      "prereqs": [
+        "specificity"
+      ],
+      "description": "Models attend more to start/end of long contexts. Instructions buried in the middle (‘lost in the middle’) suffer.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "role-prompting",
+      "title": "Role / persona prompting",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-2"
+      ],
+      "also_used_in": [
+        "week-07/module-1"
+      ],
+      "prereqs": [
+        "system-prompt"
+      ],
+      "description": "Telling the model ‘you are X’ shifts the output distribution toward how X writes. Probability shift, not magic.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "delimiters",
+      "title": "Delimiters / data separation",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-2"
+      ],
+      "also_used_in": [
+        "week-07/module-3"
+      ],
+      "prereqs": [
+        "system-prompt"
+      ],
+      "description": "Wrapping user-supplied data in XML-style tags so the model treats it as content, not commands. First line of defense vs. prompt injection.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "27.1",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "prompt-injection",
+      "title": "Prompt injection (direct & indirect)",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-2"
+      ],
+      "also_used_in": [
+        "week-07/module-3",
+        "week-09/module-4"
+      ],
+      "prereqs": [
+        "delimiters"
+      ],
+      "description": "An attacker embeds instructions in user-supplied data, hoping the model treats them as commands. Direct = user attacks; indirect = retrieved content attacks.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "33.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "33.2",
+          "difficulty": "★"
+        },
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "33.3",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "structured-output",
+      "title": "Structured output (JSON / schema)",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-2"
+      ],
+      "also_used_in": [
+        "week-06/module-5",
+        "week-07/module-2",
+        "week-09/module-4"
+      ],
+      "prereqs": [
+        "system-prompt"
+      ],
+      "description": "Forcing the model to emit machine-parseable output. Reliability tiers: prose → schema-by-example → prefill.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "27.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "prefill",
+      "title": "Prefill (speaking for the model)",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-2"
+      ],
+      "prereqs": [
+        "structured-output"
+      ],
+      "description": "Supplying an assistant-role message yourself; the model continues from there. Most reliable structured-output technique.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "chain-of-thought",
+      "title": "Chain-of-thought (CoT) prompting",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-3"
+      ],
+      "also_used_in": [
+        "week-06/module-5",
+        "week-07/module-1"
+      ],
+      "prereqs": [
+        "chat-completion-api"
+      ],
+      "description": "Asking the model to write reasoning steps before the final answer. Works because previously generated tokens are the model’s only working memory.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "28.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "28.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "scratchpad",
+      "title": "Structured scratchpad",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-3"
+      ],
+      "prereqs": [
+        "chain-of-thought",
+        "delimiters"
+      ],
+      "description": "CoT wrapped in tags (<scratchpad>...</scratchpad>) so downstream code can strip the reasoning and ship only the final answer.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "few-shot",
+      "title": "Few-shot prompting",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-3"
+      ],
+      "also_used_in": [
+        "week-07/module-2"
+      ],
+      "prereqs": [
+        "chat-completion-api"
+      ],
+      "description": "2–5+ input/output examples in the prompt so the model infers the task. Especially good for classification, formatting, style mimicry.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "3-5 examples = sweet spot",
+          "label": "diminishing returns past ~5 shots",
+          "citation": "Prompt Engineering/Prompt-Engineering-Flashcards.md"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "28.3",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "example-selection",
+      "title": "Few-shot example selection",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-3"
+      ],
+      "prereqs": [
+        "few-shot"
+      ],
+      "description": "Cover edge cases, show variation, be label-consistent, place hardest example last. Examples *teach*; pick them deliberately.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "hallucination",
+      "title": "Hallucination (the honest framing)",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-4"
+      ],
+      "also_used_in": [
+        "week-07/module-3"
+      ],
+      "prereqs": [
+        "temperature"
+      ],
+      "description": "Default behavior of a language model operating on questions it can’t reliably answer. Three structural causes: confabulation, false-premise, mid-generation drift.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "29.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "29.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "abstention-guard",
+      "title": "Abstention guard",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-4"
+      ],
+      "prereqs": [
+        "hallucination"
+      ],
+      "description": "Explicit permission to say ‘I don’t know.’ Defense against confabulation — the model needs the option.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "false-premise-defense",
+      "title": "False-premise resistance",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-4"
+      ],
+      "prereqs": [
+        "hallucination"
+      ],
+      "description": "Frame questions to allow premise rejection. Don’t ask ‘why did X do Y’ if X didn’t do Y — the model may invent reasons.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "citation-grounding",
+      "title": "Citation / quoted-evidence grounding",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-4"
+      ],
+      "also_used_in": [
+        "week-06/module-5",
+        "week-07/module-3"
+      ],
+      "prereqs": [
+        "hallucination",
+        "delimiters"
+      ],
+      "description": "Require the model to quote source sentences for every factual claim. Defense against mid-generation drift.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "complex-prompt-composition",
+      "title": "Composing a complex production prompt",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-4"
+      ],
+      "prereqs": [
+        "specificity",
+        "role-prompting",
+        "delimiters",
+        "structured-output",
+        "abstention-guard"
+      ],
+      "description": "Putting every Week 6 technique together for a real use case (PR review, contract review, ticket triage).",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "prompt-chaining",
+      "title": "Prompt chaining",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-5"
+      ],
+      "also_used_in": [
+        "week-07/module-1"
+      ],
+      "prereqs": [
+        "structured-output",
+        "complex-prompt-composition"
+      ],
+      "description": "Decomposing a complex task into 2–N simpler prompts with a JSON handoff. Localizes failures; testable independently.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "handoff-format",
+      "title": "Chain handoff format",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-5"
+      ],
+      "prereqs": [
+        "prompt-chaining",
+        "structured-output"
+      ],
+      "description": "The structured data (usually JSON) one prompt emits and the next consumes. The contract between chain steps.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ]
+    },
+    {
+      "id": "tool-use",
+      "title": "Tool use (structured output + driver loop)",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-5"
+      ],
+      "also_used_in": [
+        "week-07/module-2",
+        "week-09/module-4",
+        "week-10/module-1"
+      ],
+      "prereqs": [
+        "structured-output",
+        "prompt-chaining"
+      ],
+      "description": "Model emits a structured function-call description; your code executes the function and returns the result as a new turn. The mechanism that makes agents possible.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "32.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "32.2",
+          "difficulty": "★"
+        },
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "32.3",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "rag",
+      "title": "Retrieval-Augmented Generation (RAG)",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-5"
+      ],
+      "also_used_in": [
+        "week-07/module-2",
+        "week-09/module-4"
+      ],
+      "prereqs": [
+        "context-window",
+        "citation-grounding"
+      ],
+      "description": "Retrieve relevant passages from a corpus, stuff into prompt, instruct the model to answer only from those passages. Source of truth moves from weights to context.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "30.4",
+          "difficulty": "☆"
+        }
+      ]
+    },
+    {
+      "id": "prompt-evals",
+      "title": "Prompt evaluations",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-5"
+      ],
+      "also_used_in": [
+        "week-07/module-5",
+        "week-09/module-3",
+        "week-10/module-2"
+      ],
+      "prereqs": [
+        "complex-prompt-composition"
+      ],
+      "description": "Automated test suite for a prompt: (input, expected, pass-criterion) tuples with a tracked pass rate. Same discipline as unit tests.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "30.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "30.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "agent-loop",
+      "title": "The agent loop (ReAct)",
+      "phase": "agents",
+      "introduced_in": [
+        "week-07/module-1"
+      ],
+      "prereqs": [
+        "tool-use",
+        "chain-of-thought"
+      ],
+      "description": "Perceive → Plan → Act → Observe → Repeat. The structural pattern under every ‘agent’ — chained prompts with tool calls in a loop.",
+      "sources": [
+        "AI Agents/AI Agents - Student Guide.md",
+        "AI Agents/AI Agents - Glossary.md",
+        "AI Agents/AI Agents - Flashcards.md",
+        "AI Agents/AI Agents - Problem Sets.md",
+        "AI Agents/AI Agents - Pre-Lecture Reading.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "arXiv:2210.03629",
+          "label": "ReAct paper (Yao et al., 2022)",
+          "citation": "AI Agents/AI Agents - Flashcards.md (N1)"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "31.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "31.2",
+          "difficulty": "★"
+        },
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "35.1",
+          "difficulty": "★"
+        }
+      ],
+      "also_used_in": [
+        "week-10/module-1"
+      ]
+    },
+    {
+      "id": "four-capabilities",
+      "title": "Four converging capabilities (why agents work now)",
+      "phase": "agents",
+      "introduced_in": [
+        "week-07/module-1"
+      ],
+      "prereqs": [
+        "moe",
+        "flash-attention",
+        "inference-cost"
+      ],
+      "description": "MoE (cheaper) + FlashAttention (faster) + tool standards (MCP) + serving infra. The story for why agents are deployable in 2025 and not 2020.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md",
+        "AI Agents/AI Agents - Flashcards.md",
+        "AI Agents/AI Agents - Problem Sets.md",
+        "AI Agents/AI Agents - Pre-Lecture Reading.md"
+      ]
+    },
+    {
+      "id": "tool-manifest",
+      "title": "Tool manifest",
+      "phase": "agents",
+      "introduced_in": [
+        "week-07/module-2"
+      ],
+      "prereqs": [
+        "tool-use"
+      ],
+      "description": "Structured description of available tools the model can call: name, description, parameters, returns. The contract between agent and tools.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md",
+        "AI Agents/AI Agents - Flashcards.md",
+        "AI Agents/AI Agents - Problem Sets.md",
+        "AI Agents/AI Agents - Pre-Lecture Reading.md"
+      ]
+    },
+    {
+      "id": "mcp",
+      "title": "Model Context Protocol (MCP)",
+      "phase": "agents",
+      "introduced_in": [
+        "week-07/module-2"
+      ],
+      "also_used_in": [
+        "week-09/module-4"
+      ],
+      "prereqs": [
+        "tool-manifest"
+      ],
+      "description": "Open standard for tool manifests + tool-server endpoints that any LLM client can consume. Supersedes provider-specific tool formats.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md",
+        "AI Agents/AI Agents - Flashcards.md",
+        "AI Agents/AI Agents - Problem Sets.md",
+        "AI Agents/AI Agents - Pre-Lecture Reading.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "32.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "32.4",
+          "difficulty": "☆"
+        }
+      ]
+    },
+    {
+      "id": "a2a",
+      "title": "Agent-to-agent protocols (A2A)",
+      "phase": "agents",
+      "introduced_in": [
+        "week-07/module-2"
+      ],
+      "prereqs": [
+        "mcp",
+        "agent-loop"
+      ],
+      "description": "Standards for one agent invoking another as a tool. Building block for multi-agent systems.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md",
+        "AI Agents/AI Agents - Flashcards.md",
+        "AI Agents/AI Agents - Problem Sets.md",
+        "AI Agents/AI Agents - Pre-Lecture Reading.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "32.5",
+          "difficulty": "☆"
+        }
+      ]
+    },
+    {
+      "id": "blast-radius",
+      "title": "Blast radius & sandboxing",
+      "phase": "agents",
+      "introduced_in": [
+        "week-07/module-3"
+      ],
+      "prereqs": [
+        "agent-loop",
+        "tool-use"
+      ],
+      "description": "What an agent can damage if it goes wrong. Defense: least privilege, sandboxed execution, dry-runs, human approval gates for irreversible actions.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md",
+        "AI Agents/AI Agents - Flashcards.md",
+        "AI Agents/AI Agents - Problem Sets.md",
+        "AI Agents/AI Agents - Pre-Lecture Reading.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "33.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "33.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "agent-governance",
+      "title": "Agent governance & observability",
+      "phase": "agents",
+      "introduced_in": [
+        "week-07/module-3"
+      ],
+      "prereqs": [
+        "prompt-injection",
+        "blast-radius"
+      ],
+      "description": "Trace every agent action; gate dangerous actions; log everything; review failures. The discipline that makes autonomous systems shippable.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md",
+        "AI Agents/AI Agents - Flashcards.md",
+        "AI Agents/AI Agents - Problem Sets.md",
+        "AI Agents/AI Agents - Pre-Lecture Reading.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "CVE-2025-32711",
+          "label": "EchoLeak indirect-injection CVE",
+          "citation": "AI Agents/AI Agents - Flashcards.md (N2); Glossary 'EchoLeak'"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "33.3",
+          "difficulty": "★"
+        }
+      ],
+      "also_used_in": [
+        "week-10/module-1"
+      ]
+    },
+    {
+      "id": "multi-agent-orchestration",
+      "title": "Multi-agent orchestration",
+      "phase": "agents",
+      "introduced_in": [
+        "week-07/module-4"
+      ],
+      "prereqs": [
+        "agent-loop",
+        "a2a"
+      ],
+      "description": "Multiple specialized agents with a router. Tradeoffs: composability vs. coordination overhead, drift in long-horizon flows.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md",
+        "AI Agents/AI Agents - Flashcards.md",
+        "AI Agents/AI Agents - Problem Sets.md",
+        "AI Agents/AI Agents - Pre-Lecture Reading.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "0.9¹⁰ ≈ 35%",
+          "label": "10-step chain success rate at 0.9 per-step",
+          "citation": "AI Agents/AI Agents - Flashcards.md (N3)"
+        },
+        {
+          "value": "0.95¹⁰ ≈ 60%",
+          "label": "10-step chain success rate at 0.95 per-step",
+          "citation": "AI Agents/AI Agents - Flashcards.md (N4)"
+        },
+        {
+          "value": "0.99¹⁰ ≈ 90%",
+          "label": "10-step chain success rate at 0.99 per-step",
+          "citation": "AI Agents/AI Agents - Flashcards.md (N5)"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "34.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "34.3",
+          "difficulty": "☆"
+        }
+      ]
+    },
+    {
+      "id": "value-accrual",
+      "title": "Where value accrues (model / infra / app)",
+      "phase": "agents",
+      "introduced_in": [
+        "week-07/module-4"
+      ],
+      "prereqs": [
+        "inference-cost",
+        "multi-agent-orchestration"
+      ],
+      "description": "Strategic question: which layer captures the margin? Industry view of where AI businesses defend value.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md",
+        "AI Agents/AI Agents - Flashcards.md",
+        "AI Agents/AI Agents - Problem Sets.md",
+        "AI Agents/AI Agents - Pre-Lecture Reading.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "AI Agents/AI Agents - Problem Sets.md",
+          "problem_id": "34.5",
+          "difficulty": "☆"
+        }
+      ]
+    },
+    {
+      "id": "agent-case-studies",
+      "title": "Deployed agent case studies",
+      "phase": "agents",
+      "introduced_in": [
+        "week-07/module-5"
+      ],
+      "prereqs": [
+        "agent-loop",
+        "agent-governance"
+      ],
+      "description": "Klarna (2.3M conversations), Google coding agents (25% of code). Patterns: routine → escalate → learn. Failure modes: drift, silent failures, hallucination at scale.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md",
+        "AI Agents/AI Agents - Flashcards.md",
+        "AI Agents/AI Agents - Problem Sets.md",
+        "AI Agents/AI Agents - Pre-Lecture Reading.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "2.3M conversations",
+          "label": "Klarna AI assistant in first month",
+          "citation": "AI Agents/AI Agents - Student Guide.md (Mod 5)"
+        },
+        {
+          "value": "25% of Google code",
+          "label": "AI-generated code at Google (2024)",
+          "citation": "AI Agents/AI Agents - Student Guide.md (Mod 5)"
+        }
+      ]
+    },
+    {
+      "id": "capsule-architecture",
+      "title": "Capsule architecture",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-1"
+      ],
+      "prereqs": [
+        "ai-stack-overview"
+      ],
+      "description": "Client → server → cloud. The two connection paths (WebRTC and direct SSH). Where each Phase 1 / Phase 2 concept lives in the platform.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md",
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "36.1",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capsule-install",
+      "title": "Capsule installation & auth",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-1"
+      ],
+      "prereqs": [
+        "capsule-architecture"
+      ],
+      "description": "Install CLI, run ‘capsule auth login’, browser flow via Azure B2C, token caching. Headless via CAPSULE_AUTH_TOKEN.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "36.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capsule-environments",
+      "title": "Capsule environments (prod / public / dev / demo)",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-2"
+      ],
+      "prereqs": [
+        "capsule-install"
+      ],
+      "description": "Four environments, different B2C tenants, separate user registries. Switching env requires fresh auth.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "4 environments",
+          "label": "prod / public / dev / demo (separate B2C tenants)",
+          "citation": "Capsule Power User/Capsule-Power-User-Glossary.md"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "37.1",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "fleet-discovery",
+      "title": "Fleet discovery & filtering",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-2"
+      ],
+      "prereqs": [
+        "capsule-environments"
+      ],
+      "description": "capsule list, filter by GPU / VRAM / vendor / availability. Two diagnostic facts: tenant + customer.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "37.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capsule-connections",
+      "title": "Connecting to machines (term / exec / code / cursor / claude)",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-3"
+      ],
+      "prereqs": [
+        "fleet-discovery"
+      ],
+      "description": "Five entry points to a machine. Routing by config-tag vs unique-id. WebRTC vs --direct tradeoffs.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "5 entry points",
+          "label": "term / exec / code / cursor / claude",
+          "citation": "Capsule Power User/Capsule-Power-User-Flashcards.md (Command-recall tier)"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "38.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "38.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capsule-files-storage",
+      "title": "Files, storage & streaming",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-4"
+      ],
+      "prereqs": [
+        "capsule-connections"
+      ],
+      "description": "OneDrive mount (persistent, cross-machine), SCP (one-off), file passthrough (dotfiles), capsule stream (WebRTC desktop/app), capsule docker (GPU containers).",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "39.1",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capsule-reliability",
+      "title": "Capsule reliability & diagnostics",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-5"
+      ],
+      "prereqs": [
+        "capsule-connections"
+      ],
+      "description": "capsule cleanup, diagnostic sequences, known failure patterns + recovery, bug-report writing.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "40.1",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capsule-benchmark",
+      "title": "capsule benchmark",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-09/module-1"
+      ],
+      "prereqs": [
+        "capsule-reliability",
+        "inference-engines",
+        "latency-throughput"
+      ],
+      "description": "Benchmark command. Phase 1 vocab made operational: concurrency = batching, tp = tensor parallelism, quant = quantization.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "concurrency = batch size",
+          "label": "Phase-1 vocab made operational",
+          "citation": "Capsule Power User/Capsule-Power-User-Flashcards.md (N1)"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "41.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "41.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "benchmark-methodology",
+      "title": "Benchmark methodology (change one variable)",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-09/module-2"
+      ],
+      "prereqs": [
+        "capsule-benchmark"
+      ],
+      "description": "Scientific method applied to inference: concurrency sweep, quantization comparison, multi-GPU. Record + plot.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "42.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "42.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "interactive-evaluation",
+      "title": "Interactive quality evaluation (capsule chat)",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-09/module-3"
+      ],
+      "prereqs": [
+        "quantization",
+        "benchmark-methodology",
+        "prompt-evals"
+      ],
+      "description": "Structured probing: factual, math, code, refusal. Spot quantization regressions. Speed vs. quality tradeoff.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "4 probe classes: factual / math / code / refusal",
+          "label": "minimum quality matrix",
+          "citation": "Capsule Power User/Capsule-Power-User-Problem-Sets.md"
+        }
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "43.1",
+          "difficulty": "★"
+        },
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "43.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capsule-scheduling",
+      "title": "capsule schedule (long-running jobs)",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-09/module-4"
+      ],
+      "prereqs": [
+        "benchmark-methodology"
+      ],
+      "description": "Submit, monitor, cancel non-interactive jobs. The right tool for any benchmark > 30 min.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "44.1",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capsule-mcp",
+      "title": "capsule mcp (AI assistant integration)",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-09/module-4"
+      ],
+      "prereqs": [
+        "mcp",
+        "capsule-connections"
+      ],
+      "description": "Expose Capsule operations as MCP tools an LLM can call. Direct application of Week 7 to the Capsule CLI.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "44.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capstone-integration",
+      "title": "Capstone integration",
+      "phase": "capstone",
+      "introduced_in": [
+        "week-10/module-1"
+      ],
+      "prereqs": [
+        "interactive-evaluation",
+        "agent-loop",
+        "complex-prompt-composition",
+        "capsule-mcp"
+      ],
+      "description": "End-to-end project pulling Phase 1 (inference) + Phase 2 (prompting) + Phase 3 (agents) + Phase 4 (Capsule operation) into a single deliverable.",
+      "sources": [
+        "Week 10 Capstone/Week-10-Capstone-Guide.md",
+        "Week 10 Capstone/Week-10-Day-46-Charter-Template.md",
+        "Week 10 Capstone/Week-10-Day-47-Execution-Checklist.md",
+        "Week 10 Capstone/Week-10-Day-48-Presentation-Outline.md",
+        "Week 10 Capstone/Week-10-Day-49-Assessment-Rubric.md",
+        "Week 10 Capstone/Week-10-Day-50-Retrospective-Form.md"
+      ]
+    },
+    {
+      "id": "capstone-eval-discipline",
+      "title": "Capstone evaluation discipline",
+      "phase": "capstone",
+      "introduced_in": [
+        "week-10/module-2"
+      ],
+      "prereqs": [
+        "prompt-evals",
+        "benchmark-methodology"
+      ],
+      "description": "Every capstone ships with: a benchmark on the inference side, an eval suite on the prompt side, and a failure log.",
+      "sources": [
+        "Week 10 Capstone/Week-10-Capstone-Guide.md",
+        "Week 10 Capstone/Week-10-Day-46-Charter-Template.md",
+        "Week 10 Capstone/Week-10-Day-47-Execution-Checklist.md",
+        "Week 10 Capstone/Week-10-Day-48-Presentation-Outline.md",
+        "Week 10 Capstone/Week-10-Day-49-Assessment-Rubric.md",
+        "Week 10 Capstone/Week-10-Day-50-Retrospective-Form.md"
+      ]
+    },
+    {
+      "id": "attention-position-bias",
+      "title": "Attention position bias (lost-in-the-middle)",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-1"
+      ],
+      "also_used_in": [
+        "week-06/module-4"
+      ],
+      "prereqs": [
+        "self-attention",
+        "prompt-position"
+      ],
+      "description": "Long-context models attend more strongly to the start and end of the context window. Instructions buried mid-prompt are reliably under-weighted; place them at boundaries.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting",
+        "failure-mode"
+      ]
+    },
+    {
+      "id": "citation-discipline",
+      "title": "Citation discipline",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-4"
+      ],
+      "also_used_in": [
+        "week-07/module-3"
+      ],
+      "prereqs": [
+        "citation-grounding"
+      ],
+      "description": "Operational rule: every factual claim must be followed by a quoted span from the source corpus. Stronger than 'cite if you can'; defends against mid-generation drift.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md"
+      ],
+      "tags": [
+        "prompting",
+        "safety"
+      ]
+    },
+    {
+      "id": "constrained-decoding",
+      "title": "Constrained decoding (grammar / JSON schema)",
+      "phase": "inference",
+      "introduced_in": [
+        "week-04/module-4"
+      ],
+      "also_used_in": [
+        "week-06/module-2"
+      ],
+      "prereqs": [
+        "inference-engines",
+        "structured-output"
+      ],
+      "description": "Engine-side mask over the logit distribution so only tokens valid under a supplied grammar (regex, CFG, JSON schema) can be sampled. Hard guarantee, not a prompt suggestion.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Inference Engineering/Inference_Engineering_Flashcards.md",
+        "Inference Engineering/Inference_Engineering_Problem_Sets.md"
+      ],
+      "tags": [
+        "inference",
+        "reliability"
+      ]
+    },
+    {
+      "id": "delimiter-discipline",
+      "title": "Delimiter discipline",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-2"
+      ],
+      "also_used_in": [
+        "week-07/module-3"
+      ],
+      "prereqs": [
+        "delimiters"
+      ],
+      "description": "Treat XML-style tags as the contract between trusted instructions and untrusted data. Same wrapper for every untrusted span; reject unwrapped user input as a code smell.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting",
+        "safety"
+      ]
+    },
+    {
+      "id": "eval-suite",
+      "title": "Eval suite",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-5"
+      ],
+      "also_used_in": [
+        "week-07/module-5",
+        "week-09/module-3",
+        "week-10/module-2"
+      ],
+      "prereqs": [
+        "prompt-evals"
+      ],
+      "description": "Versioned collection of (input, expected, grader) tuples shipped alongside the prompt. The unit-test equivalent for prompt regressions.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md"
+      ],
+      "tags": [
+        "prompting",
+        "discipline"
+      ],
+      "assessed_by": [
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "30.3",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "few-shot-learning",
+      "title": "Few-shot learning (in-context)",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-3"
+      ],
+      "prereqs": [
+        "few-shot",
+        "in-context-learning"
+      ],
+      "description": "Treating the few-shot examples as the model's training set for that single request. No weight update; the demonstrations alter the next-token distribution.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting"
+      ]
+    },
+    {
+      "id": "in-context-learning",
+      "title": "In-context learning",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-3"
+      ],
+      "also_used_in": [
+        "week-07/module-1"
+      ],
+      "prereqs": [
+        "chat-completion-api"
+      ],
+      "description": "The model adapts behaviour from patterns in the prompt alone. Emergent property of large transformers; the substrate beneath few-shot and chain-of-thought.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting",
+        "mental-model"
+      ]
+    },
+    {
+      "id": "llm-as-judge",
+      "title": "LLM-as-judge",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-5"
+      ],
+      "also_used_in": [
+        "week-09/module-3"
+      ],
+      "prereqs": [
+        "eval-suite",
+        "prompt-evals"
+      ],
+      "description": "Using a second LLM call as the grader for an eval set. Cheaper than human labelling, but inherits the judge model's biases; calibrate against a human gold set.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "nvidia-container-toolkit",
+      "title": "NVIDIA Container Toolkit",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-4"
+      ],
+      "prereqs": [
+        "capsule-files-storage"
+      ],
+      "description": "Runtime hook that exposes host GPUs into Docker containers. `--gpus all` / `--gpus '\"device=0\"'` only works because this is installed; `capsule docker` assumes it.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "tags": [
+        "capsule",
+        "tooling"
+      ]
+    },
+    {
+      "id": "nvidia-smi",
+      "title": "nvidia-smi",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-5"
+      ],
+      "also_used_in": [
+        "week-09/module-1"
+      ],
+      "prereqs": [
+        "capsule-connections"
+      ],
+      "description": "Canonical GPU status CLI. First command after every `capsule term`; the diagnostic floor for VRAM, temperature, driver version, running PIDs.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "tags": [
+        "capsule",
+        "tooling"
+      ]
+    },
+    {
+      "id": "prompt-as-code",
+      "title": "Prompt as code",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-5"
+      ],
+      "also_used_in": [
+        "week-10/module-2"
+      ],
+      "prereqs": [
+        "eval-suite",
+        "prompt-evals"
+      ],
+      "description": "Treat prompts as source: version-controlled, reviewed, tested, deployed via the same pipeline as application code. No more 'prompt drift via Slack DM'.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting",
+        "discipline"
+      ]
+    },
+    {
+      "id": "prompt-caching",
+      "title": "Prompt caching",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-2"
+      ],
+      "also_used_in": [
+        "week-05/module-4"
+      ],
+      "prereqs": [
+        "system-prompt",
+        "kv-cache"
+      ],
+      "description": "Provider-side KV-cache reuse keyed on the prefix of a prompt. System prompts and few-shot blocks become near-free on the second call; reorder prompts so the stable prefix comes first.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting",
+        "performance"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "~90% input cost reduction",
+          "label": "cached vs uncached prefix (Anthropic)",
+          "citation": "Prompt Engineering/Prompt-Engineering-Glossary.md"
+        }
+      ]
+    },
+    {
+      "id": "prompt-clarity",
+      "title": "Prompt clarity",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-1"
+      ],
+      "prereqs": [
+        "specificity"
+      ],
+      "description": "The umbrella property: audience defined, format defined, success criterion defined. Failure to clear all three is the single most common prompt defect.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting"
+      ]
+    },
+    {
+      "id": "rag-trust",
+      "title": "RAG trust boundary",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-5"
+      ],
+      "also_used_in": [
+        "week-07/module-3"
+      ],
+      "prereqs": [
+        "rag",
+        "prompt-injection",
+        "delimiter-discipline"
+      ],
+      "description": "Retrieved passages are untrusted user input by another name. Wrap them in delimiters, never let them carry instructions, gate the corpus to vetted sources.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting",
+        "safety"
+      ],
+      "assessed_by": [
+        {
+          "file": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
+          "problem_id": "30.5",
+          "difficulty": "☆"
+        }
+      ]
+    },
+    {
+      "id": "reasoning-models",
+      "title": "Reasoning models (o-series / thinking models)",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-3"
+      ],
+      "also_used_in": [
+        "week-07/module-1"
+      ],
+      "prereqs": [
+        "chain-of-thought"
+      ],
+      "description": "Models trained to emit a long internal scratchpad before the final answer. Higher latency, higher token cost, materially better on multi-step reasoning benchmarks.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting",
+        "models"
+      ]
+    },
+    {
+      "id": "self-consistency",
+      "title": "Self-consistency",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-3"
+      ],
+      "prereqs": [
+        "chain-of-thought",
+        "temperature"
+      ],
+      "description": "Sample N chains of thought at T>0, return the majority answer. Trades cost for accuracy; the textbook win on arithmetic-style tasks.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting"
+      ],
+      "numerical_anchors": [
+        {
+          "value": "+10-20 pp on GSM8K",
+          "label": "self-consistency vs greedy CoT",
+          "citation": "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+        }
+      ]
+    },
+    {
+      "id": "temperature-determinism",
+      "title": "Temperature & determinism",
+      "phase": "prompting",
+      "introduced_in": [
+        "week-06/module-1"
+      ],
+      "also_used_in": [
+        "week-06/module-4"
+      ],
+      "prereqs": [
+        "temperature"
+      ],
+      "description": "T=0 is the closest you get to a reproducible call; even then, batching, KV-cache layout, and floating-point non-associativity can flip outputs. Treat 'deterministic' as 'low-variance', not 'pure-function'.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Flashcards.md",
+        "Prompt Engineering/Prompt-Engineering-Problem-Sets.md"
+      ],
+      "tags": [
+        "prompting",
+        "reliability"
+      ]
+    },
+    {
+      "id": "capsule-routing-tags",
+      "title": "Capsule routing: config-tag vs unique-id",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-3"
+      ],
+      "prereqs": [
+        "capsule-connections"
+      ],
+      "description": "Two ways to address a machine: friendly config-tag (e.g. `nv-3060-04-1`) resolved at the server, or unique-id for an exact box. Tag is sticky across re-images; id is not.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "tags": [
+        "capsule"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "38.3",
+          "difficulty": "☆"
+        }
+      ]
+    },
+    {
+      "id": "capsule-direct-vs-webrtc",
+      "title": "Capsule transport: --direct SSH vs WebRTC",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-3"
+      ],
+      "also_used_in": [
+        "week-09/module-4"
+      ],
+      "prereqs": [
+        "capsule-connections"
+      ],
+      "description": "WebRTC (default) tunnels through the relay; --direct opens an SSH socket straight to the host. Direct is faster but requires inbound reachability; WebRTC always works.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "tags": [
+        "capsule"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "38.4",
+          "difficulty": "☆"
+        }
+      ]
+    },
+    {
+      "id": "capsule-stream",
+      "title": "capsule stream (WebRTC desktop / app)",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-4"
+      ],
+      "prereqs": [
+        "capsule-direct-vs-webrtc"
+      ],
+      "description": "Stream a full desktop or a single Windows app to the browser. Mouse/keyboard relayed over the same WebRTC channel; latency dominates the experience.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "tags": [
+        "capsule"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "39.2",
+          "difficulty": "☆"
+        }
+      ]
+    },
+    {
+      "id": "capsule-docker",
+      "title": "capsule docker (GPU containers)",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-4"
+      ],
+      "also_used_in": [
+        "week-09/module-1"
+      ],
+      "prereqs": [
+        "nvidia-container-toolkit",
+        "capsule-connections"
+      ],
+      "description": "Run a container on the remote box with GPUs already wired through. Skips the Container-Toolkit setup; image cache lives on the host, not the client.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "tags": [
+        "capsule"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "39.3",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capsule-onedrive-mount",
+      "title": "OneDrive mount (persistent home)",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-4"
+      ],
+      "prereqs": [
+        "capsule-environments"
+      ],
+      "description": "Per-user OneDrive bind-mount that survives re-imaging and follows the user across machines. The right place for dotfiles, datasets, model weights you care about.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "tags": [
+        "capsule"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "39.4",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capsule-cleanup",
+      "title": "capsule cleanup",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-5"
+      ],
+      "prereqs": [
+        "capsule-reliability"
+      ],
+      "description": "Tear down local session state (cached tokens, stale port-forwards, orphaned containers). First step in every 'capsule is acting weird' triage.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "tags": [
+        "capsule",
+        "diagnostics"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "40.2",
+          "difficulty": "★"
+        }
+      ]
+    },
+    {
+      "id": "capsule-bug-report",
+      "title": "capsule bug-report writing",
+      "phase": "capsule",
+      "introduced_in": [
+        "week-08/module-5"
+      ],
+      "prereqs": [
+        "capsule-cleanup"
+      ],
+      "description": "What the on-call engineer needs in the issue: tenant, customer, machine tag, exact CLI invocation, timestamps, output of `capsule diag`. Same template every time.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md",
+        "Capsule Power User/Capsule-Power-User-Flashcards.md",
+        "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+        "Capsule Power User/Capsule-Power-User-Pre-Lecture-Reading.md",
+        "Capsule Power User/Capsule-Power-User-Lab-Guide.md"
+      ],
+      "tags": [
+        "capsule",
+        "discipline"
+      ],
+      "assessed_by": [
+        {
+          "file": "Capsule Power User/Capsule-Power-User-Problem-Sets.md",
+          "problem_id": "40.3",
+          "difficulty": "☆"
+        }
+      ]
+    }
+  ],
+  "edge_types": [
+    {
+      "id": "prereq",
+      "title": "Prerequisite",
+      "rendering": "directed solid arrow"
+    },
+    {
+      "id": "applied_in",
+      "title": "Applied/reinforced in (derived from also_used_in)",
+      "rendering": "dashed line"
+    },
+    {
+      "id": "numerical_anchor",
+      "title": "Cited numerical anchor",
+      "rendering": "badge in concept tooltip"
+    },
+    {
+      "id": "assessed_by",
+      "title": "Concept ↔ assessment problem",
+      "rendering": "link list under concept"
+    }
+  ],
+  "_todo": [
+    "Author per-lesson markdown bodies under docs/lessons/, then derive concepts.json from their `introduces:` / `depends_on:` frontmatter (currently the stub map lives in docs/kb/lesson-frontmatter.json).",
+    "Normalise the dotted concept-id namespace used inside Problem Sets appendices (e.g. `agent.loop`) onto the kebab-case namespace used here.",
+    "Expand assessed_by coverage from the curated set (~50 entries) to full coverage by parsing each Problem Sets appendix in CI."
+  ]
+}
