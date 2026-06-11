@@ -1,38 +1,40 @@
 #!/usr/bin/env python3
-"""Walk docs/lessons/ and emit a single catalog.json describing the curriculum.
+"""Walk docs/lessons/ and emit a single catalog.json — week-XX/module-Y schema.
 
-The catalog is the **filesystem's view** of the curriculum — it is intentionally
-derived, never hand-edited. Commit it so reviewers can diff curriculum changes,
-and so CI can verify the committed file matches the regenerated one.
+The catalog is derived from the filesystem and is committed so reviewers can
+diff curriculum changes and so CI can verify it stays in sync.
 
-Schema (v1):
+Schema (v2):
 
     {
-      "schema_version": 1,
+      "schema_version": 2,
       "generated_at": "<utc iso8601>",
-      "module_count": <int>,
-      "modules": [
+      "week_count": 10,
+      "module_count": 51,
+      "weeks": [
         {
-          "id": "module-NN",
-          "title": "<H1 of index.md, or null>",
-          "index": "docs/lessons/module-NN/index.md",
-          "assignment": "docs/lessons/module-NN/assignment.md" | null,
-          "quiz": "docs/lessons/module-NN/quiz.html" | null,
-          "days": [
-            { "id": "01", "slug": "<slug>", "title": "<H1>", "path": "..." },
-            ...
-          ],
-          "source_material": [ "<relative path on disk>", ... ]
-        },
-        ...
+          "id": "week-01",
+          "title": "<H1 of week overview index.md>",
+          "overview": "docs/lessons/week-01/index.md",
+          "modules": [
+            {
+              "id": "week-01/module-1",
+              "title": "<H1 of module index.md>",
+              "index": "docs/lessons/week-01/module-1/index.md",
+              "assignment": ".../assignment.md" | null,
+              "knowledge_check": ".../knowledge-check.html" | null,
+              "supplementary": [ ".../supplementary-NN-slug.md", ... ],
+              "source_material": [ "<relative on-disk path>", ... ]
+            }, ...
+          ]
+        }, ...
       ]
     }
 
 Usage:
     python3 scripts/build_catalog.py                # writes <repo>/catalog.json
     python3 scripts/build_catalog.py --stdout       # emit to stdout, write nothing
-    python3 scripts/build_catalog.py --check        # exit 1 if regenerating
-                                                    # would change the file on disk
+    python3 scripts/build_catalog.py --check        # exit 1 if regenerating would change the file
 """
 from __future__ import annotations
 
@@ -49,127 +51,157 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 LESSONS_DIR = REPO_ROOT / "docs" / "lessons"
 CATALOG_PATH = REPO_ROOT / "catalog.json"
 
-MODULE_NAME_RE = re.compile(r"^module-(\d{2})$")
-DAY_FILE_RE = re.compile(r"^(0\d)-([a-z0-9][a-z0-9-]*)\.md$")
+WEEK_NAME_RE = re.compile(r"^week-(\d{2})$")
+MODULE_NAME_RE = re.compile(r"^module-([1-9])$")
 H1_RE = re.compile(r"^#\s+(.+?)\s*$", re.MULTILINE)
-SOURCE_LINK_RE = re.compile(r"\]\((\.\./\.\./\.\./planning/source-material/[^)]+)\)")
+SUPPLEMENTARY_RE = re.compile(r"^supplementary-\d{2}-[a-z0-9-]+\.md$")
+SOURCE_LINK_RE = re.compile(r"\]\((\.\./\.\./\.\./(?:\.\./)?planning/source-material/[^)]+)\)")
 
 
-def extract_h1(file_path: Path) -> str | None:
+def extract_h1(file_path: Path):
+    """First H1 in a markdown file, skipping YAML frontmatter."""
     try:
         text = file_path.read_text(encoding="utf-8")
     except OSError:
         return None
-    m = H1_RE.search(text)
+    body = text
+    if body.startswith("---\n"):
+        end = body.find("\n---\n", 4)
+        if end != -1:
+            body = body[end + 5 :]
+    m = H1_RE.search(body)
     return m.group(1).strip() if m else None
 
 
-def relative_to_repo(p: Path) -> str:
-    return str(p.relative_to(REPO_ROOT)).replace("\\", "/")
-
-
-def collect_source_material(module_dir: Path) -> list[str]:
-    seen: set[str] = set()
-    for md_file in module_dir.glob("*.md"):
+def collect_source_links(text: str, parent: Path):
+    found = []
+    for link in SOURCE_LINK_RE.findall(text):
+        target_rel = unquote(link)
+        target = (parent / target_rel).resolve()
         try:
-            text = md_file.read_text(encoding="utf-8")
-        except OSError:
+            rel_to_repo = target.relative_to(REPO_ROOT)
+        except ValueError:
             continue
-        for raw_link in SOURCE_LINK_RE.findall(text):
-            decoded = unquote(raw_link)
-            target = (md_file.parent / decoded).resolve()
-            if target.exists():
-                seen.add(relative_to_repo(target))
-    return sorted(seen)
+        found.append(str(rel_to_repo))
+    return sorted(set(found))
 
 
-def build_module(module_dir: Path) -> dict | None:
+def relpath(p: Path):
+    return str(p.relative_to(REPO_ROOT))
+
+
+def build_module(module_dir: Path):
     name = module_dir.name
-    if not MODULE_NAME_RE.match(name):
-        return None
+    week_id = module_dir.parent.name
+    mid = f"{week_id}/{name}"
 
     index_md = module_dir / "index.md"
-    quiz = module_dir / "quiz.html"
-    assignment = module_dir / "assignment.md"
+    assignment_md = module_dir / "assignment.md"
+    kc_html = module_dir / "knowledge-check.html"
 
-    days: list[dict] = []
-    for day_file in sorted(module_dir.iterdir()):
-        m = DAY_FILE_RE.match(day_file.name)
-        if not m:
-            continue
-        days.append(
-            {
-                "id": m.group(1),
-                "slug": m.group(2),
-                "title": extract_h1(day_file),
-                "path": relative_to_repo(day_file),
-            }
-        )
+    supplementary = []
+    sources = set()
+
+    if index_md.exists():
+        try:
+            text = index_md.read_text(encoding="utf-8")
+            sources.update(collect_source_links(text, index_md.parent))
+        except OSError:
+            pass
+
+    for sub in sorted(module_dir.iterdir()):
+        if sub.is_file() and SUPPLEMENTARY_RE.match(sub.name):
+            supplementary.append(relpath(sub))
+            try:
+                text = sub.read_text(encoding="utf-8")
+                sources.update(collect_source_links(text, sub.parent))
+            except OSError:
+                pass
+
+    if assignment_md.exists():
+        try:
+            text = assignment_md.read_text(encoding="utf-8")
+            sources.update(collect_source_links(text, assignment_md.parent))
+        except OSError:
+            pass
 
     return {
-        "id": name,
+        "id": mid,
         "title": extract_h1(index_md) if index_md.exists() else None,
-        "index": relative_to_repo(index_md) if index_md.exists() else None,
-        "assignment": relative_to_repo(assignment) if assignment.exists() else None,
-        "quiz": relative_to_repo(quiz) if quiz.exists() else None,
-        "days": days,
-        "source_material": collect_source_material(module_dir),
+        "index": relpath(index_md) if index_md.exists() else None,
+        "assignment": relpath(assignment_md) if assignment_md.exists() else None,
+        "knowledge_check": relpath(kc_html) if kc_html.exists() else None,
+        "supplementary": supplementary,
+        "source_material": sorted(sources),
     }
 
 
-def build_catalog() -> dict:
-    modules: list[dict] = []
-    if LESSONS_DIR.exists():
-        for module_dir in sorted(p for p in LESSONS_DIR.iterdir() if p.is_dir()):
-            entry = build_module(module_dir)
-            if entry is not None:
-                modules.append(entry)
+def build_week(week_dir: Path):
+    name = week_dir.name
+    overview = week_dir / "index.md"
+    modules = []
+    for sub in sorted(week_dir.iterdir()):
+        if sub.is_dir() and MODULE_NAME_RE.match(sub.name):
+            modules.append(build_module(sub))
     return {
-        "schema_version": 1,
-        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "module_count": len(modules),
+        "id": name,
+        "title": extract_h1(overview) if overview.exists() else None,
+        "overview": relpath(overview) if overview.exists() else None,
         "modules": modules,
     }
 
 
-def serialize(catalog: dict) -> str:
-    return json.dumps(catalog, indent=2, ensure_ascii=False) + "\n"
+def build_catalog():
+    weeks = []
+    for sub in sorted(LESSONS_DIR.iterdir()):
+        if sub.is_dir() and WEEK_NAME_RE.match(sub.name):
+            weeks.append(build_week(sub))
+    module_count = sum(len(w["modules"]) for w in weeks)
+    return {
+        "schema_version": 2,
+        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "week_count": len(weeks),
+        "module_count": module_count,
+        "weeks": weeks,
+    }
 
 
-def _strip_timestamp(text: str) -> str:
-    """Strip the generated_at line so --check ignores wall-clock drift."""
-    return re.sub(r'\s+"generated_at": "[^"]+",\n', "\n", text, count=1)
+def emit(catalog, stdout: bool):
+    data = json.dumps(catalog, indent=2) + "\n"
+    if stdout:
+        sys.stdout.write(data)
+    else:
+        CATALOG_PATH.write_text(data, encoding="utf-8")
+        print(f"wrote {CATALOG_PATH.relative_to(REPO_ROOT)} — "
+              f"{catalog['week_count']} weeks, {catalog['module_count']} modules")
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build the curriculum catalog from disk")
-    parser.add_argument("--stdout", action="store_true", help="Print to stdout; do not touch catalog.json")
-    parser.add_argument(
-        "--check",
-        action="store_true",
-        help="Exit 1 if catalog.json on disk differs from the regenerated catalog (ignoring generated_at)",
-    )
+    parser = argparse.ArgumentParser(description="Build catalog.json from docs/lessons/")
+    parser.add_argument("--stdout", action="store_true", help="Emit JSON to stdout, do not write")
+    parser.add_argument("--check", action="store_true", help="Exit 1 if catalog.json would change")
     args = parser.parse_args()
 
     catalog = build_catalog()
-    text = serialize(catalog)
-
-    if args.stdout:
-        sys.stdout.write(text)
-        return 0
 
     if args.check:
-        if not CATALOG_PATH.exists():
-            print("catalog.json is missing; run `python3 scripts/build_catalog.py`", file=sys.stderr)
+        new_text = json.dumps(catalog, indent=2) + "\n"
+        # Strip generated_at for the comparison so a same-content rebuild doesn't fail.
+        check_new = json.loads(new_text)
+        check_new.pop("generated_at", None)
+        if CATALOG_PATH.exists():
+            existing = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+            existing.pop("generated_at", None)
+        else:
+            existing = None
+        if existing != check_new:
+            print("catalog.json is out of date; run `python3 scripts/build_catalog.py`",
+                  file=sys.stderr)
             return 1
-        existing = CATALOG_PATH.read_text(encoding="utf-8")
-        if _strip_timestamp(existing) != _strip_timestamp(text):
-            print("catalog.json is out of date; run `python3 scripts/build_catalog.py`", file=sys.stderr)
-            return 1
+        print("catalog.json is up to date")
         return 0
 
-    CATALOG_PATH.write_text(text, encoding="utf-8")
-    print(f"wrote {relative_to_repo(CATALOG_PATH)} ({catalog['module_count']} module(s))")
+    emit(catalog, args.stdout)
     return 0
 
 

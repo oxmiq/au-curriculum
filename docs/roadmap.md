@@ -66,64 +66,66 @@ flowchart TD
     W05M5["Day 25 · Consolidation + Phase 1 Problem Set"]
     W05M4 --> W05M5
   end
-  subgraph W06["Week 06 · Prompt Engineering"]
+  subgraph W06["Week 06 · Prompt Engineering + AI Agents"]
     direction TB
-    W06M1["Day 26 · Prompt Structure & Clarity"]
-    W06M2["Day 27 · Roles, Data Separation & Output Formatting"]
+    W06M1["Day 26 · Prompt Engineering"]
+    W06M2["Day 27 · Agent Fundamentals"]
     W06M1 --> W06M2
-    W06M3["Day 28 · Chain-of-Thought & Few-Shot Prompting"]
+    W06M3["Day 28 · Tools & Action Layer"]
     W06M2 --> W06M3
-    W06M4["Day 29 · Avoiding Hallucinations & Complex Prompts"]
+    W06M4["Day 29 · Governance"]
     W06M3 --> W06M4
-    W06M5["Day 30 · Consolidation: Chaining, Tool Use & Evals"]
+    W06M5["Day 30 · Orchestration"]
     W06M4 --> W06M5
+    W06M6["Day 31 · Consolidation + Phase 2 Agent Design"]
+    W06M5 --> W06M6
   end
-  subgraph W07["Week 07 · AI Agents"]
+  subgraph W07["Week 07 · Bridge: Theory Meets Tooling"]
     direction TB
-    W07M1["Day 31 · The Agent Loop"]
-    W07M2["Day 32 · Tools & MCP"]
+    W07M1["Day 32 · Agent Case Studies"]
+    W07M2["Day 33 · Capsule Foundations"]
     W07M1 --> W07M2
-    W07M3["Day 33 · Governance & Security"]
+    W07M3["Day 34 · Installation"]
     W07M2 --> W07M3
-    W07M4["Day 34 · Orchestration & Multi-Agent"]
+    W07M4["Day 35 · Environments"]
     W07M3 --> W07M4
-    W07M5["Day 35 · Consolidation: Agent Case Studies + Design"]
+    W07M5["Day 36 · Consolidation"]
     W07M4 --> W07M5
   end
-  subgraph W08["Week 08 · Capsule: Foundations & Operations"]
+  subgraph W08["Week 08 · Capsule: Connections & Operations"]
     direction TB
-    W08M1["Day 36 · Capsule Architecture & Installation"]
-    W08M2["Day 37 · Environments & Fleet Discovery"]
+    W08M1["Day 37 · Connecting"]
+    W08M2["Day 38 · Files & Storage"]
     W08M1 --> W08M2
-    W08M3["Day 38 · Connecting to Machines"]
+    W08M3["Day 39 · Streaming"]
     W08M2 --> W08M3
-    W08M4["Day 39 · Files, Storage & Streaming"]
+    W08M4["Day 40 · Known Quirks"]
     W08M3 --> W08M4
-    W08M5["Day 40 · Consolidation: Reliability & Diagnostics"]
+    W08M5["Day 41 · Consolidation"]
     W08M4 --> W08M5
   end
-  subgraph W09["Week 09 · Capsule: Benchmarking & Evaluation"]
+  subgraph W09["Week 09 · Capsule: Benchmarking & Eval"]
     direction TB
-    W09M1["Day 41 · Your First Benchmark"]
-    W09M2["Day 42 · Varying Parameters"]
+    W09M1["Day 42 · Benchmarking"]
+    W09M2["Day 43 · Model Evaluation"]
     W09M1 --> W09M2
-    W09M3["Day 43 · Interactive Evaluation"]
+    W09M3["Day 44 · Interactive Chat"]
     W09M2 --> W09M3
-    W09M4["Day 44 · Scheduling & MCP"]
+    W09M4["Day 45 · Scheduling & MCP"]
     W09M3 --> W09M4
-    W09M5["Day 45 · Consolidation: End-to-End Eval Sprint"]
+    W09M5["Day 46 · Consolidation"]
     W09M4 --> W09M5
   end
   subgraph W10["Week 10 · Capstone Project"]
     direction TB
-    W10M1["Day 46 · Kickoff & Planning"]
-    W10M2["Day 47 · Execute"]
+    W10M1["Day 47 · Kickoff & Planning"]
+    W10M2["Day 48 · Execute"]
     W10M1 --> W10M2
-    W10M3["Day 48 · Analyze & Recommend"]
+    W10M3["Day 49 · Analyze & Recommend"]
     W10M2 --> W10M3
-    W10M4["Day 49 · Present"]
+    W10M4["Day 50 · Present"]
     W10M3 --> W10M4
-    W10M5["Day 50 · Close"]
+    W10M5["Day 51 · Close"]
     W10M4 --> W10M5
   end
   W01M5 --> W02M1
@@ -131,7 +133,7 @@ flowchart TD
   W03M5 --> W04M1
   W04M5 --> W05M1
   W05M5 --> W06M1
-  W06M5 --> W07M1
+  W06M6 --> W07M1
   W07M5 --> W08M1
   W08M5 --> W09M1
   W09M5 --> W10M1
@@ -144,13 +146,14 @@ flowchart TD
   W03M1 -.-> W04M3
   W03M2 -.-> W04M4
   W05M1 -.-> W05M4
-  W08M3 -.-> W09M1
-  W05M1 -.-> W09M1
+  W07M3 -.-> W08M1
+  W08M1 -.-> W09M1
+  W07M3 -.-> W09M1
+  W05M3 -.-> W09M2
   W09M1 -.-> W09M3
-  W05M3 -.-> W09M3
   W09M1 -.-> W10M1
   W05M3 -.-> W10M1
-  W09M3 -.-> W10M1
+  W09M2 -.-> W10M1
 
   classDef orientation fill:#1f2937,stroke:#7c8aa0,color:#e7e9ee;
   classDef inference fill:#0e2a32,stroke:#22d3ee,color:#e7f7fb;
@@ -160,61 +163,61 @@ flowchart TD
   classDef capstone fill:#3a1320,stroke:#fb7185,color:#ffe2e8;
   class W01M1,W01M2,W01M3,W01M4,W01M5 orientation;
   class W02M1,W02M2,W02M3,W02M4,W02M5,W03M1,W03M2,W03M3,W03M4,W03M5,W04M1,W04M2,W04M3,W04M4,W04M5,W05M1,W05M2,W05M3,W05M4,W05M5 inference;
-  class W06M1,W06M2,W06M3,W06M4,W06M5 prompting;
-  class W07M1,W07M2,W07M3,W07M4,W07M5 agents;
+  class W06M1,W06M2,W06M3,W06M4,W06M5,W06M6 agents;
   class W08M1,W08M2,W08M3,W08M4,W08M5,W09M1,W09M2,W09M3,W09M4,W09M5 capsule;
   class W10M1,W10M2,W10M3,W10M4,W10M5 capstone;
 
-  click W01M1 "../lessons/module-01/01-welcome-and-context/" "Welcome & Context"
-  click W01M2 "../lessons/module-01/02-shell-and-linux/" "Shell & Linux"
-  click W01M3 "../lessons/module-01/03-git-workflow/" "Git Workflow"
-  click W01M4 "../lessons/module-01/04-how-computers-run-ai/" "How Computers Run AI"
-  click W01M5 "../lessons/module-01/quiz.html" "Consolidation"
-  click W02M1 "../lessons/module-02/01-prompt-pipeline/" "What Happens When You Send a Prompt"
-  click W02M2 "../lessons/module-02/02-meet-the-gpu/" "Meet the GPU"
-  click W02M3 "../lessons/module-02/03-memory-bottleneck/" "Memory Is the Bottleneck"
-  click W02M4 "../lessons/module-02/04-compute-vs-memory-bound/" "Compute-Bound vs Memory-Bound"
-  click W02M5 "../lessons/module-02/quiz.html" "Consolidation"
-  click W03M1 "../lessons/module-03/01-prefill-and-decode/" "Prefill vs Decode"
-  click W03M2 "../lessons/module-03/02-kv-cache/" "KV Cache"
-  click W03M3 "../lessons/module-03/03-flash-and-paged-attention/" "FlashAttention"
-  click W03M4 "../lessons/module-03/04-quantization/" "Quantization"
-  click W03M5 "../lessons/module-03/quiz.html" "Consolidation"
-  click W04M1 "../lessons/module-04/01-tensor-parallelism/" "Multi-GPU Parallelism"
-  click W04M2 "../lessons/module-04/02-pipeline-expert-parallelism/" "Pipeline Parallelism + MoE"
-  click W04M3 "../lessons/module-04/03-speculative-decoding/" "Speculative Decoding"
-  click W04M4 "../lessons/module-04/04-serving-engines/" "vLLM Introduction"
-  click W04M5 "../lessons/module-04/quiz.html" "Consolidation"
-  click W05M1 "../lessons/module-05/01-metrics/" "Latency vs Throughput"
-  click W05M2 "../lessons/module-05/02-production-patterns/" "Production Deployment"
-  click W05M3 "../lessons/module-05/03-evaluation-quality/" "LLM Evaluation"
-  click W05M4 "../lessons/module-05/04-cost-economics/" "Inference Economics"
-  click W05M5 "../lessons/module-05/quiz.html" "Consolidation + Phase 1 Problem Set"
-  click W06M1 "../lessons/module-06/01-prompt-structure/" "Prompt Structure & Clarity"
-  click W06M2 "../lessons/module-06/02-roles-data-formatting/" "Roles, Data Separation & Output Formatting"
-  click W06M3 "../lessons/module-06/03-cot-few-shot/" "Chain-of-Thought & Few-Shot Prompting"
-  click W06M4 "../lessons/module-06/04-hallucinations-evals/" "Avoiding Hallucinations & Complex Prompts"
-  click W06M5 "../lessons/module-06/quiz.html" "Consolidation: Chaining, Tool Use & Evals"
-  click W07M1 "../lessons/module-07/01-agent-loop/" "The Agent Loop"
-  click W07M2 "../lessons/module-07/02-tools-and-mcp/" "Tools & MCP"
-  click W07M3 "../lessons/module-07/03-governance-security/" "Governance & Security"
-  click W07M4 "../lessons/module-07/04-orchestration-multi-agent/" "Orchestration & Multi-Agent"
-  click W07M5 "../lessons/module-07/quiz.html" "Consolidation: Agent Case Studies + Design"
-  click W08M1 "../lessons/module-08/01-architecture-install/" "Capsule Architecture & Installation"
-  click W08M2 "../lessons/module-08/02-environments-fleet/" "Environments & Fleet Discovery"
-  click W08M3 "../lessons/module-08/03-connecting/" "Connecting to Machines"
-  click W08M4 "../lessons/module-08/04-files-storage-streaming/" "Files, Storage & Streaming"
-  click W08M5 "../lessons/module-08/quiz.html" "Consolidation: Reliability & Diagnostics"
-  click W09M1 "../lessons/module-09/01-first-benchmark/" "Your First Benchmark"
-  click W09M2 "../lessons/module-09/02-varying-parameters/" "Varying Parameters"
-  click W09M3 "../lessons/module-09/03-interactive-eval/" "Interactive Evaluation"
-  click W09M4 "../lessons/module-09/04-scheduling-mcp/" "Scheduling & MCP"
-  click W09M5 "../lessons/module-09/quiz.html" "Consolidation: End-to-End Eval Sprint"
-  click W10M1 "../lessons/module-10/01-kickoff-and-planning/" "Kickoff & Planning"
-  click W10M2 "../lessons/module-10/02-execute/" "Execute"
-  click W10M3 "../lessons/module-10/03-analyze-recommend/" "Analyze & Recommend"
-  click W10M4 "../lessons/module-10/04-present/" "Present"
-  click W10M5 "../lessons/module-10/05-close/" "Close"
+  click W01M1 "../lessons/week-01/module-1/index/" "Welcome & Context"
+  click W01M2 "../lessons/week-01/module-2/index/" "Shell & Linux"
+  click W01M3 "../lessons/week-01/module-3/index/" "Git Workflow"
+  click W01M4 "../lessons/week-01/module-4/index/" "How Computers Run AI"
+  click W01M5 "../lessons/week-01/module-5/index/" "Consolidation"
+  click W02M1 "../lessons/week-02/module-1/index/" "What Happens When You Send a Prompt"
+  click W02M2 "../lessons/week-02/module-2/index/" "Meet the GPU"
+  click W02M3 "../lessons/week-02/module-3/index/" "Memory Is the Bottleneck"
+  click W02M4 "../lessons/week-02/module-4/index/" "Compute-Bound vs Memory-Bound"
+  click W02M5 "../lessons/week-02/module-5/index/" "Consolidation"
+  click W03M1 "../lessons/week-03/module-1/index/" "Prefill vs Decode"
+  click W03M2 "../lessons/week-03/module-2/index/" "KV Cache"
+  click W03M3 "../lessons/week-03/module-3/index/" "FlashAttention"
+  click W03M4 "../lessons/week-03/module-4/index/" "Quantization"
+  click W03M5 "../lessons/week-03/module-5/index/" "Consolidation"
+  click W04M1 "../lessons/week-04/module-1/index/" "Multi-GPU Parallelism"
+  click W04M2 "../lessons/week-04/module-2/index/" "Pipeline Parallelism + MoE"
+  click W04M3 "../lessons/week-04/module-3/index/" "Speculative Decoding"
+  click W04M4 "../lessons/week-04/module-4/index/" "vLLM Introduction"
+  click W04M5 "../lessons/week-04/module-5/index/" "Consolidation"
+  click W05M1 "../lessons/week-05/module-1/index/" "Latency vs Throughput"
+  click W05M2 "../lessons/week-05/module-2/index/" "Production Deployment"
+  click W05M3 "../lessons/week-05/module-3/index/" "LLM Evaluation"
+  click W05M4 "../lessons/week-05/module-4/index/" "Inference Economics"
+  click W05M5 "../lessons/week-05/module-5/index/" "Consolidation + Phase 1 Problem Set"
+  click W06M1 "../lessons/week-06/module-1/index/" "Prompt Engineering"
+  click W06M2 "../lessons/week-06/module-2/index/" "Agent Fundamentals"
+  click W06M3 "../lessons/week-06/module-3/index/" "Tools & Action Layer"
+  click W06M4 "../lessons/week-06/module-4/index/" "Governance"
+  click W06M5 "../lessons/week-06/module-5/index/" "Orchestration"
+  click W06M6 "../lessons/week-06/module-6/index/" "Consolidation + Phase 2 Agent Design"
+  click W07M1 "../lessons/week-07/module-1/index/" "Agent Case Studies"
+  click W07M2 "../lessons/week-07/module-2/index/" "Capsule Foundations"
+  click W07M3 "../lessons/week-07/module-3/index/" "Installation"
+  click W07M4 "../lessons/week-07/module-4/index/" "Environments"
+  click W07M5 "../lessons/week-07/module-5/index/" "Consolidation"
+  click W08M1 "../lessons/week-08/module-1/index/" "Connecting"
+  click W08M2 "../lessons/week-08/module-2/index/" "Files & Storage"
+  click W08M3 "../lessons/week-08/module-3/index/" "Streaming"
+  click W08M4 "../lessons/week-08/module-4/index/" "Known Quirks"
+  click W08M5 "../lessons/week-08/module-5/index/" "Consolidation"
+  click W09M1 "../lessons/week-09/module-1/index/" "Benchmarking"
+  click W09M2 "../lessons/week-09/module-2/index/" "Model Evaluation"
+  click W09M3 "../lessons/week-09/module-3/index/" "Interactive Chat"
+  click W09M4 "../lessons/week-09/module-4/index/" "Scheduling & MCP"
+  click W09M5 "../lessons/week-09/module-5/index/" "Consolidation"
+  click W10M1 "../lessons/week-10/module-1/index/" "Kickoff & Planning"
+  click W10M2 "../lessons/week-10/module-2/index/" "Execute"
+  click W10M3 "../lessons/week-10/module-3/index/" "Analyze & Recommend"
+  click W10M4 "../lessons/week-10/module-4/index/" "Present"
+  click W10M5 "../lessons/week-10/module-5/index/" "Close"
 ```
 
 ## Legend
@@ -223,8 +226,8 @@ flowchart TD
 |--------|-------|-------|
 | ▣ | Orientation | Week 1 |
 | ▣ | Inference Engineering | Week 2, 3, 4, 5 |
-| ▣ | Prompt Engineering | Week 6 |
-| ▣ | AI Agents | Week 7 |
+| ▣ | AI Agents | Week 6 |
+| ▣ | Bridge | Week 7 |
 | ▣ | Capsule Hands-On | Week 8, 9 |
 | ▣ | Capstone | Week 10 |
 
