@@ -37,7 +37,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install mkdocs
-        run: pip install mkdocs mkdocs-material
+        run: pip install mkdocs mkdocs-material pymdown-extensions
 
       - name: Build site
         run: mkdocs build --strict

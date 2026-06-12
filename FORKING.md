@@ -22,7 +22,7 @@ If you are an enrolled student, you'll work in your **own fork** of this repo. Y
 4. **Install the tooling**:
 
    ```bash
-   pip install mkdocs mkdocs-material
+   pip install mkdocs mkdocs-material pymdown-extensions
    ```
 
 5. **Install `oxtutor`** per the instructions you received at cohort kickoff. Configure it with the LiteLLM gateway key issued to you.

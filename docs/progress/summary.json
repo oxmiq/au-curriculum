@@ -1,7 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-06-11T16:57:49Z",
-  "_note": "Derived by build_summary.py from per-module progress/*.json \u2014 do not hand-edit.",
+  "_note": "Derived from per-module progress/*.json by build_summary.py — do not hand-edit. The committed artifact intentionally omits a wall-clock generated_at field; if generator code wants a timestamp, write it at build time and exclude from commits to avoid noisy diffs.",
   "modules": {},
   "weeks": {
     "week-01": {

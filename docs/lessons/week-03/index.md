@@ -24,4 +24,4 @@ Prefill = compute-bound. Decode = memory-bound. The KV cache is the resource you
 
 ## Stuck?
 
-Ask **oxcode** to re-explain — the KV cache and quantization sensitivity ladder (weights → activations → KV → attention) are the highest-leverage concepts of the entire phase.
+Ask **oxtutor** to re-explain — the KV cache and quantization sensitivity ladder (weights → activations → KV → attention) are the highest-leverage concepts of the entire phase.

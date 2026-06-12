@@ -24,4 +24,4 @@ This is the lens through which everything in Phase 1 becomes a *decision*: TTFT 
 
 ## Stuck?
 
-Ask **oxcode** to re-explain — Goodhart's Law and the percentile (P50/P95/P99) tension show up in every Friday discussion for the rest of the program.
+Ask **oxtutor** to re-explain — Goodhart's Law and the percentile (P50/P95/P99) tension show up in every Friday discussion for the rest of the program.

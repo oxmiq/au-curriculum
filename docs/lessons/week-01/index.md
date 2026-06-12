@@ -30,4 +30,4 @@ You should be able to, without notes:
 
 ## Stuck?
 
-Ask **oxcode** to re-explain any concept, or to generate extra practice questions grounded in the day's page.
+Ask **oxtutor** to re-explain any concept, or to generate extra practice questions grounded in the day's page.

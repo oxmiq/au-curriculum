@@ -28,4 +28,4 @@ Week 10 does **not** follow the Mon–Thu lesson + Friday quiz shape. There is *
 
 ## Stuck?
 
-Ask **oxcode** — Day 47's charter draws directly from your Week 9 Day 45 retrospective ("What surprised me about the benchmark results?"). Start there.
+Ask **oxtutor** — Day 47's charter draws directly from your Week 9 Day 45 retrospective ("What surprised me about the benchmark results?"). Start there.

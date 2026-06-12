@@ -24,4 +24,4 @@ By Friday you can answer: *"Why is most LLM inference time spent moving data, no
 
 ## Stuck?
 
-Ask **oxcode** to re-explain any concept; the glossary entries on *bandwidth*, *FLOPs*, *roofline*, and *memory hierarchy* are the canonical definitions.
+Ask **oxtutor** to re-explain any concept; the glossary entries on *bandwidth*, *FLOPs*, *roofline*, and *memory hierarchy* are the canonical definitions.
