@@ -2055,4 +2055,4 @@ Every lecture maps to concepts in `docs/kb/concepts.json`:
 
 Hand this table to students at week 1 as a course-tracker; revisit it at week 10 as a self-assessment checklist.
 
-Open the floor for questions. End with: "Inference engineering is one of the highest-leverage technical skills in software today. You're now equipped to participate. Go build something.
+Open the floor for questions. End with: "Inference engineering is one of the highest-leverage technical skills in software today. You're now equipped to participate. Go build something."

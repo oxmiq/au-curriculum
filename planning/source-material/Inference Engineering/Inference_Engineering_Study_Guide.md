@@ -1087,7 +1087,12 @@ Batching · Caching · Quantization · Speculation · Parallelism · Disaggregat
 
 Key formulas
 
-> ITL (ms) → perceived TPS: TPS = 1000 / ITL Arithmetic intensity: intensity = ops / bytes Ops:byte ratio (H100 FP16) ≈ 295 Attention: Attention(Q,K,V) = softmax( QK^T / sqrt(d) ) V Linear layer: y = xW + b VRAM rule of thumb (FP8): GB ≈ params (B) × 1.8 (KV cache headroom)
+> - ITL (ms) → perceived TPS: `TPS = 1000 / ITL`
+> - Arithmetic intensity: `intensity = ops / bytes`
+> - Ops:byte ratio (H100 FP16) ≈ `295`
+> - Attention: `Attention(Q, K, V) = softmax( QK^T / sqrt(d_k) ) V`
+> - Linear layer: `y = xW + b`
+> - VRAM rule of thumb (FP8): `GB ≈ params (B) × 1.8` (KV cache headroom)
 
 Bottleneck cheatsheet
 

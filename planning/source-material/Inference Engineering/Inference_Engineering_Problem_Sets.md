@@ -281,7 +281,7 @@ Speculative decoding
 
 Caching
 
-49. **Prefix caching.** Two requests arrive: "Translate this French sentence to English: *Bonjour.*" and "Translate this French sentence to English: *Au revoir.*". The shared prefix is "Translate this French sentence to English: *". (a) What part can be cached? (b) Now consider "*Bonjour. *Translate this to English." and "*Au revoir. *Translate this to English." — what changes about cacheability?*
+49. **Prefix caching.** Two requests arrive: `"Translate this French sentence to English: Bonjour."` and `"Translate this French sentence to English: Au revoir."`. The shared prefix is `"Translate this French sentence to English: *"` (where `*` marks the variable tail). (a) What part can be cached? (b) Now consider `"*Bonjour. Translate this to English."` and `"*Au revoir. Translate this to English."` (variable part at the start) — what changes about cacheability?
 
 50. Rank these KV-cache storage tiers by speed: networked SSD, GPU VRAM, local SSD, CPU RAM. For each, give one scenario in which it's the right choice.
 
