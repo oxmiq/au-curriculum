@@ -331,9 +331,7 @@ HF_TOKEN gated HF models
 OXMIQ_AGENT_API_BASE agent upstream URL
 OXMIQ_AGENT_API_KEY agent API key
 OXMIQ_AGENT_MODEL agent model name
-HOMEBREW_GITHUB_API_TOKEN macOS install
-(=$GH_TOKE
-N)
+HOMEBREW_GITHUB_API_TOKEN macOS install (=$GH_TOKEN)
 
 1 8   —   A L I A S E S   &   I D I O M S
 
@@ -421,8 +419,6 @@ CLI\bin
 Discord help #capsule-help
 
 O X M I Q   ·   C A P S U L E   P O W E R - U S E R   ·   P A G E   2   O F   2
-
-C O N F I D E N T I A L   —   F O R   O X M I Q   I N T E R N   U S E
 
 ---
 
@@ -544,6 +540,4 @@ Can the candidate, in under 2 minutes:
 If yes to all → power user. If no → revisit the relevant section.
 
 O X M I Q   ·   C A P S U L E   P O W E R - U S E R   ·   P A G E   3   O F   3
-
-C O N F I D E N T I A L   —   F O R   O X M I Q   I N T E R N   U S E
 

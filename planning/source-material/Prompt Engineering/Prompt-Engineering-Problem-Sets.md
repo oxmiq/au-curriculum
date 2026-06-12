@@ -276,7 +276,7 @@ You're deciding whether to enable Anthropic prompt caching. The cache write cost
 - Write cost: 1.25 × 3,000 = 3,750 "token-equivalents."
 - Each read saves 90% of 3,000 = 2,700 token-equivalents.
 - Break-even reads = (extra write cost) / (savings per read) = (0.25 × 3,000) / (0.90 × 3,000) = **0.28 reads.**
-- Caching is essentially free past the very first re-use. Always enable it for any prompt called more than twice.
+- Caching pays for itself on the first re-use — always enable it for any prompt that will be called more than once.
 
 ### B2 — Few-shot ROI
 Adding 3 well-chosen few-shot examples lifts accuracy from 73% to 84% (N7) on a task with 200K calls/month. Each example adds ~150 tokens to input. Input price $3/M. The 11-point accuracy lift saves you ~30 support tickets/month at $40 each in handling cost. Net monthly value?

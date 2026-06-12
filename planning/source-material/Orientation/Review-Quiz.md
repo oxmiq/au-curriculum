@@ -63,7 +63,7 @@
 
 ## Answer Key (instructor copy — do not distribute before quiz)
 
-1. Counts the lines of `ls -la` output that contain the regex `\.md` in the current directory. It is **not** a reliable file count because (a) `ls -la` output includes non-filename lines (the `total N` header and any line whose permissions/timestamp text happens to contain the pattern), and (b) without escaping, `grep ".md"` treats `.` as "any character" so e.g. `xmd` matches. The reliable one-liner is `find . -maxdepth 1 -type f -name '*.md' | wc -l`.
+1. Counts the lines of `ls -la` output that contain the regex `\.md` in the current directory. It is **not** a reliable file count: (a) `ls -la` output includes non-filename lines (the `total N` header and the `.`/`..` entries), (b) `grep` matches anywhere on the line, so a filename like `notes.md.bak` or any text containing `.md` is also counted, and (c) a very common pitfall is forgetting the backslash — `grep ".md"` (unescaped) treats `.` as "any character," so `xmd` matches too. The reliable one-liner is `find . -maxdepth 1 -type f -name '*.md' | wc -l`.
 2. `awk -F':' '{print $2}' /etc/passwd`
 3. `>` truncates and writes; `>>` appends.
 4. Marks the script as executable so the shell will run it directly (`./my_script.sh`).
