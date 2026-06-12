@@ -1,13 +1,13 @@
-# Day 48 · Analyze & Recommend
+# Day 49 · Analyze & Recommend
 
 > **Concept of the day:** raw data does not persuade. **A comparison table + a cost calculation + a defended recommendation** persuade. Today: compile, calculate, conclude. Build the presentation around the **claim sentence** (see capstone deliverable).
-> **Source template:** [Day-48 Presentation Outline](../../../../planning/source-material/Capstone/Day-48-Presentation-Outline.md).
+> **Source template:** [Day-48 Presentation Outline](../../../../planning/source-material/Capstone/Day-48-Presentation-Outline.md) (source filename is `Day-48-...` from upstream capstone-relative naming; this is program Day 49).
 
 ---
 
 ## Why this matters
 
-The hiring signal isn't "did you run things on Capsule?" — it's **"can you defend a decision with evidence?"** Day 48 transforms yesterday's data into the story you'll tell on Day 49.
+The hiring signal isn't "did you run things on Capsule?" — it's **"can you defend a decision with evidence?"** Day 49 transforms yesterday's data into the story you'll tell on Day 50.
 
 ## Today's milestones
 

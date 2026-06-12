@@ -51,3 +51,13 @@ See [LESSON_TEMPLATE.md](LESSON_TEMPLATE.md) for the full lesson shape. Every le
 - Cites source material via relative links into `planning/source-material/` — three levels up from a module file (`../../../planning/source-material/...`) or three levels up from the week overview.
 - Uses `knowledge-check.html` (NOT the legacy `quiz.html`) and never references the legacy flat `docs/lessons/module-NN/` layout. Both are checked by `scripts/audit_lessons.py` rule L008.
 - Passes `scripts/audit_lessons.py` (rules L001, L001m, L002, L003, L005, L006, L007, L008).
+
+> **Source-material availability note.** The bulk of `planning/source-material/`
+> is being imported across follow-up PRs (PR-B and PR-C) to keep each PR under
+> the Copilot 20,000-line review cap. Until those merge, `audit_lessons.py`
+> rule **L007** will report violations for lesson links that point at not-yet-
+> imported source files; CI runs the audit in **warn-only** mode for exactly
+> this reason. Once PR-B and PR-C land, L007 will be clean and the audit
+> should be promoted to `--strict` in CI. Until then: do not author new lesson
+> links that point at source-material files unless you've confirmed the file
+> exists on `main` (or you are authoring in PR-B/PR-C themselves).

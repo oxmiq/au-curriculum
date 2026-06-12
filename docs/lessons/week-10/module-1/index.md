@@ -1,7 +1,7 @@
-# Day 46 · Kickoff & Planning
+# Day 47 · Kickoff & Planning
 
 > **Concept of the day:** the capstone starts with a **charter** — a one-page commitment to use case, model, hardware, and eval plan. Today is when vague ideas become concrete decisions. Peer-review keeps everyone honest.
-> **Source template:** [Day-46 Charter Template](../../../../planning/source-material/Capstone/Day-46-Charter-Template.md).
+> **Source template:** [Day-46 Charter Template](../../../../planning/source-material/Capstone/Day-46-Charter-Template.md) (source filename is `Day-46-...` from upstream capstone-relative naming; this is program Day 47).
 > **Input you walk in with:** your Week 9 Day 45 retrospective, specifically the "capstone seed" section.
 
 ---
@@ -58,7 +58,7 @@ If you're past the charter by 4 PM, you're ahead. If you're not, the rest of the
 | Use case too vague | Force a specific user + specific task |
 | Model chosen first, justified later | Pick *because of* the task, not before |
 | No eval plan | You can't recommend anything you can't measure |
-| Solo "I'll cover everyone's role" | Teams of 1 burn out by Day 48 |
+| Solo "I'll cover everyone's role" | Teams of 1 burn out by Day 49 |
 | Aspirational stack ("let's also try MoE") | One model, one config sweep. Cut everything else. |
 
 ## Wrap-up

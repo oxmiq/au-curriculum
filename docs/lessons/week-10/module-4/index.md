@@ -1,7 +1,7 @@
-# Day 49 · Present
+# Day 50 · Present
 
 > **Concept of the day:** today is the assessed deliverable. **15 minutes presentation + 10 minutes Q&A** per team, graded against the rubric. Everyone presents. Peers and panel both score. The capstone grade — 40% of the program — is set today.
-> **Source template:** [Day-49 Assessment Rubric](../../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md).
+> **Source template:** [Day-49 Assessment Rubric](../../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md) (source filename is `Day-49-...` from upstream capstone-relative naming; this is program Day 50).
 
 ---
 

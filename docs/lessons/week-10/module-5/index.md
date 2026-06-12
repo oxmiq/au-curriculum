@@ -1,13 +1,13 @@
-# Day 50 · Close
+# Day 51 · Close
 
 > **Concept of the day:** the program ends with **reflection, career mapping, and your story.** What did you learn? Where are you going? How does this become a portfolio piece an employer can read? Today is soft in structure and high in stakes for what happens next.
-> **Source template:** [Day-50 Retrospective Form](../../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md).
+> **Source template:** [Day-50 Retrospective Form](../../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md) (source filename is `Day-50-...` from upstream capstone-relative naming; this is program Day 51).
 
 ---
 
 ## Why this matters
 
-A capstone you can't talk about isn't a capstone. Day 50 turns Week 10 into a story you can tell in 60 seconds to a hiring manager — and a written artifact (your fork) they can read in 5 minutes.
+A capstone you can't talk about isn't a capstone. Day 51 turns Week 10 into a story you can tell in 60 seconds to a hiring manager — and a written artifact (your fork) they can read in 5 minutes.
 
 ## Today's milestones
 

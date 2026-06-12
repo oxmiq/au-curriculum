@@ -1,6 +1,6 @@
 # Week 9 — Capsule Benchmarking · Module Assignment
 
-> **Source:** Capsule Power User Problem Sets §Set 45 (timed-sprint retrospective). **Feeds directly into Day 46 Capstone charter.**
+> **Source:** Capsule Power User Problem Sets §Set 45 (timed-sprint retrospective). **Feeds directly into Day 47 Capstone charter.**
 
 ## What you submit
 
@@ -29,7 +29,7 @@ For the two configs you compared in Day 43: which would you ship and why? Two se
 
 The exact sequence of `capsule` commands you'd run cold tomorrow to repeat the sprint. Copy-pasteable. **No prose between commands.**
 
-### 5. Capstone seed (feeds Week 10 Day 46)
+### 5. Capstone seed (feeds Week 10 Day 47)
 
 Three sentences:
 
@@ -37,7 +37,7 @@ Three sentences:
 - A model you'd benchmark.
 - A claim you'd hope to defend in the form: *"For use case X, deploy model Y at config Z, because [evidence] shows [metric] at [cost], with [quality tradeoff] that is [acceptable/not] because [reasoning]."*
 
-This becomes your Day 46 charter input. **Make it real — Week 10 builds on it.**
+This becomes your Day 47 charter input. **Make it real — Week 10 builds on it.**
 
 ## Grading rubric
 
@@ -54,6 +54,6 @@ This becomes your Day 46 charter input. **Make it real — Week 10 builds on it.
 Two reasons:
 
 1. **Forced reflection.** A sprint without retro just feels like adrenaline. Three written surprises convert it into durable learning.
-2. **Capstone bootstrap.** Week 10 Day 46 expects you to walk in with a half-formed charter. This assignment is where it crystallizes.
+2. **Capstone bootstrap.** Week 10 Day 47 expects you to walk in with a half-formed charter. This assignment is where it crystallizes.
 
 Don't skip section 5. Future-you on Monday will thank present-you.

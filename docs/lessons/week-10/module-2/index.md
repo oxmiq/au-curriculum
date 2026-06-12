@@ -1,7 +1,7 @@
-# Day 47 · Execute
+# Day 48 · Execute
 
-> **Concept of the day:** today the charter becomes data. Deploy your chosen model on Capsule, run the benchmark sweep, run the interactive eval. Document obsessively — Day 48 cannot reconstruct what Day 47 forgot to write down.
-> **Source template:** [Day-47 Execution Checklist](../../../../planning/source-material/Capstone/Day-47-Execution-Checklist.md).
+> **Concept of the day:** today the charter becomes data. Deploy your chosen model on Capsule, run the benchmark sweep, run the interactive eval. Document obsessively — Day 49 cannot reconstruct what Day 48 forgot to write down.
+> **Source template:** [Day-47 Execution Checklist](../../../../planning/source-material/Capstone/Day-47-Execution-Checklist.md) (source filename is `Day-47-...` from upstream capstone-relative naming; this is program Day 48).
 
 ---
 

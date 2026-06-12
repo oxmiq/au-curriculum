@@ -1,6 +1,6 @@
 # Week 10 — Capstone · Deliverable (40% of program grade)
 
-> **Source templates:** [Capstone Guide](../../../../planning/source-material/Capstone/Capstone-Guide.md) + Day-46–50 templates linked from the [week overview](index.md).
+> **Source templates:** [Capstone Guide](../../../../planning/source-material/Capstone/Capstone-Guide.md) + Day-46–50 templates linked from the [week overview](../index.md) (source filenames retain upstream capstone-relative naming; they map to program Days 47–51).
 
 ## The deliverable
 
@@ -12,14 +12,14 @@ Backed by:
 
 | Artifact | Where |
 |---|---|
-| **Charter** (Day 46) | Filled `Day-46-Charter-Template.md` in your fork |
-| **Execution log** (Day 47) | Markdown in `/shared/runs/capstone/<team>/` + mirrored to fork |
-| **Comparison table + cost calc** (Day 48) | In presentation + a 2-page written report |
-| **12-slide presentation** (Day 48–49) | PDF in fork |
-| **Live 15-min presentation + 10-min Q&A** (Day 49) | Assessed by panel |
-| **Retrospective** (Day 50) | Filled `Day-50-Retrospective-Form.md` in your fork |
+| **Charter** (Day 47) | Filled `Day-46-Charter-Template.md` in your fork |
+| **Execution log** (Day 48) | Markdown in `/shared/runs/capstone/<team>/` + mirrored to fork |
+| **Comparison table + cost calc** (Day 49) | In presentation + a 2-page written report |
+| **12-slide presentation** (Day 49–50) | PDF in fork |
+| **Live 15-min presentation + 10-min Q&A** (Day 50) | Assessed by panel |
+| **Retrospective** (Day 51) | Filled `Day-50-Retrospective-Form.md` in your fork |
 
-## Grading rubric (Day 49 panel)
+## Grading rubric (Day 50 panel)
 
 Per [Day-49 Assessment Rubric](../../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md), 8 dimensions equally weighted:
 
@@ -35,7 +35,7 @@ Per [Day-49 Assessment Rubric](../../../../planning/source-material/Capstone/Day
 **Pass:** 6/8 dimensions at "meets bar" or above.
 **Distinction:** 7/8, with at least one "exceeds bar".
 
-Team grade applies to all members; instructor reserves right to adjust by ±1 grade level per individual based on observed Day-46–50 contribution.
+Team grade applies to all members; instructor reserves right to adjust by ±1 grade level per individual based on observed Day-47–51 contribution.
 
 ## What this assignment is testing
 
