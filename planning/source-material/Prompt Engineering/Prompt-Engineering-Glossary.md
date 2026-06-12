@@ -280,7 +280,7 @@ Less commonly tuned than temperature, but useful: `top_p=0.1` is essentially det
 
 # Appendix C — Concept-Graph Anchors
 
-For each term in this glossary, the concept ID in `docs/kb/concepts.json` (when present):
+For each term in this glossary, the concept ID in `docs/kb/concepts.json` (when present). The knowledge-base file is introduced in PR-C of the reorg; references may be unresolved until that PR merges.
 
 | Term | Concept ID |
 |---|---|

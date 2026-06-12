@@ -45,10 +45,8 @@ modelhosting model hosting GPUs
 oneplay OnePlay partner machines
 cree8 Cree8 partner machines
 capsule config customer show
-capsule config customer set
-modelhosting
-capsule config customer unset       #
-env default
+capsule config customer set modelhosting
+capsule config customer unset       # env default
 
 If capsule list looks wrong, this is the FIRST thing
 to check.
@@ -79,10 +77,7 @@ capsule code VS Code Remote-SSH
 capsule cursor Cursor Remote-SSH
 capsule claude Claude Code Desktop
 
-Shared flags: <tag> or -u <id>, --direct, --idle-
-timeout, --max-session-length, --turn. code/
-cursor also accept --repo owner/repo. term
-aliases: terminal, ssh, launch.
+Shared flags: <tag> or -u <id>, --direct, --idle-timeout, --max-session-length, --turn. code/cursor also accept --repo owner/repo. term aliases: terminal, ssh, launch.
 
 0 6   —   C O N N E C T I O N   R E C I P E S
 
@@ -104,10 +99,8 @@ capsule code <tag> --repo owner/repo
 
 0 7   —   F I L E S   &   S T O R A G E
 
-capsule auth storage         # once,
-OAuth
-ls ~/OneDrive                # auto-
-mounted
+capsule auth storage         # once, OAuth
+ls ~/OneDrive                # auto-mounted
 
 # SCP
 capsule scp upload <tag> ./src /dst
@@ -122,68 +115,51 @@ capsule config files remove .vimrc
 capsule config files clear
 
 # Custom mount
-capsule config storage-mount-dir set /
-workspace/cloud
+capsule config storage-mount-dir set /workspace/cloud
 capsule config storage-mount-dir unset
 
 0 8   —   S T R E A M   &   D O C K E R
 
-capsule stream <tag>              #
-full desktop
+capsule stream <tag>              # full desktop
 capsule stream <tag> --app "blender"
 
-capsule docker <tag>              #
-ubuntu:latest
+capsule docker <tag>              # ubuntu:latest
 capsule docker <tag> \
     --image pytorch/pytorch:latest \
     --memory 16
 capsule docker <tag> \
     --image nvidia/cuda:12.0-devel \
     --command "python train.py" \
-    --volume "/data:/data:ro;/
-workspace:/workspace"
-capsule docker <tag> -- --gpus all   #
-passthrough
+    --volume "/data:/data:ro;/workspace:/workspace"
+capsule docker <tag> -- --gpus all   # passthrough
 
-Hardware encoding: NVENC / VAAPI /
-VideoToolbox. Adaptive bitrate; clipboard sync both
-ways.
+Hardware encoding: NVENC / VAAPI / VideoToolbox. Adaptive bitrate; clipboard sync both ways.
 
 0 9   —   C O M F Y U I   &   C L A U D E   M C P
 
-capsule comfy <tag>                #
-default :8188
+capsule comfy <tag>                # default :8188
 capsule comfy <tag> --port 8190 \
     --data-dir ~/my-comfyui \
     --hf-token hf_xxx
-capsule comfy <tag> --image my/
-comfyui:custom
+capsule comfy <tag> --image my/comfyui:custom
 
-# Open in browser at http://localhost:
-8188
+# Open in browser at http://localhost:8188
 
 # Capsule MCP for Claude Desktop/Code
-capsule mcp                       #
-install
+capsule mcp                       # install
 capsule mcp --uninstall
-capsule mcp --output ./mcp.json   #
-inspect
+capsule mcp --output ./mcp.json   # inspect
 
 1 0   —   C A P S U L E   A G E N T   ( P R E - G A )
 
 export CAPSULE_AGENT_ENABLED=1
-export OXMIQ_AGENT_API_BASE=http://
-127.0.0.1:8080/v1
+export OXMIQ_AGENT_API_BASE=http://127.0.0.1:8080/v1
 export OXMIQ_AGENT_API_KEY=your-api-key
 export OXMIQ_AGENT_MODEL=openai/capsule
 
-capsule
-agent                                #
-chat
-capsule agent -p "list nvidia >=16GB
-VRAM"   # one-shot
-capsule agent -c "show me free
-GPUs"         # iterative
+capsule agent                                # chat
+capsule agent -p "list nvidia >=16GB VRAM"   # one-shot
+capsule agent -c "show me free GPUs"         # iterative
 
 Requires uv installed (brew install uv) and a valid
 OpenAI-compatible endpoint.
@@ -247,14 +223,12 @@ capsule benchmark <tag> <model> \
   --backend llamacpp --quant Q4_K_M
 
 # Against existing endpoint
-capsule benchmark --api-base http://
-localhost:8000 \
+capsule benchmark --api-base http://localhost:8000 \
   --api-key test <model>
 
 # Long-run safety
 capsule benchmark <tag> <model> \
-  --idle-timeout 4h --max-session-
-length 8h
+  --idle-timeout 4h --max-session-length 8h
 
 1 3   —   C H A T   F L A G S
 
@@ -351,37 +325,22 @@ scopes
 
 1 9   —   C O N F I G   F I L E S   &   P A T H S
 
-Auth fails (browser) manual token at
+Auth fails (browser) manual token at oxmiq.ai/oxcapsule/auth
 
-oxmiq.ai/oxcapsule/
-auth
+~/OneDrive empty re-run capsule auth storage
 
-~/OneDrive empty re-run capsule auth
-
-storage
-
-Benchmark vanished check timeouts; logs;
-
-dashboard
+Benchmark vanished check timeouts; logs; dashboard
 
 1 6   —   D I A G N O S T I C S
 
-capsule status                # auth +
-expiry
-capsule env show              # current
-env
-capsule config customer show  # current
-fleet
-capsule cleanup               # tear
-down stale state
-capsule --version             # build
-id (for bugs)
-capsule --no-banner list      # clean
-output
-capsule list --users          # who
-else is on
-capsule list --json | jq .    #
-machine-readable
+capsule status                # auth + expiry
+capsule env show              # current env
+capsule config customer show  # current fleet
+capsule cleanup               # tear down stale state
+capsule --version             # build id (for bugs)
+capsule --no-banner list      # clean output
+capsule list --users          # who else is on
+capsule list --json | jq .    # machine-readable
 
 # Update
 capsule update --check-only
@@ -397,14 +356,11 @@ capsule_rsa(.pub) auto-generated SSH key
 rclone.conf cloud storage config
 config-files.json file passthrough mapping
 capsule config banner show / hide
-capsule config bashrc-override enable /
-disable
+capsule config bashrc-override enable / disable
 
 2 0   —   R E S O U R C E S
 
-Bench dashboard oxcapsulebenchmark.z22.
-
-web.core.windows.net
+Bench dashboard oxcapsulebenchmark.z22.web.core.windows.net
 
 Manual token oxmiq.ai/oxcapsule/auth
 Install repo mihira-ai/ox.capsule
@@ -412,9 +368,7 @@ Brew tap mihira-ai/software-packages
 Pre-release brew install capsule-pre
 Update CLI capsule update [--pre-release]
 Linux PATH ~/.local/capsule-cli/bin
-Windows PATH C:\Program Files\Capsule-
-
-CLI\bin
+Windows PATH C:\Program Files\Capsule-CLI\bin
 
 Discord help #capsule-help
 

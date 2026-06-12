@@ -50,12 +50,12 @@ Compare the three outputs across: vocabulary, length, examples used, assumed rea
 
 ### Problem 27.2 ★ — The structured extractor
 
-Build a prompt that takes a paragraph of biographical text and returns this exact JSON schema:
+Build a prompt that takes a paragraph of biographical text and returns this exact JSON schema. `born_year` should be an integer when known and `null` when the source text doesn't specify a year; the example below shows the `null` case.
 
 ```json
 {
   "name": "string",
-  "born_year": null | integer,
+  "born_year": null,
   "country_of_origin": "ISO 3166-1 alpha-2 code or null",
   "primary_field": "string",
   "key_contribution": "string, ≤ 200 chars"
@@ -231,7 +231,7 @@ Total per problem set: 100 points. Required problems weight 80%; stretch problem
 
 # Appendix A — Per-set index (difficulty, time, concept anchors)
 
-Use this to plan effort. ★ = required; ☆ = stretch. Time is the realistic average — strong students may finish in 60%, slower ones 150%. Concept IDs reference `docs/kb/concepts.json`.
+Use this to plan effort. ★ = required; ☆ = stretch. Time is the realistic average — strong students may finish in 60%, slower ones 150%. Concept IDs reference `docs/kb/concepts.json` (the knowledge-base file is introduced in PR-C of the reorg; references may be unresolved until that PR merges).
 
 | Set | Problem | Difficulty | Time | Concept anchors |
 |---|---|---|---|---|
