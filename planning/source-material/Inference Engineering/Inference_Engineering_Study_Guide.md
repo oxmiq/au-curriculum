@@ -6,6 +6,8 @@ Student Study Guide
 
 A 10-week course for undergraduate CS / ML students
 
+> **Source & permitted use.** This document is an instructor-authored companion derived from *Inference Engineering* by Philip Kiely (Baseten Books, 2026). It paraphrases and adapts material from that book for internal use within the Andhra University / Oxmiq curriculum only. **Do not redistribute, mirror, or publish outside this course.** Students and instructors should obtain the original book for canonical text, code samples, and references. If a formal license or permission grant for this material is established, replace this notice with a pointer to the source agreement.
+
 How to use this guide
 
 This study guide compresses the seven-chapter book *Inference Engineering* into a structured companion for a 10-week undergraduate course. Each chapter starts with learning objectives, then walks through key concepts, formulas, worked examples, and the pitfalls instructors find students stumble over most. End-of-chapter summaries are designed to be re-read the night before an exam.
@@ -16,9 +18,8 @@ This study guide compresses the seven-chapter book *Inference Engineering* into 
 
 Suggested 10-week schedule
 
-|  |  |  |
-|----|----|----|
 | **Week** | **Topic** | **Book chapter** |
+|----|----|----|
 | 1 | What is inference? The three-layer model | Chapter 0 + §1.1–1.2 |
 | 2 | Model selection, latency & throughput metrics | §1.3–1.4 |
 | 3 | Neural nets and LLM mechanics | §2.1–2.2 |
@@ -168,9 +169,8 @@ Fine-tuning vs. distillation
 
 The two core LLM performance metrics, with the two phases of inference they correspond to:
 
-|  |  |  |
-|----|----|----|
 | **Metric** | **What it measures** | **Tied to which phase?** |
+|----|----|----|
 | TTFT (time to first token) | How long until the first output token appears | Prefill (compute-bound) |
 | TPS (tokens per second) | Tokens streamed per second after the first one | Decode (memory-bound) |
 
@@ -186,9 +186,8 @@ Latency percentiles
 
 Latency is right-skewed: most requests cluster near a mode, but outliers extend a long tail. The mean is misleading; report percentiles.
 
-|                |                                          |                    |
-|----------------|------------------------------------------|--------------------|
 | **Percentile** | **Meaning**                              | **Interpretation** |
+|----------------|------------------------------------------|--------------------|
 | P50 (median)   | Half of requests are faster, half slower | 1 in 2 is slower   |
 | P90            | 90% of requests are faster               | 1 in 10 is slower  |
 | P95            | 95% of requests are faster               | 1 in 20 is slower  |
@@ -244,9 +243,8 @@ An **activation function** is a nonlinear, (mostly) differentiable function inse
 
 LLMs are **autoregressive token generators**: each new token depends on all prior tokens. Inference has two phases.
 
-|  |  |  |
-|----|----|----|
 | **Phase** | **What happens** | **Bottleneck** |
+|----|----|----|
 | **Prefill** | Process the input sequence, build the KV cache | Compute-bound |
 | **Decode** | Generate one output token per forward pass | Memory-bandwidth-bound |
 
@@ -298,11 +296,11 @@ MoE replaces dense linear layers with hundreds of smaller "expert" matrices. A s
 
 Image generation models work by **iterative denoising**, not autoregressive token prediction. A pipeline of three components:
 
-7.  **Text encoder** — converts the prompt into latent instructions (early models use CLIP, modern ones use a full LLM).
+1.  **Text encoder** — converts the prompt into latent instructions (early models use CLIP, modern ones use a full LLM).
 
-8.  **Denoising model** — the heart. Iteratively refines random noise in a low-dimensional **latent space** (e.g., 128×128, ~1% of pixel space).
+1.  **Denoising model** — the heart. Iteratively refines random noise in a low-dimensional **latent space** (e.g., 128×128, ~1% of pixel space).
 
-9.  **VAE (variational autoencoder)** — decodes the final latent representation back into pixel-space image.
+1.  **VAE (variational autoencoder)** — decodes the final latent representation back into pixel-space image.
 
 Each denoising step runs **two forward passes** — one with text guidance, one without — combined by the **guidance scale**. A 50-step generation = **100 forward passes**.
 
@@ -428,9 +426,8 @@ GPU memory has multiple tiers, fastest first:
 
 3.2 NVIDIA generations at a glance
 
-|  |  |  |  |
-|----|----|----|----|
 | **Architecture** | **Year** | **Key features** | **Best for** |
+|----|----|----|----|
 | Ampere (A100) | 2020 | FP16, FP32 tensor ops | Legacy / low-cost |
 | Ada Lovelace (L4, L40) | 2022 | FP8 added; no NVLink | Small models, embedding |
 | Hopper (H100, H200) | 2022 | FP8, async, FlashAttention 3 | Most production today |
@@ -439,17 +436,15 @@ GPU memory has multiple tiers, fastest first:
 
 Key Hopper specs
 
-|         |                 |          |               |
-|---------|-----------------|----------|---------------|
 | **GPU** | **FP8 (dense)** | **VRAM** | **Bandwidth** |
+|---------|-----------------|----------|---------------|
 | H100    | 1,979 TFLOPS    | 80 GB    | 3.35 TB/s     |
 | H200    | 1,979 TFLOPS    | 141 GB   | 4.8 TB/s      |
 
 Key Blackwell specs
 
-|         |                 |          |               |
-|---------|-----------------|----------|---------------|
 | **GPU** | **FP8 (dense)** | **VRAM** | **Bandwidth** |
+|---------|-----------------|----------|---------------|
 | B200    | ~5 PFLOPS       | 192 GB   | up to 8 TB/s  |
 | B300    | ~5 PFLOPS       | 288 GB   | up to 8 TB/s  |
 
@@ -459,9 +454,8 @@ A cloud **instance** is a VM bundling GPUs, CPUs, RAM, storage, networking, and 
 
 Interconnects — speed hierarchy
 
-|  |  |  |  |
-|----|----|----|----|
 | **Tier** | **Interconnect** | **Approximate bandwidth** | **Scope** |
+|----|----|----|----|
 | Fastest | NVLink (Blackwell) | Up to 1,800 GB/s | GPU ↔ GPU within a node |
 | Fast | NVLink (Hopper) | 900 GB/s | GPU ↔ GPU within a node |
 | Medium | NVSwitch | All-to-all on top of NVLink | All GPUs in a node |
@@ -484,9 +478,8 @@ MIG splits one large GPU into up to **seven smaller pieces** at the hardware lev
 
 3.4 Beyond NVIDIA
 
-|            |                       |                                    |
-|------------|-----------------------|------------------------------------|
 | **Vendor** | **Product**           | **Bet**                            |
+|------------|-----------------------|------------------------------------|
 | AMD        | MI350                 | CUDA-alternative on AMD silicon    |
 | AWS        | Inferentia / Trainium | AWS-native cost optimization       |
 | Google     | TPU                   | AI-specific ASIC                   |
@@ -655,9 +648,8 @@ Empirically, dropping one precision level gives roughly **30-50% better LLM perf
 
 Number formats
 
-|  |  |  |  |
-|----|----|----|----|
 | **Format** | **Bits** | **First seen on** | **Use case** |
+|----|----|----|----|
 | FP32 | 32 | Kepler 2012 | Training (rare for inference) |
 | FP16 / BF16 | 16 | Pascal / Ampere | Default training + inference |
 | FP8 (E4M3) | 8 | Hopper 2022 | Sweet spot for inference quality + perf |
@@ -683,13 +675,13 @@ Sensitivity ranking — what to quantize
 
 Components by increasing sensitivity to quantization:
 
-10. **Weights** (linear layers) — *least sensitive*.
+1. **Weights** (linear layers) — *least sensitive*.
 
-11. **Activations** — somewhat sensitive.
+1. **Activations** — somewhat sensitive.
 
-12. **KV cache** — moderately sensitive; quantizing here unlocks more capacity for prefix caching + disaggregation.
+1. **KV cache** — moderately sensitive; quantizing here unlocks more capacity for prefix caching + disaggregation.
 
-13. **Attention components** — *most sensitive*. Errors accumulate over thousands of tokens. **Softmax is almost always left at original precision** even in aggressive schemes.
+1. **Attention components** — *most sensitive*. Errors accumulate over thousands of tokens. **Softmax is almost always left at original precision** even in aggressive schemes.
 
 > **Recommended starter approach:** Use FP8 (or MXFP8) on select linear layers, activations, and often the KV cache. Skip the attention sublayer. Keep the input and output layers at native precision.
 
@@ -739,9 +731,8 @@ Performance factors
 
 Four methods
 
-|  |  |  |
-|----|----|----|
 | **Method** | **How** | **Best use** |
+|----|----|----|
 | **Draft-target** | Small separate draft model (≥10× smaller than target, same family) | Quick OOTB; no training |
 | **Medusa** | Graft 2-4 extra decoder heads onto target via fine-tuning | Simple; limited in practice |
 | **EAGLE** | Purpose-built draft model trained on hidden states from the target; up to 8 draft tokens | **Go-to in production** when you can train |
@@ -759,9 +750,8 @@ High-value domains: complex system prompts, code completion, document retrieval,
 
 Where to store the KV cache
 
-|          |               |               |              |
-|----------|---------------|---------------|--------------|
 | **Tier** | **Storage**   | **Speed**     | **Size**     |
+|----------|---------------|---------------|--------------|
 | G1       | GPU VRAM      | TB/s          | 10s-100s GB  |
 | G2       | CPU RAM       | 10s-100s GB/s | 100s GB - TB |
 | G3       | Local SSD     | 5-10 GB/s     | TB           |
@@ -785,9 +775,8 @@ Long context arrives when the KV cache itself becomes the bottleneck. Tools: Fla
 
 Three parallelism strategies
 
-|  |  |  |  |
-|----|----|----|----|
 | **Strategy** | **What it splits** | **Strength** | **Weakness** |
+|----|----|----|----|
 | **Tensor Parallelism (TP)** | Each layer's weights across GPUs | **Lowest latency** | Heavy all-reduce — no multi-node |
 | **Expert Parallelism (EP)** | Experts of an MoE across GPUs | **Highest throughput**, multi-node-friendly | Only for MoE models |
 | **Pipeline Parallelism (PP)** | Successive layers across GPUs | Multi-node fallback | Pipeline bubbles waste compute |
@@ -832,9 +821,8 @@ Learning objectives
 
 Quick comparison
 
-|  |  |  |  |
-|----|----|----|----|
 | **Modality** | **Archetype** | **Bottleneck** | **Key optimization** |
+|----|----|----|----|
 | LLM | Autoregressive | Decode = memory | Speculation, quantization, KV cache |
 | VLM | Autoregressive + vision encoder | Long context | Prefix caching, attention opts, downsampling |
 | Embedding | Encoder-only | Throughput | Big batches, horizontal scaling |

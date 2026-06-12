@@ -6,6 +6,8 @@ A 10-week course for undergraduate CS / ML students
 Companion to Inference Engineering by Philip Kiely (Baseten Books, 2026)
 Lecture 1 → 10  ·  ~10 slides per lecture
 
+> **Source & permitted use.** This slide deck is an instructor-authored companion derived from *Inference Engineering* by Philip Kiely (Baseten Books, 2026). It paraphrases and adapts material from that book for internal use within the Andhra University / Oxmiq curriculum only. **Do not redistribute, mirror, or publish outside this course.** Students and instructors should obtain the original book for canonical text, code samples, and references. If a formal license or permission grant for this material is established, replace this notice with a pointer to the source agreement.
+
 ### Notes:
 Open with this slide on screen as students walk in. While you're waiting, mention you'll spend a few minutes orienting them to the discipline before getting to the technical content.
 

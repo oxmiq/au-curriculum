@@ -6,6 +6,8 @@ Problem Sets, Quizzes & Answer Key
 
 Eight chapter problem sets · Midterm · Final exam · Full answer key
 
+> **Source & permitted use.** This document is an instructor-authored companion derived from *Inference Engineering* by Philip Kiely (Baseten Books, 2026). It paraphrases and adapts material from that book for internal use within the Andhra University / Oxmiq curriculum only. **Do not redistribute, mirror, or publish outside this course.** Students and instructors should obtain the original book for canonical text, code samples, and references. If a formal license or permission grant for this material is established, replace this notice with a pointer to the source agreement.
+
 How to use this packet
 
 This packet contains eight problem sets (one per chapter), a midterm exam covering Chapters 0-4, and a final exam covering the full course. The **Answer Key** at the end is meant for instructors. Students should attempt all problems before turning to it.
@@ -106,9 +108,8 @@ Percentiles
 
 15. Match each percentile to its interpretation:
 
-|                |                             |
-|----------------|-----------------------------|
 | **Percentile** | **Interpretation**          |
+|----------------|-----------------------------|
 | P50            | 1 in 100 requests is slower |
 | P90            | 1 in 2 requests is slower   |
 | P95            | 1 in 10 requests is slower  |
@@ -168,9 +169,8 @@ GPU architecture
 
 26. Match the term to the description:
 
-|             |                                                      |
-|-------------|------------------------------------------------------|
 | **Term**    | **Description**                                      |
+|-------------|------------------------------------------------------|
 | SM          | On-chip global cache shared across all SMs           |
 | Tensor Core | Hardware unit for matrix multiply-accumulate (MMA)   |
 | CUDA Core   | Performs scalar arithmetic                           |
@@ -281,7 +281,7 @@ Speculative decoding
 
 Caching
 
-49. **Prefix caching.** Two requests arrive: `"Translate this French sentence to English: Bonjour."` and `"Translate this French sentence to English: Au revoir."`. The shared prefix is `"Translate this French sentence to English: *"` (where `*` marks the variable tail). (a) What part can be cached? (b) Now consider `"*Bonjour. Translate this to English."` and `"*Au revoir. Translate this to English."` (variable part at the start) — what changes about cacheability?
+49. **Prefix caching.** Two requests arrive: `"Translate this French sentence to English: Bonjour."` and `"Translate this French sentence to English: Au revoir."`. (a) Treating the literal `"Translate this French sentence to English: "` as the shared prefix and the per-request word as the variable suffix, what part can be cached? (b) Now consider the inverted shape, where the variable word comes *first* and the instruction comes after: `"Bonjour. Translate this to English."` and `"Au revoir. Translate this to English."` — what changes about cacheability?
 
 50. Rank these KV-cache storage tiers by speed: networked SSD, GPU VRAM, local SSD, CPU RAM. For each, give one scenario in which it's the right choice.
 

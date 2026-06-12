@@ -4,6 +4,8 @@ Course Glossary
 
 *207 terms from Appendix A of Inference Engineering by Philip Kiely*
 
+> **Source & permitted use.** This glossary is an instructor-authored companion derived from Appendix A of *Inference Engineering* by Philip Kiely (Baseten Books, 2026). Definitions are paraphrased and adapted for internal use within the Andhra University / Oxmiq curriculum only. **Do not redistribute, mirror, or publish outside this course.** Students and instructors should obtain the original book for canonical definitions and references. If a formal license or permission grant for this material is established, replace this notice with a pointer to the source agreement.
+
 How to study with this glossary
 
 This glossary contains all definitions from Appendix A of the book — the canonical reference for terminology. Use it three ways:

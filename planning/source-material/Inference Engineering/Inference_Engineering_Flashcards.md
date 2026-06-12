@@ -5,6 +5,8 @@
 - **Deck A — Recall (cards 1–104):** definitions and core facts. Sit-down review.
 - **Deck B — Application, discrimination & numbers (cards 105–208):** scenarios, "what's the difference between X and Y", and back-of-envelope math. Quiz a partner.
 
+> **Source & permitted use.** These flashcards are an instructor-authored companion derived from *Inference Engineering* by Philip Kiely (Baseten Books, 2026). Card content paraphrases and adapts material from that book for internal use within the Andhra University / Oxmiq curriculum only. **Do not redistribute, mirror, or publish outside this course.** Students and instructors should obtain the original book for canonical text, code samples, and references. If a formal license or permission grant for this material is established, replace this notice with a pointer to the source agreement.
+
 *Print double-sided, flip on long edge. Cut along grid lines.* Each page has 4 cards in a 2×2 grid; the back of each front-page card holds the matching definition.
 
 Coverage: every Inference-phase concept node from `docs/kb/concepts.json` appears in at least one card. Several appear in 3+ (different angles).

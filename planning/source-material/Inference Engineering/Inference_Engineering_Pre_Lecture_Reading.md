@@ -6,6 +6,8 @@ Pre-Lecture Reading
 
 *If you walk in cold, the lecture will feel like reading a foreign language.*
 
+> **Source & permitted use.** This document is an instructor-authored companion derived from *Inference Engineering* by Philip Kiely (Baseten Books, 2026). It paraphrases and adapts material from that book for internal use within the Andhra University / Oxmiq curriculum only. **Do not redistribute, mirror, or publish outside this course.** Students and instructors should obtain the original book for canonical text, code samples, and references. If a formal license or permission grant for this material is established, replace this notice with a pointer to the source agreement.
+
 Spend 30-60 minutes on the relevant chapter before each session.
 
 How to use this reader
@@ -16,9 +18,8 @@ Each chapter is structured the same way. **Why you need this** explains how the 
 
 If you've recently finished a strong undergraduate ML course or you have professional experience, you can skim. If you're coming from a different track (web dev, mobile, data analytics), please read carefully — the concepts in here are not optional.
 
-|  |  |  |
-|----|----|----|
 | **Reader chapter** | **Pairs with** | **Estimated reading time** |
+|----|----|----|
 | 1\. AI in production | Lecture 1 | 30 min |
 | 2\. Latency, probability, percentiles | Lecture 2 | 45 min |
 | 3\. Vectors, matrices, neural networks | Lecture 3 | 75 min |
@@ -195,9 +196,8 @@ A **percentile** is a value below which a given proportion of the data falls. Th
 
 Percentile language is the standard for reporting latency because it directly maps to user experience. P50 (median) tells you what a typical user sees. P95 tells you what your **second-worst-in-twenty** user sees. P99 tells you what your **worst-in-one-hundred** user sees.
 
-|  |  |  |
-|----|----|----|
 | **Percentile** | **Frequency "how often is it worse?"** | **When to track** |
+|----|----|----|
 | P50 | 1 in 2 requests is slower | Sanity-check normal experience |
 | P90 | 1 in 10 is slower | Routine quality measurement |
 | P95 | 1 in 20 is slower | User-facing SLA target |
@@ -390,9 +390,8 @@ Big-O notation
 
 **Big-O notation** describes how the cost of an algorithm grows with the size of its input. We write O(N) to mean "cost grows linearly with N" and O(N²) to mean "cost grows quadratically." Big-O ignores constants and lower-order terms — it captures the asymptotic shape, not the exact runtime.
 
-|  |  |  |  |
-|----|----|----|----|
 | **Order** | **Name** | **What it means** | **Example** |
+|----|----|----|----|
 | O(1) | Constant | Cost doesn't depend on N | Array index lookup |
 | O(log N) | Logarithmic | Cost grows very slowly | Binary search |
 | O(N) | Linear | Cost grows in proportion | Loop through a list |
@@ -406,9 +405,8 @@ Bytes, kilobytes, megabytes, gigabytes
 
 Modern GPU memory is measured in **gigabytes (GB)**. Let's get the scale straight:
 
-|                 |                |                                     |
-|-----------------|----------------|-------------------------------------|
 | **Unit**        | **Bytes**      | **Notes**                           |
+|-----------------|----------------|-------------------------------------|
 | 1 byte (B)      | 8 bits         | One ASCII character, one INT8 value |
 | 1 kilobyte (KB) | 1,024 B (~10³) | Small text file                     |
 | 1 megabyte (MB) | ~10⁶ B         | Photo, short audio clip             |
@@ -509,9 +507,8 @@ The memory hierarchy
 
 Computers use a hierarchy of memory technologies, fast and small to slow and large. This is a fundamental trade-off: the fastest memory is too expensive to make big.
 
-|  |  |  |  |
-|----|----|----|----|
 | **Tier** | **Technology** | **Typical size** | **Typical latency** |
+|----|----|----|----|
 | Registers | Tiny on-chip storage | Bytes per core | Sub-ns |
 | L1 cache | SRAM, on-chip | 10s of KB per core | ~1 ns |
 | L2 cache | SRAM, on-chip | MBs | ~5 ns |
@@ -770,9 +767,8 @@ Why integer formats are different
 
 **Integer formats** (INT8, INT4) have no exponent — just sign and value bits. They represent evenly spaced values across a fixed range.
 
-|  |  |  |  |
-|----|----|----|----|
 | **Format** | **Total values** | **Spacing** | **Best for** |
+|----|----|----|----|
 | INT8 | 256 | Uniform | Image classification, simple tasks |
 | INT4 | 16 | Uniform | Aggressive compression, quality risk |
 | FP8 | 256 | Logarithmic (wider near zero) | LLM inference (sweet spot) |
@@ -804,9 +800,8 @@ Error accumulation
 
 Quantization introduces small rounding errors. In a single multiplication, the error is tiny. But neural networks chain thousands of multiplications. Errors compound. The book uses Pi as an example:
 
-|               |         |          |           |
-|---------------|---------|----------|-----------|
 | **Precision** | **Pi**  | **Pi²**  | **Pi³**   |
+|---------------|---------|----------|-----------|
 | Full          | 3.14159 | 9.869588 | 31.006198 |
 | 3 decimals    | 3.14    | 9.8596   | 30.959144 |
 | 1 decimal     | 3       | 9        | 27        |
@@ -915,9 +910,8 @@ Locality and communication cost
 
 Parallel computing has a brutal rule of thumb: **moving data between units is expensive**. The cost grows as you go from registers → cache → DRAM → other GPU on the same node → other GPU on another node. Effective parallel design minimizes inter-unit communication.
 
-|  |  |  |
-|----|----|----|
 | **Communication scope** | **Speed** | **Inference use case** |
+|----|----|----|
 | Intra-core (registers/cache) | Sub-nanosecond | Kernel fusion |
 | Intra-GPU (HBM) | Hundreds of GB/s | Standard model execution |
 | Inter-GPU intra-node (NVLink) | Hundreds-Thousands of GB/s | Tensor Parallelism |
