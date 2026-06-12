@@ -24,8 +24,8 @@ Assessment rubric: see Day 50 template (`Day-49-Assessment-Rubric.md`).
 
 ## Shape note
 
-Week 10 does **not** follow the Mon–Thu lesson + Friday quiz shape. There is **no quiz**. Each day is a milestone with its own page + source template. The capstone deliverable is the only assessed artifact (plus Day 49 panel presentation).
+Week 10 does **not** follow the Mon–Thu lesson + Friday quiz shape. There is **no quiz**. Each day is a milestone with its own page + source template. The capstone deliverable is the only assessed artifact (plus Day 50 panel presentation).
 
 ## Stuck?
 
-Ask **oxcode** — Day 46's charter draws directly from your Week 9 Day 45 retrospective ("What surprised me about the benchmark results?"). Start there.
+Ask **oxcode** — Day 47's charter draws directly from your Week 9 Day 45 retrospective ("What surprised me about the benchmark results?"). Start there.

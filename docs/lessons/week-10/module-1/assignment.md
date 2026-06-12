@@ -51,11 +51,11 @@ Everything. Phase 1 (inference vocabulary), Phase 2 (prompt + agent thinking whe
 
 | Day | Milestone |
 |---|---|
-| 46 (Mon) | Charter approved by instructor |
-| 47 (Tue) | All planned configs benchmarked + evaluated; logs complete |
-| 48 (Wed) | Slides done; dry-run with partner team |
-| 49 (Thu) | Present + Q&A — assessed |
-| 50 (Fri) | Retrospective + career conversation; fork polished as portfolio |
+| 47 (Mon) | Charter approved by instructor |
+| 48 (Tue) | All planned configs benchmarked + evaluated; logs complete |
+| 49 (Wed) | Slides done; dry-run with partner team |
+| 50 (Thu) | Present + Q&A — assessed |
+| 51 (Fri) | Retrospective + career conversation; fork polished as portfolio |
 
 ## Final note
 

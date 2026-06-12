@@ -54,9 +54,9 @@ Spend ~60 min today writing the README and tidying. This is the single highest-R
 | Bar | Evidence |
 |---|---|
 | Fluent in Phase 1 vocabulary | Capstone Q&A, fork artifacts |
-| Can operate Capsule cold | Day 45 sprint + Day 47 execution log |
+| Can operate Capsule cold | Day 45 sprint + Day 48 execution log |
 | Designed an agent | Week 7 5-layer map (and ideally a stub MCP server in fork) |
-| Made a defensible recommendation | Capstone claim sentence + Day 49 grade |
+| Made a defensible recommendation | Capstone claim sentence + Day 50 grade |
 | Can teach a peer | Practice quizzes + Feynman teach-back artifacts |
 
 Bring all 5 to your conversation.

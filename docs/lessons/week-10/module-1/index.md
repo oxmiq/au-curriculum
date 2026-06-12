@@ -34,10 +34,10 @@ The single biggest reason capstones fail is **vague scoping**. A 4-day window ki
 
 | Day | What you'll do |
 |---|---|
-| 47 (Tue) | Execute — deploy on Capsule, run sweeps, run evals |
-| 48 (Wed) | Analyze + build presentation |
-| 49 (Thu) | Present (15 min + 10 min Q&A) — assessed |
-| 50 (Fri) | Retrospective + career conversation |
+| 48 (Tue) | Execute — deploy on Capsule, run sweeps, run evals |
+| 49 (Wed) | Analyze + build presentation |
+| 50 (Thu) | Present (15 min + 10 min Q&A) — assessed |
+| 51 (Fri) | Retrospective + career conversation |
 
 ## Time budget for today
 

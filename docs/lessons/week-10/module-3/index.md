@@ -90,4 +90,4 @@ If you can't answer all three, you're not done.
 
 ## Wrap-up
 
-End of Day 48: each team has a polished 12-slide deck and can recite the claim sentence from memory. Day 49 is the show.
+End of Day 49: each team has a polished 12-slide deck and can recite the claim sentence from memory. Day 50 is the show.
