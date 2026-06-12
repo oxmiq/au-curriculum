@@ -1,0 +1,3278 @@
+{
+  "$schema_version": 1,
+  "phases": [
+    {
+      "id": "agents",
+      "title": "Agents"
+    },
+    {
+      "id": "capsule",
+      "title": "Capsule"
+    },
+    {
+      "id": "inference",
+      "title": "Inference"
+    },
+    {
+      "id": "prompting",
+      "title": "Prompting"
+    }
+  ],
+  "terms": [
+    {
+      "slug": "scp",
+      "term": "`scp` (over Capsule)",
+      "phase": "capsule",
+      "definition": "Standard SCP from your local box to a Capsule machine, with the connection routed through the SshRTC overlay automatically.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "a2a",
+      "term": "A2A (Agent-to-Agent protocol)",
+      "phase": "agents",
+      "definition": "An emerging protocol for one agent to invoke another agent as a tool, with discovery, capability advertisement, and result handling.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "a2a"
+    },
+    {
+      "slug": "abstention",
+      "term": "Abstention",
+      "phase": "prompting",
+      "definition": "Authorized refusal — the model declines to answer because the question is unanswerable from the provided context.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "activation-function",
+      "term": "Activation function",
+      "phase": "inference",
+      "definition": "A (mostly) differentiable nonlinear function like ReLU inserted between linear layers to prevent multi-layer neural networks from collapsing into a single matmul.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "active-active",
+      "term": "Active–active",
+      "phase": "inference",
+      "definition": "A high-availability posture where multiple regions/clusters actively serve live traffic at once. If any plane fails, traffic seamlessly continues on the others.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "active-passive",
+      "term": "Active–passive",
+      "phase": "inference",
+      "definition": "A failover posture where a \"hot standby\" cluster or region is kept ready but idle. If the active plane fails, traffic is cut over to the passive plane.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "ada-lovelace",
+      "term": "Ada Lovelace (architecture)",
+      "phase": "inference",
+      "definition": "NVIDIA's graphics-oriented GPU architecture, released alongside Hopper in 2022. Useful for small models and cost-sensitive workloads, not suited for large-scale LLM inference.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "agent",
+      "term": "Agent",
+      "phase": "inference",
+      "definition": "An AI application that takes action rather than just providing information. Agent workflows usually rely on multiple inference calls, often across multiple models and modalities, and require access to tools.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "agent-loop",
+      "term": "Agent loop (ReAct loop)",
+      "phase": "agents",
+      "definition": "The canonical control flow of an agent: Perceive → Plan → Act → Observe → Repeat.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "agent-loop"
+    },
+    {
+      "slug": "ai-native-application",
+      "term": "AI-native application",
+      "phase": "inference",
+      "definition": "A product where the core UX and value depend on generative models. Inference choices are downstream of app constraints: modality, latency budget, unit economics, and usage patterns.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "ampere",
+      "term": "Ampere (architecture)",
+      "phase": "inference",
+      "definition": "An older NVIDIA GPU architecture still used in legacy or small-scale deployments. Hopper and Blackwell architectures generally outperform Ampere on both raw speed and cost at scale.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "application-programming-interface",
+      "term": "Application Programming Interface (API)",
+      "phase": "inference",
+      "definition": "A structured interface for sending requests and receiving responses. Inference engines expose an API for making queries to models.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "arithmetic-intensity",
+      "term": "Arithmetic intensity",
+      "phase": "inference",
+      "definition": "Operations performed per byte moved for a given algorithm. When compared to a GPU's ops:byte ratio, arithmetic intensity indicates whether a kernel is compute bound or memory bound.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "compute-bound"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "assistant-turn",
+      "term": "Assistant turn",
+      "phase": "prompting",
+      "definition": "A message in the `messages` array with `role: \"assistant\"`, representing something the model produced (or that you're putting in its mouth via prefill).",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "attention",
+      "term": "Attention",
+      "phase": "inference",
+      "definition": "The core transformer mechanism relating a token to prior tokens via Q/K/V projections and softmax. Attention is a primary target for optimization due to its compute and memory demands.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "transformer"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "attention-position-bias",
+      "term": "Attention position bias",
+      "phase": "prompting",
+      "definition": "The empirical pattern where instructions placed in the middle of a long prompt are followed 15-25 percentage points less reliably than the same instructions at the top or bottom.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "attention-position-bias"
+    },
+    {
+      "slug": "automatic-speech-recognition",
+      "term": "Automatic Speech Recognition (ASR)",
+      "phase": "inference",
+      "definition": "Audio-in, text-out transcription models (e.g., Whisper). Decoder work dominates runtime and benefits from LLM-style optimizations and in-flight batching.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "in-flight-batching"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "autoregressive-token-generation",
+      "term": "Autoregressive token generation",
+      "phase": "inference",
+      "definition": "Iterative generation of tokens where each token depends on each previous token. Split into two phases: prefill (input tokens processed) and decode (output tokens generated).",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "autoscaling",
+      "term": "Autoscaling",
+      "phase": "inference",
+      "definition": "Scaling the number of replicas serving a given model up and down automatically based on traffic or utilization. Matches capacity to demand, maintaining latency SLAs and minimizing wasted spend.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "autoscaling-window",
+      "term": "Autoscaling window",
+      "phase": "inference",
+      "definition": "The rolling time horizon used to decide scale-up/scale-down actions. Longer windows keep replica counts steady; shorter windows react faster to spikes.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "azure-b2c",
+      "term": "Azure B2C",
+      "phase": "capsule",
+      "definition": "Microsoft's external-identity service that Capsule uses for authentication, with per-environment tenants.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "b200",
+      "term": "B200",
+      "phase": "inference",
+      "definition": "NVIDIA Blackwell-based datacenter GPU with 192 GB of VRAM, 8 TB/s of memory bandwidth, and 5 petaFLOPS of FP8 compute.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "b300",
+      "term": "B300",
+      "phase": "inference",
+      "definition": "NVIDIA Blackwell-based datacenter GPU with 288 GB of VRAM, 8 TB/s of memory bandwidth, and 5 petaFLOPS of FP8 compute.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "bandwidth",
+      "term": "Bandwidth",
+      "phase": "inference",
+      "definition": "The amount of data per second that can pass through memory like VRAM or an interconnect like NVLink.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "baselines",
+      "term": "Baselines",
+      "phase": "inference",
+      "definition": "Initial, carefully recorded measurements of performance and quality before applying optimizations. Baselines enable clear attribution of gains or regressions.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "basic-linear-algebra-subprograms",
+      "term": "Basic Linear Algebra Subprograms (BLAS)",
+      "phase": "inference",
+      "definition": "A standard interface for fundamental operations in linear algebra.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "batch",
+      "term": "Batch",
+      "phase": "inference",
+      "definition": "Process multiple inputs simultaneously, common for LLM inference.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "batch-sizing",
+      "term": "Batch sizing",
+      "phase": "inference",
+      "definition": "A core latency-throughput lever for inference engines. Larger batches improve total throughput but worsen per-user latency.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "throughput"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "benchmark",
+      "term": "Benchmark (intelligence)",
+      "phase": "inference",
+      "definition": "A measurement of a model's ability to answer questions correctly or take appropriate actions (e.g., MMLU).",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "bf16",
+      "term": "BF16",
+      "phase": "inference",
+      "definition": "A 16-bit floating-point format with larger exponent than FP16, useful in training and sometimes inference. Higher dynamic range helps preserve outliers.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "dynamic-range"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "bin-packing",
+      "term": "Bin packing (multi-cloud)",
+      "phase": "inference",
+      "definition": "Treating heterogeneous pools of GPUs across clouds, regions, and clusters as a single schedulable resource, enabled by multi-cloud capacity management infrastructure.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "multi-cloud-capacity-management"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "blackwell",
+      "term": "Blackwell (architecture)",
+      "phase": "inference",
+      "definition": "NVIDIA's late-2024 GPU generation featuring FP4 support, microscaling formats (MXFP8, MXFP4, NVFP4), and high memory bandwidth.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth",
+        "microscaling-formats"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "blast-radius",
+      "term": "Blast radius",
+      "phase": "agents",
+      "definition": "The maximum harm an agent can cause if compromised, measured as a function of the tools it can call and the credentials it holds.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "blast-radius"
+    },
+    {
+      "slug": "blue-green-deployment",
+      "term": "Blue-green deployment",
+      "phase": "inference",
+      "definition": "Two parallel production environments (\"blue\" and \"green\"); shift traffic between them for zero-downtime deploys and quick rollback.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cache-aware-routing",
+      "term": "Cache-aware routing",
+      "phase": "inference",
+      "definition": "Steering requests to replicas that already hold matching prefixes or required LoRAs. Higher cache hit rates yield lower TTFT.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "canary-deployment",
+      "term": "Canary deployment",
+      "phase": "inference",
+      "definition": "A new production deployment that starts with a small share of live traffic to a new deployment to validate stability and performance. Over time, the new deployment absorbs all production traffic.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "causal-language-model",
+      "term": "Causal language model (CLM)",
+      "phase": "inference",
+      "definition": "A decoder-only transformer that predicts the next token given the prior context. All generative LLMs in this book are CLMs.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "transformer"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "central-processing-unit",
+      "term": "Central Processing Unit (CPU)",
+      "phase": "inference",
+      "definition": "A general-purpose processor optimized for sequential workloads. CPUs are used for orchestration, scheduling, networking, and preprocessing, but rarely handle generative AI inference directly.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "generative-ai"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "chain-of-thought",
+      "term": "Chain-of-thought (CoT)",
+      "phase": "prompting",
+      "definition": "A prompting technique that asks the model to produce intermediate reasoning steps before its final answer.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "chain-of-thought"
+    },
+    {
+      "slug": "chaining",
+      "term": "Chaining (prompt chaining)",
+      "phase": "prompting",
+      "definition": "Decomposing a complex task into a sequence of 2–N simpler prompts with explicit handoff format between them.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [
+        "handoff-format"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "chat-template",
+      "term": "Chat template",
+      "phase": "inference",
+      "definition": "The model-specific formatting and serialization of messages (roles, separators, beginning/end of sequence tokens).",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "chunked-prefill",
+      "term": "Chunked prefill",
+      "phase": "inference",
+      "definition": "Splits long inputs into chunks and overlaps prefill with decode or other work, preventing single long sequences from monopolizing resources.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "citation-discipline",
+      "term": "Citation discipline",
+      "phase": "prompting",
+      "definition": "A prompting pattern requiring the model to cite the chunk number (or other identifier) for every factual claim, with explicit instruction to omit claims it cannot cite.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "citation-discipline"
+    },
+    {
+      "slug": "classifier-free-guidance",
+      "term": "Classifier-free guidance",
+      "phase": "inference",
+      "definition": "Balances unconditional and prompt-conditioned denoising passes on each step of image generation. Lower guidance enhances creativity; higher guidance enforces prompt adherence.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "clip",
+      "term": "CLIP (text encoder)",
+      "phase": "inference",
+      "definition": "A text/image encoder used in earlier image pipelines (e.g., SDXL). Modern systems often swap in full LLMs for stronger prompt understanding.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "closed-model",
+      "term": "Closed model",
+      "phase": "inference",
+      "definition": "A proprietary model where weights are unavailable, like GPT-5, Claude Sonnet, or Google Gemini.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cold-start",
+      "term": "Cold start",
+      "phase": "inference",
+      "definition": "The time from scaling a replica from zero to its first successful response (steps include GPU provisioning, container startup, model load, inference engine compilation).",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "inference-engine"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "comfyui",
+      "term": "ComfyUI",
+      "phase": "inference",
+      "definition": "A workflow tool for assembling image pipelines (base model, refiner, LoRAs, ControlNets). Encourages modular, swappable components.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "completion",
+      "term": "Completion",
+      "phase": "prompting",
+      "definition": "The text the model produces in response to a prompt. Same as \"response\" or \"output.\"",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "compute-bound",
+      "term": "Compute-bound",
+      "phase": "inference",
+      "definition": "An algorithm limited by available FLOPS rather than memory bandwidth. LLM prefill and image/video generation are usually compute bound.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "confabulation",
+      "term": "Confabulation",
+      "phase": "prompting",
+      "definition": "A subtype of hallucination where the model produces a plausible-sounding but unsupported answer because it has no permission to say \"I don't know.\"",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [
+        "hallucination"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "config-tag",
+      "term": "Config tag (routing-by-tag)",
+      "phase": "capsule",
+      "definition": "A human-readable group identifier (e.g., `NV-3060-04-1`) used to route to *any* machine matching the tag.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "constrained-decoding",
+      "term": "Constrained decoding",
+      "phase": "prompting",
+      "definition": "A sampling-time mechanism (grammar-based, regex-based, or finite-state-machine-based) that forces the model to emit tokens that conform to a target grammar.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "constrained-decoding"
+    },
+    {
+      "slug": "context-parallelism",
+      "term": "Context Parallelism (CP)",
+      "phase": "inference",
+      "definition": "Replicates weights across GPUs and partitions the attention context. Essential for video models where attention works across a massive latent space.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "latent-space"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "context-window",
+      "term": "Context window",
+      "phase": "inference",
+      "definition": "The maximum number of tokens that a model can process across input, reasoning, and output for a single request.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "context-window"
+    },
+    {
+      "slug": "continuous-batching",
+      "term": "Continuous batching (in-flight)",
+      "phase": "inference",
+      "definition": "Token-level interleaving of requests so GPU slots are always utilized. Minimizes per-user latency penalties of batching.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "continuous-batching"
+    },
+    {
+      "slug": "control-plane",
+      "term": "Control plane (multi-cloud)",
+      "phase": "inference",
+      "definition": "Global orchestrator for deploying models and allocating resources.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "core",
+      "term": "Core (CUDA)",
+      "phase": "inference",
+      "definition": "A specialized hardware unit optimized for mixed-precision matrix multiply-accumulate (MMA) operations. The most important type of compute for inference.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cross-attention",
+      "term": "Cross-attention",
+      "phase": "inference",
+      "definition": "Conditioning one sequence (Q) on another's K/V (e.g., text conditioning images). Common in multimodal and denoising pipelines.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cublas",
+      "term": "cuBLAS",
+      "phase": "inference",
+      "definition": "CUDA's BLAS implementation offering high-quality GEMM and related primitives.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cuda",
+      "term": "CUDA",
+      "phase": "inference",
+      "definition": "NVIDIA's programming model and platform for GPU kernels, graphs, memory, and execution.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cuda-driver",
+      "term": "CUDA driver",
+      "phase": "inference",
+      "definition": "A low-level interface between the application and the GPU hardware to manage memory and execution.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cuda-graph",
+      "term": "CUDA graph",
+      "phase": "inference",
+      "definition": "A directed acyclic graph (DAG) of kernels and other GPU operations for optimizing repeated workflows.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cuda-kernel",
+      "term": "CUDA kernel",
+      "phase": "inference",
+      "definition": "A user-defined function that executes parallelized code on the GPU.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cuda-runtime",
+      "term": "CUDA runtime",
+      "phase": "inference",
+      "definition": "A developer-facing API for launching kernels and managing memory.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cudnn",
+      "term": "cuDNN",
+      "phase": "inference",
+      "definition": "Primitives for building deep neural networks in CUDA.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "customer-context",
+      "term": "Customer context",
+      "phase": "capsule",
+      "definition": "The fleet partition selected by `capsule config customer`. Determines which machines `capsule list` returns.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cute",
+      "term": "CuTe",
+      "phase": "inference",
+      "definition": "A domain-specific C++ template library that abstracts tiled tensor operations to help developers compose precision-aware, hardware-optimized GEMM and fused kernels.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "cutlass",
+      "term": "CUTLASS",
+      "phase": "inference",
+      "definition": "A CUDA C++ template library that provides building blocks for writing high-performance, architecture-tuned GEMM and related kernels.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "daily-loop-discipline",
+      "term": "Daily-loop discipline",
+      "phase": "capsule",
+      "definition": "The canonical start-of-day sequence: `capsule status` → `capsule env show` → `capsule config customer show` → `capsule list --users` → `capsule term <tag>`.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "data-sovereignty",
+      "term": "Data sovereignty",
+      "phase": "inference",
+      "definition": "Legal constraints around where model inputs and outputs are processed and stored geographically.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "decode",
+      "term": "Decode",
+      "phase": "inference",
+      "definition": "The memory-bound phase of LLM inference where the autoregressive generation loop emits one token per forward pass.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "deepgemm",
+      "term": "DeepGEMM",
+      "phase": "inference",
+      "definition": "A library of clean and efficient GEMM kernels created by the DeepSeek AI team with strong performance in FP8.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "delimiter",
+      "term": "Delimiter",
+      "phase": "prompting",
+      "definition": "A marker (typically XML tags like `<input>...</input>`, but also triple backticks, `---`, or any unambiguous string) used to mark the boundary between instructions and data inside a prompt.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "denoising-model",
+      "term": "Denoising model",
+      "phase": "inference",
+      "definition": "The heart of diffusion pipelines that iteratively refines latent noise into an image or video.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "diarization",
+      "term": "Diarization",
+      "phase": "inference",
+      "definition": "Segmenting audio by speaker (\"who spoke when\"); often paired with VAD in ASR pipelines.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "diffusers",
+      "term": "Diffusers (library)",
+      "phase": "inference",
+      "definition": "Reference implementations for image and video generation pipelines.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "disaggregation",
+      "term": "Disaggregation",
+      "phase": "inference",
+      "definition": "Separating prefill and decode onto independently scaling engines running on separate hardware resources.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "distillation",
+      "term": "Distillation",
+      "phase": "inference",
+      "definition": "Training a smaller student to emulate a larger teacher model based on probability distributions, not just outputs, to retain model behavior on fewer parameters.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "distribution-shift",
+      "term": "Distribution shift",
+      "phase": "prompting",
+      "definition": "Any change to the conditioning context that moves the model's output probability distribution. The mechanism by which roles, examples, delimiters, and instructions all \"work.\"",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "docker",
+      "term": "Docker",
+      "phase": "inference",
+      "definition": "Containerization technology for building standardized packages of inference services with their dependencies.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "dockerfile",
+      "term": "Dockerfile",
+      "phase": "inference",
+      "definition": "A human-readable file with well-specified, machine-interpretable instructions for creating an image.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "dotfile-passthrough",
+      "term": "Dotfile passthrough",
+      "phase": "capsule",
+      "definition": "Mechanism that copies a curated set of local dotfiles (`.vimrc`, `.zshrc`, `.gitconfig`, etc.) to the remote machine on first connect.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "dynamic-batching",
+      "term": "Dynamic batching",
+      "phase": "inference",
+      "definition": "Starts a batch when the batch is full or a short timer elapses, whichever comes first. Balances latency stability with utilization; superseded by continuous batching for LLMs.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "continuous-batching"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "dynamic-range",
+      "term": "Dynamic range (quantization)",
+      "phase": "inference",
+      "definition": "The range of absolute values that can be represented in a number format. Floating-point numbers have a higher dynamic range than integers with the same number of bytes thanks to their exponent-mantissa structure.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "eagle",
+      "term": "EAGLE (speculation)",
+      "phase": "inference",
+      "definition": "A small, purpose-built draft model trained to consume hidden states and propose multiple tokens for high acceptance rates in speculative decoding.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "speculative-decoding"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "echoleak",
+      "term": "EchoLeak (CVE-2025-32711)",
+      "phase": "agents",
+      "definition": "A 2025 indirect-prompt-injection vulnerability in Microsoft 365 Copilot's email/document pipeline that allowed adversary-controlled documents to exfiltrate organizational data via the agent's own tool calls.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "elo",
+      "term": "Elo (quality meta-metric)",
+      "phase": "inference",
+      "definition": "Head-to-head win-rate style scoring to compare model quality. Useful directional signal beyond intelligence benchmarks.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "embedding-model",
+      "term": "Embedding model",
+      "phase": "inference",
+      "definition": "Encodes text or image input into fixed-dimensional vectors for semantic similarity, used in RAG and agent memory. Modern variants often use LLM backbones and Matryoshka representations.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "matryoshka-representations"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "encoder",
+      "term": "Encoder",
+      "phase": "inference",
+      "definition": "Network that converts raw inputs into internal representations (e.g., audio features in Whisper). Paired with a decoder in encoder-decoder models.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "environment",
+      "term": "Environment (Capsule env)",
+      "phase": "capsule",
+      "definition": "A top-level deployment target: `prod` (internal prod), `public` (external/partner), `dev`, `demo`.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "eval",
+      "term": "Eval (prompt evaluation)",
+      "phase": "prompting",
+      "definition": "An automated test suite for a prompt, consisting of (input, expected-output, pass-criterion) tuples that can be run against any version of the prompt.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "eval-driven-development",
+      "term": "Eval-driven development",
+      "phase": "prompting",
+      "definition": "A workflow discipline where every prompt change is gated by a regression run of the eval suite. The prompt is \"code\"; the eval is \"tests\"; you don't ship if a test fails.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "evals",
+      "term": "Evals",
+      "phase": "inference",
+      "definition": "Task-specific tests that mirror real-world use cases for a model, used for product-specific model intelligence testing.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "expert-parallelism",
+      "term": "Expert Parallelism (EP)",
+      "phase": "inference",
+      "definition": "Shards experts of an MoE across GPUs; each GPU contains multiple full experts. Increases total throughput with low inter-GPU communication overhead.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "throughput"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "few-shot-prompting",
+      "term": "Few-shot prompting",
+      "phase": "prompting",
+      "definition": "Providing 2–5+ input/output examples in the prompt before the real query, so the model infers the task from the examples rather than from prose description.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "few-step-image-generation",
+      "term": "Few-step image generation",
+      "phase": "inference",
+      "definition": "Models that produce usable images in eight or fewer steps. 80-90% faster but with noticeable quality tradeoffs; strong fit for real-time applications.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "feynman",
+      "term": "Feynman (architecture)",
+      "phase": "inference",
+      "definition": "A future NVIDIA generation after Rubin. Details are limited; expect continued emphasis on low-precision and memory bandwidth.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "fine-tuning",
+      "term": "Fine-tuning",
+      "phase": "inference",
+      "definition": "Adapts a pretrained base to a domain, often enabling much smaller models to meet quality needs.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "flashattention",
+      "term": "FlashAttention",
+      "phase": "inference",
+      "definition": "A series of optimized attention kernels that minimize memory traffic. FlashAttention 3 is written for Hopper, FlashAttention 4 targets Blackwell.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "floating-point-data-formats",
+      "term": "Floating-point data formats",
+      "phase": "inference",
+      "definition": "Precisions like FP16, FP8, and FP4 used in inference with high dynamic range and an exponent-mantissa structure.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "dynamic-range"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "flops",
+      "term": "FLOPS",
+      "phase": "inference",
+      "definition": "Floating-point operations per second, typically measured on Tensor Cores.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "foundation-model",
+      "term": "Foundation model",
+      "phase": "inference",
+      "definition": "A model trained on broad data that serves as a base for multiple downstream tasks. Foundation models (e.g., GPT, Claude, Llama) are typically fine-tuned or used directly via prompting.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "function-calling",
+      "term": "Function calling",
+      "phase": "inference",
+      "definition": "Also known as tool calling or tool use, a model is given a set of available functions along with a prompt and returns a structured output including both selected functions and arguments for those functions.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [
+        "structured-output",
+        "tool-use"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "gb200",
+      "term": "GB200",
+      "phase": "inference",
+      "definition": "An NVIDIA superchip that pairs a Grace CPU with a B200 GPU via high-bandwidth NVLink chip-to-chip connection. Used in rack-scale NVLink systems like the NVL72 and useful for KV cache offloading, LoRA swapping, and other techniques that benefit from NVLink-C2C.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth",
+        "grace-cpu",
+        "kv-cache"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "general-matrix-matrix-multiplication",
+      "term": "General matrix-matrix multiplication (GEMM)",
+      "phase": "inference",
+      "definition": "An algorithm in BLAS and the key operation for inference.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "generative-ai",
+      "term": "Generative AI",
+      "phase": "inference",
+      "definition": "A class of models that, in contrast to predictive ML models, create new content across modalities (text, images, audio, video, code) by learning the underlying patterns of training data.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "generative-pretrained-transformer",
+      "term": "Generative Pretrained Transformer (GPT)",
+      "phase": "inference",
+      "definition": "A family of large language models for text generation created by OpenAI.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "gh200",
+      "term": "GH200",
+      "phase": "inference",
+      "definition": "An NVIDIA superchip that pairs a Grace CPU with an H200 GPU via high-bandwidth NVLink chip-to-chip connection. Useful for KV cache offloading, LoRA swapping.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth",
+        "grace-cpu",
+        "kv-cache"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "goodhart-s-law",
+      "term": "Goodhart's Law",
+      "phase": "inference",
+      "definition": "\"When a measure becomes a target, it ceases to be a good measure.\"",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "governance-layer",
+      "term": "Governance layer",
+      "phase": "agents",
+      "definition": "The set of controls — sandboxing, blast-radius limits, observability, audit logs, human-in-the-loop gates — that bound what an agent can do and produce evidence of what it did.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [
+        "sandboxing"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "gpu-node",
+      "term": "GPU node",
+      "phase": "inference",
+      "definition": "A standard chassis of 8 interconnected GPUs with NVLink and NVSwitch.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "grace-cpu",
+      "term": "Grace CPU",
+      "phase": "inference",
+      "definition": "ARM-based NVIDIA CPU with high-bandwidth chip-to-chip interconnects between the CPU and GPU. Used alongside Hopper and Blackwell GPUs.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "graphics-processing-unit",
+      "term": "Graphics Processing Unit (GPU)",
+      "phase": "inference",
+      "definition": "A highly parallel processor originally designed for graphics rendering and now widely used for training and inference of generative AI models.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "generative-ai"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "grpc",
+      "term": "gRPC",
+      "phase": "inference",
+      "definition": "Structured, schema-first bidirectional streaming protocol.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "guardrails",
+      "term": "Guardrails",
+      "phase": "prompting",
+      "definition": "Pre- or post-processing checks that validate model input (against allowlists) or output (against safety classifiers, regex denylists, schema validators).",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "hallucination",
+      "term": "Hallucination",
+      "phase": "prompting",
+      "definition": "Model output that is factually wrong, fabricated, or unsupported by source material, presented as if it were correct.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "hallucination"
+    },
+    {
+      "slug": "handoff-format",
+      "term": "Handoff format",
+      "phase": "prompting",
+      "definition": "The structured data format (typically JSON) that one prompt in a chain emits and that the next prompt in the chain consumes.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "handoff-format"
+    },
+    {
+      "slug": "head",
+      "term": "Head (attention)",
+      "phase": "inference",
+      "definition": "One independent attention computation within a layer.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "high-bandwidth-memory",
+      "term": "High-Bandwidth Memory (HBM)",
+      "phase": "inference",
+      "definition": "The memory used for VRAM on datacenter GPUs. Recent generations include HBM3, HBM3e, and HBM4.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "hopper",
+      "term": "Hopper (architecture)",
+      "phase": "inference",
+      "definition": "NVIDIA's 2022 GPU generation featuring FP8 support and async programming features.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "hyperscaler",
+      "term": "Hyperscaler",
+      "phase": "inference",
+      "definition": "Generalized cloud service providers like AWS and GCP.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "image-generation-pipeline",
+      "term": "Image generation pipeline",
+      "phase": "inference",
+      "definition": "Foundation models for image generation are pipelines of multiple models: a text encoder, an iterative denoiser, and a VAE.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "in-flight-batching",
+      "term": "In-flight batching",
+      "phase": "inference",
+      "definition": "See continuous batching. Token-level interleaving for high utilization with stable latency.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "continuous-batching"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "indirect-prompt-injection",
+      "term": "Indirect prompt injection",
+      "phase": "agents",
+      "definition": "Prompt injection where the attacker controls *data* the agent retrieves (web page, document, email) rather than the prompt the user types.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [
+        "prompt-injection"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "inference",
+      "term": "Inference",
+      "phase": "inference",
+      "definition": "Serving AI models in production.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "inference-engine",
+      "term": "Inference engine",
+      "phase": "inference",
+      "definition": "A high-performance runtime (vLLM, SGLang, TensorRT-LLM) with support for optimization techniques like batching, caching, quantization, and speculation.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "tensorrt-llm"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "inference-engineering",
+      "term": "Inference Engineering",
+      "phase": "inference",
+      "definition": "Course Glossary",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "infiniband",
+      "term": "InfiniBand",
+      "phase": "inference",
+      "definition": "Inter-node interconnect for scaling inference and training across multiple nodes. Bandwidth is higher than alternatives like Ethernet but substantially lower than NVLink.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "input-sequence",
+      "term": "Input sequence",
+      "phase": "inference",
+      "definition": "The tokens provided to a model as part of a request, processed during the prefill phase of inference.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "input-sequence-length",
+      "term": "Input Sequence Length (ISL)",
+      "phase": "inference",
+      "definition": "The number of tokens in the input sequence for a given request.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "input-sequence"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "instance",
+      "term": "Instance (cloud)",
+      "phase": "inference",
+      "definition": "The provisioned virtual machine that includes GPU(s), CPU and RAM resources, storage, networking, and interconnect.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "instruction-following",
+      "term": "Instruction following",
+      "phase": "prompting",
+      "definition": "The quality of a model in obeying explicit prompt instructions (vs. defaulting to its prior).",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "integer-data-formats",
+      "term": "Integer data formats",
+      "phase": "inference",
+      "definition": "Number formats like INT8 and INT4 with limited dynamic range.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "dynamic-range"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "intelligence-layer",
+      "term": "Intelligence layer",
+      "phase": "agents",
+      "definition": "The foundational model (and its reasoning capabilities) at the core of the agent — the component that does the *Plan* step.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "inter-token-latency",
+      "term": "Inter-token latency (ITL)",
+      "phase": "inference",
+      "definition": "Time between generated tokens during decode. Converts to perceived TPS (e.g., 2 ms ITL equates to 500 TPS).",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "perceived-tps"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "iterative-denoising",
+      "term": "Iterative denoising (diffusion)",
+      "phase": "inference",
+      "definition": "Start from noise and progressively refine into an image or video in latent space.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "latent-space"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "jitter",
+      "term": "Jitter (benchmark)",
+      "phase": "inference",
+      "definition": "Adding randomness to arrival times and sequence shapes to more closely mirror real traffic than uniform or bursty synthetic loads.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "json-mode",
+      "term": "JSON mode",
+      "phase": "prompting",
+      "definition": "A model-provider feature that constrains the model's output to syntactically valid JSON.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "kernel-fusion",
+      "term": "Kernel fusion",
+      "phase": "inference",
+      "definition": "Taking two or more kernels and re-implementing them into a single kernel that handles both operations, avoiding unnecessary round-trips through memory.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "kv-cache",
+      "term": "KV cache",
+      "phase": "inference",
+      "definition": "Stored K/V tensors for each token to avoid recomputing attention, turning the attention equation from a quadratic-time to a linear-time operation.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "kv-cache"
+    },
+    {
+      "slug": "l0-l1-l2-caches",
+      "term": "L0/L1/L2 caches (GPU)",
+      "phase": "inference",
+      "definition": "On-chip cache memory hierarchy for instructions, shared memory, and global cache.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "langgraph",
+      "term": "LangGraph",
+      "phase": "agents",
+      "definition": "A graph-based orchestration framework for multi-step / multi-agent workflows, built on top of LangChain.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "large-language-model",
+      "term": "Large Language Model (LLM)",
+      "phase": "inference",
+      "definition": "A type of generative AI model that takes a text prompt and returns a new sequence of text. Famous LLM families include GPT, Claude, Llama, and DeepSeek.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "generative-ai"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "latency",
+      "term": "Latency",
+      "phase": "prompting",
+      "definition": "Time from sending the prompt to receiving the (full or first-token) response.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "latency-percentiles",
+      "term": "Latency percentiles",
+      "phase": "inference",
+      "definition": "Measuring latency on a percentile basis (P50/P90/P95/P99) for awareness of both the average and the worst-case user experience.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "latent-consistency",
+      "term": "Latent consistency",
+      "phase": "inference",
+      "definition": "A few-step strategy that predicts target latents directly, possibly repeated for refinement. Very fast; lower fidelity than full diffusion.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "latent-space",
+      "term": "Latent space (images/videos)",
+      "phase": "inference",
+      "definition": "Lower-dimensional representation where denoising occurs (e.g., 128x128).",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "llm-as-judge",
+      "term": "LLM-as-judge",
+      "phase": "prompting",
+      "definition": "A pattern where one LLM grades another LLM's output, used as the \"pass criterion\" in an eval suite.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "llm-as-judge"
+    },
+    {
+      "slug": "load-testing",
+      "term": "Load testing",
+      "phase": "inference",
+      "definition": "Sending sustained high traffic to probe throughput limits, queue behavior, and autoscaling.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "autoscaling",
+        "throughput"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "local-edge-inference",
+      "term": "Local (edge) inference",
+      "phase": "inference",
+      "definition": "Running inference on end-user devices like phones and computers.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "logit-biasing",
+      "term": "Logit biasing",
+      "phase": "inference",
+      "definition": "Nudging or constraining token probabilities to steer structured outputs (e.g., JSON/tool calls). Applied post-logits before sampling.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "logits",
+      "term": "Logits",
+      "phase": "inference",
+      "definition": "A vector of non-normalized probabilities, one per token in the model's vocabulary, generated in each forward pass during decode.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "vocabulary"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "long-horizon-drift",
+      "term": "Long-horizon drift",
+      "phase": "agents",
+      "definition": "The compounding-error problem in multi-step agent plans: even if each step succeeds with high probability, the joint success probability of a long chain collapses fast.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "lookahead-decoding",
+      "term": "Lookahead decoding",
+      "phase": "inference",
+      "definition": "Constructs n-grams during inference to enable draft token prediction without a separate model.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "lora",
+      "term": "LoRA",
+      "phase": "inference",
+      "definition": "Low-rank adaptation, a lightweight fine-tuning method that produces small changes to models. Inference services often need to swap between thousands of LoRAs for a single foundation model.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "fine-tuning",
+        "foundation-model"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "machine-learning",
+      "term": "Machine learning (ML)",
+      "phase": "inference",
+      "definition": "Predictive modeling for tasks like classification and trend forecasting, as opposed to generative AI which creates novel outputs.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "generative-ai"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "manifest",
+      "term": "Manifest (MCP manifest)",
+      "phase": "capsule",
+      "definition": "A JSON document describing the tools an MCP server exposes — names, descriptions, parameter schemas, return types.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "matmul",
+      "term": "Matmul",
+      "phase": "inference",
+      "definition": "Matrix multiplication.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "matryoshka-representations",
+      "term": "Matryoshka representations (embeddings)",
+      "phase": "inference",
+      "definition": "Nested vector schemes allowing variable dimensionality where the early part of the vector encodes more semantic meaning. Allows tradeoffs between vector size and embedding quality.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "mcp",
+      "term": "MCP (Model Context Protocol)",
+      "phase": "prompting",
+      "definition": "Anthropic-originated open protocol for exposing tools, data sources, and prompts to LLM clients via a structured manifest and JSON-RPC endpoints.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "mcp"
+    },
+    {
+      "slug": "medusa",
+      "term": "Medusa (speculation)",
+      "phase": "inference",
+      "definition": "Adds extra decoder heads via fine-tuning to generate multiple draft tokens per pass.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "fine-tuning"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "microscaling-formats",
+      "term": "Microscaling formats",
+      "phase": "inference",
+      "definition": "Floating-point data formats like MXFP8, MXFP4, and NVFP4 that use blockwise quantization with small-block scale factors (e.g., every 32 elements) to improve accuracy.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "floating-point-data-formats"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "mixture-of-experts",
+      "term": "Mixture of Experts (MoE)",
+      "phase": "inference",
+      "definition": "A model architecture where linear layers of weights are separated into sparse experts. A router activates a subset of experts for each forward pass.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "model-parallelism",
+      "term": "Model parallelism",
+      "phase": "inference",
+      "definition": "Splitting work across GPUs via Tensor, Expert, or Pipeline Parallelism. Parallelism strategy depends on model size, topology, and latency versus throughput goals.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "pipeline-parallelism",
+        "throughput"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "multi-agent-system",
+      "term": "Multi-agent system",
+      "phase": "agents",
+      "definition": "A system of two or more agents that coordinate to accomplish a task, typically via routing (one agent dispatches to specialists) or workflow (a fixed sequence of agents).",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "multi-cloud-capacity-management",
+      "term": "Multi-cloud capacity management",
+      "phase": "inference",
+      "definition": "A global scheduler placing workloads across providers and regions.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "multi-instance-gpu",
+      "term": "Multi-Instance GPU (MIG)",
+      "phase": "inference",
+      "definition": "A capability in larger Ampere, Hopper, Blackwell, and Rubin GPUs where the GPU can be carved into up to eight slices of memory and seven slices of compute.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "multi-node-inference",
+      "term": "Multi-node inference",
+      "phase": "inference",
+      "definition": "Scaling across two or more nodes using InfiniBand when one node of eight GPUs doesn't have enough VRAM for weights, activations, and KV cache. Requires appropriate parallelism strategies (PP or EP).",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "infiniband",
+        "kv-cache"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "n-gram-speculation",
+      "term": "N-gram speculation",
+      "phase": "inference",
+      "definition": "Uses observed n-grams from prefill to propose long draft sequences during decode. Extremely effective for code completion.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "negative-case",
+      "term": "Negative case",
+      "phase": "prompting",
+      "definition": "An eval case where the *correct* output is a refusal, an abstention, or a \"not applicable\" — used to test that the prompt doesn't over-comply.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [
+        "abstention"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "neocloud",
+      "term": "Neocloud",
+      "phase": "inference",
+      "definition": "Specialized cloud service providers focused on GPUs like CoreWeave and Nebius.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "neural-audio-codec",
+      "term": "Neural audio codec",
+      "phase": "inference",
+      "definition": "A learned encoder that compresses audio into tokens and a paired decoder that turns tokens back into audio.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "nim",
+      "term": "NIM",
+      "phase": "inference",
+      "definition": "A pre-packaged, containerized microservice for a specific model created by NVIDIA.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "node",
+      "term": "Node",
+      "phase": "inference",
+      "definition": "The physical 8-GPU base unit with NVLink/NVSwitch. Multi-node adds InfiniBand between nodes.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "infiniband"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "nvfp4",
+      "term": "NVFP4",
+      "phase": "inference",
+      "definition": "NVIDIA's 4-bit floating-point microscaling number format with dual scale factors and blockwise quantization with a block size of 16.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "nvidia-dynamo",
+      "term": "NVIDIA Dynamo",
+      "phase": "inference",
+      "definition": "An open-source distributed serving platform for KV reuse, disaggregation, and multi-GPU/multi-node orchestration.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "disaggregation"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "nvl72",
+      "term": "NVL72",
+      "phase": "inference",
+      "definition": "A rack-scale Blackwell system interconnecting 72 GPUs and 36 CPUs. Purpose-built for serving very large models with extreme throughput.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "throughput"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "nvlink",
+      "term": "NVLink",
+      "phase": "inference",
+      "definition": "A one-to-one communication layer between GPUs, up to 1,800 GB/s on Blackwell and 900 GB/s on Hopper.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "nvswitch",
+      "term": "NVSwitch",
+      "phase": "inference",
+      "definition": "An all-to-all communication layer on top of NVLink for coordination among all GPUs in a node.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "observability",
+      "term": "Observability (agent traces)",
+      "phase": "agents",
+      "definition": "Structured logs of every loop iteration — prompts, model responses, tool calls, tool outputs, errors — captured for debugging, audit, and post-mortem.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "offline-inference",
+      "term": "Offline inference",
+      "phase": "inference",
+      "definition": "Asynchronous batch processing of large jobs, optimized for throughput and cost over per-request latency.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "throughput"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "omni-modal",
+      "term": "Omni-modal",
+      "phase": "inference",
+      "definition": "Models that accept multiple modalities of inputs (text, images, video, audio) and produce multiple modalities of output.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "onedrive-mount",
+      "term": "OneDrive mount",
+      "phase": "capsule",
+      "definition": "Persistent, cross-machine file storage backed by the user's OneDrive, exposed as a local path on every Capsule machine.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "online-inference",
+      "term": "Online inference",
+      "phase": "inference",
+      "definition": "Real-time serving of requests, optimized for tight latency budgets.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "onnx",
+      "term": "ONNX",
+      "phase": "inference",
+      "definition": "An intermediate representation and runtime for models.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "open-model",
+      "term": "Open model",
+      "phase": "inference",
+      "definition": "A model whose weights are freely available, like Llama, DeepSeek, or Whisper.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "ops-byte-ratio",
+      "term": "Ops:byte ratio (GPU)",
+      "phase": "inference",
+      "definition": "Peak operations per byte of memory bandwidth for a GPU at a given precision. Compare with arithmetic intensity to diagnose bottlenecks.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "arithmetic-intensity",
+        "bandwidth"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "orchestration-layer",
+      "term": "Orchestration layer",
+      "phase": "agents",
+      "definition": "The control layer above individual agents that handles routing, workflow, retry, fallback, and human gates.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "out-of-memory-error",
+      "term": "Out-of-memory error (OOM)",
+      "phase": "inference",
+      "definition": "A common failure where the GPU runs out of VRAM to load weights or execute inference.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "output-sequence",
+      "term": "Output sequence",
+      "phase": "inference",
+      "definition": "The tokens generated by a model during the decode phase of inference.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "output-sequence-length",
+      "term": "Output Sequence Length (OSL)",
+      "phase": "inference",
+      "definition": "The number of tokens in the output sequence generated by a model for a given request.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "output-sequence"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "pagedattention",
+      "term": "PagedAttention",
+      "phase": "inference",
+      "definition": "An optimization for attention where KV blocks are stored in fixed-size pages to improve performance, especially with long context.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "pcie",
+      "term": "PCIe (GPU form factor)",
+      "phase": "inference",
+      "definition": "A form factor for datacenter GPUs that uses standard PCI express slots for connection. PCIe GPUs often have lower base specs and fewer interconnect options than SXM variants of the same GPU.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "perceived-tps",
+      "term": "Perceived TPS",
+      "phase": "inference",
+      "definition": "Tokens per second observed by a single user during streaming output. A latency metric — what people usually mean when they say TPS.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "tokens-per-second"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "persona",
+      "term": "Persona",
+      "phase": "prompting",
+      "definition": "A role or character the model is told to adopt for the conversation. Synonym: role.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "pipeline-parallelism",
+      "term": "Pipeline Parallelism (PP)",
+      "phase": "inference",
+      "definition": "Splits layers into stages across GPUs. Acceptable for multi-node with dense models; introduces bubbles in the pipeline where some GPUs are idle while waiting for other steps to finish.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "prefill",
+      "term": "Prefill",
+      "phase": "inference",
+      "definition": "The compute-bound phase of LLM inference where the input sequence is processed and the KV cache is built.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [
+        "compute-bound",
+        "input-sequence",
+        "kv-cache"
+      ],
+      "concept_link": "prefill"
+    },
+    {
+      "slug": "prefix-caching",
+      "term": "Prefix caching",
+      "phase": "inference",
+      "definition": "Reuses KV for shared prefixes across requests to skip prefill. Majorly improves TTFT for code completion, multi-turn chat, and agents.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "pretraining",
+      "term": "Pretraining",
+      "phase": "inference",
+      "definition": "Large-scale (usually self-supervised) training on broad corpora to create a base model.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "prompt",
+      "term": "Prompt",
+      "phase": "inference",
+      "definition": "The instruction to the model; for diffusion also includes a negative prompt and step/guidance parameters.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "prompt-injection",
+      "term": "Prompt injection",
+      "phase": "prompting",
+      "definition": "An attack where an adversary embeds instructions inside user-supplied data, hoping the model will follow them as if they were part of the system prompt.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md",
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [
+        "system-prompt"
+      ],
+      "concept_link": "prompt-injection"
+    },
+    {
+      "slug": "prompt-template",
+      "term": "Prompt template",
+      "phase": "prompting",
+      "definition": "A prompt with variable slots (e.g. `{{ user_question }}`, `{{ retrieved_docs }}`) that get filled in at request time.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "pytorch-compile",
+      "term": "PyTorch compile (torch.compile)",
+      "phase": "inference",
+      "definition": "Graph capture and kernel selection/fusion targeting a specific GPU. Cache compiled engines to cut cold-start times.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "pytorch-profiler",
+      "term": "PyTorch Profiler",
+      "phase": "inference",
+      "definition": "A developer tool measuring CPU and GPU time and memory per operation.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "quantization",
+      "term": "Quantization (post-training)",
+      "phase": "inference",
+      "definition": "Lowering precision of weights, activations, and potentially KV cache to reduce compute and memory bandwidth demands.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth",
+        "kv-cache"
+      ],
+      "concept_link": "quantization"
+    },
+    {
+      "slug": "quantization-aware-training",
+      "term": "Quantization-aware training (QAT)",
+      "phase": "inference",
+      "definition": "A training technique in which quantization scales are computed and weights are optimized jointly so that the final model is already calibrated for low-precision deployment.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "queue",
+      "term": "Queue (request)",
+      "phase": "inference",
+      "definition": "Holds excess traffic while autoscaling brings replicas online.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "autoscaling"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "rag",
+      "term": "RAG (Retrieval-Augmented Generation)",
+      "phase": "prompting",
+      "definition": "A pattern that retrieves relevant passages from a corpus and includes them in the prompt as context, so the model answers from those passages rather than from its parametric memory.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "rag"
+    },
+    {
+      "slug": "react",
+      "term": "ReAct",
+      "phase": "agents",
+      "definition": "A 2022 prompting/architecture pattern (Yao et al., arXiv:2210.03629) that interleaves *Reasoning* (CoT-style thoughts) with *Acting* (tool invocations) in a single trace.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "real-time-factor",
+      "term": "Real-time factor (RTF)",
+      "phase": "inference",
+      "definition": "A measurement of how quickly ASR models can transcribe audio. Transcribing an hour of audio in six seconds is an RTF of 600.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "reasoning-model",
+      "term": "Reasoning model",
+      "phase": "prompting",
+      "definition": "A model trained or fine-tuned to do extended chain-of-thought internally before producing its final answer. Examples: OpenAI o1/o3, Anthropic Claude Sonnet thinking, DeepSeek R1.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "retrieval-augmented-generation",
+      "term": "Retrieval-augmented generation (RAG)",
+      "phase": "inference",
+      "definition": "A common application pattern that fetches additional context for the LLM beyond the prompt.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "ring-attention",
+      "term": "Ring attention",
+      "phase": "inference",
+      "definition": "A Context Parallelism mechanism in which GPUs pass partial attention results in a ring. Reduces all-to-all pressure for very large contexts.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "context-parallelism"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "role",
+      "term": "Role",
+      "phase": "prompting",
+      "definition": "(1) In the API: the `role` field on a message — `\"system\" | \"user\" | \"assistant\" | \"tool\"`. (2) In prompting: synonym for persona — the character the model is told to adopt.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "roofline-model",
+      "term": "Roofline model",
+      "phase": "inference",
+      "definition": "Plots arithmetic intensity with bandwidth and compute ceilings, creating a visual guide on whether to optimize memory or compute.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "arithmetic-intensity",
+        "bandwidth"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "rotary-positional-embeddings",
+      "term": "Rotary positional embeddings (RoPE)",
+      "phase": "inference",
+      "definition": "A positional encoding scheme that encodes positions as learned rotations, improving long-context extrapolation at the cost of higher memory demands for attention during inference.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "routing",
+      "term": "Routing (inference)",
+      "phase": "inference",
+      "definition": "Placing requests on replicas based on load, KV cache, available LoRAs, and sequence shapes to improve speed and utilization.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [
+        "kv-cache"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "rubin",
+      "term": "Rubin (architecture)",
+      "phase": "inference",
+      "definition": "Next NVIDIA generation (2026) introducing HBM4 and CPX for compute-bound workloads.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "compute-bound"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "sampling",
+      "term": "Sampling (decode)",
+      "phase": "inference",
+      "definition": "The process of selecting an output token based on the generated logits. Common strategies include greedy (argmax), temperature, top-k, and top-p (nucleus) sampling.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "temperature"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "sandboxing",
+      "term": "Sandboxing",
+      "phase": "agents",
+      "definition": "Confining an agent's tool execution to an environment where the maximum possible harm is bounded — ephemeral containers, scoped credentials, read-only filesystems, network egress allow-lists.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "scale-factor",
+      "term": "Scale factor (quantization)",
+      "phase": "inference",
+      "definition": "Multipliers used to map low-precision values to their original number formats.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "scale-to-zero",
+      "term": "Scale to zero",
+      "phase": "inference",
+      "definition": "Turn off all replicas when idle; spin up on demand. Requires fast cold starts and robust queueing; best for predictable or dev workloads.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "schema-by-example",
+      "term": "Schema-by-example",
+      "phase": "prompting",
+      "definition": "A technique for forcing structured output by showing the model the exact shape (often with placeholder values) of the desired output.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [
+        "structured-output"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "scratchpad",
+      "term": "Scratchpad",
+      "phase": "prompting",
+      "definition": "An explicit space (often wrapped in `<scratchpad>...</scratchpad>` tags) where the model is instructed to do its reasoning before giving the final answer.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "scratchpad"
+    },
+    {
+      "slug": "sdxl",
+      "term": "SDXL",
+      "phase": "inference",
+      "definition": "An instructive, earlier diffusion image pipeline (base + refiner + CLIP). Modern systems retain the structure with larger, more capable components.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "self-consistency",
+      "term": "Self-consistency",
+      "phase": "prompting",
+      "definition": "A technique where you run the same CoT prompt N times at non-zero temperature, then take the majority vote of the *final answers* (not the reasoning chains).",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [
+        "temperature"
+      ],
+      "concept_link": "self-consistency"
+    },
+    {
+      "slug": "service-level-agreement",
+      "term": "Service Level Agreement (SLA)",
+      "phase": "inference",
+      "definition": "A contractual promise of latency, throughput, uptime, or other performance factor from a system.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "throughput"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "service-level-objective",
+      "term": "Service Level Objective (SLO)",
+      "phase": "inference",
+      "definition": "An internal target designed to meet or beat the SLA for a given system.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "session-limits",
+      "term": "Session limits",
+      "phase": "capsule",
+      "definition": "Per-user caps on the number of concurrent Capsule connections (term/code/cursor/claude), enforced server-side.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "sglang",
+      "term": "SGLang",
+      "phase": "inference",
+      "definition": "A fast inference engine with flexible frontend/backends and strong MoE support.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "inference-engine"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "shadow-traffic",
+      "term": "Shadow traffic",
+      "phase": "inference",
+      "definition": "Mirroring real production requests to a candidate deployment.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "sliding-window-context",
+      "term": "Sliding-window context",
+      "phase": "prompting",
+      "definition": "A pattern for multi-turn conversations where, when the cumulative context approaches the model's window limit, older turns are dropped or summarized.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "smolagents",
+      "term": "smolagents",
+      "phase": "agents",
+      "definition": "A minimal-API agent framework from HuggingFace; flat-loop ReAct with Python code as the tool-calling language.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "snac",
+      "term": "SNAC (audio decoder)",
+      "phase": "inference",
+      "definition": "A performant audio decoder path often paired with TTS token streams.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "softmax",
+      "term": "Softmax",
+      "phase": "inference",
+      "definition": "Converts scores to probabilities in attention and normalizes logits to a probability distribution in decoding.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "sparsity",
+      "term": "Sparsity (FLOPS)",
+      "phase": "inference",
+      "definition": "In tensors with 2:4 structured sparsity, where 50% of the values are 0, Tensor Cores can skip multiplication by 0. Most inference is dense, not sparse.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "special-function-unit",
+      "term": "Special Function Unit (SFU)",
+      "phase": "inference",
+      "definition": "A dedicated hardware unit that accelerates specific math operations like sine and cosine, keeping specialized operations off of CUDA Cores.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "specificity",
+      "term": "Specificity",
+      "phase": "prompting",
+      "definition": "The opposite of vagueness. A specific prompt narrows the model's output distribution by giving the model unambiguous information about audience, format, scope, and success criteria.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "specificity"
+    },
+    {
+      "slug": "speculative-decoding",
+      "term": "Speculative decoding",
+      "phase": "inference",
+      "definition": "A family of strategies for generating and validating draft tokens to generate multiple tokens per forward pass during decode.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "speculative-decoding"
+    },
+    {
+      "slug": "sshrtc",
+      "term": "SshRTC",
+      "phase": "capsule",
+      "definition": "Capsule's WebRTC-based SSH overlay; tunnels SSH inside a peer-to-peer WebRTC data channel.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "stop-sequences",
+      "term": "Stop sequences",
+      "phase": "prompting",
+      "definition": "Strings that, when emitted by the model, cause sampling to halt immediately. Configured per-request.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "streaming-multiprocessor",
+      "term": "Streaming Multiprocessor (SM)",
+      "phase": "inference",
+      "definition": "GPU compute unit containing cores and cache.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "structured-output",
+      "term": "Structured output",
+      "phase": "inference",
+      "definition": "LLM output that adheres to a specific schema. Created by constraining generation to a supplied schema via logit biasing rather than via prompting.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "logit-biasing"
+      ],
+      "concept_link": "structured-output"
+    },
+    {
+      "slug": "sxm",
+      "term": "SXM (GPU form factor)",
+      "phase": "inference",
+      "definition": "A socketed GPU module that supports higher-bandwidth connections and delivers more power than PCIe. The standard for inference.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "system-prompt",
+      "term": "System prompt",
+      "phase": "prompting",
+      "definition": "Instructions and context that apply to the whole conversation, sent with `role: \"system\"` in the messages array.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "system-prompt"
+    },
+    {
+      "slug": "temperature",
+      "term": "Temperature",
+      "phase": "inference",
+      "definition": "A sampling parameter controlling the randomness of the model's output. `0` is deterministic (always pick the most likely next token); higher values flatten the distribution and produce more varied outputs.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "temperature"
+    },
+    {
+      "slug": "tenant",
+      "term": "Tenant",
+      "phase": "capsule",
+      "definition": "The Azure B2C identity scope. In Capsule context: `prod` ↔ `mihirainfra.b2c`, `public` ↔ `oxcapsule.b2c`, etc.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [
+        "azure-b2c"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "tensor-parallelism",
+      "term": "Tensor Parallelism (TP)",
+      "phase": "inference",
+      "definition": "Splits tensor operations across GPUs within a node. Best per-user latency; requires frequent all-reduce synchronization.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "tensor-parallelism"
+    },
+    {
+      "slug": "tensorrt",
+      "term": "TensorRT",
+      "phase": "inference",
+      "definition": "NVIDIA's optimized runtime for high-performance inference with fused kernels, quantization, and other optimizations.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "tensorrt-llm",
+      "term": "TensorRT-LLM",
+      "phase": "inference",
+      "definition": "An inference engine built by NVIDIA that provides a Python API and both TensorRT-engine and PyTorch-backend execution paths with fused kernels, quantization, and speculative decoding.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "inference-engine",
+        "speculative-decoding"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "thread",
+      "term": "Thread",
+      "phase": "inference",
+      "definition": "The minimal execution unit on a GPU. Kernels launch many threads to achieve massive parallelism.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "throughput",
+      "term": "Throughput",
+      "phase": "inference",
+      "definition": "Total work per unit time (e.g., total tokens per second across the service).",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "tokens-per-second"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "time-to-first-byte",
+      "term": "Time to first byte (TTFB)",
+      "phase": "inference",
+      "definition": "Time until first byte of output is returned, a latency metric.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "time-to-first-token",
+      "term": "Time to first token (TTFT)",
+      "phase": "inference",
+      "definition": "Time until first token of output is returned, a latency metric.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "token",
+      "term": "Token",
+      "phase": "inference",
+      "definition": "The atomic unit of text processing in LLMs. A token is an integer that represents a string of characters. In English, approximately a 4:3 token:word ratio for most tokenizers.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md",
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "token"
+    },
+    {
+      "slug": "tokenizer",
+      "term": "Tokenizer",
+      "phase": "inference",
+      "definition": "Deterministically converts strings into sequences of tokens, and vice versa. Models have different tokenizers, and more efficient tokenizers improve end-to-end latency.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "tokens-per-second",
+      "term": "Tokens per second (TPS)",
+      "phase": "inference",
+      "definition": "A latency metric for the number of tokens streamed to the end user per second. See perceived TPS.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "perceived-tps"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "tool",
+      "term": "Tool",
+      "phase": "agents",
+      "definition": "A function exposed to the agent — with a name, description, typed parameters, and a return type — that the model can invoke during the *Act* step of the loop.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "tool-manifest",
+      "term": "Tool manifest (Capsule MCP)",
+      "phase": "capsule",
+      "definition": "The MCP-format JSON that `capsule mcp --output` emits, describing every Capsule CLI command as a callable tool.",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "tool-manifest"
+    },
+    {
+      "slug": "tool-use",
+      "term": "Tool use",
+      "phase": "prompting",
+      "definition": "A pattern where the model produces structured output describing a function call, your code executes the actual function, and the result is returned to the model as a new turn.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [
+        "structured-output"
+      ],
+      "concept_link": "tool-use"
+    },
+    {
+      "slug": "training",
+      "term": "Training",
+      "phase": "inference",
+      "definition": "The process of learning model weights from data using backpropagation and optimization. Compute-intensive, typically runs on large GPU clusters, and produces the weights used in inference.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "transformer",
+      "term": "Transformer",
+      "phase": "inference",
+      "definition": "The foundational architecture behind generative AI models.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "generative-ai"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "transformers",
+      "term": "Transformers (library)",
+      "phase": "inference",
+      "definition": "Reference implementations for LLMs and other transformer-based models.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "transformer"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "triton-inference-server",
+      "term": "Triton Inference Server",
+      "phase": "inference",
+      "definition": "A production serving framework by NVIDIA with support for multiple backends.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "turn",
+      "term": "Turn",
+      "phase": "prompting",
+      "definition": "A single entry in the `messages` array — one user turn, one assistant turn, etc.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [
+        "assistant-turn",
+        "user-turn"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "user-turn",
+      "term": "User turn",
+      "phase": "prompting",
+      "definition": "A message in the `messages` array with `role: \"user\"`, representing the actual question, data, or task for that step of the conversation.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "user-turn"
+    },
+    {
+      "slug": "vae",
+      "term": "VAE (variational autoencoder)",
+      "phase": "inference",
+      "definition": "Used in inference to decode from latent space to pixel space for image and video generation models (also used for encoding from pixel to latent space during training).",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "latent-space"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "vagueness-traps",
+      "term": "Vagueness traps",
+      "phase": "prompting",
+      "definition": "Three patterns that consistently produce unreliable prompts: undefined audience, undefined format, undefined success criteria.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "vagueness-traps"
+    },
+    {
+      "slug": "value-accrual",
+      "term": "Value accrual",
+      "phase": "agents",
+      "definition": "The strategic question of which layer of the agent stack (model / infra / app) captures the most economic value as the market matures.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": "value-accrual"
+    },
+    {
+      "slug": "vector-database",
+      "term": "Vector database",
+      "phase": "inference",
+      "definition": "A database for storing and querying the semantic vectors created by embedding models.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "vector-similarity",
+      "term": "Vector similarity",
+      "phase": "inference",
+      "definition": "A check between two vectors to see how close together they are based on an equation like cosine similarity. Vectors with high similarity encode similar semantic meaning.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "vera-cpu",
+      "term": "Vera CPU",
+      "phase": "inference",
+      "definition": "ARM-based NVIDIA CPU with high-bandwidth chip-to-chip interconnects between the CPU and GPU. Succeeds Grace alongside the Rubin GPU architecture.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "bandwidth"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "vision-language-model",
+      "term": "Vision-language model (VLM)",
+      "phase": "inference",
+      "definition": "Accepts images and video plus text prompts and outputs text.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "vllm",
+      "term": "vLLM",
+      "phase": "inference",
+      "definition": "A widely adopted inference engine with broad model and hardware support and strong defaults.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [
+        "inference-engine"
+      ],
+      "concept_link": null
+    },
+    {
+      "slug": "vocabulary",
+      "term": "Vocabulary",
+      "phase": "inference",
+      "definition": "The total set of tokens, usually more than 100,000, that an LLM uses to represent data.",
+      "sources": [
+        "Inference Engineering/Inference_Engineering_Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "webrtc",
+      "term": "WebRTC (in Capsule context)",
+      "phase": "capsule",
+      "definition": "The peer-to-peer media + data protocol used both for SshRTC (shell tunneling) and `capsule stream` (desktop streaming).",
+      "sources": [
+        "Capsule Power User/Capsule-Power-User-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "workflow",
+      "term": "Workflow (vs. agent loop)",
+      "phase": "agents",
+      "definition": "A *fixed, predefined* sequence of steps — sometimes with branches and loops, but the topology is authored, not discovered at runtime.",
+      "sources": [
+        "AI Agents/AI Agents - Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    },
+    {
+      "slug": "zero-shot",
+      "term": "Zero-shot",
+      "phase": "prompting",
+      "definition": "A prompt with no examples — just the instruction and the input.",
+      "sources": [
+        "Prompt Engineering/Prompt-Engineering-Glossary.md"
+      ],
+      "see_also": [],
+      "concept_link": null
+    }
+  ]
+}
