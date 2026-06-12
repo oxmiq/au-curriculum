@@ -1,7 +1,19 @@
 site_name: Oxmiq × AU Internship
-site_description: 10-week inference-engineering, agents & Capsule curriculum
+site_description: 10-week curriculum on inference engineering, prompt engineering, AI agents & the Capsule platform
+site_url: https://oxmiq.github.io/au-curriculum/
+repo_url: https://github.com/oxmiq/au-curriculum
+repo_name: oxmiq/au-curriculum
+
 docs_dir: docs
 use_directory_urls: true
+
+# Source-material citations point outside docs_dir into ../planning/source-material/.
+# Those links resolve correctly on GitHub but not on the rendered site, by design.
+# audit_lessons.py L007 verifies the targets exist on disk, so mkdocs' own check
+# is downgraded to info to keep strict builds green.
+validation:
+  links:
+    not_found: info
 
 theme:
   name: material
@@ -13,20 +25,117 @@ theme:
   features:
     - navigation.sections
     - navigation.top
+    - navigation.indexes
     - content.code.copy
 
 extra_css:
   - stylesheets/oxblood.css
 
+# Mermaid is loaded client-side. Material doesn't ship its native mermaid
+# integration unless the theme variant supports it; the small init script below
+# initialises any <pre class="mermaid"> blocks emitted by pymdownx.superfences.
+extra_javascript:
+  - assets/mermaid-init.js
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight
+
 nav:
   - Home: index.md
+  - Curriculum: curriculum.md
+  - Why this curriculum: rationale.md
+  - Roadmap: roadmap.md
+  - Interactive Concept Graph: kb/interactive-graph.html
+  - Glossary: kb/glossary.html
   - Curriculum Map: kb/graph.html
   - Dependency Graph: kb/edge-graph.html
+  - Concepts: kb/concepts.html
   - My Progress: kb/timeline.html
-  - Week 1 — Orientation:
+  - "Week 1 — Orientation & Foundations":
       - Overview: lessons/week-01/index.md
       - "Day 1 · Welcome & Context": lessons/week-01/module-1/index.md
+      - "Day 2 · Shell & Linux": lessons/week-01/module-2/index.md
+      - "Day 3 · Git Workflow": lessons/week-01/module-3/index.md
+      - "Day 4 · How Computers Run AI": lessons/week-01/module-4/index.md
+      - "Day 5 · Consolidation": lessons/week-01/module-5/index.md
+  - "Week 2 — The GPU & Memory":
+      - Overview: lessons/week-02/index.md
+      - "Day 6 · What Happens When You Send a Prompt": lessons/week-02/module-1/index.md
+      - "Day 7 · Meet the GPU": lessons/week-02/module-2/index.md
+      - "Day 8 · Memory Is the Bottleneck": lessons/week-02/module-3/index.md
+      - "Day 9 · Compute-Bound vs Memory-Bound": lessons/week-02/module-4/index.md
+      - "Day 10 · Consolidation": lessons/week-02/module-5/index.md
+  - "Week 3 — Attention & KV Cache":
+      - Overview: lessons/week-03/index.md
+      - "Day 11 · Prefill vs Decode": lessons/week-03/module-1/index.md
+      - "Day 12 · KV Cache": lessons/week-03/module-2/index.md
+      - "Day 13 · FlashAttention": lessons/week-03/module-3/index.md
+      - "Day 14 · Quantization": lessons/week-03/module-4/index.md
+      - "Day 15 · Consolidation": lessons/week-03/module-5/index.md
+  - "Week 4 — Scaling & Stacks":
+      - Overview: lessons/week-04/index.md
+      - "Day 16 · Multi-GPU Parallelism": lessons/week-04/module-1/index.md
+      - "Day 17 · Pipeline Parallelism + MoE": lessons/week-04/module-2/index.md
+      - "Day 18 · Speculative Decoding": lessons/week-04/module-3/index.md
+      - "Day 19 · vLLM Introduction": lessons/week-04/module-4/index.md
+      - "Day 20 · Consolidation": lessons/week-04/module-5/index.md
+  - "Week 5 — Metrics & Production":
+      - Overview: lessons/week-05/index.md
+      - "Day 21 · Latency vs Throughput": lessons/week-05/module-1/index.md
+      - "Day 22 · Production Deployment": lessons/week-05/module-2/index.md
+      - "Day 23 · LLM Evaluation": lessons/week-05/module-3/index.md
+      - "Day 24 · Inference Economics": lessons/week-05/module-4/index.md
+      - "Day 25 · Consolidation + Phase 1 Problem Set": lessons/week-05/module-5/index.md
+  - "Week 6 — Prompt Engineering + AI Agents":
+      - Overview: lessons/week-06/index.md
+      - "Day 26 · Prompt Engineering": lessons/week-06/module-1/index.md
+      - "Day 27 · Agent Fundamentals": lessons/week-06/module-2/index.md
+      - "Day 28 · Tools & Action Layer": lessons/week-06/module-3/index.md
+      - "Day 29 · Governance": lessons/week-06/module-4/index.md
+      - "Day 30 · Orchestration": lessons/week-06/module-5/index.md
+      - "Day 31 · Consolidation + Phase 2 Agent Design": lessons/week-06/module-6/index.md
+  - "Week 7 — Bridge: Theory Meets Tooling":
+      - Overview: lessons/week-07/index.md
+      - "Day 32 · Agent Case Studies": lessons/week-07/module-1/index.md
+      - "Day 33 · Capsule Foundations": lessons/week-07/module-2/index.md
+      - "Day 34 · Installation": lessons/week-07/module-3/index.md
+      - "Day 35 · Environments": lessons/week-07/module-4/index.md
+      - "Day 36 · Consolidation": lessons/week-07/module-5/index.md
+  - "Week 8 — Capsule: Connections & Operations":
+      - Overview: lessons/week-08/index.md
+      - "Day 37 · Connecting": lessons/week-08/module-1/index.md
+      - "Day 38 · Files & Storage": lessons/week-08/module-2/index.md
+      - "Day 39 · Streaming": lessons/week-08/module-3/index.md
+      - "Day 40 · Known Quirks": lessons/week-08/module-4/index.md
+      - "Day 41 · Consolidation": lessons/week-08/module-5/index.md
+  - "Week 9 — Capsule: Benchmarking & Eval":
+      - Overview: lessons/week-09/index.md
+      - "Day 42 · Benchmarking": lessons/week-09/module-1/index.md
+      - "Day 43 · Model Evaluation": lessons/week-09/module-2/index.md
+      - "Day 44 · Interactive Chat": lessons/week-09/module-3/index.md
+      - "Day 45 · Scheduling & MCP": lessons/week-09/module-4/index.md
+      - "Day 46 · Consolidation": lessons/week-09/module-5/index.md
+  - "Week 10 — Capstone Project":
+      - Overview: lessons/week-10/index.md
+      - "Day 47 · Kickoff & Planning": lessons/week-10/module-1/index.md
+      - "Day 48 · Execute": lessons/week-10/module-2/index.md
+      - "Day 49 · Analyze & Recommend": lessons/week-10/module-3/index.md
+      - "Day 50 · Present": lessons/week-10/module-4/index.md
+      - "Day 51 · Close": lessons/week-10/module-5/index.md
 
-# linked from lesson pages, intentionally not a sidebar entry
+# Linked from lesson pages, intentionally not a sidebar entry.
 not_in_nav: |
   /lessons/**/assignment.md
+  /lessons/**/knowledge-check.html
+  /lessons/**/supplementary-*.md

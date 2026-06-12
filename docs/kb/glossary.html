@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossary — Oxmiq × AU Internship</title>
+<!--
+  Glossary as a real (page-based) flipbook.
+
+  Model:
+    * The book is a sequence of PAGES grouped into SPREADS (left+right).
+    * The first PAGE of every letter is a drop-cap+fact page, and it is
+      always placed on the LEFT of a fresh spread. The letter's first
+      chunk of term cards is the facing RIGHT page. Subsequent chunks
+      flow naturally onto the following LEFT/RIGHT pages until the
+      letter exhausts; any leftover odd page becomes a blank end-of-
+      section page so the next letter still starts on a LEFT.
+    * The book is "closed" at the front cover (only the cover is
+       visible; no facing blank page) and at the back cover (only the
+       back is visible). Opening/closing the book asymmetrically slides
+       the visible single page back to centre.
+    * A-Z tabs are real thumb-index tabs attached to the right edge of
+       the book itself (telephone-directory style), not floating on the
+       window.
+-->
+<style>
+  :root {
+    --bg: #05070d;
+    --book-bg: #f5efe1;
+    --book-bg-2: #ece4d0;
+    --book-edge: #c9bd9b;
+    --book-edge-dark: #a89876;
+    --book-ink: #2a2419;
+    --book-ink-soft: #6b6453;
+    --book-line: #d8cdb0;
+
+    --cover-bg: #3a2a18;
+    --cover-bg-2: #1a0f06;
+    --cover-gold: #d4a04a;
+    --cover-cream: #f1e3c4;
+
+    --tab-bg: #d6c89e;
+    --tab-bg-2: #b9a979;
+    --tab-bg-active: #b8651e;
+    --tab-ink: #4a4030;
+    --tab-ink-active: #fff5e0;
+    --tab-disabled-ink: #8a8270;
+
+    --accent: #b8651e;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --serif: "Iowan Old Style", "Apple Garamond", Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+
+    --p-foundations: #5a6577;
+    --p-inference:   #0e7c8a;
+    --p-prompting:   #6a4ec9;
+    --p-agents:      #b8761e;
+    --p-capsule:     #2a8b6a;
+    --p-capstone:    #c43e54;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: var(--sans);
+    color: #e7e9ee;
+    background:
+      radial-gradient(ellipse 1400px 900px at 50% 40%, rgba(46,232,255,.08), transparent 70%),
+      radial-gradient(ellipse 900px 700px at 16% 88%, rgba(184,159,253,.06), transparent 75%),
+      radial-gradient(ellipse 900px 700px at 86% 10%, rgba(255,126,147,.05), transparent 75%),
+      radial-gradient(ellipse at 50% 50%, #0a0d18 0%, #04050b 85%),
+      var(--bg);
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  #cosmos {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><g fill='white'><circle cx='42' cy='118' r='.6' opacity='.55'/><circle cx='117' cy='53' r='.5' opacity='.4'/><circle cx='208' cy='281' r='.7' opacity='.6'/><circle cx='271' cy='99' r='.5' opacity='.45'/><circle cx='345' cy='402' r='.7' opacity='.5'/><circle cx='402' cy='177' r='.5' opacity='.35'/><circle cx='488' cy='322' r='.6' opacity='.55'/><circle cx='559' cy='75' r='.6' opacity='.45'/><circle cx='633' cy='246' r='.5' opacity='.4'/><circle cx='712' cy='510' r='.7' opacity='.55'/><circle cx='775' cy='124' r='.5' opacity='.4'/><circle cx='60' cy='362' r='.5' opacity='.35'/><circle cx='160' cy='495' r='.6' opacity='.55'/><circle cx='254' cy='540' r='.5' opacity='.4'/><circle cx='322' cy='198' r='.4' opacity='.3'/><circle cx='418' cy='28' r='.6' opacity='.5'/><circle cx='502' cy='455' r='.5' opacity='.4'/><circle cx='584' cy='386' r='.7' opacity='.6'/><circle cx='651' cy='149' r='.4' opacity='.3'/><circle cx='698' cy='350' r='.5' opacity='.45'/></g></svg>"),
+      radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%);
+    background-repeat: repeat, no-repeat;
+    background-size: 800px 600px, cover;
+    opacity: .75;
+  }
+
+  header {
+    position: relative; z-index: 5;
+    padding: 16px 28px 0;
+    text-align: center;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px; text-transform: uppercase; letter-spacing: .14em;
+    color: #5a6275; margin-bottom: 4px;
+  }
+  h1.page-title {
+    font-family: var(--serif); font-weight: 600; font-size: 22px;
+    margin: 0 0 4px; color: #e7e9ee;
+  }
+  .sub { color: #8b91a0; font-size: 13px; margin: 0; }
+
+  .search-wrap {
+    position: relative; z-index: 5;
+    margin: 12px auto 0;
+    width: 320px;
+    display: flex;
+  }
+  .search-input {
+    flex: 1;
+    background: rgba(20,23,29,.85);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 6px;
+    color: #e7e9ee;
+    padding: 8px 12px;
+    font: 13px var(--sans);
+    outline: none;
+  }
+  .search-input:focus { border-color: var(--accent); }
+
+  /* ============================================================
+     STAGE + BOOK
+     ============================================================ */
+  .stage {
+    position: relative; z-index: 4;
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    perspective: 2600px;
+    perspective-origin: 50% 30%;
+    height: calc(100vh - 220px);
+    min-height: 600px;
+  }
+
+  .book {
+    position: relative;
+    width: 960px;
+    height: 620px;
+    transform-style: preserve-3d;
+    transform: rotateX(2deg);
+    box-shadow:
+      0 30px 60px -20px rgba(0,0,0,.75),
+      0 12px 40px rgba(0,0,0,.5);
+    border-radius: 4px;
+    transition: transform 0.45s cubic-bezier(.4,.05,.3,1);
+  }
+  /* When closed at the FRONT cover, the visible single page (the cover,
+     occupying the right half) is slid left so it sits at screen-centre.
+     The clip-path trims the .book's drop-shadow + any rendering to ONLY
+     the visible right half (with generous bleed top/right/bottom so the
+     shadow still falls under the cover). Without this, the .book box-shadow
+     leaks under the hidden left page and reads as a translucent ghost. */
+  .book.closed-cover {
+    transform: translateX(-25%) rotateX(2deg);
+    clip-path: inset(-150px -150px -150px calc(50% + 1px));
+  }
+  /* When closed at the BACK cover, the visible single page (the back,
+     occupying the left half) is slid right so it sits at screen-centre. */
+  .book.closed-back  {
+    transform: translateX(25%) rotateX(2deg);
+    clip-path: inset(-150px calc(50% + 1px) -150px -150px);
+  }
+
+  .page {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    background:
+      linear-gradient(180deg, var(--book-bg) 0%, var(--book-bg-2) 100%);
+    color: var(--book-ink);
+    overflow: hidden;
+    backface-visibility: hidden;
+  }
+  .page.left {
+    left: 0;
+    border-right: 1px solid rgba(0,0,0,.12);
+    box-shadow: inset -10px 0 28px -12px rgba(0,0,0,.22);
+    border-radius: 4px 0 0 4px;
+  }
+  .page.right {
+    right: 0;
+    border-left: 1px solid rgba(0,0,0,.12);
+    box-shadow: inset 10px 0 28px -12px rgba(0,0,0,.22);
+    border-radius: 0 4px 4px 0;
+  }
+  /* Page-stack edge texture along the fore-edge of each side. */
+  .page.left::before,
+  .page.right::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; width: 6px;
+    background: repeating-linear-gradient(180deg, var(--book-edge) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+  }
+  .page.left::before { left: 0; }
+  .page.right::after { right: 0; }
+
+  /* CLOSED-COVER: the LEFT half is the book closed (back of cover board),
+     hidden entirely so the right page reads as a stand-alone closed book. */
+  .book.closed-cover .page.left { visibility: hidden; }
+  /* CLOSED-BACK: same idea, mirrored. */
+  .book.closed-back .page.right { visibility: hidden; }
+
+  /* Click affordances. */
+  .page.flippable { cursor: pointer; }
+
+  /* ============================================================
+     PAGE INNER WRAPPERS
+       .drop-cap-page  — left page of a letter's first spread
+       .term-page      — any page filled with term cards
+       .blank-page     — end-of-section padding page
+       .cover-page     — front cover artwork
+       .back-page      — back cover artwork
+       .search-list-page — left page in search-results mode (links)
+     ============================================================ */
+  .drop-cap-page, .term-page, .blank-page, .search-list-page {
+    height: 100%;
+    padding: 36px 44px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* drop-cap + fact */
+  .drop-cap-page .drop {
+    font-family: var(--serif);
+    font-size: 220px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--accent);
+    margin: -10px 0 -6px -4px;
+    text-shadow: 2px 2px 0 rgba(184,101,30,.15);
+  }
+  .drop-cap-page .count {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--book-ink-soft);
+    margin-bottom: 16px;
+  }
+  .drop-cap-page .divider {
+    height: 1px; background: var(--book-line);
+    margin: 0 0 18px;
+  }
+  .drop-cap-page .fact {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--book-ink);
+    font-style: italic;
+    margin: 0 0 12px;
+    position: relative;
+    padding-left: 18px;
+  }
+  .drop-cap-page .fact::before {
+    content: '\201C';
+    font-family: var(--serif);
+    font-size: 44px;
+    color: var(--accent);
+    position: absolute;
+    left: -4px; top: -10px;
+    font-style: normal;
+  }
+  .drop-cap-page .fact-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .drop-cap-page .foot {
+    margin-top: auto;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--book-ink-soft);
+    text-align: center;
+  }
+
+  /* term cards page */
+  .term-page .head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin: 0 0 14px;
+    border-bottom: 1px solid var(--book-line);
+    padding-bottom: 8px;
+  }
+  .term-page .head h2 {
+    font-family: var(--serif);
+    font-size: 22px; margin: 0;
+    color: var(--book-ink);
+  }
+  .term-page .head .pageno {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--book-ink-soft);
+    letter-spacing: .15em;
+    text-transform: uppercase;
+  }
+  .term-page .foot {
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--book-line);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--book-ink-soft);
+    text-align: center;
+  }
+  .term {
+    border-left: 3px solid var(--phase-color, #999);
+    padding: 5px 12px 6px 14px;
+    margin: 0 0 7px;
+    background: rgba(0,0,0,.025);
+  }
+  .term h3 {
+    font-family: var(--serif);
+    font-size: 14.5px;
+    line-height: 1.2;
+    margin: 0 0 2px;
+    color: var(--book-ink);
+  }
+  .term .ptag {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--phase-color, #999);
+  }
+  .term .def {
+    font-family: var(--serif);
+    font-size: 12.5px;
+    line-height: 1.35;
+    color: var(--book-ink);
+    margin: 3px 0 0;
+  }
+  .term .meta {
+    margin-top: 4px;
+    font-family: var(--sans);
+    font-size: 10px;
+    color: var(--book-ink-soft);
+    line-height: 1.35;
+  }
+  .term .meta a {
+    color: var(--book-ink);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+    margin-right: 8px;
+  }
+
+  .term[data-phase="foundations"] { --phase-color: var(--p-foundations); }
+  .term[data-phase="inference"]   { --phase-color: var(--p-inference); }
+  .term[data-phase="prompting"]   { --phase-color: var(--p-prompting); }
+  .term[data-phase="agents"]      { --phase-color: var(--p-agents); }
+  .term[data-phase="capsule"]     { --phase-color: var(--p-capsule); }
+  .term[data-phase="capstone"]    { --phase-color: var(--p-capstone); }
+
+  /* blank end-of-section page */
+  .blank-page {
+    align-items: center;
+    justify-content: center;
+  }
+  .blank-page .ornament {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--book-ink-soft);
+    opacity: .55;
+    letter-spacing: .5em;
+    padding-left: .5em;
+  }
+  .blank-page .ornament-sub {
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--book-ink-soft);
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    opacity: .55;
+  }
+
+  /* search-list-page (left page in search mode) */
+  .search-list-page .head {
+    border-bottom: 1px solid var(--book-line);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+  .search-list-page .head .label {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--book-ink-soft);
+    margin-bottom: 4px;
+  }
+  .search-list-page .head .q {
+    font-family: var(--serif);
+    font-size: 24px;
+    color: var(--book-ink);
+    margin: 0;
+  }
+  .search-list-page .head .count {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--book-ink-soft);
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .search-list-page ol {
+    list-style: none;
+    margin: 0; padding: 0;
+    overflow: hidden;
+  }
+  .search-list-page li {
+    border-bottom: 1px dotted var(--book-line);
+    padding: 4px 0;
+  }
+  .search-list-page a.hit {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--book-ink);
+    font-family: var(--serif);
+    font-size: 13px;
+    line-height: 1.25;
+    padding: 2px 4px;
+    border-radius: 2px;
+  }
+  .search-list-page a.hit:hover { background: rgba(184,101,30,.12); color: var(--accent); }
+  .search-list-page a.hit .num {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--book-ink-soft);
+    letter-spacing: .12em;
+    min-width: 18px;
+    text-align: right;
+  }
+  .search-list-page a.hit .phase {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--phase-color, var(--book-ink-soft));
+    margin-left: auto;
+  }
+  .search-list-page a.hit[data-phase="foundations"] { --phase-color: var(--p-foundations); }
+  .search-list-page a.hit[data-phase="inference"]   { --phase-color: var(--p-inference); }
+  .search-list-page a.hit[data-phase="prompting"]   { --phase-color: var(--p-prompting); }
+  .search-list-page a.hit[data-phase="agents"]      { --phase-color: var(--p-agents); }
+  .search-list-page a.hit[data-phase="capsule"]     { --phase-color: var(--p-capsule); }
+  .search-list-page a.hit[data-phase="capstone"]    { --phase-color: var(--p-capstone); }
+  .search-list-page .foot {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--book-line);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--book-ink-soft);
+    text-align: center;
+  }
+
+  /* ============================================================
+     COVERS
+     ============================================================ */
+  .cover-page, .back-page {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(135deg, var(--cover-bg) 0%, var(--cover-bg-2) 100%);
+    color: var(--cover-cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 50px;
+    position: relative;
+  }
+  .cover-page { border-left: 2px solid var(--cover-gold); }
+  .back-page  { border-right: 2px solid var(--cover-gold); }
+  .cover-page::before, .back-page::before {
+    content: '';
+    position: absolute;
+    inset: 22px;
+    border: 1px solid var(--cover-gold);
+    pointer-events: none;
+  }
+  .cover-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--cover-gold);
+    margin-bottom: 18px;
+  }
+  .cover-title {
+    font-family: var(--serif);
+    font-size: 56px;
+    line-height: 1.05;
+    font-weight: 600;
+    color: var(--cover-cream);
+    margin: 0 0 14px;
+    letter-spacing: -.01em;
+  }
+  .cover-sub {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--cover-gold);
+    margin: 0 0 32px;
+    max-width: 360px;
+  }
+  .cover-stats {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--cover-cream);
+    opacity: .65;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    line-height: 1.7;
+  }
+  .cover-cta {
+    margin-top: 36px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--cover-gold);
+    border: 1px solid var(--cover-gold);
+    padding: 10px 22px;
+    border-radius: 999px;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: .55; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.04); }
+  }
+
+  /* ============================================================
+     FLIPPER (the actual page turn)
+     ============================================================ */
+  .flipper {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform-style: preserve-3d;
+    transition: transform 0.85s cubic-bezier(.5,.05,.55,.95);
+    z-index: 20;
+    pointer-events: none;
+  }
+  .flipper.fwd { right: 0; transform-origin: left center; }
+  .flipper.fwd.go { transform: rotateY(-180deg); }
+  .flipper.bwd { left: 0; transform-origin: right center; }
+  .flipper.bwd.go { transform: rotateY(180deg); }
+
+  .flip-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    background: linear-gradient(180deg, var(--book-bg) 0%, var(--book-bg-2) 100%);
+    color: var(--book-ink);
+    overflow: hidden;
+  }
+  .flip-face.back { transform: rotateY(180deg); }
+  .flipper.fwd .flip-face.front { box-shadow: inset 10px 0 28px -12px rgba(0,0,0,.22), -4px 0 12px rgba(0,0,0,.25); border-radius: 0 4px 4px 0; }
+  .flipper.fwd .flip-face.back  { box-shadow: inset -10px 0 28px -12px rgba(0,0,0,.22),  4px 0 12px rgba(0,0,0,.25); border-radius: 4px 0 0 4px; }
+  .flipper.bwd .flip-face.front { box-shadow: inset -10px 0 28px -12px rgba(0,0,0,.22),  4px 0 12px rgba(0,0,0,.25); border-radius: 4px 0 0 4px; }
+  .flipper.bwd .flip-face.back  { box-shadow: inset 10px 0 28px -12px rgba(0,0,0,.22), -4px 0 12px rgba(0,0,0,.25); border-radius: 0 4px 4px 0; }
+  .flipper::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 65%, rgba(0,0,0,.10) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ============================================================
+     THUMB-INDEX TABS  (attached to the book, telephone-directory style)
+     ------------------------------------------------------------
+     Tabs hang off the right fore-edge of the book. Each tab is the
+     paper-coloured strip; the active tab pokes out further and takes
+     the accent colour. When the book is closed-cover, the tabs ride
+     along with the translated book; when closed-back they're hidden
+     because the right edge is no longer where they belong.
+     ============================================================ */
+  .tabs {
+    position: absolute;
+    top: 30px;
+    bottom: 30px;
+    right: -16px;
+    width: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    z-index: 25;
+  }
+  .tab {
+    flex: 1;
+    min-height: 14px;
+    border: none;
+    background: linear-gradient(90deg, var(--tab-bg-2) 0%, var(--tab-bg) 60%);
+    color: var(--tab-ink);
+    font: 600 9px var(--mono);
+    border-top: 1px solid rgba(255,255,255,.4);
+    border-bottom: 1px solid rgba(0,0,0,.2);
+    border-right: 1px solid var(--book-edge-dark);
+    border-radius: 0 3px 3px 0;
+    cursor: pointer;
+    padding: 0;
+    transition: transform .2s ease, background .2s ease, color .2s ease;
+    box-shadow: 1px 1px 3px rgba(0,0,0,.35);
+    text-align: center;
+    letter-spacing: .04em;
+  }
+  .tab:hover:not(.empty) { transform: translateX(4px); }
+  .tab.active {
+    background: linear-gradient(90deg, #8d4a14 0%, var(--tab-bg-active) 60%);
+    color: var(--tab-ink-active);
+    transform: translateX(8px);
+    z-index: 1;
+  }
+  .tab.empty {
+    color: var(--tab-disabled-ink);
+    cursor: not-allowed;
+    opacity: .45;
+  }
+  .book.closed-back .tabs { opacity: 0; pointer-events: none; }
+
+  /* ============================================================
+     BOTTOM CONTROL BAR
+     ============================================================ */
+  .controls {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(20,23,29,.88);
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.1);
+    z-index: 30;
+    backdrop-filter: blur(6px);
+  }
+  .nav-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,.2);
+    color: #e7e9ee;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font: 18px/1 var(--serif);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+  }
+  .nav-btn:hover:not(:disabled) { background: rgba(255,255,255,.08); }
+  .nav-btn:disabled { opacity: .3; cursor: not-allowed; }
+  .pos {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #b1b6c1;
+    letter-spacing: .1em;
+    min-width: 140px;
+    text-align: center;
+  }
+  .kbd {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #6b7385;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-left: 6px;
+  }
+
+  body.search-mode .tabs { opacity: .25; pointer-events: none; }
+
+  #measure {
+    position: absolute;
+    top: -10000px; left: -10000px;
+    visibility: hidden;
+  }
+
+  @media (max-width: 1080px) {
+    .book { width: 820px; height: 560px; }
+    .drop-cap-page .drop { font-size: 180px; }
+    .cover-title { font-size: 44px; }
+  }
+  @media (max-width: 880px) {
+    .book { width: 560px; height: 460px; }
+    .drop-cap-page, .term-page, .search-list-page { padding: 24px 28px; }
+    .drop-cap-page .drop { font-size: 130px; }
+    .cover-title { font-size: 32px; }
+    .tabs { right: -12px; width: 18px; }
+    .tab { font-size: 7px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <p class="eyebrow">Oxmiq × AU Internship</p>
+  <h1 class="page-title">Glossary</h1>
+  <p class="sub">A book of terms — click the cover to open, then turn pages.</p>
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="search" placeholder="Search terms…  (Esc to clear)">
+  </div>
+</header>
+
+<div id="cosmos" aria-hidden="true"></div>
+
+<div class="stage">
+  <div class="book closed-cover" id="book">
+    <div class="page left"  id="leftPage"></div>
+    <div class="page right" id="rightPage"></div>
+    <div class="tabs" id="tabs" aria-label="Letter tabs"></div>
+    <!-- .flipper inserted dynamically during a page turn -->
+  </div>
+</div>
+
+<div class="controls" id="controls">
+  <button class="nav-btn" id="prevBtn" title="Previous page (←)" aria-label="Previous page">‹</button>
+  <span class="pos" id="pos">Cover</span>
+  <button class="nav-btn" id="nextBtn" title="Next page (→)" aria-label="Next page">›</button>
+  <span class="kbd">← →</span>
+</div>
+
+<div id="measure"></div>
+
+<script>
+(async function () {
+
+  // ---------- constants ----------
+  const ALL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const PHASE_LABELS = {
+    foundations: 'Foundations', inference: 'Inference', prompting: 'Prompting',
+    agents: 'Agents', capsule: 'Capsule', capstone: 'Capstone'
+  };
+  // Usable height inside a content page for term cards.
+  // Page is ~620px tall; .term-page padding is 36px top + 36px bottom = 72;
+  // head ~50, foot ~24 => ~474 usable. 480 lines up with the 7px gap added
+  // by paginateTerms.
+  const RIGHT_USABLE_PX = 480;
+
+  const FALLBACK_FACTS = [
+    { text: 'GPT-3 was 175B parameters; LLaMA 3 8B punches well above that weight class thanks to better data and training recipes.', tag: 'LLM history' },
+    { text: 'NVIDIA H100 ships with 80GB of HBM3 and ~3.35 TB/s of memory bandwidth — the bottleneck most inference workloads run into.', tag: 'GPU' },
+    { text: 'FlashAttention turned attention from O(N²) memory to O(N) IO without changing the math — a rare free lunch.', tag: 'Inference' }
+  ];
+
+  // ---------- state ----------
+  let TERMS = [];
+  let FACTS = FALLBACK_FACTS;
+  let CONTENT_SPREADS = [];     // canonical spreads when not searching
+  let SPREADS = [];             // active spreads (= CONTENT_SPREADS, or search-mode spreads)
+  let TERM_TO_SPREAD = {};      // slug -> spread index in CONTENT_SPREADS
+  let LETTER_TO_SPREAD = {};    // letter -> first spread index in CONTENT_SPREADS
+  let current = 0;
+  let isFlipping = false;
+  let inSearch = false;
+  let lastBookWidth = 0;
+
+  const $  = (s) => document.querySelector(s);
+  const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+  // ---------- helpers ----------
+  function escapeHTML(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => (
+      { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    ));
+  }
+  function debounce(fn, ms) {
+    let t;
+    return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+  }
+  function firstLetter(term) {
+    const cleaned = (term || '').replace(/^[`*_'"(\[\s]+/, '');
+    const c = (cleaned[0] || '').toUpperCase();
+    return /[A-Z]/.test(c) ? c : '?';
+  }
+  function termLabel(slug) {
+    const t = TERMS.find(x => x.slug === slug);
+    return t ? t.term : slug;
+  }
+  function pickFact(letter) {
+    if (!FACTS.length) return { text: '', tag: '' };
+    const seed = ((letter.charCodeAt(0) - 65) * 13 + 7) % FACTS.length;
+    const f = FACTS[seed];
+    return { text: f.text || '', tag: f.tag || f.category || '' };
+  }
+
+  // ---------- card / page renderers ----------
+  function renderTermCard(t) {
+    const seeAlso = (t.see_also || []).map(s =>
+      `<a href="?term=${encodeURIComponent(s)}" data-term="${escapeHTML(s)}">${escapeHTML(termLabel(s))}</a>`
+    ).join('');
+    const meta = seeAlso ? `<div class="meta">${seeAlso}</div>` : '';
+    const ptag = PHASE_LABELS[t.phase] || t.phase || '';
+    return (
+      `<div class="term" data-phase="${escapeHTML(t.phase || '')}">
+         <h3>${escapeHTML(t.term)}</h3>
+         <span class="ptag">${escapeHTML(ptag)}</span>
+         <p class="def">${escapeHTML(t.definition)}</p>
+         ${meta}
+       </div>`
+    );
+  }
+
+  function renderCoverPage() {
+    const total = TERMS.length;
+    const letters = Object.keys(LETTER_TO_SPREAD).length;
+    return `<div class="cover-page">
+      <div class="cover-eyebrow">Oxmiq × AU Internship</div>
+      <h1 class="cover-title">Glossary</h1>
+      <p class="cover-sub">A book of terms — across foundations, inference, prompting, agents, and Capsule.</p>
+      <div class="cover-stats">
+        ${total} terms<br>
+        ${letters} of 26 letters<br>
+        — A telephone directory of ideas —
+      </div>
+      <div class="cover-cta">▸ Click cover to open</div>
+    </div>`;
+  }
+
+  function renderBackPage() {
+    const total = TERMS.length;
+    const contentPages = CONTENT_SPREADS.reduce((n, s) => {
+      if (s.left && s.left.kind !== 'cover' && s.left.kind !== 'back' && s.left.kind !== 'blank') n++;
+      if (s.right && s.right.kind !== 'cover' && s.right.kind !== 'back' && s.right.kind !== 'blank') n++;
+      return n;
+    }, 0);
+    return `<div class="back-page">
+      <div class="cover-eyebrow">— Fin —</div>
+      <h1 class="cover-title">The End</h1>
+      <p class="cover-sub">You've reached the back of the book.</p>
+      <div class="cover-stats">
+        ${total} terms · ${contentPages} pages<br>
+        Built from five source glossaries:<br>
+        Inference Engineering · Prompt Engineering<br>
+        AI Agents · Capsule Power User · Flashcards
+      </div>
+      <div class="cover-cta">‹ Flip back to begin</div>
+    </div>`;
+  }
+
+  function renderDropCapPage(page) {
+    const L = page.letter;
+    const fact = pickFact(L);
+    return `<div class="drop-cap-page">
+      <div class="drop">${L}</div>
+      <div class="count">${page.totalTerms} term${page.totalTerms === 1 ? '' : 's'} starting with ${L}</div>
+      <div class="divider"></div>
+      <p class="fact">${escapeHTML(fact.text)}</p>
+      <div><span class="fact-tag">${escapeHTML(fact.tag)}</span></div>
+      <div class="foot">— Glossary —</div>
+    </div>`;
+  }
+
+  function renderTermPage(page) {
+    // Header just shows the letter (the bottom-bar position handles spread N/M).
+    // For continuation pages (chunks after the first) a small "cont." tag sits
+    // next to the letter so the reader knows the section is still A, even on
+    // a left page that lacks the drop-cap.
+    const cont = page.part > 1
+      ? ` <span style="font-weight:400;color:var(--book-ink-soft);font-size:12px;font-family:var(--mono);letter-spacing:.1em;text-transform:lowercase;">cont.</span>`
+      : '';
+    const pageno = page.part === 1
+      ? `${page.terms.length} term${page.terms.length === 1 ? '' : 's'} on this page`
+      : '';
+    const header = `<div class="head"><h2>${page.letter}${cont}</h2><span class="pageno">${pageno}</span></div>`;
+    return `<div class="term-page">
+      ${header}
+      ${page.terms.map(renderTermCard).join('')}
+      <div class="foot">— ${page.letter} —</div>
+    </div>`;
+  }
+
+  function renderBlankPage(page) {
+    return `<div class="blank-page">
+      <div class="ornament">❦</div>
+      <div class="ornament-sub">end of ${escapeHTML(page.letter || '')}</div>
+    </div>`;
+  }
+
+  function renderSearchListPage(page) {
+    // page.hits is an array of all matches; we paginate the LINK LIST itself
+    // into one or more pages identical-format-wise to other left pages, so
+    // even very long result sets fit without scrolling.
+    const list = page.hits.map((t, i) => {
+      const num = (page.startIndex + i + 1).toString().padStart(2, '0');
+      const ptag = PHASE_LABELS[t.phase] || t.phase || '';
+      return `<li><a class="hit" data-term="${escapeHTML(t.slug)}" data-phase="${escapeHTML(t.phase || '')}" href="?term=${encodeURIComponent(t.slug)}">
+        <span class="num">${num}.</span>
+        <span class="name">${escapeHTML(t.term)}</span>
+        <span class="phase">${escapeHTML(ptag)}</span>
+      </a></li>`;
+    }).join('');
+    return `<div class="search-list-page">
+      <div class="head">
+        <div class="label">Search results</div>
+        <h2 class="q">"${escapeHTML(page.query)}"</h2>
+        <div class="count">${page.totalCount} match${page.totalCount === 1 ? '' : 'es'} · click a term to jump to its page</div>
+      </div>
+      <ol>${list}</ol>
+      <div class="foot">List · page ${page.part} of ${page.totalParts}</div>
+    </div>`;
+  }
+
+  function renderPage(page) {
+    if (!page) return '';
+    switch (page.kind) {
+      case 'cover':       return renderCoverPage();
+      case 'back':        return renderBackPage();
+      case 'drop-cap':    return renderDropCapPage(page);
+      case 'terms':       return renderTermPage(page);
+      case 'blank':       return renderBlankPage(page);
+      case 'search-list': return renderSearchListPage(page);
+      case 'search-terms':return renderTermPage(page); // same look as a normal term page
+      default:            return '';
+    }
+  }
+
+  // ---------- pagination ----------
+  function paginateTerms(terms, measureWidth, usablePx) {
+    const limit = usablePx || RIGHT_USABLE_PX;
+    const measure = $('#measure');
+    measure.style.width = measureWidth + 'px';
+    measure.innerHTML = terms.map(renderTermCard).join('');
+    const cards = Array.from(measure.children);
+    const chunks = [];
+    let start = 0, h = 0;
+    for (let i = 0; i < cards.length; i++) {
+      const hi = cards[i].getBoundingClientRect().height + 7;
+      if (h + hi > limit && i > start) {
+        chunks.push(terms.slice(start, i));
+        start = i; h = hi;
+      } else {
+        h += hi;
+      }
+    }
+    if (start < terms.length) chunks.push(terms.slice(start));
+    measure.innerHTML = '';
+    return chunks;
+  }
+
+  // Build pages then group into spreads. Rules:
+  //   - Cover is page 0 (right side of spread 0; left of spread 0 is null/hidden).
+  //   - For each letter (alphabetical order):
+  //       drop-cap page → left of a fresh spread
+  //       chunk-1 → right of that same spread
+  //       chunk-2 → left of next spread, chunk-3 → right, ...
+  //       if leftover odd, add a blank page so next letter starts on a left.
+  //   - Back is the last page (left side of final spread; right is null/hidden).
+  function buildContentSpreads(terms) {
+    const byLetter = {};
+    for (const t of terms) {
+      const L = firstLetter(t.term);
+      if (!ALL_LETTERS.includes(L)) continue;
+      (byLetter[L] = byLetter[L] || []).push(t);
+    }
+    for (const L of Object.keys(byLetter)) {
+      byLetter[L].sort((a, b) => {
+        const an = (a.term || '').replace(/^[`*_'"(\[\s]+/, '').toLowerCase();
+        const bn = (b.term || '').replace(/^[`*_'"(\[\s]+/, '').toLowerCase();
+        return an.localeCompare(bn);
+      });
+    }
+
+    const bookWidth = $('#book').getBoundingClientRect().width || 960;
+    const pageWidth = bookWidth / 2;
+    const measureWidth = pageWidth - 44 * 2;
+
+    // Build flat page list first.
+    const pages = [];
+
+    // Cover spread: pages[0] is the right-of-spread-0 placeholder; left of
+    // spread 0 is intentionally null (book is closed).
+    // We model spreads explicitly rather than via the page array index because
+    // of the cover/back asymmetry.
+
+    const spreads = [{ kind: 'cover', left: null, right: { kind: 'cover' } }];
+
+    LETTER_TO_SPREAD = {};
+    TERM_TO_SPREAD = {};
+
+    for (const L of ALL_LETTERS) {
+      const list = byLetter[L];
+      if (!list || !list.length) continue;
+      const chunks = paginateTerms(list, measureWidth);
+      // total pages for this letter = drop-cap(1) + chunks.length terms-pages
+      const dropCap = {
+        kind: 'drop-cap',
+        letter: L,
+        totalTerms: list.length
+      };
+      const termsPages = chunks.map((c, i) => ({
+        kind: 'terms',
+        letter: L,
+        terms: c,
+        part: i + 1,
+        totalParts: chunks.length
+      }));
+
+      const firstSpreadIdx = spreads.length;
+      LETTER_TO_SPREAD[L] = firstSpreadIdx;
+      // First spread of letter: LEFT = drop-cap, RIGHT = chunk-1.
+      spreads.push({
+        kind: 'content',
+        letter: L,
+        left: dropCap,
+        right: termsPages[0] || null
+      });
+      // Record where each term lives.
+      if (termsPages[0]) {
+        for (const t of termsPages[0].terms) TERM_TO_SPREAD[t.slug] = firstSpreadIdx;
+      }
+      // Subsequent term pages flow into LEFT/RIGHT pairs.
+      let rest = termsPages.slice(1);
+      while (rest.length) {
+        const leftPage = rest.shift();
+        const rightPage = rest.shift() || null;
+        const sIdx = spreads.length;
+        spreads.push({
+          kind: 'content',
+          letter: L,
+          left: leftPage,
+          right: rightPage
+        });
+        if (leftPage)  for (const t of leftPage.terms)  TERM_TO_SPREAD[t.slug] = sIdx;
+        if (rightPage) for (const t of rightPage.terms) TERM_TO_SPREAD[t.slug] = sIdx;
+      }
+      // If the last spread's RIGHT is null (odd number of term pages after
+      // the drop-cap), fill with a blank end-of-section page so the next
+      // letter still begins on a LEFT page.
+      const last = spreads[spreads.length - 1];
+      if (last.kind === 'content' && last.right === null) {
+        last.right = { kind: 'blank', letter: L };
+      }
+    }
+
+    spreads.push({ kind: 'back', left: { kind: 'back' }, right: null });
+    return spreads;
+  }
+
+  // ---------- main render ----------
+  function renderSpread(idx) {
+    const spread = SPREADS[idx];
+    const book = $('#book');
+    const left = $('#leftPage');
+    const right = $('#rightPage');
+
+    book.classList.remove('closed-cover', 'closed-back');
+    if (spread.kind === 'cover') {
+      book.classList.add('closed-cover');
+      left.innerHTML = '';
+      right.innerHTML = renderPage(spread.right);
+    } else if (spread.kind === 'back') {
+      book.classList.add('closed-back');
+      left.innerHTML = renderPage(spread.left);
+      right.innerHTML = '';
+    } else {
+      left.innerHTML  = renderPage(spread.left);
+      right.innerHTML = renderPage(spread.right);
+    }
+
+    // Active tab (track current letter)
+    $$('.tab').forEach(t => t.classList.remove('active'));
+    const L = currentLetter(spread);
+    if (L) {
+      const tab = document.querySelector(`.tab[data-letter="${L}"]`);
+      if (tab) tab.classList.add('active');
+    }
+
+    left.classList.toggle('flippable',  idx > 0);
+    right.classList.toggle('flippable', idx < SPREADS.length - 1);
+  }
+
+  function currentLetter(spread) {
+    if (!spread) return null;
+    if (spread.left && spread.left.letter)  return spread.left.letter;
+    if (spread.right && spread.right.letter) return spread.right.letter;
+    return null;
+  }
+
+  function updateControls() {
+    const spread = SPREADS[current];
+    $('#prevBtn').disabled = current === 0;
+    $('#nextBtn').disabled = current === SPREADS.length - 1;
+    let label;
+    if (spread.kind === 'cover')          label = 'Cover';
+    else if (spread.kind === 'back')      label = 'The End';
+    else if (spread.kind === 'search-results') {
+      label = spread.totalParts > 1
+        ? `Search · ${spread.part}/${spread.totalParts}`
+        : `Search · ${spread.totalCount || 0} match${spread.totalCount === 1 ? '' : 'es'}`;
+    } else {
+      // content spread — compute letter + spread index within that letter
+      const L = currentLetter(spread);
+      if (L) {
+        // count how many spreads belong to this letter and which index we're at
+        const start = LETTER_TO_SPREAD[L];
+        let end = SPREADS.length - 1;
+        for (let i = start + 1; i < SPREADS.length; i++) {
+          const s = SPREADS[i];
+          if (currentLetter(s) !== L) { end = i - 1; break; }
+        }
+        const total = end - start + 1;
+        const idxIn = current - start + 1;
+        label = total > 1 ? `${L} · ${idxIn}/${total}` : L;
+      } else {
+        label = `${current + 1} / ${SPREADS.length}`;
+      }
+    }
+    $('#pos').textContent = label;
+  }
+
+  function pushHistory() {
+    const spread = SPREADS[current];
+    let url = location.pathname;
+    if (spread.kind !== 'cover' && spread.kind !== 'back' && spread.kind !== 'search-results') {
+      const L = currentLetter(spread);
+      if (L) url += `?letter=${L}`;
+    }
+    history.replaceState(null, '', url);
+  }
+
+  // ---------- flip animation ----------
+  function flip(direction, targetIdxOverride) {
+    if (isFlipping) return;
+    const target = targetIdxOverride !== undefined
+      ? targetIdxOverride
+      : (direction === 'fwd' ? current + 1 : current - 1);
+    if (target < 0 || target >= SPREADS.length || target === current) return;
+
+    isFlipping = true;
+    const book = $('#book');
+    const currentSpread = SPREADS[current];
+    const nextSpread = SPREADS[target];
+
+    // 1) Drop closed-* classes for the duration of the flip so both halves
+    //    of the book are visible while the page actually turns.
+    const wasClosedCover = book.classList.contains('closed-cover');
+    const wasClosedBack  = book.classList.contains('closed-back');
+    book.classList.remove('closed-cover', 'closed-back');
+
+    // Make sure the underlying page (the one NOT being flipped) holds the
+    // correct destination content so it shows after the flipper rotates.
+    const left  = $('#leftPage');
+    const right = $('#rightPage');
+    if (direction === 'fwd') {
+      // Right page is the one turning; the underlying right will show next.right.
+      right.innerHTML = renderPage(nextSpread.right);
+      // The left page should show what the user came from until the flipper
+      // settles; at cleanup we update it to nextSpread.left.
+      if (wasClosedCover) {
+        // We were at cover (left was hidden). Reveal a blank parchment now
+        // so the flipper has something to rotate against — actually we
+        // want the cover's "inside" face. Just show the current left content
+        // (which was empty) — that's fine; the flipper covers the right half.
+        left.innerHTML = '';
+      }
+    } else {
+      // Left page is turning; the underlying left will show next.left.
+      left.innerHTML = renderPage(nextSpread.left);
+      if (wasClosedBack) right.innerHTML = '';
+    }
+
+    const flipper = document.createElement('div');
+    flipper.className = `flipper ${direction}`;
+    const front = document.createElement('div');
+    front.className = 'flip-face front';
+    const back = document.createElement('div');
+    back.className = 'flip-face back';
+
+    if (direction === 'fwd') {
+      // Page turning is the RIGHT page. Front face = what was on the right;
+      // back face = the new left page that's revealed.
+      front.innerHTML = renderPage(currentSpread.right);
+      back.innerHTML  = renderPage(nextSpread.left);
+    } else {
+      // Page turning is the LEFT page. Front face = what was on the left;
+      // back face = the new right page that's revealed.
+      front.innerHTML = renderPage(currentSpread.left);
+      back.innerHTML  = renderPage(nextSpread.right);
+    }
+
+    flipper.appendChild(front);
+    flipper.appendChild(back);
+    book.appendChild(flipper);
+
+    void flipper.offsetWidth;
+    requestAnimationFrame(() => flipper.classList.add('go'));
+
+    const cleanup = () => {
+      current = target;
+      // Final paint
+      if (direction === 'fwd') {
+        left.innerHTML = renderPage(nextSpread.left);
+      } else {
+        right.innerHTML = renderPage(nextSpread.right);
+      }
+      // Re-apply closed state for cover/back
+      book.classList.remove('closed-cover', 'closed-back');
+      if (nextSpread.kind === 'cover') {
+        book.classList.add('closed-cover');
+        left.innerHTML = '';
+      } else if (nextSpread.kind === 'back') {
+        book.classList.add('closed-back');
+        right.innerHTML = '';
+      }
+      if (flipper.parentNode) flipper.parentNode.removeChild(flipper);
+
+      // Re-apply flippable cursors + active tab
+      $$('.tab').forEach(t => t.classList.remove('active'));
+      const L = currentLetter(nextSpread);
+      if (L) {
+        const tab = document.querySelector(`.tab[data-letter="${L}"]`);
+        if (tab) tab.classList.add('active');
+      }
+      left.classList.toggle('flippable',  current > 0);
+      right.classList.toggle('flippable', current < SPREADS.length - 1);
+      isFlipping = false;
+      updateControls();
+      pushHistory();
+    };
+
+    flipper.addEventListener('transitionend', (e) => {
+      if (e.propertyName !== 'transform') return;
+      cleanup();
+    }, { once: true });
+
+    // Safety in case transitionend doesn't fire (page hidden, etc.)
+    setTimeout(() => { if (isFlipping) cleanup(); }, 1300);
+  }
+
+  function jumpToSpread(idx) {
+    if (idx === current || isFlipping) return;
+    flip(idx > current ? 'fwd' : 'bwd', idx);
+  }
+
+  function jumpToLetter(L) {
+    const idx = LETTER_TO_SPREAD[L];
+    if (idx === undefined) return;
+    jumpToSpread(idx);
+  }
+
+  function openToTerm(slug) {
+    if (inSearch) clearSearch();
+    const idx = TERM_TO_SPREAD[slug];
+    if (idx === undefined) return;
+    jumpToSpread(idx);
+  }
+
+  // ---------- tabs ----------
+  function renderTabs() {
+    const tabsEl = $('#tabs');
+    tabsEl.innerHTML = ALL_LETTERS.map(L => {
+      const hasContent = LETTER_TO_SPREAD[L] !== undefined;
+      return `<button class="tab ${hasContent ? '' : 'empty'}" data-letter="${L}"
+                ${hasContent ? '' : 'disabled'} aria-label="Letter ${L}">${L}</button>`;
+    }).join('');
+  }
+
+  // ---------- search ----------
+  function runSearch(query) {
+    const q = query.toLowerCase();
+    const matches = TERMS.filter(t =>
+      (t.term && t.term.toLowerCase().includes(q)) ||
+      (t.definition && t.definition.toLowerCase().includes(q))
+    );
+
+    const bookWidth = $('#book').getBoundingClientRect().width || 960;
+    const measureWidth = (bookWidth / 2) - 44 * 2;
+
+    if (!matches.length) {
+      const noResult = [{
+        kind: 'search-results',
+        query, totalCount: 0, part: 1, totalParts: 1,
+        left: { kind: 'search-list', query, hits: [], totalCount: 0, startIndex: 0, part: 1, totalParts: 1 },
+        right: { kind: 'blank', letter: '' }
+      }];
+      SPREADS = noResult;
+      current = 0;
+      inSearch = true;
+      document.body.classList.add('search-mode');
+      renderSpread(0);
+      updateControls();
+      return;
+    }
+
+    // Paginate the TERM CARDS first (right side, density-bound).
+    const cardChunks = paginateTerms(matches, measureWidth);
+    // The LINK LIST on the left mirrors the card chunks 1:1 so every spread
+    // shows the same slice of hits on both sides — left page always lists
+    // exactly the terms whose cards appear on the facing right page.
+    const total = cardChunks.length;
+    let startIndex = 0;
+    const spreads = [];
+    for (let i = 0; i < total; i++) {
+      const chunk = cardChunks[i];
+      const leftPage = {
+        kind: 'search-list',
+        query,
+        hits: chunk,
+        totalCount: matches.length,
+        startIndex,
+        part: i + 1,
+        totalParts: total
+      };
+      const rightPage = {
+        kind: 'search-terms',
+        letter: 'Results',
+        terms: chunk,
+        part: i + 1,
+        totalParts: total
+      };
+      startIndex += chunk.length;
+      spreads.push({
+        kind: 'search-results',
+        query,
+        totalCount: matches.length,
+        part: i + 1,
+        totalParts: total,
+        left: leftPage,
+        right: rightPage
+      });
+    }
+
+    inSearch = true;
+    document.body.classList.add('search-mode');
+    SPREADS = spreads;
+    current = 0;
+    renderSpread(0);
+    updateControls();
+  }
+
+  function clearSearch() {
+    if (!inSearch) return;
+    inSearch = false;
+    document.body.classList.remove('search-mode');
+    $('#search').value = '';
+    SPREADS = CONTENT_SPREADS;
+    current = 0;
+    renderSpread(0);
+    updateControls();
+  }
+
+  // ---------- event wiring ----------
+  function wireEvents() {
+    $('#prevBtn').addEventListener('click', () => flip('bwd'));
+    $('#nextBtn').addEventListener('click', () => flip('fwd'));
+
+    $('#leftPage').addEventListener('click', (e) => {
+      if (e.target.closest('a, button')) return;
+      if (current > 0) flip('bwd');
+    });
+    $('#rightPage').addEventListener('click', (e) => {
+      if (e.target.closest('a, button')) return;
+      if (current < SPREADS.length - 1) flip('fwd');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        if (e.key === 'Escape' && inSearch) {
+          e.preventDefault();
+          clearSearch();
+        }
+        return;
+      }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); flip('bwd'); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); flip('fwd'); }
+      if (e.key === 'Home')       { e.preventDefault(); jumpToSpread(0); }
+      if (e.key === 'End')        { e.preventDefault(); jumpToSpread(SPREADS.length - 1); }
+      if (e.key === 'Escape' && inSearch) { clearSearch(); }
+    });
+
+    $('#tabs').addEventListener('click', (e) => {
+      const t = e.target.closest('.tab');
+      if (t && !t.disabled) {
+        if (inSearch) clearSearch();
+        jumpToLetter(t.dataset.letter);
+      }
+    });
+
+    $('#search').addEventListener('input', debounce((e) => {
+      const q = e.target.value.trim();
+      if (q.length >= 2) runSearch(q);
+      else if (inSearch) clearSearch();
+    }, 220));
+
+    // Term-jump link delegation (works for both search-list hits and
+    // see-also references inside term cards).
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[data-term]');
+      if (!a) return;
+      e.preventDefault();
+      e.stopPropagation();
+      openToTerm(a.dataset.term);
+    });
+
+    window.addEventListener('resize', debounce(() => {
+      const newWidth = $('#book').getBoundingClientRect().width;
+      if (Math.abs(newWidth - lastBookWidth) < 8) return;
+      lastBookWidth = newWidth;
+      const wasLetter = currentLetter(SPREADS[current]);
+      const wasSearch = inSearch;
+      const searchQuery = wasSearch ? $('#search').value : null;
+      CONTENT_SPREADS = buildContentSpreads(TERMS);
+      if (wasSearch && searchQuery) {
+        runSearch(searchQuery);
+      } else {
+        SPREADS = CONTENT_SPREADS;
+        if (wasLetter && LETTER_TO_SPREAD[wasLetter] !== undefined) {
+          current = LETTER_TO_SPREAD[wasLetter];
+        } else {
+          current = Math.min(current, SPREADS.length - 1);
+        }
+        renderSpread(current);
+        updateControls();
+      }
+    }, 250));
+  }
+
+  // ---------- init ----------
+  async function init() {
+    try {
+      const r = await fetch('glossary.json', { cache: 'no-cache' });
+      const d = await r.json();
+      TERMS = d.terms || [];
+    } catch (e) {
+      console.error('Failed to load glossary.json', e);
+      TERMS = [];
+    }
+    try {
+      const r = await fetch('facts.json', { cache: 'no-cache' });
+      const d = await r.json();
+      FACTS = (d.facts && d.facts.length) ? d.facts : FALLBACK_FACTS;
+    } catch (e) {
+      FACTS = FALLBACK_FACTS;
+    }
+
+    CONTENT_SPREADS = buildContentSpreads(TERMS);
+    SPREADS = CONTENT_SPREADS;
+    lastBookWidth = $('#book').getBoundingClientRect().width;
+
+    renderTabs();
+    renderSpread(0);
+    updateControls();
+    wireEvents();
+
+    const params = new URLSearchParams(location.search);
+    if (params.get('term')) {
+      setTimeout(() => openToTerm(params.get('term')), 100);
+    } else if (params.get('letter')) {
+      const L = params.get('letter').toUpperCase();
+      setTimeout(() => jumpToLetter(L), 100);
+    }
+  }
+
+  // Wait for layout to settle so we measure cards at the real page width.
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() =>
+      init().catch(e => console.error('Glossary init failed:', e))
+    )
+  );
+})();
+</script>
+</body>
+</html>

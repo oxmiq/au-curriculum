@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive Concept Graph — Oxmiq × AU Internship</title>
+<!--
+  Force-directed concept graph for docs/kb/concepts.json.
+
+  Nodes  = curated concepts (e.g. kv-cache, flash-attention, mcp, …)
+  Edges  = prereq relationships between concepts (the real graph; not the
+           near-linear day-by-day teaching order)
+  Colour = phase (foundations, inference, prompting, agents, capsule, capstone)
+  Size   = scaled by total degree — concepts that connect to a lot of other
+           concepts (either as prereqs or dependents) become visual hubs.
+  Look   = radial gradient fill gives nodes a 3D sphere feel against the dark
+           background; labels render BELOW the node with a halo outline so they
+           stay readable even on small nodes.
+
+  Glossary terms (definitions of individual words like "latency", "FFN", etc.)
+  intentionally do NOT appear here — they live on the separate Glossary page.
+  This page is the conceptual map, not a dictionary.
+
+  Click a concept to spotlight: itself, all ancestors (its prereq chain back
+  to the foundations) and all descendants (every concept that depends on it).
+  Everything else dims. The fcose layout re-runs on the spotlighted subgraph
+  so it spreads around the focused node and the viewport refits.
+  Click empty space (or Reset) to restore the full blob.
+
+  Side panel shows: phase, title, description, link to the lesson where the
+  concept is introduced, prereqs list, dependents list, also_used_in,
+  numerical_anchors (if any), and sources.
+
+  Loaded from CDN. If the CDN is blocked, the page degrades to an error.
+  Editing: data lives in concepts.json — do not duplicate it here.
+-->
+<style>
+  :root {
+    --bg: #05070d;
+    --surface: #14171d;
+    --surface-2: #1b1f27;
+    --line: rgba(255,255,255,.08);
+    --line-strong: rgba(255,255,255,.16);
+    --text: #e7e9ee;
+    --muted: #8b91a0;
+    --faint: #5b616e;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+
+    /* Vivid GraphXR-ish palette — high chroma against the deep cosmos. */
+    --p-foundations: #8da0bf;
+    --p-inference:   #2ee8ff;
+    --p-prompting:   #b89ffd;
+    --p-agents:      #ffc933;
+    --p-capsule:     #44e8a8;
+    --p-capstone:    #ff7e93;
+
+    --edge: #6b7385;
+    --edge-prereq: #2ee8ff;
+    --edge-dependent: #ff7e93;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.5;
+    overflow: hidden;
+  }
+  header {
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 14px 20px;
+    background: linear-gradient(180deg, rgba(11,13,16,.95), rgba(11,13,16,.7) 80%, transparent);
+    z-index: 10;
+  }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--p-inference); margin: 0 0 4px;
+  }
+  h1 { font-family: var(--mono); font-weight: 600; font-size: 18px; margin: 0 0 4px; letter-spacing: -.01em; }
+  .sub { color: var(--muted); font-size: 12.5px; margin: 0; }
+  .sub b { color: var(--text); font-weight: 600; }
+
+  #cy {
+    position: fixed; inset: 0;
+    /* Deep-cosmos canvas: layered radial gradients give the
+       "floating in space" feel GraphXR sells. The blue/purple/rose
+       halos suggest nebula tints, while the vignette at the corners
+       focuses attention on the centre of the graph. */
+    background:
+      radial-gradient(ellipse 1400px 900px at 50% 40%, rgba(46,232,255,.10), transparent 70%),
+      radial-gradient(ellipse 900px 700px at 16% 88%, rgba(184,159,253,.08), transparent 75%),
+      radial-gradient(ellipse 900px 700px at 86% 10%, rgba(255,126,147,.07), transparent 75%),
+      radial-gradient(ellipse at 50% 50%, #0a0d18 0%, #04050b 85%),
+      var(--bg);
+  }
+  /* Starfield + corner vignette layered above #cy via fixed div (see body). */
+  #cosmos {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    background-image:
+      /* tiny SVG-encoded starfield: ~250 dots distributed pseudo-randomly */
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><g fill='white'><circle cx='42' cy='118' r='.6' opacity='.55'/><circle cx='117' cy='53' r='.5' opacity='.4'/><circle cx='208' cy='281' r='.7' opacity='.6'/><circle cx='271' cy='99' r='.5' opacity='.45'/><circle cx='345' cy='402' r='.7' opacity='.5'/><circle cx='402' cy='177' r='.5' opacity='.35'/><circle cx='488' cy='322' r='.6' opacity='.55'/><circle cx='559' cy='75' r='.6' opacity='.45'/><circle cx='633' cy='246' r='.5' opacity='.4'/><circle cx='712' cy='510' r='.7' opacity='.55'/><circle cx='775' cy='124' r='.5' opacity='.4'/><circle cx='60' cy='362' r='.5' opacity='.35'/><circle cx='160' cy='495' r='.6' opacity='.55'/><circle cx='254' cy='540' r='.5' opacity='.4'/><circle cx='322' cy='198' r='.4' opacity='.3'/><circle cx='418' cy='28' r='.6' opacity='.5'/><circle cx='502' cy='455' r='.5' opacity='.4'/><circle cx='584' cy='386' r='.7' opacity='.6'/><circle cx='651' cy='149' r='.4' opacity='.3'/><circle cx='698' cy='350' r='.5' opacity='.45'/><circle cx='30' cy='248' r='.4' opacity='.3'/><circle cx='90' cy='435' r='.7' opacity='.6'/><circle cx='195' cy='80' r='.5' opacity='.4'/><circle cx='298' cy='473' r='.4' opacity='.35'/><circle cx='370' cy='304' r='.6' opacity='.5'/><circle cx='455' cy='121' r='.5' opacity='.45'/><circle cx='531' cy='540' r='.5' opacity='.4'/><circle cx='608' cy='42' r='.4' opacity='.3'/><circle cx='666' cy='420' r='.5' opacity='.5'/><circle cx='740' cy='225' r='.6' opacity='.55'/></g></svg>"),
+      /* corner vignette */
+      radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%);
+    background-repeat: repeat, no-repeat;
+    background-size: 800px 600px, cover;
+    opacity: .9;
+  }
+
+  /* Phase filter chips (top-right under header) */
+  #filters {
+    position: fixed; top: 90px; right: 20px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+    z-index: 9; max-width: 360px;
+  }
+  #filters button {
+    font-family: var(--mono); font-size: 11px;
+    padding: 5px 9px; border-radius: 14px;
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--line-strong);
+    cursor: pointer; transition: opacity .15s;
+  }
+  #filters button.off { opacity: .35; }
+  #filters button:hover { border-color: var(--text); }
+
+  /* Search */
+  #search-wrap {
+    position: fixed; top: 90px; left: 20px;
+    z-index: 9;
+    display: flex; gap: 8px; align-items: center;
+  }
+  #search {
+    width: 260px;
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--line-strong); border-radius: 6px;
+    padding: 7px 10px; font-family: var(--mono); font-size: 12px;
+  }
+  #search:focus { outline: none; border-color: var(--p-inference); }
+  #reset {
+    background: var(--surface); border: 1px solid var(--line-strong);
+    color: var(--text); font-family: var(--mono); font-size: 11.5px;
+    padding: 7px 12px; border-radius: 6px; cursor: pointer;
+    display: none;
+  }
+  #reset:hover { border-color: var(--p-inference); color: var(--p-inference); }
+  #reset.show { display: inline-block; }
+
+  /* Side panel */
+  #panel {
+    position: fixed; top: 140px; right: 20px; width: 340px; max-height: calc(100vh - 180px);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-y: auto;
+    z-index: 9;
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    display: none;
+  }
+  #panel.open { display: block; }
+  #panel .ptag {
+    display: inline-block; font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .14em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px; margin-bottom: 8px;
+  }
+  #panel h2 { font-size: 16px; font-weight: 600; margin: 0 0 6px; letter-spacing: -.01em; }
+  #panel .id-line { font-family: var(--mono); font-size: 11px; color: var(--faint); margin: 0 0 10px; }
+  #panel .desc { font-size: 13px; color: var(--text); margin: 0 0 14px; line-height: 1.55; }
+  #panel a.open-lesson {
+    display: inline-block; padding: 7px 12px;
+    background: var(--surface-2); color: var(--text);
+    text-decoration: none; border-radius: 6px; border: 1px solid var(--line-strong);
+    font-family: var(--mono); font-size: 12px; margin-bottom: 4px;
+  }
+  #panel a.open-lesson:hover { border-color: var(--p-inference); color: var(--p-inference); }
+  #panel section { margin-top: 14px; }
+  #panel section h3 {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 6px; font-weight: 500;
+  }
+  #panel section ul { margin: 0; padding: 0; list-style: none; font-size: 12.5px; }
+  #panel section li { padding: 3px 0; color: var(--text); cursor: pointer; }
+  #panel section li:hover { color: var(--p-inference); }
+  #panel section li.static { cursor: default; }
+  #panel section li.static:hover { color: var(--text); }
+  #panel .none { color: var(--faint); font-size: 12.5px; font-style: italic; }
+  #panel .num-anchor {
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 6px; padding: 6px 9px; margin-bottom: 5px;
+    font-family: var(--mono); font-size: 11.5px;
+  }
+  #panel .num-anchor .lbl { color: var(--muted); font-size: 10.5px; }
+  #panel button.close {
+    position: absolute; top: 10px; right: 10px;
+    background: transparent; color: var(--muted); border: none;
+    font-size: 16px; cursor: pointer; padding: 4px 8px; border-radius: 4px;
+  }
+  #panel button.close:hover { color: var(--text); background: var(--surface-2); }
+
+  /* Legend */
+  #legend {
+    position: fixed; bottom: 14px; left: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11.5px; font-family: var(--mono);
+    z-index: 9;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  #legend .row { display: flex; align-items: center; gap: 7px; }
+  #legend .dot { width: 10px; height: 10px; border-radius: 50%; }
+  #legend .edge-key { width: 22px; height: 0; border-top: 2px solid var(--edge-prereq); }
+  #legend .edge-key.dep { border-top-color: var(--edge-dependent); }
+
+  /* Help hint */
+  #hint {
+    position: fixed; bottom: 14px; right: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11.5px; color: var(--muted);
+    z-index: 9;
+    max-width: 300px;
+  }
+
+  /* Error fallback */
+  #err {
+    position: fixed; inset: 0; display: none;
+    align-items: center; justify-content: center;
+    padding: 40px; background: var(--bg); color: var(--text); text-align: center;
+  }
+  #err.show { display: flex; }
+  #err .box { max-width: 540px; }
+  #err code { background: var(--surface); padding: 2px 6px; border-radius: 4px; font-family: var(--mono); }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">Oxmiq × AU Internship</p>
+  <h1>Interactive Concept Graph</h1>
+  <p class="sub"><b id="stat-nodes">…</b> concepts · <b id="stat-edges">…</b> prereq edges. Click a concept to centre it and highlight its direct prereqs and dependents.</p>
+</header>
+
+<div id="search-wrap">
+  <input id="search" type="search" placeholder="Search concepts…" autocomplete="off">
+  <button id="reset" aria-label="Reset view">↺ Reset</button>
+</div>
+
+<div id="filters" aria-label="Filter by phase"></div>
+
+<div id="cy"></div>
+<div id="cosmos" aria-hidden="true"></div>
+
+<aside id="panel" aria-live="polite">
+  <button class="close" aria-label="Close panel">×</button>
+  <span class="ptag" id="p-phase">phase</span>
+  <h2 id="p-title">Title</h2>
+  <p class="id-line" id="p-id">id</p>
+  <p class="desc" id="p-desc"></p>
+  <a class="open-lesson" id="p-link" href="#" target="_blank" rel="noopener" style="display:none">Open lesson →</a>
+  <section>
+    <h3>Prereqs (depends on)</h3>
+    <ul id="p-prereqs"></ul>
+  </section>
+  <section>
+    <h3>Dependents (enables)</h3>
+    <ul id="p-deps"></ul>
+  </section>
+  <section id="sec-also" style="display:none">
+    <h3>Also used in</h3>
+    <ul id="p-also"></ul>
+  </section>
+  <section id="sec-anchors" style="display:none">
+    <h3>Numerical anchors</h3>
+    <div id="p-anchors"></div>
+  </section>
+  <section id="sec-sources" style="display:none">
+    <h3>Sources</h3>
+    <ul id="p-sources"></ul>
+  </section>
+</aside>
+
+<div id="legend">
+  <div class="row"><span class="dot" style="background:var(--p-foundations)"></span> Foundations</div>
+  <div class="row"><span class="dot" style="background:var(--p-inference)"></span> Inference</div>
+  <div class="row"><span class="dot" style="background:var(--p-prompting)"></span> Prompting</div>
+  <div class="row"><span class="dot" style="background:var(--p-agents)"></span> Agents</div>
+  <div class="row"><span class="dot" style="background:var(--p-capsule)"></span> Capsule</div>
+  <div class="row"><span class="dot" style="background:var(--p-capstone)"></span> Capstone</div>
+  <div class="row" style="margin-top:6px"><span class="edge-key"></span> upstream prereq</div>
+  <div class="row"><span class="edge-key dep"></span> downstream dependent</div>
+</div>
+
+<div id="hint">
+  Click a concept to centre it and highlight its 1-hop neighbours — direct prereqs (cyan) and direct dependents (red).
+  Click empty space (or Reset) to restore. Scroll to zoom, drag to pan.
+  Concept names in the side panel are also clickable.
+</div>
+
+<div id="err">
+  <div class="box">
+    <h2>Could not load the graph</h2>
+    <p>The viewer needs <code>cytoscape</code> and <code>cytoscape-fcose</code> from a CDN. If you're offline, the page won't render.</p>
+    <p><a href="concepts.html" style="color:var(--p-inference)">Use the static concept list instead →</a></p>
+  </div>
+</div>
+
+<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+<script src="https://unpkg.com/layout-base@2.0.1/layout-base.js"></script>
+<script src="https://unpkg.com/cose-base@2.2.0/cose-base.js"></script>
+<script src="https://unpkg.com/cytoscape-fcose@2.2.0/cytoscape-fcose.js"></script>
+
+<script>
+(function () {
+  if (typeof cytoscape === 'undefined') {
+    document.getElementById('err').classList.add('show');
+    return;
+  }
+  if (typeof cytoscapeFcose !== 'undefined') {
+    cytoscape.use(cytoscapeFcose);
+  }
+
+  const PHASE_COLOR = {
+    foundations: '#8da0bf',
+    inference:   '#2ee8ff',
+    prompting:   '#b89ffd',
+    agents:      '#ffc933',
+    capsule:     '#44e8a8',
+    capstone:    '#ff7e93'
+  };
+
+  fetch('concepts.json')
+    .then(r => {
+      if (!r.ok) throw new Error('concepts.json HTTP ' + r.status);
+      return r.json();
+    })
+    .then(initGraph)
+    .catch(err => {
+      console.error(err);
+      document.getElementById('err').classList.add('show');
+    });
+
+  function moduleToLessonUrl(modId) {
+    // graph.json module ids are like "week-02/module-3" or new flat "module-02".
+    // The lesson pages live at /lessons/module-NN/. We use the week number from
+    // the prefix to derive the module-NN slug.
+    if (!modId) return null;
+    let m = modId.match(/^week-(\d{2})\/module-\d+$/);
+    if (m) return '../lessons/module-' + m[1] + '/';
+    m = modId.match(/^module-(\d{2})$/);
+    if (m) return '../lessons/module-' + m[1] + '/';
+    return null;
+  }
+
+  function fcoseOptions(extra) {
+    return Object.assign({
+      name: typeof cytoscapeFcose !== 'undefined' ? 'fcose' : 'cose',
+      animate: true,
+      animationDuration: 700,
+      animationEasing: 'ease-out',
+      randomize: false,
+      // Labels live BELOW each node, so we need more vertical breathing room
+      // than a bare-bubbles graph would need; bumped repulsion + edge length.
+      nodeRepulsion: 9500,
+      idealEdgeLength: 120,
+      edgeElasticity: 0.4,
+      gravity: 0.28,
+      gravityRange: 3.8,
+      numIter: 2500,
+      tile: false,
+      nodeDimensionsIncludeLabels: true,
+      fit: true,
+      padding: 80,
+      quality: 'default'
+    }, extra || {});
+  }
+
+  function initGraph(data) {
+    const concepts = data.concepts || [];
+    const phaseTitles = {};
+    for (const p of data.phases || []) phaseTitles[p.id] = p.title;
+    const byId = {};
+    for (const c of concepts) byId[c.id] = c;
+
+    // Total degree (in + out): how many other concepts this one connects to.
+    // Hub concepts like `kv-cache` or `attention` get a bigger sphere.
+    const deg = {};
+    for (const c of concepts) deg[c.id] = 0;
+    for (const c of concepts) {
+      for (const p of (c.prereqs || [])) {
+        if (deg[p] !== undefined) deg[p] += 1;       // outgoing-into-c counts for p
+        if (deg[c.id] !== undefined) deg[c.id] += 1; // incoming counts for c
+      }
+    }
+    const maxDeg = Math.max(1, ...Object.values(deg));
+
+    // Lighten a hex color toward white for the radial-gradient highlight.
+    function lighten(hex, t) {
+      const m = hex.replace('#', '');
+      const r = parseInt(m.substr(0, 2), 16);
+      const g = parseInt(m.substr(2, 2), 16);
+      const b = parseInt(m.substr(4, 2), 16);
+      const lr = Math.round(r + (255 - r) * t);
+      const lg = Math.round(g + (255 - g) * t);
+      const lb = Math.round(b + (255 - b) * t);
+      return '#' + [lr, lg, lb].map(v => v.toString(16).padStart(2, '0')).join('');
+    }
+
+    const nodes = concepts.map(c => {
+      const base = PHASE_COLOR[c.phase] || '#888';
+      const d = deg[c.id] || 0;
+      // Linear scale so size differences read clearly: 24 (isolated) → ~84 (top hub).
+      const size = 24 + 60 * (d / maxDeg);
+      return {
+        data: {
+          id: c.id,
+          label: c.title,
+          title: c.title,
+          phase: c.phase,
+          phase_title: phaseTitles[c.phase] || c.phase,
+          color: base,
+          colorHi: lighten(base, 0.55),  // gradient highlight (top-left of sphere)
+          colorLo: lighten(base, -0.0),  // base (Cytoscape can't darken via lighten; keep base)
+          deg: d,
+          size: size,
+          desc: c.description || '',
+          introduced_in: c.introduced_in || [],
+          also_used_in: c.also_used_in || [],
+          sources: c.sources || [],
+          numerical_anchors: c.numerical_anchors || []
+        }
+      };
+    });
+
+    const edges = [];
+    for (const c of concepts) {
+      for (const p of (c.prereqs || [])) {
+        if (!byId[p]) continue;  // skip dangling refs
+        edges.push({ data: { id: p + '->' + c.id, source: p, target: c.id } });
+      }
+    }
+
+    document.getElementById('stat-nodes').textContent = nodes.length;
+    document.getElementById('stat-edges').textContent = edges.length;
+
+    const cy = cytoscape({
+      container: document.getElementById('cy'),
+      elements: [...nodes, ...edges],
+      style: [
+        {
+          selector: 'node',
+          style: {
+            // Radial gradient: lighter at top-left, base color elsewhere -> sphere/3D feel.
+            'background-fill': 'radial-gradient',
+            'background-gradient-stop-colors': function (ele) {
+              return ele.data('colorHi') + ' ' + ele.data('color') + ' ' + ele.data('color');
+            },
+            'background-gradient-stop-positions': '0 60 100',
+            'background-gradient-direction': 'to-bottom-right',
+            'background-color': 'data(color)',  // fallback for renderers that ignore gradient
+            // Soft glowing aura around every node — the GraphXR "luminous orb"
+            // effect. underlay sits BELOW the node and bleeds outward, so a
+            // larger padding gives a softer halo.
+            'underlay-color': 'data(color)',
+            'underlay-padding': 10,
+            'underlay-opacity': 0.32,
+            'underlay-shape': 'ellipse',
+            // Label OUTSIDE the node, below it, with a dark halo so it pops against any background.
+            'label': 'data(label)',
+            'color': '#f3f5f9',
+            'text-outline-color': '#04050b',
+            'text-outline-width': 2.5,
+            'text-outline-opacity': 0.9,
+            'font-family': 'ui-monospace, "SF Mono", Menlo, monospace',
+            'font-size': '11px',
+            'font-weight': 'bold',
+            'text-valign': 'bottom',
+            'text-halign': 'center',
+            'text-margin-y': 4,
+            'text-wrap': 'wrap',
+            'text-max-width': 140,
+            // No min-zoomed-font-size: labels stay visible even at fit-zoom.
+            // The dark halo (text-outline) makes them legible against any
+            // background colour or overlapping edges.
+            'width': 'data(size)',
+            'height': 'data(size)',
+            'shape': 'ellipse',
+            'border-width': 2,
+            'border-color': 'rgba(255,255,255,.55)',
+            'border-opacity': 0.9,
+            'overlay-opacity': 0,  // suppress Cytoscape default hover overlay
+            'transition-property': 'opacity, border-width, border-color, width, height, font-size, underlay-padding, underlay-opacity',
+            'transition-duration': 250
+          }
+        },
+        {
+          selector: 'edge',
+          style: {
+            // Default edges need to be clearly visible against the dark canvas
+            // even when nothing is selected — hence the higher opacity and a
+            // slightly cooler grey than the surface chrome.
+            'width': 1.5,
+            'line-color': '#8590a5',
+            'target-arrow-color': '#8590a5',
+            'target-arrow-shape': 'triangle',
+            'arrow-scale': 0.85,
+            'curve-style': 'bezier',
+            'opacity': 0.55,
+            'transition-property': 'opacity, line-color, target-arrow-color, width, underlay-padding, underlay-opacity',
+            'transition-duration': 250
+          }
+        },
+        // Non-highlighted edges in spotlight mode: keep visible (not erased),
+        // just slightly muted so the highlighted 1-hop subgraph stands out.
+        { selector: '.muted', style: { 'opacity': 0.16, 'text-opacity': 0.15, 'underlay-opacity': 0.08 } },
+        { selector: '.hide', style: { 'display': 'none' } },
+        {
+          selector: 'node.focus',
+          style: {
+            'border-width': 4,
+            'border-color': '#ffffff',
+            'border-opacity': 1,
+            'font-size': '13px',
+            'text-outline-width': 3,
+            // Intense white aura on the focused node — reads as "selected".
+            'underlay-color': '#ffffff',
+            'underlay-padding': 22,
+            'underlay-opacity': 0.55,
+            'z-index': 999
+          }
+        },
+        // 1-hop neighbours: tinted auras matching the edge colour. This makes
+        // the spotlighted subgraph glow as a constellation while the rest of
+        // the canvas keeps its quieter ambient look.
+        {
+          selector: 'node.prereq-node',
+          style: {
+            'underlay-color': '#2ee8ff',
+            'underlay-padding': 14,
+            'underlay-opacity': 0.55,
+            'border-color': '#2ee8ff',
+            'border-width': 2.5,
+            'z-index': 50
+          }
+        },
+        {
+          selector: 'node.dep-node',
+          style: {
+            'underlay-color': '#ff7e93',
+            'underlay-padding': 14,
+            'underlay-opacity': 0.55,
+            'border-color': '#ff7e93',
+            'border-width': 2.5,
+            'z-index': 50
+          }
+        },
+        {
+          selector: 'node.match',
+          style: {
+            'border-width': 3,
+            'border-color': '#fde047'
+          }
+        },
+        {
+          selector: 'edge.prereq-path',
+          style: {
+            'line-color': '#2ee8ff',
+            'target-arrow-color': '#2ee8ff',
+            'width': 3,
+            'opacity': 1,
+            // Soft cyan glow along the prereq trace — "laser light" effect.
+            'underlay-color': '#2ee8ff',
+            'underlay-padding': 5,
+            'underlay-opacity': 0.45,
+            'z-index': 50
+          }
+        },
+        {
+          selector: 'edge.dependent-path',
+          style: {
+            'line-color': '#ff7e93',
+            'target-arrow-color': '#ff7e93',
+            'width': 3,
+            'opacity': 1,
+            'underlay-color': '#ff7e93',
+            'underlay-padding': 5,
+            'underlay-opacity': 0.45,
+            'z-index': 50
+          }
+        }
+      ],
+      layout: fcoseOptions(),
+      wheelSensitivity: 0.2,
+      minZoom: 0.1,
+      maxZoom: 4
+    });
+
+    cy.on('tap', 'node', evt => focusNode(evt.target));
+    cy.on('tap', evt => {
+      if (evt.target === cy) clearFocus();
+    });
+    document.querySelector('#panel .close').addEventListener('click', clearFocus);
+    document.getElementById('reset').addEventListener('click', clearFocus);
+
+    function focusNode(node) {
+      // 1-hop only — direct prereqs (incomers) and direct dependents
+      // (outgoers). We deliberately do NOT walk the full chain anymore;
+      // showing only the immediate neighbourhood keeps the spotlight legible
+      // and matches how the side panel reads ("depends on" / "enables").
+      const inEdges  = node.incomers('edge');
+      const outEdges = node.outgoers('edge');
+      const prereqs  = node.incomers('node');
+      const deps     = node.outgoers('node');
+      const keep     = node.union(prereqs).union(deps).union(inEdges).union(outEdges);
+
+      // Mute everything outside the 1-hop neighbourhood (not dimmed to
+      // invisibility — the rest of the graph stays legible underneath).
+      cy.elements().addClass('muted');
+      keep.removeClass('muted');
+
+      cy.edges().removeClass('prereq-path dependent-path');
+      inEdges.addClass('prereq-path');
+      outEdges.addClass('dependent-path');
+
+      cy.nodes().removeClass('focus prereq-node dep-node');
+      node.addClass('focus');
+      prereqs.addClass('prereq-node');
+      deps.addClass('dep-node');
+
+      renderPanel(node, prereqs, deps);
+      document.getElementById('reset').classList.add('show');
+
+      // Center the focused node in the viewport and zoom-fit the 1-hop
+      // neighbourhood. We do NOT re-run the force layout — keeping the
+      // node positions stable on click is more orientating than
+      // re-shuffling them every time.
+      cy.stop(true);
+      cy.animate({
+        fit:  { eles: keep, padding: 140 },
+        center: { eles: node }
+      }, { duration: 500, easing: 'ease-in-out' });
+    }
+
+    function clearFocus() {
+      cy.elements().removeClass('muted focus prereq-path dependent-path prereq-node dep-node');
+      document.getElementById('panel').classList.remove('open');
+      document.getElementById('reset').classList.remove('show');
+      cy.stop(true);
+      cy.animate({ fit: { eles: cy.elements(), padding: 60 } }, { duration: 600, easing: 'ease-in-out' });
+    }
+
+    function renderPanel(node, prereqNodes, depNodes) {
+      const d = node.data();
+      const panel = document.getElementById('panel');
+      const phaseEl = document.getElementById('p-phase');
+      phaseEl.textContent = d.phase_title;
+      phaseEl.style.background = 'rgba(255,255,255,.05)';
+      phaseEl.style.color = d.color;
+      phaseEl.style.border = '1px solid ' + d.color;
+      document.getElementById('p-title').textContent = d.title;
+      document.getElementById('p-id').textContent = d.id;
+      document.getElementById('p-desc').textContent = d.desc || '(no description)';
+
+      // Lesson link — use the first introduced_in module if any
+      const a = document.getElementById('p-link');
+      const lessonHref = d.introduced_in.length ? moduleToLessonUrl(d.introduced_in[0]) : null;
+      if (lessonHref) {
+        a.href = lessonHref;
+        a.style.display = 'inline-block';
+        a.textContent = 'Open lesson (' + d.introduced_in[0] + ') →';
+      } else {
+        a.style.display = 'none';
+      }
+
+      const sortByPhaseThenTitle = (a, b) => {
+        const pa = a.data('phase'), pb = b.data('phase');
+        if (pa !== pb) return pa.localeCompare(pb);
+        return a.data('title').localeCompare(b.data('title'));
+      };
+      fillNodeList('p-prereqs', prereqNodes.sort(sortByPhaseThenTitle));
+      fillNodeList('p-deps', depNodes.sort(sortByPhaseThenTitle));
+
+      // Also-used-in (static text, no nav)
+      const alsoSec = document.getElementById('sec-also');
+      const alsoUl = document.getElementById('p-also');
+      alsoUl.innerHTML = '';
+      if (d.also_used_in.length) {
+        alsoSec.style.display = 'block';
+        d.also_used_in.forEach(m => {
+          const li = document.createElement('li');
+          li.className = 'static';
+          li.textContent = m;
+          alsoUl.appendChild(li);
+        });
+      } else {
+        alsoSec.style.display = 'none';
+      }
+
+      // Numerical anchors
+      const ancSec = document.getElementById('sec-anchors');
+      const ancEl = document.getElementById('p-anchors');
+      ancEl.innerHTML = '';
+      if (d.numerical_anchors.length) {
+        ancSec.style.display = 'block';
+        d.numerical_anchors.forEach(na => {
+          const div = document.createElement('div');
+          div.className = 'num-anchor';
+          div.innerHTML = (na.value ? na.value : '') +
+            (na.label ? ' <span class="lbl">— ' + na.label + '</span>' : '');
+          ancEl.appendChild(div);
+        });
+      } else {
+        ancSec.style.display = 'none';
+      }
+
+      // Sources
+      const srcSec = document.getElementById('sec-sources');
+      const srcUl = document.getElementById('p-sources');
+      srcUl.innerHTML = '';
+      if (d.sources.length) {
+        srcSec.style.display = 'block';
+        d.sources.forEach(s => {
+          const li = document.createElement('li');
+          li.className = 'static';
+          li.textContent = s;
+          srcUl.appendChild(li);
+        });
+      } else {
+        srcSec.style.display = 'none';
+      }
+
+      panel.classList.add('open');
+    }
+
+    function fillNodeList(elId, nodes) {
+      const ul = document.getElementById(elId);
+      ul.innerHTML = '';
+      if (nodes.length === 0) {
+        const li = document.createElement('li');
+        li.className = 'none static';
+        li.textContent = 'none';
+        ul.appendChild(li);
+        return;
+      }
+      nodes.forEach(n => {
+        const li = document.createElement('li');
+        const dd = n.data();
+        const dot = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + dd.color + ';margin-right:6px;vertical-align:middle"></span>';
+        li.innerHTML = dot + dd.title;
+        li.title = dd.id;
+        li.addEventListener('click', () => focusNode(n));
+        ul.appendChild(li);
+      });
+    }
+
+    // --- Phase filter chips ---
+    const filterBar = document.getElementById('filters');
+    const phaseState = {};
+    (data.phases || []).forEach(p => {
+      phaseState[p.id] = true;
+      const btn = document.createElement('button');
+      btn.dataset.phase = p.id;
+      btn.style.borderColor = PHASE_COLOR[p.id] || '#888';
+      btn.style.color = PHASE_COLOR[p.id] || '#888';
+      btn.textContent = p.title;
+      btn.addEventListener('click', () => togglePhase(p.id, btn));
+      filterBar.appendChild(btn);
+    });
+
+    function togglePhase(phaseId, btn) {
+      phaseState[phaseId] = !phaseState[phaseId];
+      btn.classList.toggle('off', !phaseState[phaseId]);
+      cy.nodes().forEach(n => {
+        n.toggleClass('hide', !phaseState[n.data('phase')]);
+      });
+      cy.edges().forEach(e => {
+        const hide = e.source().hasClass('hide') || e.target().hasClass('hide');
+        e.toggleClass('hide', hide);
+      });
+      // Re-settle only the visible subgraph.
+      const visible = cy.elements().not('.hide');
+      if (visible.length > 1) {
+        visible.layout(fcoseOptions({ animate: true, animationDuration: 500 })).run();
+      }
+    }
+
+    // --- Search ---
+    const searchEl = document.getElementById('search');
+    searchEl.addEventListener('input', () => {
+      const q = searchEl.value.trim().toLowerCase();
+      cy.nodes().removeClass('match');
+      if (!q) return;
+      const hits = cy.nodes().filter(n => {
+        const d = n.data();
+        return d.title.toLowerCase().includes(q) ||
+               d.id.toLowerCase().includes(q) ||
+               (d.desc || '').toLowerCase().includes(q);
+      });
+      hits.addClass('match');
+      if (hits.length === 1) {
+        focusNode(hits[0]);
+      } else if (hits.length > 1) {
+        cy.fit(hits, 80);
+      }
+    });
+    searchEl.addEventListener('keydown', evt => {
+      if (evt.key === 'Escape') {
+        searchEl.value = '';
+        cy.nodes().removeClass('match');
+        clearFocus();
+      }
+    });
+
+    // --- ?focus=<slug> deep link (from the glossary page) ---
+    // Lets `glossary.html` jump straight into a spotlight here. After fcose
+    // settles we look for the requested concept and focus it.
+    const params = new URLSearchParams(window.location.search);
+    const wanted = params.get('focus');
+    if (wanted) {
+      const target = cy.getElementById(wanted);
+      if (target && target.length) {
+        // Wait one tick so the initial layout has placed everything.
+        setTimeout(() => focusNode(target), 800);
+      }
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
