@@ -402,26 +402,26 @@ Use this table to plan the week. Every exercise across all five worksheets is ta
 
 | Day | Exercise | Difficulty | Time | Notes |
 |---|---|---|---|---|
-| 26 | E1 — Vagueness rewrite | ★ | 12 min | Core skill: specificity. |
-| 26 | E2 — System/user split | ★ | 10 min | Sets up prefix caching mental model. |
-| 26 | E3 — Position diagnosis | ★ | 8 min | "Lost in the middle" check. |
-| 26 | E4 — Pair critique | ★ | 15 min | Calibration against a peer. |
-| 27 | E1 — Role rewrite | ★ | 10 min | Role = distribution shift. |
-| 27 | E2 — Injection defense | ★ | 15 min | Three-defense stack (N25). |
-| 27 | E3 — Schema-by-example | ★ | 12 min | Prefill + schema. |
-| 27 | E4 — Injection red-team | ☆ | 15 min | Try to break a peer's defense. |
-| 28 | E1 — CoT add/remove | ★ | 12 min | Note 4.4× cost (N6). |
-| 28 | E2 — Few-shot curve | ★ | 18 min | Build mini-eval of 5 cases at 0/1/3/5 shots. |
-| 28 | E3 — Self-consistency | ☆ | 15 min | 5× compute, +11 pts (N9). |
-| 28 | E4 — When CoT hurts | ★ | 8 min | Find a task where it's worse. |
-| 29 | E1 — Abstention prompt | ★ | 12 min | 46% → <5% (N10). |
-| 29 | E2 — Citation discipline | ★ | 15 min | 12% → <1% (N11). |
-| 29 | E3 — False-premise traps | ★ | 10 min | Reframe to allow rejection. |
-| 29 | E4 — Production prompt | ☆ | 20 min | Stack all five techniques. |
-| 30 | E1 — Two-step chain | ★ | 15 min | Note 0.9² = 81% (N12 variant). |
-| 30 | E2 — Tool manifest | ★ | 12 min | Schema for one tool. |
-| 30 | E3 — Mini eval suite | ★ | 18 min | 5 cases (N23 floor). |
-| 30 | E4 — Bridge to agents | ★ | 10 min | Discussion. |
+| 26 | E1 — Trap-spotter | ★ | 8 min | Core skill: specificity. |
+| 26 | E2 — Rewrite race | ★ | 10 min | Rewrite a vague prompt against the clock. |
+| 26 | E3 — Position experiment | ★ | 10 min | "Lost in the middle" check. |
+| 26 | E4 — System/user split | ★ | 7 min | Sets up prefix caching mental model. |
+| 27 | E1 — Role wardrobe | ★ | 10 min | Role = distribution shift. |
+| 27 | E2 — Build a wall | ★ | 12 min | Three-defense stack against injection (N25). |
+| 27 | E3 — Schema in / schema out | ★ | 12 min | Structured output with explicit schema. |
+| 27 | E4 — Prefill the model's mouth | ☆ | 6 min | Prefill experiment. |
+| 28 | E1 — The arithmetic showdown | ★ | 10 min | CoT vs. direct; note 4.4× cost (N6). |
+| 28 | E2 — Structured CoT for production | ★ | 12 min | Structured CoT pattern. |
+| 28 | E3 — Few-shot classification | ★ | 12 min | Build mini-eval of 5 cases at 0/1/3/5 shots. |
+| 28 | E4 — Discuss | ☆ | 6 min | When does CoT hurt? |
+| 29 | E1 — Confabulation hunt | ★ | 10 min | Find a real hallucination in the wild. |
+| 29 | E2 — Add an abstention guard | ★ | 10 min | 46% → <5% (N10). |
+| 29 | E3 — Build a complete prompt, together | ★ | 20 min | Stack five techniques in a single prompt. |
+| 29 | E4 — Self-critique | ☆ | 5 min | Have the model grade its own answer. |
+| 30 | E1 — Decompose the monolith | ★ | 10 min | Two-step chain; note 0.9² = 81% (N12 variant). |
+| 30 | E2 — Write a tool manifest | ★ | 10 min | Schema for one tool. |
+| 30 | E3 — Build a minimal eval | ★ | 15 min | 5 cases (N23 floor). |
+| 30 | E4 — Bridge to next week | ☆ | 10 min | Discussion: prompts → agents. |
 
 **Week totals:** Standard path = ~3h 50m hands-on (45m × 5 days, generous). Stretch path = +1h. If your facilitator runs a 90-min session per day, drop one ☆ per day plus one ★ pair-discussion.
 
@@ -487,31 +487,31 @@ A four-step prompt chain. Each step is 92% reliable end-to-end. What is the chai
 
 Use these rubrics if you're self-grading or facilitator-grading. Each is out of 5 points.
 
-### Day 26 E1 (Vagueness rewrite)
+### Day 26 E1 (Trap-spotter)
 - 5 = Defines audience, format, success criteria, and length. Specific examples. No vague verbs ("explain", "discuss") without qualifiers.
 - 4 = Three of four present.
 - 3 = Two of four.
 - ≤2 = Still vague.
 
-### Day 27 E2 (Injection defense)
+### Day 27 E2 (Build a wall — injection defense)
 - 5 = Uses all three defenses (delimiters, role, abstention) with correct phrasing. Tested against ≥3 injection attempts; ≤1 success.
 - 4 = Two defenses + tested.
 - 3 = One defense + tested, OR three defenses + untested.
 - ≤2 = Untested or single weak defense.
 
-### Day 28 E2 (Few-shot curve)
+### Day 28 E3 (Few-shot classification curve)
 - 5 = Built 5-case mini-eval, ran at 0/1/3/5 shots, recorded actual numbers, reproduced the diminishing-returns shape (N7/N8).
 - 4 = Ran 0/3/5 only.
 - 3 = Ran 0 vs. 5 only.
 - ≤2 = Did not measure.
 
-### Day 29 E4 (Production prompt)
+### Day 29 E3 (Build a complete prompt, together)
 - 5 = Stacks five techniques (specificity, role, data separation, schema-by-example, abstention). Has ≥5 test cases with expected outputs. Documents the eval pass rate.
 - 4 = Four techniques + eval.
 - 3 = Three techniques + eval, OR all five without eval.
 - ≤2 = Missing eval or fewer than three techniques.
 
-### Day 30 E3 (Mini eval suite)
+### Day 30 E3 (Build a minimal eval)
 - 5 = 5+ cases including ≥1 negative case. JSON schema for pass criterion. Documented `temperature=0`. Reported pass rate. Identified ≥1 failure cluster.
 - 4 = 5 cases, all positive, with pass rate.
 - 3 = 3–4 cases.

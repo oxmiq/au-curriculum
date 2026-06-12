@@ -674,7 +674,7 @@ The labs above teach you the happy path. This appendix teaches you the *unhappy*
 **Goal**: prove you can lose nothing on a long job.
 
 1. Write a `sweep.sh` that runs 4 benchmarks taking ~10 min each.
-2. Submit it with `capsule schedule submit --config nv-h100 --timeout 1h`.
+2. Submit it with `capsule schedule start --script ./sweep.sh --config nv-h100 --timeout 1h`.
 3. Note the job ID. **Close your laptop.** Walk away for 45 min.
 4. Reopen. Find the job. Pull its logs.
 5. Verify the outputs landed in OneDrive (not just persistent volume).

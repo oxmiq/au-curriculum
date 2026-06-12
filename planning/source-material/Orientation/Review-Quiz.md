@@ -8,11 +8,11 @@
 
 ## Section A — Shell & Linux (5 questions)
 
-1. What does this command do?
+1. What does this command do, and why is it not a reliable way to count Markdown files?
    ```bash
-   ls -la | grep ".md" | wc -l
+   ls -la | grep "\.md" | wc -l
    ```
-   *Answer in one sentence.*
+   *Answer in one or two sentences. Then propose a more reliable one-liner using `find`.*
 
 2. Write a one-liner that prints the second column of `/etc/passwd`, with `:` as the delimiter.
 
@@ -20,7 +20,7 @@
 
 4. Why would you use `chmod +x my_script.sh`?
 
-5. What does `$(date +%F)` evaluate to today (June 3, 2026)?
+5. What output format does `$(date +%F)` produce? Give a one-line example for any day.
 
 ---
 
@@ -63,11 +63,11 @@
 
 ## Answer Key (instructor copy — do not distribute before quiz)
 
-1. Counts the number of files / directory entries containing ".md" in the current directory.
+1. Counts the lines of `ls -la` output that contain the regex `\.md` in the current directory. It is **not** a reliable file count because (a) `ls -la` output includes non-filename lines (the `total N` header and any line whose permissions/timestamp text happens to contain the pattern), and (b) without escaping, `grep ".md"` treats `.` as "any character" so e.g. `xmd` matches. The reliable one-liner is `find . -maxdepth 1 -type f -name '*.md' | wc -l`.
 2. `awk -F':' '{print $2}' /etc/passwd`
 3. `>` truncates and writes; `>>` appends.
 4. Marks the script as executable so the shell will run it directly (`./my_script.sh`).
-5. `2026-06-03`.
+5. `YYYY-MM-DD` (ISO 8601 date). Example for any given day: `2026-06-03` (today's date will of course differ).
 6. (a) `feat:` (b) `docs:` (c) `fix:` (d) `refactor:` (e) `chore:`
 7. (b) — `wip` is not a useful commit message. Use a conventional-commit format like `feat:` / `fix:` / `chore:` with a real description.
 8. (1) `git branch <correct-branch>` to save the work to a new branch. (2) `git reset --hard HEAD~1` (or `HEAD~N`) to remove from current branch. (3) `git checkout <correct-branch>` to switch. (Many valid variants; accept any answer that preserves work and cleans the wrong branch.)

@@ -78,11 +78,11 @@ You are not required to try every combination. You **are** required to defend yo
 
 ## Files in this folder (one per day)
 
-- [Day 46 — Project Charter Template](Week-10-Day-46-Charter-Template.md)
-- [Day 47 — Execution Checklist](Week-10-Day-47-Execution-Checklist.md)
-- [Day 48 — Presentation Outline](Week-10-Day-48-Presentation-Outline.md)
-- [Day 49 — Assessment Rubric](Week-10-Day-49-Assessment-Rubric.md)
-- [Day 50 — Retrospective Form](Week-10-Day-50-Retrospective-Form.md)
+- [Day 46 — Project Charter Template](Day-46-Charter-Template.md)
+- [Day 47 — Execution Checklist](Day-47-Execution-Checklist.md)
+- [Day 48 — Presentation Outline](Day-48-Presentation-Outline.md)
+- [Day 49 — Assessment Rubric](Day-49-Assessment-Rubric.md)
+- [Day 50 — Retrospective Form](Day-50-Retrospective-Form.md)
 
 ---
 

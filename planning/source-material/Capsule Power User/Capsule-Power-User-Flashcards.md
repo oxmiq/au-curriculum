@@ -111,7 +111,7 @@
 | # | Q | A |
 |---|---|---|
 | 47 | Why not run a 4-hour benchmark in `capsule term`? | SSH session drops (laptop sleep, network hiccup, screen lock) kill the job. Use `capsule schedule` instead. |
-| 48 | `capsule schedule` sub-commands? | `submit`, `monitor`, `cancel`. |
+| 48 | `capsule schedule` sub-commands? | `start`, `status`, `logs`, `cancel`. |
 | 49 | What does `capsule mcp --output` produce? | An MCP manifest describing Capsule commands as agent-callable tools. |
 | 50 | Which clients consume that manifest? | Claude Desktop, Cursor, VS Code Copilot, any MCP-aware agent. |
 | 51 | Capsule + MCP = which agent-stack layer is the Capsule CLI? | The Action layer for a deployment agent. (Week 7 Day 32.) |
@@ -139,7 +139,7 @@ You should be able to type these from memory, no Cheatsheet, in under 5 seconds 
 | Connect to specific machine by unique ID | `capsule term -u <unique-id>` |
 | Run nvidia-smi non-interactively on first matching tag | `capsule exec <tag> -- nvidia-smi` |
 | Open VS Code on a tagged machine via direct TCP | `capsule code <tag> --direct` |
-| Submit a benchmark script to run server-side | `capsule schedule submit -- ./eval.sh` |
+| Submit a benchmark script to run server-side | `capsule schedule start --script ./eval.sh` |
 | Emit the MCP manifest for an agent to consume | `capsule mcp --output > capsule-mcp.json` |
 | Fix "everything looks weird" local state | `capsule cleanup` |
 | Show identity + token expiry | `capsule status` |

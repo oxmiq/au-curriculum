@@ -235,33 +235,33 @@ Use this to plan effort. ★ = required; ☆ = stretch. Time is the realistic av
 
 | Set | Problem | Difficulty | Time | Concept anchors |
 |---|---|---|---|---|
-| 26 | 26.1 Vagueness audit | ★ | 30 min | `specificity`, `prompt-clarity` |
-| 26 | 26.2 Temperature experiment | ★ | 25 min | `temperature-determinism` |
-| 26 | 26.3 System-prompt isolation | ★ | 25 min | `system-prompt`, `prompt-caching` |
-| 26 | 26.4 Position experiment | ☆ | 35 min | `attention-position-bias` |
-| 26 | 26.5 Specificity audit (real system) | ☆ | 25 min | `specificity` |
-| 27 | 27.1 Role rewrite | ★ | 25 min | `role-prompting` |
-| 27 | 27.2 Injection defense | ★ | 40 min | `prompt-injection`, `delimiter-discipline` |
-| 27 | 27.3 Structured-output suite | ★ | 35 min | `structured-output`, `constrained-decoding` |
-| 27 | 27.4 Red-team your partner | ☆ | 30 min | `prompt-injection` |
-| 27 | 27.5 Prefill experiment | ☆ | 20 min | `structured-output` |
-| 28 | 28.1 CoT lift/cost | ★ | 35 min | `chain-of-thought` |
-| 28 | 28.2 Few-shot curve | ★ | 45 min | `few-shot-learning`, `in-context-learning` |
-| 28 | 28.3 Structured CoT | ★ | 25 min | `chain-of-thought`, `structured-output` |
-| 28 | 28.4 Self-consistency | ☆ | 30 min | `self-consistency` |
+| 26 | 26.1 The vagueness audit | ★ | 30 min | `specificity`, `prompt-clarity` |
+| 26 | 26.2 The temperature experiment | ★ | 25 min | `temperature-determinism` |
+| 26 | 26.3 The system-prompt isolation | ★ | 25 min | `system-prompt`, `prompt-caching` |
+| 26 | 26.4 The position experiment | ☆ | 35 min | `attention-position-bias` |
+| 26 | 26.5 Specificity audit on a real system | ☆ | 25 min | `specificity` |
+| 27 | 27.1 Role A/B test | ★ | 25 min | `role-prompting` |
+| 27 | 27.2 The structured extractor | ★ | 35 min | `structured-output`, `constrained-decoding` |
+| 27 | 27.3 Adversarial input | ★ | 40 min | `prompt-injection`, `delimiter-discipline` |
+| 27 | 27.4 Prefill experiment | ★ | 20 min | `structured-output` |
+| 27 | 27.5 Format-vs-content tradeoff | ☆ | 30 min | `structured-output` |
+| 28 | 28.1 CoT vs. direct on arithmetic | ★ | 35 min | `chain-of-thought` |
+| 28 | 28.2 Few-shot for classification | ★ | 45 min | `few-shot-learning`, `in-context-learning` |
+| 28 | 28.3 Structured CoT for production | ★ | 25 min | `chain-of-thought`, `structured-output` |
+| 28 | 28.4 Few-shot example selection ablation | ☆ | 30 min | `few-shot-learning` |
 | 28 | 28.5 When CoT hurts | ☆ | 25 min | `chain-of-thought` |
-| 29 | 29.1 Abstention prompt | ★ | 30 min | `abstention`, `hallucination` |
-| 29 | 29.2 Citation discipline | ★ | 35 min | `citation-discipline`, `rag-trust` |
-| 29 | 29.3 False-premise trap | ★ | 25 min | `hallucination` |
-| 29 | 29.4 Production stack | ☆ | 50 min | five-technique synthesis |
-| 29 | 29.5 Hallucination eval | ☆ | 40 min | `eval-suite` |
-| 30 | 30.1 Two-step chain | ★ | 35 min | `prompt-chaining` |
+| 29 | 29.1 The abstention experiment | ★ | 30 min | `abstention`, `hallucination` |
+| 29 | 29.2 False-premise resistance | ★ | 25 min | `hallucination` |
+| 29 | 29.3 Build a complete prompt | ★ | 50 min | five-technique synthesis |
+| 29 | 29.4 Self-critique | ★ | 35 min | `self-critique`, `eval-suite` |
+| 29 | 29.5 Confidence calibration | ☆ | 40 min | `calibration`, `abstention` |
+| 30 | 30.1 Decompose a single prompt | ★ | 35 min | `prompt-chaining` |
 | 30 | 30.2 Tool manifest | ★ | 30 min | `tool-use`, `mcp` |
-| 30 | 30.3 Mini eval suite | ★ | 40 min | `eval-suite`, `llm-as-judge` |
-| 30 | 30.4 Eval regression | ☆ | 35 min | `prompt-as-code` |
-| 30 | 30.5 Chain reliability math | ☆ | 25 min | `prompt-chaining` |
+| 30 | 30.3 Build a 5-case eval | ★ | 40 min | `eval-suite`, `llm-as-judge` |
+| 30 | 30.4 Cross-model eval | ☆ | 35 min | `eval-suite`, `prompt-as-code` |
+| 30 | 30.5 Mini agent | ☆ | 45 min | `prompt-chaining`, `tool-use` |
 
-**Week totals:** Required path ≈ 8h 10m; full path (including ☆) ≈ 13h. Plan ~1.5 hrs/day after lecture; add a half-day on the weekend if you want all the ☆ problems.
+**Week totals:** Required path ≈ 9h 10m; full path (including ☆) ≈ 13h 35m. Plan ~2 hrs/day after lecture; add a half-day on the weekend if you want all the ☆ problems.
 
 ---
 

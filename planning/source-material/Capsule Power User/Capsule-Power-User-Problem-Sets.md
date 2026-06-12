@@ -209,11 +209,11 @@ Convert your 5-prompt eval to a single shell script that runs each prompt, captu
 
 ### Problem 44.1 ★ — Schedule the eval
 
-Submit your 43.5 eval script via `capsule schedule submit`. Monitor with `capsule schedule monitor`. Submit the resulting log + the final PASS/FAIL summary.
+Submit your 43.5 eval script via `capsule schedule start`. Monitor with `capsule schedule status` and `capsule schedule logs --tail`. Submit the resulting log + the final PASS/FAIL summary.
 
 ### Problem 44.2 ★ — Cancel-and-resume
 
-Submit a deliberately long benchmark, monitor for 60 seconds, then cancel it. Verify resources are released. Re-submit with adjusted parameters. Submit timestamps + commands.
+Submit a deliberately long benchmark via `capsule schedule start`, monitor its progress for 60 seconds with `capsule schedule status` / `logs`, then `capsule schedule cancel <job-id>`. Verify resources are released. Re-submit with adjusted parameters. Submit timestamps + commands.
 
 ### Problem 44.3 ★ — MCP manifest
 

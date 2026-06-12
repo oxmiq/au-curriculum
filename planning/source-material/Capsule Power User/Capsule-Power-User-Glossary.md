@@ -77,7 +77,7 @@ Output by default is grouped by config tag (e.g., `NV-3060-04-1`). Add `--all` t
 ### `capsule schedule`
 **Field:** Submits a long-running job (benchmark, training, eval) to run server-side without holding an interactive terminal.
 
-Use whenever a task is longer than ~30 min: SSH drops, laptop sleeps, and benchmark crashes all stop ruining your day. Sub-commands: `submit`, `monitor`, `cancel`. *Introduced: Day 44.*
+Use whenever a task is longer than ~30 min: SSH drops, laptop sleeps, and benchmark crashes all stop ruining your day. Sub-commands: `start`, `status`, `logs`, `cancel`. *Introduced: Day 44.*
 
 ### `capsule status`
 **Field:** Reports the local Capsule client's identity, env, customer context, and connection health in one snapshot.

@@ -192,7 +192,7 @@ O X M I Q   ·   C A P S U L E   P O W E R - U S E R   ·   P A G E   1   O F   
 
 A R C H I T E C T I N G   A T O M S   T O   A G E N T S
 
-O X M I Q
+O X M I Q
 Capsule — Cheat Sheet (cont.)
 
 E V A L   ·   S C H E D U L E   ·   T R I A G E
