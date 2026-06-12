@@ -4,6 +4,13 @@
 //
 // If the CDN is blocked, the page degrades to plain text inside the <pre>;
 // the rest of the page remains usable.
+//
+// Security: `securityLevel: 'antiscript'` is the OWASP-aligned middle ground
+// for our use case. It strips <script> tags from Mermaid node labels (closing
+// the XSS vector flagged by Copilot review on PR #4) while still allowing the
+// `click NODE "<href>"` directive used by docs/roadmap.md (20+ navigation
+// handlers across the curriculum graph). Do NOT downgrade back to 'loose'
+// without first removing every click handler in docs/**.
 
 (function () {
   var s = document.createElement('script');
@@ -15,7 +22,7 @@
     "  startOnLoad: true,",
     "  theme: isDark ? 'dark' : 'default',",
     "  flowchart: { htmlLabels: true, useMaxWidth: true },",
-    "  securityLevel: 'loose'",  // needed for click handlers to navigate
+    "  securityLevel: 'antiscript'",  // strips <script> from labels; click directives still work
     "});"
   ].join('\n');
   document.head.appendChild(s);

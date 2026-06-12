@@ -13,7 +13,7 @@
 | 28 (Wed) | Tools & Action Layer (MCP) | [module-3/index.md](module-3/index.md) |
 | 29 (Thu) | Governance & Security | [module-4/index.md](module-4/index.md) |
 | 30 (Fri) | Orchestration & Multi-Agent | [module-5/index.md](module-5/index.md) |
-| 31 (Fri) | **Phase 2 Wrap** — Consolidation + team agent design (10%) | [module-6/index.md](module-6/index.md) |
+| 31 (wrap day) | **Phase 2 Wrap** — Consolidation + team agent design (10%) | [module-6/index.md](module-6/index.md) |
 
 ## Friday — the bar
 

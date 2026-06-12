@@ -24,7 +24,7 @@ No jargon. If your sentences contain words like *orchestration*, *abstraction la
 
 ## Why this assignment exists
 
-You'll revisit this exact same submission in **Week 8 Day 36**, when you install Capsule for the first time and map its architecture to everything you've learned. The delta between your Week-1 answer and your Week-8 answer is one of the most honest measures of how much you've grown.
+You'll revisit this exact same submission in **Week 7 Day 34**, when you install Capsule for the first time and map its architecture to everything you've learned. The delta between your Week-1 answer and your Week-7 answer is one of the most honest measures of how much you've grown.
 
 ## Grading
 

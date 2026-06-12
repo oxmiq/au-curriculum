@@ -1,4 +1,4 @@
-# Week 7 — AI Agents · Module Assignment (10% Phase-2 Team Assessment)
+# Week 6 Module 6 — AI Agents · Phase 2 Wrap Assignment (10% Phase-2 Team Assessment)
 
 > **Source:** Mindmap Week 7 Day 35 + AI Agents Problem Sets §Set 35 (5-layer-map exercise, Problem 35.1 ★).
 > **Weight:** 10% of overall grade. **Team project** (groups of 3–4).

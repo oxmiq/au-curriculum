@@ -43,9 +43,11 @@ If `build_catalog.py` changes `catalog.json`, commit the updated file.
 
 ## Authoring new lessons
 
-See [LESSON_TEMPLATE.md](LESSON_TEMPLATE.md) for the lesson shape. Every lesson:
+See [LESSON_TEMPLATE.md](LESSON_TEMPLATE.md) for the full lesson shape. Every lesson:
 
-- Lives under `docs/lessons/module-NN/`.
-- Has an `index.md` (week overview), four `NN-<slug>.md` day files (NN = 01..04), a `quiz.html`, and an `assignment.md`.
-- Cites its source under `planning/source-material/` via relative links (3 levels up from the lesson file).
-- Passes `scripts/audit_lessons.py`.
+- Lives under `docs/lessons/week-NN/module-N/` (week zero-padded `01`–`10`; module single digit `1`–`9`).
+- Has an `index.md` (the lesson page), a `knowledge-check.html` (canonical formative knowledge check), and an `assignment.md`.
+- Each week folder also has its own `week-NN/index.md` overview with a Day map.
+- Cites source material via relative links into `planning/source-material/` — three levels up from a module file (`../../../planning/source-material/...`) or three levels up from the week overview.
+- Uses `knowledge-check.html` (NOT the legacy `quiz.html`) and never references the legacy flat `docs/lessons/module-NN/` layout. Both are checked by `scripts/audit_lessons.py` rule L008.
+- Passes `scripts/audit_lessons.py` (rules L001, L001m, L002, L003, L005, L006, L007, L008).

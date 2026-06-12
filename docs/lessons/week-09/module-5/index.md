@@ -21,4 +21,4 @@ You should be able to, without notes:
 
 ## Stuck?
 
-Ask **oxtutor** — the Week 9 → Week 10 bridge is the [Day-47 Charter Template](../../../../planning/source-material/Capstone/Day-46-Charter-Template.md), which assumes you can run all four Day 42–45 skills cold.
+Ask **oxtutor** — the Week 9 → Week 10 bridge is the [Day-46 Charter Template](../../../../planning/source-material/Capstone/Day-46-Charter-Template.md), which assumes you can run all four Day 42–45 skills cold.
