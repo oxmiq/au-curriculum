@@ -1,0 +1,118 @@
+{#-
+  Custom Material header — extends the default with right-side actions for
+  au-curriculum:
+    - Source material  (link to upstream planning/ on GitHub)
+    - Fork & sync help (FORKING.md on GitHub)
+    - Overall progress pill (read from docs/assets/status.json at runtime
+      via a tiny script, with a static fallback rendered server-side from
+      the Phase D hook's `extra.progress.overall`)
+  The default header markup is kept intact below; we only inject an extra
+  flex item before the search box.
+-#}
+{% set site_url = config.site_url | default('') %}
+{% set repo_url = config.repo_url | default('') %}
+{% set source_material_url = repo_url ~ '/tree/main/planning/source-material' if repo_url else '' %}
+{% set forking_url           = repo_url ~ '/blob/main/FORKING.md'             if repo_url else '' %}
+{% set progress = config.extra.progress | default({}) %}
+{% set overall  = progress.overall      | default({}) %}
+{% set pct      = overall.percent       | default(0) %}
+{% set done     = overall.completed     | default(0) %}
+{% set total    = overall.total         | default(51) %}
+{% set pill_class = 'status-not-started' %}
+{% if pct >= 100 %}
+  {% set pill_class = 'status-passed' %}
+{% elif pct > 0 %}
+  {% set pill_class = 'status-in-progress' %}
+{% endif %}
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="{{ lang.t('header.title') }}">
+
+    {# brand button (logo + title) #}
+    <a href="{{ site_url or (config.site_url | default('./')) }}"
+       title="{{ config.site_name | e }}"
+       class="md-header__button md-logo"
+       aria-label="{{ config.site_name }}"
+       data-md-component="logo">
+      {% include "partials/logo.html" %}
+    </a>
+
+    {# hamburger for narrow viewports #}
+    <label class="md-header__button md-icon" for="__drawer">
+      {% set icon = config.theme.icon.menu | default("material/menu") %}
+      {% include ".icons/" ~ icon ~ ".svg" %}
+    </label>
+
+    {# title block — matches default Material #}
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">{{ config.site_name }}</span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            {% if page and page.meta and page.meta.title %}
+              {{ page.meta.title }}
+            {% elif page %}
+              {{ page.title }}
+            {% else %}
+              {{ config.site_name }}
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    {# ── au-curriculum custom right-side actions ── #}
+    <div class="md-header__option ox-header-actions" aria-label="Course actions">
+      {% if source_material_url %}
+        <a class="ox-header-link" href="{{ source_material_url }}" target="_blank" rel="noopener" title="Open the upstream source-material library on GitHub">
+          Source material
+        </a>
+      {% endif %}
+      {% if forking_url %}
+        <a class="ox-header-link" href="{{ forking_url }}" target="_blank" rel="noopener" title="How to fork &amp; keep your copy in sync">
+          Fork &amp; sync
+        </a>
+      {% endif %}
+      <span class="ox-progress-pill status-pill {{ pill_class }}"
+            id="ox-progress-pill"
+            data-pct="{{ pct }}"
+            data-done="{{ done }}"
+            data-total="{{ total }}"
+            title="Modules completed across the 10-week curriculum">
+        {{ done }}/{{ total }} · {{ pct }}%
+      </span>
+    </div>
+
+    {# colour-scheme palette switcher — kept disabled by config but reserved #}
+    {% if config.theme.palette %}
+      {% if not config.theme.palette is mapping %}
+        {% include "partials/palette.html" %}
+      {% endif %}
+    {% endif %}
+
+    {# search input #}
+    {% if "search" in config["plugins"] %}
+      <label class="md-header__button md-icon" for="__search">
+        {% set icon = config.theme.icon.search | default("material/magnify") %}
+        {% include ".icons/" ~ icon ~ ".svg" %}
+      </label>
+      {% include "partials/search.html" %}
+    {% endif %}
+
+    {# repo link (top right) #}
+    {% if config.repo_url %}
+      <div class="md-header__source">
+        {% include "partials/source.html" %}
+      </div>
+    {% endif %}
+  </nav>
+
+  {# tabs strip rendered by the standard Material partial #}
+  {% if "navigation.tabs.sticky" in features %}
+    {% if "navigation.tabs" in features %}
+      {% include "partials/tabs.html" %}
+    {% endif %}
+  {% endif %}
+</header>
