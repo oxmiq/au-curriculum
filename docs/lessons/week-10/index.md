@@ -4,6 +4,46 @@
 > **Primary source:** [`Capstone/`](../../../planning/source-material/Capstone/) — Capstone Guide + 5 day-specific templates (Charter, Execution Checklist, Presentation Outline, Assessment Rubric, Retrospective Form).
 > **Day-numbering note:** the curriculum is a 51-day program (Week 6 added a wrap day post-original-plan). The source-template filenames (`Day-46-...` through `Day-50-...`) retain their **original** capstone-relative naming from upstream planning and refer to *Capstone Day 1–5*, which map to **program Days 47–51** below. Filenames are upstream and not renamed here.
 
+<!-- AUTO-GEN:CARD-GRID:START -->
+<div class="ox-card-grid" markdown="0">
+  <a class="ox-card" href="module-1/index.md" style="--i:47">
+    {status:week-10/module-1}
+    <span class="ox-card__eyebrow">Day 47</span>
+    <h3 class="ox-card__title">Kickoff & Planning</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-2/index.md" style="--i:48">
+    {status:week-10/module-2}
+    <span class="ox-card__eyebrow">Day 48</span>
+    <h3 class="ox-card__title">Execute</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-3/index.md" style="--i:49">
+    {status:week-10/module-3}
+    <span class="ox-card__eyebrow">Day 49</span>
+    <h3 class="ox-card__title">Analyze & Recommend</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-4/index.md" style="--i:50">
+    {status:week-10/module-4}
+    <span class="ox-card__eyebrow">Day 50</span>
+    <h3 class="ox-card__title">Present</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-5/index.md" style="--i:51">
+    {status:week-10/module-5}
+    <span class="ox-card__eyebrow">Day 51</span>
+    <h3 class="ox-card__title">Close</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+</div>
+<!-- AUTO-GEN:CARD-GRID:END -->
+
 ## Day map
 
 | Day | Topic | Page | Source template |

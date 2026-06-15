@@ -3,6 +3,29 @@
 > **Concept of the day:** the program ends with **reflection, career mapping, and your story.** What did you learn? Where are you going? How does this become a portfolio piece an employer can read? Today is soft in structure and high in stakes for what happens next.
 > **Source template:** [Day-50 Retrospective Form](../../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md) (source filename is `Day-50-...` from upstream capstone-relative naming; this is program Day 51).
 
+<!-- AUTO-GEN:LESSON-HEADER:START -->
+<div class="ox-lesson-header" markdown="0">
+  <div class="ox-lesson-header__crumbs">
+    <a href="../../../">Home</a>
+    <span class="sep">/</span>
+    <a href="../../">Learn</a>
+    <span class="sep">/</span>
+    <a href="../">Week 10 — Capstone Project</a>
+    <span class="sep">/</span>
+    <span>Day 51 · Close</span>
+    <span class="sep">·</span>
+    <span class="duration">Full-day milestone</span>
+    {status:week-10/module-5}
+  </div>
+  <div class="ox-lesson-header__cta">
+    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
+    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
+    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Capstone">Source material</a>
+  </div>
+</div>
+<!-- AUTO-GEN:LESSON-HEADER:END -->
+
 ---
 
 ## Why this matters

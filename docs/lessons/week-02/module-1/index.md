@@ -4,6 +4,29 @@
 > **Pre-reading:** Inference Engineering Pre-Lecture Reading — **Reader 1 (AI in production)** (~15 min).
 > **Source:** [Pre-Lecture Reading § Reader 1](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Pre_Lecture_Reading.md) · [Study Guide Ch 0 + §A.0](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
 
+<!-- AUTO-GEN:LESSON-HEADER:START -->
+<div class="ox-lesson-header" markdown="0">
+  <div class="ox-lesson-header__crumbs">
+    <a href="../../../">Home</a>
+    <span class="sep">/</span>
+    <a href="../../">Learn</a>
+    <span class="sep">/</span>
+    <a href="../">Week 2 — The GPU &amp; Memory</a>
+    <span class="sep">/</span>
+    <span>Day 6 · What Happens When You Send a Prompt</span>
+    <span class="sep">·</span>
+    <span class="duration">~3 hrs</span>
+    {status:week-02/module-1}
+  </div>
+  <div class="ox-lesson-header__cta">
+    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
+    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
+    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Inference%20Engineering">Source material</a>
+  </div>
+</div>
+<!-- AUTO-GEN:LESSON-HEADER:END -->
+
 ---
 
 ## Why this matters

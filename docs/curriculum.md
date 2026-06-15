@@ -4,6 +4,71 @@
 > **Cadence:** one concept per day, Friday is consolidation, afternoons are yours.
 > **Outcome:** you can reason about how AI runs in production — and prove it end-to-end on real hardware.
 
+<!-- AUTO-GEN:CARD-GRID:START -->
+<div class="ox-card-grid" markdown="0">
+  <a class="ox-card" href="lessons/week-01/" style="--i:1">
+    <span class="ox-card__eyebrow">Week 01</span>
+    <h3 class="ox-card__title">Orientation & Foundations</h3>
+    <p class="ox-card__desc">5 half-day sessions · pre-read · concept · practice · Friday consolidation.</p>
+    <span class="ox-card__cta">Open week →</span>
+  </a>
+  <a class="ox-card" href="lessons/week-02/" style="--i:2">
+    <span class="ox-card__eyebrow">Week 02</span>
+    <h3 class="ox-card__title">The GPU & Memory</h3>
+    <p class="ox-card__desc">5 half-day sessions · pre-read · concept · practice · Friday consolidation.</p>
+    <span class="ox-card__cta">Open week →</span>
+  </a>
+  <a class="ox-card" href="lessons/week-03/" style="--i:3">
+    <span class="ox-card__eyebrow">Week 03</span>
+    <h3 class="ox-card__title">Attention & KV Cache</h3>
+    <p class="ox-card__desc">5 half-day sessions · pre-read · concept · practice · Friday consolidation.</p>
+    <span class="ox-card__cta">Open week →</span>
+  </a>
+  <a class="ox-card" href="lessons/week-04/" style="--i:4">
+    <span class="ox-card__eyebrow">Week 04</span>
+    <h3 class="ox-card__title">Scaling & Stacks</h3>
+    <p class="ox-card__desc">5 half-day sessions · pre-read · concept · practice · Friday consolidation.</p>
+    <span class="ox-card__cta">Open week →</span>
+  </a>
+  <a class="ox-card" href="lessons/week-05/" style="--i:5">
+    <span class="ox-card__eyebrow">Week 05</span>
+    <h3 class="ox-card__title">Metrics & Production</h3>
+    <p class="ox-card__desc">5 half-day sessions · pre-read · concept · practice · Friday consolidation.</p>
+    <span class="ox-card__cta">Open week →</span>
+  </a>
+  <a class="ox-card" href="lessons/week-06/" style="--i:6">
+    <span class="ox-card__eyebrow">Week 06</span>
+    <h3 class="ox-card__title">Prompt Engineering + AI Agents</h3>
+    <p class="ox-card__desc">6 half-day sessions · pre-read · concept · practice · Friday consolidation.</p>
+    <span class="ox-card__cta">Open week →</span>
+  </a>
+  <a class="ox-card" href="lessons/week-07/" style="--i:7">
+    <span class="ox-card__eyebrow">Week 07</span>
+    <h3 class="ox-card__title">Bridge: Theory Meets Tooling</h3>
+    <p class="ox-card__desc">5 half-day sessions · pre-read · concept · practice · Friday consolidation.</p>
+    <span class="ox-card__cta">Open week →</span>
+  </a>
+  <a class="ox-card" href="lessons/week-08/" style="--i:8">
+    <span class="ox-card__eyebrow">Week 08</span>
+    <h3 class="ox-card__title">Capsule: Connections & Operations</h3>
+    <p class="ox-card__desc">5 half-day sessions · pre-read · concept · practice · Friday consolidation.</p>
+    <span class="ox-card__cta">Open week →</span>
+  </a>
+  <a class="ox-card" href="lessons/week-09/" style="--i:9">
+    <span class="ox-card__eyebrow">Week 09</span>
+    <h3 class="ox-card__title">Capsule: Benchmarking & Eval</h3>
+    <p class="ox-card__desc">5 half-day sessions · pre-read · concept · practice · Friday consolidation.</p>
+    <span class="ox-card__cta">Open week →</span>
+  </a>
+  <a class="ox-card" href="lessons/week-10/" style="--i:10">
+    <span class="ox-card__eyebrow">Week 10</span>
+    <h3 class="ox-card__title">Capstone Project</h3>
+    <p class="ox-card__desc">5 half-day sessions · pre-read · concept · practice · Friday consolidation.</p>
+    <span class="ox-card__cta">Open week →</span>
+  </a>
+</div>
+<!-- AUTO-GEN:CARD-GRID:END -->
+
 ## How a day runs
 
 Every morning has the same shape:

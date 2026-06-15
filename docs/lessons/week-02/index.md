@@ -3,6 +3,46 @@
 > **Goal of the week:** build the hardware mental model. Understand *where* inference happens and *why* it's shaped the way it is.
 > **Source material:** [`Inference Engineering/`](../../../planning/source-material/Inference%20Engineering/) — Study Guide, Pre-Lecture Reading, Lecture Slides, Problem Sets, Flashcards, Glossary.
 
+<!-- AUTO-GEN:CARD-GRID:START -->
+<div class="ox-card-grid" markdown="0">
+  <a class="ox-card" href="module-1/index.md" style="--i:6">
+    {status:week-02/module-1}
+    <span class="ox-card__eyebrow">Day 6</span>
+    <h3 class="ox-card__title">What Happens When You Send a Prompt</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-2/index.md" style="--i:7">
+    {status:week-02/module-2}
+    <span class="ox-card__eyebrow">Day 7</span>
+    <h3 class="ox-card__title">Meet the GPU</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-3/index.md" style="--i:8">
+    {status:week-02/module-3}
+    <span class="ox-card__eyebrow">Day 8</span>
+    <h3 class="ox-card__title">Memory Is the Bottleneck</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-4/index.md" style="--i:9">
+    {status:week-02/module-4}
+    <span class="ox-card__eyebrow">Day 9</span>
+    <h3 class="ox-card__title">Compute-Bound vs Memory-Bound</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-5/index.md" style="--i:10">
+    {status:week-02/module-5}
+    <span class="ox-card__eyebrow">Day 10</span>
+    <h3 class="ox-card__title">Consolidation</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+</div>
+<!-- AUTO-GEN:CARD-GRID:END -->
+
 ## Day map
 
 | Day | Topic | Pre-read | Page |

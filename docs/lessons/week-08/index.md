@@ -3,6 +3,46 @@
 > **Goal of the week:** fluent in connecting to machines, moving files, streaming output, and diagnosing common quirks. By Friday you operate Capsule day-to-day.
 > **Source material:** [`Capsule Power User/`](../../../planning/source-material/Capsule%20Power%20User/) — Lab Guide Modules 5–10, Cheatsheet, Problem Sets, Flashcards, Glossary.
 
+<!-- AUTO-GEN:CARD-GRID:START -->
+<div class="ox-card-grid" markdown="0">
+  <a class="ox-card" href="module-1/index.md" style="--i:37">
+    {status:week-08/module-1}
+    <span class="ox-card__eyebrow">Day 37</span>
+    <h3 class="ox-card__title">Connecting</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-2/index.md" style="--i:38">
+    {status:week-08/module-2}
+    <span class="ox-card__eyebrow">Day 38</span>
+    <h3 class="ox-card__title">Files & Storage</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-3/index.md" style="--i:39">
+    {status:week-08/module-3}
+    <span class="ox-card__eyebrow">Day 39</span>
+    <h3 class="ox-card__title">Streaming</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-4/index.md" style="--i:40">
+    {status:week-08/module-4}
+    <span class="ox-card__eyebrow">Day 40</span>
+    <h3 class="ox-card__title">Known Quirks</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-5/index.md" style="--i:41">
+    {status:week-08/module-5}
+    <span class="ox-card__eyebrow">Day 41</span>
+    <h3 class="ox-card__title">Consolidation</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+</div>
+<!-- AUTO-GEN:CARD-GRID:END -->
+
 ## Day map
 
 | Day | Topic | Page |

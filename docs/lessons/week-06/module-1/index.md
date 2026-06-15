@@ -15,6 +15,29 @@ drift: |
 > **Pre-reading:** Anthropic Prompt Engineering Interactive Tutorial — **Chapter 1 (Basic Prompt Structure)** + **Chapter 2 (Being Clear and Direct)** (~20 min).
 > **Source:** [Student Guide Module 1](../../../../planning/source-material/Prompt%20Engineering/Prompt-Engineering-Student-Guide.md) · [Pre-Lecture Reading](../../../../planning/source-material/Prompt%20Engineering/Prompt-Engineering-Pre-Lecture-Reading.md). Supplementary deep-dives on roles/data/formatting, CoT/few-shot, and hallucinations/evals live as `supplementary-*.md` files in this folder.
 
+<!-- AUTO-GEN:LESSON-HEADER:START -->
+<div class="ox-lesson-header" markdown="0">
+  <div class="ox-lesson-header__crumbs">
+    <a href="../../../">Home</a>
+    <span class="sep">/</span>
+    <a href="../../">Learn</a>
+    <span class="sep">/</span>
+    <a href="../">Week 6 — Prompt Engineering + AI Agents</a>
+    <span class="sep">/</span>
+    <span>Day 26 · Prompt Engineering</span>
+    <span class="sep">·</span>
+    <span class="duration">~3 hrs</span>
+    {status:week-06/module-1}
+  </div>
+  <div class="ox-lesson-header__cta">
+    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
+    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
+    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Prompt%20Engineering">Source material</a>
+  </div>
+</div>
+<!-- AUTO-GEN:LESSON-HEADER:END -->
+
 ---
 
 ## Why this matters

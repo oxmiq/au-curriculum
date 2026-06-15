@@ -3,6 +3,29 @@
 > **Concept of the day:** today is the assessed deliverable. **15 minutes presentation + 10 minutes Q&A** per team, graded against the rubric. Everyone presents. Peers and panel both score. The capstone grade — 40% of the program — is set today.
 > **Source template:** [Day-49 Assessment Rubric](../../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md) (source filename is `Day-49-...` from upstream capstone-relative naming; this is program Day 50).
 
+<!-- AUTO-GEN:LESSON-HEADER:START -->
+<div class="ox-lesson-header" markdown="0">
+  <div class="ox-lesson-header__crumbs">
+    <a href="../../../">Home</a>
+    <span class="sep">/</span>
+    <a href="../../">Learn</a>
+    <span class="sep">/</span>
+    <a href="../">Week 10 — Capstone Project</a>
+    <span class="sep">/</span>
+    <span>Day 50 · Present</span>
+    <span class="sep">·</span>
+    <span class="duration">Full-day milestone</span>
+    {status:week-10/module-4}
+  </div>
+  <div class="ox-lesson-header__cta">
+    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
+    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
+    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Capstone">Source material</a>
+  </div>
+</div>
+<!-- AUTO-GEN:LESSON-HEADER:END -->
+
 ---
 
 ## Why this matters

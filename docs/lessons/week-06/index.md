@@ -4,6 +4,53 @@
 > **Note:** This week combines what used to be two separate weeks. Day 26 is a one-day overview of prompt engineering (deep-dive supplementary readings live alongside the lesson); Days 27–30 walk the four agent layers.
 > **Source material:** [`Prompt Engineering/`](../../../planning/source-material/Prompt%20Engineering/) + [`AI Agents/`](../../../planning/source-material/AI%20Agents/) — Student Guides, Pre-Lecture Reading, Problem Sets, Flashcards, Glossaries.
 
+<!-- AUTO-GEN:CARD-GRID:START -->
+<div class="ox-card-grid" markdown="0">
+  <a class="ox-card" href="module-1/index.md" style="--i:26">
+    {status:week-06/module-1}
+    <span class="ox-card__eyebrow">Day 26</span>
+    <h3 class="ox-card__title">Prompt Engineering</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-2/index.md" style="--i:27">
+    {status:week-06/module-2}
+    <span class="ox-card__eyebrow">Day 27</span>
+    <h3 class="ox-card__title">Agent Fundamentals</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-3/index.md" style="--i:28">
+    {status:week-06/module-3}
+    <span class="ox-card__eyebrow">Day 28</span>
+    <h3 class="ox-card__title">Tools & Action Layer</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-4/index.md" style="--i:29">
+    {status:week-06/module-4}
+    <span class="ox-card__eyebrow">Day 29</span>
+    <h3 class="ox-card__title">Governance</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-5/index.md" style="--i:30">
+    {status:week-06/module-5}
+    <span class="ox-card__eyebrow">Day 30</span>
+    <h3 class="ox-card__title">Orchestration</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-6/index.md" style="--i:31">
+    {status:week-06/module-6}
+    <span class="ox-card__eyebrow">Day 31</span>
+    <h3 class="ox-card__title">Consolidation + Phase 2 Agent Design</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+</div>
+<!-- AUTO-GEN:CARD-GRID:END -->
+
 ## Day map
 
 | Day | Topic | Page |

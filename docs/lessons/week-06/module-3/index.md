@@ -4,6 +4,29 @@
 > **Pre-reading:** AI Agents Student Guide **Module 2 — Action Layer** + Anthropic MCP overview (~25 min).
 > **Source:** [Student Guide Module 2](../../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Student%20Guide.md) · [Glossary: MCP](../../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Glossary.md).
 
+<!-- AUTO-GEN:LESSON-HEADER:START -->
+<div class="ox-lesson-header" markdown="0">
+  <div class="ox-lesson-header__crumbs">
+    <a href="../../../">Home</a>
+    <span class="sep">/</span>
+    <a href="../../">Learn</a>
+    <span class="sep">/</span>
+    <a href="../">Week 6 — Prompt Engineering + AI Agents</a>
+    <span class="sep">/</span>
+    <span>Day 28 · Tools & Action Layer</span>
+    <span class="sep">·</span>
+    <span class="duration">~3 hrs</span>
+    {status:week-06/module-3}
+  </div>
+  <div class="ox-lesson-header__cta">
+    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
+    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
+    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Prompt%20Engineering">Source material</a>
+  </div>
+</div>
+<!-- AUTO-GEN:LESSON-HEADER:END -->
+
 ---
 
 ## Why this matters

@@ -2,6 +2,29 @@
 
 > **Phase 2 assessment.** This is the gate for Phase 3 (Bridge → Capsule Hands-On). Team agent design.
 
+<!-- AUTO-GEN:LESSON-HEADER:START -->
+<div class="ox-lesson-header" markdown="0">
+  <div class="ox-lesson-header__crumbs">
+    <a href="../../../">Home</a>
+    <span class="sep">/</span>
+    <a href="../../">Learn</a>
+    <span class="sep">/</span>
+    <a href="../">Week 6 — Prompt Engineering + AI Agents</a>
+    <span class="sep">/</span>
+    <span>Day 31 · Consolidation + Phase 2 Agent Design</span>
+    <span class="sep">·</span>
+    <span class="duration">Friday · review &amp; wrap</span>
+    {status:week-06/module-6}
+  </div>
+  <div class="ox-lesson-header__cta">
+    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
+    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
+    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Prompt%20Engineering">Source material</a>
+  </div>
+</div>
+<!-- AUTO-GEN:LESSON-HEADER:END -->
+
 ## What today is
 
 You've finished Phase 2 — one week that covered prompt engineering and the four agent layers (loop, tools/action, governance, orchestration). Today is:

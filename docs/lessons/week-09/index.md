@@ -3,6 +3,46 @@
 > **Goal of the week:** this is where Phase 1 knowledge becomes real. Run benchmarks, interpret results, evaluate quality.
 > **Source material:** [`Capsule Power User/`](../../../planning/source-material/Capsule%20Power%20User/) — Lab Guide Modules 8–10, Problem Sets § Set 45, Flashcards command-recall tier.
 
+<!-- AUTO-GEN:CARD-GRID:START -->
+<div class="ox-card-grid" markdown="0">
+  <a class="ox-card" href="module-1/index.md" style="--i:42">
+    {status:week-09/module-1}
+    <span class="ox-card__eyebrow">Day 42</span>
+    <h3 class="ox-card__title">Benchmarking</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-2/index.md" style="--i:43">
+    {status:week-09/module-2}
+    <span class="ox-card__eyebrow">Day 43</span>
+    <h3 class="ox-card__title">Model Evaluation</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-3/index.md" style="--i:44">
+    {status:week-09/module-3}
+    <span class="ox-card__eyebrow">Day 44</span>
+    <h3 class="ox-card__title">Interactive Chat</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-4/index.md" style="--i:45">
+    {status:week-09/module-4}
+    <span class="ox-card__eyebrow">Day 45</span>
+    <h3 class="ox-card__title">Scheduling & MCP</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+  <a class="ox-card" href="module-5/index.md" style="--i:46">
+    {status:week-09/module-5}
+    <span class="ox-card__eyebrow">Day 46</span>
+    <h3 class="ox-card__title">Consolidation</h3>
+    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
+    <span class="ox-card__cta">Open lesson →</span>
+  </a>
+</div>
+<!-- AUTO-GEN:CARD-GRID:END -->
+
 ## Day map
 
 | Day | Topic | Page |

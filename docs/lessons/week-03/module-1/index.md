@@ -4,6 +4,29 @@
 > **Pre-reading:** "Prefill vs decode" explainer — Pre-Lecture Reading **Reader 4 (attention math)** and Reader 6 sections on serving (~15 min).
 > **Source:** [Study Guide Ch 2 + §A.2](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
 
+<!-- AUTO-GEN:LESSON-HEADER:START -->
+<div class="ox-lesson-header" markdown="0">
+  <div class="ox-lesson-header__crumbs">
+    <a href="../../../">Home</a>
+    <span class="sep">/</span>
+    <a href="../../">Learn</a>
+    <span class="sep">/</span>
+    <a href="../">Week 3 — Attention &amp; KV Cache</a>
+    <span class="sep">/</span>
+    <span>Day 11 · Prefill vs Decode</span>
+    <span class="sep">·</span>
+    <span class="duration">~3 hrs</span>
+    {status:week-03/module-1}
+  </div>
+  <div class="ox-lesson-header__cta">
+    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
+    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
+    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Inference%20Engineering">Source material</a>
+  </div>
+</div>
+<!-- AUTO-GEN:LESSON-HEADER:END -->
+
 ---
 
 ## Why this matters

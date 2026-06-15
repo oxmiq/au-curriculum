@@ -2,6 +2,29 @@
 
 > **Goal of the day:** consolidate Capsule operations. No new content — by today you operate Capsule day-to-day.
 
+<!-- AUTO-GEN:LESSON-HEADER:START -->
+<div class="ox-lesson-header" markdown="0">
+  <div class="ox-lesson-header__crumbs">
+    <a href="../../../">Home</a>
+    <span class="sep">/</span>
+    <a href="../../">Learn</a>
+    <span class="sep">/</span>
+    <a href="../">Week 8 — Capsule: Connections &amp; Operations</a>
+    <span class="sep">/</span>
+    <span>Day 41 · Consolidation</span>
+    <span class="sep">·</span>
+    <span class="duration">Friday · review &amp; wrap</span>
+    {status:week-08/module-5}
+  </div>
+  <div class="ox-lesson-header__cta">
+    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
+    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
+    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Capsule%20Power%20User">Source material</a>
+  </div>
+</div>
+<!-- AUTO-GEN:LESSON-HEADER:END -->
+
 ## What today is for
 
 You've covered connecting, files & storage, streaming, and known quirks. Friday is the day to:

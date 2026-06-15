@@ -10,6 +10,29 @@ drift: |
 > **Pre-reading:** Lab Guide **Module 5** (~15 min).
 > **Source:** [Lab Guide Module 5](../../../../planning/source-material/Capsule%20Power%20User/Capsule-Power-User-Lab-Guide.md).
 
+<!-- AUTO-GEN:LESSON-HEADER:START -->
+<div class="ox-lesson-header" markdown="0">
+  <div class="ox-lesson-header__crumbs">
+    <a href="../../../">Home</a>
+    <span class="sep">/</span>
+    <a href="../../">Learn</a>
+    <span class="sep">/</span>
+    <a href="../">Week 8 — Capsule: Connections &amp; Operations</a>
+    <span class="sep">/</span>
+    <span>Day 37 · Connecting</span>
+    <span class="sep">·</span>
+    <span class="duration">~3 hrs</span>
+    {status:week-08/module-1}
+  </div>
+  <div class="ox-lesson-header__cta">
+    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
+    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
+    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Capsule%20Power%20User">Source material</a>
+  </div>
+</div>
+<!-- AUTO-GEN:LESSON-HEADER:END -->
+
 ---
 
 ## Why this matters

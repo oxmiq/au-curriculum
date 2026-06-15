@@ -3,6 +3,29 @@
 > **Concept of the day:** raw data does not persuade. **A comparison table + a cost calculation + a defended recommendation** persuade. Today: compile, calculate, conclude. Build the presentation around the **claim sentence** (see capstone deliverable).
 > **Source template:** [Day-48 Presentation Outline](../../../../planning/source-material/Capstone/Day-48-Presentation-Outline.md) (source filename is `Day-48-...` from upstream capstone-relative naming; this is program Day 49).
 
+<!-- AUTO-GEN:LESSON-HEADER:START -->
+<div class="ox-lesson-header" markdown="0">
+  <div class="ox-lesson-header__crumbs">
+    <a href="../../../">Home</a>
+    <span class="sep">/</span>
+    <a href="../../">Learn</a>
+    <span class="sep">/</span>
+    <a href="../">Week 10 — Capstone Project</a>
+    <span class="sep">/</span>
+    <span>Day 49 · Analyze & Recommend</span>
+    <span class="sep">·</span>
+    <span class="duration">Full-day milestone</span>
+    {status:week-10/module-3}
+  </div>
+  <div class="ox-lesson-header__cta">
+    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
+    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
+    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Capstone">Source material</a>
+  </div>
+</div>
+<!-- AUTO-GEN:LESSON-HEADER:END -->
+
 ---
 
 ## Why this matters
