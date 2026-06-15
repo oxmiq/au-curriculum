@@ -1,0 +1,62 @@
+{
+  "_note": "Derived from per-module progress/*.json by build_summary.py \u2014 do not hand-edit. The committed artifact intentionally omits a wall-clock generated_at field; if generator code wants a timestamp, write it at build time and exclude from commits to avoid noisy diffs.",
+  "modules": {},
+  "overall": {
+    "completed": 0,
+    "percent": 0,
+    "total": 51
+  },
+  "version": "1.0",
+  "weeks": {
+    "week-01": {
+      "completed": 0,
+      "percent": 0,
+      "total": 5
+    },
+    "week-02": {
+      "completed": 0,
+      "percent": 0,
+      "total": 5
+    },
+    "week-03": {
+      "completed": 0,
+      "percent": 0,
+      "total": 5
+    },
+    "week-04": {
+      "completed": 0,
+      "percent": 0,
+      "total": 5
+    },
+    "week-05": {
+      "completed": 0,
+      "percent": 0,
+      "total": 5
+    },
+    "week-06": {
+      "completed": 0,
+      "percent": 0,
+      "total": 6
+    },
+    "week-07": {
+      "completed": 0,
+      "percent": 0,
+      "total": 5
+    },
+    "week-08": {
+      "completed": 0,
+      "percent": 0,
+      "total": 5
+    },
+    "week-09": {
+      "completed": 0,
+      "percent": 0,
+      "total": 5
+    },
+    "week-10": {
+      "completed": 0,
+      "percent": 0,
+      "total": 5
+    }
+  }
+}
