@@ -47,6 +47,10 @@
     --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
+    /* Oxmiq brand accent — used only for the eyebrow line in the header so the
+       visualization itself keeps its high-chroma cosmos palette. */
+    --ox-blood-accent: #c95a5a;   /* lifted from #8B0000 for legibility on dark bg */
+
     /* Vivid GraphXR-ish palette — high chroma against the deep cosmos. */
     --p-foundations: #8da0bf;
     --p-inference:   #2ee8ff;
@@ -76,7 +80,7 @@
   }
   .eyebrow {
     font-family: var(--mono); font-size: 11px; letter-spacing: .18em;
-    text-transform: uppercase; color: var(--p-inference); margin: 0 0 4px;
+    text-transform: uppercase; color: var(--ox-blood-accent); margin: 0 0 4px;
   }
   h1 { font-family: var(--mono); font-weight: 600; font-size: 18px; margin: 0 0 4px; letter-spacing: -.01em; }
   .sub { color: var(--muted); font-size: 12.5px; margin: 0; }
