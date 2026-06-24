@@ -1,6 +1,5 @@
 # Week 4 — Scaling & Stacks · Module Assignment
 
-> **Source:** Mindmap Week 4 Day 20 + Inference Engineering Worksheets Appendix C (serving-system design rubric).
 
 ## What you submit
 

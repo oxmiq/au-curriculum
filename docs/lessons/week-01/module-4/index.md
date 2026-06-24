@@ -1,8 +1,7 @@
 # Day 4 · How Computers Run AI (GPU Primer)
 
-> **Concept of the day:** CPU vs GPU. Matrix multiplication = parallelism. Training vs serving. The journey of a prompt.
+> **Concept of the day:** CPU vs GPU. Matrix multiplication = parallelism. Training vs serving. The journey of a prompt.<br>
 > **Pre-reading:** 15-min video on what a GPU is (facilitator shares link).
-> **Source:** [Week 1 Orientation Student Guide § Day 4](../../../../planning/source-material/Orientation/Orientation-Student-Guide.md).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -18,36 +17,81 @@
     <span class="duration">~3 hrs</span>
     {status:week-01/module-4}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Orientation">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
 ---
 
-## Why this matters
+## Lesson plan
+
+This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
+
+| Part | What you do | Time |
+|-------------|---------------|----------|
+| Part 1 | Pre-Reading Review | 10 min |
+| Part 2 | Core Concepts: CPU vs GPU | 20 min |
+| Part 3 | Deep Dive: The Numbers | 15 min |
+| Part 4 | Deep Dive: Journey of a Prompt | 20 min |
+| Part 5 | Hands-On: GPU Comparison | 25 min |
+| Part 6 | Hands-On: Draw the Path | 20 min |
+| Part 7 | Wrap-up & Connection | 10 min |
+
+---
+
+## Part 1 — Pre-Reading Review · 10 min
+### Before You Start
+
+You should have watched the GPU video (15 min) from your facilitator.
+
+### Quick Self-Check
+
+Answer these questions from memory:
+1. Name one reason GPUs are faster than CPUs for ML.
+2. Roughly how many cores does an H100 have?
+3. What is matrix multiplication, in one sentence?
+
+---
+
+## Part 2 — Core Concepts — CPU vs GPU · 20 min
+### Reading — Three Facts to Internalize
 
 You don't need to know how a transistor works to be a good GPU engineer. You *do* need to know why a GPU exists, what makes it different from a CPU, and what kinds of work it's good at — because every design decision in Weeks 2–5 follows from those three facts.
 
-## Readiness check
+### Fact 1: Thousands of Small Cores vs Few Big Cores
 
-1. Name one reason GPUs are faster than CPUs for ML.
-2. Roughly how many cores does an H100 have, vs a typical CPU?
-3. What is matrix multiplication, in one sentence?
-4. Name one structural difference between training and serving.
-5. What's the first step that happens when you press Enter on a prompt?
+| Component | Typical CPU | NVIDIA H100 GPU |
+|----------|-------------|-----------------|
+| Cores | 8–96 | 16,896 CUDA cores + 528 Tensor Cores |
+| Design | Few powerful cores | Many small cores |
+| Optimization | One big task fast | Many small tasks in parallel |
 
-## Core concept — Three facts to internalize
+**Why it matters:** Neural networks do the same operation (matrix multiplication) on thousands of data points simultaneously. GPUs excel at this.
 
-1. **A GPU has thousands of small cores; a CPU has a few big ones.** A modern CPU might have 8–96 powerful cores. An H100 GPU has 16,896 CUDA cores plus 528 Tensor Cores. CPUs are optimized for one big task fast; GPUs are optimized for many small tasks in parallel.
-2. **Matrix multiplication is the workload neural networks demand, and it is embarrassingly parallel.** Multiplying a 4096×4096 matrix by a 4096×4096 matrix is ~68 billion multiply-adds — each one independent. A GPU can do them all at once (in batches). A CPU can't.
-3. **Training and serving (inference) are different sports.** Training: rare, batch, throughput-only, can take weeks. Serving: continuous, per-user, latency-sensitive, must respond in milliseconds. Most of this program is about *serving*, which is the bigger and harder operational problem.
+### Fact 2: Matrix Multiplication is Embarrassingly Parallel
 
-### Real numbers to remember
+- Multiplying a 4096×4096 matrix by a 4096×4096 matrix = ~68 billion multiply-adds
+- Each operation is independent
+- A GPU can do them all at once (in batches)
+- A CPU cannot — it's designed for sequential tasks
+
+### Fact 3: Training vs Serving Are Different Sports
+
+| Aspect | Training | Serving (Inference) |
+|--------|----------|----------------------|
+| Frequency | Rare (once) | Continuous (always) |
+| Batch size | Large batches | Often single request |
+| Objective | Throughput | Latency |
+| Duration | Can take weeks | Must respond in ms |
+| Memory | Can pre-allocate | Variable |
+
+Most of this program is about *serving*, which is the bigger and harder operational problem.
+
+---
+
+## Part 3 — Deep Dive — The Numbers · 15 min
+### Reading — Real Numbers to Remember
+
+You'll see these numbers repeatedly in Week 2. Memorize what you can:
 
 | Specification | NVIDIA H100 SXM5 |
 |---|---|
@@ -59,32 +103,96 @@ You don't need to know how a transistor works to be a good GPU engineer. You *do
 | Approx. cloud price | $2–4/hour per GPU |
 | 8-GPU box price | ~$24/hour, ~$17K/month |
 
-You'll see these numbers repeatedly in Week 2.
+**Key insight:** The 80GB memory and 3.35 TB/s bandwidth are just as important as the TFLOPs. Memory bottlenecks matter more than compute.
 
-### The journey of a prompt (preview of Week 2 Day 6)
+---
 
-1. **Tokenize** — your text becomes a sequence of integers (token IDs).
-2. **Embed** — each token ID becomes a vector (hundreds to thousands of floats).
-3. **Layers** — the vectors pass through ~32–80 transformer layers. Each layer does attention + a feed-forward pass. This is where the GPU spends its time.
-4. **Logits** — out comes a probability distribution over the entire vocabulary (~32K–200K tokens).
-5. **Sample** — pick a token (greedy, top-p, etc.).
-6. Loop steps 3–5 until you hit a stop condition. **Each loop = one output token.**
+## Part 4 — Deep Dive — Journey of a Prompt · 20 min
+### Reading — What Happens When You Send a Prompt
+
+This previews Week 2 (Day 6). Understanding this path is crucial:
+
+```
+You type "Explain quantum tunneling in one sentence" and press Enter.
+```
+
+Here's what happens:
+
+| Step | What Happens | Where it Runs |
+|------|--------------|---------------|
+| 1. **Tokenize** | Your text becomes integers (token IDs) | CPU |
+| 2. **Embed** | Each token ID → vector (hundreds to thousands of floats) | GPU |
+| 3. **Layers** | Vectors pass through ~32–80 transformer layers. Each does attention + feed-forward | GPU (this is where GPU spends time) |
+| 4. **Logits** | Probability distribution over vocabulary (~32K–200K tokens) | GPU |
+| 5. **Sample** | Pick a token (greedy, top-p, etc.) | CPU/GPU |
+| 6. **Loop** | Repeat steps 3–5 until stop condition | GPU |
+
+**Each loop = one output token.**
 
 Everything in Weeks 2–5 is about making that loop faster and cheaper.
 
-## Practice (90 min)
+---
 
-1. (15 min) On paper, draw the path of "Hello, world." from your keyboard to a response on screen. Label every box you can.
-2. (25 min) Pair share: compare drawings. Which box does *neither* of you understand? Note it — that's a Week 2 question.
-3. (20 min) Look up specs for one consumer GPU (e.g., RTX 4090) and one Tenstorrent chip (e.g., Wormhole n150). Write a 5-row comparison table.
-4. (20 min) Discussion: why is a 4090 cheaper per FLOP than an H100, and why would anyone still buy H100s? (Bandwidth, memory capacity, NVLink, datacenter-grade reliability.)
-5. (10 min) Write down one question about GPUs you want answered before Friday.
+## Part 5 — Hands-On — GPU Comparison · 25 min
+### Exercise: Compare GPUs
 
-## Wrap-up
+Look up specs for these GPUs and create a comparison table:
 
-Collect the open GPU questions — those become Friday's open-lab agenda.
+1. **Consumer GPU:** NVIDIA RTX 4090
+2. **Datacenter GPU:** NVIDIA H100
+3. **Alternative:** Tenstorrent Wormhole n150
 
-## Connect forward
+**Use these resources:**
+- NVIDIA.com (specsheets)
+- Tenstorrent.com
+- TechPowerUp (for consumer GPUs)
+
+**Create a table with:**
+| GPU | Memory | Bandwidth | TFLOPs (FP16) | Price (approx) |
+
+**Then answer:**
+- Why is a 4090 cheaper per FLOP than an H100?
+- Why would anyone still buy H100s?
+
+---
+
+## Part 6 — Hands-On — Draw the Path · 20 min
+### Exercise: Visualize the Prompt Journey
+
+On paper, draw the path of "Hello, world." from your keyboard to a response on screen.
+
+1. **Start:** Keyboard input
+2. **Step 1:** Tokenization
+3. **Step 2:** Embedding
+4. **Step 3-N:** Transformer layers (show 2-3 for simplicity)
+5. **Step N+1:** Sampling
+6. **Step N+2:** Output to screen
+
+**Label each box:**
+- Where does the GPU work?
+- Where does the CPU work?
+- What data moves between components?
+
+### Self-Reflection
+
+Which box do you understand least? That's a question for Week 2.
+
+---
+
+## Part 7 — Wrap-up & Connection · 10 min
+### Self-Check
+
+Can you explain these from memory?
+- [ ] Why are GPUs faster than CPUs for neural networks?
+- [ ] What is "embarrassingly parallel" about matrix multiplication?
+- [ ] What's the difference between training and serving?
+- [ ] What are the three numbers you should remember about H100?
+
+### Collect Questions
+
+Write down one question about GPUs you want answered before Friday.
+
+### Connect Forward
 
 Friday: consolidation. We make sure shell, git, and the GPU mental model all stuck — then take the [Week 1 quiz](knowledge-check.html). Monday we open the GPU and look inside.
 
@@ -97,3 +205,10 @@ Friday: consolidation. We make sure shell, git, and the GPU mental model all stu
   1. What concept from this week is least clear to you?
   2. What do you most want to clarify before Week 2 starts?
   3. Which of the three skills (shell / git / GPU mental model) do you feel weakest in?
+
+---
+
+## Stuck?
+
+Ask **oxtutor** — share your exact question, the concept or command that isn't
+clicking, and which week/module you are on.

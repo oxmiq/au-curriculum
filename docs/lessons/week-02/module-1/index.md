@@ -1,8 +1,7 @@
 # Day 6 · What Happens When You Send a Prompt
 
-> **Concept of the day:** the inference pipeline. Tokenize → embed → layers → logits → sample. One forward pass = one token out.
+> **Concept of the day:** the inference pipeline. Tokenize → embed → layers → logits → sample. One forward pass = one token out.<br>
 > **Pre-reading:** Inference Engineering Pre-Lecture Reading — **Reader 1 (AI in production)** (~15 min).
-> **Source:** [Pre-Lecture Reading § Reader 1](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Pre_Lecture_Reading.md) · [Study Guide Ch 0 + §A.0](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -18,30 +17,48 @@
     <span class="duration">~3 hrs</span>
     {status:week-02/module-1}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Inference%20Engineering">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
 ---
 
-## Why this matters
+## Lesson plan
+
+This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
+
+| Part | What you do | Time |
+|-------------|---------------|----------|
+| Part 1 | Pre-Reading Review | 15 min |
+| Part 2 | Core Concepts: Inference Pipeline | 20 min |
+| Part 3 | Deep Dive: Prefill vs Decode | 20 min |
+| Part 4 | Worked Example Analysis | 25 min |
+| Part 5 | Hands-On: Trace the Pipeline | 30 min |
+| 7 | Wrap-up & Connection | 10 min |
+
+---
+
+## Part 1 — Pre-Reading Review · 15 min
+### Before You Start
+
+You should have already read: Inference Engineering Pre-Lecture Reading — **Reader 1 (AI in production)** (~15 min).
+
+### Quick Self-Check
+
+Answer these questions from memory:
+1. What's more expensive long-term: training or inference? Why?
+2. What's the difference between a closed model and an open model? Name one of each.
+3. What is a **token**?
+
+If you couldn't answer all three, review the Pre-Lecture Reading again before proceeding.
+
+---
+
+## Part 2 — Core Concepts — Inference Pipeline · 20 min
+### Reading — Why This Matters
 
 Phase 1 (Weeks 2–5) is a four-week zoom-in on the **inference loop**. Before we open up the GPU (Day 7), the cache (Week 3), or the cluster (Week 4), you need a working mental model of what *actually happens* when a user hits send.
 
-## Readiness check
-
-1. What's more expensive long-term: training or inference? Why?
-2. Roughly what's the difference between a closed model and an open model? Name one of each.
-3. What is a **token**?
-4. What does "one forward pass" mean?
-5. In the worked example from Reader 1 ("What is the capital of France?"), what's happening between 45 ms and 200 ms? What about 200–300 ms?
-
-## Core concept — the inference pipeline
+### The Inference Pipeline
 
 ```
 text  →  [tokenize]  →  token IDs  →  [embed]  →  vectors  →
@@ -51,45 +68,130 @@ text  →  [tokenize]  →  token IDs  →  [embed]  →  vectors  →
 
 Then **loop** the layers→logits→sample steps. Each loop = one output token.
 
-### Five stages, in one sentence each
+### Five Stages, In One Sentence Each
 
-1. **Tokenize** — text becomes integers (typically BPE-encoded, vocabulary 32K–200K).
-2. **Embed** — each token ID becomes a dense vector (the model's hidden size, e.g. 4096).
-3. **Layers** — the vectors pass through N transformer blocks (attention + MLP), each refining the representation. *This is where the GPU spends its time.*
-4. **Logits** — the final hidden state is projected to a probability distribution over the entire vocabulary.
-5. **Sample** — pick one token (greedy, top-k, top-p, temperature). That's your next output.
-
-### Prefill vs decode (preview of Day 11)
-
-- **Prefill** = run all your *input* tokens through the layers in one shot. Parallel, compute-bound. Drives **TTFT** (time to first token).
-- **Decode** = generate output tokens one at a time. Sequential, memory-bound. Drives **TPS** (tokens per second).
-
-### Why "inference > training" in production cost
-
-Training is rare and expensive but happens once. Inference happens **billions of times a day** on every user request. Almost all GPU-hours a deployed AI company pays for go to inference — which is why this discipline exists.
-
-## Practice (90 min)
-
-1. (20 min) Trace a 5-word prompt through the pipeline on paper. Annotate each stage with: input shape, output shape, what changed.
-2. (25 min) Worked numerical example: 1000 input tokens, 500 output tokens, model with 32 layers, hidden size 4096. Roughly how many forward passes total? Prefill = how many? Decode = how many?
-3. (20 min) Pair share: each partner explains one of {prefill, decode, sample}. Other partner asks "why does that matter?" until you hit a "because the GPU…" answer.
-4. (15 min) Read Reader 1's "worked example" timeline. Annotate where on the timeline TTFT lives and where end-to-end latency lives.
-5. (10 min) Write down one question for Week 2 office hours.
-
-## Wrap-up
-
-Each pair states one sentence: *"The most important fact from today is…"* — the cohort cheat-sheet starts here.
-
-## Connect forward
-
-Tomorrow: we crack open the GPU itself — SMs, Tensor Cores, HBM. Today's "layers spend GPU time" becomes tomorrow's "*here's exactly where in the chip that time goes*."
+| Stage | What Happens | Input → Output |
+|-------|--------------|-----------------|
+| **1. Tokenize** | Text becomes integers (typically BPE-encoded, vocabulary 32K–200K) | "Hello world" → [1234, 5678] |
+| **2. Embed** | Each token ID becomes a dense vector (the model's hidden size, e.g. 4096) | [1234] → [0.1, -0.3, 0.5, ...] |
+| **3. Layers** | Vectors pass through N transformer blocks (attention + MLP), each refining the representation. *This is where the GPU spends its time.* | [vector] × 32-80 layers |
+| **4. Logits** | The final hidden state is projected to a probability distribution over the entire vocabulary | [hidden state] → [0.001, 0.023, ...] |
+| **5. Sample** | Pick one token (greedy, top-k, top-p, temperature). That's your next output. | [logits] → "Paris" |
 
 ---
 
-## Pre-read for tomorrow (Day 7 · Meet the GPU)
+## Part 3 — Deep Dive — Prefill vs Decode · 20 min
+### Reading — Two Phases of Inference
+
+### Prefill
+
+- **What:** Run all your *input* tokens through the layers in one shot
+- **How:** Parallel — all tokens processed simultaneously
+- **What it does:** Computes the initial hidden states for each input token
+- **Bottleneck:** Compute-bound (GPU is fully busy)
+- **Drives:** **TTFT** (Time To First Token)
+
+### Decode
+
+- **What:** Generate output tokens one at a time
+- **How:** Sequential — each token depends on all previous tokens
+- **What it does:** Uses KV cache from prefill to predict the next token
+- **Bottleneck:** Memory-bound (waiting for KV cache reads)
+- **Drives:** **TPS** (Tokens Per Second)
+
+### Key Insight
+
+> **Prefill = compute-bound** (GPU is the bottleneck)
+> **Decode = memory-bound** (KV cache reads are the bottleneck)
+
+This distinction drives everything in Weeks 2-4.
+
+---
+
+## Part 4 — Worked Example Analysis · 25 min
+### Reading — Timeline of a Chat Request
+
+From the Pre-Lecture Reading:
+
+> Suppose you ask "What is the capital of France?" Here is what's happening behind the scenes:
+
+| Time | What Happens |
+|------|--------------|
+| 0 ms | Your browser sends a request to the server |
+| 30 ms | Request reaches load balancer, routed to data center |
+| 40 ms | Backend assembles prompt (system + history + question) |
+| 45 ms | Backend forwards input to inference server |
+| **45-200 ms** | **Prefill** — process all input tokens at once |
+| **200 ms** | **First token** ("Paris") is generated — TTFT |
+| 200-300 ms | **Decode** — generate remaining tokens one at a time |
+| 300 ms | Stop token emitted, response complete |
+
+### Annotate the Timeline
+
+1. **Where does TTFT live?** (Answer: 45-200 ms)
+2. **Where does end-to-end latency live?** (Answer: 45-300 ms)
+3. **What's happening in the 45-200 ms window?** (Answer: Prefill — compute-intensive)
+4. **What's happening in the 200-300 ms window?** (Answer: Decode — memory-intensive)
+
+---
+
+## Part 5 — Hands-On — Trace the Pipeline · 30 min
+### Exercise 1: Trace a Prompt (15 min)
+
+On paper, trace a 5-word prompt through the pipeline. For each stage, annotate:
+- Input shape
+- Output shape
+- What changed
+
+**Example:**
+```
+Input: "What is AI?"
+
+Tokenize: "What" → 1234, "is" → 567, "AI" → 8901, "?" → 42
+Embed: [1234] → [0.1, -0.3, 0.5, ...] (4096 floats)
+Layers: 32 layers of attention + MLP
+Logits: [0.001, 0.023, ...] (vocabulary size, e.g., 50K)
+Sample: "Artificial" (next token)
+```
+
+### Exercise 2: Calculate Forward Passes (15 min)
+
+Given:
+- 1000 input tokens
+- 500 output tokens
+- Model: 32 layers, hidden size 4096
+
+**Calculate:**
+1. How many total forward passes? (Answer: 1000 + 500 = 1500)
+2. How many prefill passes? (Answer: 1000)
+3. How many decode passes? (Answer: 500)
+
+---
+
+## Part 7 — Wrap-up & Connection · 10 min
+### Self-Check
+
+Can you explain these from memory?
+- [ ] What's the difference between tokenize, embed, layers, logits, sample?
+- [ ] What's the difference between prefill and decode?
+- [ ] What drives TTFT? What drives TPS?
+- [ ] Why is inference more expensive than training in production?
+
+### Connect Forward
+
+Tomorrow: we crack open the GPU itself — SMs, Tensor Cores, HBM. Today's "layers spend GPU time" becomes tomorrow's "*here's exactly where in the chip that time goes*."
+
+### Pre-read for tomorrow (Day 7 · Meet the GPU)
 
 - **Resource:** Inference Engineering Pre-Lecture Reading — **Reader 5 (Computer architecture primer)** (~10 min). H100 1-page spec summary (facilitator-provided).
 - **Reflection questions:**
   1. What does "80 GB HBM3" mean? (Memory technology + capacity.)
   2. What's an SM? What's a Tensor Core?
   3. Why is intra-GPU memory faster than GPU-to-GPU which is faster than node-to-node?
+
+---
+
+## Stuck?
+
+Ask **oxtutor** — share your exact question, the concept or command that isn't
+clicking, and which week/module you are on.

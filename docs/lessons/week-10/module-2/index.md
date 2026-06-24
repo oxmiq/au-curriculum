@@ -1,6 +1,6 @@
 # Day 48 · Execute
 
-> **Concept of the day:** today the charter becomes data. Deploy your chosen model on Capsule, run the benchmark sweep, run the interactive eval. Document obsessively — Day 49 cannot reconstruct what Day 48 forgot to write down.
+> **Concept of the day:** today the charter becomes data. Deploy your chosen model on Capsule, run the benchmark sweep, run the interactive eval. Document obsessively — Day 49 cannot reconstruct what Day 48 forgot to write down.<br>
 > **Source template:** [Day-47 Execution Checklist](../../../../planning/source-material/Capstone/Day-47-Execution-Checklist.md) (source filename is `Day-47-...` from upstream capstone-relative naming; this is program Day 48).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
@@ -17,16 +17,19 @@
     <span class="duration">Full-day milestone</span>
     {status:week-10/module-2}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Capstone">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
 ---
+
+## Execution checklist at a glance
+
+| Step | Milestone | Time budget |
+|---|---|---|
+| 1 | Lease hardware, deploy model, sanity-check server | 60 min |
+| 2 | Run benchmark sweep (all charter configs) | 150 min |
+| 3 | Run interactive eval (10-prompt suite, each config) | 90 min |
+| 4 | Documentation cleanup — log finalized, run dirs named | 30 min |
 
 ## Why this matters
 
@@ -102,3 +105,14 @@ If a config blows up, **don't debug forever** — note it, move on, come back if
 ## Wrap-up
 
 End of Day 48: every team has at least 2 configs benchmarked + evaluated with full logs. The recommendation writes itself if today's data is clean.
+
+## Self-check before Day 49
+
+- [ ] At least 2 configs benchmarked with full execution logs (no TBD fields)
+- [ ] Interactive eval completed for each config (pass/fail per prompt recorded)
+- [ ] Run results in stable named directories (not `/tmp`)
+- [ ] You can answer: "What surprised you?" with a specific observation
+
+## Stuck?
+
+Ask **oxtutor** — the debugging hints table (model won't load, benchmark stalls, numbers don't match) should unblock you in < 5 minutes if you share the exact error.

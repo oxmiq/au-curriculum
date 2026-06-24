@@ -1,8 +1,7 @@
 # Day 8 · Memory Is the Bottleneck
 
-> **Concept of the day:** the memory hierarchy. Data movement is the real cost. Most inference time = moving data, not computing.
+> **Concept of the day:** the memory hierarchy. Data movement is the real cost. Most inference time = moving data, not computing.<br>
 > **Pre-reading:** "Why bandwidth matters more than compute" — Pre-Lecture Reading **Reader 5 (memory section)** + Study Guide §A.3 (~20 min).
-> **Source:** [Pre-Lecture Reading § Reader 5 memory subsection](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Pre_Lecture_Reading.md) · [Study Guide §A.3](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary entries: bandwidth, HBM, L2](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -18,89 +17,174 @@
     <span class="duration">~3 hrs</span>
     {status:week-02/module-3}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Inference%20Engineering">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
 ---
 
-## Why this matters
+## Lesson plan
+
+This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
+
+| Part | What you do | Time |
+|-------------|---------------|----------|
+| Part 1 | Pre-Reading Review | 15 min |
+| Part 2 | Core Concepts: Memory Hierarchy | 20 min |
+| Part 3 | Deep Dive: Arithmetic Intensity | 25 min |
+| Part 4 | Worked Example Analysis | 20 min |
+| Part 5 | Hands-On: Calculate | 25 min |
+| 7 | Wrap-up & Connection | 15 min |
+
+---
+
+## Part 1 — Pre-Reading Review · 15 min
+### Before You Start
+
+You should have already read: Pre-Lecture Reading **Reader 5 (memory section)** + Study Guide §A.3 (~20 min).
+
+### Quick Self-Check
+
+Answer these questions from memory:
+1. Which is faster: L2 cache or HBM? By roughly how much?
+2. What is **temporal locality**? **spatial locality**?
+3. Why does **kernel fusion** make things faster?
+
+---
+
+## Part 2 — Core Concepts — Memory Hierarchy · 20 min
+### Reading — The Single Most Important Insight
 
 This is the single most important insight in the entire phase: **for LLM decode, the GPU is almost always waiting on HBM, not computing.** Once you see it, every Week 3–5 trick (KV cache, FlashAttention, quantization, paged attention) becomes "obvious" — they're all about moving less data.
 
-## Readiness check
-
-1. Which is faster: L2 cache or HBM on an H100? By how much (rough ratio)?
-2. What's temporal locality? Spatial locality?
-3. If a kernel writes intermediate results to HBM and reads them back, vs. keeping them in registers, why does the second one go faster?
-4. What is **arithmetic intensity** (ops per byte)?
-5. Name one common workload that's compute-bound and one that's memory-bound.
-
-## Core concept — the memory hierarchy
+### The Memory Hierarchy
 
 ```
 fast ▲   Registers     <1 ns       KBs/core
-     │   L1 / Shared    ~1 ns       256 KB/SM
-     │   L2             ~5 ns       50 MB chip-wide
-     │   HBM3           ~80 ns      80 GB @ 3.35 TB/s
+       │   L1 / Shared    ~1 ns       256 KB/SM
+       │   L2             ~5 ns       50 MB chip-wide
+       │   HBM3           ~80 ns      80 GB @ 3.35 TB/s
 slow ▼   PCIe / Net     µs–ms       unlimited
 ```
 
-Two rules govern this picture:
+### Two Rules
 
-- **Fast memory is small.** You can't fit the model in L2.
-- **Bandwidth, not latency, dominates for large reads.** What matters is the *rate* at which data flows.
+1. **Fast memory is small.** You can't fit the model in L2.
+2. **Bandwidth, not latency, dominates for large reads.** What matters is the *rate* at which data flows.
 
-### The decisive math: am I compute-bound or memory-bound?
+### Speed Comparison
+
+| Memory | Approximate Speed | Relative to HBM |
+|--------|-------------------|------------------|
+| Registers | <1 ns | ~100x faster |
+| L1 / Shared | ~1 ns | ~80x faster |
+| L2 | ~5 ns | ~16x faster |
+| HBM | ~80 ns | baseline |
+| PCIe | µs–ms | ~10-100x slower |
+
+---
+
+## Part 3 — Deep Dive — Arithmetic Intensity · 25 min
+### Reading — Compute-Bound vs Memory-Bound
 
 For a kernel that does `B` bytes of memory traffic and `F` FLOPs:
 
-- **Arithmetic intensity** = `F / B` (ops per byte).
-- **Hardware ridge point** for H100 FP16: ~989 TFLOPs ÷ 3.35 TB/s ≈ **295 ops/byte**.
+- **Arithmetic intensity** = `F / B` (ops per byte)
+- **Hardware ridge point** for H100 FP16: ~989 TFLOPs ÷ 3.35 TB/s ≈ **295 ops/byte**
 
-If your intensity is **above** the ridge → compute-bound (you're limited by Tensor Cores). If **below** → memory-bound (you're limited by HBM bandwidth — the Tensor Cores are sitting idle waiting for data).
+### The Decision Rule
+
+| Condition | You Are... | GPU Status |
+|-----------|-----------|------------|
+| Intensity **above** ridge (~295) | Compute-bound | Limited by Tensor Cores |
+| Intensity **below** ridge (~295) | Memory-bound | Limited by HBM bandwidth — Tensor Cores sitting idle |
+
+### The Shocking Fact
 
 > **Decode for one user = ~2 ops/byte. That is ~150× below the ridge. The GPU is idle ~99% of the time waiting on weights.**
 
-That single fact explains why batching, KV cache, quantization, and continuous batching all exist.
+This single fact explains why batching, KV cache, quantization, and continuous batching all exist.
 
-### Worked example — read 16 GB from HBM at 3.35 TB/s
+---
 
+## Part 4 — Worked Example Analysis · 20 min
+### Reading — Read Time Calculation
+
+> **Worked example:** Time to read 16 GB from HBM at 3.35 TB/s
+>
 > 16 GB ÷ 3.35 TB/s = 16 ÷ 3350 s ≈ **4.8 ms** just to *read* the data once.
 
 If you had to do this for every output token of a 70B model loaded across 8 GPUs (so each GPU reads ~17 GB of weights per token), decode latency floor ≈ 4–5 ms/token — and that's *before* doing any actual math.
 
-### Why kernel fusion matters
+### Why Kernel Fusion Matters
 
-Two unfused kernels: each writes output to HBM (~80 ns + bandwidth cost), then the next reads it back. Fused into one kernel: intermediates stay in registers (sub-ns). **Same math, ~75× faster** for a 4 KB block reused 1000 times (per Reader 5's worked example). FlashAttention (tomorrow's day) is exactly this idea.
+- **Two unfused kernels:** each writes output to HBM (~80 ns + bandwidth cost), then the next reads it back
+- **Fused into one kernel:** intermediates stay in registers (sub-ns)
+- **Same math, ~75× faster** for a 4 KB block reused 1000 times
 
-## Practice (90 min)
-
-1. (15 min) Calculate: time to read 16 GB from H100 HBM at 3.35 TB/s. Time if you could somehow keep it in L2 (assume L2 bandwidth ≈ 12 TB/s).
-2. (20 min) Compute the arithmetic intensity for: (a) matrix multiply of two N×N matrices (N=4096) → ~2N³ FLOPs, ~3N² × 2 bytes (FP16); (b) elementwise add of two N-vectors. Which is compute-bound, which is memory-bound?
-3. (25 min) Pair worked example: estimate decode time per token for Llama-3-8B (16 GB FP16 weights) on one H100. Then estimate prefill time per token. Why is decode so much closer to the memory ceiling?
-4. (20 min) Group discussion: "what's the difference between *kernel fusion* and *operator fusion*?" Resolve from the glossary.
-5. (10 min) Write one sentence that you can use tomorrow to motivate FlashAttention.
-
-## Wrap-up
-
-Each pair states *one* memory number they'll remember forever (most pick 3.35 TB/s or the 295 ridge point).
-
-## Connect forward
-
-Tomorrow: arithmetic intensity gets formalized into the **roofline model**, and we classify five real workloads against it.
+> **FlashAttention (tomorrow's day) is exactly this idea.**
 
 ---
 
-## Pre-read for tomorrow (Day 9 · Compute-Bound vs Memory-Bound)
+## Part 5 — Hands-On — Calculate · 25 min
+### Exercise 1: Read Time (10 min)
+
+Calculate: time to read 16 GB from H100 HBM at 3.35 TB/s.
+
+**Formula:** Time = Size / Bandwidth
+
+**Answer:**
+- 16 GB ÷ 3.35 TB/s = 16 ÷ 3,350 seconds = **4.8 ms**
+
+Now calculate: time if you could keep it in L2 (assume L2 bandwidth ≈ 12 TB/s):
+
+**Answer:**
+- 16 GB ÷ 12 TB/s = 16 ÷ 12,000 seconds = **1.3 ms**
+
+### Exercise 2: Arithmetic Intensity (15 min)
+
+Calculate arithmetic intensity for:
+
+**(a) Matrix multiply of two N×N matrices (N=4096)**
+- FLOPs: ~2N³ = 2 × 4096³ = ~137 billion FLOPs
+- Bytes: 3N² × 2 bytes (FP16) = ~100 MB
+- Intensity: ~137B / 100M = ~1,371,000 ops/byte
+
+**(b) Elementwise add of two N-vectors**
+- FLOPs: N = 4096
+- Bytes: 2N × 2 bytes = ~16 KB
+- Intensity: 4096 / 16,384 = ~0.25 ops/byte
+
+**Question:** Which is compute-bound, which is memory-bound?
+
+**Answer:** (a) is compute-bound (way above ridge), (b) is memory-bound (way below ridge)
+
+---
+
+## Part 7 — Wrap-up & Connection · 15 min
+### Self-Check
+
+Can you explain these from memory?
+- [ ] What's the memory hierarchy from fast to slow?
+- [ ] What is arithmetic intensity?
+- [ ] What's the H100 ridge point? (~295 ops/byte)
+- [ ] Why is LLM decode ~150x below the ridge?
+- [ ] Why does kernel fusion help?
+
+### Connect Forward
+
+Tomorrow: arithmetic intensity gets formalized into the **roofline model**, and we classify five real workloads against it.
+
+### Pre-read for tomorrow (Day 9 · Compute-Bound vs Memory-Bound)
 
 - **Resource:** "Arithmetic intensity" explainer — Pre-Lecture Reading **Reader 4 (complexity / memory / attention math)** + Study Guide §A.5 roofline subsection (~15 min).
 - **Reflection questions:**
   1. If a kernel does 100 ops and reads 50 bytes, what's its intensity?
   2. Why is prefill compute-bound and decode memory-bound? (One sentence.)
   3. What does the *roofline model* tell you that arithmetic intensity alone doesn't?
+
+---
+
+## Stuck?
+
+Ask **oxtutor** — share your exact question, the concept or command that isn't
+clicking, and which week/module you are on.

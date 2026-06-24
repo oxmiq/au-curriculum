@@ -1,6 +1,5 @@
 # Week 9 — Capsule Benchmarking · Module Assignment
 
-> **Source:** Capsule Power User Problem Sets §Set 45 (timed-sprint retrospective). **Feeds directly into Day 47 Capstone charter.**
 
 ## What you submit
 

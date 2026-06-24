@@ -1,6 +1,5 @@
 # Week 6 — Prompt Engineering · Module Assignment (5% PE Assessment)
 
-> **Source:** Mindmap Week 6 Day 30 + Prompt Engineering Problem Sets §Set 30 (chaining drill) + Worksheets.
 > **Weight:** 5% of overall grade.
 
 ## What you submit

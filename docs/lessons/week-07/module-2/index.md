@@ -9,9 +9,8 @@ drift: |
 
 # Day 33 · Capsule Foundations & Architecture
 
-> **Concept of the day:** **Capsule** = orchestration platform for on-prem GPU fleets. CLI on your laptop talks to a **control plane**; the control plane manages **environments** (clusters of nodes); each node runs an **agent** that exposes machines. Install once, configure once, operate every day.
+> **Concept of the day:** **Capsule** = orchestration platform for on-prem GPU fleets. CLI on your laptop talks to a **control plane**; the control plane manages **environments** (clusters of nodes); each node runs an **agent** that exposes machines. Install once, configure once, operate every day.<br>
 > **Pre-reading:** Capsule Power User Lab Guide **Modules 1 + 2** (~35 min).
-> **Source:** [Lab Guide](../../../../planning/source-material/Capsule%20Power%20User/Capsule-Power-User-Lab-Guide.md) · [Cheatsheet](../../../../planning/source-material/Capsule%20Power%20User/Capsule-Power-User-Cheatsheet.md). The installation deep-dive in this lesson is *also* the source for the next module ([Day 34 · Installation](../module-3/index.md))​.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -27,22 +26,30 @@ drift: |
     <span class="duration">~3 hrs</span>
     {status:week-07/module-2}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/AI%20Agents">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
 ---
 
-## Why this matters
+## Lesson plan
 
-This is Phase 3's foundation. Every benchmark in Week 9, every agent in Week 7's project — they all land on Capsule machines. If you don't have a clean mental model of the architecture, every "why won't this connect?" debug session will burn 30 minutes instead of 30 seconds.
+| Part | What you do | Time |
+|---|---|---|
+| Part 1 | Pre-Reading Review | 15 min |
+| Part 2 | Core Concepts: The Three Layers | 25 min |
+| Part 3 | Core Concepts: Installation Flow | 20 min |
+| Part 4 | Deep Dive: What Each Layer Stores | 20 min |
+| Part 5 | Hands-On: Install & Verify | 30 min |
+| Part 6 | Hands-On: Architecture Diagram | 20 min |
+| Part 7 | Wrap-up & Connection | 15 min |
 
-## Readiness check
+## Part 1 — Pre-Reading Review · 15 min
+
+> Read the Capsule Power User Lab Guide **Modules 1 + 2** (~35 min) before this lesson. Use this Part to consolidate what you read.
+
+### Exercise: Self-Check
+
+Answer these before you continue — they preview where you'll be uncertain:
 
 1. Name the three layers of the Capsule architecture.
 2. What's the difference between the **CLI**, the **control plane**, and the **node agent**?
@@ -50,9 +57,15 @@ This is Phase 3's foundation. Every benchmark in Week 9, every agent in Week 7's
 4. What does an **environment** contain?
 5. After install, what's the first command you run to verify it works?
 
-## Core concept
+If you hesitated on any of these, flag it — the next three Parts will close those gaps.
 
-### The three layers
+## Part 2 — Core Concepts: The Three Layers · 25 min
+
+### Reading — Why this matters
+
+This is Phase 3's foundation. Every benchmark in Week 9, every agent in Week 7's project — they all land on Capsule machines. If you don't have a clean mental model of the architecture, every "why won't this connect?" debug session will burn 30 minutes instead of 30 seconds.
+
+### Reading — The three layers
 
 ```
 ┌───────────────────────────────────────┐
@@ -78,35 +91,16 @@ This is Phase 3's foundation. Every benchmark in Week 9, every agent in Week 7's
 
 **Key insight:** you never SSH directly to a node. The CLI brokers everything through the control plane, which authenticates you, then opens a session via the node agent. This gives you identity, audit, and bookkeeping for free.
 
-### Installation flow (macOS + Linux)
+### Reading — Why this design
 
-1. Install the CLI: `brew install capsule` (or the equivalent for your platform).
-2. Authenticate: `capsule login` — opens a browser, returns a token.
-3. Verify: `capsule whoami` — confirms identity.
-4. Configure default env: `capsule env use <env-name>`.
-
-That's the happy path. On a fresh laptop it's ~5 minutes.
-
-### What a Capsule "install" actually does
-
-| Component | Where it lives | What it stores |
-|---|---|---|
-| Binary | `/usr/local/bin/capsule` (or equivalent) | the CLI itself |
-| Config dir | `~/.capsule/` | tokens, default env, cached env metadata |
-| Token | `~/.capsule/credentials` | refresh + access tokens, encrypted at rest on macOS Keychain when available |
-
-### Common install gotchas (Module 1 quirks)
-
-| Symptom | Cause |
+| Goal | Mechanism |
 |---|---|
-| `capsule: command not found` | PATH doesn't include install dir; restart shell |
-| `capsule login` browser doesn't open | Headless terminal; use `--device-code` flow |
-| `whoami` says unauthorized after login | Clock skew between laptop and control plane; sync NTP |
-| SSH to a node hangs after `capsule connect` | Corporate proxy mangling websockets; need `HTTPS_PROXY` |
+| Identity-aware access | CLI → control plane → node, never direct |
+| Multi-tenant safety | Per-user / per-team environments + leases |
+| Heterogeneous fleet | Environments group by hardware; users select by capability |
+| Auditable operation | Every CLI action logs through control plane |
 
-These are the four most-asked support questions. Memorize them.
-
-### What an environment contains
+### Reading — What an environment contains
 
 An **environment** is a logical grouping of nodes — usually one per geographic site or per hardware class:
 
@@ -117,37 +111,110 @@ An **environment** is a logical grouping of nodes — usually one per geographic
 
 Examples: `production`, `development`, `production-fre`, `production-tenstorrent` (mirroring the `capsule-ansible` inventory naming).
 
-### Why this design
+## Part 3 — Core Concepts: Installation Flow · 20 min
 
-| Goal | Mechanism |
+### Reading — Installation flow (macOS + Linux)
+
+1. Install the CLI: `brew install capsule` (or the equivalent for your platform).
+2. Authenticate: `capsule login` — opens a browser, returns a token.
+3. Verify: `capsule whoami` — confirms identity.
+4. Configure default env: `capsule env use <env-name>`.
+
+That's the happy path. On a fresh laptop it's ~5 minutes.
+
+### Reading — Common install gotchas (Module 1 quirks)
+
+| Symptom | Cause |
 |---|---|
-| Identity-aware access | CLI → control plane → node, never direct |
-| Multi-tenant safety | Per-user / per-team environments + leases |
-| Heterogeneous fleet | Environments group by hardware; users select by capability |
-| Auditable operation | Every CLI action logs through control plane |
+| `capsule: command not found` | PATH doesn't include install dir; restart shell |
+| `capsule login` browser doesn't open | Headless terminal; use `--device-code` flow |
+| `whoami` says unauthorized after login | Clock skew between laptop and control plane; sync NTP |
+| SSH to a node hangs after `capsule connect` | Corporate proxy mangling websockets; need `HTTPS_PROXY` |
 
-## Practice (90 min)
+These are the four most-asked support questions. Memorize them.
 
-1. (20 min) Install Capsule on your laptop. Verify with `capsule version` and `capsule whoami`.
-2. (15 min) Run `capsule env list`. Identify which environments you have access to. Pick one as default.
-3. (15 min) Draw the 3-layer architecture from memory on paper. Label each layer with: where it runs, what it stores, who talks to it.
-4. (25 min) Pair: walk a partner through your install. Hit at least one of the 4 common gotchas. Resolve.
-5. (15 min) Read the Cheatsheet's "first 10 minutes" section. Familiarize with the command surface.
+## Part 4 — Deep Dive: What Each Layer Stores · 20 min
 
-## Wrap-up
+### Reading — What a Capsule "install" actually does
 
-Every student can run `capsule whoami` successfully and name the environment they're in.
+| Component | Where it lives | What it stores |
+|---|---|---|
+| Binary | `/usr/local/bin/capsule` (or equivalent) | the CLI itself |
+| Config dir | `~/.capsule/` | tokens, default env, cached env metadata |
+| Token | `~/.capsule/credentials` | refresh + access tokens, encrypted at rest on macOS Keychain when available |
 
-## Connect forward
+### Exercise: Trace the auth path
+
+Draw the flow for `capsule connect nv-h100-04-1`:
+
+1. The CLI reads your token from `~/.capsule/credentials`.
+2. It calls the control plane over HTTPS with that token.
+3. The control plane checks: is this user authorized to connect to this node?
+4. The control plane tells the node agent to open a session.
+5. The CLI receives the tunnel info and proxies your shell.
+
+**Question:** at which step would a clock-skew problem manifest? At which step would a corporate proxy problem manifest? Write your answers before continuing.
+
+## Part 5 — Hands-On: Install & Verify · 30 min
+
+### Exercise: Install Capsule on your laptop
+
+(20 min) Install Capsule on your laptop. Verify with `capsule version` and `capsule whoami`.
+
+Expected output:
+
+```
+$ capsule version
+capsule v2.x.x ...
+$ capsule whoami
+user: alice@oxmiq.com
+env: development
+```
+
+If you hit one of the four gotchas from Part 3, resolve it now. Pair up if needed.
+
+### Exercise: Configure your default environment
+
+(10 min) Run `capsule env list`. Identify which environments you have access to. Pick one as default with `capsule env use <env-name>`.
+
+## Part 6 — Hands-On: Architecture Diagram · 20 min
+
+### Exercise: Draw from memory
+
+(15 min) Draw the 3-layer architecture on paper — no peeking. Label each layer with:
+
+- Where it runs
+- What it stores
+- Who talks to it
+
+Compare your drawing to the diagram in Part 2. Note every discrepancy.
+
+### Exercise: Explore the Cheatsheet
+
+(5 min) Read the Cheatsheet's "first 10 minutes" section. Familiarize with the command surface.
+
+## Part 7 — Wrap-up & Connection · 15 min
+
+**Before you finish, check each item:**
+
+- [ ] I can run `capsule whoami` successfully.
+- [ ] I can name the three layers of the Capsule architecture (CLI, control plane, node agent).
+- [ ] I know what `~/.capsule/` stores and why the token is there.
+- [ ] I know what an "environment" is and which one I'm in.
+- [ ] I've resolved any install gotchas I encountered.
+
+### Connect forward
 
 Tomorrow: **environments and fleet discovery** — how to find what's available, what to ask for, and how to read the inventory.
 
----
-
-## Pre-read for tomorrow (Day 37 · Environments & Fleet Discovery)
+### Pre-read for tomorrow (Day 37 · Environments & Fleet Discovery)
 
 - **Resource:** Lab Guide **Module 3** (~15 min).
 - **Reflection questions:**
   1. How do you list available machines in an environment?
   2. What fields tell you a machine is *available* vs *leased*?
   3. How is hardware diversity (NVIDIA H100, NVIDIA T4, Tenstorrent, Apple Silicon) surfaced in the inventory?
+
+## Stuck?
+
+Ask **oxtutor** — describe what you tried and what happened.

@@ -5,35 +5,35 @@
 
 <!-- AUTO-GEN:CARD-GRID:START -->
 <div class="ox-card-grid" markdown="0">
-  <a class="ox-card" href="module-1/index.md" style="--i:21">
+  <a class="ox-card" href="module-1/" style="--i:21">
     {status:week-05/module-1}
     <span class="ox-card__eyebrow">Day 21</span>
     <h3 class="ox-card__title">Latency vs Throughput</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-2/index.md" style="--i:22">
+  <a class="ox-card" href="module-2/" style="--i:22">
     {status:week-05/module-2}
     <span class="ox-card__eyebrow">Day 22</span>
     <h3 class="ox-card__title">Production Deployment</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-3/index.md" style="--i:23">
+  <a class="ox-card" href="module-3/" style="--i:23">
     {status:week-05/module-3}
     <span class="ox-card__eyebrow">Day 23</span>
     <h3 class="ox-card__title">LLM Evaluation</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-4/index.md" style="--i:24">
+  <a class="ox-card" href="module-4/" style="--i:24">
     {status:week-05/module-4}
     <span class="ox-card__eyebrow">Day 24</span>
     <h3 class="ox-card__title">Inference Economics</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-5/index.md" style="--i:25">
+  <a class="ox-card" href="module-5/" style="--i:25">
     {status:week-05/module-5}
     <span class="ox-card__eyebrow">Day 25</span>
     <h3 class="ox-card__title">Consolidation + Phase 1 Problem Set</h3>

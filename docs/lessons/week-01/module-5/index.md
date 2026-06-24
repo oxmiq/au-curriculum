@@ -16,32 +16,187 @@
     <span class="duration">Friday · review &amp; wrap</span>
     {status:week-01/module-5}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Orientation">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
-## What today is for
+---
 
-You've covered shell, git, and a GPU primer. Friday is the day to:
+## Lesson plan
 
-1. **Pass the knowledge check.** [Take the canonical knowledge check](knowledge-check.html) — 15 questions across shell, git, GPU primer. Pass = 10/15.
-2. **Submit the assignment** for the week if you haven't already.
-3. **Open-ended lab time.** Catch up on anything from Mon–Thu; ask oxtutor to re-explain anything still fuzzy; generate extra practice with oxtutor.
+This consolidation day is different from other days — it's for practice and review. Here's how your ~3 hours is organized:
 
-## Self-check before Monday (Week 2)
+| Part | What you do | Time |
+|-------------|---------------|----------|
+| Part 1 | Week 1 Knowledge Check | 30 min |
+| Part 2 | Self-Assessment | 20 min |
+| Part 3 | Practice: Shell Review | 30 min |
+| Part 4 | Practice: Git Review | 30 min |
+| Part 5 | Practice: GPU Review | 20 min |
+| 7 | Open Lab & Wrap-up | 30 min |
 
-You should be able to, without notes:
+---
 
-- Pipe `nvidia-smi` output through `grep` and `awk` to extract a single field.
-- Create a branch, commit with a conventional message, push, open a PR, review a peer's PR.
-- Explain in one paragraph why GPUs exist and what they're good at.
-- Name three differences between training and serving.
-- Quote two specs of the H100 from memory (memory size and bandwidth are the most-used).
+## Part 1 — Week 1 Knowledge Check · 30 min
+### Exercise: Take the Knowledge Check
+
+[Take the Week 1 knowledge check](knowledge-check.html) — 15 questions across shell, git, and GPU primer.
+
+**Passing score:** 10/15 (67%)
+
+If you score below 10/15:
+- Review the questions you got wrong
+- Go back to the relevant day's content
+- Re-read that section
+- Retake the quiz
+
+---
+
+## Part 2 — Self-Assessment · 20 min
+### Self-Check List
+
+Go through each item and mark whether you can do it **without notes**:
+
+- [ ] Pipe `nvidia-smi` output through `grep` and `awk` to extract a single field
+- [ ] Create a branch, commit with a conventional message, push
+- [ ] Open a PR on GitHub
+- [ ] Review a peer's PR and leave a comment
+- [ ] Explain in one paragraph why GPUs exist and what they're good at
+- [ ] Name three differences between training and serving
+- [ ] Quote two specs of the H100 from memory (memory size and bandwidth are the most-used)
+- [ ] Draw the journey of a prompt from input to output
+
+### Action Items
+
+For any item you can't do:
+1. Note which day it came from
+2. Spend 10 minutes reviewing that day's content
+3. Practice until you can do it from memory
+
+---
+
+## Part 3 — Practice — Shell Review · 30 min
+### Hands-On: Shell Drills
+
+Practice these until they're automatic:
+
+```bash
+# 1. Count files in a directory
+ls | wc -l
+
+# 2. Find all .md files
+find . -name "*.md"
+
+# 3. Parse nvidia-smi output
+nvidia-smi --query-gpu=index,memory.used,memory.total,utilization.gpu --format=csv
+
+# 4. Write a simple loop
+for i in {1..5}; do echo "Count: $i"; done
+
+# 5. Make a script executable
+chmod +x myscript.sh
+```
+
+### Practice Exercise
+
+Write a script that:
+1. Lists all files in `/tmp`
+2. Counts how many there are
+3. Prints "Found X files"
+
+```bash
+#!/bin/bash
+count=$(ls /tmp | wc -l)
+echo "Found $count files in /tmp"
+```
+
+---
+
+## Part 4 — Practice — Git Review · 30 min
+### Hands-On: Git Drills
+
+If you have a GitHub account, practice these:
+
+1. **Clone a repo** (use any public repo)
+```bash
+git clone https://github.com/dgerman/English-to-French.git
+```
+
+2. **Create a branch and make a commit**
+```bash
+git checkout -b practice-branch
+echo "practice" > practice.txt
+git add .
+git commit -m "feat: add practice file"
+```
+
+3. **Push to your fork**
+```bash
+git push origin practice-branch
+```
+
+4. **Clean up** (delete the branch after)
+```bash
+git checkout main
+git branch -d practice-branch
+```
+
+### Git Cheat Sheet
+
+| Action | Command |
+|--------|---------|
+| Check status | `git status` |
+| See changes | `git diff` |
+| Stage file | `git add ` |
+| Stage all | `git add .` |
+| Commit | `git commit -m "type: message"` |
+| Push | `git push origin <branch>` |
+| Create branch | `git checkout -b <branch>` |
+| Switch branch | `git checkout <branch>` |
+
+---
+
+## Part 5 — Practice — GPU Review · 20 min
+### Hands-On: GPU Knowledge Check
+
+Write your answers to these from memory (no notes!):
+
+1. Why are GPUs faster than CPUs for neural networks?
+2. What does "embarrassingly parallel" mean?
+3. What's the difference between training and serving?
+4. What are the three most important H100 specs?
+5. Draw the journey of a prompt (6 steps)
+
+Compare your answers to what you wrote on Day 4. Have you improved?
+
+---
+
+## Part 7 — Wrap-up & Connection · 30 min
+### What to Do
+
+This is open time. Choose what you need:
+
+1. **Catch up** on any assignments from Mon–Thu
+2. **Ask questions** — use oxtutor or review the relevant day
+3. **Extra practice** — generate more exercises on any concept
+4. **Preview Week 2** — start the pre-reading for Day 6
+
+### Connect Forward
+
+Week 2 begins on Monday. You'll learn about:
+- GPU hardware in detail
+- Memory bottlenecks
+- The journey of a prompt (in depth)
+
+### Pre-read for Monday (Week 2, Day 6)
+
+**Resource:** "Inference vs training" blog post (15 min — your facilitator will share the link)
+
+**Reflection questions:**
+1. Why is inference cumulatively more expensive than training?
+2. Name one thing a CPU does better than a GPU.
+3. What's the smallest unit of work in inference?
+
+---
 
 ## Stuck?
 

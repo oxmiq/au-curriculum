@@ -1,8 +1,7 @@
 # Day 21 · Metrics That Matter
 
-> **Concept of the day:** **TTFT, ITL/TPS, throughput, percentiles (P50/P95/P99)**. Means lie; percentiles tell the truth. **Goodhart's Law:** once a metric becomes a target it stops being a good metric.
+> **Concept of the day:** **TTFT, ITL/TPS, throughput, percentiles (P50/P95/P99)**. Means lie; percentiles tell the truth. **Goodhart's Law:** once a metric becomes a target it stops being a good metric.<br>
 > **Pre-reading:** "Latency vs throughput in LLM serving" — Pre-Lecture Reading **Reader 10** (production metrics) (~15 min).
-> **Source:** [Study Guide §A.7](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary: TTFT, ITL, P99](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -18,50 +17,58 @@
     <span class="duration">~3 hrs</span>
     {status:week-05/module-1}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Inference%20Engineering">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
 ---
 
-## Why this matters
+## Lesson plan
+
+This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
+
+| Part | What you do | Time |
+|-------------|---------------|----------|
+| Part 1 | Read: Why Metrics Matter | 10 min |
+| Part 2 | Deep Dive: Metric Vocabulary | 20 min |
+| Part 3 | Hands-On: Percentile Calculations | 25 min |
+| Part 4 | Hands-On: Latency vs Throughput | 25 min |
+| Part 5 | Discussion: Goodhart Traps | 20 min |
+| 7 | Reflection: Metric Scorecard | 10 min |
+
+---
+
+## Part 1 — Why Metrics Matter · 10 min
+### Reading
 
 Every decision in Weeks 2–4 — TP size, engine, FP8 — is justified by *some* metric improving. If you measure the wrong number, or the wrong percentile, you ship the wrong system. This day is when "fast" stops being a feeling and becomes a number with a percentile attached.
 
-## Readiness check
+### Reflection (write your answer)
 
-1. What does **TTFT** measure? What about **ITL**?
-2. Why is **P99 latency** more relevant than average latency for user experience?
-3. What's the tension between **single-stream latency** and **system throughput**?
-4. State **Goodhart's Law** in your own words.
-5. For a chat product, which metric matters more: TTFT or TPS?
+Take 2 minutes to write down:
+> What's the difference between "fast" as a feeling and "fast" as a number?
 
-## Core concept — the metric vocabulary
+---
 
-### Latency metrics (per request)
+## Part 2 — Deep Dive — The Metric Vocabulary · 20 min
+### Reading — Latency Metrics (Per Request)
 
-| Metric | What it measures | Driven by |
-|---|---|---|
+| Metric | What it Measures | Driven By |
+|--------|-----------------|-----------|
 | **TTFT** (Time To First Token) | Wall-clock from request received → first output token | Prefill speed, queueing |
 | **ITL** (Inter-Token Latency) | Time between consecutive output tokens | Decode speed |
-| **TPS** (tokens per second) | 1000 / ITL_ms | Decode speed |
-| **End-to-end latency** | Request received → response complete | TTFT + output_tokens × ITL |
+| **TPS** (Tokens Per Second) | 1000 / ITL_ms | Decode speed |
+| **End-to-end Latency** | Request received → response complete | TTFT + output_tokens × ITL |
 
-### Throughput metrics (per system)
+### Reading — Throughput Metrics (Per System)
 
-| Metric | What it measures |
-|---|---|
-| **Requests per second** | Sustained request admission rate |
-| **Tokens per second (aggregate)** | Across all concurrent requests |
+| Metric | What it Measures |
+|--------|-----------------|
+| **Requests Per Second** | Sustained request admission rate |
+| **Tokens Per Second (aggregate)** | Across all concurrent requests |
 | **Concurrency** | In-flight requests at peak |
-| **GPU utilization** | Tensor Core busy time fraction (compute) and HBM bandwidth fraction (memory) |
+| **GPU Utilization** | Tensor Core busy time fraction (compute) and HBM bandwidth fraction (memory) |
 
-### Percentile metrics
+### Reading — Percentile Metrics
 
 Mean latency hides outliers. Real reporting uses **percentiles**:
 
@@ -71,51 +78,122 @@ Mean latency hides outliers. Real reporting uses **percentiles**:
 
 > **Rule of thumb:** P99 / P50 ratio > 5× means you have a queueing or batching issue.
 
-### The latency ↔ throughput tradeoff
+---
 
-Smaller batches → lower per-request latency, lower GPU utilization.
-Larger batches → higher utilization & throughput, higher per-request latency (queueing + slower decode step).
+## Part 3 — Hands-On — Percentile Calculations · 25 min
+### Exercise 1: Calculate Percentiles (15 min)
 
-The **Pareto frontier** is what continuous batching engines (Day 19) optimize. Every config has a different (latency, throughput) point on this frontier; you pick based on workload.
+Given the following latency distribution (in milliseconds):
+```
+{50, 60, 70, 80, 90, 100, 110, 120, 150, 5000}
+```
 
-### Goodhart's Law
+**Calculate:**
+1. **Mean** (arithmetic average)
+2. **P50** (median)
+3. **P95** (95th percentile)
+4. **P99** (99th percentile)
+
+**Write down:** What does the mean hide? What does P99 reveal that the mean doesn't?
+
+### Exercise 2: Interpret the Distribution (10 min)
+
+Look at the distribution above. The value `5000` ms (5 seconds) represents a cold start or a timeout.
+
+- If you only report "mean latency," what does the user see?
+- If you report "P99 latency," what does the user see?
+- Why is P99 more relevant for user experience than mean?
+
+---
+
+## Part 4 — Hands-On — Latency vs Throughput Tradeoff · 25 min
+### Exercise 1: Sketch the Frontier (15 min)
+
+Draw a coordinate system with:
+- **X-axis:** Throughput (tokens/sec)
+- **Y-axis:** Latency (ms per request)
+
+Sketch two curves:
+1. **P50 Latency** curve — typically decreases slightly then increases as batch size grows
+2. **P99 Latency** curve — stays low initially, then spikes dramatically at high load
+
+**Mark the point** where the system transitions from "healthy" to "overloaded."
+
+### Exercise 2: The Tradeoff Explained (10 min)
+
+**Why does this tradeoff exist?**
+
+| Batch Size | Effect on Latency | Effect on Throughput |
+|------------|-------------------|---------------------|
+| Small (1-2) | Low (fast) | Low (under-utilized GPU) |
+| Medium (8-16) | Moderate | High |
+| Large (64+) | High (queueing + slower decode) | Very High (but P99 suffers) |
+
+**Write one sentence** summarizing the latency-throughput tradeoff in your own words.
+
+---
+
+## Part 5 — Discussion — Goodhart Traps · 20 min
+### Reading — Goodhart's Law
 
 > *"When a measure becomes a target, it ceases to be a good measure."*
 
 If you bonus on "TPS averaged over the day" you'll see engineers slowly slip TTFT and never get called on it. Always report **a vector of metrics with percentiles**, not a single number.
 
-### What to measure per workload
+### Exercise: Identify Goodhart Traps (Pair Drill) (15 min)
 
-| Workload | Top-priority metric |
-|---|---|
+Pick two products from this list:
+- ChatGPT (consumer chat)
+- GitHub Copilot (code completion)
+- A nightly research summarizer (batch job)
+- An agent that does 30 tool calls per task (agentic)
+
+For each product:
+1. Name the **top-two metrics** you'd track
+2. Identify **one Goodhart trap** — what could go wrong if you optimized only for that metric?
+
+### Discussion Prompt (5 min)
+
+**"GPU utilization is 95%."** Why is that not enough to know if your system is healthy?
+
+Think about:
+- What if 95% is spent waiting for KV cache, not computing?
+- What if the requests are queuing up waiting for that 5% idle time?
+
+---
+
+## Part 7 — Wrap-up & Connection · 10 min
+### What to Measure Per Workload
+
+| Workload | Top-Priority Metric |
+|----------|---------------------|
 | Chat / Q&A (user waiting) | P99 TTFT + median TPS |
 | Batch summarization | Aggregate TPS, cost / 1M tokens |
 | Code completion | P99 TTFT (very tight, < 200 ms) |
 | Document analysis (long output) | Median TPS, P95 end-to-end |
 | Agentic tool calls (multi-turn) | P99 end-to-end per turn |
 
-## Practice (90 min)
+### Reflection Question
 
-1. (15 min) Given a latency distribution {50, 60, 70, 80, 90, 100, 110, 120, 150, 5000} ms, compute mean, P50, P95, P99. What does the mean hide?
-2. (25 min) Sketch a latency-vs-throughput curve. Mark P50 and P99 separately. Show how the curves diverge at high load.
-3. (25 min) Pair drill: pick two products from {ChatGPT, GitHub Copilot, a nightly research summarizer, an agent that does 30 tool calls per task}. For each: name the top-two metrics and a Goodhart trap.
-4. (15 min) Discussion: "GPU utilization is 95%." Why is that not enough to know if your system is healthy?
-5. (10 min) Write the rule: *"Mean is for ___; percentile is for ___."*
+Based on your Week 4 serving design (8×H100), what would your **metric scorecard** look like?
 
-## Wrap-up
+Create a table with:
+- TTFT P99 target: ___
+- TPS median target: ___
+- Requests/sec: ___
+- GPU utilization target: ___
 
-Cohort agrees on a **metric scorecard** for the design from Week 4's assignment: TTFT P99, TPS median, requests/sec, GPU utilization. Each gets a target.
-
-## Connect forward
-
-Tomorrow: how production deployments actually run — **autoscaling, failover, observability**, the things that turn a good design into a reliable service.
-
----
-
-## Pre-read for tomorrow (Day 22 · Production Patterns)
+### Pre-read for tomorrow (Day 22 · Production Patterns)
 
 - **Resource:** "Deploying LLMs in production" overview — Pre-Lecture Reading **Reader 10** (~20 min).
 - **Reflection questions:**
   1. What's the difference between **horizontal** and **vertical** autoscale for LLM serving? Why is horizontal usually preferred?
   2. What's a **warm pool** and why does cold-start hurt LLMs more than other services?
   3. Where do you put the **load balancer**?
+
+---
+
+## Stuck?
+
+Ask **oxtutor** — share your exact question, the concept or command that isn't
+clicking, and which week/module you are on.

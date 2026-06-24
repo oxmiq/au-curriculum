@@ -1,7 +1,7 @@
 # Day 47 · Kickoff & Planning
 
-> **Concept of the day:** the capstone starts with a **charter** — a one-page commitment to use case, model, hardware, and eval plan. Today is when vague ideas become concrete decisions. Peer-review keeps everyone honest.
-> **Source template:** [Day-46 Charter Template](../../../../planning/source-material/Capstone/Day-46-Charter-Template.md) (source filename is `Day-46-...` from upstream capstone-relative naming; this is program Day 47).
+> **Concept of the day:** the capstone starts with a **charter** — a one-page commitment to use case, model, hardware, and eval plan. Today is when vague ideas become concrete decisions. Peer-review keeps everyone honest.<br>
+> **Source template:** [Day-46 Charter Template](../../../../planning/source-material/Capstone/Day-46-Charter-Template.md) (source filename is `Day-46-...` from upstream capstone-relative naming; this is program Day 47).<br>
 > **Input you walk in with:** your Week 9 Day 45 retrospective, specifically the "capstone seed" section.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
@@ -18,16 +18,20 @@
     <span class="duration">Full-day milestone</span>
     {status:week-10/module-1}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Capstone">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
 ---
+
+## Time budget for today
+
+| Block | Activity | Duration |
+|---|---|---|
+| Block 1 | Team formation + use-case brainstorm | 30 min |
+| Block 2 | Model + hardware + eval selection | 45 min |
+| Block 3 | Charter draft | 45 min |
+| Block 4 | Peer review (paired) | 30 min |
+| Block 5 | Revise + submit | 30 min |
 
 ## Why this matters
 
@@ -62,7 +66,7 @@ The single biggest reason capstones fail is **vague scoping**. A 4-day window ki
 | 50 (Thu) | Present (15 min + 10 min Q&A) — assessed |
 | 51 (Fri) | Retrospective + career conversation |
 
-## Time budget for today
+## Detailed time budget
 
 | Block | Minutes |
 |---|---|
@@ -87,3 +91,13 @@ If you're past the charter by 4 PM, you're ahead. If you're not, the rest of the
 ## Wrap-up
 
 Every team has a peer-reviewed, instructor-approved charter. Tomorrow you execute.
+
+## Self-check before Day 48
+
+- [ ] Charter is submitted and peer-reviewed (no TBD fields remaining)
+- [ ] You can state the use case in one sentence naming a specific user + specific task
+- [ ] Success criterion is a number, not a description ("< 800 ms p95 TTFT", not "fast")
+
+## Stuck?
+
+Ask **oxtutor** to review your charter against the "strong vs weak" comparison table — it can tell you which fields are vague before your peer reviewer does.

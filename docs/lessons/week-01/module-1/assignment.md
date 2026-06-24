@@ -1,6 +1,5 @@
 # Week 1 — Orientation: Module Assignment
 
-> **Source:** [Week 1 Orientation Student Guide § Day 1 Practice](../../../../planning/source-material/Orientation/Orientation-Student-Guide.md).
 
 ## What you submit
 

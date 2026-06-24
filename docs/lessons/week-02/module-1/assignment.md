@@ -1,6 +1,5 @@
 # Week 2 — Inference: GPU & Memory · Module Assignment
 
-> **Source:** Mindmap Week 2 Day 10 + Inference Engineering Glossary (Feynman teach-back prompts).
 
 ## What you submit
 

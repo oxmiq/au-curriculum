@@ -2,7 +2,6 @@
 
 > **Concept of the day:** **perplexity** for sanity, **benchmarks** for comparison, **task evals** for production decisions. Public benchmarks are gameable; your own eval suite is the only one that matters. **Quantization quality must be measured, not assumed.**
 > **Pre-reading:** "Evaluating LLMs" overview — Pre-Lecture Reading **Reader 10** (~20 min).
-> **Source:** [Study Guide §A.7 evaluation](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Study_Guide.md) · [Glossary: perplexity, MMLU](../../../../planning/source-material/Inference%20Engineering/Inference_Engineering_Glossary.md).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,7 +12,7 @@
     <span class="sep">/</span>
     <a href="../">Week 5 — Metrics &amp; Production</a>
     <span class="sep">/</span>
-    <span>Day 23 · LLM Evaluation</span>
+    <span>Day 23 · Evaluation & Quality</span>
     <span class="sep">·</span>
     <span class="duration">~3 hrs</span>
     {status:week-05/module-3}
@@ -29,104 +28,202 @@
 
 ---
 
-## Why this matters
+## Lesson plan
+
+| # | What you do | Time |
+|---|-------------|------|
+| 1 | Why Evaluation Matters | 15 min |
+| 2 | Three Evaluation Layers | 25 min |
+| 3 | Build a Task Eval Suite | 25 min |
+| 4 | Quantization Quality Check | 25 min |
+| 5 | LLM-as-a-Judge | 20 min |
+| 6 | Design Your Eval Pipeline | 20 min |
+| 7 | Wrap-up & Connection | 10 min |
+
+---
+
+## Part 1 — Why Evaluation Matters · 15 min
+
+### Reading
 
 A quantized model that ships with 5% quality regression on *your task* will silently lose customers. A model that scores +2 on MMLU might be worse for *you*. Eval is the only thing that closes the loop between engineering speedups and business outcomes.
 
-## Readiness check
+### Reflection (write your answer)
 
-1. What is **perplexity** measuring?
-2. Why does a model score 85% on MMLU but feel "dumber" on your specific task?
-3. What's a **task eval suite** and how is it different from a benchmark?
-4. **LLM-as-a-judge** — when does it work, when does it deceive?
-5. After quantizing FP16 → FP8, what's the minimum eval you should run?
+Take 2 minutes to write down:
+> Why is "it scores 85% on MMLU" not enough to ship a model to production?
 
-## Core concept
+---
 
-### The three layers of evaluation
+## Part 2 — Three Evaluation Layers · 25 min
 
-**1. Sanity (perplexity / loss)** — cheap, fast, coarse.
+### Layer 1: Sanity (Perplexity)
 
-Perplexity = exp(cross-entropy) on a held-out text set. Tells you the model still produces "reasonable" probability distributions. **Goes up = quality dropped.** Useful for catching catastrophic damage from a bad quantization.
+**Perplexity** = exp(cross-entropy) on a held-out text set.
 
-**Limit:** doesn't tell you anything about *task* quality. A model can lose perplexity from a bug and still ace your benchmark, or vice versa.
+- **What it tells you:** The model still produces "reasonable" probability distributions
+- **What it misses:** Task-specific quality
+- **Goes up** = quality dropped
 
-**2. Benchmarks (MMLU, HellaSwag, HumanEval, etc.)** — comparable, citable, gameable.
+**Use for:** Catching catastrophic damage from a bad quantization or bug.
 
-| Benchmark | Tests |
-|---|---|
-| MMLU | Multi-subject knowledge (57 subjects) |
-| HellaSwag | Commonsense reasoning |
-| HumanEval / MBPP | Code generation |
-| GSM8K / MATH | Math word problems |
-| HELM / lm-eval-harness | Multi-task batteries |
+### Layer 2: Benchmarks (MMLU, etc.)
 
-**Use them for:** comparing model A vs model B at a glance.
-**Don't use them for:** declaring you're "production ready."
+| Benchmark | What It Tests | Use For |
+|-----------|---------------|---------|
+| MMLU | Multi-subject knowledge (57 subjects) | Quick comparison |
+| HellaSwag | Commonsense reasoning | Reasoning check |
+| HumanEval / MBPP | Code generation | Code products |
+| GSM8K / MATH | Math word problems | Math ability |
+| HELM | Multi-task batteries | Comprehensive |
 
-> **Goodhart again:** model trainers know which benchmarks matter. They optimize for those. MMLU saturation has more to do with training data leakage than with capability gains.
+> **Goodhart again:** Model trainers know which benchmarks matter. They optimize for those. MMLU saturation has more to do with training data leakage than capability gains.
 
-**3. Task evals (your own suite)** — narrow, honest, the one that ships decisions.
+**Benchmarks are for comparing — never for declaring production ready.**
 
-Build a suite of **50–200 prompts** that look like real production traffic, with reference outputs (or graded rubrics). Run it on every model / quantization / engine change. Report:
+### Layer 3: Task Evals (Your Own Suite)
 
-- Pass rate (binary correct/incorrect).
-- Format compliance (does it produce valid JSON / structured output?).
-- Safety / refusal behaviour.
-- Side-by-side win rate vs the previous deployment.
+Build a suite of **50–200 prompts** that look like real production traffic.
 
-### LLM-as-a-judge
+For each prompt:
+- Reference output (if available) OR
+- Graded rubric (what makes a "good" response)
+
+**Report:**
+- Pass rate (binary correct/incorrect)
+- Format compliance (valid JSON? structured output?)
+- Safety / refusal behavior
+- Side-by-side win rate vs previous deployment
+
+> **Task evals are for shipping decisions — benchmarks are tiebreakers.**
+
+---
+
+## Part 3 — Build a Task Eval Suite · 25 min
+
+### Exercise: Create a 10-Prompt Eval Suite
+
+**Use case:** "Summarize a Slack thread"
+
+For each of these 10 scenarios, write a prompt and define what makes it "pass" or "fail":
+
+1. Short thread (5 messages) → Summary < 50 words
+2. Long thread (50 messages) → Summary captures all key points
+3. Thread with decisions → Summary includes decisions made
+4. Thread with questions → Summary identifies unanswered questions
+5. Thread with code snippets → Code is preserved accurately
+6. Thread with links → Links are preserved
+7. Thread with emoji/reactions → Tone captured
+8. Thread with a debate → Both sides summarized
+9. Thread in another language → Language preserved appropriately
+10. Thread with no clear content → Appropriate "nothing to summarize" response
+
+### Write Your Rubric
+
+For each prompt, define:
+- **Input:** The Slack thread (simulated)
+- **Expected output:** What a good summary looks like
+- **Pass criteria:** 3-5 specific things that must be present
+
+---
+
+## Part 4 — Quantization Quality Check · 25 min
+
+### Scenario
+
+A teammate proposes: "Let's quantize to INT4 — only 1% perplexity loss."
+
+### Exercise: Your Counter-Checklist
+
+Before approving any quantization change, you must verify:
+
+1. **Perplexity check** — Run on a held-out set. Reject if Δ > ___%
+2. **Task eval check** — Run your task eval suite. Reject if regression > ___ percentage points
+3. **Side-by-side human eval** — Compare 50 outputs. Reject if win rate < ___%
+4. **Refusal-rate sanity** — Did we break safety tuning?
+5. **Format compliance** — Did we break JSON output?
+
+**Fill in the thresholds** from Day 23's content.
+
+### Discussion
+
+**Why is perplexity not enough?**
+
+Even with only 1% perplexity loss, the model could:
+- Lose instruction-following capability
+- Become worse at your specific task
+- Have degraded safety behavior
+
+**Fill in:** Perplexity catches ___% of problems; task eval catches the rest.
+
+---
+
+## Part 5 — LLM-as-a-Judge · 20 min
+
+### Reading — When It Works, When It Deceives
 
 A bigger model (often GPT-4 or Claude) grades the smaller model's outputs. **Cheap to run, dangerous to trust.**
 
-| Works well | Works poorly |
-|---|---|
+| Works Well | Works Poorly |
+|------------|--------------|
 | Format / structural checks | Subjective quality (length, style) |
 | Factuality with reference | Math correctness without reference |
 | Pairwise win-rate | Absolute scoring (judges are biased toward positive scores) |
 
 **Always pair with human spot-checks** on ~10% of items.
 
-### The quantization-quality contract
+### Exercise: Design a Judge Prompt
+
+Design an LLM-as-a-judge prompt for grading:
+
+> "Is this JSON valid and complete per the schema?"
+
+**Potential deception points:**
+- The judge might accept invalid JSON that "looks right"
+- The judge might miss subtle schema violations
+- The judge might be biased toward longer outputs
+
+**How would you mitigate these?**
+
+---
+
+## Part 6 — Design Your Eval Pipeline · 20 min
+
+### The Quantization-Quality Contract
 
 Standard process when you push FP16 → FP8 (or any precision change):
 
 1. **Perplexity delta** on a held-out set. Reject if Δ > 1%.
-2. **Task eval pass rate**. Reject if regression > 2 pp (percentage points).
-3. **Side-by-side human eval** on 50 representative prompts. Reject if win rate < 45%.
-4. **Refusal-rate sanity** (didn't accidentally break safety tuning).
+2. **Task eval pass rate**. Reject if regression > 2 pp.
+3. **Side-by-side human eval** on 50 prompts. Reject if win rate < 45%.
+4. **Refusal-rate sanity** (didn't break safety tuning).
 
 Document and ship.
 
-### What to measure for *agentic* workloads (preview Week 7)
+### Reflection Question
 
-- **End-to-end task success rate** (did the agent complete the task?).
-- **Tool-call validity** (did it call valid tools with valid arguments?).
-- **Trajectory length** (how many turns did it take?).
-- **Cost per task** (tokens spent).
-
-## Practice (90 min)
-
-1. (15 min) Build a 10-prompt task eval for a "summarize a Slack thread" use case. What does each prompt test?
-2. (25 min) Take a published MMLU score and reason about what it does and doesn't tell you for a code-generation product.
-3. (25 min) Pair: a teammate proposes "let's quantize to INT4 — only 1% perplexity loss." What's your full counter-checklist before approving?
-4. (15 min) Design an LLM-as-a-judge prompt for grading "is this JSON valid and complete per the schema?" Where could it deceive you?
-5. (10 min) Write the rule: *"Benchmarks are for ___; task evals are for ___."*
-
-## Wrap-up
-
-Cohort agrees: **no quantization or model change ships without a task-eval delta**. Public benchmarks are tiebreakers, never deciders.
-
-## Connect forward
-
-Tomorrow: **cost & economics** — the *third* metric layer (latency, quality, **cost**). Token economics, dedicated vs API, GPU utilization → cost per million tokens.
+Write one sentence:
+> The quality contract ensures that ___ doesn't ship without measuring ___.
 
 ---
 
-## Pre-read for tomorrow (Day 24 · Cost & Economics)
+## Part 7 — Wrap-up & Connection · 10 min
+
+### Synthesis
+
+Today's three layers — perplexity, benchmarks, task evals — form the quality axis of the SLO tripod. Tomorrow you tackle the third axis: **cost**. Every decision you make about quantization and serving has a dollar sign attached. The quality contract you built today is what protects you from optimizing cost at the expense of your users.
+
+### Pre-read for tomorrow (Day 24 · Cost & Economics)
 
 - **Resource:** "Cost of inference" calculator / blog — Pre-Lecture Reading **Reader 10** (~15 min).
 - **Reflection questions:**
   1. What dominates cost: prefill tokens or decode tokens? Why?
   2. **Dedicated GPU** vs **token-priced API** — at what utilization does dedicated break even?
   3. Why does **GPU utilization** translate directly to cost-per-million-tokens?
+
+---
+
+## Stuck?
+
+Ask **oxtutor** — share your exact question, the concept or command that isn't
+clicking, and which week/module you are on.

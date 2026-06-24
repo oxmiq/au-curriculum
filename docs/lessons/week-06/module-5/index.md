@@ -1,8 +1,7 @@
-# Day 34 · Orchestration & Multi-Agent
+# Day 30 · Orchestration & Multi-Agent
 
-> **Concept of the day:** **multi-agent** systems split work across specialized agents communicating through a structured protocol. **Planner-worker** (decomposer + executors) and **supervisor-worker** (delegating manager) are the two dominant patterns. The cost: more LLM calls, more failure modes. The benefit: parallelism, specialization, and the ability to scale beyond a single context window.
+> **Concept of the day:** **multi-agent** systems split work across specialized agents communicating through a structured protocol. **Planner-worker** (decomposer + executors) and **supervisor-worker** (delegating manager) are the two dominant patterns. The cost: more LLM calls, more failure modes. The benefit: parallelism, specialization, and the ability to scale beyond a single context window.<br>
 > **Pre-reading:** Student Guide **Module 4 — Orchestration Layer** (~20 min).
-> **Source:** [Student Guide Module 4](../../../../planning/source-material/AI%20Agents/AI%20Agents%20-%20Student%20Guide.md).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -18,42 +17,85 @@
     <span class="duration">~3 hrs</span>
     {status:week-06/module-5}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Prompt%20Engineering">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
 ---
 
-## Why this matters
+## Lesson plan
 
-Most production "agent systems" are actually **multi-agent**. Single-agent loops hit context limits, can't parallelize, and can't specialize. By Week 9 your benchmark-runner agent will likely delegate to specialized sub-agents (config validator, results analyst, report generator). The patterns here determine whether that's a clean architecture or a tangled mess.
+This lesson is designed for guided self-study. Here's how your ~3 hours are organized:
 
-## Readiness check
+| Part | What you do | Time |
+|------|---------------|----------|
+| Part 1 | Pre-Reading Review | 15 min |
+| Part 2 | Core Concepts: Why Orchestration | 20 min |
+| Part 3 | Deep Dive: Planner-Worker & Supervisor-Worker | 25 min |
+| Part 4 | Core Concepts: Communication Protocols | 15 min |
+| Part 5 | Hands-On: Architecture Decision | 25 min |
+| Part 6 | Hands-On: Multi-Agent Cost Math | 25 min |
+| Part 7 | Wrap-up & Connection | 15 min |
 
-1. Why split work across agents instead of one big loop?
-2. What's the **planner-worker** pattern? Who decides task decomposition?
-3. What's the **supervisor-worker** pattern? How is it different?
-4. What's the communication overhead of multi-agent vs single-agent (in LLM calls per task)?
+---
+
+## Part 1 — Pre-Reading Review · 15 min
+
+### Before You Start
+
+You should have already read: Student Guide **Module 4 — Orchestration Layer** (~20 min).
+
+### Quick Self-Check
+
+Answer these questions from memory before continuing:
+
+1. Why would you split work across multiple agents instead of using one big loop?
+2. What is the **planner-worker** pattern? Who decides task decomposition?
+3. What is the **supervisor-worker** pattern and how does it differ from planner-worker?
+4. What's the approximate LLM call overhead of adding a planner + 3 workers vs single agent?
 5. When is single-agent the right answer?
 
-## Core concept
+If you couldn't answer all five, re-read the Student Guide Module 4 before continuing.
 
-### Why multi-agent
+---
 
-| Reason | Example |
+## Part 2 — Core Concepts: Why Orchestration · 20 min
+
+### Reading — The Control Plane for Agents
+
+**Orchestration** is the control plane that answers: which model runs, which tools are available, in what order, when to retry, when to escalate, and when to bring a human in.
+
+As agent systems grow, orchestration becomes the dominant engineering problem — not prompting, not tool design, but the plumbing that holds it all together.
+
+### The "Agents Are the New Programmable Computer" Analogy
+
+> *"The model is the processor. Prompts are the programming. The harness is the OS. Orchestration is the applications layer."*
+> — paraphrased from Sequoia / Karpathy
+
+| Old World | Agent World |
 |---|---|
-| **Context-window limits** | Single agent's history exceeds 200K tokens after many steps. Spawn workers with fresh contexts. |
-| **Parallelism** | 5 independent web searches in parallel vs sequential. |
-| **Specialization** | A "code-writer" prompt and a "code-reviewer" prompt are easier than one prompt doing both well. |
-| **Tool segregation** | Limit blast radius — only the "deploy" agent gets deploy tools. |
-| **Reliability** | A failing sub-agent doesn't kill the parent's state. |
+| Processor | Language model |
+| Machine code / assembly | Raw token prediction |
+| Programming language | Prompts + tool schemas |
+| Operating system | Agent harness (runtime, tool dispatch, memory) |
+| Applications | Orchestration layer |
 
-### The two dominant patterns
+Understanding orchestration = understanding how to build applications on top of this stack.
+
+### Why Single-Agent Loops Hit Limits
+
+| Limit | Effect |
+|---|---|
+| **Context-window ceiling** | After many steps, history exceeds 200K+ tokens. Worker spawning resets context. |
+| **No parallelism** | Sequential tool calls can't be parallelized. Sub-agents run in parallel. |
+| **No specialization** | One prompt trying to code + review + deploy = average quality on each. Separate prompts excel. |
+| **Large blast radius** | One agent with all tools = full system exposure. Tool segregation across agents limits damage. |
+| **Harder debugging** | A focused sub-agent's behavior is easier to test and reason about. |
+
+---
+
+## Part 3 — Deep Dive: Planner-Worker & Supervisor-Worker · 25 min
+
+### Reading — The Two Dominant Patterns
 
 **Planner-Worker** (a.k.a. plan-and-execute):
 
@@ -65,8 +107,10 @@ Planner: decomposes goal into subtasks
 Planner: aggregates results, decides if more work needed
 ```
 
-- Planner has the **strategic view**; workers have the **tactical execution**.
-- Workers are usually **stateless** between subtasks — fresh context each.
+Key properties:
+- Planner has the **strategic view**; workers have **tactical execution**.
+- Workers are usually **stateless** between subtasks — fresh context each time.
+- Workers can run **in parallel** if subtasks are independent.
 - Communication: JSON task spec → JSON result.
 
 **Supervisor-Worker** (a.k.a. delegation):
@@ -75,79 +119,214 @@ Planner: aggregates results, decides if more work needed
 Supervisor: receives goal, holds full context
    ├──> Worker A: "do step 1, report back" → result
    ├──> Worker B: "do step 2 with result from A" → result
-   └──> Worker C: "summarize" → final
+   └──> Worker C: "summarize results" → final
 ```
 
-- Supervisor stays in the loop; workers are short-lived RPC-style.
-- Better for **sequential dependent steps**.
+Key properties:
+- Supervisor **stays in the loop**; workers are short-lived RPC-style calls.
+- Better for **sequential dependent steps** where each step depends on the previous.
 - Supervisor's context grows; workers' don't.
 
-### Other useful patterns
+### Comparing the Patterns
 
-| Pattern | When |
+| Property | Planner-Worker | Supervisor-Worker |
+|---|---|---|
+| Task independence | Parallel-capable | Sequential by default |
+| Who holds state | Planner | Supervisor (all of it) |
+| Worker lifespan | Until subtask done | Per-call |
+| Good for | Research, analysis, code gen | Approval flows, step-by-step workflows |
+| Failure propagation | Worker failure → planner retries or skips | Worker failure → supervisor decides |
+
+### Other Patterns Worth Knowing
+
+| Pattern | When to Use |
 |---|---|
-| **Debate / critic** | One agent proposes, another critiques, third arbitrates. Quality lift on subjective tasks. |
+| **Debate / Critic** | One agent proposes, another critiques, third arbitrates — quality lift on subjective tasks |
 | **Pipeline** | Fixed sequence: scrape → extract → classify → write. No dynamic planning. |
-| **Swarm / parallel sampling** | N agents solve in parallel; pick best by judge or majority vote. |
+| **Swarm / parallel sampling** | N agents solve in parallel; pick best by judge or majority vote |
 | **Hierarchical** | Planner → sub-planners → workers. Three levels rarely beats two. |
 
-### Communication protocols
+### Failure Modes Introduced by Multi-Agent
 
-| Channel | Use |
-|---|---|
-| Structured messages (JSON / XML) | Default. Parseable, auditable. |
-| Shared scratchpad (file, DB row) | When agents need to read each other's work |
-| MCP **sampling** primitive | Agent A asks Agent B's host for a completion |
-| Pub/sub (queue) | Loosely-coupled, scale-out workloads |
-
-### Costs to count
-
-A multi-agent system multiplies LLM calls:
-
-- Single agent for a task: ~15 calls.
-- Planner + 3 workers, each with ~10 calls: **~45 LLM calls** for the same task — **3× cost**.
-
-> **Rule:** Only go multi-agent when **specialization, parallelism, or context limits** clearly justify the cost. Don't multi-agent because it sounds sophisticated.
-
-### When single-agent wins
-
-- Task is naturally linear / short.
-- Context comfortably fits one window.
-- No parallelism opportunities.
-- Latency-sensitive (each handoff adds round-trips).
-- Debugging is hard enough already.
-
-### The failure-mode tax
-
-Multi-agent introduces new failures:
-- **Handoff drift** — Worker A misinterprets Planner's spec.
-- **Coordination loops** — Supervisor and Worker ping-pong.
-- **Inconsistent assumptions** — workers reach different conclusions on shared inputs.
+- **Handoff drift** — Worker A misinterprets Planner's spec; output doesn't match what Planner expected.
+- **Coordination loops** — Supervisor and Worker ping-pong on an ambiguous request.
+- **Inconsistent assumptions** — Workers reach different conclusions on shared inputs.
 
 Mitigations: typed message schemas, idempotent worker contracts, explicit success criteria per subtask, max-step bounds at every level.
 
-## Practice (90 min)
+---
 
-1. (15 min) Re-design yesterday's example agent as either planner-worker or supervisor-worker. Justify the choice.
-2. (25 min) Cost math: single-agent 15 calls @ $0.005 vs planner + 3 workers @ 10 calls each. Per task, per 1000 tasks. Is the lift worth it?
-3. (25 min) Pair drill: design message schemas (JSON) for planner → worker and worker → planner.
-4. (15 min) Identify two real workflows in this curriculum (e.g. quiz-generation, progress-recording) that could be planner-worker. Sketch.
-5. (10 min) Write the rule: *"Go multi-agent only when ___."*
+## Part 4 — Core Concepts: Communication Protocols · 15 min
 
-## Wrap-up
+### Reading — How Agents Talk to Each Other
 
-Cohort agrees on **the team-project agent architecture** for Friday's 10% Phase-2 assessment.
+| Channel | Use Case |
+|---|---|
+| **Structured messages (JSON / XML)** | Default. Parseable, auditable, schema-validatable. |
+| **Shared scratchpad (file, DB row)** | When agents need to read each other's work asynchronously. |
+| **MCP Sampling primitive** | Agent A asks Agent B's host for a completion — the multi-agent enabler built into MCP. |
+| **Pub/sub queue** | Loosely-coupled, scale-out workloads where workers pull from a job queue. |
 
-## Connect forward
+### A2A — Agent-to-Agent Protocol
 
-Friday: **case studies + design synthesis**. The team project drops; Phase 2 wraps; we shift to **building** the inference stack in Phase 3 (Capsule). Then **[the canonical quiz](knowledge-check.html)**.
+**A2A** is the protocol layer above MCP. Where MCP standardizes model ↔ tool communication, A2A standardizes **agent ↔ agent** communication:
+- Goal delegation (pass a sub-goal to another agent)
+- Result reporting (structured return value)
+- Status polling (is the sub-agent done?)
+
+A2A enables the planner-worker and supervisor-worker patterns to operate across runtimes and providers.
+
+### Four Orchestration Approaches in the Wild
+
+| Approach | What It Is |
+|---|---|
+| **Claude Code** | CLI harness; you write the prompt/tools, Claude runs the loop |
+| **Claude CoWork** | Desktop tool with more baked-in orchestration + context management |
+| **OpenAI Codex** | Cloud-fused harness + runtime; agent runs in a sandboxed cloud environment |
+| **OpenClaw** | Open-source runtime; bring your own model, tools, and orchestration logic |
 
 ---
 
-## Pre-read for Friday (Day 35 · Consolidation)
+## Part 5 — Hands-On: Architecture Decision · 25 min
 
-- **Resource:** Klarna AI assistant case study + a coding-agent case study (Cursor, OxCode, or Claude Code). One blog or talk each (~20 min).
+### Exercise: Single vs Multi — Make the Call
+
+For each scenario below, decide: **single-agent** or **multi-agent**? If multi-agent, choose **planner-worker** or **supervisor-worker** and sketch the topology.
+
+| Scenario | Single or Multi? | Pattern (if multi) | Sketch topology |
+|---|---|---|---|
+| Summarize one document | | | |
+| Run 10 independent web searches in parallel | | | |
+| Write code → run tests → fix failures → re-run | | | |
+| Generate a report: research + outline + draft + proofread | | | |
+| Answer a single Q&A question | | | |
+| Triage and route 50 incoming support tickets | | | |
+
+### Exercise: Design the Message Schema
+
+For the "Generate a report" scenario above, design the JSON message that the Planner sends to each Worker and that each Worker returns.
+
+**Planner → Worker message:**
+```json
+{
+  "task_id": "",
+  "subtask": "",
+  "context": "",
+  "tools_allowed": [],
+  "max_steps": ,
+  "success_criteria": ""
+}
+```
+
+Fill in realistic values for the "outline" subtask. Then do the same for the "proofread" subtask.
+
+**Worker → Planner result:**
+```json
+{
+  "task_id": "",
+  "status": "success | failure | needs_clarification",
+  "output": "",
+  "steps_taken": ,
+  "error": null
+}
+```
+
+### Exercise: Failure Mode Analysis
+
+Pick the "Write code → run tests → fix failures → re-run" scenario.
+
+1. List three specific failure modes for this multi-agent loop.
+2. For each, write the mitigation (schema validation? max-retry count? human escalation?).
+3. At what step count would you force a human-in-the-loop pause?
+
+---
+
+## Part 6 — Hands-On: Multi-Agent Cost Math · 25 min
+
+### Reading — Cost Compounds with Complexity
+
+Multi-agent systems multiply LLM calls. Every planner step costs tokens. Every worker loop costs tokens. Communication overhead costs tokens.
+
+Reference numbers:
+- Single-agent for a task: ~15 LLM calls.
+- Planner + 3 workers, each with ~10 calls: **45 LLM calls** — **3× cost**.
+
+### Exercise: Cost Model
+
+Assume each LLM call costs $0.005 (average blended rate at current prices).
+
+**Single-agent baseline:**
+1. Cost per task (15 calls): ___
+2. Cost for 1,000 tasks/day: ___
+3. Monthly cost (30 days): ___
+
+**Multi-agent (planner + 3 workers, 10 calls each):**
+1. Cost per task (45 calls): ___
+2. Cost for 1,000 tasks/day: ___
+3. Monthly cost: ___
+4. Cost increase vs single-agent: ___×
+
+**Break-even analysis:**
+5. If the multi-agent system produces work of twice the quality, how much more should it be worth per task?
+6. At what quality multiplier is the 3× cost justified?
+
+### Exercise: Reliability Math for Multi-Agent
+
+In a planner-worker system:
+- Planner makes 5 planning calls at 99% per-call reliability.
+- 3 workers each make 10 calls at 97% per-call reliability.
+- Planner makes 3 aggregation calls at 99%.
+
+1. Probability all planner calls succeed: ___
+2. Probability all calls for one worker succeed: ___
+3. Probability all three workers complete successfully: ___
+4. End-to-end probability the full task completes: ___
+5. Compare to a single-agent making 15 calls at 97% reliability: ___
+
+### Exercise: When to Go Multi-Agent
+
+Complete this decision rule:
+
+> Go multi-agent when **at least one** of the following is true:
+> 1. ___
+> 2. ___
+> 3. ___
+>
+> Stay single-agent when **all** of the following are true:
+> 1. ___
+> 2. ___
+> 3. ___
+
+---
+
+## Part 7 — Wrap-up & Connection · 15 min
+
+### Self-Check
+
+Can you recall these from memory?
+
+- [ ] The "agents are the new programmable computer" analogy (model=processor, prompts=programming, harness=OS, orchestration=apps)
+- [ ] The five reasons to go multi-agent (context limits, parallelism, specialization, tool segregation, reliability)
+- [ ] Planner-worker: parallel subtasks, stateless workers, strategic planner
+- [ ] Supervisor-worker: sequential dependent steps, supervisor holds full context
+- [ ] Cost multiplier: planner + 3 workers at 10 calls each = 45 calls = 3× single-agent cost
+- [ ] Three multi-agent failure modes: handoff drift, coordination loops, inconsistent assumptions
+- [ ] A2A sits above MCP: agent-to-agent vs model-to-tool
+
+### Connect Forward
+
+Tomorrow (Friday): **Phase 2 wrap** — assessment, team agent design, and pre-reading for Day 32. The week's four agent layers (loop, tools, governance, orchestration) come together in a system design exercise.
+
+### Pre-read for tomorrow (Day 31 (Fri) · Phase 2 Wrap)
+
+- **Resource:** Review your notes from Days 26–30. Prepare to sketch a complete 5-layer agent system (loop + tools + governance + orchestration + inference choice) from scratch.
 - **Reflection questions:**
-  1. For each case study: what's the agent's task? Single or multi? Read or write tools?
-  2. What governance pattern is visible in the public information?
-  3. What would you ask the team that built it?
+  1. If you had to design an agent for one task in this curriculum (e.g., quiz generation, progress tracking), which pattern would you pick?
+  2. What's the governance minimum you would require before deploying it to real interns?
+  3. Which Phase 1 insight (latency, cost, batching) matters most for your agent's inference choice?
+
+---
+
+## Stuck?
+
+Ask **oxtutor** — describe your multi-agent design (what the planner does, what each worker does, what tools they have) and ask for a review of the topology and cost model.

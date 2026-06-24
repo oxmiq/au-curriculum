@@ -1,6 +1,6 @@
 # Day 49 · Analyze & Recommend
 
-> **Concept of the day:** raw data does not persuade. **A comparison table + a cost calculation + a defended recommendation** persuade. Today: compile, calculate, conclude. Build the presentation around the **claim sentence** (see capstone deliverable).
+> **Concept of the day:** raw data does not persuade. **A comparison table + a cost calculation + a defended recommendation** persuade. Today: compile, calculate, conclude. Build the presentation around the **claim sentence** (see capstone deliverable).<br>
 > **Source template:** [Day-48 Presentation Outline](../../../../planning/source-material/Capstone/Day-48-Presentation-Outline.md) (source filename is `Day-48-...` from upstream capstone-relative naming; this is program Day 49).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
@@ -17,16 +17,20 @@
     <span class="duration">Full-day milestone</span>
     {status:week-10/module-3}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Capstone">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
 ---
+
+## Analysis checklist at a glance
+
+| Step | Activity | Time budget |
+|---|---|---|
+| 1 | Compile comparison table + cost calculation | 90 min |
+| 2 | Write the claim sentence + recommendation | 30 min |
+| 3 | Build the 12-slide deck | 120 min |
+| 4 | Dry run with partner team (15 min talk + 10 min Q&A) | 30 min |
+| 5 | Revise based on dry-run feedback | 60 min |
 
 ## Why this matters
 
@@ -114,3 +118,14 @@ If you can't answer all three, you're not done.
 ## Wrap-up
 
 End of Day 49: each team has a polished 12-slide deck and can recite the claim sentence from memory. Day 50 is the show.
+
+## Self-check before Day 50
+
+- [ ] The claim sentence is written and can be stated from memory
+- [ ] Comparison table has all columns (TTFT p50/p99, throughput, quality, cost/req, cost/month)
+- [ ] The three Q&A questions from "Anticipate the Q&A" section can be answered without hesitation
+- [ ] Slides 5-10 tell a coherent story: methodology → data → recommendation
+
+## Stuck?
+
+Ask **oxtutor** to help you construct the cost calculation or to peer-review your claim sentence — it can check whether the sentence is defensible given your data.

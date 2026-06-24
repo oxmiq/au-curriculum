@@ -1,6 +1,6 @@
 # Day 50 · Present
 
-> **Concept of the day:** today is the assessed deliverable. **15 minutes presentation + 10 minutes Q&A** per team, graded against the rubric. Everyone presents. Peers and panel both score. The capstone grade — 40% of the program — is set today.
+> **Concept of the day:** today is the assessed deliverable. **15 minutes presentation + 10 minutes Q&A** per team, graded against the rubric. Everyone presents. Peers and panel both score. The capstone grade — 40% of the program — is set today.<br>
 > **Source template:** [Day-49 Assessment Rubric](../../../../planning/source-material/Capstone/Day-49-Assessment-Rubric.md) (source filename is `Day-49-...` from upstream capstone-relative naming; this is program Day 50).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
@@ -17,12 +17,6 @@
     <span class="duration">Full-day milestone</span>
     {status:week-10/module-4}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Capstone">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
@@ -32,7 +26,7 @@
 
 The presentation IS the hiring signal. It demonstrates: technical depth, decision-making under constraint, communication, teamwork, and the ability to defend a claim under questioning. Nothing else in the program does all five.
 
-## Today's schedule
+## Time budget for today
 
 | Block | Activity |
 |---|---|
@@ -40,6 +34,14 @@ The presentation IS the hiring signal. It demonstrates: technical depth, decisio
 | Lunch | — |
 | Afternoon | Presentations — 25 min/team (15 present + 10 Q&A) + 5 min reset between |
 | End | Panel deliberation; same-day verdict for each team |
+
+## Today's milestones
+
+- [ ] Final dry run completed for every team
+- [ ] Each team member knows their assigned slides and timing
+- [ ] Claim sentence rehearsed verbatim
+- [ ] Panel presentation delivered: 15 min talk + 10 min Q&A
+- [ ] Peer-feedback forms completed for all teams
 
 ## Presentation discipline
 
@@ -86,6 +88,18 @@ After each presentation, every other student fills a short peer-feedback form. *
 ## Tonight
 
 Rest. Tomorrow is the retrospective + career conversation — soft day, but the one that turns the capstone into a portfolio piece.
+
+## Self-check before Day 51
+
+- [ ] Claim sentence memorized — can state it verbatim without reading slide 10
+- [ ] Every team member has been assigned at least one slide section
+- [ ] Three Q&A questions from Day 49 ("Anticipate the Q&A") can be answered without notes
+- [ ] Backup plan ready if live demo fails (screenshots / pre-recorded run)
+- [ ] Timer practiced — last dry run ran exactly 15:00 ± 30 sec
+
+## Stuck?
+
+Ask **oxtutor** to run a mock Q&A session against your claim sentence — it can play skeptical panel member and probe your data for weaknesses.
 
 ## Wrap-up
 

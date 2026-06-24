@@ -6,42 +6,42 @@
 
 <!-- AUTO-GEN:CARD-GRID:START -->
 <div class="ox-card-grid" markdown="0">
-  <a class="ox-card" href="module-1/index.md" style="--i:26">
+  <a class="ox-card" href="module-1/" style="--i:26">
     {status:week-06/module-1}
     <span class="ox-card__eyebrow">Day 26</span>
     <h3 class="ox-card__title">Prompt Engineering</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-2/index.md" style="--i:27">
+  <a class="ox-card" href="module-2/" style="--i:27">
     {status:week-06/module-2}
     <span class="ox-card__eyebrow">Day 27</span>
     <h3 class="ox-card__title">Agent Fundamentals</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-3/index.md" style="--i:28">
+  <a class="ox-card" href="module-3/" style="--i:28">
     {status:week-06/module-3}
     <span class="ox-card__eyebrow">Day 28</span>
     <h3 class="ox-card__title">Tools & Action Layer</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-4/index.md" style="--i:29">
+  <a class="ox-card" href="module-4/" style="--i:29">
     {status:week-06/module-4}
     <span class="ox-card__eyebrow">Day 29</span>
     <h3 class="ox-card__title">Governance</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-5/index.md" style="--i:30">
+  <a class="ox-card" href="module-5/" style="--i:30">
     {status:week-06/module-5}
     <span class="ox-card__eyebrow">Day 30</span>
     <h3 class="ox-card__title">Orchestration</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-6/index.md" style="--i:31">
+  <a class="ox-card" href="module-6/" style="--i:31">
     {status:week-06/module-6}
     <span class="ox-card__eyebrow">Day 31</span>
     <h3 class="ox-card__title">Consolidation + Phase 2 Agent Design</h3>
@@ -53,14 +53,14 @@
 
 ## Day map
 
-| Day | Topic | Page |
-|---|---|---|
-| 26 (Mon) | Prompt Engineering (overview + supplementary deep-dives) | [module-1/index.md](module-1/index.md) |
-| 27 (Tue) | Agent Fundamentals — The Agent Loop (ReAct) | [module-2/index.md](module-2/index.md) |
-| 28 (Wed) | Tools & Action Layer (MCP) | [module-3/index.md](module-3/index.md) |
-| 29 (Thu) | Governance & Security | [module-4/index.md](module-4/index.md) |
-| 30 (Fri) | Orchestration & Multi-Agent | [module-5/index.md](module-5/index.md) |
-| 31 (wrap day) | **Phase 2 Wrap** — Consolidation + team agent design (10%) | [module-6/index.md](module-6/index.md) |
+| Day | Topic | Pre-read | Page |
+|---|---|---|---|
+| 26 (Mon) | Prompt Engineering (overview + supplementary deep-dives) | Anthropic Prompt Engineering Tutorial Ch1+Ch2 (~20 min) | [module-1/index.md](module-1/index.md) |
+| 27 (Tue) | Agent Fundamentals — The Agent Loop (ReAct) | AI Agents Student Guide Module 0 (~20 min) | [module-2/index.md](module-2/index.md) |
+| 28 (Wed) | Tools & Action Layer (MCP) | AI Agents Student Guide Module 2 + Anthropic MCP (~25 min) | [module-3/index.md](module-3/index.md) |
+| 29 (Thu) | Governance & Security | Student Guide Module 3 Governance + EchoLeak (~25 min) | [module-4/index.md](module-4/index.md) |
+| 30 (Fri) | Orchestration & Multi-Agent | Student Guide Module 4 Orchestration (~20 min) | [module-5/index.md](module-5/index.md) |
+| 31 (wrap day) | **Phase 2 Wrap** — Consolidation + team agent design (10%) | — | [module-6/index.md](module-6/index.md) |
 
 ## Friday — the bar
 

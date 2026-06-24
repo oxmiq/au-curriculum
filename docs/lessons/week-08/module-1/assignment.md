@@ -1,6 +1,5 @@
 # Week 8 — Capsule Foundations · Module Assignment
 
-> **Source:** Capsule Power User Problem Sets §Set 40 (breakage-race exercise).
 
 ## What you submit
 

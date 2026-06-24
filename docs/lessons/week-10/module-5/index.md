@@ -1,6 +1,6 @@
 # Day 51 · Close
 
-> **Concept of the day:** the program ends with **reflection, career mapping, and your story.** What did you learn? Where are you going? How does this become a portfolio piece an employer can read? Today is soft in structure and high in stakes for what happens next.
+> **Concept of the day:** the program ends with **reflection, career mapping, and your story.** What did you learn? Where are you going? How does this become a portfolio piece an employer can read? Today is soft in structure and high in stakes for what happens next.<br>
 > **Source template:** [Day-50 Retrospective Form](../../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md) (source filename is `Day-50-...` from upstream capstone-relative naming; this is program Day 51).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
@@ -17,16 +17,20 @@
     <span class="duration">Full-day milestone</span>
     {status:week-10/module-5}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Capstone">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
 ---
+
+## Time budget for today
+
+| Block | Activity | Duration |
+|---|---|---|
+| Block 1 | Fill retrospective form | 30 min |
+| Block 2 | 1:1 feedback session with instructor | 30 min |
+| Block 3 | Career mapping session | 45 min |
+| Block 4 | Portfolio polish (fork README + tidy docs) | 60 min |
+| Block 5 | Closing ceremony | 15 min |
 
 ## Why this matters
 
@@ -83,6 +87,17 @@ Spend ~60 min today writing the README and tidying. This is the single highest-R
 | Can teach a peer | Practice quizzes + Feynman teach-back artifacts |
 
 Bring all 5 to your conversation.
+
+## Self-check — Close
+
+- [ ] Retrospective form filled honestly — every question answered
+- [ ] 60-second self-introduction practiced and can be delivered without notes
+- [ ] Fork README written and pushed
+- [ ] You can answer: "What would you do differently?" with at least two specific changes
+
+## Stuck?
+
+Ask **oxtutor** to help you write your 60-second self-introduction or to review your portfolio README for clarity.
 
 ## Wrap-up
 

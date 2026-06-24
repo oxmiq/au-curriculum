@@ -1,6 +1,5 @@
 # Week 5 — Phase 1 Wrap · Module Assignment
 
-> **Source:** Mindmap Week 5 Day 25 (individual reflection + Phase 2 pre-read).
 
 ## What you submit
 

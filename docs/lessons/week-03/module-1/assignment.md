@@ -1,6 +1,5 @@
 # Week 3 — KV Cache, Attention, Quantization · Module Assignment
 
-> **Source:** Mindmap Week 3 Day 15 + Inference Engineering Worksheets (memory-budget calculator).
 
 ## What you submit
 

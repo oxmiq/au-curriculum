@@ -5,35 +5,35 @@
 
 <!-- AUTO-GEN:CARD-GRID:START -->
 <div class="ox-card-grid" markdown="0">
-  <a class="ox-card" href="module-1/index.md" style="--i:1">
+  <a class="ox-card" href="module-1/" style="--i:1">
     {status:week-01/module-1}
     <span class="ox-card__eyebrow">Day 1</span>
     <h3 class="ox-card__title">Welcome & Context</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-2/index.md" style="--i:2">
+  <a class="ox-card" href="module-2/" style="--i:2">
     {status:week-01/module-2}
     <span class="ox-card__eyebrow">Day 2</span>
     <h3 class="ox-card__title">Shell & Linux</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-3/index.md" style="--i:3">
+  <a class="ox-card" href="module-3/" style="--i:3">
     {status:week-01/module-3}
     <span class="ox-card__eyebrow">Day 3</span>
     <h3 class="ox-card__title">Git Workflow</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-4/index.md" style="--i:4">
+  <a class="ox-card" href="module-4/" style="--i:4">
     {status:week-01/module-4}
     <span class="ox-card__eyebrow">Day 4</span>
     <h3 class="ox-card__title">How Computers Run AI</h3>
     <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-5/index.md" style="--i:5">
+  <a class="ox-card" href="module-5/" style="--i:5">
     {status:week-01/module-5}
     <span class="ox-card__eyebrow">Day 5</span>
     <h3 class="ox-card__title">Consolidation</h3>

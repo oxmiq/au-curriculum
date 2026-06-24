@@ -1,6 +1,5 @@
 # Week 6 Module 6 — AI Agents · Phase 2 Wrap Assignment (10% Phase-2 Team Assessment)
 
-> **Source:** Week 6 Day 31 wrap (post-merge of the original AI Agents week) + AI Agents Problem Sets §Set 35 (5-layer-map exercise, Problem 35.1 ★).
 > **Weight:** 10% of overall grade. **Team project** (groups of 3–4).
 
 ## What you submit

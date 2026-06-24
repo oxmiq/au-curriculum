@@ -1,15 +1,6 @@
----
-status: stub
-note: |
-  In the new graph, "Known Quirks" is a standalone module. The backup had no equivalent
-  daily lesson — its content lived inside the wk8 Friday consolidation in the prior
-  architecture. Module 10 ("known-quirks table") of the Lab Guide is the canonical source
-  until this page is authored.
----
-
 # Day 40 · Known Quirks
 
-> **Placeholder lesson** — real content to be authored as part of the curriculum buildout. The single best document for daily Capsule operation is **Module 10 of the Lab Guide** ([Lab Guide](../../../../planning/source-material/Capsule%20Power%20User/Capsule-Power-User-Lab-Guide.md)).
+> **Concept of the day:** every system has failure modes that look mysterious until you've seen them once. Today you learn Capsule's known-quirks list from the Lab Guide so you never waste 30 minutes on a problem that has a 10-second fix.<br> **Pre-reading:** Capsule Power User Lab Guide **Module 10 — Known Quirks** (~15 min).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -25,20 +16,260 @@ note: |
     <span class="duration">~3 hrs</span>
     {status:week-08/module-4}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Capsule%20Power%20User">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
-**Concept:** Walk through the most common Capsule failure modes and the diagnostic sequence for each — connection drops, missing GPUs in node list, stale shared-storage mounts, agent-version mismatches, image-pull races. The bug-report rubric and the diagnostic-sequence cheat-card go here.
+## Lesson plan
 
-The bar for this module is the canonical knowledge check and assignment below.
+| Part | Activity | Duration |
+|---|---|---|
+| Part 1 | Pre-Reading Review | 15 min |
+| Part 2 | Core Concepts: The Triage Decision Tree | 20 min |
+| Part 3 | Deep Dive: The Known-Quirks Table | 30 min |
+| Part 4 | Core Concepts: The Bug-Report Rubric | 20 min |
+| Part 5 | Hands-On: Reproduce Three Quirks | 35 min |
+| Part 6 | Hands-On: File a Proper Bug Report | 20 min |
+| Part 7 | Wrap-up & Connection | 10 min |
+| **Total** | | **~150 min + pre-reading** |
 
-- **[Take the canonical knowledge check](knowledge-check.html)** — the progress signal for this module.
-- **[Assignment](assignment.md)** — apply the concept.
+---
 
-Stuck? Ask **oxtutor** to re-explain this lesson, or to generate extra practice questions.
+## Part 1 — Pre-Reading Review · 15min
+
+### Reading —
+
+Before continuing, you should have read **Lab Guide Module 10 (Known Quirks)**. It covers:
+
+- The 4-step triage decision tree
+- The known-quirks table (all 8 rows)
+- The bug-report rubric (8 required fields)
+- `capsule cleanup` — when and why
+
+### Exercise:
+
+Answer from memory:
+
+1. What is the first command you run when any Capsule operation fails?
+2. What is `capsule cleanup` and what state does it tear down?
+3. Name four rows from the known-quirks table (symptom + fix).
+4. How many fields does a proper bug report require? Name three of them.
+
+---
+
+## Part 2 — Core Concepts: The Triage Decision Tree · 20min
+
+### Reading —
+
+Before filing a bug or escalating to support, run through this 4-step decision tree. In order:
+
+**Step 1: `capsule status`**
+
+Check: is auth valid? Is identity correct? Is the token expiry in the future?
+
+- If "unauthorized": re-run `capsule auth login`
+- If "clock skew": sync NTP (`sudo sntp -sS time.apple.com`)
+- If token shows expired: re-run `capsule auth login`
+
+**Step 2: `capsule env show` + `capsule config customer show`**
+
+Check: are you pointed at the right environment and customer?
+
+- Wrong environment → `capsule config env set <correct-env>`
+- Wrong customer → `capsule config customer set <correct-customer>`
+- Both of these settings persist across sessions; getting them wrong once explains why "everything stopped working"
+
+**Step 3: `capsule cleanup`**
+
+Tears down stale WebRTC sessions and SSH state. Retry the failing operation.
+
+- This fixes ~40% of "SshRTC won't connect" and "session hung" issues
+- Does **not** affect your running processes on the remote machine — it only cleans local state
+
+**Step 4: `--direct` flag + collect logs**
+
+If Steps 1–3 don't fix it: retry the command with `--direct` to bypass WebRTC. If `--direct` succeeds, the issue is in the WebRTC/SshRTC path (a network or infrastructure issue). Collect logs from `~/.capsule/logs/` and escalate.
+
+**The rule:** if you're going to file a bug, you must have tried all 4 steps first. Step 4's logs are the most important data for the engineering team.
+
+### Exercise:
+
+Walk through the decision tree for each scenario below. State which step catches the issue and what the fix is:
+
+1. `capsule term <tag>` hangs. `capsule status` shows valid token. `capsule env show` shows the correct env.
+2. `capsule list` shows 0 machines. `capsule status` shows valid token.
+3. `capsule term <tag>` returns "connection refused" immediately (not hanging — fast failure).
+4. Everything worked yesterday. Today `capsule status` says "unauthorized" with no code changes.
+
+---
+
+## Part 3 — Deep Dive: The Known-Quirks Table · 30min
+
+### Reading —
+
+These are all 8 known quirks from Lab Guide Module 10. Memorize every row — symptom and fix.
+
+| # | Symptom | Fix |
+|---|---|---|
+| 1 | Auth fails in browser flow | CLI falls back to manual token: go to `https://oxmiq.ai/oxcapsule/auth` in a browser, copy the token, run `capsule auth login --token <paste>` |
+| 2 | `capsule list` shows wrong machines | Check `capsule env show` and `capsule config customer show` — one of them is wrong |
+| 3 | SshRTC won't connect | Run `capsule cleanup`, retry; if still failing, use `--direct` as fallback; capture `~/.capsule/logs/` and escalate |
+| 4 | VS Code Remote-SSH errors after a session | Remove `capsule-<uniqueId>` blocks from `~/.ssh/config` — old sessions leave stale config blocks |
+| 5 | macOS Keychain prompts on every command | Click "Always Allow" once in the Keychain dialog — it remembers and stops prompting |
+| 6 | Windows PowerShell filter with `>` fails | Use `capsule` (not the `cap` alias) and quote the entire filter: `capsule list --filter "vram>=24"` |
+| 7 | `capsule update` fails | Your auth token must be valid (check `capsule status`); close all active SshRTC sessions before retrying |
+| 8 | `gh release download` returns 401/403 | Re-check `GH_TOKEN` scopes: all four must be present (`repo`, `read:org`, `workflow`, `user`). Regenerate the token if in doubt. |
+
+**Why you must know all 8:**
+
+Users will report these as "Capsule is broken." You need to immediately recognize the symptom and give the fix in one message, without debugging. Every row in this table represents a real support ticket that was escalated unnecessarily because the person didn't know the fix.
+
+### Exercise:
+
+**Part A — Recall drill (10 min):**
+
+Cover the table. For each symptom below, write the fix from memory:
+
+1. "I run `capsule list` and it shows completely different machines than yesterday."
+2. "I'm on macOS and Keychain pops up every time I run any capsule command."
+3. "VS Code Remote-SSH is failing to connect to my node and showing config errors."
+4. "`capsule update` exits with an error about permissions or auth."
+
+**Part B — Root cause analysis (10 min):**
+
+For each quirk, identify which layer of the triage decision tree would catch it (Step 1 / 2 / 3 / 4 / none — it's a client-side config issue):
+
+| Quirk # | Triage step that catches it | Reasoning |
+|---|---|---|
+| 2 (wrong machines) | | |
+| 3 (SshRTC won't connect) | | |
+| 4 (VS Code SSH config) | | |
+| 6 (Windows filter) | | |
+
+**Part C — Memorization test (10 min):**
+
+Close the table. Write all 8 rows from memory. Check. Repeat for any you missed.
+
+---
+
+## Part 4 — Core Concepts: The Bug-Report Rubric · 20min
+
+### Reading —
+
+A bug report that is missing any of these 8 fields will be sent back to you for more information. The engineering team cannot reproduce an issue without them.
+
+**Required fields — all 8 must be present:**
+
+| Field | What to include | Why it matters |
+|---|---|---|
+| 1 | `capsule --version` output | Different versions have different bugs |
+| 2 | `capsule env show` output | "Wrong machines" bugs are actually env bugs half the time |
+| 3 | `capsule config customer show` output | Same reason as env |
+| 4 | The exact command that failed | Copy-paste — not paraphrased. "I ran capsule term" is not enough. Include the full config-tag, all flags. |
+| 5 | The exact error output | Copy-paste — not paraphrased. "It said unauthorized" is not enough. Include the full output. |
+| 6 | Timestamp of the failure | Correlates with server-side logs |
+| 7 | Unique ID of the machine (if applicable) | `capsule list --all` — the unique ID, not the display name |
+| 8 | What you already tried | Prevents the support team from suggesting things you've already done |
+
+**The "specificity test":** Read your bug report. Could a stranger who has never seen your machine reproduce the issue from your report alone? If not, it's not complete.
+
+### Exercise:
+
+You receive a bug report from a colleague:
+
+> "Hi, Capsule isn't working. I tried to connect to my machine and it gave an error about SSH. I tried a few things but nothing worked."
+
+1. List every field from the rubric that is missing from this report.
+2. Write a follow-up message asking for exactly the fields that are missing (use the exact field names from the rubric).
+3. Based on the symptoms described, which triage step would you recommend they run first?
+
+---
+
+## Part 5 — Hands-On: Reproduce Three Quirks · 35min
+
+### Exercise:
+
+Reproduce three quirks deliberately. You remember what you reproduce far better than what you read.
+
+**Quirk 2 — Wrong machines (10 min):**
+
+1. Check your current env: `capsule env show`. Note it.
+2. Switch to a different env: `capsule config env set public` (or another env you're not normally in).
+3. Run `capsule list`. Observe — the machines shown are different (or none).
+4. Fix: `capsule config env set <your-correct-env>`. Confirm `capsule list` shows your fleet again.
+
+**Quirk 6 — Windows filter with `>` (or macOS equivalent) (10 min):**
+
+On macOS/Linux, test the filter quoting behavior:
+
+1. Run: `capsule list --filter vram>=16` (no quotes). Observe the error (zsh may interpret `>=` differently, or capsule may complain about filter format).
+2. Run: `capsule list --filter "vram>=16"` (quoted). Observe this works correctly.
+3. The lesson: always quote filter arguments. This applies on any shell, not just Windows PowerShell.
+
+**Quirk 3 — SshRTC won't connect (simulate) (15 min):**
+
+1. Set a bad proxy: `export HTTPS_PROXY=http://127.0.0.1:9999`
+2. Attempt to connect: `capsule term <your-dev-node-config-tag>`. Observe the hang or connection error.
+3. Fix:
+   ```bash
+   unset HTTPS_PROXY
+   capsule cleanup
+   capsule term <your-dev-node-config-tag>
+   ```
+4. Confirm the connection succeeds.
+5. Note: `capsule cleanup` was essential here — it cleared the stale connection attempt state before retrying.
+
+---
+
+## Part 6 — Hands-On: File a Proper Bug Report · 20min
+
+### Exercise:
+
+Using the bug-report rubric, draft a complete bug report for the issue you reproduced in Quirk 2 or Quirk 3. Every field must be present.
+
+**Template:**
+
+```
+Bug report: [brief description]
+
+1. capsule --version: [paste output]
+2. capsule env show: [paste output]
+3. capsule config customer show: [paste output]
+4. Exact command: [copy-paste]
+5. Exact error output: [copy-paste]
+6. Timestamp: [YYYY-MM-DD HH:MM UTC]
+7. Machine unique ID: [from capsule list --all, if applicable]
+8. What I already tried: [list each step]
+```
+
+**Peer review (if possible):** Exchange your bug report with a partner. Apply the specificity test: could they reproduce the issue from your report alone, without asking you any follow-up questions? Mark any field that is too vague.
+
+**Solo review:** Read your bug report aloud as if you are the support engineer receiving it. Is every field specific enough? If you would ask a follow-up question, the field is incomplete.
+
+---
+
+## Part 7 — Wrap-up & Connection · 10min
+
+### Self-check
+
+Before closing, tick each item:
+
+- [ ] I can recite the 4-step triage decision tree in order without notes.
+- [ ] I can recite all 8 rows of the known-quirks table (symptom + fix) from memory.
+- [ ] I know what `capsule cleanup` does (and what it does NOT affect).
+- [ ] I know all 8 fields of the bug-report rubric.
+- [ ] I have successfully reproduced and fixed at least 3 quirks.
+- [ ] I have written a complete bug report that passes the specificity test.
+
+### Connect Forward
+
+The known-quirks table and triage decision tree are the tools you'll reach for every time something stops working — not just in Week 8, but throughout the internship. After a few weeks, you'll recognize symptoms instantly. After a month, you'll be the person other interns ask when something breaks.
+
+### Pre-read for tomorrow (Day 41 · Week 8 Consolidation)
+
+No new reading needed. Review Days 37–40. Make sure you can work through the triage decision tree for any failure mode and recite the known-quirks table from memory.
+
+---
+
+## Stuck?
+
+Ask **oxtutor** to quiz you on the known-quirks table, walk through the triage decision tree with a scenario, or generate extra bug-report practice exercises.

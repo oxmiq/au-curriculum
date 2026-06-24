@@ -6,9 +6,8 @@ drift: |
 
 # Day 35 · Environments & Fleet Discovery
 
-> **Concept of the day:** an **environment** is a fleet you can see; a **node** is a machine you can lease. `capsule env`, `capsule node list`, `capsule node show` are your three workhorse commands. Filter by capability — never by name when you can avoid it.
+> **Concept of the day:** an **environment** is a fleet you can see; a **node** is a machine you can lease. `capsule env`, `capsule node list`, `capsule node show` are your three workhorse commands. Filter by capability — never by name when you can avoid it.<br>
 > **Pre-reading:** Lab Guide **Module 3** (~15 min).
-> **Source:** [Lab Guide Module 3](../../../../planning/source-material/Capsule%20Power%20User/Capsule-Power-User-Lab-Guide.md).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -24,22 +23,30 @@ drift: |
     <span class="duration">~3 hrs</span>
     {status:week-07/module-4}
   </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/AI%20Agents">Source material</a>
-  </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
 
 ---
 
-## Why this matters
+## Lesson plan
 
-Half of "Capsule is broken" tickets are actually "I leased the wrong machine." Knowing what's in the fleet, what's available, and how to filter cleanly is the difference between productive and frustrating.
+| Part | What you do | Time |
+|---|---|---|
+| Part 1 | Pre-Reading Review | 15 min |
+| Part 2 | Core Concepts: Environments & Discovery Commands | 20 min |
+| Part 3 | Core Concepts: Node Anatomy & Status Fields | 20 min |
+| Part 4 | Deep Dive: Capability-Based Filtering | 20 min |
+| Part 5 | Core Concepts: Leases | 15 min |
+| Part 6 | Hands-On: Fleet Discovery Drills | 40 min |
+| Part 7 | Wrap-up & Connection | 10 min |
 
-## Readiness check
+## Part 1 — Pre-Reading Review · 15 min
+
+> Read Lab Guide **Module 3** (~15 min) before this lesson. Use this Part to consolidate what you read.
+
+### Exercise: Self-Check
+
+Answer these before you continue:
 
 1. List the three workhorse commands for fleet discovery.
 2. What fields indicate a node is available?
@@ -47,9 +54,15 @@ Half of "Capsule is broken" tickets are actually "I leased the wrong machine." K
 4. Why prefer *capability-based* selection over *name-based*?
 5. What's a **lease** and when does it expire?
 
-## Core concept
+If you hesitated on any of these, flag it — Parts 2–5 will close those gaps.
 
-### The discovery commands
+## Part 2 — Core Concepts: Environments & Discovery Commands · 20 min
+
+### Reading — Why this matters
+
+Half of "Capsule is broken" tickets are actually "I leased the wrong machine." Knowing what's in the fleet, what's available, and how to filter cleanly is the difference between productive and frustrating.
+
+### Reading — The discovery commands
 
 | Command | Use |
 |---|---|
@@ -59,7 +72,23 @@ Half of "Capsule is broken" tickets are actually "I leased the wrong machine." K
 | `capsule node list --status available --gpu h100` | Filter |
 | `capsule node show <node-id>` | Full detail on one node |
 
-### Anatomy of a node listing
+### Reading — Hardware diversity in one fleet
+
+Capsule's value: heterogeneous hardware behind one UX. You'll see:
+
+| Class | What |
+|---|---|
+| NVIDIA H100 / A100 | High-end LLM serving |
+| NVIDIA T4 / L4 / 3060 | Smaller models, dev work |
+| NVIDIA RTX 4090 / 5090 | High clock, consumer |
+| Tenstorrent Wormhole n150 / Blackhole p150 | Non-NVIDIA accelerators |
+| Apple M2 / M3 | Laptop-class for testing |
+
+The Week 9 benchmark suite will sweep across multiple classes to compare cost/perf — discovery is the entry point.
+
+## Part 3 — Core Concepts: Node Anatomy & Status Fields · 20 min
+
+### Reading — Anatomy of a node listing
 
 A typical `capsule node list` row:
 
@@ -74,7 +103,18 @@ A typical `capsule node list` row:
 
 The naming convention echoes `capsule-ansible` inventory: `nv-h100-04-1` = NVIDIA, H100-class, group 04, instance 1.
 
-### Filtering — by capability, not name
+### Reading — When discovery is healthy vs sick
+
+| Sign | Likely cause |
+|---|---|
+| `node list` returns 0 nodes | Wrong env, or auth scope too narrow |
+| All nodes `unhealthy` | Control plane / agent connectivity issue (escalate) |
+| Same node leased to two people | Race in scheduler (file a bug — Day 40) |
+| Node `available` but `lease` fails | Tag mismatch or quota |
+
+## Part 4 — Deep Dive: Capability-Based Filtering · 20 min
+
+### Reading — Filter by capability, not name
 
 **Don't:**
 ```
@@ -88,7 +128,7 @@ capsule node lease --gpu h100 --min-gpus 8 --tag nvlink --duration 4h
 
 Why: hardware retires, names change, instances get rebuilt. Capability filters survive all of that. Plus you're explicit about what you actually need.
 
-### Common filters
+### Reading — Common filters
 
 | Filter | Example |
 |---|---|
@@ -99,7 +139,13 @@ Why: hardware retires, names change, instances get rebuilt. Capability filters s
 | Free disk | `--min-disk 500g` |
 | OS | `--os ubuntu-22` |
 
-### Leases
+### Exercise: Write your personal filter
+
+Write the `capsule node list` filter you'd use 90% of the time for your typical workload. Save it somewhere you can paste from quickly.
+
+## Part 5 — Core Concepts: Leases · 15 min
+
+### Reading — Leases
 
 A **lease** is a time-bounded reservation of a node:
 
@@ -112,51 +158,46 @@ capsule node lease --gpu h100 --min-gpus 8 --duration 2h --reason "week-9 benchm
 - Released on expiry, manual release (`capsule lease release`), or shutdown.
 - **Reason field is mandatory in production** envs — searchable in audit logs.
 
-### Hardware diversity in one fleet
+## Part 6 — Hands-On: Fleet Discovery Drills · 40 min
 
-Capsule's value: heterogeneous hardware behind one UX. You'll see:
+### Exercise: Inventory the fleet
 
-| Class | What |
-|---|---|
-| NVIDIA H100 / A100 | High-end LLM serving |
-| NVIDIA T4 / L4 / 3060 | Smaller models, dev work |
-| NVIDIA RTX 4090 / 5090 | High clock, consumer |
-| Tenstorrent Wormhole n150 / Blackhole p150 | Non-NVIDIA accelerators |
-| Apple M2 / M3 | Laptop-class for testing |
+(15 min) Run `capsule env list`, then `capsule node list`. Identify available capacity by GPU class. Note which classes are available vs fully leased.
 
-The Week 9 benchmark suite will sweep across multiple classes to compare cost/perf — discovery is the entry point.
+### Exercise: Capability filter
 
-### When discovery is healthy vs sick
+(20 min) Filter exercise: find every available 8×H100 node with NVLink in your env. Express as a single command. Then:
 
-| Sign | Likely cause |
-|---|---|
-| `node list` returns 0 nodes | Wrong env, or auth scope too narrow |
-| All nodes `unhealthy` | Control plane / agent connectivity issue (escalate) |
-| Same node leased to two people | Race in scheduler (file a bug — Day 40) |
-| Node `available` but `lease` fails | Tag mismatch or quota |
+1. Lease a small dev node for 1 hour.
+2. Verify the lease shows under your name (`capsule node show <id>`).
+3. Release it (`capsule lease release`).
 
-## Practice (90 min)
+### Exercise: Pair — hardware diversity
 
-1. (15 min) Run `capsule env list`, `capsule node list`. Identify available capacity by GPU class.
-2. (20 min) Filter exercise: find every available 8×H100 node with NVLink in your env. Express as a single command.
-3. (20 min) Lease a small dev node for 1 hour. Verify lease shows under your name. Release it.
-4. (25 min) Pair: each person filters for a different hardware class. Discuss what's available and what's scarce.
-5. (10 min) Write a one-line cheat: the `capsule node list` filter you'll use 90% of the time.
+(5 min) Each person filters for a different hardware class. Compare what's available and what's scarce.
 
-## Wrap-up
+## Part 7 — Wrap-up & Connection · 10 min
 
-Cohort can find available capacity by capability in any environment they have access to.
+**Before you finish, check each item:**
 
-## Connect forward
+- [ ] I can run `capsule node list` and read every field in the output.
+- [ ] I can find available capacity by GPU class using a capability filter.
+- [ ] I know the difference between `available`, `leased`, `unhealthy`, and `draining` status.
+- [ ] I understand why capability-based filtering is preferable to name-based.
+- [ ] I know what a lease is and how to release one.
+
+### Connect forward
 
 Tomorrow: **connecting** — once you have a lease, how to actually shell in, what the session looks like, the etiquette of multi-user nodes.
 
----
-
-## Pre-read for tomorrow (Day 38 · Connecting to Machines)
+### Pre-read for tomorrow (Day 38 · Connecting to Machines)
 
 - **Resource:** Lab Guide **Module 5** (~15 min).
 - **Reflection questions:**
   1. What command connects you to a leased node?
   2. How does Capsule's connect differ from raw `ssh`?
   3. What state is preserved between connect sessions vs lost?
+
+## Stuck?
+
+Ask **oxtutor** — describe what you tried and what happened.
