@@ -1,0 +1,733 @@
+/* ============================================================
+   Glossary page — chrome + flipbook component CSS.
+   Loaded globally via extra_css; the selectors below scope to
+   .glossary-page / #book / .stage / etc. and only render on
+   docs/kb/glossary.md. Brand tokens (--ox-*) and brand fonts
+   come from stylesheets/oxblood.css; this file only adds the
+   book-specific tokens (--book-*, --cover-*, --tab-*, etc.)
+   and the layout/animation rules.
+   ============================================================ */
+
+  /* ------------------------------------------------------------
+     Escape Material's narrow ~60rem content cap on this page so
+     the book has room to breathe. Scoped to .md-main only — the
+     header and tab strip share the same .md-grid class and need
+     to keep their default coordinates so this page's chrome
+     lines up with every other page.
+     ------------------------------------------------------------ */
+  body:has(.glossary-page) .md-main__inner.md-grid {
+    max-width: 1480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Material auto-renders an h1 from the `title:` frontmatter when
+     the markdown body has no h1. The `hide: title` directive isn't
+     honoured on this Material version, so suppress it directly. */
+  body:has(.glossary-page) .md-content__inner > h1:first-child {
+    display: none;
+  }
+
+  :root {
+
+    --bg: var(--ox-bg);
+
+    --book-bg: #f5efe1;
+    --book-bg-2: #ece4d0;
+    --book-edge: #c9bd9b;
+    --book-edge-dark: #a89876;
+    --book-ink: #2a2419;
+    --book-ink-soft: #6b6453;
+    --book-line: #d8cdb0;
+
+    --cover-bg: #3a2a18;
+    --cover-bg-2: #1a0f06;
+    --cover-gold: #d4a04a;
+    --cover-cream: #f1e3c4;
+
+    --tab-bg: #d6c89e;
+    --tab-bg-2: #b9a979;
+    --tab-bg-active: #b8651e;
+    --tab-ink: #4a4030;
+    --tab-ink-active: #fff5e0;
+    --tab-disabled-ink: #8a8270;
+
+    --accent: #b8651e;
+    --mono:  var(--ox-font-mono);
+    --serif: var(--ox-font-display);
+    --sans:  var(--ox-font-body);
+
+    --p-foundations: #5a6577;
+    --p-inference:   #0e7c8a;
+    --p-prompting:   #6a4ec9;
+    --p-agents:      #b8761e;
+    --p-capsule:     #2a8b6a;
+    --p-capstone:    #c43e54;
+  }
+
+
+  * { box-sizing: border-box; }
+
+  /* The starry cosmos overlay belongs to the old dark page. Hide it on
+     cream; keep a faint trace in dark mode as ambient texture. */
+  #cosmos {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    display: none;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><g fill='white'><circle cx='42' cy='118' r='.6' opacity='.55'/><circle cx='117' cy='53' r='.5' opacity='.4'/><circle cx='208' cy='281' r='.7' opacity='.6'/><circle cx='271' cy='99' r='.5' opacity='.45'/><circle cx='345' cy='402' r='.7' opacity='.5'/><circle cx='402' cy='177' r='.5' opacity='.35'/><circle cx='488' cy='322' r='.6' opacity='.55'/><circle cx='559' cy='75' r='.6' opacity='.45'/><circle cx='633' cy='246' r='.5' opacity='.4'/><circle cx='712' cy='510' r='.7' opacity='.55'/><circle cx='775' cy='124' r='.5' opacity='.4'/><circle cx='60' cy='362' r='.5' opacity='.35'/><circle cx='160' cy='495' r='.6' opacity='.55'/><circle cx='254' cy='540' r='.5' opacity='.4'/><circle cx='322' cy='198' r='.4' opacity='.3'/><circle cx='418' cy='28' r='.6' opacity='.5'/><circle cx='502' cy='455' r='.5' opacity='.4'/><circle cx='584' cy='386' r='.7' opacity='.6'/><circle cx='651' cy='149' r='.4' opacity='.3'/><circle cx='698' cy='350' r='.5' opacity='.45'/></g></svg>"),
+      radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%);
+    background-repeat: repeat, no-repeat;
+    background-size: 800px 600px, cover;
+    opacity: .18;
+  }
+  [data-md-color-scheme="slate"] #cosmos { display: block; }
+
+  .glossary-header {
+    position: relative; z-index: 5;
+    padding: 18px 28px 10px;
+    text-align: center;
+    border-bottom: 1px solid var(--ox-line);
+    margin-bottom: 4px;
+  }
+  .eyebrow {
+    font-family: var(--ox-font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    color: var(--ox-muted);
+    margin-bottom: 6px;
+  }
+  h1.page-title {
+    font-family: var(--ox-font-display);
+    font-weight: 600;
+    font-size: 26px;
+    margin: 0 0 4px;
+    color: var(--ox-ink);
+    letter-spacing: -.01em;
+  }
+  .sub {
+    color: var(--ox-muted);
+    font-size: 13px;
+    margin: 0;
+    font-family: var(--ox-font-body);
+  }
+
+  .search-wrap {
+    position: relative; z-index: 5;
+    margin: 12px auto 0;
+    width: 340px;
+    display: flex;
+  }
+  .search-input {
+    flex: 1;
+    background: var(--ox-surface);
+    border: 1px solid var(--ox-line-strong);
+    border-radius: 4px;
+    color: var(--ox-ink);
+    padding: 9px 14px;
+    font: 13px var(--ox-font-body);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .search-input::placeholder { color: var(--ox-faint); }
+  .search-input:focus {
+    border-color: var(--ox-accent);
+    box-shadow: 0 0 0 3px var(--ox-accent-soft);
+  }
+
+  /* ============================================================
+     STAGE + BOOK
+     ============================================================ */
+  .stage {
+    position: relative; z-index: 4;
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    perspective: 2600px;
+    perspective-origin: 50% 30%;
+    height: calc(100vh - 220px);
+    min-height: 600px;
+  }
+
+  .book {
+    position: relative;
+    width: 1280px;
+    height: 820px;
+    transform-style: preserve-3d;
+    transform: rotateX(2deg);
+    box-shadow:
+      0 30px 60px -20px rgba(0,0,0,.75),
+      0 12px 40px rgba(0,0,0,.5);
+    border-radius: 4px;
+    transition: transform 0.45s cubic-bezier(.4,.05,.3,1);
+  }
+  /* When closed at the FRONT cover, the visible single page (the cover,
+     occupying the right half) is slid left so it sits at screen-centre.
+     The clip-path trims the .book's drop-shadow + any rendering to ONLY
+     the visible right half (with generous bleed top/right/bottom so the
+     shadow still falls under the cover). Without this, the .book box-shadow
+     leaks under the hidden left page and reads as a translucent ghost. */
+  .book.closed-cover {
+    transform: translateX(-25%) rotateX(2deg);
+    clip-path: inset(-150px -150px -150px calc(50% + 1px));
+  }
+  /* When closed at the BACK cover, the visible single page (the back,
+     occupying the left half) is slid right so it sits at screen-centre. */
+  .book.closed-back  {
+    transform: translateX(25%) rotateX(2deg);
+    clip-path: inset(-150px calc(50% + 1px) -150px -150px);
+  }
+
+  .page {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    background:
+      linear-gradient(180deg, var(--book-bg) 0%, var(--book-bg-2) 100%);
+    color: var(--book-ink);
+    overflow: hidden;
+    backface-visibility: hidden;
+  }
+  .page.left {
+    left: 0;
+    border-right: 1px solid rgba(0,0,0,.12);
+    box-shadow: inset -10px 0 28px -12px rgba(0,0,0,.22);
+    border-radius: 4px 0 0 4px;
+  }
+  .page.right {
+    right: 0;
+    border-left: 1px solid rgba(0,0,0,.12);
+    box-shadow: inset 10px 0 28px -12px rgba(0,0,0,.22);
+    border-radius: 0 4px 4px 0;
+  }
+  /* Page-stack edge texture along the fore-edge of each side. */
+  .page.left::before,
+  .page.right::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; width: 6px;
+    background: repeating-linear-gradient(180deg, var(--book-edge) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+  }
+  .page.left::before { left: 0; }
+  .page.right::after { right: 0; }
+
+  /* CLOSED-COVER: the LEFT half is the book closed (back of cover board),
+     hidden entirely so the right page reads as a stand-alone closed book. */
+  .book.closed-cover .page.left { visibility: hidden; }
+  /* CLOSED-BACK: same idea, mirrored. */
+  .book.closed-back .page.right { visibility: hidden; }
+
+  /* Click affordances. */
+  .page.flippable { cursor: pointer; }
+
+  /* ============================================================
+     PAGE INNER WRAPPERS
+       .drop-cap-page  — left page of a letter's first spread
+       .term-page      — any page filled with term cards
+       .blank-page     — end-of-section padding page
+       .cover-page     — front cover artwork
+       .back-page      — back cover artwork
+       .search-list-page — left page in search-results mode (links)
+     ============================================================ */
+  .drop-cap-page, .term-page, .blank-page, .search-list-page {
+    height: 100%;
+    padding: 44px 56px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* drop-cap + fact */
+  .drop-cap-page .drop {
+    font-family: var(--serif);
+    font-size: 220px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--accent);
+    margin: -10px 0 -6px -4px;
+    text-shadow: 2px 2px 0 rgba(184,101,30,.15);
+  }
+  .drop-cap-page .count {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--book-ink-soft);
+    margin-bottom: 16px;
+  }
+  .drop-cap-page .divider {
+    height: 1px; background: var(--book-line);
+    margin: 0 0 18px;
+  }
+  .drop-cap-page .fact {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--book-ink);
+    font-style: italic;
+    margin: 0 0 12px;
+    position: relative;
+    padding-left: 18px;
+  }
+  .drop-cap-page .fact::before {
+    content: '\201C';
+    font-family: var(--serif);
+    font-size: 44px;
+    color: var(--accent);
+    position: absolute;
+    left: -4px; top: -10px;
+    font-style: normal;
+  }
+  .drop-cap-page .fact-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .drop-cap-page .foot {
+    margin-top: auto;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--book-ink-soft);
+    text-align: center;
+  }
+
+  /* term cards page */
+  .term-page .head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin: 0 0 20px;
+    border-bottom: 1px solid var(--book-line);
+    padding-bottom: 12px;
+  }
+  .term-page .head h2 {
+    font-family: var(--serif);
+    font-size: 28px; margin: 0;
+    color: var(--book-ink);
+  }
+  .term-page .head .pageno {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--book-ink-soft);
+    letter-spacing: .15em;
+    text-transform: uppercase;
+  }
+  .term-page .foot {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--book-line);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--book-ink-soft);
+    text-align: center;
+  }
+  .term {
+    border-left: 3px solid var(--phase-color, #999);
+    padding: 10px 16px 12px 18px;
+    margin: 0 0 14px;
+    background: rgba(0,0,0,.025);
+  }
+  .term h3 {
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.25;
+    margin: 0 0 4px;
+    color: var(--book-ink);
+  }
+  .term .ptag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--phase-color, #999);
+  }
+  .term .def {
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--book-ink);
+    margin: 6px 0 0;
+  }
+  .term .meta {
+    margin-top: 6px;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    color: var(--book-ink-soft);
+    line-height: 1.45;
+  }
+  .term .meta a {
+    color: var(--book-ink);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+    margin-right: 8px;
+  }
+
+  .term[data-phase="foundations"] { --phase-color: var(--p-foundations); }
+  .term[data-phase="inference"]   { --phase-color: var(--p-inference); }
+  .term[data-phase="prompting"]   { --phase-color: var(--p-prompting); }
+  .term[data-phase="agents"]      { --phase-color: var(--p-agents); }
+  .term[data-phase="capsule"]     { --phase-color: var(--p-capsule); }
+  .term[data-phase="capstone"]    { --phase-color: var(--p-capstone); }
+
+  /* blank end-of-section page */
+  .blank-page {
+    align-items: center;
+    justify-content: center;
+  }
+  .blank-page .ornament {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--book-ink-soft);
+    opacity: .55;
+    letter-spacing: .5em;
+    padding-left: .5em;
+  }
+  .blank-page .ornament-sub {
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--book-ink-soft);
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    opacity: .55;
+  }
+
+  /* search-list-page (left page in search mode) */
+  .search-list-page .head {
+    border-bottom: 1px solid var(--book-line);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+  .search-list-page .head .label {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--book-ink-soft);
+    margin-bottom: 4px;
+  }
+  .search-list-page .head .q {
+    font-family: var(--serif);
+    font-size: 24px;
+    color: var(--book-ink);
+    margin: 0;
+  }
+  .search-list-page .head .count {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--book-ink-soft);
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .search-list-page ol {
+    list-style: none;
+    margin: 0; padding: 0;
+    overflow: hidden;
+  }
+  .search-list-page li {
+    border-bottom: 1px dotted var(--book-line);
+    padding: 4px 0;
+  }
+  .search-list-page a.hit {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--book-ink);
+    font-family: var(--serif);
+    font-size: 13px;
+    line-height: 1.25;
+    padding: 2px 4px;
+    border-radius: 2px;
+  }
+  .search-list-page a.hit:hover { background: rgba(184,101,30,.12); color: var(--accent); }
+  .search-list-page a.hit .num {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--book-ink-soft);
+    letter-spacing: .12em;
+    min-width: 18px;
+    text-align: right;
+  }
+  .search-list-page a.hit .phase {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--phase-color, var(--book-ink-soft));
+    margin-left: auto;
+  }
+  .search-list-page a.hit[data-phase="foundations"] { --phase-color: var(--p-foundations); }
+  .search-list-page a.hit[data-phase="inference"]   { --phase-color: var(--p-inference); }
+  .search-list-page a.hit[data-phase="prompting"]   { --phase-color: var(--p-prompting); }
+  .search-list-page a.hit[data-phase="agents"]      { --phase-color: var(--p-agents); }
+  .search-list-page a.hit[data-phase="capsule"]     { --phase-color: var(--p-capsule); }
+  .search-list-page a.hit[data-phase="capstone"]    { --phase-color: var(--p-capstone); }
+  .search-list-page .foot {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--book-line);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--book-ink-soft);
+    text-align: center;
+  }
+
+  /* ============================================================
+     COVERS
+     ============================================================ */
+  .cover-page, .back-page {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(135deg, var(--cover-bg) 0%, var(--cover-bg-2) 100%);
+    color: var(--cover-cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 50px;
+    position: relative;
+  }
+  .cover-page { border-left: 2px solid var(--cover-gold); }
+  .back-page  { border-right: 2px solid var(--cover-gold); }
+  .cover-page::before, .back-page::before {
+    content: '';
+    position: absolute;
+    inset: 22px;
+    border: 1px solid var(--cover-gold);
+    pointer-events: none;
+  }
+  .cover-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--cover-gold);
+    margin-bottom: 18px;
+  }
+  .cover-title {
+    font-family: var(--serif);
+    font-size: 56px;
+    line-height: 1.05;
+    font-weight: 600;
+    color: var(--cover-cream);
+    margin: 0 0 14px;
+    letter-spacing: -.01em;
+  }
+  .cover-sub {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--cover-gold);
+    margin: 0 0 32px;
+    max-width: 360px;
+  }
+  .cover-stats {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--cover-cream);
+    opacity: .65;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    line-height: 1.7;
+  }
+  .cover-cta {
+    margin-top: 36px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--cover-gold);
+    border: 1px solid var(--cover-gold);
+    padding: 10px 22px;
+    border-radius: 999px;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: .55; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.04); }
+  }
+
+  /* ============================================================
+     FLIPPER (the actual page turn)
+     ============================================================ */
+  .flipper {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform-style: preserve-3d;
+    transition: transform 0.85s cubic-bezier(.5,.05,.55,.95);
+    z-index: 20;
+    pointer-events: none;
+  }
+  .flipper.fwd { right: 0; transform-origin: left center; }
+  .flipper.fwd.go { transform: rotateY(-180deg); }
+  .flipper.bwd { left: 0; transform-origin: right center; }
+  .flipper.bwd.go { transform: rotateY(180deg); }
+
+  .flip-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    background: linear-gradient(180deg, var(--book-bg) 0%, var(--book-bg-2) 100%);
+    color: var(--book-ink);
+    overflow: hidden;
+  }
+  .flip-face.back { transform: rotateY(180deg); }
+  .flipper.fwd .flip-face.front { box-shadow: inset 10px 0 28px -12px rgba(0,0,0,.22), -4px 0 12px rgba(0,0,0,.25); border-radius: 0 4px 4px 0; }
+  .flipper.fwd .flip-face.back  { box-shadow: inset -10px 0 28px -12px rgba(0,0,0,.22),  4px 0 12px rgba(0,0,0,.25); border-radius: 4px 0 0 4px; }
+  .flipper.bwd .flip-face.front { box-shadow: inset -10px 0 28px -12px rgba(0,0,0,.22),  4px 0 12px rgba(0,0,0,.25); border-radius: 4px 0 0 4px; }
+  .flipper.bwd .flip-face.back  { box-shadow: inset 10px 0 28px -12px rgba(0,0,0,.22), -4px 0 12px rgba(0,0,0,.25); border-radius: 0 4px 4px 0; }
+  .flipper::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 65%, rgba(0,0,0,.10) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ============================================================
+     THUMB-INDEX TABS  (attached to the book, telephone-directory style)
+     ------------------------------------------------------------
+     Tabs hang off the right fore-edge of the book. Each tab is the
+     paper-coloured strip; the active tab pokes out further and takes
+     the accent colour. When the book is closed-cover, the tabs ride
+     along with the translated book; when closed-back they're hidden
+     because the right edge is no longer where they belong.
+     ============================================================ */
+  .tabs {
+    position: absolute;
+    top: 30px;
+    bottom: 30px;
+    right: -16px;
+    width: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    z-index: 25;
+  }
+  .tab {
+    flex: 1;
+    min-height: 14px;
+    border: none;
+    background: linear-gradient(90deg, var(--tab-bg-2) 0%, var(--tab-bg) 60%);
+    color: var(--tab-ink);
+    font: 600 9px var(--mono);
+    border-top: 1px solid rgba(255,255,255,.4);
+    border-bottom: 1px solid rgba(0,0,0,.2);
+    border-right: 1px solid var(--book-edge-dark);
+    border-radius: 0 3px 3px 0;
+    cursor: pointer;
+    padding: 0;
+    transition: transform .2s ease, background .2s ease, color .2s ease;
+    box-shadow: 1px 1px 3px rgba(0,0,0,.35);
+    text-align: center;
+    letter-spacing: .04em;
+  }
+  .tab:hover:not(.empty) { transform: translateX(4px); }
+  .tab.active {
+    background: linear-gradient(90deg, #8d4a14 0%, var(--tab-bg-active) 60%);
+    color: var(--tab-ink-active);
+    transform: translateX(8px);
+    z-index: 1;
+  }
+  .tab.empty {
+    color: var(--tab-disabled-ink);
+    cursor: not-allowed;
+    opacity: .45;
+  }
+  .book.closed-back .tabs { opacity: 0; pointer-events: none; }
+
+  /* ============================================================
+     BOTTOM CONTROL BAR
+     ============================================================ */
+  .controls {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex; align-items: center; gap: 14px;
+    background: var(--ox-surface);
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--ox-line-strong);
+    z-index: 30;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 8px 24px -10px rgba(30, 26, 22, .25);
+  }
+  .nav-btn {
+    background: transparent;
+    border: 1px solid var(--ox-line-strong);
+    color: var(--ox-ink);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font: 18px/1 var(--ox-font-display);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .nav-btn:hover:not(:disabled) {
+    background: var(--ox-accent-soft);
+    border-color: var(--ox-accent);
+    color: var(--ox-accent);
+  }
+  .nav-btn:disabled { opacity: .3; cursor: not-allowed; }
+  .pos {
+    font-family: var(--ox-font-mono);
+    font-size: 11px;
+    color: var(--ox-muted);
+    letter-spacing: .12em;
+    min-width: 140px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .kbd {
+    font-family: var(--ox-font-mono);
+    font-size: 9px;
+    color: var(--ox-faint);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-left: 6px;
+  }
+
+  .glossary-page.search-mode .tabs { opacity: .25; pointer-events: none; }
+
+  #measure {
+    position: absolute;
+    top: -10000px; left: -10000px;
+    visibility: hidden;
+  }
+
+  @media (max-width: 1480px) {
+    .book { width: 1080px; height: 720px; }
+    .drop-cap-page .drop { font-size: 220px; }
+    .cover-title { font-size: 52px; }
+  }
+  @media (max-width: 1180px) {
+    .book { width: 880px; height: 600px; }
+    .drop-cap-page .drop { font-size: 180px; }
+    .cover-title { font-size: 44px; }
+  }
+  @media (max-width: 960px) {
+    .book { width: 560px; height: 460px; }
+    .drop-cap-page, .term-page, .search-list-page { padding: 24px 28px; }
+    .drop-cap-page .drop { font-size: 130px; }
+    .cover-title { font-size: 32px; }
+    .tabs { right: -12px; width: 18px; }
+    .tab { font-size: 7px; }
+  }

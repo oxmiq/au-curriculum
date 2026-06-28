@@ -35,4 +35,3 @@
 - **[Curriculum Map](kb/graph.html)** — every concept, what you've passed, and what unlocks next.
 - **[Dependency Graph](kb/edge-graph.html)** — the same map as a dependency DAG; follow the arrows.
 - **[Glossary](kb/glossary.html)** — canonical definitions for every term used in the program.
-- **[Why this curriculum](rationale.md)** — sequence, depth, and pacing rationale.

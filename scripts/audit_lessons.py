@@ -13,7 +13,7 @@ Rules (L001-L015):
         that exists on disk (URL-encoded paths are decoded before checking)
   L008  no legacy `quiz.html` references; no legacy `module-NN/` flat references
   L010  week overview (week-NN/index.md): H1 matches "# Week N · ", frontmatter
-        has "Goal of the week:" and "Source material:", day-map table has exactly
+        has "Goal of the week:", day-map table has exactly
         4 columns (Day|Topic|Pre-read|Page), "## Friday — the bar" present
   L011  module index.md classified as exactly one shape: B7 | F | C
         (B7 = lesson plan table + Part 1-7 headings;
@@ -66,7 +66,6 @@ LEGACY_FLAT_MODULE_RE = re.compile(r"lessons/module-\d{2}/")
 # ── L010: week-overview shape ────────────────────────────────────────────────
 WEEK_H1_RE = re.compile(r"^# Week \d+", re.MULTILINE)
 WEEK_GOAL_RE = re.compile(r"\*\*Goal of the week:\*\*")
-WEEK_SOURCE_RE = re.compile(r"\*\*Source material:\*\*")
 WEEK_DAYMAP_HEADER_RE = re.compile(r"^## Day map", re.MULTILINE)
 # 4-column table: must have exactly 3 pipes between columns (= 4 columns)
 WEEK_DAYMAP_4COL_RE = re.compile(r"^\|[^|]+\|[^|]+\|[^|]+\|[^|]+\|", re.MULTILINE)
@@ -192,9 +191,6 @@ def audit_week_overview(overview: Path, week_name: str, report: Report) -> None:
     if not WEEK_GOAL_RE.search(text):
         report.add("L010", week_name, "-", overview,
                    "week overview missing '**Goal of the week:**' in frontmatter")
-    if not WEEK_SOURCE_RE.search(text):
-        report.add("L010", week_name, "-", overview,
-                   "week overview missing '**Source material:**' in frontmatter")
 
     # L010 — day-map section present
     if not WEEK_DAYMAP_HEADER_RE.search(text):

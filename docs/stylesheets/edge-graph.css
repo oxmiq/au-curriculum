@@ -1,0 +1,242 @@
+/* ============================================================
+   Dependency Graph (edge graph) — Material-wrapped page styling.
+   Scoped to .edge-graph-page so it only applies on kb/edge-graph.md.
+   Colors derive from --ox-* brand tokens (oxblood.css).
+   ============================================================ */
+
+:root,
+[data-md-color-scheme="default"] {
+  --eg-bg-soft:        var(--ox-surface);
+  --eg-bg-sunk:        var(--ox-surface-2);
+  --eg-line:           var(--ox-line);
+  --eg-line-strong:    var(--ox-line-strong);
+  --eg-ink:            var(--ox-ink);
+  --eg-body:           var(--ox-body);
+  --eg-muted:          var(--ox-muted);
+  --eg-faint:          var(--ox-faint);
+
+  --eg-edge:           var(--ox-line-strong);
+  --eg-edge-done:      var(--ox-mint);
+  --eg-ok:             var(--ox-mint);
+  --eg-wip:            var(--ox-amber);
+
+  --p-orientation:     #6E5F52;
+  --p-inference:       #2F6B68;
+  --p-agents:          #C97A3A;
+  --p-bridge:          #7A1F2B;
+  --p-capsule:         #4F8A6F;
+  --p-capstone:        #B23B4E;
+}
+
+[data-md-color-scheme="slate"] {
+  --eg-bg-soft:        var(--ox-surface);
+  --eg-bg-sunk:        var(--ox-surface-2);
+  --eg-line:           var(--ox-line);
+  --eg-line-strong:    var(--ox-line-strong);
+  --eg-ink:            var(--ox-ink);
+  --eg-body:           var(--ox-body);
+  --eg-muted:          var(--ox-muted);
+  --eg-faint:          var(--ox-faint);
+
+  --eg-edge:           var(--ox-line-strong);
+  --eg-edge-done:      var(--ox-mint);
+  --eg-ok:             var(--ox-mint);
+  --eg-wip:            var(--ox-amber);
+
+  --p-orientation:     #8C7F71;
+  --p-inference:       #5BA09C;
+  --p-agents:          #E0975A;
+  --p-bridge:          #C56A78;
+  --p-capsule:         #8FC7A8;
+  --p-capstone:        #D87286;
+}
+
+/* hide Material's auto-rendered h1 (frontmatter title) */
+body:has(.edge-graph-page) .md-content__inner > h1:first-child {
+  display: none;
+}
+
+/* widen content area for the canvas without disturbing header chrome */
+body:has(.edge-graph-page) .md-main__inner.md-grid {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.edge-graph-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 8px 4px 48px;
+  color: var(--eg-body);
+  font-family: var(--ox-font-body);
+}
+
+.edge-graph-page .edge-graph-head {
+  margin-bottom: 12px;
+}
+
+.edge-graph-page .switch {
+  font-family: var(--ox-font-mono);
+  font-size: 12px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.edge-graph-page .switch .switch-label { color: var(--eg-faint); }
+.edge-graph-page .switch a {
+  color: var(--eg-muted);
+  text-decoration: none;
+  border: 1px solid var(--eg-line);
+  border-radius: 7px;
+  padding: 5px 11px;
+  transition: color .12s ease, border-color .12s ease, background .12s ease;
+}
+.edge-graph-page .switch a:hover {
+  color: var(--eg-ink);
+  border-color: var(--eg-line-strong);
+}
+.edge-graph-page .switch a.active {
+  color: var(--eg-ink);
+  border-color: var(--eg-line-strong);
+  background: var(--eg-bg-soft);
+}
+
+.edge-graph-page .loading {
+  font-family: var(--ox-font-mono);
+  color: var(--eg-muted);
+  font-size: 13px;
+  padding: 20px;
+  margin: 0;
+}
+
+.edge-graph-page .legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 8px 0 4px;
+  font-family: var(--ox-font-mono);
+  font-size: 11px;
+}
+.edge-graph-page .legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--eg-muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.edge-graph-page .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 99px;
+  display: inline-block;
+}
+
+.edge-graph-page .canvas {
+  margin-top: 14px;
+  overflow: auto;
+  border: 1px solid var(--eg-line);
+  border-radius: 12px;
+  background:
+    linear-gradient(var(--eg-line) 1px, transparent 1px) 0 0/100% 40px,
+    linear-gradient(90deg, var(--eg-line) 1px, transparent 1px) 0 0/40px 100%,
+    var(--eg-bg-soft);
+}
+.edge-graph-page svg { display: block; }
+
+/* nodes (HTML inside foreignObject) */
+.edge-graph-page .node {
+  height: 100%;
+  border: 1px solid var(--eg-line-strong);
+  border-left: 3px solid var(--phase);
+  border-radius: 9px;
+  background: var(--eg-bg-sunk);
+  padding: 7px 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--eg-ink);
+  transition: transform .12s ease, box-shadow .12s ease;
+  overflow: hidden;
+}
+.edge-graph-page a.node:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+  border-color: var(--phase);
+}
+.edge-graph-page .node .top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.edge-graph-page .node .day {
+  font-family: var(--ox-font-mono);
+  font-size: 10px;
+  color: var(--eg-faint);
+}
+.edge-graph-page .node .st {
+  margin-left: auto;
+  font-size: 12px;
+  line-height: 1;
+}
+.edge-graph-page .st-passed { color: var(--eg-ok); }
+.edge-graph-page .st-wip { color: var(--eg-wip); }
+.edge-graph-page .st-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 99px;
+  background: var(--eg-faint);
+  display: inline-block;
+}
+.edge-graph-page .node .ttl {
+  font-size: 11.5px;
+  line-height: 1.25;
+  color: var(--eg-ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.edge-graph-page .node.passed {
+  background: color-mix(in srgb, var(--phase) 14%, var(--eg-bg-sunk));
+}
+.edge-graph-page .node.locked { opacity: .4; }
+.edge-graph-page .node.next {
+  border-color: var(--phase);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--phase) 45%, transparent);
+}
+.edge-graph-page .next-tag {
+  font-family: var(--ox-font-mono);
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--phase);
+  margin-left: auto;
+}
+
+.edge-graph-page footer.edge-foot {
+  margin-top: 22px;
+  color: var(--eg-faint);
+  font-size: 12px;
+  font-family: var(--ox-font-mono);
+}
+
+.edge-graph-page .err {
+  background: color-mix(in srgb, var(--ox-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ox-accent) 45%, transparent);
+  color: var(--ox-accent);
+  padding: 16px;
+  border-radius: 10px;
+  font-family: var(--ox-font-mono);
+  font-size: 13px;
+}
+.edge-graph-page .err code {
+  color: var(--ox-accent-deep);
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edge-graph-page .node { transition: none; }
+}

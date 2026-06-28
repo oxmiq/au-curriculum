@@ -156,7 +156,7 @@ These are the skills you will use every single day of the internship.
 
 ## Pre-read for Monday (Week 8 · Day 37 · Connecting to Machines)
 
-- **Resource:** Capsule Power User Lab Guide **Module 5** (Connecting to Machines) (~15 min).
+- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 38 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 5 (Connecting to Machines).
 - **Reflection questions:**
   1. What is the difference between `capsule term`, `capsule code`, and `capsule exec`?
   2. What does `--idle-timeout` do and when would you set it?

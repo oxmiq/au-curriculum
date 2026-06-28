@@ -4,7 +4,7 @@
   "_notes": {
     "source": "Derived from curriculum-mindmap.md. Lesson content is owned by Shiv (#1374); this is structure only.",
     "open_question_module_granularity": "Modeled as week \u2192 module, where each instructional day is one module (matches the lessons/week-xx/module-y/ file paths in the plan). Naveen's text also says 'weeks \u2192 modules \u2192 concepts' (3 levels). If Shiv defines sub-concepts inside a module, add a 'concepts' array per module \u2014 the page already groups by week so it extends cleanly. This is the §13 'module definition' item pending Shiv.",
-    "open_question_week6": "Week 6 now carries the prompt-engineering module (Naveen's curriculum change) plus the four agent concepts, which is more than the four Mon\u2013Thu slots. Day numbering for Week 6 onward is illustrative pending Shiv's final sequencing.",
+"week6_consolidation": "Week 6 originally had 6 days (Days 26-31). Condensed to 5 days (26-30) by merging consolidation into Day 30 (Orchestration + Consolidation + Phase 2 Assessment).",
     "edges": "prereqs are intentionally light: each module depends on the previous one, plus a few cross-phase links so the fast-follow edge-graph has real structure. Not exhaustive."
   },
   "phases": [
@@ -79,52 +79,51 @@
         { "id": "week-06/module-2", "day": 27, "title": "Agent Fundamentals", "type": "concept", "lesson": "lessons/week-06/module-2/index.md", "prereqs": ["week-06/module-1"] },
         { "id": "week-06/module-3", "day": 28, "title": "Tools & Action Layer", "type": "concept", "lesson": "lessons/week-06/module-3/index.md", "prereqs": ["week-06/module-2"] },
         { "id": "week-06/module-4", "day": 29, "title": "Governance", "type": "concept", "lesson": "lessons/week-06/module-4/index.md", "prereqs": ["week-06/module-3"] },
-        { "id": "week-06/module-5", "day": 30, "title": "Orchestration", "type": "concept", "lesson": "lessons/week-06/module-5/index.md", "prereqs": ["week-06/module-4"] },
-        { "id": "week-06/module-6", "day": 31, "title": "Consolidation + Phase 2 Agent Design", "type": "assessment", "lesson": "lessons/week-06/module-6/index.md", "prereqs": ["week-06/module-5"] }
+        { "id": "week-06/module-5", "day": 30, "title": "Orchestration + Consolidation + Phase 2 Assessment", "type": "assessment", "lesson": "lessons/week-06/module-5/index.md", "prereqs": ["week-06/module-4"] }
       ]
     },
     {
       "id": "week-07", "number": 7, "phase": "bridge",
       "title": "Bridge: Theory Meets Tooling", "theme": "Capsule installed, concepts connected",
       "modules": [
-        { "id": "week-07/module-1", "day": 32, "title": "Agent Case Studies", "type": "concept", "lesson": "lessons/week-07/module-1/index.md", "prereqs": ["week-06/module-6"] },
-        { "id": "week-07/module-2", "day": 33, "title": "Capsule Foundations", "type": "concept", "lesson": "lessons/week-07/module-2/index.md", "prereqs": ["week-07/module-1"] },
-        { "id": "week-07/module-3", "day": 34, "title": "Installation", "type": "concept", "lesson": "lessons/week-07/module-3/index.md", "prereqs": ["week-07/module-2"] },
-        { "id": "week-07/module-4", "day": 35, "title": "Environments", "type": "concept", "lesson": "lessons/week-07/module-4/index.md", "prereqs": ["week-07/module-3"] },
-        { "id": "week-07/module-5", "day": 36, "title": "Consolidation", "type": "consolidation", "lesson": "lessons/week-07/module-5/index.md", "prereqs": ["week-07/module-4"] }
+        { "id": "week-07/module-1", "day": 31, "title": "Agent Case Studies", "type": "concept", "lesson": "lessons/week-07/module-1/index.md", "prereqs": ["week-06/module-5"] },
+        { "id": "week-07/module-2", "day": 32, "title": "Capsule Foundations", "type": "concept", "lesson": "lessons/week-07/module-2/index.md", "prereqs": ["week-07/module-1"] },
+        { "id": "week-07/module-3", "day": 33, "title": "Installation", "type": "concept", "lesson": "lessons/week-07/module-3/index.md", "prereqs": ["week-07/module-2"] },
+        { "id": "week-07/module-4", "day": 34, "title": "Environments", "type": "concept", "lesson": "lessons/week-07/module-4/index.md", "prereqs": ["week-07/module-3"] },
+        { "id": "week-07/module-5", "day": 35, "title": "Consolidation", "type": "consolidation", "lesson": "lessons/week-07/module-5/index.md", "prereqs": ["week-07/module-4"] }
       ]
     },
     {
       "id": "week-08", "number": 8, "phase": "capsule",
       "title": "Capsule: Connections & Operations", "theme": "Platform operations",
       "modules": [
-        { "id": "week-08/module-1", "day": 37, "title": "Connecting", "type": "concept", "lesson": "lessons/week-08/module-1/index.md", "prereqs": ["week-07/module-3"] },
-        { "id": "week-08/module-2", "day": 38, "title": "Files & Storage", "type": "concept", "lesson": "lessons/week-08/module-2/index.md", "prereqs": ["week-08/module-1"] },
-        { "id": "week-08/module-3", "day": 39, "title": "Streaming", "type": "concept", "lesson": "lessons/week-08/module-3/index.md", "prereqs": ["week-08/module-2"] },
-        { "id": "week-08/module-4", "day": 40, "title": "Known Quirks", "type": "concept", "lesson": "lessons/week-08/module-4/index.md", "prereqs": ["week-08/module-3"] },
-        { "id": "week-08/module-5", "day": 41, "title": "Consolidation", "type": "consolidation", "lesson": "lessons/week-08/module-5/index.md", "prereqs": ["week-08/module-4"] }
+        { "id": "week-08/module-1", "day": 36, "title": "Connecting", "type": "concept", "lesson": "lessons/week-08/module-1/index.md", "prereqs": ["week-07/module-3"] },
+        { "id": "week-08/module-2", "day": 37, "title": "Files & Storage", "type": "concept", "lesson": "lessons/week-08/module-2/index.md", "prereqs": ["week-08/module-1"] },
+        { "id": "week-08/module-3", "day": 38, "title": "Streaming", "type": "concept", "lesson": "lessons/week-08/module-3/index.md", "prereqs": ["week-08/module-2"] },
+        { "id": "week-08/module-4", "day": 39, "title": "Known Quirks", "type": "concept", "lesson": "lessons/week-08/module-4/index.md", "prereqs": ["week-08/module-3"] },
+        { "id": "week-08/module-5", "day": 40, "title": "Consolidation", "type": "consolidation", "lesson": "lessons/week-08/module-5/index.md", "prereqs": ["week-08/module-4"] }
       ]
     },
     {
       "id": "week-09", "number": 9, "phase": "capsule",
       "title": "Capsule: Benchmarking & Eval", "theme": "Evaluate models end-to-end",
       "modules": [
-        { "id": "week-09/module-1", "day": 42, "title": "Benchmarking", "type": "concept", "lesson": "lessons/week-09/module-1/index.md", "prereqs": ["week-08/module-1", "week-07/module-3"] },
-        { "id": "week-09/module-2", "day": 43, "title": "Model Evaluation", "type": "concept", "_placeholder_title": true, "lesson": "lessons/week-09/module-2/index.md", "prereqs": ["week-09/module-1", "week-05/module-3"] },
-        { "id": "week-09/module-3", "day": 44, "title": "Interactive Chat", "type": "concept", "lesson": "lessons/week-09/module-3/index.md", "prereqs": ["week-09/module-1"] },
-        { "id": "week-09/module-4", "day": 45, "title": "Scheduling & MCP", "type": "concept", "lesson": "lessons/week-09/module-4/index.md", "prereqs": ["week-09/module-3"] },
-        { "id": "week-09/module-5", "day": 46, "title": "Consolidation", "type": "consolidation", "lesson": "lessons/week-09/module-5/index.md", "prereqs": ["week-09/module-4"] }
+        { "id": "week-09/module-1", "day": 41, "title": "Benchmarking", "type": "concept", "lesson": "lessons/week-09/module-1/index.md", "prereqs": ["week-08/module-1", "week-07/module-3"] },
+        { "id": "week-09/module-2", "day": 42, "title": "Model Evaluation", "type": "concept", "_placeholder_title": true, "lesson": "lessons/week-09/module-2/index.md", "prereqs": ["week-09/module-1", "week-05/module-3"] },
+        { "id": "week-09/module-3", "day": 43, "title": "Interactive Chat", "type": "concept", "lesson": "lessons/week-09/module-3/index.md", "prereqs": ["week-09/module-1"] },
+        { "id": "week-09/module-4", "day": 44, "title": "Scheduling & MCP", "type": "concept", "lesson": "lessons/week-09/module-4/index.md", "prereqs": ["week-09/module-3"] },
+        { "id": "week-09/module-5", "day": 45, "title": "Consolidation", "type": "consolidation", "lesson": "lessons/week-09/module-5/index.md", "prereqs": ["week-09/module-4"] }
       ]
     },
     {
       "id": "week-10", "number": 10, "phase": "capstone",
       "title": "Capstone Project", "theme": "Prove it, end-to-end",
       "modules": [
-        { "id": "week-10/module-1", "day": 47, "title": "Kickoff & Planning", "type": "capstone", "lesson": "lessons/week-10/module-1/index.md", "prereqs": ["week-09/module-1", "week-05/module-3", "week-09/module-2"] },
-        { "id": "week-10/module-2", "day": 48, "title": "Execute", "type": "capstone", "lesson": "lessons/week-10/module-2/index.md", "prereqs": ["week-10/module-1"] },
-        { "id": "week-10/module-3", "day": 49, "title": "Analyze & Recommend", "type": "capstone", "lesson": "lessons/week-10/module-3/index.md", "prereqs": ["week-10/module-2"] },
-        { "id": "week-10/module-4", "day": 50, "title": "Present", "type": "capstone", "lesson": "lessons/week-10/module-4/index.md", "prereqs": ["week-10/module-3"] },
-        { "id": "week-10/module-5", "day": 51, "title": "Close", "type": "capstone", "lesson": "lessons/week-10/module-5/index.md", "prereqs": ["week-10/module-4"] }
+        { "id": "week-10/module-1", "day": 46, "title": "Kickoff & Planning", "type": "capstone", "lesson": "lessons/week-10/module-1/index.md", "prereqs": ["week-09/module-1", "week-05/module-3", "week-09/module-2"] },
+        { "id": "week-10/module-2", "day": 47, "title": "Execute", "type": "capstone", "lesson": "lessons/week-10/module-2/index.md", "prereqs": ["week-10/module-1"] },
+        { "id": "week-10/module-3", "day": 48, "title": "Analyze & Recommend", "type": "capstone", "lesson": "lessons/week-10/module-3/index.md", "prereqs": ["week-10/module-2"] },
+        { "id": "week-10/module-4", "day": 49, "title": "Present", "type": "capstone", "lesson": "lessons/week-10/module-4/index.md", "prereqs": ["week-10/module-3"] },
+        { "id": "week-10/module-5", "day": 50, "title": "Close", "type": "capstone", "lesson": "lessons/week-10/module-5/index.md", "prereqs": ["week-10/module-4"] }
       ]
     }
   ]

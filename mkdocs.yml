@@ -34,12 +34,14 @@ theme:
 extra_css:
   - stylesheets/oxblood.css
   - stylesheets/cards.css           # Phase C: card-grid + status-pill + lesson-header
+  - stylesheets/editorial.css       # ox-self-check widget styles + long-form primitives
 
 # Mermaid is loaded client-side. Material doesn't ship its native mermaid
 # integration unless the theme variant supports it; the small init script below
 # initialises any <pre class="mermaid"> blocks emitted by pymdownx.superfences.
 extra_javascript:
   - assets/mermaid-init.js
+  - assets/widgets/self-check.js    # ox-self-check MCQ formative widget
 
 markdown_extensions:
   - admonition
@@ -105,36 +107,45 @@ nav:
           - "Day 27 · Agent Fundamentals": lessons/week-06/module-2/index.md
           - "Day 28 · Tools & Action Layer": lessons/week-06/module-3/index.md
           - "Day 29 · Governance": lessons/week-06/module-4/index.md
-          - "Day 30 · Orchestration": lessons/week-06/module-5/index.md
-          - "Day 31 · Consolidation + Phase 2 Agent Design": lessons/week-06/module-6/index.md
+          - "Day 30 · Orchestration + Consolidation + Phase 2 Assessment": lessons/week-06/module-5/index.md
       - "Week 7 — Bridge: Theory Meets Tooling":
           - Overview: lessons/week-07/index.md
-          - "Day 32 · Agent Case Studies": lessons/week-07/module-1/index.md
-          - "Day 33 · Capsule Foundations": lessons/week-07/module-2/index.md
-          - "Day 34 · Installation": lessons/week-07/module-3/index.md
-          - "Day 35 · Environments": lessons/week-07/module-4/index.md
-          - "Day 36 · Consolidation": lessons/week-07/module-5/index.md
+          - "Day 31 · Agent Case Studies": lessons/week-07/module-1/index.md
+          - "Day 32 · Capsule Foundations": lessons/week-07/module-2/index.md
+          - "Day 33 · Installation": lessons/week-07/module-3/index.md
+          - "Day 34 · Environments": lessons/week-07/module-4/index.md
+          - "Day 35 · Consolidation": lessons/week-07/module-5/index.md
       - "Week 8 — Capsule: Connections & Operations":
           - Overview: lessons/week-08/index.md
-          - "Day 37 · Connecting": lessons/week-08/module-1/index.md
-          - "Day 38 · Files & Storage": lessons/week-08/module-2/index.md
-          - "Day 39 · Streaming": lessons/week-08/module-3/index.md
-          - "Day 40 · Known Quirks": lessons/week-08/module-4/index.md
-          - "Day 41 · Consolidation": lessons/week-08/module-5/index.md
+          - "Day 36 · Connecting": lessons/week-08/module-1/index.md
+          - "Day 37 · Files & Storage": lessons/week-08/module-2/index.md
+          - "Day 38 · Streaming": lessons/week-08/module-3/index.md
+          - "Day 39 · Known Quirks": lessons/week-08/module-4/index.md
+          - "Day 40 · Consolidation": lessons/week-08/module-5/index.md
       - "Week 9 — Capsule: Benchmarking & Eval":
           - Overview: lessons/week-09/index.md
-          - "Day 42 · Benchmarking": lessons/week-09/module-1/index.md
-          - "Day 43 · Model Evaluation": lessons/week-09/module-2/index.md
-          - "Day 44 · Interactive Chat": lessons/week-09/module-3/index.md
-          - "Day 45 · Scheduling & MCP": lessons/week-09/module-4/index.md
-          - "Day 46 · Consolidation": lessons/week-09/module-5/index.md
+          - "Day 41 · Benchmarking": lessons/week-09/module-1/index.md
+          - "Day 42 · Model Evaluation": lessons/week-09/module-2/index.md
+          - "Day 43 · Interactive Chat": lessons/week-09/module-3/index.md
+          - "Day 44 · Scheduling & MCP": lessons/week-09/module-4/index.md
+          - "Day 45 · Consolidation": lessons/week-09/module-5/index.md
       - "Week 10 — Capstone Project":
           - Overview: lessons/week-10/index.md
-          - "Day 47 · Kickoff & Planning": lessons/week-10/module-1/index.md
-          - "Day 48 · Execute": lessons/week-10/module-2/index.md
-          - "Day 49 · Analyze & Recommend": lessons/week-10/module-3/index.md
-          - "Day 50 · Present": lessons/week-10/module-4/index.md
-          - "Day 51 · Close": lessons/week-10/module-5/index.md
+          - "Day 46 · Kickoff & Planning": lessons/week-10/module-1/index.md
+          - "Day 47 · Execute": lessons/week-10/module-2/index.md
+          - "Day 48 · Analyze & Recommend": lessons/week-10/module-3/index.md
+          - "Day 49 · Present": lessons/week-10/module-4/index.md
+          - "Day 50 · Close": lessons/week-10/module-5/index.md
+  - Reading Guides:
+      - Prompt Engineering:
+          - Pre-Lecture Reading: readings/prompt-engineering/index.md
+          - Student Guide: readings/prompt-engineering/student-guide.md
+      - AI Agents:
+          - Pre-Lecture Reading: readings/ai-agents/index.md
+          - Student Guide: readings/ai-agents/student-guide.md
+      - "Capsule Power-User":
+          - Pre-Lecture Reading: readings/capsule/index.md
+          - Lab Guide: readings/capsule/lab-guide.md
   - Plan:
       - Roadmap: roadmap.md
       - Interactive Concept Graph: kb/interactive-graph.html

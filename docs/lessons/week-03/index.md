@@ -1,7 +1,6 @@
 # Week 3 · Inference Engineering — Attention & KV Cache
 
 > **Goal of the week:** understand the central resource management problem of serving LLMs.
-> **Source material:** [`Inference Engineering/`](../../../planning/source-material/Inference%20Engineering/) — Study Guide §A.2–A.4, Pre-Lecture Reading §Days 11–14, Problem Sets, Flashcards.
 
 <!-- AUTO-GEN:CARD-GRID:START -->
 <div class="ox-card-grid" markdown="0">
@@ -9,35 +8,30 @@
     {status:week-03/module-1}
     <span class="ox-card__eyebrow">Day 11</span>
     <h3 class="ox-card__title">Prefill vs Decode</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
   <a class="ox-card" href="module-2/" style="--i:12">
     {status:week-03/module-2}
     <span class="ox-card__eyebrow">Day 12</span>
     <h3 class="ox-card__title">KV Cache</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
   <a class="ox-card" href="module-3/" style="--i:13">
     {status:week-03/module-3}
     <span class="ox-card__eyebrow">Day 13</span>
     <h3 class="ox-card__title">FlashAttention</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
   <a class="ox-card" href="module-4/" style="--i:14">
     {status:week-03/module-4}
     <span class="ox-card__eyebrow">Day 14</span>
     <h3 class="ox-card__title">Quantization</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
   <a class="ox-card" href="module-5/" style="--i:15">
     {status:week-03/module-5}
     <span class="ox-card__eyebrow">Day 15</span>
     <h3 class="ox-card__title">Consolidation</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
 </div>

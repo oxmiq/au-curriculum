@@ -193,15 +193,11 @@ Week 4 builds on this foundation:
 ---
 
 ## Part 7 — Wrap-up & Connection · 10 min
-### No Pre-read Required for Today
+### Pre-read for Monday (Week 4, Day 16 · Tensor & Pipeline Parallelism)
 
-But to prepare for Week 4, review the batching concepts:
+**Resource:** <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a> (~20 min, read the Tensor Parallel section). Alternative: <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Transformer Inference Optimization</a>.
 
-1. **Static batching** — wait for batch to fill
-2. **Dynamic batching** — fill or timer-cutoff
-3. **Continuous batching** — token-level interleaving (used by vLLM/SGLang)
-
-### Reflection Questions for Next Week
+**Reflection questions:**
 
 1. Of {KV cache, FlashAttention, quantization} — which one would you teach a peer first? Why?
 2. What's still confusing about prefill vs decode?

@@ -1,43 +1,37 @@
 # Week 7 · Bridge — Theory Meets Tooling
 
 > **Goal of the week:** Capsule installed, agent concepts grounded in real systems. By Friday the platform is ready for hands-on operations in Weeks 8–9.
-> **Source material:** [`AI Agents/`](../../../planning/source-material/AI%20Agents/) + [`Capsule Power User/`](../../../planning/source-material/Capsule%20Power%20User/) — Case studies, Lab Guide Modules 1–3, Cheatsheet.
 
 <!-- AUTO-GEN:CARD-GRID:START -->
 <div class="ox-card-grid" markdown="0">
-  <a class="ox-card" href="module-1/" style="--i:32">
+  <a class="ox-card" href="module-1/" style="--i:31">
     {status:week-07/module-1}
-    <span class="ox-card__eyebrow">Day 32</span>
+    <span class="ox-card__eyebrow">Day 31</span>
     <h3 class="ox-card__title">Agent Case Studies</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-2/" style="--i:33">
+  <a class="ox-card" href="module-2/" style="--i:32">
     {status:week-07/module-2}
-    <span class="ox-card__eyebrow">Day 33</span>
+    <span class="ox-card__eyebrow">Day 32</span>
     <h3 class="ox-card__title">Capsule Foundations</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-3/" style="--i:34">
+  <a class="ox-card" href="module-3/" style="--i:33">
     {status:week-07/module-3}
-    <span class="ox-card__eyebrow">Day 34</span>
+    <span class="ox-card__eyebrow">Day 33</span>
     <h3 class="ox-card__title">Installation</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-4/" style="--i:35">
+  <a class="ox-card" href="module-4/" style="--i:34">
     {status:week-07/module-4}
-    <span class="ox-card__eyebrow">Day 35</span>
+    <span class="ox-card__eyebrow">Day 34</span>
     <h3 class="ox-card__title">Environments</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-5/" style="--i:36">
+  <a class="ox-card" href="module-5/" style="--i:35">
     {status:week-07/module-5}
-    <span class="ox-card__eyebrow">Day 36</span>
+    <span class="ox-card__eyebrow">Day 35</span>
     <h3 class="ox-card__title">Consolidation</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
 </div>
@@ -47,11 +41,11 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 32 (Mon) | Agent Case Studies — Klarna, coding agents, post-mortems | Klarna AI post + coding-agent case study (~20 min) | [module-1/index.md](module-1/index.md) |
-| 33 (Tue) | Capsule Foundations & Architecture | Capsule Power User Lab Guide Modules 1+2 (~35 min) | [module-2/index.md](module-2/index.md) |
-| 34 (Wed) | Installation | Lab Guide Module 2 (~20 min) | [module-3/index.md](module-3/index.md) |
-| 35 (Thu) | Environments & Fleet Discovery | Lab Guide Module 3 (~15 min) | [module-4/index.md](module-4/index.md) |
-| 36 (Fri) | **Consolidation** | — | [module-5/index.md](module-5/index.md) |
+| 31 (Mon) | Agent Case Studies — Klarna, coding agents, post-mortems | Klarna AI post + coding-agent case study (~20 min) | [module-1/index.md](module-1/index.md) |
+| 32 (Tue) | Capsule Foundations & Architecture | Capsule Power User Lab Guide Modules 1+2 (~35 min) | [module-2/index.md](module-2/index.md) |
+| 33 (Wed) | Installation | Lab Guide Module 2 (~20 min) | [module-3/index.md](module-3/index.md) |
+| 34 (Thu) | Environments & Fleet Discovery | Lab Guide Module 3 (~15 min) | [module-4/index.md](module-4/index.md) |
+| 35 (Fri) | **Consolidation** | — | [module-5/index.md](module-5/index.md) |
 
 ## Friday — the bar
 

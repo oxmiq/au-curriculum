@@ -1,6 +1,6 @@
 # Day 34 · Installation
 
-> **Concept of the day:** **install once, use every day.** A clean Capsule install takes under 15 minutes; a botched one loses you a day. Today you install the CLI, complete the auth flow, run `capsule status`, and memorise the four most-asked support questions.<br> **Pre-reading:** Capsule Power User Lab Guide **Module 2** (~20 min).
+> **Concept of the day:** **install once, use every day.** A clean Capsule install takes under 15 minutes; a botched one loses you a day. Today you install the CLI, complete the auth flow, run `capsule status`, and memorise the four most-asked support questions.<br> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 36 section</a> (~40 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 2 (~15 min).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -56,6 +56,101 @@ Answer from memory:
 3. What is `rclone` and why does Capsule install it?
 4. What is the exact command sequence to verify a successful install?
 5. Name one of the four common install gotchas.
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-07-m3-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Module 2">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What GitHub token scopes are required for Capsule install?",
+    "options": [
+      "Only repo scope",
+      "repo, read:org, workflow, admin:repo_hook",
+      "gist and user scopes",
+      "No scopes needed"
+    ],
+    "answer": 1,
+    "explain": "The required GitHub token scopes are: (1) repo, (2) read:org, (3) workflow, (4) admin:repo_hook. These are needed for Capsule to access repositories, read organization membership, manage workflows, and set up webhook integrations."
+  },
+  {
+    "stem": "What directory does Capsule store config and tokens in after install?",
+    "options": [
+      "/usr/local/bin",
+      "~/.capsule (the Capsule config directory in home)",
+      "/etc/capsule",
+      "The current working directory"
+    ],
+    "answer": 1,
+    "explain": "Capsule stores config and tokens in ~/.capsule (the Capsule config directory in your home directory). This includes authentication tokens, configuration files, and other runtime data."
+  },
+  {
+    "stem": "What is rclone and why does Capsule install it?",
+    "options": [
+      "A text editor",
+      "A file transfer tool used for model caching and data movement",
+      "A Python package manager",
+      "A type of GPU driver"
+    ],
+    "answer": 1,
+    "explain": "rclone is a file transfer tool used for model caching and data movement. Capsule uses it to efficiently move models and data between local storage, cloud storage, and the GPU fleet."
+  },
+  {
+    "stem": "What is the exact command sequence to verify a successful Capsule install?",
+    "options": [
+      "capsule init",
+      "capsule --version → capsule auth login → capsule status",
+      "capsule check",
+      "capsule verify"
+    ],
+    "answer": 1,
+    "explain": "The verification sequence is: (1) capsule --version to check the CLI is installed, (2) capsule auth login to authenticate, (3) capsule status to verify the connection to the control plane."
+  },
+  {
+    "stem": "Which of the following is a common install gotcha for Capsule?",
+    "options": [
+      "Installing in /usr/local/bin requires sudo",
+      "Wrong GitHub token scopes, rclone not in PATH, stale cached credentials, or proxy issues",
+      "Installing on Linux instead of macOS",
+      "Using the wrong GPU model"
+    ],
+    "answer": 1,
+    "explain": "Common install gotchas include: (1) Wrong GitHub token scopes, (2) rclone not in PATH after installation, (3) Stale cached credentials causing auth failures, (4) Proxy/network issues. These are the most common issues that cause install failures."
+  },
+  {
+    "stem": "What is the recommended way to install Capsule on macOS?",
+    "options": [
+      "Download from website",
+      "brew tap and brew install",
+      "pip install",
+      "Download tarball"
+    ],
+    "answer": 1,
+    "explain": "The recommended way to install Capsule on macOS is via Homebrew: 'brew tap' to add the repository and 'brew install' to install the CLI. This handles dependencies and PATH setup automatically."
+  },
+  {
+    "stem": "What does 'capsule auth login' do?",
+    "options": [
+      "Installs the CLI",
+      "Opens a browser flow to authenticate with GitHub and store credentials",
+      "Checks GPU availability",
+      "Deploys a model"
+    ],
+    "answer": 1,
+    "explain": "'capsule auth login' opens a browser flow to authenticate with GitHub and store credentials. This is required before you can interact with the Capsule control plane."
+  },
+  {
+    "stem": "What happens if you skip the 'capsule status' verification after install?",
+    "options": [
+      "Nothing",
+      "You might have installation issues that cause failures later when trying to use Capsule",
+      "The CLI will stop working",
+      "You lose your license"
+    ],
+    "answer": 1,
+    "explain": "Skipping 'capsule status' verification means you might have undetected installation issues. These will cause confusing failures later when you try to deploy models or interact with the fleet. Always verify with 'capsule status' after install."
+  }
+]
+</script>
+</div>
 
 ---
 
@@ -302,14 +397,69 @@ Reproduce three of the four gotchas deliberately and fix them. You will remember
 
 ### Self-check
 
-Before closing, tick each item:
+Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
-- [ ] I have Capsule installed and `capsule status` shows a valid token.
-- [ ] I have `capsule list` returning my fleet.
-- [ ] I can recite the four gotchas and their fixes without notes.
-- [ ] I understand the difference between the access token and refresh token TTLs.
-- [ ] I know the `--device-code` flag for headless auth.
-- [ ] I know `capsule cleanup` as the first step when something is stuck.
+<div class="ox-self-check" data-widget="self-check" data-id="week-07-m3-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 34 · Capsule Install &amp; Auth">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What is the `--device-code` flag used for in Capsule authentication?",
+    "options": [
+      "It specifies which GPU device to authenticate against",
+      "It enables headless authentication (for machines without a browser) by displaying a code you enter on a separate device",
+      "It generates a device-specific license key for Capsule",
+      "It disables multi-factor authentication for faster login"
+    ],
+    "answer": 1,
+    "explain": "`--device-code` enables OAuth device-code flow: the CLI displays a short code and URL. You open that URL on any browser (your laptop while the CLI runs on a headless server), enter the code, and authenticate. The CLI then receives the token. Essential for remote or server-only environments."
+  },
+  {
+    "stem": "What does `capsule cleanup` do and when should you run it?",
+    "options": [
+      "It deletes all files from the remote node — run it when you're done with a session",
+      "It clears stale local state (cached connections, hung processes, corrupt config entries) — run it as the first step when Capsule commands hang or behave unexpectedly",
+      "It logs you out of Capsule and removes your auth token",
+      "It releases all your active leases and disconnects all sessions"
+    ],
+    "answer": 1,
+    "explain": "`capsule cleanup` clears local state that may be stale or corrupted — hung connection processes, cached socket files, partial config entries. It does NOT release your leases or delete remote files. It's the go-to first diagnostic step when Capsule seems stuck: run cleanup, then retry the command."
+  },
+  {
+    "stem": "What is the typical TTL difference between an access token and a refresh token in Capsule?",
+    "options": [
+      "Access token: 1 year; Refresh token: 30 days",
+      "Access token: short-lived (hours); Refresh token: long-lived (days to weeks)",
+      "Access token: 5 minutes; Refresh token: 1 hour",
+      "Both tokens have the same TTL of 24 hours"
+    ],
+    "answer": 1,
+    "explain": "Access tokens are short-lived (typically hours) for security — if stolen, they expire quickly. Refresh tokens are long-lived (days to weeks) and are used to obtain new access tokens without re-authenticating. This pattern minimizes the window for access token misuse while maintaining session continuity."
+  },
+  {
+    "stem": "What is the first diagnostic step when a Capsule command appears stuck or hangs?",
+    "options": [
+      "Restart the GPU machine",
+      "Run `capsule cleanup` to clear stale local state, then retry",
+      "Re-install the Capsule CLI",
+      "Contact support immediately"
+    ],
+    "answer": 1,
+    "explain": "The lesson states: 'capsule cleanup as the first step when something is stuck.' Hung connections, stale socket files, or corrupt local config entries cause most hangs. `capsule cleanup` resolves these without affecting your leases or remote data. After cleanup, retry the failing command."
+  },
+  {
+    "stem": "Which of the following is a common install gotcha for Capsule on Linux?",
+    "options": [
+      "Capsule requires Python 3.11 or higher",
+      "PATH not updated after install — `capsule` command not found until the shell is restarted or PATH is sourced",
+      "Capsule requires a GPU in the local machine for installation",
+      "Capsule must be installed as root"
+    ],
+    "answer": 1,
+    "explain": "A common install gotcha: the install script adds Capsule to a PATH directory but the current shell session doesn't see it yet. Fix: run `source ~/.bashrc` (or `~/.zshrc`) or open a new terminal. This is one of the four gotchas the lesson enumerates — check the gotchas table for the full list."
+  }
+]
+</script>
+</div>
 
 ### Connect Forward
 
@@ -317,7 +467,7 @@ You've installed the tool. The next two days build the daily workflow: environme
 
 ### Pre-read for tomorrow (Day 35 · Environments & Fleet Discovery)
 
-- **Resource:** Capsule Power User Lab Guide **Module 3** (~15 min).
+- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 37 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 3.
 - **Reflection questions:**
   1. How do you list available machines? What command shows machine details?
   2. What fields distinguish an `available` machine from a `leased` one?

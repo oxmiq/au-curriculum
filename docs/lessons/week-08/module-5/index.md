@@ -177,7 +177,7 @@ Module 8 of the Lab Guide (Benchmarking) is the most important module for this t
 
 ## Pre-read for Monday (Week 9 · Day 42 · Your First Benchmark)
 
-- **Resource:** Capsule Power User Lab Guide **Module 8** (Benchmarking) (~30 min). This is the most important module for the reliability track — budget the full 30 minutes.
+- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 41 section</a> (~30 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 8 (Benchmarking) — budget the full 30 minutes.
 - **Reflection questions:**
   1. What is **InferenceMAX** and what does it measure?
   2. What are the four backend options for `capsule benchmark`?

@@ -10,7 +10,7 @@ drift: |
 # Day 38 · Files & Storage (with streaming primer)
 
 > **Concept of the day:** **`capsule cp`** for small files. **Shared storage pool** for big artifacts (models, datasets, results). **Streaming output** (`capsule run --stream`) for live logs without scraping after-the-fact. Per-user home is fast but ephemeral relative to the cluster lifecycle.<br>
-> **Pre-reading:** Lab Guide **Modules 6 + 7** (~30 min).
+> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 39 section</a> (~40 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Modules 6 + 7.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -62,6 +62,101 @@ Answer before reading on:
 3. What's the difference between per-user home dir and the shared storage pool?
 4. Why stream benchmark output instead of `tail -f`-ing a log after disconnect?
 5. What command runs a one-off remote command and streams its stdout to your laptop?
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-08-m2-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Modules 6-7">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "Which tool should you use to copy a 50 MB Python script to a node?",
+    "options": [
+      "Shared storage pool",
+      "capsule cp",
+      "rsync",
+      "FTP"
+    ],
+    "answer": 1,
+    "explain": "For small files like scripts and configs, use 'capsule cp'. It's quick and efficient for files in the MB range. Shared storage is overkill for small files."
+  },
+  {
+    "stem": "Which tool should you use to copy a 50 GB model checkpoint to a node?",
+    "options": [
+      "capsule cp",
+      "Shared storage pool",
+      "Email",
+      "USB drive"
+    ],
+    "answer": 1,
+    "explain": "For large files like model checkpoints (50 GB), use the shared storage pool. 'capsule cp' would be too slow and might timeout. The shared storage pool is designed for large artifacts."
+  },
+  {
+    "stem": "What is the difference between per-user home dir and the shared storage pool?",
+    "options": [
+      "They are the same",
+      "Per-user home is fast but ephemeral relative to cluster lifecycle; shared storage persists across the cluster lifetime",
+      "Shared storage is faster",
+      "Home dir is persistent"
+    ],
+    "answer": 1,
+    "explain": "Per-user home (~) is fast but ephemeral — it may be cleaned up when nodes are recycled. Shared storage pool persists across the cluster lifecycle. For important artifacts (models, datasets, results), always use shared storage."
+  },
+  {
+    "stem": "Why should you stream benchmark output instead of using tail -f after disconnect?",
+    "options": [
+      "Streaming is required",
+      "Streaming gives you live output in real-time; tail -f after disconnect might miss data if the process finished or logs rotated",
+      "tail -f is not supported",
+      "They are equivalent"
+    ],
+    "answer": 1,
+    "explain": "Streaming gives you live output in real-time. If you disconnect and then try 'tail -f', you might miss data — the process might have finished, logs might have rotated, or you might get partial data. Streaming is more reliable."
+  },
+  {
+    "stem": "What command runs a one-off remote command and streams its stdout to your laptop?",
+    "options": [
+      "capsule connect --command",
+      "capsule run --stream",
+      "ssh with streaming",
+      "remote execute"
+    ],
+    "answer": 1,
+    "explain": "'capsule run --stream' runs a one-off remote command and streams its stdout to your laptop in real-time. This is perfect for watching benchmark output live without needing to connect and tail logs manually."
+  },
+  {
+    "stem": "What is the shared storage pool used for in Capsule?",
+    "options": [
+      "Temporary files",
+      "Big artifacts like models, datasets, and results that need to persist",
+      "Only for logs",
+      "Only for small files"
+    ],
+    "answer": 1,
+    "explain": "The shared storage pool is for big artifacts like models, datasets, and results that need to persist across the cluster lifecycle. It's designed for large files that would be too slow to copy with 'capsule cp'."
+  },
+  {
+    "stem": "What does 'capsule storage put' do?",
+    "options": [
+      "Deletes storage",
+      "Uploads a file to the shared storage pool",
+      "Lists storage",
+      "Creates a new storage pool"
+    ],
+    "answer": 1,
+    "explain": "'capsule storage put' uploads a file to the shared storage pool. This is the command to use for large files like model checkpoints that you want to persist and share across nodes."
+  },
+  {
+    "stem": "What is the daily rhythm for storage in Capsule?",
+    "options": [
+      "Always use capsule cp",
+      "Use capsule cp for small files, shared storage for large files, streaming for live output",
+      "Only use shared storage",
+      "Only use streaming"
+    ],
+    "answer": 1,
+    "explain": "The daily rhythm is: (1) capsule cp for small files (scripts, configs), (2) shared storage pool for large artifacts (models, datasets), (3) streaming for live output (benchmarks, training). Pick the right tool and your workflow is efficient."
+  }
+]
+</script>
+</div>
 
 ---
 
@@ -222,11 +317,69 @@ For each mistake: what's wrong, and what's the correct approach?
 
 ### Self-check
 
-- [ ] I can `capsule cp` a file to/from a node in < 2 commands
-- [ ] I know when to use `capsule storage put` vs `capsule cp`
-- [ ] I can stream a command's output with `capsule run --stream`
-- [ ] I have a personal artifact layout plan for Week 9 benchmarks
-- [ ] I know the etiquette for shared storage (cleanup, no-junk-in-models)
+Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-08-m2-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 39 · Files &amp; Storage">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What is the difference between `capsule cp` and `capsule storage put`?",
+    "options": [
+      "They are identical — both copy files",
+      "`capsule cp` copies files directly between your local machine and a specific node (ephemeral, per-node); `capsule storage put` uploads to the shared persistent storage pool accessible across all nodes",
+      "`capsule cp` is for large files; `capsule storage put` is for small files",
+      "`capsule storage put` requires authentication; `capsule cp` does not"
+    ],
+    "answer": 1,
+    "explain": "`capsule cp` is like `scp` — direct file transfer to/from a specific node's local filesystem. That file is only on that node. `capsule storage put` pushes to the shared storage pool, accessible from any node in the environment — ideal for model weights and benchmark results you need across multiple nodes or runs."
+  },
+  {
+    "stem": "What is the recommended artifact layout for benchmark runs?",
+    "options": [
+      "Store everything in `/tmp` for fast access",
+      "Store models in `/shared/models/`, run outputs in `/shared/runs/<date-label>/`, config in home dir, and pull results to laptop",
+      "Store all artifacts in the home directory for simplicity",
+      "Use Git to version all run artifacts"
+    ],
+    "answer": 1,
+    "explain": "The lesson's artifact layout: models in `/shared/models/` (large, shared across nodes), each run in `/shared/runs/<YYYY-MM-DD-HHMM>-<label>/` (timestamped for reproducibility), config in `~/` (per-user), and report pulled to laptop for analysis. This pattern makes runs reproducible and artifacts shareable with teammates."
+  },
+  {
+    "stem": "What does `capsule run --stream` do?",
+    "options": [
+      "It starts a streaming video session on the node",
+      "It executes a command on the node and streams its stdout/stderr back to your local terminal in real time",
+      "It runs the Capsule streamer application",
+      "It enables GPU output streaming for benchmark results"
+    ],
+    "answer": 1,
+    "explain": "`capsule run <node> --stream -- <command>` runs a command on the remote node and streams its output to your local terminal in real time. This is the default pattern for benchmark runs — you see progress without maintaining an interactive session, and the output can be piped or logged locally."
+  },
+  {
+    "stem": "What is the etiquette rule for the shared `/shared/models/` directory?",
+    "options": [
+      "Store all your working files there for easy access from any node",
+      "Keep only official model checkpoints; clean up temporary files and don't leave junk — shared storage is a finite resource for the whole team",
+      "Never read from shared storage; always copy to local node storage first",
+      "Prefix all files with your username to avoid conflicts"
+    ],
+    "answer": 1,
+    "explain": "The lesson states shared storage etiquette: clean up, no junk in `/shared/models/`. Shared storage is a finite, shared resource. Leaving large temporary files wastes space for teammates. Store only stable artifacts: model checkpoints you might reuse, benchmark outputs worth keeping, configs others might reference."
+  },
+  {
+    "stem": "When should you use `capsule storage put` instead of `capsule cp` for model weights?",
+    "options": [
+      "Always — `capsule storage put` is faster for all file sizes",
+      "When the model will be used from multiple nodes or must survive node replacement — shared storage persists across node lifetimes, but a node's local filesystem is ephemeral",
+      "When the model is larger than 1 GB",
+      "When you need the model on your laptop, not on a node"
+    ],
+    "answer": 1,
+    "explain": "Node local storage is ephemeral — it disappears when the node is released or replaced. If you copy a model with `capsule cp` to a node's local disk and that node becomes unavailable, you'd need to re-copy. Shared storage (`capsule storage put`) persists independently of any specific node — ideal for 70B model checkpoints you'll use multiple times."
+  }
+]
+</script>
+</div>
 
 ### Connect forward
 
@@ -234,13 +387,11 @@ Tomorrow (Day 39): **streaming** — the full `capsule stream` workflow for GPU-
 
 ---
 
-## Pre-read for Friday (Day 40 · Reliability & Diagnostics)
+### Looking ahead to next week
 
-- **Resource:** Lab Guide **Module 10 known-quirks table** + Glossary (~10 min).
-- **Reflection questions:**
-  1. What's the diagnostic sequence when a node "doesn't connect"?
-  2. What's the diagnostic sequence when a GPU "isn't seen" by your container?
-  3. What information must a good bug report contain?
+**Thursday (Day 40)** is module-4 and is **not** a pre-read day — Friday (Day 41) is consolidation.
+
+**Monday (Day 42):** Next week's first lesson has a pre-read — see [Week 9 Day 1](../../../readings/capsule/).
 
 ---
 

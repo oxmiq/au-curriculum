@@ -154,7 +154,6 @@ def _module_card(week_number: int, mod: dict) -> str:
         f'    {{status:{module_id}}}\n'
         f'    <span class="ox-card__eyebrow">Day {mod["day"]}</span>\n'
         f'    <h3 class="ox-card__title">{mod["title"]}</h3>\n'
-        f'    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>\n'
         f'    <span class="ox-card__cta">Open lesson →</span>\n'
         f'  </a>'
     )

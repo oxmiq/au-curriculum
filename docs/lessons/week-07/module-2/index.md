@@ -10,7 +10,7 @@ drift: |
 # Day 33 · Capsule Foundations & Architecture
 
 > **Concept of the day:** **Capsule** = orchestration platform for on-prem GPU fleets. CLI on your laptop talks to a **control plane**; the control plane manages **environments** (clusters of nodes); each node runs an **agent** that exposes machines. Install once, configure once, operate every day.<br>
-> **Pre-reading:** Capsule Power User Lab Guide **Modules 1 + 2** (~35 min).
+> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 36 section</a> (~40 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Modules 1 + 2.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -58,6 +58,101 @@ Answer these before you continue — they preview where you'll be uncertain:
 5. After install, what's the first command you run to verify it works?
 
 If you hesitated on any of these, flag it — the next three Parts will close those gaps.
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-07-m2-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What are the three layers of the Capsule architecture?",
+    "options": [
+      "Input, Processing, Output",
+      "CLI, control plane, node agent",
+      "Model, Tools, API",
+      "Training, Testing, Deployment"
+    ],
+    "answer": 1,
+    "explain": "The three layers of Capsule architecture are: (1) CLI — the command-line interface on your laptop, (2) control plane — the orchestration service that manages environments, (3) node agent — the software running on each GPU node that exposes machines."
+  },
+  {
+    "stem": "What is the Capsule CLI?",
+    "options": [
+      "A web interface",
+      "The command-line interface you run on your laptop to interact with Capsule",
+      "A model training tool",
+      "A type of GPU"
+    ],
+    "answer": 1,
+    "explain": "The Capsule CLI is the command-line interface you run on your laptop. It's how you interact with Capsule — running commands, deploying models, managing environments. You type commands locally and they go to the control plane."
+  },
+  {
+    "stem": "What is the Capsule control plane?",
+    "options": [
+      "A physical server",
+      "The orchestration service that manages environments and coordinates node agents",
+      "A type of LLM",
+      "A monitoring dashboard"
+    ],
+    "answer": 1,
+    "explain": "The control plane is the orchestration service that manages environments (clusters of nodes) and coordinates node agents. It's the central service that your CLI talks to over HTTPS."
+  },
+  {
+    "stem": "What is a node agent in Capsule?",
+    "options": [
+      "A human operator",
+      "Software running on each GPU node that exposes machines to the fleet",
+      "A type of virtual machine",
+      "A network switch"
+    ],
+    "answer": 1,
+    "explain": "A node agent is software running on each GPU node that exposes machines to the fleet. It handles the actual model serving, execution, and reporting back to the control plane."
+  },
+  {
+    "stem": "Where does authentication live in Capsule?",
+    "options": [
+      "In the node agent",
+      "In the control plane (auth token-based)",
+      "In the CLI only",
+      "Authentication is not required"
+    ],
+    "answer": 1,
+    "explain": "Authentication lives in the control plane. The CLI authenticates with an auth token when talking to the control plane. This provides secure access to the Capsule fleet."
+  },
+  {
+    "stem": "What does an environment contain in Capsule?",
+    "options": [
+      "Only the CLI",
+      "A cluster of nodes (GPU machines) managed together",
+      "Just the control plane",
+      "Only the user credentials"
+    ],
+    "answer": 1,
+    "explain": "An environment is a cluster of nodes (GPU machines) managed together. It's a logical grouping of machines that you can deploy models to. You configure an environment once and deploy to all nodes in it."
+  },
+  {
+    "stem": "After installing Capsule, what's the first command you run to verify it works?",
+    "options": [
+      "capsule deploy",
+      "capsule status",
+      "capsule init",
+      "capsule login"
+    ],
+    "answer": 1,
+    "explain": "After installing Capsule, the first command you run is 'capsule status' to verify the installation works and check the connection to the control plane."
+  },
+  {
+    "stem": "What is the relationship between Capsule and on-prem GPU fleets?",
+    "options": [
+      "Capsule is a cloud service",
+      "Capsule is an orchestration platform for on-prem GPU fleets",
+      "Capsule is a model training framework",
+      "Capsule is a type of GPU"
+    ],
+    "answer": 1,
+    "explain": "Capsule is an orchestration platform for on-prem GPU fleets. It lets you manage your own GPU machines (on-premises or in your own cloud VPC) rather than using managed services. Install once, configure once, operate every day."
+  }
+]
+</script>
+</div>
 
 ## Part 2 — Core Concepts: The Three Layers · 25 min
 
@@ -203,13 +298,79 @@ Compare your drawing to the diagram in Part 2. Note every discrepancy.
 - [ ] I know what an "environment" is and which one I'm in.
 - [ ] I've resolved any install gotchas I encountered.
 
+### Self-check
+
+Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-07-m2-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 33 · Capsule Foundations &amp; Architecture">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What are the three layers of Capsule's architecture?",
+    "options": [
+      "Frontend, backend, database",
+      "CLI (client), control plane (management), and node agent (machine-side)",
+      "Authentication, orchestration, and execution",
+      "User interface, API gateway, and compute cluster"
+    ],
+    "answer": 1,
+    "explain": "Capsule has three layers: the CLI (your local tool for sending commands), the control plane (cloud service that authenticates, schedules, and manages fleet state), and the node agent (runs on each GPU machine, executes commands and reports status). Understanding this layering helps diagnose where failures occur."
+  },
+  {
+    "stem": "What does `~/.capsule/` store and why is the token kept there?",
+    "options": [
+      "Model weights — because they need to be accessible from the CLI",
+      "Auth token, config, and environment settings — the token is stored locally so you don't re-authenticate on every command",
+      "Log files — so you can review past commands",
+      "GPU firmware — to enable local hardware monitoring"
+    ],
+    "answer": 1,
+    "explain": "`~/.capsule/` stores: the auth token (so you stay authenticated between CLI calls), your active config (environment, customer), and CLI state. The token must be kept confidential — it grants access to lease machines and run commands on behalf of your account."
+  },
+  {
+    "stem": "What is an 'environment' in Capsule?",
+    "options": [
+      "A Python virtualenv for running model code",
+      "A logical namespace that groups a set of machines under a customer's access scope, defining which fleet you can see and operate",
+      "A GPU driver version that determines which models are compatible",
+      "A container image used as the base for all workloads"
+    ],
+    "answer": 1,
+    "explain": "An environment in Capsule is a logical grouping of machines under a specific customer or deployment context. Environments determine what fleet you can list and lease. `capsule env list` shows available environments; `capsule config customer set` switches which customer's environment you're operating in."
+  },
+  {
+    "stem": "What does `capsule whoami` tell you?",
+    "options": [
+      "The current operating system user running the Capsule process",
+      "Your authenticated identity (user email / identity provider) and the active environment/customer config",
+      "The version of the Capsule CLI installed",
+      "The GPU hardware specification of the machine you're connected to"
+    ],
+    "answer": 1,
+    "explain": "`capsule whoami` verifies that your auth token is valid and shows your identity as seen by the control plane. It's the first diagnostic command after install or when experiencing auth issues. If it fails, authentication is broken."
+  },
+  {
+    "stem": "What role does the control plane play in Capsule's architecture?",
+    "options": [
+      "It runs the model inference workloads",
+      "It authenticates requests, manages fleet state and leases, routes commands to node agents, and enforces access control",
+      "It stores model weights for download",
+      "It provides the CLI interface to the user"
+    ],
+    "answer": 1,
+    "explain": "The control plane is the central brain: it authenticates your CLI token, maintains the inventory of machines and their states (available, leased, unhealthy), routes your commands to the correct node agent, and enforces multi-tenant access control. It's the 'management layer' between your CLI and the physical machines."
+  }
+]
+</script>
+</div>
+
 ### Connect forward
 
 Tomorrow: **environments and fleet discovery** — how to find what's available, what to ask for, and how to read the inventory.
 
 ### Pre-read for tomorrow (Day 37 · Environments & Fleet Discovery)
 
-- **Resource:** Lab Guide **Module 3** (~15 min).
+- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 37 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 3.
 - **Reflection questions:**
   1. How do you list available machines in an environment?
   2. What fields tell you a machine is *available* vs *leased*?

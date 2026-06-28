@@ -1,6 +1,6 @@
 # Day 32 · Agent Case Studies
 
-> **Concept of the day:** the same 5-layer stack (intelligence → action → governance → orchestration → economics) shows up in every real deployed agent. Reading case studies teaches you where the *actual* hard problems live — not in the whiteboard diagram, but in production. **Pre-reading:** Klarna AI assistant blog post + one coding-agent case study (Claude Code or Cursor) (~20 min).
+> **Concept of the day:** the same 5-layer stack (intelligence → action → governance → orchestration → economics) shows up in every real deployed agent. Reading case studies teaches you where the *actual* hard problems live — not in the whiteboard diagram, but in production. **Pre-reading:** <a href="../../../readings/ai-agents/">AI Agents Pre-Lecture Reading</a> (~20 min). Case studies: <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" target="_blank" rel="noopener">Klarna AI assistant</a> or <a href="https://www.anthropic.com/news/claude-code" target="_blank" rel="noopener">Anthropic — Claude Code</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -35,6 +35,109 @@
 ---
 
 ## Part 1 — Pre-Reading Review · 15min
+
+### Before You Start
+
+You should have already read: <a href="../../../readings/ai-agents/">AI Agents Pre-Lecture Reading</a> (~20 min). Case studies: <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" target="_blank" rel="noopener">Klarna AI assistant</a> or <a href="https://www.anthropic.com/news/claude-code" target="_blank" rel="noopener">Anthropic — Claude Code</a>.
+
+### Readiness Check
+
+Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-07-m1-readiness" data-kind="readiness" data-draw="5" data-source="AI Agents Pre-Lecture Reading + Case Studies">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What are the five layers of the agent stack?",
+    "options": [
+      "Input, Processing, Output, Storage, Network",
+      "Intelligence, Action, Governance, Orchestration, Economics",
+      "Model, Tools, API, Database, UI",
+      "Training, Testing, Deployment, Monitoring, Scaling"
+    ],
+    "answer": 1,
+    "explain": "The five layers of the agent stack are: (1) Intelligence — the model doing reasoning, (2) Action — tools and protocols, (3) Governance — controls that bound behavior, (4) Orchestration — patterns that sequence intelligence + action, (5) Economics — cost model."
+  },
+  {
+    "stem": "What is the 'Intelligence' layer in the agent stack?",
+    "options": [
+      "The APIs used to connect to external services",
+      "The model (or MoE ensemble) doing the reasoning",
+      "The user interface",
+      "The monitoring system"
+    ],
+    "answer": 1,
+    "explain": "The Intelligence layer is the model (or mixture of experts ensemble) doing the reasoning. This is the core LLM that makes decisions about what to do next."
+  },
+  {
+    "stem": "What is the 'Action' layer in the agent stack?",
+    "options": [
+      "User interaction design",
+      "The tools and protocols the agent can execute",
+      "Model training",
+      "Cost optimization"
+    ],
+    "answer": 1,
+    "explain": "The Action layer consists of the tools and protocols the agent can execute — like search, API calls, code execution, file operations. This is how the agent acts on the world."
+  },
+  {
+    "stem": "What is the 'Governance' layer in the agent stack?",
+    "options": [
+      "The user interface",
+      "The controls that bound what the agent is allowed to do",
+      "The model architecture",
+      "The deployment infrastructure"
+    ],
+    "answer": 1,
+    "explain": "The Governance layer contains the controls that bound what the agent is allowed to do — security policies, access controls, audit trails, human-in-the-loop requirements."
+  },
+  {
+    "stem": "What is the 'Orchestration' layer in the agent stack?",
+    "options": [
+      "The database layer",
+      "The pattern that sequences intelligence + action (single / planner-worker / supervisor)",
+      "The API gateway",
+      "The logging system"
+    ],
+    "answer": 1,
+    "explain": "The Orchestration layer is the pattern that sequences intelligence + action. This includes single-agent loops, planner-worker patterns, supervisor-worker patterns, etc."
+  },
+  {
+    "stem": "What is the 'Economics' layer in the agent stack?",
+    "options": [
+      "The pricing of the LLM API",
+      "The cost model: per-task cost vs human baseline, pricing structure",
+      "The hardware costs",
+      "The training costs"
+    ],
+    "answer": 1,
+    "explain": "The Economics layer is the cost model: per-task cost vs human baseline, pricing structure. It's about understanding the business case for the agent — is it cheaper than human labor? What's the ROI?"
+  },
+  {
+    "stem": "What is a key insight from the Klarna AI case study?",
+    "options": [
+      "AI agents cannot handle customer service",
+      "AI agents can handle significant volumes (2/3 of chats) but require human oversight for complex issues",
+      "AI agents are always cheaper than human agents",
+      "AI agents don't need governance"
+    ],
+    "answer": 1,
+    "explain": "The Klarna AI case study shows that AI agents can handle significant volumes (2/3 of customer service chats) but require human oversight for complex issues. This illustrates the economics layer (cost savings) and the governance layer (when to escalate to humans)."
+  },
+  {
+    "stem": "Why is reading case studies important for learning agent architecture?",
+    "options": [
+      "It is not important",
+      "Case studies teach you where the actual hard problems live — in production, not in whiteboard diagrams",
+      "Case studies are just examples",
+      "They are only for marketing"
+    ],
+    "answer": 1,
+    "explain": "Reading case studies teaches you where the actual hard problems live — not in whiteboard diagrams, but in production. Real deployments reveal challenges around reliability, governance, cost management, and user experience that aren't apparent in theoretical discussions."
+  }
+]
+</script>
+</div>
 
 ### Reading —
 
@@ -249,13 +352,69 @@ Fill in:
 
 ### Self-check
 
-Before closing, tick each item:
+Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
-- [ ] I can describe the Klarna agent architecture in one paragraph including the governance controls.
-- [ ] I can name the three main failure modes of coding agents and the layer each belongs to.
-- [ ] I can explain why research agents hit Action layer failures more than Intelligence layer failures.
-- [ ] I can fill in the 5-layer stack table for any of the three case studies from memory.
-- [ ] I can identify which layer a failure belongs to given only a symptom description.
+<div class="ox-self-check" data-widget="self-check" data-id="week-07-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 32 · Agent Case Studies">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "Which layer of the 5-layer agent stack does the Klarna agent case study most prominently demonstrate?",
+    "options": [
+      "Intelligence layer — because Klarna used a custom-trained model",
+      "Action layer — because Klarna's agent directly integrated with payment and customer service APIs",
+      "Orchestration layer — because Klarna ran multiple parallel agents",
+      "Observation layer — because Klarna focused on monitoring agent outcomes"
+    ],
+    "answer": 1,
+    "explain": "Klarna's agent is primarily an Action layer story: the agent calls Klarna's internal APIs (payment status, refund initiation, dispute logging) to resolve customer service issues. The governance controls (approval gates for refunds above threshold, audit logs) are the defensive layer around those actions."
+  },
+  {
+    "stem": "What are the three main failure modes of coding agents?",
+    "options": [
+      "Syntax errors, runtime errors, and logical errors",
+      "Intelligence layer failures (wrong code), Action layer failures (bad tool calls), and Orchestration layer failures (wrong subtask decomposition)",
+      "Model hallucination, context overflow, and token limit errors",
+      "Incorrect imports, missing dependencies, and type mismatches"
+    ],
+    "answer": 1,
+    "explain": "The lesson identifies three coding agent failure modes mapped to stack layers: Intelligence layer (model generates incorrect code), Action layer (tool calls fail — shell execution errors, file system issues, permission problems), and Orchestration layer (task decomposition is wrong — agent works on the wrong subproblem)."
+  },
+  {
+    "stem": "Why do research agents hit Action layer failures more than Intelligence layer failures?",
+    "options": [
+      "Research agents use smaller models that are less capable",
+      "Research tasks require many external tool calls (search, fetch, read) — each call can fail due to network errors, rate limits, or empty results; the model's intelligence is rarely the bottleneck",
+      "Research agents are given worse instructions than coding agents",
+      "Research agents use more steps, which statistically increases the chance of Intelligence layer errors"
+    ],
+    "answer": 1,
+    "explain": "Research agents make many external calls: web search, URL fetch, document read. Each call can fail (404, timeout, rate limit, empty result). The model can reason perfectly but be stuck because its tools fail. This contrasts with coding agents where model capability (generating correct code) is often the limiting factor."
+  },
+  {
+    "stem": "How does the 5-layer agent stack help you analyze a failure?",
+    "options": [
+      "It tells you exactly which line of code caused the failure",
+      "It provides a structured framework to diagnose which layer failed — Intelligence, Observation, Action, Orchestration, or Safety — helping pinpoint the fix",
+      "It automatically fixes the failure by routing to a backup model",
+      "It prevents failures by pre-validating all tool schemas"
+    ],
+    "answer": 1,
+    "explain": "The 5-layer stack is a diagnostic vocabulary: if the agent's reasoning is wrong → Intelligence layer; if tool calls fail → Action layer; if task decomposition is wrong → Orchestration layer; if dangerous actions aren't caught → Safety layer. Identifying the layer narrows the solution space."
+  },
+  {
+    "stem": "What is the connection between Capsule's architecture and the agent 5-layer stack?",
+    "options": [
+      "Capsule only implements the Intelligence layer of the stack",
+      "When you use Capsule's CLI and connect to machines, you are working with the Action layer; the control plane implements the Orchestration layer",
+      "Capsule replaces the entire 5-layer stack with a simpler 2-layer model",
+      "There is no connection — the stack applies only to customer-facing agents"
+    ],
+    "answer": 1,
+    "explain": "The lesson states: 'When you install Capsule tomorrow and connect to machines next week, you are working with the Action layer of a real deployed agent infrastructure. When you read the architecture docs, you are learning the Orchestration layer.' Capsule is a real production agent system implementing these concepts."
+  }
+]
+</script>
+</div>
 
 ### Connect Forward
 
@@ -263,7 +422,7 @@ These case studies are the vocabulary for the rest of the course. When you insta
 
 ### Pre-read for tomorrow (Day 33 · Capsule Foundations & Architecture)
 
-- **Resource:** Capsule Power User Lab Guide **Modules 1 + 2** (~35 min).
+- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 36 section</a> (~40 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Modules 1 + 2.
 - **Reflection questions:**
   1. What are the three layers of Capsule's architecture? What does each layer do?
   2. What is the role of the control plane in Capsule's architecture?

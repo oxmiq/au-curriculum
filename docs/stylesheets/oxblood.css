@@ -37,6 +37,22 @@
   --ox-gold:#C4992B;
   --ox-green:#2E7D32;
 
+  /* semantic tokens — used by editorial.css widgets */
+  --ox-bg:          #F5F0E4;                              /* page background    */
+  --ox-surface:     #FFFFFF;                              /* card / input face  */
+  --ox-surface-2:   #EDE8DC;                              /* option row fill    */
+  --ox-line:        #D0C8BC;                              /* subtle border      */
+  --ox-line-strong: #A89E92;                              /* prominent border   */
+  --ox-accent:      #8B0000;                              /* oxblood primary    */
+  --ox-accent-soft: rgba(139,0,0,.10);                    /* tinted background  */
+  --ox-mint:        #2E7D32;                              /* correct answer     */
+  --ox-mint-soft:   rgba(46,125,50,.10);                  /* correct bg tint    */
+  --ox-amber:       #C4992B;                              /* mixed-score band   */
+  --ox-amber-soft:  rgba(196,153,43,.12);                 /* mixed bg tint      */
+  --ox-font-body:   "Oxygen", -apple-system, BlinkMacSystemFont, sans-serif;
+  --ox-font-display:"Oxygen Mono", "Oxygen", monospace;
+  --ox-font-mono:   "Oxygen Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
   /* primary = oxblood (header / nav accents) */
   --md-primary-fg-color:#8B0000;
   --md-primary-fg-color--light:#6B0000;

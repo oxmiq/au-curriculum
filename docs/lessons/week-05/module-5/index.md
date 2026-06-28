@@ -224,7 +224,7 @@ Ask **oxtutor** to re-explain — Goodhart's Law and the percentile (P50/P95/P99
 
 ## Pre-read for Monday (Week 6 · Day 26 · Prompt Engineering)
 
-- **Resource:** Prompt Engineering Student Guide, Modules 0–1 (~30 min)
+- **Resource:** <a href="../../../readings/prompt-engineering/">Prompt Engineering Pre-Lecture Reading</a> — work through the Day 26 and Day 27 primers before Monday (~25 min). Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic Prompt Engineering Interactive Tutorial</a>.
 - **Reflection questions:**
   1. What's the difference between "prompting" and "prompt engineering"?
   2. Why does chain-of-thought work? What's happening inside the model?

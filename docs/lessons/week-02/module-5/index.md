@@ -157,7 +157,7 @@ Week 3 begins on Monday. You'll learn about:
 
 ### Pre-read for Monday (Week 3, Day 11)
 
-**Resource:** Pre-Lecture Reading — Study Guide §A.4 attention subsection (~20 min).
+**Resource:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering Best Practices</a> (~20 min, read the prefill/decode section). Alternative: <a href="https://www.baseten.co/blog/llm-transformer-inference-guide/" target="_blank" rel="noopener">Baseten — Prefill vs Decode</a>.
 
 **Reflection questions:**
 1. What is the KV cache?

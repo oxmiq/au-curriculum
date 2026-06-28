@@ -1,0 +1,757 @@
+/* ============================================================
+   editorial.css — long-form primitives
+   ------------------------------------------------------------
+   Patterns lifted from the reference essays
+   (main.naveenreddy61.dev/edu/*) and adapted to MkDocs Material.
+   Pure CSS, no markup beyond `class="..."` attributes that
+   work inside Markdown via attr_list + md_in_html.
+
+   Tokens come from oxblood.css. This file never hardcodes color.
+   ============================================================ */
+
+
+/* ============================================================
+   1. NUMBERED SECTION EYEBROWS
+   ------------------------------------------------------------
+   Used either:
+     - per-page automatically: any <article> with the
+       `.ox-numbered` class auto-numbers its h2s, 01 — TITLE.
+     - per-section by hand: write `<p class="ox-section-num">02 — PLAYGROUND</p>`
+       right above an h2 to mark only specific sections.
+   The reference uses sequential numbering; we default to *not*
+   auto-numbering, since most lessons aren't strictly sequenced.
+   ============================================================ */
+
+.ox-section-num{
+  font-family: var(--ox-font-mono);
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ox-muted);
+  margin: 2.6em 0 -.3em;        /* sits tight against the h2 below */
+  padding: 0;
+}
+.ox-section-num + h2,
+.md-typeset .ox-section-num + h2{
+  margin-top: .6em;
+  padding-top: 0;
+  border-top: 0;                 /* the eyebrow already separates */
+}
+
+/* opt-in auto-numbering — add `class="ox-numbered"` to a wrapper */
+.md-typeset.ox-numbered,
+.ox-numbered .md-typeset{
+  counter-reset: ox-section;
+}
+.md-typeset.ox-numbered h2::before,
+.ox-numbered .md-typeset h2::before{
+  counter-increment: ox-section;
+  content: counter(ox-section, decimal-leading-zero) "  —  ";
+  font-family: var(--ox-font-mono);
+  font-size: .65em;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ox-muted);
+  vertical-align: .12em;
+}
+
+
+/* ============================================================
+   2. PULL-QUOTES
+   ------------------------------------------------------------
+   `<p class="ox-pull">Confidently wrong is the expensive kind of wrong.</p>`
+   ============================================================ */
+
+.md-typeset .ox-pull,
+.ox-pull{
+  margin: 2em 0;
+  padding: .9em 0;
+  border-top: 1px solid var(--ox-line-strong);
+  border-bottom: 1px solid var(--ox-line-strong);
+  font-family: var(--ox-font-display);
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -.005em;
+  color: var(--ox-ink);
+  text-align: left;
+}
+
+
+/* ============================================================
+   3. TILE ROWS — "three things to keep in your head"
+   ------------------------------------------------------------
+   <div class="ox-tile-row">
+     <div class="ox-tile">
+       <span class="ox-tile__num">01</span>
+       <span class="ox-tile__eyebrow">Asymmetric</span>
+       <h4 class="ox-tile__title">Order matters</h4>
+       <p>D(P‖Q) ≠ D(Q‖P)…</p>
+     </div>
+     ...
+   </div>
+   ============================================================ */
+
+.ox-tile-row{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: .9rem;
+  margin: 1.6em 0;
+}
+
+.ox-tile{
+  position: relative;
+  padding: .85rem .9rem .9rem;
+  background: var(--ox-surface);
+  border: 1px solid var(--ox-line);
+  border-radius: 12px;
+}
+
+.ox-tile__num{
+  position: absolute;
+  top: .55rem;
+  right: .75rem;
+  font-family: var(--ox-font-mono);
+  font-size: .55rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ox-muted);
+}
+
+.ox-tile__eyebrow{
+  display: block;
+  font-family: var(--ox-font-mono);
+  font-size: .58rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ox-accent);
+  margin-bottom: .3rem;
+}
+
+.md-typeset .ox-tile h4,
+.ox-tile__title{
+  margin: 0 0 .45rem;
+  font-family: var(--ox-font-display);
+  font-size: .82rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ox-ink);
+}
+
+.md-typeset .ox-tile p,
+.ox-tile p{
+  margin: 0;
+  font-size: .68rem;
+  line-height: 1.5;
+  color: var(--ox-body);
+}
+
+
+/* ============================================================
+   4. COMPARISON TABLES
+   ------------------------------------------------------------
+   Wrap a markdown table in <div class="ox-compare"> ... </div>
+   for the hairline editorial treatment. Pairs well with `.ox-compare__caption`.
+   ============================================================ */
+
+.ox-compare{
+  margin: 1.6em 0;
+  overflow-x: auto;
+}
+.ox-compare table{
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1px solid var(--ox-ink);
+  border-bottom: 1px solid var(--ox-ink);
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-size: .62rem;
+}
+.ox-compare th{
+  background: transparent;
+  color: var(--ox-muted);
+  font-family: var(--ox-font-mono);
+  font-size: .55rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: .65rem .85rem;
+  border-bottom: 1px solid var(--ox-line-strong);
+}
+.ox-compare td{
+  border-top: 1px solid var(--ox-line);
+  padding: .7rem .85rem;
+  color: var(--ox-body);
+  vertical-align: top;
+}
+.ox-compare tr:hover td{ background: transparent; }   /* kill default hover */
+
+.ox-compare__caption{
+  display: block;
+  margin-top: .55rem;
+  font-family: var(--ox-font-mono);
+  font-size: .58rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ox-muted);
+}
+
+
+/* ============================================================
+   5. PLAYGROUND FRAME
+   ------------------------------------------------------------
+   The bordered card a widget mounts into.
+     <div class="ox-playground" data-widget="...">
+       <span class="ox-playground__eyebrow">02 — Playground</span>
+       <h3 class="ox-playground__title">Drag the batch size</h3>
+       <div class="ox-playground__body"> ...widget mounts here... </div>
+       <p class="ox-playground__caption">Mono caption underneath.</p>
+     </div>
+   ============================================================ */
+
+.ox-playground{
+  margin: 1.8em 0;
+  padding: .95rem 1rem 1.05rem;
+  background: var(--ox-surface);
+  border: 1px solid var(--ox-line-strong);
+  border-radius: 12px;
+}
+
+.ox-playground__eyebrow{
+  display: block;
+  font-family: var(--ox-font-mono);
+  font-size: .58rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ox-accent);
+  margin-bottom: .35rem;
+}
+
+.md-typeset .ox-playground h3,
+.ox-playground__title{
+  margin: 0 0 .9rem;
+  font-family: var(--ox-font-display);
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--ox-ink);
+  letter-spacing: -.012em;
+}
+
+.ox-playground__body{
+  position: relative;
+  min-height: 8rem;
+}
+
+.ox-playground__caption{
+  margin: .8rem 0 0;
+  font-family: var(--ox-font-mono);
+  font-size: .6rem;
+  letter-spacing: .04em;
+  color: var(--ox-muted);
+}
+
+/* loading state — shown until JS hydrates */
+.ox-playground[data-widget]:not([data-hydrated]) .ox-playground__body::before{
+  content: "Loading widget…";
+  display: block;
+  padding: 2rem 0;
+  text-align: center;
+  font-family: var(--ox-font-mono);
+  font-size: .62rem;
+  color: var(--ox-muted);
+}
+
+
+/* ============================================================
+   6. SUBJECT EYEBROW (page lede)
+   ------------------------------------------------------------
+   Tiny mono label that sits above the h1 on chapter-style pages:
+     <span class="ox-eyebrow">Week 03 · Attention &amp; KV Cache</span>
+     # Day 12 · KV Cache
+   ============================================================ */
+
+.ox-eyebrow{
+  display: block;
+  font-family: var(--ox-font-mono);
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ox-muted);
+  margin: 0 0 .5rem;
+}
+
+
+/* ============================================================
+   7. RULES & DIVIDERS
+   ------------------------------------------------------------
+   <hr> renders as a small centered tri-dot ornament — a quiet
+   editorial demarcator that replaces the heavy hairline rule.
+   <hr class="ox-rule"> keeps the older centered-diamond rule
+   for the few pages that opt into it explicitly.
+   ============================================================ */
+
+.md-typeset hr{
+  border: 0;
+  margin: 2.2em 0 1.6em;
+  height: auto;
+  text-align: center;
+  color: var(--ox-accent);
+  /* Tighten letter-spacing on the dots so the trio reads as
+     one ornament, not three stray characters. */
+  font-family: var(--ox-font-mono);
+  font-size: .72rem;
+  letter-spacing: .55em;
+  /* The dots themselves. The trailing letter-spacing puts a
+     ghost gap after the last dot — pull it back so the
+     ornament stays optically centered. */
+  line-height: 1;
+}
+.md-typeset hr::before{
+  content: "\B7\2003\B7\2003\B7"; /* ·   ·   · */
+  display: inline-block;
+  padding-left: .55em;            /* cancel trailing letter-spacing */
+}
+
+.md-typeset hr.ox-rule{
+  position: relative;
+  border-top: 1px solid var(--ox-line-strong);
+  margin: 3em 0;
+  font-size: 0;                   /* hide the ::before from above */
+}
+.md-typeset hr.ox-rule::before{ content: none; }
+.md-typeset hr.ox-rule::after{
+  content: "◆";
+  position: absolute;
+  top: -.6em;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ox-bg);
+  padding: 0 .6em;
+  font-size: .7rem;
+  color: var(--ox-accent);
+}
+
+
+/* ============================================================
+   8. SELF-CHECK WIDGET  (MCQ — formative, never gates)
+   ------------------------------------------------------------
+   Mounts via docs/assets/widgets/self-check.js into:
+     <div class="ox-self-check" data-widget="self-check"
+          data-id="..." data-kind="readiness|wrap-up" data-draw="5">
+       <script type="application/json" class="ox-self-check__pool">
+         [ {stem, options[], answer, explain}, ... ]
+       </script>
+     </div>
+   See the JS header for the full contract.
+   ============================================================ */
+
+.ox-self-check{
+  margin: 1.6em 0;
+}
+
+/* Hide the inline JSON pool no matter what (some browsers / themes
+   could otherwise render <script> as text if its type is unknown). */
+.ox-self-check > script.ox-self-check__pool{ display: none; }
+
+/* pre-hydration skeleton */
+.ox-self-check:not([data-hydrated]){
+  border: 1px dashed var(--ox-line);
+  border-radius: 12px;
+  padding: .85rem .9rem;
+  min-height: 2.6rem;
+}
+.ox-self-check:not([data-hydrated])::before{
+  content: "Self-check loading\2026";
+  display: block;
+  font-family: var(--ox-font-mono);
+  font-size: .58rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ox-muted);
+}
+
+.ox-self-check__empty{
+  font-family: var(--ox-font-mono);
+  font-size: .62rem;
+  color: var(--ox-muted);
+  padding: .85rem .9rem;
+  border: 1px dashed var(--ox-line);
+  border-radius: 12px;
+}
+
+.ox-self-check__shell{
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+
+.ox-self-check__card{
+  position: relative;
+  padding: .85rem .9rem .9rem;
+  background: var(--ox-surface);
+  border: 1px solid var(--ox-line);
+  border-radius: 12px;
+}
+.ox-self-check__num{
+  position: absolute;
+  top: .55rem;
+  right: .75rem;
+  font-family: var(--ox-font-mono);
+  font-size: .55rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ox-muted);
+}
+.ox-self-check__q{
+  font-family: var(--ox-font-body);
+  font-size: .72rem;
+  line-height: 1.5;
+  color: var(--ox-ink);
+  margin: 0 0 .55rem;
+  padding-right: 2.4rem;          /* clear the Q-num badge */
+}
+.ox-self-check__q code{
+  background: var(--ox-surface-2);
+  padding: .05em .3em;
+  border-radius: 3px;
+  font-size: .9em;
+}
+
+/* options list */
+.ox-self-check__opts{
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  margin: 0;
+  padding: 0;
+}
+.ox-self-check__opt{
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+  padding: .45rem .65rem .45rem .55rem;
+  background: var(--ox-surface-2);
+  border: 1px solid var(--ox-line);
+  border-radius: 8px;
+  font-family: var(--ox-font-body);
+  font-size: .68rem;
+  line-height: 1.45;
+  color: var(--ox-body);
+  cursor: pointer;
+  transition: border-color .12s ease, background .12s ease;
+}
+.ox-self-check__opt:hover{
+  border-color: var(--ox-line-strong);
+}
+.ox-self-check__radio{
+  appearance: none;
+  -webkit-appearance: none;
+  margin: .15rem 0 0 0;
+  width: .85rem; height: .85rem;
+  border: 1.5px solid var(--ox-line-strong);
+  border-radius: 50%;
+  background: var(--ox-surface);
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: border-color .12s ease;
+}
+.ox-self-check__radio:checked{
+  border-color: var(--ox-accent);
+}
+.ox-self-check__radio:checked::after{
+  content: "";
+  position: absolute;
+  inset: .18rem;
+  background: var(--ox-accent);
+  border-radius: 50%;
+}
+.ox-self-check__radio:disabled{
+  cursor: default;
+  opacity: .9;
+}
+.ox-self-check__opt-text code{
+  background: rgba(0,0,0,.06);
+  padding: .04em .28em;
+  border-radius: 3px;
+  font-size: .9em;
+}
+.ox-self-check__opt-mark{
+  margin-left: auto;
+  font-family: var(--ox-font-mono);
+  font-size: .8rem;
+  line-height: 1;
+  padding-left: .5rem;
+  flex-shrink: 0;
+}
+
+/* graded states */
+.ox-self-check__opt.is-correct{
+  border-color: var(--ox-mint);
+  background: var(--ox-mint-soft);
+  color: var(--ox-ink);
+}
+.ox-self-check__opt.is-correct .ox-self-check__opt-mark{ color: var(--ox-mint); }
+.ox-self-check__opt.is-correct .ox-self-check__radio{
+  border-color: var(--ox-mint);
+}
+.ox-self-check__opt.is-correct .ox-self-check__radio:checked::after{
+  background: var(--ox-mint);
+}
+.ox-self-check__opt.is-wrong{
+  border-color: var(--ox-accent);
+  background: var(--ox-accent-soft);
+  color: var(--ox-ink);
+}
+.ox-self-check__opt.is-wrong .ox-self-check__opt-mark{ color: var(--ox-accent); }
+.ox-self-check__opt.is-wrong .ox-self-check__radio:checked::after{
+  background: var(--ox-accent);
+}
+
+/* explanation reveal */
+.ox-self-check__explain{
+  margin-top: .65rem;
+  padding-top: .55rem;
+  border-top: 1px dashed var(--ox-line);
+}
+.ox-self-check__explain-label{
+  font-family: var(--ox-font-mono);
+  font-size: .55rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ox-muted);
+  margin-bottom: .25rem;
+}
+.ox-self-check__explain-body{
+  font-family: var(--ox-font-body);
+  font-size: .66rem;
+  line-height: 1.55;
+  color: var(--ox-body);
+}
+.ox-self-check__explain-body code{
+  background: var(--ox-surface-2);
+  padding: .04em .28em;
+  border-radius: 3px;
+  font-size: .9em;
+}
+
+/* submit button */
+.ox-self-check__actions{
+  margin-top: .35rem;
+}
+.ox-self-check__submit{
+  font-family: var(--ox-font-mono);
+  font-size: .58rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: var(--ox-accent);
+  color: #fff;
+  border: 1px solid var(--ox-accent);
+  border-radius: 8px;
+  padding: .45rem .9rem;
+  cursor: pointer;
+  transition: background .12s ease, border-color .12s ease, opacity .12s ease;
+}
+.ox-self-check__submit:hover:not(:disabled){ background: var(--ox-accent); filter: brightness(1.05); }
+.ox-self-check__submit:disabled{
+  background: transparent;
+  color: var(--ox-muted);
+  border-color: var(--ox-line);
+  cursor: default;
+}
+
+/* summary panel */
+.ox-self-check__summary{
+  margin-top: .3rem;
+  padding: .85rem .95rem;
+  background: var(--ox-surface-2);
+  border: 1px solid var(--ox-line);
+  border-radius: 12px;
+  transition: background .2s ease, border-color .2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+}
+.ox-self-check__summary[data-state="strong"]{ border-color: var(--ox-mint);   background: var(--ox-mint-soft); }
+.ox-self-check__summary[data-state="mixed"]{  border-color: var(--ox-amber);  background: var(--ox-amber-soft); }
+.ox-self-check__summary[data-state="low"]{    border-color: var(--ox-accent); background: var(--ox-accent-soft); }
+
+.ox-self-check__score{
+  display: flex;
+  align-items: baseline;
+  gap: .8rem;
+}
+.ox-self-check__score-num{
+  font-family: var(--ox-font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--ox-ink);
+  line-height: 1;
+}
+.ox-self-check__score-meta{
+  font-family: var(--ox-font-mono);
+  font-size: .58rem;
+  letter-spacing: .12em;
+  color: var(--ox-muted);
+  text-transform: uppercase;
+}
+
+.ox-self-check__retake{
+  margin-left: auto;
+  font-family: var(--ox-font-mono);
+  font-size: .56rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: transparent;
+  border: 1px solid var(--ox-line-strong);
+  border-radius: 999px;
+  padding: .3rem .7rem;
+  color: var(--ox-ink);
+  cursor: pointer;
+  transition: background .12s ease, color .12s ease, border-color .12s ease;
+}
+.ox-self-check__retake:hover{
+  background: var(--ox-ink);
+  color: var(--ox-bg);
+  border-color: var(--ox-ink);
+}
+
+.ox-self-check__nudge{
+  font-family: var(--ox-font-body);
+  font-size: .7rem;
+  line-height: 1.5;
+  color: var(--ox-ink);
+}
+
+/* OxTutor prompt block */
+.ox-self-check__prompt{
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  padding: .55rem .65rem;
+  background: rgba(255,255,255,.55);
+  border: 1px solid var(--ox-line);
+  border-radius: 8px;
+}
+.ox-self-check__prompt-label{
+  font-family: var(--ox-font-mono);
+  font-size: .53rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ox-muted);
+}
+.ox-self-check__prompt-body{
+  display: block;
+  font-family: var(--ox-font-mono);
+  font-size: .64rem;
+  line-height: 1.45;
+  color: var(--ox-ink);
+  background: transparent;
+  padding: 0;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+.ox-self-check__copy{
+  align-self: flex-start;
+  font-family: var(--ox-font-mono);
+  font-size: .54rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid var(--ox-line);
+  border-radius: 999px;
+  padding: .2rem .6rem;
+  color: var(--ox-muted);
+  cursor: pointer;
+  transition: color .12s ease, border-color .12s ease;
+}
+.ox-self-check__copy:hover{ color: var(--ox-ink); border-color: var(--ox-line-strong); }
+
+/* attempt history */
+.ox-self-check__history{
+  margin-top: .15rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+.ox-self-check__history-summary{
+  font-family: var(--ox-font-mono);
+  font-size: .56rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ox-muted);
+  cursor: pointer;
+  list-style: none;
+  outline: none;
+  padding: .15rem 0;
+}
+.ox-self-check__history-summary::-webkit-details-marker{ display: none; }
+.ox-self-check__history-summary::before{
+  content: "\25B8";          /* right-pointing triangle */
+  display: inline-block;
+  width: 1em;
+  transition: transform .15s ease;
+}
+.ox-self-check__history[open] .ox-self-check__history-summary::before{
+  transform: rotate(90deg);
+}
+.ox-self-check__history-list{
+  margin: .35rem 0 .5rem 1.2rem;
+  padding: 0;
+  list-style: decimal;
+}
+.ox-self-check__history-item{
+  font-family: var(--ox-font-mono);
+  font-size: .6rem;
+  line-height: 1.5;
+  color: var(--ox-body);
+}
+.ox-self-check__history-actions{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+}
+.ox-self-check__copy-json,
+.ox-self-check__clear{
+  font-family: var(--ox-font-mono);
+  font-size: .54rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid var(--ox-line);
+  border-radius: 999px;
+  padding: .2rem .6rem;
+  color: var(--ox-muted);
+  cursor: pointer;
+  transition: color .12s ease, border-color .12s ease;
+}
+.ox-self-check__copy-json:hover,
+.ox-self-check__clear:hover{
+  color: var(--ox-ink);
+  border-color: var(--ox-line-strong);
+}
+
+
+/* ============================================================
+   9. RESPONSIVE — tighten editorial scale on narrow viewports
+   ============================================================ */
+
+@media (max-width: 50rem){
+  .md-typeset h1{ font-size: 1.7rem; }
+  .md-typeset h2{ font-size: 1.25rem; }
+  .ox-pull{ font-size: 1.1rem; }
+  .ox-tile-row{ gap: .8rem; }
+}

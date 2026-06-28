@@ -112,13 +112,15 @@ def on_config(config, **_kwargs):  # type: ignore[no-untyped-def]
     config["extra"] = extra
 
     # Mirror to docs/assets/status.json for any future client-side reader.
+    # Guard: only write when content changes — avoids triggering mkdocs serve's
+    # file-watcher (which watches docs/) and causing an infinite rebuild loop.
     assets_dir = docs_dir / "assets"
     try:
         assets_dir.mkdir(parents=True, exist_ok=True)
-        (assets_dir / "status.json").write_text(
-            json.dumps(summary, indent=2, sort_keys=True),
-            encoding="utf-8",
-        )
+        new_content = json.dumps(summary, indent=2, sort_keys=True)
+        status_path = assets_dir / "status.json"
+        if not status_path.is_file() or status_path.read_text(encoding="utf-8") != new_content:
+            status_path.write_text(new_content, encoding="utf-8")
     except OSError as exc:
         log.warning("progress_badges: cannot write status.json (%s)", exc)
 

@@ -7,7 +7,7 @@ drift: |
 # Day 35 · Environments & Fleet Discovery
 
 > **Concept of the day:** an **environment** is a fleet you can see; a **node** is a machine you can lease. `capsule env`, `capsule node list`, `capsule node show` are your three workhorse commands. Filter by capability — never by name when you can avoid it.<br>
-> **Pre-reading:** Lab Guide **Module 3** (~15 min).
+> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 37 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 3.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -55,6 +55,101 @@ Answer these before you continue:
 5. What's a **lease** and when does it expire?
 
 If you hesitated on any of these, flag it — Parts 2–5 will close those gaps.
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-07-m4-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Module 3">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What are the three workhorse commands for fleet discovery in Capsule?",
+    "options": [
+      "capsule deploy, capsule status, capsule list",
+      "capsule env, capsule node list, capsule node show",
+      "capsule nodes, capsule fleets, capsule machines",
+      "capsule get, capsule show, capsule info"
+    ],
+    "answer": 1,
+    "explain": "The three workhorse commands are: (1) capsule env — list available environments, (2) capsule node list — list nodes in an environment, (3) capsule node show — get detailed info on a specific node."
+  },
+  {
+    "stem": "Which fields indicate a node is available in Capsule?",
+    "options": [
+      "The node name",
+      "status=available and lease_expires is in the future (or null)",
+      "The GPU model",
+      "The IP address"
+    ],
+    "answer": 1,
+    "explain": "A node is available when its status is 'available' and lease_expires is either null (no active lease) or is in the future. If lease_expires is in the past, the node is currently leased."
+  },
+  {
+    "stem": "How do you filter nodes by GPU type in Capsule?",
+    "options": [
+      "By node name",
+      "Using --gpus flag or capability filters",
+      "Using --gpu-model flag",
+      "By IP address"
+    ],
+    "answer": 1,
+    "explain": "You filter nodes by GPU type using --gpus flag or capability filters (e.g., --gpus H100). This is preferred over filtering by name because it ensures you get nodes with the capabilities you need."
+  },
+  {
+    "stem": "Why should you prefer capability-based selection over name-based selection?",
+    "options": [
+      "Capability-based selection is faster",
+      "Name-based selection doesn't work; capability-based ensures you get nodes with the required capabilities regardless of specific machine names",
+      "Capability-based is shorter to type",
+      "They are the same"
+    ],
+    "answer": 1,
+    "explain": "Capability-based selection (filtering by GPU type, memory, etc.) is preferred over name-based because it ensures you get nodes with the required capabilities regardless of specific machine names. This is more robust and portable."
+  },
+  {
+    "stem": "What is a lease in Capsule and when does it expire?",
+    "options": [
+      "A lease is a reservation that expires at a specific timestamp or when released",
+      "A lease is a purchase agreement",
+      "A lease never expires",
+      "A lease is only for new users"
+    ],
+    "answer": 0,
+    "explain": "A lease is a reservation of a node. It expires at a specific timestamp (the lease_expires field) or when explicitly released. When a lease expires, the node becomes available for others to claim."
+  },
+  {
+    "stem": "What does 'capsule node show' command do?",
+    "options": [
+      "Lists all available nodes",
+      "Shows detailed information about a specific node including status, capabilities, and lease info",
+      "Shows the node IP address only",
+      "Deletes a node"
+    ],
+    "answer": 1,
+    "explain": "'capsule node show' displays detailed information about a specific node, including its status, capabilities (GPU type, memory), current lease information, and other metadata."
+  },
+  {
+    "stem": "What is an environment in Capsule?",
+    "options": [
+      "A single node",
+      "A fleet (cluster) of nodes that you can see and deploy to",
+      "A programming language",
+      "A type of GPU"
+    ],
+    "answer": 1,
+    "explain": "An environment is a fleet — a cluster of nodes that you can see and deploy to. It's a logical grouping of machines managed together. You configure an environment once and can deploy models to all nodes in it."
+  },
+  {
+    "stem": "How do you filter nodes by status in Capsule?",
+    "options": [
+      "Using --status flag",
+      "Using status filters in the node list command",
+      "By looking at the node name",
+      "Status filtering is not supported"
+    ],
+    "answer": 1,
+    "explain": "You filter nodes by status using status filters in the node list command (e.g., --available, --leased). Common statuses include 'available' (ready to lease) and 'leased' (currently in use)."
+  }
+]
+</script>
+</div>
 
 ## Part 2 — Core Concepts: Environments & Discovery Commands · 20 min
 
@@ -186,13 +281,79 @@ capsule node lease --gpu h100 --min-gpus 8 --duration 2h --reason "week-9 benchm
 - [ ] I understand why capability-based filtering is preferable to name-based.
 - [ ] I know what a lease is and how to release one.
 
+### Self-check
+
+Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-07-m4-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 35 · Environments &amp; Fleet Discovery">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What is the difference between `available`, `leased`, and `draining` node status in Capsule?",
+    "options": [
+      "available = idle, leased = in use by you, draining = being prepared for maintenance and will not accept new leases",
+      "available = online, leased = offline, draining = rebooting",
+      "available = GPU free, leased = CPU in use, draining = network disconnected",
+      "All three statuses mean the same thing on different hardware generations"
+    ],
+    "answer": 0,
+    "explain": "Node statuses: available = the node is ready and can be leased; leased = currently allocated to a user (could be you or someone else); draining = the node is being gracefully emptied for maintenance and won't accept new leases but existing ones continue; unhealthy = the node has a fault and is not usable."
+  },
+  {
+    "stem": "Why is capability-based filtering preferable to name-based filtering when selecting a node?",
+    "options": [
+      "Capability filters are faster to type",
+      "Name-based filters require knowing exact machine names which change; capability filters (GPU type, memory, features) find any compatible machine regardless of its specific name",
+      "Capability filters work without authentication",
+      "Name-based filters don't work in the production environment"
+    ],
+    "answer": 1,
+    "explain": "Machine names are internal identifiers that change when machines are replaced. Capability filters — e.g., `--gpu-type H100 --gpu-memory 80GB` — find any machine meeting your requirements. This makes scripts and workflows portable: they work on any matching machine, not just a specific named one."
+  },
+  {
+    "stem": "What is a lease in Capsule, and what does releasing it do?",
+    "options": [
+      "A lease is a model license — releasing it makes the model available to other users",
+      "A lease is a time-limited exclusive reservation of a node — releasing it returns the node to the available pool for others to use",
+      "A lease is a billing commitment — releasing it stops charges",
+      "A lease is a connection session — releasing it disconnects your terminal"
+    ],
+    "answer": 1,
+    "explain": "A lease is an exclusive reservation: while you hold it, the node is not available to others. Releasing (`capsule lease release`) returns it to `available` status. Good etiquette: release leases promptly when your work is done — GPU time is a shared, expensive resource."
+  },
+  {
+    "stem": "What command would you use to find available H100 nodes in Capsule?",
+    "options": [
+      "`capsule node list --status available --gpu H100`",
+      "`capsule find gpu --type H100 --free`",
+      "`capsule inventory search H100`",
+      "`capsule machines --filter=h100`"
+    ],
+    "answer": 0,
+    "explain": "The standard pattern is `capsule node list` with status and GPU-type filters. Exact flag syntax varies by CLI version, but the concept is: filter on `--status available` to exclude leased/unhealthy nodes, and a GPU class filter to find H100s specifically. Refer to `capsule node list --help` for current flag names."
+  },
+  {
+    "stem": "What does `capsule node show <id>` display?",
+    "options": [
+      "The list of all leases held by the node's current user",
+      "Detailed information about a specific node: hardware specs, status, current leaseholder, uptime, and capability tags",
+      "The command history run on that node",
+      "The network route between your workstation and the node"
+    ],
+    "answer": 1,
+    "explain": "`capsule node show <id>` gives full detail on a single node: its hardware (GPU type, count, memory), current status (available/leased/unhealthy), who holds the current lease, how long it's been running, and its capability tags. Useful for verifying you're leasing the right hardware before committing."
+  }
+]
+</script>
+</div>
+
 ### Connect forward
 
 Tomorrow: **connecting** — once you have a lease, how to actually shell in, what the session looks like, the etiquette of multi-user nodes.
 
 ### Pre-read for tomorrow (Day 38 · Connecting to Machines)
 
-- **Resource:** Lab Guide **Module 5** (~15 min).
+- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 38 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 5.
 - **Reflection questions:**
   1. What command connects you to a leased node?
   2. How does Capsule's connect differ from raw `ssh`?

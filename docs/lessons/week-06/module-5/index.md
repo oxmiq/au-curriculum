@@ -1,7 +1,7 @@
-# Day 30 · Orchestration & Multi-Agent
+# Day 30 (Fri) · Orchestration + Consolidation + Phase 2 Assessment
 
-> **Concept of the day:** **multi-agent** systems split work across specialized agents communicating through a structured protocol. **Planner-worker** (decomposer + executors) and **supervisor-worker** (delegating manager) are the two dominant patterns. The cost: more LLM calls, more failure modes. The benefit: parallelism, specialization, and the ability to scale beyond a single context window.<br>
-> **Pre-reading:** Student Guide **Module 4 — Orchestration Layer** (~20 min).
+> **Concept of the day:** **multi-agent** systems split work across specialized agents communicating through a structured protocol. **Planner-worker** (decomposer + executors) and **supervisor-worker** (delegating manager) are the two dominant patterns. The cost: more LLM calls, more failure modes. The benefit: parallelism, specialization, and the ability to scale beyond a single context window. **Friday:** Phase 2 assessment + consolidation.<br>
+> **Pre-reading:** <a href="../../../readings/ai-agents/">AI Agents Pre-Lecture Reading — Orchestration & Multi-Agent section</a> (~30 min). Supplement: <a href="https://huggingface.co/learn/agents-course/unit2/introduction" target="_blank" rel="noopener">HuggingFace Agents Course — Unit 2 intro</a> (~10 min).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -34,7 +34,8 @@ This lesson is designed for guided self-study. Here's how your ~3 hours are orga
 | Part 4 | Core Concepts: Communication Protocols | 15 min |
 | Part 5 | Hands-On: Architecture Decision | 25 min |
 | Part 6 | Hands-On: Multi-Agent Cost Math | 25 min |
-| Part 7 | Wrap-up & Connection | 15 min |
+| Part 7 | Phase 2 Assessment | 30 min |
+| Part 8 | Self-Assessment & Wrap-up | 15 min |
 
 ---
 
@@ -55,6 +56,101 @@ Answer these questions from memory before continuing:
 5. When is single-agent the right answer?
 
 If you couldn't answer all five, re-read the Student Guide Module 4 before continuing.
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-06-m5-readiness" data-kind="readiness" data-draw="5" data-source="AI Agents Orchestration & Multi-Agent + HuggingFace Agents Course">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What is the planner-worker pattern in multi-agent systems?",
+    "options": [
+      "A single agent that plans and executes all tasks",
+      "A planner agent decomposes tasks and worker agents execute the subtasks",
+      "Workers that plan their own tasks",
+      "A type of load balancing"
+    ],
+    "answer": 1,
+    "explain": "The planner-worker pattern has a planner agent that decomposes the overall task into subtasks and assigns them to worker agents. The planner decides 'what goes where' and workers focus on execution. This is also called 'decomposer + executors' pattern."
+  },
+  {
+    "stem": "What is the supervisor-worker pattern?",
+    "options": [
+      "Workers supervise each other",
+      "A supervisor agent delegates tasks to workers based on their capabilities, acting as a central manager",
+      "A single worker supervised by a human",
+      "A pattern where workers plan for supervisors"
+    ],
+    "answer": 1,
+    "explain": "The supervisor-worker pattern has a supervisor agent that acts as a central manager, delegating tasks to specialized workers based on their capabilities. The supervisor decides which worker should handle which subtask, unlike planner-worker where the planner does explicit decomposition."
+  },
+  {
+    "stem": "What is the key difference between planner-worker and supervisor-worker?",
+    "options": [
+      "There is no difference",
+      "Planner-worker does explicit task decomposition upfront; supervisor-worker delegates dynamically as tasks come in",
+      "Planner-worker is faster; supervisor-worker is more accurate",
+      "They use different LLM models"
+    ],
+    "answer": 1,
+    "explain": "The key difference: Planner-worker does explicit task decomposition upfront (the planner breaks down the whole task into subtasks). Supervisor-worker delegates dynamically (the supervisor decides what to delegate as tasks come in). Planner is 'divide then conquer'; supervisor is 'delegate on demand'."
+  },
+  {
+    "stem": "Why would you split work across multiple agents instead of one big loop?",
+    "options": [
+      "Multiple agents are always faster",
+      "For parallelism, specialization, and scaling beyond a single context window",
+      "Because one agent cannot think",
+      "To save API costs"
+    ],
+    "answer": 1,
+    "explain": "Multi-agent systems provide: (1) Parallelism — multiple workers can execute subtasks simultaneously, (2) Specialization — each worker can be optimized for a specific task type, (3) Scale beyond context window — the combined input might exceed what one model can handle."
+  },
+  {
+    "stem": "What is the approximate LLM call overhead of adding a planner + 3 workers vs a single agent?",
+    "options": [
+      "No overhead",
+      "Approximately 3-5x more LLM calls",
+      "Approximately 10x more LLM calls",
+      "It reduces LLM calls"
+    ],
+    "answer": 1,
+    "explain": "Adding a planner + 3 workers adds significant overhead: the planner needs to decompose (1+ call), the supervisor needs to delegate (multiple calls), and each worker needs to execute (multiple calls). Approximate overhead is 3-5x more LLM calls than a single agent doing the same work. This directly impacts cost and latency."
+  },
+  {
+    "stem": "When is single-agent the right answer?",
+    "options": [
+      "Always",
+      "When the task fits in one context window, doesn't need parallelism, and doesn't require specialized skills",
+      "Never",
+      "When cost is not a concern"
+    ],
+    "answer": 1,
+    "explain": "Single-agent is right when: (1) the task fits in one context window, (2) doesn't need parallelism (tasks are sequential), (3) doesn't require specialized skills. Multi-agent adds complexity (more failure modes, harder debugging) — only use it when the benefits (parallelism, specialization) outweigh the costs."
+  },
+  {
+    "stem": "What is the main benefit of multi-agent systems despite the cost?",
+    "options": [
+      "They are always more accurate",
+      "Parallelism, specialization, and ability to scale beyond a single context window",
+      "They are cheaper",
+      "They require less code"
+    ],
+    "answer": 1,
+    "explain": "The main benefits of multi-agent systems are: (1) Parallelism — multiple agents can work simultaneously, (2) Specialization — each agent can be optimized for a specific task, (3) Scale beyond context window — the combined input might exceed what one model can handle. These benefits can justify the extra cost and complexity for the right use case."
+  },
+  {
+    "stem": "What is communication protocol in multi-agent systems?",
+    "options": [
+      "The API used to call LLMs",
+      "The structured way agents communicate with each other (e.g., message formats, coordination)",
+      "A type of network protocol",
+      "A security standard"
+    ],
+    "answer": 1,
+    "explain": "Communication protocol defines how agents communicate with each other — message formats, coordination patterns, how to handle failures across agents. Without structured protocols, multi-agent systems become chaotic. Common patterns include message passing, shared state, and hierarchical reporting."
+  }
+]
+</script>
+</div>
 
 ---
 
@@ -299,27 +395,66 @@ Complete this decision rule:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 15 min
+## Part 7 — Phase 2 Assessment · 30 min
 
-### Self-Check
+### Exercise: Take the Knowledge Check
 
-Can you recall these from memory?
+[Take the Phase 2 assessment](knowledge-check.html) — questions covering Week 6 Days 26–30 (prompt engineering + four agent layers).
 
-- [ ] The "agents are the new programmable computer" analogy (model=processor, prompts=programming, harness=OS, orchestration=apps)
-- [ ] The five reasons to go multi-agent (context limits, parallelism, specialization, tool segregation, reliability)
-- [ ] Planner-worker: parallel subtasks, stateless workers, strategic planner
-- [ ] Supervisor-worker: sequential dependent steps, supervisor holds full context
-- [ ] Cost multiplier: planner + 3 workers at 10 calls each = 45 calls = 3× single-agent cost
-- [ ] Three multi-agent failure modes: handoff drift, coordination loops, inconsistent assumptions
-- [ ] A2A sits above MCP: agent-to-agent vs model-to-tool
+**Passing score:** 10/15 (67%)
+
+This is **10% of the program grade**. The quiz is open-book — reasoning-focused, not recall.
+
+### If You Score Below Passing
+
+1. Review the questions you got wrong.
+2. Find the relevant day's content (Day 26–30).
+3. Re-read that section of the lesson.
+4. Retake the quiz after reviewing.
+
+---
+
+## Part 8 — Self-Assessment & Wrap-up · 15 min
+
+### Self-Check List
+
+Go through each item. Mark ✓ if you can do it **without notes**, ✗ if you need to review.
+
+**Day 26 — Prompt Engineering Fundamentals**
+- [ ] Name five prompting techniques (zero-shot, few-shot, chain-of-thought, role, structured output)
+- [ ] Explain what chain-of-thought does mechanically to model output
+- [ ] Write a well-structured prompt with role + context + task + constraints + format
+
+**Day 27 — Agent Fundamentals (The Agent Loop)**
+- [ ] Recite the five-step agent loop (Perceive → Plan → Act → Observe → Repeat)
+- [ ] Sketch a ReAct loop (Thought / Action / Observation structure)
+- [ ] Explain why MoE + FlashAttention = agents work economically
+
+**Day 28 — Tools & MCP**
+- [ ] Name the six fields of a tool schema
+- [ ] Distinguish read tools from write tools and state the safety rule
+- [ ] Name the four MCP building blocks and explain what MCP solves
+- [ ] Calculate end-to-end reliability for a 10-call chain at 95% per-call
+
+**Day 29 — Governance & Security**
+- [ ] Explain indirect prompt injection with one concrete example
+- [ ] Describe EchoLeak: CVE, date, target, mechanism, remediation
+- [ ] List the three governance classes: Preventive, Detective, Corrective
+- [ ] Name four components of machine-checkable security
+
+**Day 30 — Orchestration & Multi-Agent**
+- [ ] Compare planner-worker vs supervisor-worker with one scenario each
+- [ ] State the cost multiplier: planner + 3 workers vs single agent
+- [ ] List three multi-agent failure modes and their mitigations
+- [ ] State the rule: "go multi-agent only when..."
 
 ### Connect Forward
 
-Tomorrow (Friday): **Phase 2 wrap** — assessment, team agent design, and pre-reading for Day 32. The week's four agent layers (loop, tools, governance, orchestration) come together in a system design exercise.
+Tomorrow (Day 31): **Bridge week begins** — Agent Case Studies, Capsule Foundations, Installation. The week's four agent layers (loop, tools, governance, orchestration) come together in a system design exercise.
 
-### Pre-read for tomorrow (Day 31 (Fri) · Phase 2 Wrap)
+### Pre-read for tomorrow (Day 31 · Bridge Week)
 
-- **Resource:** Review your notes from Days 26–30. Prepare to sketch a complete 5-layer agent system (loop + tools + governance + orchestration + inference choice) from scratch.
+- **Resource:** AI Agents Student Guide **Module 0 "Why Now?"** (~20 min).
 - **Reflection questions:**
   1. If you had to design an agent for one task in this curriculum (e.g., quiz generation, progress tracking), which pattern would you pick?
   2. What's the governance minimum you would require before deploying it to real interns?

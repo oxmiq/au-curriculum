@@ -1,6 +1,6 @@
 # Day 40 · Known Quirks
 
-> **Concept of the day:** every system has failure modes that look mysterious until you've seen them once. Today you learn Capsule's known-quirks list from the Lab Guide so you never waste 30 minutes on a problem that has a 10-second fix.<br> **Pre-reading:** Capsule Power User Lab Guide **Module 10 — Known Quirks** (~15 min).
+> **Concept of the day:** every system has failure modes that look mysterious until you've seen them once. Today you learn Capsule's known-quirks list from the Lab Guide so you never waste 30 minutes on a problem that has a 10-second fix.<br> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 40 section</a> (~15 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 10 — Known Quirks.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -53,6 +53,123 @@ Answer from memory:
 2. What is `capsule cleanup` and what state does it tear down?
 3. Name four rows from the known-quirks table (symptom + fix).
 4. How many fields does a proper bug report require? Name three of them.
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-08-m4-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Module 10">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What is the FIRST command to run in the triage decision tree when a Capsule operation fails?",
+    "options": [
+      "capsule cleanup",
+      "capsule status",
+      "capsule env show",
+      "capsule auth login"
+    ],
+    "answer": 1,
+    "explain": "Step 1 is always 'capsule status'. It tells you whether your auth is valid, your identity is correct, and your token hasn't expired — the most common root causes of failures."
+  },
+  {
+    "stem": "What does `capsule cleanup` do?",
+    "options": [
+      "Deletes your remote home directory and all benchmark results",
+      "Tears down stale WebRTC sessions and SSH state on the local client",
+      "Removes all your leases and frees the nodes",
+      "Resets your environment and customer config to defaults"
+    ],
+    "answer": 1,
+    "explain": "'capsule cleanup' tears down stale WebRTC sessions and SSH state on the local client only. It does NOT affect running processes on the remote machine. It fixes ~40% of 'SshRTC won't connect' and 'session hung' issues."
+  },
+  {
+    "stem": "You run 'capsule list' and it shows completely different machines than yesterday. Which triage step catches this?",
+    "options": [
+      "Step 1 — capsule status (auth issue)",
+      "Step 2 — capsule env show / capsule config customer show (wrong env or customer)",
+      "Step 3 — capsule cleanup (stale state)",
+      "Step 4 — --direct flag (WebRTC path issue)"
+    ],
+    "answer": 1,
+    "explain": "Step 2 catches this. Run 'capsule env show' and 'capsule config customer show'. One of them is wrong — you're looking at a different environment or customer context than you think."
+  },
+  {
+    "stem": "SshRTC won't connect. After Step 1 (status) and Step 2 (env/customer) are clean, what is Step 3?",
+    "options": [
+      "Re-install Capsule",
+      "capsule cleanup, then retry",
+      "File a bug report immediately",
+      "Use capsule stream instead"
+    ],
+    "answer": 1,
+    "explain": "Step 3 is 'capsule cleanup', then retry. This tears down stale local WebRTC/SSH state and fixes ~40% of SshRTC connectivity issues. Only proceed to Step 4 if cleanup + retry still fails."
+  },
+  {
+    "stem": "A bug report must contain exactly how many required fields?",
+    "options": [
+      "4",
+      "6",
+      "8",
+      "10"
+    ],
+    "answer": 2,
+    "explain": "A proper bug report has exactly 8 required fields: (1) capsule --version, (2) capsule env show, (3) capsule config customer show, (4) exact command, (5) exact error output, (6) timestamp, (7) machine unique ID, (8) what you already tried."
+  },
+  {
+    "stem": "macOS Keychain prompts appear on every Capsule command. What is the fix?",
+    "options": [
+      "Uninstall and reinstall Capsule",
+      "Run 'capsule cleanup'",
+      "Click 'Always Allow' once in the Keychain dialog",
+      "Use sudo for all Capsule commands"
+    ],
+    "answer": 2,
+    "explain": "This is Known Quirk #5. Click 'Always Allow' once in the Keychain dialog. It will remember the permission and stop prompting for subsequent commands."
+  },
+  {
+    "stem": "VS Code Remote-SSH errors appear after a Capsule session. What is the fix?",
+    "options": [
+      "Run 'capsule cleanup' to clear local state",
+      "Remove 'capsule-<uniqueId>' blocks from ~/.ssh/config",
+      "Reinstall the VS Code Remote-SSH extension",
+      "Re-authenticate with 'capsule auth login'"
+    ],
+    "answer": 1,
+    "explain": "This is Known Quirk #4. Old Capsule sessions leave stale 'capsule-<uniqueId>' blocks in ~/.ssh/config. Remove them manually. VS Code Remote-SSH picks up stale entries and fails."
+  },
+  {
+    "stem": "You must file a bug report. Which triage steps must you have completed BEFORE filing?",
+    "options": [
+      "Only Step 1 (capsule status)",
+      "Steps 1 and 2 only",
+      "All four steps — status, env/customer, cleanup, then --direct + logs",
+      "None — file immediately to get faster support"
+    ],
+    "answer": 2,
+    "explain": "You must complete all 4 steps before filing. Step 4 specifically requires trying '--direct' to bypass WebRTC and collecting logs from ~/.capsule/logs/. Those logs are the most important data for the engineering team."
+  },
+  {
+    "stem": "`gh release download` returns 401/403. What is the most likely cause?",
+    "options": [
+      "Your Capsule version is outdated",
+      "Your GH_TOKEN is missing one or more of the 4 required scopes",
+      "You need to re-run 'capsule auth login'",
+      "The GitHub release was deleted"
+    ],
+    "answer": 1,
+    "explain": "This is Known Quirk #8. The GH_TOKEN must have all four scopes: repo, read:org, workflow, user. Regenerate the token if you're unsure. 401/403 almost always means missing scopes, not an invalid token."
+  },
+  {
+    "stem": "The 'specificity test' for a bug report asks:",
+    "options": [
+      "Is the report under 500 words?",
+      "Did you try capsule cleanup first?",
+      "Could a stranger who has never seen your machine reproduce the issue from your report alone?",
+      "Does the report include your Capsule version?"
+    ],
+    "answer": 2,
+    "explain": "The specificity test: read your bug report and ask whether a stranger with no context could reproduce the issue. If you'd need to answer follow-up questions, the report is incomplete. This is the quality bar for every field."
+  }
+]
+</script>
+</div>
 
 ---
 
@@ -251,22 +368,79 @@ Bug report: [brief description]
 
 ### Self-check
 
-Before closing, tick each item:
+Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
-- [ ] I can recite the 4-step triage decision tree in order without notes.
-- [ ] I can recite all 8 rows of the known-quirks table (symptom + fix) from memory.
-- [ ] I know what `capsule cleanup` does (and what it does NOT affect).
-- [ ] I know all 8 fields of the bug-report rubric.
-- [ ] I have successfully reproduced and fixed at least 3 quirks.
-- [ ] I have written a complete bug report that passes the specificity test.
+<div class="ox-self-check" data-widget="self-check" data-id="week-08-m4-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 40 · Known Quirks &amp; Diagnostics">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What are the 4 steps of the Capsule triage decision tree in order?",
+    "options": [
+      "Reboot → reinstall → contact support → escalate",
+      "Identify symptom → check known quirks table → run capsule cleanup → escalate if unresolved",
+      "Check network → check auth → check node status → retry",
+      "Read logs → check GPU → check storage → check network"
+    ],
+    "answer": 1,
+    "explain": "The lesson's triage decision tree: (1) Identify symptom precisely; (2) Match symptom against the known quirks table; (3) Apply the fix (often `capsule cleanup` or a specific command); (4) Escalate with a complete bug report if unresolved. This order prevents unnecessary reinstalls and captures enough information to get help."
+  },
+  {
+    "stem": "What does `capsule cleanup` NOT affect?",
+    "options": [
+      "Stale socket files and hung connection processes",
+      "Your auth token and local config",
+      "Your active leases and remote files on nodes",
+      "Cached connection state"
+    ],
+    "answer": 2,
+    "explain": "`capsule cleanup` clears LOCAL stale state: hung processes, socket files, cached connection entries. It does NOT release leases, delete remote files, or modify your auth token. This is why it's safe to run as a first diagnostic step — you won't accidentally lose your GPU reservation."
+  },
+  {
+    "stem": "Two symptoms in the known-quirks table have 'run `capsule config customer show`' as their first diagnostic step. What kind of symptom would trigger this?",
+    "options": [
+      "GPU compute errors and CUDA crashes",
+      "Auth failures or 'fleet not found' errors where the wrong customer context might be configured",
+      "Network timeouts and connection drops",
+      "Streaming quality issues and encoder errors"
+    ],
+    "answer": 1,
+    "explain": "`capsule config customer show` reveals the currently active customer context. Auth failures and 'fleet not found' errors are often caused by being in the wrong customer environment — you authenticated as the right user but the customer context points to a different fleet. Fixing the customer config resolves these without debugging auth itself."
+  },
+  {
+    "stem": "What are the 8 fields of a complete bug report for Capsule?",
+    "options": [
+      "Date, time, user, command, output, hardware, network, OS version",
+      "Symptom, expected behavior, actual behavior, command run, exact output/error, node ID/GPU, steps to reproduce, workarounds tried",
+      "Error code, stack trace, version, platform, priority, assignee, status, resolution",
+      "Title, description, severity, component, environment, attachments, labels, assignee"
+    ],
+    "answer": 1,
+    "explain": "A good Capsule bug report captures: (1) exact symptom, (2) expected behavior, (3) actual behavior, (4) exact command run, (5) exact output/error text, (6) node ID and GPU type, (7) numbered reproduction steps, (8) workarounds already tried. The lesson's 'specificity test': could a support engineer reproduce it without asking follow-ups?"
+  },
+  {
+    "stem": "Why is the known-quirks table valuable beyond just fixing current issues?",
+    "options": [
+      "It provides the official SLA for each issue type",
+      "After a few weeks, you recognize symptoms instantly and become the person other interns ask when something breaks — it builds diagnostic fluency",
+      "It automatically patches issues when run as a script",
+      "It contains links to the model weights for common GPU configurations"
+    ],
+    "answer": 1,
+    "explain": "The lesson says: 'After a few weeks, you'll recognize symptoms instantly. After a month, you'll be the person other interns ask when something breaks.' The table builds pattern recognition — each symptom + fix pair is a mental model. Experienced engineers debug by pattern-matching, not by systematic elimination."
+  }
+]
+</script>
+</div>
 
 ### Connect Forward
 
 The known-quirks table and triage decision tree are the tools you'll reach for every time something stops working — not just in Week 8, but throughout the internship. After a few weeks, you'll recognize symptoms instantly. After a month, you'll be the person other interns ask when something breaks.
 
-### Pre-read for tomorrow (Day 41 · Week 8 Consolidation)
+### Looking ahead to next week
 
-No new reading needed. Review Days 37–40. Make sure you can work through the triage decision tree for any failure mode and recite the known-quirks table from memory.
+**Friday (Day 41)** is consolidation — no new reading needed. Review Days 37–40.
+
+**Monday (Day 42):** Next week's first lesson has a pre-read — see [Week 9 Day 1](../../../readings/capsule/).
 
 ---
 

@@ -239,7 +239,7 @@ Week 5 begins on Monday. You'll learn about:
 
 ### Pre-read for Monday (Week 5, Day 21)
 
-**Resource:** Inference Engineering Pre-Lecture Reading — **Reader 12 (Metrics in production)** (~15 min)
+**Resource:** <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale — LLM Inference Performance</a> (~15 min). Alternative: <a href="https://www.baseten.co/blog/understanding-llm-latency/" target="_blank" rel="noopener">Baseten — Understanding LLM Latency</a>.
 
 **Reflection questions:**
 1. What does TTFT stand for? What drives it?

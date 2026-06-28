@@ -10,20 +10,20 @@ This curriculum closes that gap — not by cramming, but by building intuition o
 
 ## Why 10 weeks, half-day
 
-Knowledge doesn't transfer during lectures. It transfers during practice, sleep, spacing, and teaching others. A 30-day intensive denies you three of those four. Spread to 10 weeks at half-days:
+Knowledge doesn't transfer by passively absorbing information. It transfers through practice, sleep, spaced repetition, and explaining what you've learned to others. A 30-day intensive denies you three of those four. Spread to 10 weeks at half-days:
 
 - Afternoons become processing time, not more input.
 - Overnight sleep consolidates the morning's concept.
 - Friday reviews create spacing.
-- Pair work creates teaching-others opportunities.
+- Collaborative work creates opportunities to teach others.
 
-Students who feel overwhelmed shut down; students who feel competent lean in. One concept per day means you go home each day having understood today's idea. That confidence compounds.
+Learners who feel overwhelmed shut down; learners who feel competent lean in. One concept per day means you finish each day having understood today's idea. That confidence compounds.
 
 Depth beats breadth: deeply understanding 40 concepts retains better than being exposed to 80 and remembering 20.
 
 ## Why this sequence
 
-**Inference engineering first** — because it fills the biggest gap. Every student here has studied transformers. None have studied *how* a transformer runs on a GPU at production scale. Four weeks, not two, because the layers stack:
+**Inference engineering first** — because it fills the biggest gap. Every learner here has studied transformers. None have studied *how* a transformer runs on a GPU at production scale. Four weeks, not two, because the layers stack:
 
 - Week 2 — where does inference happen? (hardware)
 - Week 3 — what is the central problem? (KV cache, memory)
@@ -55,13 +55,13 @@ What we deliberately leave out:
 
 What stays is the *reasoning framework* that lets you understand new hardware and new techniques as they appear.
 
-## The flipped classroom
+## Self-directed learning
 
 Every session assumes you arrived having read 15–30 minutes of accessible material. This means:
 
-- Lecture time isn't wasted on basic definitions.
-- Students who read carefully start ahead; those who don't are caught by the readiness check and paired up — no shame, just early signal.
-- The instructor teaches at Level 2 because Level 1 was handled by the pre-reading.
+- Session time isn't wasted on basic definitions.
+- Learners who read carefully start ahead; those who don't discover gaps early through self-assessment — no shame, just valuable signal.
+- Your study time focuses on deeper understanding because the pre-reading handled the foundations.
 
 ## What this is — and isn't
 
@@ -75,14 +75,14 @@ It **isn't**: a theory course (no proofs, no papers); a coding bootcamp (you alr
 |---|---|
 | 10 weeks, half-days | overnight consolidation and breathing room |
 | One concept per day | mastery, not overwhelm |
-| Pre-reading before every session | levels the room |
-| Readiness check (not exam) | catches gaps early, pairs students up |
+| Pre-reading before every session | levels the playing field |
+| Self-assessment (not exam) | catches gaps early, enables focused review |
 | Friday consolidation | spacing effect; nobody falls irreversibly behind |
 | Inference → Prompts → Agents → Capsule | each phase enables the next |
 | 40% weight on the capstone | demonstrates judgment, not recall |
 | Open-book, reasoning-based assessment | tests thinking, not memorization |
-| Pair work throughout | teaching others is the deepest form of learning |
+| Collaborative work throughout | teaching others is the deepest form of learning |
 
-The goal isn't to produce students who survived a gauntlet. It's to produce students who *understand* — deeply, confidently, durably — how AI runs in production.
+The goal isn't to produce learners who survived a gauntlet. It's to produce learners who *understand* — deeply, confidently, durably — how AI runs in production.
 
 For the day-by-day map, see [Curriculum](curriculum.md).

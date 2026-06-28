@@ -1,7 +1,7 @@
 # Day 16 · Tensor Parallelism
 
 > **Concept of the day:** **TP** splits each layer's matrices across GPUs. Used for one model that's too big for one GPU, or to reduce per-token decode latency. **NVLink required** — TP is intra-node only.<br>
-> **Pre-reading:** "Tensor parallelism explained" — Pre-Lecture Reading **Reader 8** (parallel computing primer) (~20 min).
+> **Pre-reading:** "Tensor parallelism explained" — <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a> (~20 min, read the Tensor Parallel section). Alternative: <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Transformer Inference Optimization</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -623,7 +623,7 @@ Tomorrow: when one node isn't enough — **Pipeline Parallelism** (cross-node) a
 
 ### Pre-read for tomorrow (Day 17 · Pipeline & Expert Parallelism)
 
-- **Resource:** PP overview + Mixtral MoE architecture summary — Pre-Lecture Reading **Reader 6** (~20 min).
+- **Resource:** <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Large Transformer Model Inference Optimization</a> (~20 min, Pipeline Parallelism + MoE sections). Alternative: <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a>.
 - **Reflection questions:**
   1. PP splits a model how? (Hint: depth-wise.)
   2. What is a "pipeline bubble" and why is it bad?

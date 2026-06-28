@@ -108,6 +108,92 @@ End of Day 48: every team has at least 2 configs benchmarked + evaluated with fu
 
 ## Self-check before Day 49
 
+Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-10-m2-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 48 · Execute">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What are the 8 fields of the execution log table?",
+    "options": [
+      "Config, GPU, command, time, error, log, eval, notes",
+      "Config, node-ID, command, start time, end time, outcome, report-path, eval pass/fail and notes",
+      "Model, quantization, TP, PP, concurrency, TTFT, throughput, cost",
+      "Team, task, hardware, model, start, end, status, blockers"
+    ],
+    "answer": 1,
+    "explain": "The 8-field execution log: (1) config (model + quant + TP + PP), (2) node-ID, (3) exact command run, (4) start time, (5) end time, (6) outcome (success/OOM/timeout/error), (7) report-path in shared storage, (8) eval pass/fail with notes. Every field must be filled — 'no log = run didn't happen.'"
+  },
+  {
+    "stem": "Why is 'no log = run didn't happen' such an important principle?",
+    "options": [
+      "It is a grading rule — unlogged runs receive zero credit",
+      "Memory is unreliable — without a log, you can't reproduce what you did, can't report exact results, and can't defend your recommendation on Day 50 under Q&A",
+      "Logs are required for the benchmark to run correctly",
+      "It prevents duplicate runs by checking if a run already exists"
+    ],
+    "answer": 1,
+    "explain": "The lesson says: 'No execution log means the run didn't happen.' Memory is unreliable for exact commands, exact node-IDs, and exact error messages. Panel reviewers on Day 50 will ask 'what was your exact command?' and 'what error did config B throw?' You need the log to answer precisely. Unlogged runs can't be defended."
+  },
+  {
+    "stem": "When a config blows up (OOM error, timeout, model fails to load), what should you do?",
+    "options": [
+      "Immediately restart and retry the same config until it works",
+      "Note the failure in the log (config, error, outcome), move on to the next config, and come back if time permits — don't let one failure consume the execution day",
+      "Skip that config and pretend it wasn't planned",
+      "Request a different GPU and restart from the beginning"
+    ],
+    "answer": 1,
+    "explain": "The lesson's execution advice: 'Note the failure, move on.' Record what happened (OOM at batch size 32, FP16 runs out of memory at 70B). A logged failure is a data point. Move to the next config. If you have time at the end, come back to the failed one. Don't let one bad run turn a 4-config plan into a 1-config day."
+  },
+  {
+    "stem": "Why must run artifacts go in stable named directories (not /tmp)?",
+    "options": [
+      "/tmp is read-only and cannot store benchmark artifacts",
+      "/tmp is cleared on node reboot or release — artifacts in /tmp disappear when the node is gone; stable named paths in shared storage persist for analysis on Day 49",
+      "Stable directories are faster for writing large files",
+      "The benchmark tool only writes to /shared/ paths"
+    ],
+    "answer": 1,
+    "explain": "Node-local /tmp is ephemeral — it disappears with the node. Your Day 48 run artifacts must survive to Day 49 analysis. Store in `/shared/runs/<YYYY-MM-DD-HHMM>-<label>/`. The lesson's rule: 'stable named directories in shared storage, not /tmp, not ~/, not anywhere ephemeral.'"
+  },
+  {
+    "stem": "What does the interactive eval on Day 48 add that the benchmark run alone doesn't provide?",
+    "options": [
+      "Lower latency numbers",
+      "Human-verified quality judgment per config — the 10-prompt suite with binary pass/fail tells you which config gives correct, well-formatted, on-topic answers, not just which is fastest",
+      "More concurrency levels for the throughput curve",
+      "Confirmation that the GPU hardware is working correctly"
+    ],
+    "answer": 1,
+    "explain": "The benchmark measures speed (TTFT, throughput). The interactive eval measures quality (does it answer correctly, in the right format, without hallucinating). Day 48 does both: benchmark ALL charter configs (latency data), then run the 10-prompt eval suite against each (quality data). Both datasets are required for the Day 49 recommendation."
+  },
+  {
+    "stem": "What should the 'outcome' field in the execution log capture?",
+    "options": [
+      "Only 'success' or 'failure' with no further detail",
+      "The specific result: success, OOM (out of memory), timeout, model failed to load, partial (ran but numbers look wrong) — with enough detail to diagnose without re-running",
+      "The number of tokens generated per second",
+      "The cost in GPU-hours for the run"
+    ],
+    "answer": 1,
+    "explain": "The outcome field is your post-mortem in the log. 'Failure' tells you nothing when reviewing on Day 49. 'OOM at batch size 32, FP16, 70B model' tells you exactly what to adjust. 'Timeout after 8 minutes, benchmark never produced output' tells you the serving engine crashed. Specific outcomes make the log diagnostic, not just a record that something ran."
+  },
+  {
+    "stem": "With 30 minutes left in Day 48 and one charter config still not benchmarked, what is the correct action?",
+    "options": [
+      "Skip the config entirely and don't mention it in the analysis",
+      "Rush through a partial benchmark run and accept incomplete numbers",
+      "Run the benchmark if it fits in 30 minutes; if not, log it as 'not run — time constraint' in the execution log with a note on what you'd expect and why",
+      "Ask the instructor for an extension before attempting the run"
+    ],
+    "answer": 2,
+    "explain": "The lesson's execution advice: 'note what didn't happen.' A logged 'not run — time constraint' entry is honest and useful for Day 49 analysis. You can still make a recommendation from the configs you did run, noting the gap. A rushed partial run with bad numbers is worse than a clean 'not run' entry — it introduces noise you have to explain on Day 50."
+  }
+]
+</script>
+</div>
+
 - [ ] At least 2 configs benchmarked with full execution logs (no TBD fields)
 - [ ] Interactive eval completed for each config (pass/fail per prompt recorded)
 - [ ] Run results in stable named directories (not `/tmp`)

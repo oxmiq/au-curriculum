@@ -31,7 +31,6 @@ docs/lessons/
 # Week N · <Theme>
 
 > **Goal of the week:** one sentence.
-> **Source material:** [`<folder>/`](../../../planning/source-material/<folder>/) — Study Guide, Pre-Lecture Reading, ...
 
 ## Day map
 
@@ -400,7 +399,6 @@ The audit script (rules L011/L012) enforces this at CI time.
 # Week N · <Theme>
 
 > **Goal of the week:** one sentence.
-> **Source material:** [`<folder>/`](../../../planning/source-material/<folder>/) — Study Guide, …
 
 <!-- AUTO-GEN:CARD-GRID:START -->…<!-- AUTO-GEN:CARD-GRID:END -->
 
@@ -430,7 +428,7 @@ Ask **oxtutor** — glossary entries for this week are the canonical definitions
 
 **Invariants (enforced by L010):**
 - H1 matches `^# Week \d+ · `.
-- Frontmatter block-quote has `Goal of the week:` and `Source material:`.
+- Frontmatter block-quote has `Goal of the week:`.
 - `## Day map` present with **exactly 4 columns**: `Day | Topic | Pre-read | Page`.
 - Every Page-column link is `[Day NN · <slug>](module-N/index.md)` (relative,
   no `../` prefix).

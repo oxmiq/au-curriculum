@@ -1,7 +1,6 @@
 # Week 5 · Inference Engineering — Metrics, Production & Economics
 
 > **Goal of the week:** measuring what matters. Operating in the real world. Understanding cost.
-> **Source material:** [`Inference Engineering/`](../../../planning/source-material/Inference%20Engineering/) — Study Guide §A.7, Pre-Lecture Reading §Days 21–24, Problem Sets stretch (☆) Sets 11–24.
 
 <!-- AUTO-GEN:CARD-GRID:START -->
 <div class="ox-card-grid" markdown="0">
@@ -9,35 +8,30 @@
     {status:week-05/module-1}
     <span class="ox-card__eyebrow">Day 21</span>
     <h3 class="ox-card__title">Latency vs Throughput</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
   <a class="ox-card" href="module-2/" style="--i:22">
     {status:week-05/module-2}
     <span class="ox-card__eyebrow">Day 22</span>
     <h3 class="ox-card__title">Production Deployment</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
   <a class="ox-card" href="module-3/" style="--i:23">
     {status:week-05/module-3}
     <span class="ox-card__eyebrow">Day 23</span>
     <h3 class="ox-card__title">LLM Evaluation</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
   <a class="ox-card" href="module-4/" style="--i:24">
     {status:week-05/module-4}
     <span class="ox-card__eyebrow">Day 24</span>
     <h3 class="ox-card__title">Inference Economics</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
   <a class="ox-card" href="module-5/" style="--i:25">
     {status:week-05/module-5}
     <span class="ox-card__eyebrow">Day 25</span>
     <h3 class="ox-card__title">Consolidation + Phase 1 Problem Set</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
 </div>

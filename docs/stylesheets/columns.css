@@ -1,0 +1,213 @@
+/* ============================================================
+   columns.css — three-column layout tuning
+   ------------------------------------------------------------
+   Applies at the >=76.25em desktop breakpoint where Material
+   shows both the left primary nav and the right TOC.
+
+   Goals:
+     1. Widen both side columns; compact wrapped entries so a
+        long title flows to a 2nd line without dominating.
+     2. Surface nesting (Week → Day, h2 → h3 → h4) via thin
+        left "indent rails" on nested .md-nav groups.
+     3. Each column collapses to a slim rail via a chevron
+        toggle at the top. Collapsed rails show:
+          - a vertical mono label (NAVIGATION / CONTENTS) so
+            the user knows what was hidden,
+          - a single oxblood dot tracking the active section
+            (current Week on the left, currently-visible
+            heading on the right).
+        Label and dot are real DOM elements injected by
+        assets/widgets/column-toggles.js so visibility is
+        reliable across browsers.
+   Below the breakpoint Material renders sidebars as drawers;
+   the toggles bail out and the rails are suppressed.
+   ============================================================ */
+
+@media (min-width: 76.25em) {
+
+  /* ---- 1. Container — give the layout more horizontal room
+     so the widened sidebars don't squeeze the center. */
+  .md-main__inner.md-grid,
+  .md-header__inner.md-grid,
+  .md-tabs__inner.md-grid {
+    max-width: 84rem;
+  }
+
+  /* ---- 2. Side column base width + sticky positioning so the
+     toggle, label, and dot all anchor correctly. */
+  .md-sidebar--primary,
+  .md-sidebar--secondary {
+    width: 16rem;
+    transition: width .18s ease;
+    position: sticky;
+  }
+
+  /* ---- 3. Compact wrapped entries.
+     - Small mono, tight line-height, minimal padding so a
+       2-line entry still feels lightweight.
+     - Material renders the actual text inside
+       <span class="md-ellipsis"> nested in .md-nav__link /
+       .md-nav__title — so the font-size rule has to live on
+       .md-ellipsis (where the text is rendered) and override
+       the global .md-ellipsis: .72rem from oxblood.css.
+     - The titles get extra side padding so the toggle button
+       (positioned at the top corner) never clips them. */
+  .md-nav__title,
+  .md-nav__title .md-ellipsis {
+    font-size: .65rem !important;
+    letter-spacing: .06em;
+  }
+  .md-nav--primary > .md-nav__title {
+    padding-right: 1.9rem;   /* clear the right-side toggle */
+  }
+  .md-nav--secondary > .md-nav__title {
+    padding-left: 1.9rem;    /* clear the left-side toggle */
+  }
+  .md-nav__link,
+  .md-nav__link .md-ellipsis {
+    font-size: .55rem !important;
+    letter-spacing: .005em;
+    line-height: 1.25;
+  }
+  .md-nav--primary .md-nav__link,
+  .md-nav--secondary .md-nav__link {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    padding-top: .12rem;
+    padding-bottom: .12rem;
+  }
+
+  /* ---- 4. Hierarchy rails. Nested .md-nav groups get a thin
+     vertical rule + a small left margin so the parent → child
+     relationship is visible without stealing width. */
+  .md-nav--primary .md-nav .md-nav,
+  .md-nav--secondary .md-nav .md-nav {
+    border-left: 1px solid var(--ox-line);
+    margin-left: .55rem;
+    padding-left: .35rem;
+  }
+  .md-nav--primary .md-nav .md-nav .md-nav,
+  .md-nav--secondary .md-nav .md-nav .md-nav {
+    border-left-color: var(--ox-line-strong);
+  }
+  .md-nav--primary .md-nav .md-nav:hover,
+  .md-nav--secondary .md-nav .md-nav:hover {
+    border-left-color: var(--ox-accent-soft);
+  }
+
+  /* ---- 5. Toggle button (chevron pinned at the column top). */
+  .ox-col-toggle {
+    position: absolute;
+    top: .35rem;
+    z-index: 4;
+    width: 1.4rem;
+    height: 1.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid var(--ox-line);
+    border-radius: 3px;
+    background: var(--ox-surface);
+    color: var(--ox-muted);
+    font-family: var(--ox-font-mono);
+    font-size: .72rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color .15s ease, border-color .15s ease,
+                background .15s ease;
+  }
+  .ox-col-toggle:hover {
+    color: var(--ox-accent);
+    border-color: var(--ox-accent);
+    background: var(--ox-accent-soft);
+  }
+  .ox-col-toggle:focus { outline: none; }
+  .ox-col-toggle:focus-visible {
+    outline: 2px solid var(--ox-accent);
+    outline-offset: 1px;
+  }
+  .ox-col-toggle[data-state="collapsed"] {
+    color: var(--ox-accent);
+    border-color: var(--ox-accent);
+  }
+  .md-sidebar--primary   .ox-col-toggle { right: .35rem; }
+  .md-sidebar--secondary .ox-col-toggle { left:  .35rem; }
+
+  /* ---- 6. Rail label (vertical NAVIGATION / CONTENTS text).
+     position: fixed + rotate(-90deg) avoids every writing-mode
+     quirk. The label is appended to <body> (not the sidebar)
+     so it can't be re-anchored by any ancestor transform that
+     Material applies; visibility is gated purely by a body
+     class. JS sets top/left to centre it on the rail. */
+  .ox-rail-label {
+    position: fixed;
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    white-space: nowrap;
+    font-family: var(--ox-font-mono);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ox-accent);
+    pointer-events: none;
+    z-index: 5;
+    display: none;
+  }
+  body.ox-nav-collapsed .ox-rail-label--nav,
+  body.ox-toc-collapsed .ox-rail-label--toc {
+    display: block;
+  }
+
+  /* ---- 7. Active-position dot. Also lives on <body> for the
+     same anchoring reason. Visibility gated by body class. */
+  .ox-col-dot {
+    position: fixed;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ox-accent);
+    box-shadow: 0 0 0 3px var(--ox-accent-soft);
+    transform: translate(-50%, -50%);
+    transition: top .25s ease;
+    pointer-events: none;
+    z-index: 6;
+    display: none;
+  }
+  body.ox-nav-collapsed .ox-col-dot--nav,
+  body.ox-toc-collapsed .ox-col-dot--toc {
+    display: block;
+  }
+
+  /* ---- 8. Collapsed states.
+     Width drops to a slim rail. Every direct child of the
+     sidebar is hidden so the inner nav truly disappears.
+     (Toggle stays visible because it's still a sidebar child;
+     the label and dot live on <body> instead.) */
+  body.ox-nav-collapsed   .md-sidebar--primary,
+  body.ox-toc-collapsed   .md-sidebar--secondary {
+    width: 2.4rem;
+    overflow: hidden;
+  }
+  body.ox-nav-collapsed .md-sidebar--primary > *,
+  body.ox-toc-collapsed .md-sidebar--secondary > * {
+    visibility: hidden;
+  }
+  body.ox-nav-collapsed .md-sidebar--primary > .ox-col-toggle,
+  body.ox-toc-collapsed .md-sidebar--secondary > .ox-col-toggle {
+    visibility: visible;
+  }
+}
+
+/* ---- Below the desktop breakpoint Material renders the
+   primary nav as a drawer and hides the secondary TOC inline.
+   Suppress the custom chrome there. */
+@media (max-width: 76.1875em) {
+  .ox-col-toggle,
+  .ox-rail-label,
+  .ox-col-dot {
+    display: none;
+  }
+}

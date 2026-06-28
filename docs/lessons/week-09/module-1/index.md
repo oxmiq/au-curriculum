@@ -8,7 +8,7 @@ drift: |
 # Day 42 · Your First Benchmark
 
 > **Concept of the day:** `capsule benchmark` orchestrates a serving engine + a request load + metric collection. Phase-1 vocabulary (TTFT, ITL, p99, throughput) lands here in real numbers. Today: run *one* benchmark cleanly, end to end, on a leased GPU node.<br>
-> **Pre-reading:** Lab Guide **Module 8** (~20 min).
+> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 41 section</a> (~30 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 8.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -60,6 +60,101 @@ Answer before reading on:
 3. What four metrics will the report contain? (Phase 1 recall.)
 4. What does *one* benchmark prove? (Hint: very little — that's tomorrow's lesson.)
 5. Where should the result file live?
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-09-m1-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Module 8">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What are the three pieces of a Capsule benchmark run?",
+    "options": [
+      "Model, GPU, and network",
+      "Load generator, serving engine, and metric collection",
+      "Config, logs, and report",
+      "Lease, environment, and node"
+    ],
+    "answer": 1,
+    "explain": "A benchmark has three pieces: (1) load generator — controls what prompts, what concurrency, how long; (2) serving engine — which engine (vLLM/SGLang), which model, which config; (3) metric collection — gathers TTFT, ITL, throughput, GPU util and writes report.json."
+  },
+  {
+    "stem": "What does the `--concurrency` flag control in `capsule benchmark`?",
+    "options": [
+      "The number of GPUs to use",
+      "The number of simultaneous in-flight requests during the load test",
+      "The number of benchmark iterations to run",
+      "The tensor-parallel degree"
+    ],
+    "answer": 1,
+    "explain": "--concurrency sets the number of simultaneous in-flight requests. Higher concurrency stresses the GPU more and pushes throughput up — until saturation. This is distinct from tensor-parallel degree (--tp), which is about model distribution."
+  },
+  {
+    "stem": "Where do benchmark results live by convention?",
+    "options": [
+      "~/.capsule/results/",
+      "/shared/runs/<YYYY-MM-DD-HHMM>-<label>/",
+      "/tmp/benchmark/",
+      "The current working directory"
+    ],
+    "answer": 1,
+    "explain": "Convention is /shared/runs/<YYYY-MM-DD-HHMM>-<label>/. Inside: report.json, stdout.log, config.yaml. Results in /shared/ are accessible from your laptop via 'capsule storage get' and visible to the team."
+  },
+  {
+    "stem": "What does `report.json` NOT tell you directly?",
+    "options": [
+      "TTFT p50 and p99",
+      "GPU memory used",
+      "Whether the model answers correctly or hallucinates",
+      "Throughput in tokens per second"
+    ],
+    "answer": 2,
+    "explain": "report.json captures performance metrics (TTFT, ITL, throughput, GPU util) but says nothing about answer quality. Whether the model is correct, refuses appropriately, or hallucinates requires interactive evaluation — which is Day 44."
+  },
+  {
+    "stem": "What does a SINGLE benchmark run prove?",
+    "options": [
+      "This engine is better than all alternatives",
+      "The GPU is fully saturated",
+      "This config, this load, this moment — nothing more",
+      "The model's quality is acceptable"
+    ],
+    "answer": 2,
+    "explain": "One benchmark is a single data point: this config, this load, this moment. It cannot tell you whether the engine beats alternatives (need comparison), whether the GPU is saturated (need to vary --concurrency), or whether quality is acceptable (need eval). That's why tomorrow's lesson is about sweeps."
+  },
+  {
+    "stem": "In the minimum-viable `capsule benchmark` command, what does `--duration 60s` control?",
+    "options": [
+      "How long the GPU is leased",
+      "How long the load generator runs before stopping and writing the report",
+      "How long before the connection times out",
+      "The maximum time allowed for a single request"
+    ],
+    "answer": 1,
+    "explain": "--duration 60s tells the load generator to run for 60 seconds before stopping and collecting the final metrics into report.json. Shorter durations give less stable statistics; the lesson recommends at least 60s for a clean baseline."
+  },
+  {
+    "stem": "Which metrics appear in a typical report.json? (Select the complete set.)",
+    "options": [
+      "TTFT only",
+      "TTFT (p50/p99), ITL (p50/p99), throughput (tokens/s, requests/s), GPU util and memory",
+      "Throughput and GPU util only",
+      "TTFT, throughput, cost per token, error rate"
+    ],
+    "answer": 1,
+    "explain": "A typical report.json contains: ttft_p50, ttft_p99, itl_p50, itl_p99 (latency), tokens_per_sec, requests_per_sec (throughput), and gpu.util_avg, gpu.mem_used_gb. These are exactly the Phase-1 metrics you've been studying."
+  },
+  {
+    "stem": "You want to run a benchmark that stores results in /shared/runs/. What command do you use to pull the report.json to your laptop after the run?",
+    "options": [
+      "capsule term — then cp /shared/runs/.../report.json ~",
+      "capsule storage get /shared/runs/<your-dir>/report.json ./",
+      "scp capsule-node:/shared/runs/.../report.json ./",
+      "capsule benchmark --fetch-results"
+    ],
+    "answer": 1,
+    "explain": "'capsule storage get <remote-path> <local-path>' is the correct command. It copies the file from the shared storage volume to your laptop. Using scp or raw cp won't work because you don't have direct SSH access to the shared volume path."
+  }
+]
+</script>
+</div>
 
 ---
 
@@ -236,11 +331,69 @@ Commit your annotated report to your fork.
 
 ### Self-check
 
-- [ ] I ran a benchmark end-to-end and have a `report.json` on my laptop
-- [ ] I can explain every field in the report using Phase-1 vocabulary (no glossary needed)
-- [ ] I know why one benchmark proves very little on its own
-- [ ] I know the artifact convention (`/shared/runs/<YYYY-MM-DD-HHMM>-<label>/`)
-- [ ] My annotated report is committed to my fork
+Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
+
+<div class="ox-self-check" data-widget="self-check" data-id="week-09-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 42 · First Benchmark">
+<script type="application/json" class="ox-self-check__pool">
+[
+  {
+    "stem": "What are the key fields in a Capsule benchmark `report.json`?",
+    "options": [
+      "CPU usage, disk I/O, network latency, memory usage",
+      "TTFT_p50, TTFT_p99, throughput (tok/s), concurrency, model config, GPU type, and timestamp",
+      "Training loss, validation loss, epoch count, and learning rate",
+      "User count, session duration, error rate, and uptime"
+    ],
+    "answer": 1,
+    "explain": "A benchmark report captures latency percentiles (TTFT p50, p99), throughput (tokens/second), the concurrency and config used, GPU type, and timestamp. Every field is explainable using Phase-1 vocabulary: TTFT ← prefill, throughput ← decode + batching, GPU type ← bandwidth and compute specs."
+  },
+  {
+    "stem": "Why does one benchmark run prove very little on its own?",
+    "options": [
+      "One run is statistically insufficient — variance from thermal state, neighbor processes, KV cache warmup, and measurement noise requires multiple runs to establish reliable baselines",
+      "One run only tests one user, not a full production load",
+      "One run cannot be compared against other models",
+      "One run uses the wrong precision"
+    ],
+    "answer": 0,
+    "explain": "A single benchmark run has confounds: the GPU may be thermally throttled from prior work, a noisy neighbor process consumes bandwidth, the KV cache isn't warm, or the run happened during a network congestion window. Multiple runs with consistent warmup, no neighbors, and stable thermal state produce reliable baselines."
+  },
+  {
+    "stem": "What is the recommended artifact convention for benchmark run directories?",
+    "options": [
+      "/tmp/<model-name>/latest/",
+      "/shared/runs/<YYYY-MM-DD-HHMM>-<label>/",
+      "/home/<user>/benchmarks/<random-id>/",
+      "/shared/models/<model-name>/benchmarks/"
+    ],
+    "answer": 1,
+    "explain": "The convention from the lesson: `/shared/runs/<YYYY-MM-DD-HHMM>-<label>/`. The timestamp makes runs sortable and reproducible (you can find yesterday's run). The label identifies the configuration. Shared storage makes results accessible to teammates without copying."
+  },
+  {
+    "stem": "If your benchmark shows TTFT_p99 = 850 ms, which Phase-1 concept explains this?",
+    "options": [
+      "The model's vocabulary size determines TTFT — larger vocabulary = slower tokenization",
+      "TTFT is driven by the prefill phase (processing all input tokens) — high P99 TTFT suggests long input prompts, a large model requiring many compute cycles, or insufficient GPU compute throughput",
+      "TTFT is determined by decode speed — high TTFT means slow token generation",
+      "TTFT only depends on network latency between the user and the server"
+    ],
+    "answer": 1,
+    "explain": "TTFT ← prefill phase. High P99 TTFT means the tail of the input distribution has long prompts (more tokens to process in prefill) or the GPU is compute-bottlenecked during prefill (insufficient TFLOP/s). Using Phase-1 vocabulary to annotate benchmark fields is the core skill being developed this week."
+  },
+  {
+    "stem": "Why is committing your annotated benchmark report to your fork important?",
+    "options": [
+      "GitHub automatically improves the benchmark with each commit",
+      "It creates a reproducible record of your findings that serves as evidence for the capstone and portfolio — annotated reports show you can connect data to concepts",
+      "Committing triggers an automatic re-run to verify the results",
+      "It is required for access to the shared GPU pool"
+    ],
+    "answer": 1,
+    "explain": "The lesson states: 'Commit your annotated report to your fork.' Your fork is your portfolio. An annotated report — raw numbers + Phase-1 explanations for each metric — is evidence of technical depth. Hiring managers can read it. The capstone builds directly on this artifact."
+  }
+]
+</script>
+</div>
 
 ### Connect forward
 
@@ -248,7 +401,7 @@ Tomorrow: **varying parameters** — sweep `--concurrency`, `--tp`, and quantiza
 
 ### Pre-read for tomorrow (Day 43 · Model Evaluation / Varying Parameters)
 
-- **Resource:** Re-skim Week 4 Day 16 (tensor parallelism) + Week 3 Day 14 (quantization).
+- **Resource:** none new — builds on Day 42 + recalls Week 3–4.
 - **Reflection questions:**
   1. As `--concurrency` rises, which metrics will degrade first, and why?
   2. Doubling `--tp` from 1 to 2: what's the expected effect on throughput? On latency?

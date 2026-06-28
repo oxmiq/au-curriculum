@@ -1,43 +1,37 @@
 # Week 8 · Capsule — Connections & Operations
 
 > **Goal of the week:** fluent in connecting to machines, moving files, streaming output, and diagnosing common quirks. By Friday you operate Capsule day-to-day.
-> **Source material:** [`Capsule Power User/`](../../../planning/source-material/Capsule%20Power%20User/) — Lab Guide Modules 5–10, Cheatsheet, Problem Sets, Flashcards, Glossary.
 
 <!-- AUTO-GEN:CARD-GRID:START -->
 <div class="ox-card-grid" markdown="0">
-  <a class="ox-card" href="module-1/" style="--i:37">
+  <a class="ox-card" href="module-1/" style="--i:36">
     {status:week-08/module-1}
-    <span class="ox-card__eyebrow">Day 37</span>
+    <span class="ox-card__eyebrow">Day 36</span>
     <h3 class="ox-card__title">Connecting</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-2/" style="--i:38">
+  <a class="ox-card" href="module-2/" style="--i:37">
     {status:week-08/module-2}
-    <span class="ox-card__eyebrow">Day 38</span>
+    <span class="ox-card__eyebrow">Day 37</span>
     <h3 class="ox-card__title">Files & Storage</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-3/" style="--i:39">
+  <a class="ox-card" href="module-3/" style="--i:38">
     {status:week-08/module-3}
-    <span class="ox-card__eyebrow">Day 39</span>
+    <span class="ox-card__eyebrow">Day 38</span>
     <h3 class="ox-card__title">Streaming</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-4/" style="--i:40">
+  <a class="ox-card" href="module-4/" style="--i:39">
     {status:week-08/module-4}
-    <span class="ox-card__eyebrow">Day 40</span>
+    <span class="ox-card__eyebrow">Day 39</span>
     <h3 class="ox-card__title">Known Quirks</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
-  <a class="ox-card" href="module-5/" style="--i:41">
+  <a class="ox-card" href="module-5/" style="--i:40">
     {status:week-08/module-5}
-    <span class="ox-card__eyebrow">Day 41</span>
+    <span class="ox-card__eyebrow">Day 40</span>
     <h3 class="ox-card__title">Consolidation</h3>
-    <p class="ox-card__desc">Half-day session · pre-read + concept + practice + wrap-up.</p>
     <span class="ox-card__cta">Open lesson →</span>
   </a>
 </div>
@@ -47,11 +41,11 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 37 (Mon) | Connecting to Machines | Lab Guide Module 5 (~15 min) | [module-1/index.md](module-1/index.md) |
-| 38 (Tue) | Files & Storage | Lab Guide Modules 6+7 (~30 min) | [module-2/index.md](module-2/index.md) |
-| 39 (Wed) | Streaming | Lab Guide Module 7 (~15 min) | [module-3/index.md](module-3/index.md) |
-| 40 (Thu) | Known Quirks | Lab Guide Module 10 Known Quirks (~15 min) | [module-4/index.md](module-4/index.md) |
-| 41 (Fri) | **Consolidation** | — | [module-5/index.md](module-5/index.md) |
+| 36 (Mon) | Connecting to Machines | Lab Guide Module 5 (~15 min) | [module-1/index.md](module-1/index.md) |
+| 37 (Tue) | Files & Storage | Lab Guide Modules 6+7 (~30 min) | [module-2/index.md](module-2/index.md) |
+| 38 (Wed) | Streaming | Lab Guide Module 7 (~15 min) | [module-3/index.md](module-3/index.md) |
+| 39 (Thu) | Known Quirks | Lab Guide Module 10 Known Quirks (~15 min) | [module-4/index.md](module-4/index.md) |
+| 40 (Fri) | **Consolidation** | — | [module-5/index.md](module-5/index.md) |
 
 ## Friday — the bar
 
