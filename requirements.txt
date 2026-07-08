@@ -1,0 +1,5 @@
+# Local site tooling for the AU curriculum.
+# Install into a virtual environment:  pip install -r requirements.txt
+mkdocs>=1.6,<2.0
+mkdocs-material>=9.7,<10.0
+pymdown-extensions>=10.0,<11.0

@@ -164,7 +164,18 @@ hooks:
   - hooks/progress_badges.py
 
 # Linked from lesson pages, intentionally not a sidebar entry.
+# The kb/*.md files are source markdown for the generated kb/*.html views that
+# ARE in the nav (Plan / Reference tabs); listing them here keeps `mkdocs build`
+# quiet instead of emitting "exists but not in nav" notices that read like errors
+# to first-time users. week-06/module-6 is the Phase-2 wrap, reached from the
+# week-06 overview rather than the sidebar.
 not_in_nav: |
   /lessons/**/assignment.md
   /lessons/**/knowledge-check.html
   /lessons/**/supplementary-*.md
+  /lessons/week-06/module-6/index.md
+  /kb/edge-graph.md
+  /kb/glossary.md
+  /kb/graph.md
+  /kb/timeline.md
+  /assets/screenshots/README.md
