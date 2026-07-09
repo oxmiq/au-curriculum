@@ -14,8 +14,6 @@
     <a href="../">Week 10 — Capstone Project</a>
     <span class="sep">/</span>
     <span>Day 47 · Kickoff & Planning</span>
-    <span class="sep">·</span>
-    <span class="duration">Full-day milestone</span>
     {status:week-10/module-1}
   </div>
 </div>
@@ -25,13 +23,13 @@
 
 ## Time budget for today
 
-| Block | Activity | Duration |
-|---|---|---|
-| Block 1 | Team formation + use-case brainstorm | 30 min |
-| Block 2 | Model + hardware + eval selection | 45 min |
-| Block 3 | Charter draft | 45 min |
-| Block 4 | Peer review (paired) | 30 min |
-| Block 5 | Revise + submit | 30 min |
+| Block | Activity |
+|---|---|
+| Block 1 | Team formation + use-case brainstorm |
+| Block 2 | Model + hardware + eval selection |
+| Block 3 | Charter draft |
+| Block 4 | Peer review (paired) |
+| Block 5 | Revise + submit |
 
 ## Why this matters
 

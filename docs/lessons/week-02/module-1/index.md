@@ -1,7 +1,7 @@
 # Day 6 · What Happens When You Send a Prompt
 
 > **Concept of the day:** the inference pipeline. Tokenize → embed → layers → logits → sample. One forward pass = one token out.<br>
-> **Pre-reading:** <a href="https://huyenchip.com/2023/04/11/llm-engineering.html" target="_blank" rel="noopener">Chip Huyen — LLM Engineering: Inference Optimization</a> (~15 min, read the Inference section).
+> **Pre-reading:** <a href="https://huyenchip.com/2023/04/11/llm-engineering.html" target="_blank" rel="noopener">Chip Huyen — LLM Engineering: Inference Optimization</a> (read the Inference section).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 2 — The GPU &amp; Memory</a>
     <span class="sep">/</span>
     <span>Day 6 · What Happens When You Send a Prompt</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-02/module-1}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: Inference Pipeline | 20 min |
-| Part 3 | Deep Dive: Prefill vs Decode | 20 min |
-| Part 4 | Worked Example Analysis | 25 min |
-| Part 5 | Hands-On: Trace the Pipeline | 30 min |
-| 7 | Wrap-up & Connection | 10 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Inference Pipeline |
+| Part 3 | Deep Dive: Prefill vs Decode |
+| Part 4 | Worked Example Analysis |
+| Part 5 | Hands-On: Trace the Pipeline |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: Inference Engineering Pre-Lecture Reading — **Reader 1 (AI in production)** (~15 min).
+You should have already read: Inference Engineering Pre-Lecture Reading — **Reader 1 (AI in production)**.
 
 ### Quick Self-Check
 
@@ -152,7 +150,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — Inference Pipeline · 20 min
+## Part 2 — Core Concepts — Inference Pipeline
 ### Reading — Why This Matters
 
 Phase 1 (Weeks 2–5) is a four-week zoom-in on the **inference loop**. Before we open up the GPU (Day 7), the cache (Week 3), or the cluster (Week 4), you need a working mental model of what *actually happens* when a user hits send.
@@ -179,7 +177,7 @@ Then **loop** the layers→logits→sample steps. Each loop = one output token.
 
 ---
 
-## Part 3 — Deep Dive — Prefill vs Decode · 20 min
+## Part 3 — Deep Dive — Prefill vs Decode
 ### Reading — Two Phases of Inference
 
 ### Prefill
@@ -207,7 +205,7 @@ This distinction drives everything in Weeks 2-4.
 
 ---
 
-## Part 4 — Worked Example Analysis · 25 min
+## Part 4 — Worked Example Analysis
 ### Reading — Timeline of a Chat Request
 
 From the Pre-Lecture Reading:
@@ -234,8 +232,8 @@ From the Pre-Lecture Reading:
 
 ---
 
-## Part 5 — Hands-On — Trace the Pipeline · 30 min
-### Exercise 1: Trace a Prompt (15 min)
+## Part 5 — Hands-On — Trace the Pipeline
+### Exercise 1: Trace a Prompt
 
 On paper, trace a 5-word prompt through the pipeline. For each stage, annotate:
 - Input shape
@@ -253,7 +251,7 @@ Logits: [0.001, 0.023, ...] (vocabulary size, e.g., 50K)
 Sample: "Artificial" (next token)
 ```
 
-### Exercise 2: Calculate Forward Passes (15 min)
+### Exercise 2: Calculate Forward Passes
 
 Given:
 - 1000 input tokens
@@ -267,7 +265,7 @@ Given:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -362,7 +360,7 @@ Tomorrow: we crack open the GPU itself — SMs, Tensor Cores, HBM. Today's "laye
 
 ### Pre-read for tomorrow (Day 7 · Meet the GPU)
 
-- **Resource:** <a href="https://resources.nvidia.com/en-us-hopper-architecture/nvidia-tensor-core-gpu-datasheet" target="_blank" rel="noopener">NVIDIA H100 GPU Datasheet</a> (~10 min, focus on: SMs, memory capacity, bandwidth, peak FLOPS).
+- **Resource:** <a href="https://resources.nvidia.com/en-us-hopper-architecture/nvidia-tensor-core-gpu-datasheet" target="_blank" rel="noopener">NVIDIA H100 GPU Datasheet</a> (focus on: SMs, memory capacity, bandwidth, peak FLOPS).
 - **Reflection questions:**
   1. What does "80 GB HBM3" mean? (Memory technology + capacity.)
   2. What's an SM? What's a Tensor Core?

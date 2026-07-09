@@ -11,5 +11,5 @@
 ## What to do today
 
 1. Work through the [day's lesson](index.md).
-2. Take the [knowledge check](knowledge-check.html) (or the Friday consolidation, if your day's check is a stub).
+2. Take the [knowledge check](knowledge-check.md) (or the Friday consolidation, if your day's check is a stub).
 3. Continue progress on the week's main assignment as needed.

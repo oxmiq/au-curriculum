@@ -12,8 +12,6 @@
     <a href="../">Week 4 — Scaling &amp; Stacks</a>
     <span class="sep">/</span>
     <span>Day 20 · Consolidation</span>
-    <span class="sep">·</span>
-    <span class="duration">Friday · review &amp; wrap</span>
     {status:week-04/module-5}
   </div>
 </div>
@@ -25,22 +23,22 @@
 
 This consolidation day is different from other days — it's for practice and review. Here's how your ~3 hours are organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Week 4 Knowledge Check | 30 min |
-| Part 2 | Self-Assessment | 20 min |
-| Part 3 | Practice: Tensor Parallelism | 25 min |
-| Part 4 | Practice: Pipeline & Expert Parallelism | 25 min |
-| Part 5 | Practice: Speculative Decoding | 20 min |
-| Part 6 | Practice: Serving Engines | 20 min |
-| 7 | Open Lab & Wrap-up | 40 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Week 4 Knowledge Check |
+| Part 2 | Self-Assessment |
+| Part 3 | Practice: Tensor Parallelism |
+| Part 4 | Practice: Pipeline & Expert Parallelism |
+| Part 5 | Practice: Speculative Decoding |
+| Part 6 | Practice: Serving Engines |
+| 7 | Open Lab & Wrap-up |
 
 ---
 
-## Part 1 — Week 4 Knowledge Check · 30 min
+## Part 1 — Week 4 Knowledge Check
 ### Exercise: Take the Knowledge Check
 
-[Take the Week 4 knowledge check](knowledge-check.html) — covers tensor parallelism, pipeline/expert parallelism, speculative decoding, and serving engines.
+[Take the Week 4 knowledge check](knowledge-check.md) — covers tensor parallelism, pipeline/expert parallelism, speculative decoding, and serving engines.
 
 **Passing score:** 10/15 (67%)
 
@@ -52,7 +50,7 @@ If you score below 10/15:
 
 ---
 
-## Part 2 — Self-Assessment · 20 min
+## Part 2 — Self-Assessment
 ### Self-Check List
 
 Go through each item and mark whether you can do it **without notes**:
@@ -76,7 +74,7 @@ For any item you can't do:
 
 ---
 
-## Part 3 — Practice — Tensor Parallelism · 25 min
+## Part 3 — Practice — Tensor Parallelism
 ### Hands-On: TP Calculations
 
 Practice these calculations:
@@ -122,7 +120,7 @@ Model fits in one GPU?
 
 ---
 
-## Part 4 — Practice — Pipeline & Expert Parallelism · 25 min
+## Part 4 — Practice — Pipeline & Expert Parallelism
 ### Hands-On: PP vs EP Comparison
 
 Complete this comparison table from memory:
@@ -152,7 +150,7 @@ Questions:
 
 ---
 
-## Part 5 — Practice — Speculative Decoding · 20 min
+## Part 5 — Practice — Speculative Decoding
 ### Hands-On: Speculation Math
 
 Practice calculating speedup from speculative decoding:
@@ -185,7 +183,7 @@ Questions:
 
 ---
 
-## Part 6 — Practice — Serving Engines · 20 min
+## Part 6 — Practice — Serving Engines
 ### Hands-On: Engine Comparison
 
 Match each serving engine to its key characteristic:
@@ -220,7 +218,7 @@ Workload 3: Agent loops (bursty, variable length)
 
 ---
 
-## Part 7 — Wrap-up & Connection · 40 min
+## Part 7 — Wrap-up & Connection
 ### What to Do
 
 This is open time. Choose what you need:
@@ -239,7 +237,7 @@ Week 5 begins on Monday. You'll learn about:
 
 ### Pre-read for Monday (Week 5, Day 21)
 
-**Resource:** <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale — LLM Inference Performance</a> (~15 min). Alternative: <a href="https://www.baseten.co/blog/understanding-llm-latency/" target="_blank" rel="noopener">Baseten — Understanding LLM Latency</a>.
+**Resource:** <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale — LLM Inference Performance</a>. Alternative: <a href="https://www.baseten.co/blog/understanding-llm-latency/" target="_blank" rel="noopener">Baseten — Understanding LLM Latency</a>.
 
 **Reflection questions:**
 1. What does TTFT stand for? What drives it?

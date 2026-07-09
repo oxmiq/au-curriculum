@@ -1,7 +1,7 @@
 # Day 29 · Governance & Security
 
 > **Concept of the day:** **tool output is untrusted input**. Indirect prompt injection (e.g. **EchoLeak**) hides instructions in fetched data. Defenses: output filtering, allowlists, least-privilege scopes, audit trails, human-in-the-loop on writes.<br>
-> **Pre-reading:** <a href="../../../readings/ai-agents/">AI Agents Pre-Lecture Reading — Governance & Security section</a> (~35 min). Supplement: <a href="https://www.cve.org/CVERecord?id=CVE-2025-32711" target="_blank" rel="noopener">MITRE — CVE-2025-32711 (EchoLeak)</a> + <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank" rel="noopener">OWASP LLM01 + LLM02</a> (~10 min).
+> **Pre-reading:** <a href="../../../readings/ai-agents/#day-29-governance-security">AI Agents Pre-Lecture Reading — Governance & Security section</a>. Supplement: <a href="https://www.cve.org/CVERecord?id=CVE-2025-32711" target="_blank" rel="noopener">MITRE — CVE-2025-32711 (EchoLeak)</a> + <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank" rel="noopener">OWASP LLM01 + LLM02</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 6 — Prompt Engineering + AI Agents</a>
     <span class="sep">/</span>
     <span>Day 29 · Governance</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-06/module-4}
   </div>
 </div>
@@ -26,23 +24,23 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours are organized:
 
-| Part | What you do | Time |
-|------|---------------|----------|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: The Ambient AI Problem | 20 min |
-| Part 3 | Deep Dive: Prompt Injection & EchoLeak | 25 min |
-| Part 4 | Core Concepts: Machine-Checkable Security | 20 min |
-| Part 5 | Hands-On: EchoLeak Lab | 30 min |
-| Part 6 | Hands-On: Audit Trail Design | 20 min |
-| Part 7 | Wrap-up & Connection | 10 min |
+| Part | What you do |
+|------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: The Ambient AI Problem |
+| Part 3 | Deep Dive: Prompt Injection & EchoLeak |
+| Part 4 | Core Concepts: Machine-Checkable Security |
+| Part 5 | Hands-On: EchoLeak Lab |
+| Part 6 | Hands-On: Audit Trail Design |
+| Part 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 
 ### Before You Start
 
-You should have already read: Student Guide **Module 3 — Governance Layer** and the Glossary entry on EchoLeak (~25 min).
+You should have already read: Student Guide **Module 3 — Governance Layer** and the Glossary entry on EchoLeak.
 
 ### Quick Self-Check
 
@@ -153,7 +151,7 @@ If you couldn't answer all five, re-read the Student Guide Module 3 before conti
 
 ---
 
-## Part 2 — Core Concepts: The Ambient AI Problem · 20 min
+## Part 2 — Core Concepts: The Ambient AI Problem
 
 ### Reading — Always-On, Broad Access, Opaque Decisions
 
@@ -183,7 +181,7 @@ Reducing blast radius is why least-privilege is the highest-leverage defense: ev
 
 ---
 
-## Part 3 — Deep Dive: Prompt Injection & EchoLeak · 25 min
+## Part 3 — Deep Dive: Prompt Injection & EchoLeak
 
 ### Reading — Two Kinds of Injection
 
@@ -238,7 +236,7 @@ The attack worked because the agent processed email content as context with the 
 
 ---
 
-## Part 4 — Core Concepts: Machine-Checkable Security · 20 min
+## Part 4 — Core Concepts: Machine-Checkable Security
 
 ### Reading — Moving Security Left
 
@@ -279,7 +277,7 @@ If an agent is compromised, least-privilege bounds the blast radius to what that
 
 ---
 
-## Part 5 — Hands-On: EchoLeak Lab · 30 min
+## Part 5 — Hands-On: EchoLeak Lab
 
 ### Exercise: Craft an Indirect Injection Payload
 
@@ -319,7 +317,7 @@ For each defense layer, mark which attack types it stops:
 
 ---
 
-## Part 6 — Hands-On: Audit Trail Design · 20 min
+## Part 6 — Hands-On: Audit Trail Design
 
 ### Reading — Minimum Audit Record
 
@@ -360,7 +358,7 @@ Write a 5-step incident response playbook. For each step, identify which governa
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 
 ### Self-Check
 
@@ -445,7 +443,7 @@ Tomorrow: **orchestration & multi-agent** — when one agent isn't enough, the p
 
 ### Pre-read for tomorrow (Day 30 · Orchestration & Multi-Agent)
 
-- **Resource:** <a href="../../../readings/ai-agents/">AI Agents Pre-Lecture Reading</a> (~30 min).
+- **Resource:** <a href="../../../readings/ai-agents/#consolidation-phase-2-wrap">AI Agents Pre-Lecture Reading</a>.
 - **Reflection questions:**
   1. Why would you split work across multiple agents instead of one large loop?
   2. What is the **planner-worker** pattern? Who decides task decomposition?

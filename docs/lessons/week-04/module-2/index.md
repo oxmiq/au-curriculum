@@ -1,7 +1,7 @@
 # Day 17 · Pipeline & Expert Parallelism
 
 > **Concept of the day:** **PP** splits the model by layer depth across nodes — needed when one node isn't enough. **EP** distributes experts in MoE models across GPUs. **Pipeline bubbles** = the idle time PP creates.<br>
-> **Pre-reading:** Pipeline parallelism + Expert Parallelism — <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Large Transformer Model Inference Optimization</a> (~20 min, PP and MoE sections).
+> **Pre-reading:** Pipeline parallelism + Expert Parallelism — <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Large Transformer Model Inference Optimization</a> (PP and MoE sections).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 4 — Scaling &amp; Stacks</a>
     <span class="sep">/</span>
     <span>Day 17 · Pipeline Parallelism + MoE</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-04/module-2}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review + Readiness Check | 15 min |
-| Part 2 | Core Concept: Pipeline Parallelism | 20 min |
-| Part 3 | Deep Dive: Bubbles & TP vs PP | 15 min |
-| Part 4 | Core Concept: Expert Parallelism | 20 min |
-| Part 5 | Hands-On: Config Design | 30 min |
-| 7 | Wrap-up & Connection | 10 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review + Readiness Check |
+| Part 2 | Core Concept: Pipeline Parallelism |
+| Part 3 | Deep Dive: Bubbles & TP vs PP |
+| Part 4 | Core Concept: Expert Parallelism |
+| Part 5 | Hands-On: Config Design |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review + Readiness Check · 15 min
+## Part 1 — Pre-Reading Review + Readiness Check
 ### Before You Start
 
-You should have already read: Pipeline parallelism overview + Mixtral MoE architecture — Pre-Lecture Reading **Reader 8** (~20 min).
+You should have already read: Pipeline parallelism overview + Mixtral MoE architecture — Pre-Lecture Reading **Reader 8**.
 
 ### Readiness Check
 
@@ -143,7 +141,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concept — Pipeline Parallelism · 20 min
+## Part 2 — Core Concept — Pipeline Parallelism
 ### Reading — Why This Matters
 
 For models that don't fit in one node (e.g. Llama-3-405B, GPT-4-class), Pipeline Parallelism is unavoidable. For MoE models (Mixtral, DeepSeek, GPT-OSS-20B), Expert Parallelism is the dominant cost. Both have unique failure modes (bubbles, hot experts) that TP doesn't have.
@@ -176,7 +174,7 @@ A token's forward pass flows **stage A → B → C → D → output**.
 
 ---
 
-## Part 3 — Deep Dive — Bubbles & TP vs PP · 15 min
+## Part 3 — Deep Dive — Bubbles & TP vs PP
 ### Reading — Pipeline Bubbles
 
 A single token can't be in two stages at once. Naïve scheduling: stage B idles while stage A computes layer 1, etc. → **pipeline bubble**.
@@ -201,7 +199,7 @@ A single token can't be in two stages at once. Naïve scheduling: stage B idles 
 
 ---
 
-## Part 4 — Core Concept — Expert Parallelism · 20 min
+## Part 4 — Core Concept — Expert Parallelism
 ### Reading — MoE in 2 Sentences
 
 A **Mixture-of-Experts** layer has many "expert" MLPs but each token only flows through a small subset (typically **top-2 of 8** or top-2 of 64). Total parameters huge; **active** parameters per token small.
@@ -245,8 +243,8 @@ PP = 1 or 2  (only if model exceeds even that)
 
 ---
 
-## Part 5 — Hands-On — Config Design · 30 min
-### Exercise 1: Pipeline Bubble Math (15 min)
+## Part 5 — Hands-On — Config Design
+### Exercise 1: Pipeline Bubble Math
 
 Compute pipeline bubble fraction for `num_stages = 4` and 1, 4, 16, 64 micro-batches.
 
@@ -258,7 +256,7 @@ Compute pipeline bubble fraction for `num_stages = 4` and 1, 4, 16, 64 micro-bat
 - stages=4, microbatches=16: (4-1)/16 = 0.1875 → ~19% bubble
 - stages=4, microbatches=64: (4-1)/64 = 0.047 → ~5% bubble ✓
 
-### Exercise 2: 405B Model Design (15 min)
+### Exercise 2: 405B Model Design
 
 Llama-3-405B FP16 = 810 GB. Design a config on 16 H100s:
 - TP, PP, per-GPU shard size, comms budget
@@ -267,7 +265,7 @@ Llama-3-405B FP16 = 810 GB. Design a config on 16 H100s:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -355,13 +353,13 @@ Tomorrow: **speculative decoding** — turn slow sequential decode into a series
 
 ### Pre-read for tomorrow (Day 18 · Speculative Decoding)
 
-- **Resource:** <a href="https://lilianweng.github.io/posts/2023-11-21-spec-decoding/" target="_blank" rel="noopener">Lilian Weng — Speculative Decoding</a> (~15 min, first half). Alternative: <a href="https://jalammar.github.io/illustrated-speculative-decoding/" target="_blank" rel="noopener">Jay Alammar — Illustrated Speculative Decoding</a>.
+- **Resource:** <a href="https://lilianweng.github.io/posts/2023-11-21-spec-decoding/" target="_blank" rel="noopener">Lilian Weng — Speculative Decoding</a> (first half). Alternative: <a href="https://jalammar.github.io/illustrated-speculative-decoding/" target="_blank" rel="noopener">Jay Alammar — Illustrated Speculative Decoding</a>.
 - **Reflection questions:**
   1. Decode is memory-bound and sequential. What can a smaller "draft" model contribute?
   2. What does the big "target" model verify?
   3. What's the expected speedup? What kills it?
 
-- **Resource:** "Speculative decoding explained" with diagrams — Pre-Lecture Reading **Reader 8** (advanced serving) (~15 min).
+- **Resource:** "Speculative decoding explained" with diagrams — Pre-Lecture Reading **Reader 8** (advanced serving).
 - **Reflection questions:**
   1. Decode is memory-bound and sequential. What can a smaller "draft" model contribute?
   2. What does the big "target" model verify?

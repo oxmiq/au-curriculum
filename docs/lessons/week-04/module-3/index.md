@@ -1,7 +1,7 @@
 # Day 18 · Speculative Decoding
 
 > **Concept of the day:** a small **draft** model proposes K tokens; the big **target** model verifies them in **one** parallel forward pass. Convert sequential memory-bound decode into batched-style verification. 2–3× speedup typical.<br>
-> **Pre-reading:** "Speculative decoding explained" — <a href="https://lilianweng.github.io/posts/2023-11-21-spec-decoding/" target="_blank" rel="noopener">Lilian Weng — Speculative Decoding</a> (~15 min, first half).
+> **Pre-reading:** "Speculative decoding explained" — <a href="https://lilianweng.github.io/posts/2023-11-21-spec-decoding/" target="_blank" rel="noopener">Lilian Weng — Speculative Decoding</a> (first half).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 4 — Scaling &amp; Stacks</a>
     <span class="sep">/</span>
     <span>Day 18 · Speculative Decoding</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-04/module-3}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review + Readiness Check | 15 min |
-| Part 2 | Core Concept: The Wasted-Compute Problem | 15 min |
-| Part 3 | Core Concept: The Speculative Trick | 20 min |
-| Part 4 | Deep Dive: Why It's Faster + Bit-Exactness | 15 min |
-| Part 5 | Hands-On: Calculations + Tradeoffs | 30 min |
-| 7 | Wrap-up & Connection | 15 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review + Readiness Check |
+| Part 2 | Core Concept: The Wasted-Compute Problem |
+| Part 3 | Core Concept: The Speculative Trick |
+| Part 4 | Deep Dive: Why It's Faster + Bit-Exactness |
+| Part 5 | Hands-On: Calculations + Tradeoffs |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review + Readiness Check · 15 min
+## Part 1 — Pre-Reading Review + Readiness Check
 ### Before You Start
 
-You should have already read: "Speculative decoding explained" — Pre-Lecture Reading **Reader 6** (~15 min).
+You should have already read: "Speculative decoding explained" — Pre-Lecture Reading **Reader 6**.
 
 ### Readiness Check
 
@@ -143,7 +141,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concept — The Wasted-Compute Problem · 15 min
+## Part 2 — Core Concept — The Wasted-Compute Problem
 ### Reading — Why This Matters
 
 The most impactful "free" decode speedup of the last two years. Used in vLLM, TGI, TensorRT-LLM. **Bit-exact** with greedy decoding under speculative sampling — so quality is unchanged.
@@ -165,7 +163,7 @@ Idea: while the GPU reads weights anyway, can it produce **more than one token o
 
 ---
 
-## Part 3 — Core Concept — The Speculative Trick · 20 min
+## Part 3 — Core Concept — The Speculative Trick
 ### Reading — How Speculative Decoding Works
 
 1. A tiny **draft model** (e.g. 1B params, 30× smaller and faster) proposes the next **K tokens** sequentially. Cheap because it's tiny.
@@ -187,7 +185,7 @@ Idea: while the GPU reads weights anyway, can it produce **more than one token o
 
 ---
 
-## Part 4 — Deep Dive — Why It's Faster + Bit-Exactness · 15 min
+## Part 4 — Deep Dive — Why It's Faster + Bit-Exactness
 ### Reading — The Speedup Math
 
 The target's single forward pass over K tokens has roughly the **same memory cost** as one decode step (it reads all weights once). But it produces up to K accepted tokens.
@@ -218,8 +216,8 @@ Under **speculative sampling** (the rejection-sampling variant), the output dist
 
 ---
 
-## Part 5 — Hands-On — Calculations + Tradeoffs · 30 min
-### Exercise 1: Verification Walkthrough (15 min)
+## Part 5 — Hands-On — Calculations + Tradeoffs
+### Exercise 1: Verification Walkthrough
 
 On paper, walk through one verification step:
 - Draft proposes: "the cat sat on"
@@ -227,7 +225,7 @@ On paper, walk through one verification step:
 
 **Answer:** If target accepts "the cat sat", tokens 1-3 are kept, token 4 is rejected. Next iteration starts from "on".
 
-### Exercise 2: Speedup Math (15 min)
+### Exercise 2: Speedup Math
 
 If draft is 30× faster and acceptance rate is 0.7 at K=4:
 - What's expected speedup over plain decode?
@@ -243,7 +241,7 @@ If draft is 30× faster and acceptance rate is 0.7 at K=4:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 15 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -331,7 +329,7 @@ Tomorrow: putting it all together — **serving engines** (vLLM, TGI, TensorRT-L
 
 ### Pre-read for tomorrow (Day 19 · Serving Engines & Continuous Batching)
 
-- **Resource:** <a href="https://docs.vllm.ai/en/latest/getting_started/quickstart.html" target="_blank" rel="noopener">vLLM — Getting Started</a> + <a href="https://www.anyscale.com/blog/comparing-llm-inference-frameworks" target="_blank" rel="noopener">Anyscale — Comparing LLM Inference Frameworks</a> (~15 min).
+- **Resource:** <a href="https://docs.vllm.ai/en/latest/getting_started/quickstart.html" target="_blank" rel="noopener">vLLM — Getting Started</a> + <a href="https://www.anyscale.com/blog/comparing-llm-inference-frameworks" target="_blank" rel="noopener">Anyscale — Comparing LLM Inference Frameworks</a>.
 - **Reflection questions:**
   1. Why can't you just use PyTorch in production? What's missing?
   2. What does "continuous batching" do that "static batching" doesn't?

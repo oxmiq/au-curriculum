@@ -7,7 +7,7 @@ You are running inside a student's fork of the Oxmiq × Andhra University curric
 | Path | Owner | Notes |
 |------|-------|-------|
 | `docs/lessons/week-xx/module-y/index.md` | upstream | the lesson — read-only |
-| `docs/lessons/.../knowledge-check.html` | upstream | the module's **canonical knowledge check** — read-only (older forks may name it `quiz.html`) |
+| `docs/lessons/.../knowledge-check.md` | upstream | the module's **canonical knowledge check** (themed MkDocs page + `ox-self-check` widget) — read-only (older forks may name it `knowledge-check.html` / `quiz.html`) |
 | `docs/lessons/.../assignment.md` | upstream | the assignment — read-only |
 | `docs/kb/graph.json` | upstream | curriculum structure + prereq edges — read-only |
 | `docs/practice/week-xx/module-y/` | OxTutor | practice knowledge checks you generate |

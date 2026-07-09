@@ -1,7 +1,7 @@
 # Day 16 · Tensor Parallelism
 
 > **Concept of the day:** **TP** splits each layer's matrices across GPUs. Used for one model that's too big for one GPU, or to reduce per-token decode latency. **NVLink required** — TP is intra-node only.<br>
-> **Pre-reading:** "Tensor parallelism explained" — <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a> (~20 min, read the Tensor Parallel section). Alternative: <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Transformer Inference Optimization</a>.
+> **Pre-reading:** "Tensor parallelism explained" — <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a> (read the Tensor Parallel section). Alternative: <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Transformer Inference Optimization</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 4 — Scaling &amp; Stacks</a>
     <span class="sep">/</span>
     <span>Day 16 · Multi-GPU Parallelism</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-04/module-1}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review + Readiness Check | 15 min |
-| Part 2 | Core Concept: What TP Splits | 20 min |
-| Part 3 | Worked Example: Llama-3-70B on 8×H100 | 15 min |
-| Part 4 | Deep Dive: NVLink & The Roofline | 20 min |
-| Part 5 | Hands-On: Memory Calculations | 30 min |
-| 7 | Wrap-up & Connection | 10 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review + Readiness Check |
+| Part 2 | Core Concept: What TP Splits |
+| Part 3 | Worked Example: Llama-3-70B on 8×H100 |
+| Part 4 | Deep Dive: NVLink & The Roofline |
+| Part 5 | Hands-On: Memory Calculations |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review + Readiness Check · 15 min
+## Part 1 — Pre-Reading Review + Readiness Check
 ### Before You Start
 
-You should have already read: "Tensor parallelism explained" — Pre-Lecture Reading **Reader 8** (parallel computing primer) (~20 min).
+You should have already read: "Tensor parallelism explained" — Pre-Lecture Reading **Reader 8** (parallel computing primer).
 
 ### Readiness Check
 
@@ -275,7 +273,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concept — What TP Splits · 20 min
+## Part 2 — Core Concept — What TP Splits
 ### Reading — Why This Matters
 
 The first scaling lever you reach for. Tensor Parallelism is what runs Llama-3-70B on 8×H100 — the bread-and-butter production config. Get this wrong and you either OOM or burn latency on PCIe round-trips.
@@ -302,7 +300,7 @@ Each GPU holds its slice of the weights, computes its slice of the matmul, then 
 
 ---
 
-## Part 3 — Worked Example — Llama-3-70B on 8×H100 · 15 min
+## Part 3 — Worked Example — Llama-3-70B on 8×H100
 ### Reading — The Numbers
 
 Let's walk through the actual math for the canonical production config:
@@ -322,7 +320,7 @@ This is why TP=8 is the default for 70B models — it fits comfortably while min
 
 ---
 
-## Part 4 — Deep Dive — NVLink & The Roofline · 20 min
+## Part 4 — Deep Dive — NVLink & The Roofline
 ### Reading — Why NVLink Matters
 
 The all-reduce after every layer moves **~per-token-batch × hidden-dim** bytes between all TP ranks. For 70B at hidden_dim = 8192, batch 32, that's:
@@ -356,8 +354,8 @@ This is why production LLM serving uses **the largest TP that NVLink supports** 
 
 ---
 
-## Part 5 — Hands-On — Memory & Latency Calculations · 30 min
-### Exercise 1: Weight Shard Calculator (15 min)
+## Part 5 — Hands-On — Memory & Latency Calculations
+### Exercise 1: Weight Shard Calculator
 
 For Llama-3-70B FP16:
 - Compute per-GPU weight shard at `tp = 1, 2, 4, 8`
@@ -369,7 +367,7 @@ For Llama-3-70B FP16:
 - tp=4: 35 GB (won't fit)
 - tp=8: 17.5 GB ✓ (fits with room to spare)
 
-### Exercise 2: Decode Latency Estimate (15 min)
+### Exercise 2: Decode Latency Estimate
 
 Given:
 - Per-GPU weight reads: 17.5 GB (at tp=8)
@@ -381,7 +379,7 @@ Estimate decode latency per token at tp=4 and tp=8. What's the practical lower b
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -623,7 +621,7 @@ Tomorrow: when one node isn't enough — **Pipeline Parallelism** (cross-node) a
 
 ### Pre-read for tomorrow (Day 17 · Pipeline & Expert Parallelism)
 
-- **Resource:** <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Large Transformer Model Inference Optimization</a> (~20 min, Pipeline Parallelism + MoE sections). Alternative: <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a>.
+- **Resource:** <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Large Transformer Model Inference Optimization</a> (Pipeline Parallelism + MoE sections). Alternative: <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a>.
 - **Reflection questions:**
   1. PP splits a model how? (Hint: depth-wise.)
   2. What is a "pipeline bubble" and why is it bad?

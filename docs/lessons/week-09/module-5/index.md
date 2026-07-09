@@ -12,8 +12,6 @@
     <a href="../">Week 9 — Capsule: Benchmarking &amp; Eval</a>
     <span class="sep">/</span>
     <span>Day 46 · Consolidation</span>
-    <span class="sep">·</span>
-    <span class="duration">Friday · review &amp; wrap</span>
     {status:week-09/module-5}
   </div>
 </div>
@@ -21,24 +19,24 @@
 
 ## Self-Study Time Buckets
 
-| Bucket | Activity | Duration |
-|---|---|---|
-| 🔵 Bucket 1 | Knowledge Check | 30 min |
-| 🟢 Bucket 2 | Self-Assessment: Full Bench-to-Dashboard Sprint | 25 min |
-| 🟡 Bucket 3 | Benchmark Drills | 25 min |
-| 🟠 Bucket 4 | Eval & Quality Drills | 25 min |
-| 🔴 Bucket 5 | Capstone Seed — Draft Your Charter | 30 min |
-| 🟣 Bucket 6 | Open Lab & Week 10 Preview | 15 min |
+| Bucket | Activity |
+|---|---|
+| 🔵 Bucket 1 | Knowledge Check |
+| 🟢 Bucket 2 | Self-Assessment: Full Bench-to-Dashboard Sprint |
+| 🟡 Bucket 3 | Benchmark Drills |
+| 🟠 Bucket 4 | Eval & Quality Drills |
+| 🔴 Bucket 5 | Capstone Seed — Draft Your Charter |
+| 🟣 Bucket 6 | Open Lab & Week 10 Preview |
 
 ---
 
-## 🔵 Bucket 1: Knowledge Check (30 min)
+## 🔵 Bucket 1: Knowledge Check
 
-[Take the canonical knowledge check](knowledge-check.html). Covers benchmark mechanics, model evaluation, scheduling, MCP.
+[Take the canonical knowledge check](knowledge-check.md). Covers benchmark mechanics, model evaluation, scheduling, MCP.
 
 ---
 
-## 🟢 Bucket 2: Self-Assessment — Full Bench-to-Dashboard Sprint (25 min)
+## 🟢 Bucket 2: Self-Assessment — Full Bench-to-Dashboard Sprint
 
 **Timed — 20 min target.** Execute from scratch without notes:
 
@@ -53,7 +51,7 @@ If you can do this in <20 minutes, you're ready for the Capstone.
 
 ---
 
-## 🟡 Bucket 3: Benchmark Drills (25 min)
+## 🟡 Bucket 3: Benchmark Drills
 
 1. What does `--concurrency 8` mean? How does it differ from `--num-prompts`?
 2. At what ISL/OSL do you expect the system to become compute-bound vs memory-bound? (Phase 1 vocabulary)
@@ -63,7 +61,7 @@ If you can do this in <20 minutes, you're ready for the Capstone.
 
 ---
 
-## 🟠 Bucket 4: Eval & Quality Drills (25 min)
+## 🟠 Bucket 4: Eval & Quality Drills
 
 1. You benchmark two quantizations: FP16 = 1400 tok/s, AWQ = 1800 tok/s. AWQ is 29% faster. Is AWQ strictly better? What else must you check?
 2. Run `capsule chat` against a model with `--temperature 0.1`. Ask the same question 5 times. Describe what you observe (consistency).
@@ -72,7 +70,7 @@ If you can do this in <20 minutes, you're ready for the Capstone.
 
 ---
 
-## 🔴 Bucket 5: Capstone Seed — Draft Your Charter (30 min)
+## 🔴 Bucket 5: Capstone Seed — Draft Your Charter
 
 The capstone starts Monday. Today you draft your charter. Template fields to fill:
 
@@ -96,15 +94,15 @@ Can you fill in the brackets now (as a hypothesis)? If not, the charter is incom
 
 ---
 
-## 🟣 Bucket 6: Open Lab & Week 10 Preview (15 min)
+## 🟣 Bucket 6: Open Lab & Week 10 Preview
 
-- Pre-read for Monday: Capstone Guide + Day-46-Charter-Template (~20 min)
+- Pre-read for Monday: Capstone Guide + Day-46-Charter-Template
 - Ask oxtutor to peer-review your charter draft
 - Catch up on any incomplete Week 9 assignments
 
 ## Pre-read for Monday (Week 10 · Day 47 · Kickoff & Planning)
 
-Resource: Capstone Guide + Day-46-Charter-Template (~20 min). Questions to carry in:
+Resource: Capstone Guide + Day-46-Charter-Template. Questions to carry in:
 
 - What does a "strong" vs "weak" charter look like?
 - What does the panel check for?

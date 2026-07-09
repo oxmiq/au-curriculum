@@ -8,7 +8,7 @@ drift: |
 # Day 42 · Your First Benchmark
 
 > **Concept of the day:** `capsule benchmark` orchestrates a serving engine + a request load + metric collection. Phase-1 vocabulary (TTFT, ITL, p99, throughput) lands here in real numbers. Today: run *one* benchmark cleanly, end to end, on a leased GPU node.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 41 section</a> (~30 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 8.
+> **Pre-reading:** <a href="../../../readings/capsule/#day-41-your-first-benchmark">Capsule Power-User Pre-Lecture Reading — Day 41 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-8-model-evaluation-benchmarking-the-inferencemax-path">Capsule Lab Guide</a> Module 8.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -20,8 +20,6 @@ drift: |
     <a href="../">Week 9 — Capsule: Benchmarking &amp; Eval</a>
     <span class="sep">/</span>
     <span>Day 42 · Benchmarking</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-09/module-1}
   </div>
 </div>
@@ -31,21 +29,21 @@ drift: |
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: Benchmark Anatomy | 25 min |
-| Part 3 | Core Concepts: Reading the Report | 20 min |
-| Part 4 | Deep Dive: What One Benchmark Proves (and Doesn't) | 15 min |
-| Part 5 | Hands-On: Run Your First Benchmark | 35 min |
-| Part 6 | Hands-On: Annotate & Defend the Report | 25 min |
-| Part 7 | Wrap-up & Connection | 10 min |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Benchmark Anatomy |
+| Part 3 | Core Concepts: Reading the Report |
+| Part 4 | Deep Dive: What One Benchmark Proves (and Doesn't) |
+| Part 5 | Hands-On: Run Your First Benchmark |
+| Part 6 | Hands-On: Annotate & Defend the Report |
+| Part 7 | Wrap-up & Connection |
 
 **Total: ~145 min**
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 
 ### Reading — Why this matters
 
@@ -158,7 +156,7 @@ Answer before reading on:
 
 ---
 
-## Part 2 — Core Concepts: Benchmark Anatomy · 25 min
+## Part 2 — Core Concepts: Benchmark Anatomy
 
 ### Reading — The three-piece architecture
 
@@ -206,7 +204,7 @@ Without looking at the documentation:
 
 ---
 
-## Part 3 — Core Concepts: Reading the Report · 20 min
+## Part 3 — Core Concepts: Reading the Report
 
 ### Reading — Phase-1 vocabulary check
 
@@ -240,7 +238,7 @@ For each field in the JSON above, write:
 
 ---
 
-## Part 4 — Deep Dive: What One Benchmark Proves · 15 min
+## Part 4 — Deep Dive: What One Benchmark Proves
 
 ### Reading — The limits of a single data point
 
@@ -272,12 +270,12 @@ Write one sentence describing what you'd need to run to answer each question:
 
 ---
 
-## Part 5 — Hands-On: Run Your First Benchmark · 35 min
+## Part 5 — Hands-On: Run Your First Benchmark
 
 ### Exercise: First Clean Baseline
 
-1. (5 min) Lease an H100 or T4 node depending on availability.
-2. (20 min) Run the minimum-viable benchmark with `--stream`:
+1. Lease an H100 or T4 node depending on availability.
+2. Run the minimum-viable benchmark with `--stream`:
    ```
    capsule benchmark \
      --model meta-llama/Llama-3.1-8B-Instruct \
@@ -288,14 +286,14 @@ Write one sentence describing what you'd need to run to answer each question:
      --stream
    ```
    Watch the live output. Confirm it produces a `report.json`.
-3. (5 min) Pull the report: `capsule storage get /shared/runs/<your-dir>/report.json ./`.
-4. (5 min) Release the lease: `capsule lease release`.
+3. Pull the report: `capsule storage get /shared/runs/<your-dir>/report.json ./`.
+4. Release the lease: `capsule lease release`.
 
 **Success criterion:** you have a `report.json` on your laptop and can open it.
 
 ---
 
-## Part 6 — Hands-On: Annotate & Defend the Report · 25 min
+## Part 6 — Hands-On: Annotate & Defend the Report
 
 ### Exercise: Annotation
 
@@ -319,7 +317,7 @@ Open `report.json`. For each metric, add an inline comment (you can use a `.json
 
 Pair with another learner. Each person:
 
-1. Presents their report (2 min).
+1. Presents their report.
 2. Answers: "Why is your `ttft_p50` what it is for this model + this GPU + this concurrency?"
 3. Receives one challenge question from their partner.
 
@@ -327,7 +325,7 @@ Commit your annotated report to your fork.
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 

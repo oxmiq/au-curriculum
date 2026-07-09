@@ -7,7 +7,7 @@ drift: |
 # Day 35 · Environments & Fleet Discovery
 
 > **Concept of the day:** an **environment** is a fleet you can see; a **node** is a machine you can lease. `capsule env`, `capsule node list`, `capsule node show` are your three workhorse commands. Filter by capability — never by name when you can avoid it.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 37 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 3.
+> **Pre-reading:** <a href="../../../readings/capsule/#day-37-environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading — Day 37 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -19,8 +19,6 @@ drift: |
     <a href="../">Week 7 — Bridge: Theory Meets Tooling</a>
     <span class="sep">/</span>
     <span>Day 35 · Environments</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-07/module-4}
   </div>
 </div>
@@ -30,19 +28,19 @@ drift: |
 
 ## Lesson plan
 
-| Part | What you do | Time |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: Environments & Discovery Commands | 20 min |
-| Part 3 | Core Concepts: Node Anatomy & Status Fields | 20 min |
-| Part 4 | Deep Dive: Capability-Based Filtering | 20 min |
-| Part 5 | Core Concepts: Leases | 15 min |
-| Part 6 | Hands-On: Fleet Discovery Drills | 40 min |
-| Part 7 | Wrap-up & Connection | 10 min |
+| Part | What you do |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Environments & Discovery Commands |
+| Part 3 | Core Concepts: Node Anatomy & Status Fields |
+| Part 4 | Deep Dive: Capability-Based Filtering |
+| Part 5 | Core Concepts: Leases |
+| Part 6 | Hands-On: Fleet Discovery Drills |
+| Part 7 | Wrap-up & Connection |
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 
-> Read Lab Guide **Module 3** (~15 min) before this lesson. Use this Part to consolidate what you read.
+> Read Lab Guide **Module 3** before this lesson. Use this Part to consolidate what you read.
 
 ### Exercise: Self-Check
 
@@ -151,7 +149,7 @@ If you hesitated on any of these, flag it — Parts 2–5 will close those gaps.
 </script>
 </div>
 
-## Part 2 — Core Concepts: Environments & Discovery Commands · 20 min
+## Part 2 — Core Concepts: Environments & Discovery Commands
 
 ### Reading — Why this matters
 
@@ -181,7 +179,7 @@ Capsule's value: heterogeneous hardware behind one UX. You'll see:
 
 The Week 9 benchmark suite will sweep across multiple classes to compare cost/perf — discovery is the entry point.
 
-## Part 3 — Core Concepts: Node Anatomy & Status Fields · 20 min
+## Part 3 — Core Concepts: Node Anatomy & Status Fields
 
 ### Reading — Anatomy of a node listing
 
@@ -207,7 +205,7 @@ The naming convention echoes `capsule-ansible` inventory: `nv-h100-04-1` = NVIDI
 | Same node leased to two people | Race in scheduler (file a bug — Day 40) |
 | Node `available` but `lease` fails | Tag mismatch or quota |
 
-## Part 4 — Deep Dive: Capability-Based Filtering · 20 min
+## Part 4 — Deep Dive: Capability-Based Filtering
 
 ### Reading — Filter by capability, not name
 
@@ -238,7 +236,7 @@ Why: hardware retires, names change, instances get rebuilt. Capability filters s
 
 Write the `capsule node list` filter you'd use 90% of the time for your typical workload. Save it somewhere you can paste from quickly.
 
-## Part 5 — Core Concepts: Leases · 15 min
+## Part 5 — Core Concepts: Leases
 
 ### Reading — Leases
 
@@ -253,15 +251,15 @@ capsule node lease --gpu h100 --min-gpus 8 --duration 2h --reason "week-9 benchm
 - Released on expiry, manual release (`capsule lease release`), or shutdown.
 - **Reason field is mandatory in production** envs — searchable in audit logs.
 
-## Part 6 — Hands-On: Fleet Discovery Drills · 40 min
+## Part 6 — Hands-On: Fleet Discovery Drills
 
 ### Exercise: Inventory the fleet
 
-(15 min) Run `capsule env list`, then `capsule node list`. Identify available capacity by GPU class. Note which classes are available vs fully leased.
+ Run `capsule env list`, then `capsule node list`. Identify available capacity by GPU class. Note which classes are available vs fully leased.
 
 ### Exercise: Capability filter
 
-(20 min) Filter exercise: find every available 8×H100 node with NVLink in your env. Express as a single command. Then:
+ Filter exercise: find every available 8×H100 node with NVLink in your env. Express as a single command. Then:
 
 1. Lease a small dev node for 1 hour.
 2. Verify the lease shows under your name (`capsule node show <id>`).
@@ -269,9 +267,9 @@ capsule node lease --gpu h100 --min-gpus 8 --duration 2h --reason "week-9 benchm
 
 ### Exercise: Pair — hardware diversity
 
-(5 min) Each person filters for a different hardware class. Compare what's available and what's scarce.
+ Each person filters for a different hardware class. Compare what's available and what's scarce.
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 
 **Before you finish, check each item:**
 
@@ -353,7 +351,7 @@ Tomorrow: **connecting** — once you have a lease, how to actually shell in, wh
 
 ### Pre-read for tomorrow (Day 38 · Connecting to Machines)
 
-- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 38 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 5.
+- **Resource:** <a href="../../../readings/capsule/#day-38-connecting-to-machines">Capsule Power-User Pre-Lecture Reading — Day 38 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5.
 - **Reflection questions:**
   1. What command connects you to a leased node?
   2. How does Capsule's connect differ from raw `ssh`?

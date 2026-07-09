@@ -12,8 +12,6 @@
     <a href="../">Week 2 — The GPU &amp; Memory</a>
     <span class="sep">/</span>
     <span>Day 10 · Consolidation</span>
-    <span class="sep">·</span>
-    <span class="duration">Friday · review &amp; wrap</span>
     {status:week-02/module-5}
   </div>
 </div>
@@ -25,21 +23,21 @@
 
 This consolidation day is different from other days — it's for practice and review. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Week 2 Knowledge Check | 30 min |
-| Part 2 | Self-Assessment | 20 min |
-| Part 3 | Practice: Pipeline Review | 25 min |
-| Part 4 | Practice: GPU & Memory Review | 25 min |
-| Part 5 | Feynman Teach-Back | 30 min |
-| 7 | Open Lab & Wrap-up | 30 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Week 2 Knowledge Check |
+| Part 2 | Self-Assessment |
+| Part 3 | Practice: Pipeline Review |
+| Part 4 | Practice: GPU & Memory Review |
+| Part 5 | Feynman Teach-Back |
+| 7 | Open Lab & Wrap-up |
 
 ---
 
-## Part 1 — Week 2 Knowledge Check · 30 min
+## Part 1 — Week 2 Knowledge Check
 ### Exercise: Take the Knowledge Check
 
-[Take the Week 2 knowledge check](knowledge-check.html) — covers GPU anatomy + memory hierarchy + bottleneck classification. Questions drawn from Flashcards Days 6–9.
+[Take the Week 2 knowledge check](knowledge-check.md) — covers GPU anatomy + memory hierarchy + bottleneck classification. Questions drawn from Flashcards Days 6–9.
 
 **Passing score:** 10/15 (67%)
 
@@ -51,7 +49,7 @@ If you score below 10/15:
 
 ---
 
-## Part 2 — Self-Assessment · 20 min
+## Part 2 — Self-Assessment
 ### Self-Check List
 
 Go through each item and mark whether you can explain it **without notes**:
@@ -71,7 +69,7 @@ By Friday you can answer: *"Why is most LLM inference time spent moving data, no
 
 ---
 
-## Part 3 — Practice — Pipeline Review · 25 min
+## Part 3 — Practice — Pipeline Review
 ### Hands-On: Trace the Prompt
 
 Draw from memory the inference pipeline and annotate each step:
@@ -88,7 +86,7 @@ Then answer:
 
 ---
 
-## Part 4 — Practice — GPU & Memory Review · 25 min
+## Part 4 — Practice — GPU & Memory Review
 ### Hands-On: Quick Calculations
 
 Practice these calculations until they're automatic:
@@ -118,7 +116,7 @@ Fill in from memory:
 
 ---
 
-## Part 5 — Feynman Teach-Back · 30 min
+## Part 5 — Feynman Teach-Back
 ### Exercise: Explain to a Peer
 
 Choose one concept from the list and explain it as if to a peer who missed the week:
@@ -137,7 +135,7 @@ Choose one concept from the list and explain it as if to a peer who missed the w
 
 ---
 
-## Part 7 — Wrap-up & Connection · 30 min
+## Part 7 — Wrap-up & Connection
 ### What to Do
 
 This is open time. Choose what you need:
@@ -157,7 +155,7 @@ Week 3 begins on Monday. You'll learn about:
 
 ### Pre-read for Monday (Week 3, Day 11)
 
-**Resource:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering Best Practices</a> (~20 min, read the prefill/decode section). Alternative: <a href="https://www.baseten.co/blog/llm-transformer-inference-guide/" target="_blank" rel="noopener">Baseten — Prefill vs Decode</a>.
+**Resource:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering Best Practices</a> (read the prefill/decode section). Alternative: <a href="https://www.baseten.co/blog/llm-transformer-inference-guide/" target="_blank" rel="noopener">Baseten — Prefill vs Decode</a>.
 
 **Reflection questions:**
 1. What is the KV cache?

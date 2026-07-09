@@ -10,7 +10,7 @@ drift: |
 # Day 33 · Capsule Foundations & Architecture
 
 > **Concept of the day:** **Capsule** = orchestration platform for on-prem GPU fleets. CLI on your laptop talks to a **control plane**; the control plane manages **environments** (clusters of nodes); each node runs an **agent** that exposes machines. Install once, configure once, operate every day.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 36 section</a> (~40 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Modules 1 + 2.
+> **Pre-reading:** <a href="../../../readings/capsule/#day-36-capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading — Day 36 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-1-capsule-foundations">Capsule Lab Guide</a> Modules 1 + 2.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -22,8 +22,6 @@ drift: |
     <a href="../">Week 7 — Bridge: Theory Meets Tooling</a>
     <span class="sep">/</span>
     <span>Day 33 · Capsule Foundations</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-07/module-2}
   </div>
 </div>
@@ -33,19 +31,19 @@ drift: |
 
 ## Lesson plan
 
-| Part | What you do | Time |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: The Three Layers | 25 min |
-| Part 3 | Core Concepts: Installation Flow | 20 min |
-| Part 4 | Deep Dive: What Each Layer Stores | 20 min |
-| Part 5 | Hands-On: Install & Verify | 30 min |
-| Part 6 | Hands-On: Architecture Diagram | 20 min |
-| Part 7 | Wrap-up & Connection | 15 min |
+| Part | What you do |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: The Three Layers |
+| Part 3 | Core Concepts: Installation Flow |
+| Part 4 | Deep Dive: What Each Layer Stores |
+| Part 5 | Hands-On: Install & Verify |
+| Part 6 | Hands-On: Architecture Diagram |
+| Part 7 | Wrap-up & Connection |
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 
-> Read the Capsule Power User Lab Guide **Modules 1 + 2** (~35 min) before this lesson. Use this Part to consolidate what you read.
+> Read the Capsule Power User Lab Guide **Modules 1 + 2** before this lesson. Use this Part to consolidate what you read.
 
 ### Exercise: Self-Check
 
@@ -154,7 +152,7 @@ If you hesitated on any of these, flag it — the next three Parts will close th
 </script>
 </div>
 
-## Part 2 — Core Concepts: The Three Layers · 25 min
+## Part 2 — Core Concepts: The Three Layers
 
 ### Reading — Why this matters
 
@@ -206,7 +204,7 @@ An **environment** is a logical grouping of nodes — usually one per geographic
 
 Examples: `production`, `development`, `production-fre`, `production-tenstorrent` (mirroring the `capsule-ansible` inventory naming).
 
-## Part 3 — Core Concepts: Installation Flow · 20 min
+## Part 3 — Core Concepts: Installation Flow
 
 ### Reading — Installation flow (macOS + Linux)
 
@@ -228,7 +226,7 @@ That's the happy path. On a fresh laptop it's ~5 minutes.
 
 These are the four most-asked support questions. Memorize them.
 
-## Part 4 — Deep Dive: What Each Layer Stores · 20 min
+## Part 4 — Deep Dive: What Each Layer Stores
 
 ### Reading — What a Capsule "install" actually does
 
@@ -250,11 +248,11 @@ Draw the flow for `capsule connect nv-h100-04-1`:
 
 **Question:** at which step would a clock-skew problem manifest? At which step would a corporate proxy problem manifest? Write your answers before continuing.
 
-## Part 5 — Hands-On: Install & Verify · 30 min
+## Part 5 — Hands-On: Install & Verify
 
 ### Exercise: Install Capsule on your laptop
 
-(20 min) Install Capsule on your laptop. Verify with `capsule version` and `capsule whoami`.
+ Install Capsule on your laptop. Verify with `capsule version` and `capsule whoami`.
 
 Expected output:
 
@@ -270,13 +268,13 @@ If you hit one of the four gotchas from Part 3, resolve it now. Pair up if neede
 
 ### Exercise: Configure your default environment
 
-(10 min) Run `capsule env list`. Identify which environments you have access to. Pick one as default with `capsule env use <env-name>`.
+ Run `capsule env list`. Identify which environments you have access to. Pick one as default with `capsule env use <env-name>`.
 
-## Part 6 — Hands-On: Architecture Diagram · 20 min
+## Part 6 — Hands-On: Architecture Diagram
 
 ### Exercise: Draw from memory
 
-(15 min) Draw the 3-layer architecture on paper — no peeking. Label each layer with:
+ Draw the 3-layer architecture on paper — no peeking. Label each layer with:
 
 - Where it runs
 - What it stores
@@ -286,9 +284,9 @@ Compare your drawing to the diagram in Part 2. Note every discrepancy.
 
 ### Exercise: Explore the Cheatsheet
 
-(5 min) Read the Cheatsheet's "first 10 minutes" section. Familiarize with the command surface.
+ Read the Cheatsheet's "first 10 minutes" section. Familiarize with the command surface.
 
-## Part 7 — Wrap-up & Connection · 15 min
+## Part 7 — Wrap-up & Connection
 
 **Before you finish, check each item:**
 
@@ -370,7 +368,7 @@ Tomorrow: **environments and fleet discovery** — how to find what's available,
 
 ### Pre-read for tomorrow (Day 37 · Environments & Fleet Discovery)
 
-- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 37 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 3.
+- **Resource:** <a href="../../../readings/capsule/#day-37-environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading — Day 37 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
 - **Reflection questions:**
   1. How do you list available machines in an environment?
   2. What fields tell you a machine is *available* vs *leased*?

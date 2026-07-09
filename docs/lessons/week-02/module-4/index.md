@@ -1,7 +1,7 @@
 # Day 9 · Compute-Bound vs Memory-Bound
 
 > **Concept of the day:** ops:byte ratio. The roofline model. Which ceiling you're hitting. **Punchline: prefill = compute. Decode = memory.**<br>
-> **Pre-reading:** <a href="https://horace.io/brrr_intro.html#compute" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Compute section)</a> (~15 min).
+> **Pre-reading:** <a href="https://horace.io/brrr_intro.html#compute" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Compute section)</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 2 — The GPU &amp; Memory</a>
     <span class="sep">/</span>
     <span>Day 9 · Compute-Bound vs Memory-Bound</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-02/module-4}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 10 min |
-| Part 2 | Core Concepts: Roofline Model | 25 min |
-| Part 3 | Deep Dive: Ridge Points | 15 min |
-| Part 4 | Deep Dive: Where Kernels Sit | 20 min |
-| Part 5 | Hands-On: Calculate | 25 min |
-| 7 | Wrap-up & Connection | 15 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Roofline Model |
+| Part 3 | Deep Dive: Ridge Points |
+| Part 4 | Deep Dive: Where Kernels Sit |
+| Part 5 | Hands-On: Calculate |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 10 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: Pre-Lecture Reading **Reader 4 (complexity, memory, attention math)** + Study Guide §A.5 roofline subsection (~15 min).
+You should have already read: Pre-Lecture Reading **Reader 4 (complexity, memory, attention math)** + Study Guide §A.5 roofline subsection.
 
 ### Quick Self-Check
 
@@ -150,7 +148,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — Roofline Model · 25 min
+## Part 2 — Core Concepts — Roofline Model
 ### Reading — Why the Roofline Matters
 
 Knowing *which ceiling* a workload hits tells you *which knob to turn*: more FLOPs (bigger / better Tensor Cores)? more bandwidth (HBM3e, NVLink)? more parallelism? You can't optimize what you can't classify.
@@ -188,7 +186,7 @@ For each kernel:
 
 ---
 
-## Part 3 — Deep Dive — Ridge Points · 15 min
+## Part 3 — Deep Dive — Ridge Points
 ### Reading — Ridge Point Examples
 
 ### Ridge Point Formula
@@ -210,7 +208,7 @@ For each kernel:
 
 ---
 
-## Part 4 — Deep Dive — Where Kernels Sit · 20 min
+## Part 4 — Deep Dive — Where Kernels Sit
 ### Reading — Common Workloads
 
 | Kernel | Intensity (rough) | Verdict |
@@ -240,8 +238,8 @@ For each kernel:
 
 ---
 
-## Part 5 — Hands-On — Calculate · 25 min
-### Exercise 1: Arithmetic Intensity (10 min)
+## Part 5 — Hands-On — Calculate
+### Exercise 1: Arithmetic Intensity
 
 Calculate arithmetic intensity for:
 
@@ -255,7 +253,7 @@ Calculate arithmetic intensity for:
 - Bytes: 3N² × 2 = ~100 MB
 - Intensity: ~1,371,000 ops/byte
 
-### Exercise 2: Tensor Core Utilization (15 min)
+### Exercise 2: Tensor Core Utilization
 
 At intensity = 2 ops/byte (decode), what fraction of H100's peak compute can you actually use?
 
@@ -270,7 +268,7 @@ At intensity = 2 ops/byte (decode), what fraction of H100's peak compute can you
 
 ---
 
-## Part 7 — Wrap-up & Connection · 15 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -350,7 +348,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Friday: consolidation — Feynman teach-back across the four concepts (pipeline, GPU anatomy, memory hierarchy, roofline). Then the canonical [quiz](knowledge-check.html).
+Friday: consolidation — Feynman teach-back across the four concepts (pipeline, GPU anatomy, memory hierarchy, roofline). Then the canonical [quiz](knowledge-check.md).
 
 ---
 

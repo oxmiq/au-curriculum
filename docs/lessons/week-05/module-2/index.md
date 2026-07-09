@@ -1,7 +1,7 @@
 # Day 22 · Production Patterns
 
 > **Concept of the day:** **autoscale, warm pools, load balancing, observability, rollout strategies**. The operational layer that turns a serving stack into a service.<br>
-> **Pre-reading:** "Deploying LLMs in production" — <a href="https://huyenchip.com/2024/01/16/mlops-landscape.html" target="_blank" rel="noopener">Chip Huyen — Deploying ML Models to Production</a> (~20 min, read the serving section).
+> **Pre-reading:** "Deploying LLMs in production" — <a href="https://huyenchip.com/2024/01/16/mlops-landscape.html" target="_blank" rel="noopener">Chip Huyen — Deploying ML Models to Production</a> (read the serving section).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 5 — Metrics &amp; Production</a>
     <span class="sep">/</span>
     <span>Day 22 · Production Deployment</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-05/module-2}
   </div>
 </div>
@@ -26,22 +24,22 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours are organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Read: Why Production Matters | 10 min |
-| Part 2 | Deep Dive: Scaling & Cold Starts | 20 min |
-| Part 3 | Hands-On: Design an Autoscaler | 25 min |
-| Part 4 | Hands-On: Load Balancing Strategies | 20 min |
-| Part 5 | Discussion: Rollout Strategies | 20 min |
-| 7 | Reflection: Observability Kit | 15 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Read: Why Production Matters |
+| Part 2 | Deep Dive: Scaling & Cold Starts |
+| Part 3 | Hands-On: Design an Autoscaler |
+| Part 4 | Hands-On: Load Balancing Strategies |
+| Part 5 | Discussion: Rollout Strategies |
+| 7 | Reflection: Observability Kit |
 
 ---
 
-## Part 1 — Why Production Matters · 10 min
+## Part 1 — Why Production Matters
 
 ### Before You Start
 
-You should have already read: <a href="https://huyenchip.com/2024/01/16/mlops-landscape.html" target="_blank" rel="noopener">Chip Huyen — Deploying ML Models to Production</a> (~20 min, read the serving section).
+You should have already read: <a href="https://huyenchip.com/2024/01/16/mlops-landscape.html" target="_blank" rel="noopener">Chip Huyen — Deploying ML Models to Production</a> (read the serving section).
 
 ### Readiness Check
 
@@ -153,7 +151,7 @@ Take 2 minutes to write down:
 
 ---
 
-## Part 2 — Deep Dive — Scaling & Cold Starts · 20 min
+## Part 2 — Deep Dive — Scaling & Cold Starts
 ### Reading — Autoscaling for LLM Serving
 
 **Horizontal** scaling (add replicas) is dominant. Vertical (bigger GPUs) is impossible mid-deploy.
@@ -189,8 +187,8 @@ A fresh replica needs to:
 
 ---
 
-## Part 3 — Hands-On — Design an Autoscaler · 25 min
-### Exercise: Autoscaler Design (15 min)
+## Part 3 — Hands-On — Design an Autoscaler
+### Exercise: Autoscaler Design
 
 Consider your Week 4 system:
 - **Hardware:** 8×H100
@@ -204,7 +202,7 @@ Design an autoscaler by answering:
 3. **What's your warm pool size?** (How many replicas stay always-on?)
 4. **What's your max replicas?** (Cap to prevent runaway costs)
 
-### Exercise: Identify Failure Modes (10 min)
+### Exercise: Identify Failure Modes
 
 **Scenario:** A cold start during a traffic spike.
 
@@ -219,7 +217,7 @@ Draw the failure chain:
 
 ---
 
-## Part 4 — Hands-On — Load Balancing Strategies · 20 min
+## Part 4 — Hands-On — Load Balancing Strategies
 ### Reading — Load Balancing for LLMs
 
 Round-robin is bad — different requests cost very different amounts (200-token vs 8K-token output). Common strategies:
@@ -231,7 +229,7 @@ Round-robin is bad — different requests cost very different amounts (200-token
 | **Session Affinity** | Multi-turn conversations (reuse prefix cache) |
 | **Per-Tenant Pinning** | Each customer has custom adapter (LoRA) |
 
-### Exercise: Choose Your LB Strategy (10 min)
+### Exercise: Choose Your LB Strategy
 
 For each scenario, pick the best load balancing strategy:
 
@@ -239,7 +237,7 @@ For each scenario, pick the best load balancing strategy:
 2. **Code completion tool** — short inputs, varying output lengths
 3. **Multi-tenant SaaS** — each customer has their own fine-tuned adapter
 
-### Exercise: Request Lifecycle Diagram (10 min)
+### Exercise: Request Lifecycle Diagram
 
 Draw the request lifecycle:
 ```
@@ -252,7 +250,7 @@ At each **[?]**, list:
 
 ---
 
-## Part 5 — Discussion — Rollout Strategies · 20 min
+## Part 5 — Discussion — Rollout Strategies
 ### Reading — Rollout Strategies
 
 | Strategy | When to Use |
@@ -262,7 +260,7 @@ At each **[?]**, list:
 | **Shadow** (parallel run, don't serve) | Quality-sensitive changes (new model, quantization) |
 | **Feature flag** per-tenant | Adapter / system-prompt changes |
 
-### Exercise: Pick the Right Rollout (Pair Drill) (15 min)
+### Exercise: Pick the Right Rollout (Pair Drill)
 
 For each change, recommend a rollout strategy and explain why:
 
@@ -271,7 +269,7 @@ For each change, recommend a rollout strategy and explain why:
 3. **Change:** Add a new tenant-specific LoRA adapter (new customer)
 4. **Change:** Modify the system prompt for all users (behavior change)
 
-### Discussion Prompt (5 min)
+### Discussion Prompt
 
 **Two failure modes that bite:**
 
@@ -282,7 +280,7 @@ For each change, recommend a rollout strategy and explain why:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 15 min
+## Part 7 — Wrap-up & Connection
 ### The Minimum Observability Kit
 
 **Metrics (Prometheus + Grafana style):**
@@ -389,7 +387,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Pre-read for tomorrow (Day 23 · Evaluation & Quality)
 
-- **Resource:** <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/llm-evaluations/" target="_blank" rel="noopener">Eugene Yan — How to Evaluate LLMs</a> (~20 min).
+- **Resource:** <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/llm-evaluations/" target="_blank" rel="noopener">Eugene Yan — How to Evaluate LLMs</a>.
 - **Reflection questions:**
   1. What's **perplexity** and what does it capture? What does it miss?
   2. **Benchmark** (MMLU) vs **task eval** (your own use-case suite) — which is more honest about production quality?

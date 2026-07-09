@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-11T17:04:41Z",
+  "generated_at": "2026-07-08T13:49:25Z",
   "week_count": 10,
-  "module_count": 51,
+  "module_count": 50,
   "weeks": [
     {
       "id": "week-01",
@@ -14,51 +14,43 @@
           "title": "Day 1 \u00b7 Welcome & Context",
           "index": "docs/lessons/week-01/module-1/index.md",
           "assignment": "docs/lessons/week-01/module-1/assignment.md",
-          "knowledge_check": "docs/lessons/week-01/module-1/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-01/module-1/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Orientation/Orientation-Student-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-01/module-2",
           "title": "Day 2 \u00b7 Shell & Linux",
           "index": "docs/lessons/week-01/module-2/index.md",
           "assignment": "docs/lessons/week-01/module-2/assignment.md",
-          "knowledge_check": "docs/lessons/week-01/module-2/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-01/module-2/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Orientation/Orientation-Student-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-01/module-3",
           "title": "Day 3 \u00b7 Git Workflow",
           "index": "docs/lessons/week-01/module-3/index.md",
           "assignment": "docs/lessons/week-01/module-3/assignment.md",
-          "knowledge_check": "docs/lessons/week-01/module-3/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-01/module-3/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Orientation/Orientation-Student-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-01/module-4",
           "title": "Day 4 \u00b7 How Computers Run AI (GPU Primer)",
           "index": "docs/lessons/week-01/module-4/index.md",
           "assignment": "docs/lessons/week-01/module-4/assignment.md",
-          "knowledge_check": "docs/lessons/week-01/module-4/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-01/module-4/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Orientation/Orientation-Student-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-01/module-5",
           "title": "Day 5 (Fri) \u00b7 Week 1 Consolidation",
           "index": "docs/lessons/week-01/module-5/index.md",
           "assignment": "docs/lessons/week-01/module-5/assignment.md",
-          "knowledge_check": "docs/lessons/week-01/module-5/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-01/module-5/knowledge-check.md",
           "supplementary": [],
           "source_material": []
         }
@@ -74,57 +66,43 @@
           "title": "Day 6 \u00b7 What Happens When You Send a Prompt",
           "index": "docs/lessons/week-02/module-1/index.md",
           "assignment": "docs/lessons/week-02/module-1/assignment.md",
-          "knowledge_check": "docs/lessons/week-02/module-1/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-02/module-1/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Pre_Lecture_Reading.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-02/module-2",
           "title": "Day 7 \u00b7 Meet the GPU",
           "index": "docs/lessons/week-02/module-2/index.md",
           "assignment": "docs/lessons/week-02/module-2/assignment.md",
-          "knowledge_check": "docs/lessons/week-02/module-2/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-02/module-2/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Pre_Lecture_Reading.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-02/module-3",
           "title": "Day 8 \u00b7 Memory Is the Bottleneck",
           "index": "docs/lessons/week-02/module-3/index.md",
           "assignment": "docs/lessons/week-02/module-3/assignment.md",
-          "knowledge_check": "docs/lessons/week-02/module-3/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-02/module-3/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Glossary.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Pre_Lecture_Reading.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-02/module-4",
           "title": "Day 9 \u00b7 Compute-Bound vs Memory-Bound",
           "index": "docs/lessons/week-02/module-4/index.md",
           "assignment": "docs/lessons/week-02/module-4/assignment.md",
-          "knowledge_check": "docs/lessons/week-02/module-4/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-02/module-4/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Pre_Lecture_Reading.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Problem_Sets.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-02/module-5",
           "title": "Day 10 (Fri) \u00b7 Week 2 Consolidation",
           "index": "docs/lessons/week-02/module-5/index.md",
           "assignment": "docs/lessons/week-02/module-5/assignment.md",
-          "knowledge_check": "docs/lessons/week-02/module-5/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-02/module-5/knowledge-check.md",
           "supplementary": [],
           "source_material": []
         }
@@ -140,54 +118,43 @@
           "title": "Day 11 \u00b7 Prefill and Decode",
           "index": "docs/lessons/week-03/module-1/index.md",
           "assignment": "docs/lessons/week-03/module-1/assignment.md",
-          "knowledge_check": "docs/lessons/week-03/module-1/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-03/module-1/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-03/module-2",
           "title": "Day 12 \u00b7 The KV Cache",
           "index": "docs/lessons/week-03/module-2/index.md",
           "assignment": "docs/lessons/week-03/module-2/assignment.md",
-          "knowledge_check": "docs/lessons/week-03/module-2/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-03/module-2/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Flashcards.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-03/module-3",
           "title": "Day 13 \u00b7 FlashAttention & PagedAttention",
           "index": "docs/lessons/week-03/module-3/index.md",
           "assignment": "docs/lessons/week-03/module-3/assignment.md",
-          "knowledge_check": "docs/lessons/week-03/module-3/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-03/module-3/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Lecture_Slides.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-03/module-4",
           "title": "Day 14 \u00b7 Quantization",
           "index": "docs/lessons/week-03/module-4/index.md",
           "assignment": "docs/lessons/week-03/module-4/assignment.md",
-          "knowledge_check": "docs/lessons/week-03/module-4/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-03/module-4/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Glossary.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-03/module-5",
           "title": "Day 15 (Fri) \u00b7 Week 3 Consolidation",
           "index": "docs/lessons/week-03/module-5/index.md",
           "assignment": "docs/lessons/week-03/module-5/assignment.md",
-          "knowledge_check": "docs/lessons/week-03/module-5/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-03/module-5/knowledge-check.md",
           "supplementary": [],
           "source_material": []
         }
@@ -203,52 +170,43 @@
           "title": "Day 16 \u00b7 Tensor Parallelism",
           "index": "docs/lessons/week-04/module-1/index.md",
           "assignment": "docs/lessons/week-04/module-1/assignment.md",
-          "knowledge_check": "docs/lessons/week-04/module-1/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-04/module-1/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-04/module-2",
           "title": "Day 17 \u00b7 Pipeline & Expert Parallelism",
           "index": "docs/lessons/week-04/module-2/index.md",
           "assignment": "docs/lessons/week-04/module-2/assignment.md",
-          "knowledge_check": "docs/lessons/week-04/module-2/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-04/module-2/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-04/module-3",
           "title": "Day 18 \u00b7 Speculative Decoding",
           "index": "docs/lessons/week-04/module-3/index.md",
           "assignment": "docs/lessons/week-04/module-3/assignment.md",
-          "knowledge_check": "docs/lessons/week-04/module-3/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-04/module-3/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-04/module-4",
           "title": "Day 19 \u00b7 Serving Engines & Continuous Batching",
           "index": "docs/lessons/week-04/module-4/index.md",
           "assignment": "docs/lessons/week-04/module-4/assignment.md",
-          "knowledge_check": "docs/lessons/week-04/module-4/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-04/module-4/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Glossary.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-04/module-5",
           "title": "Day 20 (Fri) \u00b7 Week 4 Consolidation",
           "index": "docs/lessons/week-04/module-5/index.md",
           "assignment": "docs/lessons/week-04/module-5/assignment.md",
-          "knowledge_check": "docs/lessons/week-04/module-5/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-04/module-5/knowledge-check.md",
           "supplementary": [],
           "source_material": []
         }
@@ -264,53 +222,43 @@
           "title": "Day 21 \u00b7 Metrics That Matter",
           "index": "docs/lessons/week-05/module-1/index.md",
           "assignment": "docs/lessons/week-05/module-1/assignment.md",
-          "knowledge_check": "docs/lessons/week-05/module-1/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-05/module-1/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Glossary.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-05/module-2",
           "title": "Day 22 \u00b7 Production Patterns",
           "index": "docs/lessons/week-05/module-2/index.md",
           "assignment": "docs/lessons/week-05/module-2/assignment.md",
-          "knowledge_check": "docs/lessons/week-05/module-2/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-05/module-2/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-05/module-3",
           "title": "Day 23 \u00b7 Evaluation & Quality",
           "index": "docs/lessons/week-05/module-3/index.md",
           "assignment": "docs/lessons/week-05/module-3/assignment.md",
-          "knowledge_check": "docs/lessons/week-05/module-3/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-05/module-3/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Glossary.md",
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-05/module-4",
           "title": "Day 24 \u00b7 Cost & Economics",
           "index": "docs/lessons/week-05/module-4/index.md",
           "assignment": "docs/lessons/week-05/module-4/assignment.md",
-          "knowledge_check": "docs/lessons/week-05/module-4/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-05/module-4/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Inference Engineering/Inference_Engineering_Study_Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-05/module-5",
           "title": "Day 25 (Fri) \u00b7 Week 5 \u2014 Phase 1 Wrap (Assessment)",
           "index": "docs/lessons/week-05/module-5/index.md",
           "assignment": "docs/lessons/week-05/module-5/assignment.md",
-          "knowledge_check": "docs/lessons/week-05/module-5/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-05/module-5/knowledge-check.md",
           "supplementary": [],
           "source_material": []
         }
@@ -326,71 +274,47 @@
           "title": "Day 26 \u00b7 Prompt Structure & Clarity",
           "index": "docs/lessons/week-06/module-1/index.md",
           "assignment": "docs/lessons/week-06/module-1/assignment.md",
-          "knowledge_check": "docs/lessons/week-06/module-1/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-06/module-1/knowledge-check.md",
           "supplementary": [
             "docs/lessons/week-06/module-1/supplementary-02-roles-data-formatting.md",
             "docs/lessons/week-06/module-1/supplementary-03-cot-few-shot.md",
             "docs/lessons/week-06/module-1/supplementary-04-hallucinations-evals.md"
           ],
-          "source_material": [
-            "planning/source-material/Prompt Engineering/Prompt-Engineering-Pre-Lecture-Reading.md",
-            "planning/source-material/Prompt Engineering/Prompt-Engineering-Problem-Sets.md",
-            "planning/source-material/Prompt Engineering/Prompt-Engineering-Student-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-06/module-2",
-          "title": "Day 31 \u00b7 The Agent Loop (ReAct)",
+          "title": "Day 27 \u00b7 Agent Fundamentals (The Agent Loop)",
           "index": "docs/lessons/week-06/module-2/index.md",
           "assignment": "docs/lessons/week-06/module-2/assignment.md",
-          "knowledge_check": "docs/lessons/week-06/module-2/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-06/module-2/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/AI Agents/AI Agents - Pre-Lecture Reading.md",
-            "planning/source-material/AI Agents/AI Agents - Student Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-06/module-3",
-          "title": "Day 32 \u00b7 Tools & MCP",
+          "title": "Day 28 \u00b7 Tools & MCP",
           "index": "docs/lessons/week-06/module-3/index.md",
           "assignment": "docs/lessons/week-06/module-3/assignment.md",
-          "knowledge_check": "docs/lessons/week-06/module-3/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-06/module-3/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/AI Agents/AI Agents - Glossary.md",
-            "planning/source-material/AI Agents/AI Agents - Student Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-06/module-4",
-          "title": "Day 33 \u00b7 Governance & Security",
+          "title": "Day 29 \u00b7 Governance & Security",
           "index": "docs/lessons/week-06/module-4/index.md",
           "assignment": "docs/lessons/week-06/module-4/assignment.md",
-          "knowledge_check": "docs/lessons/week-06/module-4/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-06/module-4/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/AI Agents/AI Agents - Glossary.md",
-            "planning/source-material/AI Agents/AI Agents - Student Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-06/module-5",
-          "title": "Day 34 \u00b7 Orchestration & Multi-Agent",
+          "title": "Day 30 (Fri) \u00b7 Orchestration + Consolidation + Phase 2 Assessment",
           "index": "docs/lessons/week-06/module-5/index.md",
           "assignment": "docs/lessons/week-06/module-5/assignment.md",
-          "knowledge_check": "docs/lessons/week-06/module-5/knowledge-check.html",
-          "supplementary": [],
-          "source_material": [
-            "planning/source-material/AI Agents/AI Agents - Student Guide.md"
-          ]
-        },
-        {
-          "id": "week-06/module-6",
-          "title": "Day 31 (Fri) \u00b7 Week 6 \u2014 Phase 2 Wrap (Assessment)",
-          "index": "docs/lessons/week-06/module-6/index.md",
-          "assignment": "docs/lessons/week-06/module-6/assignment.md",
-          "knowledge_check": "docs/lessons/week-06/module-6/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-06/module-5/knowledge-check.md",
           "supplementary": [],
           "source_material": []
         }
@@ -406,7 +330,7 @@
           "title": "Day 32 \u00b7 Agent Case Studies",
           "index": "docs/lessons/week-07/module-1/index.md",
           "assignment": "docs/lessons/week-07/module-1/assignment.md",
-          "knowledge_check": "docs/lessons/week-07/module-1/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-07/module-1/knowledge-check.md",
           "supplementary": [],
           "source_material": []
         },
@@ -415,19 +339,16 @@
           "title": "Day 33 \u00b7 Capsule Foundations & Architecture",
           "index": "docs/lessons/week-07/module-2/index.md",
           "assignment": "docs/lessons/week-07/module-2/assignment.md",
-          "knowledge_check": "docs/lessons/week-07/module-2/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-07/module-2/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Capsule Power User/Capsule-Power-User-Cheatsheet.md",
-            "planning/source-material/Capsule Power User/Capsule-Power-User-Lab-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-07/module-3",
           "title": "Day 34 \u00b7 Installation",
           "index": "docs/lessons/week-07/module-3/index.md",
           "assignment": "docs/lessons/week-07/module-3/assignment.md",
-          "knowledge_check": "docs/lessons/week-07/module-3/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-07/module-3/knowledge-check.md",
           "supplementary": [],
           "source_material": []
         },
@@ -436,18 +357,16 @@
           "title": "Day 35 \u00b7 Environments & Fleet Discovery",
           "index": "docs/lessons/week-07/module-4/index.md",
           "assignment": "docs/lessons/week-07/module-4/assignment.md",
-          "knowledge_check": "docs/lessons/week-07/module-4/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-07/module-4/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Capsule Power User/Capsule-Power-User-Lab-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-07/module-5",
           "title": "Day 36 (Fri) \u00b7 Week 7 Consolidation",
           "index": "docs/lessons/week-07/module-5/index.md",
           "assignment": "docs/lessons/week-07/module-5/assignment.md",
-          "knowledge_check": "docs/lessons/week-07/module-5/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-07/module-5/knowledge-check.md",
           "supplementary": [],
           "source_material": []
         }
@@ -463,29 +382,25 @@
           "title": "Day 37 \u00b7 Connecting to Machines",
           "index": "docs/lessons/week-08/module-1/index.md",
           "assignment": "docs/lessons/week-08/module-1/assignment.md",
-          "knowledge_check": "docs/lessons/week-08/module-1/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-08/module-1/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Capsule Power User/Capsule-Power-User-Lab-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-08/module-2",
           "title": "Day 38 \u00b7 Files & Storage (with streaming primer)",
           "index": "docs/lessons/week-08/module-2/index.md",
           "assignment": "docs/lessons/week-08/module-2/assignment.md",
-          "knowledge_check": "docs/lessons/week-08/module-2/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-08/module-2/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Capsule Power User/Capsule-Power-User-Lab-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-08/module-3",
           "title": "Day 39 \u00b7 Streaming",
           "index": "docs/lessons/week-08/module-3/index.md",
           "assignment": "docs/lessons/week-08/module-3/assignment.md",
-          "knowledge_check": "docs/lessons/week-08/module-3/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-08/module-3/knowledge-check.md",
           "supplementary": [],
           "source_material": []
         },
@@ -494,18 +409,16 @@
           "title": "Day 40 \u00b7 Known Quirks",
           "index": "docs/lessons/week-08/module-4/index.md",
           "assignment": "docs/lessons/week-08/module-4/assignment.md",
-          "knowledge_check": "docs/lessons/week-08/module-4/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-08/module-4/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Capsule Power User/Capsule-Power-User-Lab-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-08/module-5",
           "title": "Day 41 (Fri) \u00b7 Week 8 Consolidation",
           "index": "docs/lessons/week-08/module-5/index.md",
           "assignment": "docs/lessons/week-08/module-5/assignment.md",
-          "knowledge_check": "docs/lessons/week-08/module-5/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-08/module-5/knowledge-check.md",
           "supplementary": [],
           "source_material": []
         }
@@ -521,51 +434,43 @@
           "title": "Day 42 \u00b7 Your First Benchmark",
           "index": "docs/lessons/week-09/module-1/index.md",
           "assignment": "docs/lessons/week-09/module-1/assignment.md",
-          "knowledge_check": "docs/lessons/week-09/module-1/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-09/module-1/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Capsule Power User/Capsule-Power-User-Lab-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-09/module-2",
           "title": "Day 43 \u00b7 Model Evaluation (Varying Parameters)",
           "index": "docs/lessons/week-09/module-2/index.md",
           "assignment": "docs/lessons/week-09/module-2/assignment.md",
-          "knowledge_check": "docs/lessons/week-09/module-2/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-09/module-2/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Capsule Power User/Capsule-Power-User-Lab-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-09/module-3",
           "title": "Day 44 \u00b7 Interactive Chat (Quality Evaluation)",
           "index": "docs/lessons/week-09/module-3/index.md",
           "assignment": "docs/lessons/week-09/module-3/assignment.md",
-          "knowledge_check": "docs/lessons/week-09/module-3/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-09/module-3/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Capsule Power User/Capsule-Power-User-Lab-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-09/module-4",
           "title": "Day 45 \u00b7 Scheduling & MCP",
           "index": "docs/lessons/week-09/module-4/index.md",
           "assignment": "docs/lessons/week-09/module-4/assignment.md",
-          "knowledge_check": "docs/lessons/week-09/module-4/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-09/module-4/knowledge-check.md",
           "supplementary": [],
-          "source_material": [
-            "planning/source-material/Capsule Power User/Capsule-Power-User-Lab-Guide.md"
-          ]
+          "source_material": []
         },
         {
           "id": "week-09/module-5",
           "title": "Day 46 (Fri) \u00b7 Week 9 Consolidation",
           "index": "docs/lessons/week-09/module-5/index.md",
           "assignment": "docs/lessons/week-09/module-5/assignment.md",
-          "knowledge_check": "docs/lessons/week-09/module-5/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-09/module-5/knowledge-check.md",
           "supplementary": [],
           "source_material": [
             "planning/source-material/Capstone/Day-46-Charter-Template.md"
@@ -580,10 +485,10 @@
       "modules": [
         {
           "id": "week-10/module-1",
-          "title": "Day 46 \u00b7 Kickoff & Planning",
+          "title": "Day 47 \u00b7 Kickoff & Planning",
           "index": "docs/lessons/week-10/module-1/index.md",
           "assignment": "docs/lessons/week-10/module-1/assignment.md",
-          "knowledge_check": "docs/lessons/week-10/module-1/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-10/module-1/knowledge-check.md",
           "supplementary": [],
           "source_material": [
             "planning/source-material/Capstone/Capstone-Guide.md",
@@ -593,10 +498,10 @@
         },
         {
           "id": "week-10/module-2",
-          "title": "Day 47 \u00b7 Execute",
+          "title": "Day 48 \u00b7 Execute",
           "index": "docs/lessons/week-10/module-2/index.md",
           "assignment": "docs/lessons/week-10/module-2/assignment.md",
-          "knowledge_check": "docs/lessons/week-10/module-2/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-10/module-2/knowledge-check.md",
           "supplementary": [],
           "source_material": [
             "planning/source-material/Capstone/Day-47-Execution-Checklist.md"
@@ -604,10 +509,10 @@
         },
         {
           "id": "week-10/module-3",
-          "title": "Day 48 \u00b7 Analyze & Recommend",
+          "title": "Day 49 \u00b7 Analyze & Recommend",
           "index": "docs/lessons/week-10/module-3/index.md",
           "assignment": "docs/lessons/week-10/module-3/assignment.md",
-          "knowledge_check": "docs/lessons/week-10/module-3/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-10/module-3/knowledge-check.md",
           "supplementary": [],
           "source_material": [
             "planning/source-material/Capstone/Day-48-Presentation-Outline.md"
@@ -615,10 +520,10 @@
         },
         {
           "id": "week-10/module-4",
-          "title": "Day 49 \u00b7 Present",
+          "title": "Day 50 \u00b7 Present",
           "index": "docs/lessons/week-10/module-4/index.md",
           "assignment": "docs/lessons/week-10/module-4/assignment.md",
-          "knowledge_check": "docs/lessons/week-10/module-4/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-10/module-4/knowledge-check.md",
           "supplementary": [],
           "source_material": [
             "planning/source-material/Capstone/Day-49-Assessment-Rubric.md"
@@ -626,10 +531,10 @@
         },
         {
           "id": "week-10/module-5",
-          "title": "Day 50 \u00b7 Close",
+          "title": "Day 51 \u00b7 Close",
           "index": "docs/lessons/week-10/module-5/index.md",
           "assignment": "docs/lessons/week-10/module-5/assignment.md",
-          "knowledge_check": "docs/lessons/week-10/module-5/knowledge-check.html",
+          "knowledge_check": "docs/lessons/week-10/module-5/knowledge-check.md",
           "supplementary": [],
           "source_material": [
             "planning/source-material/Capstone/Day-50-Retrospective-Form.md"

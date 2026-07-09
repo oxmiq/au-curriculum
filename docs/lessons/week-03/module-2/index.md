@@ -1,7 +1,7 @@
 # Day 12 · The KV Cache
 
 > **Concept of the day:** KV cache = stored keys and values from all prior tokens. Grows linearly with context. **Can exceed model weight memory** at long contexts.<br>
-> **Pre-reading:** "KV cache explained" blog with diagrams — <a href="https://medium.com/@joaolages/kv-caching-explained-276520203249" target="_blank" rel="noopener">João Lages — KV Caching Explained</a> (~20 min).
+> **Pre-reading:** "KV cache explained" blog with diagrams — <a href="https://medium.com/@joaolages/kv-caching-explained-276520203249" target="_blank" rel="noopener">João Lages — KV Caching Explained</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 3 — Attention &amp; KV Cache</a>
     <span class="sep">/</span>
     <span>Day 12 · KV Cache</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-03/module-2}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 10 min |
-| Part 2 | Core Concepts: Why KV Cache Exists | 20 min |
-| Part 3 | Deep Dive: KV Cache Size Formula | 20 min |
-| Part 4 | Hands-On: Calculate KV Cache Size | 30 min |
-| Part 5 | Hands-On: GQA Impact | 20 min |
-| 7 | Wrap-up & Connection | 10 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Why KV Cache Exists |
+| Part 3 | Deep Dive: KV Cache Size Formula |
+| Part 4 | Hands-On: Calculate KV Cache Size |
+| Part 5 | Hands-On: GQA Impact |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 10 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: "KV cache explained" blog with diagrams — Pre-Lecture Reading **Reader 4** + Study Guide §A.2 (~20 min).
+You should have already read: "KV cache explained" blog with diagrams — Pre-Lecture Reading **Reader 4** + Study Guide §A.2.
 
 ### Quick Self-Check
 
@@ -150,7 +148,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — Why KV Cache Exists · 20 min
+## Part 2 — Core Concepts — Why KV Cache Exists
 ### Reading — The Problem Without Cache
 
 Without a cache, generating output token *t* would require re-running attention over *all t–1* previously seen tokens. That's O(t²) cumulative work for *t* output tokens.
@@ -172,7 +170,7 @@ Without KV cache:
 
 ---
 
-## Part 3 — Deep Dive — KV Cache Size Formula · 20 min
+## Part 3 — Deep Dive — KV Cache Size Formula
 ### Reading — The Math
 
 For one token, one layer:
@@ -209,8 +207,8 @@ Llama-3.1-8B uses **GQA** with 8 KV heads, head_dim 128, 32 layers, 2 bytes (FP1
 
 ---
 
-## Part 4 — Hands-On — Calculate KV Cache Size · 30 min
-### Exercise 1: Llama-3.1-8B at Different Contexts (15 min)
+## Part 4 — Hands-On — Calculate KV Cache Size
+### Exercise 1: Llama-3.1-8B at Different Contexts
 
 Calculate KV cache size for Llama-3.1-8B at:
 - 4K context
@@ -224,7 +222,7 @@ Then calculate: At 80 GB H100, what's the max batch size at each context length 
 - 32K: 4 GB → max batch ~19
 - 128K: 16 GB → max batch ~4 (if just model + KV, no room for computation)
 
-### Exercise 2: 70B Model (15 min)
+### Exercise 2: 70B Model
 
 Recalculate for a 70B model with:
 - 64 KV heads
@@ -236,7 +234,7 @@ At 80 GB H100, what context length saturates a single H100?
 
 ---
 
-## Part 5 — Hands-On — GQA Impact · 20 min
+## Part 5 — Hands-On — GQA Impact
 ### Reading — Why MQA / GQA Exist
 
 Multi-Query Attention and Grouped-Query Attention shrink the KV cache by reducing `num_kv_heads`.
@@ -257,7 +255,7 @@ If K and V are stored in FP8 (1 byte) instead of FP16 (2 bytes), redo the 128K c
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -345,7 +343,7 @@ Tomorrow: how **FlashAttention** rearranges the attention math to use HBM less, 
 
 ### Pre-read for tomorrow (Day 13 · FlashAttention & PagedAttention)
 
-- **Resource:** <a href="https://gordicaleksa.medium.com/eli5-flash-attention-5c44017022ad" target="_blank" rel="noopener">Aleksa Gordić — ELI5 FlashAttention</a> + <a href="https://blog.vllm.ai/2023/06/20/vllm.html" target="_blank" rel="noopener">vLLM — PagedAttention blog</a> (~20 min).
+- **Resource:** <a href="https://gordicaleksa.medium.com/eli5-flash-attention-5c44017022ad" target="_blank" rel="noopener">Aleksa Gordić — ELI5 FlashAttention</a> + <a href="https://blog.vllm.ai/2023/06/20/vllm.html" target="_blank" rel="noopener">vLLM — PagedAttention blog</a>.
 - **Reflection questions:**
   1. Why is naive attention slow? Think about memory reads.
   2. What does "lossless" mean about FlashAttention?

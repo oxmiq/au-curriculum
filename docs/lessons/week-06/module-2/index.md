@@ -1,7 +1,7 @@
 # Day 27 · Agent Fundamentals (The Agent Loop)
 
 > **Concept of the day:** an **agent** is an LLM in a loop that **Perceives → Plans → Acts → Observes → Repeats** until a goal is met. **ReAct** = Reason + Act, the simplest viable pattern. Phase 1's faster decode + Week 6's reliable prompts are *what makes this work at all*.<br>
-> **Pre-reading:** <a href="../../../readings/prompt-engineering/">Prompt Engineering Pre-Lecture Reading — Day 27 primer (Roles, walls, and shapes)</a> (~12 min). Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic tutorial</a> Ch 3–5 (~20 min).
+> **Pre-reading:** <a href="../../../readings/prompt-engineering/#day-27-primer-roles-walls-and-shapes">Prompt Engineering Pre-Lecture Reading — Day 27 primer (Roles, walls, and shapes)</a>. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic tutorial</a> Ch 3–5.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 6 — Prompt Engineering + AI Agents</a>
     <span class="sep">/</span>
     <span>Day 27 · Agent Fundamentals</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-06/module-2}
   </div>
 </div>
@@ -26,22 +24,22 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours are organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: The Agent Loop | 20 min |
-| Part 3 | Deep Dive: ReAct Pattern | 20 min |
-| Part 4 | The Phase-1 Connection | 15 min |
-| Part 5 | Hands-On: Trace a ReAct Loop | 25 min |
-| Part 6 | Hands-On: Chain-Reliability Math | 20 min |
-| Part 7 | Wrap-up & Connection | 15 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: The Agent Loop |
+| Part 3 | Deep Dive: ReAct Pattern |
+| Part 4 | The Phase-1 Connection |
+| Part 5 | Hands-On: Trace a ReAct Loop |
+| Part 6 | Hands-On: Chain-Reliability Math |
+| Part 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: AI Agents Student Guide **Module 0 — Why Now?** (~20 min).
+You should have already read: AI Agents Student Guide **Module 0 — Why Now?**.
 
 ### Quick Self-Check
 
@@ -149,7 +147,7 @@ If you couldn't answer all three, review the Student Guide again before proceedi
 
 ---
 
-## Part 2 — Core Concepts: The Agent Loop · 20 min
+## Part 2 — Core Concepts: The Agent Loop
 ### Reading — From Calculator to Strategist
 
 Until roughly 2022, working with a language model meant one prompt in, one response out. The interaction was probabilistic, single-shot, and bounded by design: every request started fresh, and the model never acted on anything. Useful, but limited — a kind of fast, articulate calculator.
@@ -192,7 +190,7 @@ A bare LLM is **single-shot**: one input → one output. An agent is the loop.
 
 ---
 
-## Part 3 — Deep Dive: ReAct Pattern · 20 min
+## Part 3 — Deep Dive: ReAct Pattern
 ### Reading — Reason + Act
 
 The most common agent pattern is **ReAct** (Reason + Act). Each step the agent produces:
@@ -230,7 +228,7 @@ That's it. Everything else in this module is decoration on this skeleton.
 
 ---
 
-## Part 4 — The Phase-1 Connection · 15 min
+## Part 4 — The Phase-1 Connection
 ### Reading — Why Agents Work NOW
 
 The Social Capital primer identifies four capabilities that converged to make agents viable:
@@ -254,7 +252,7 @@ The Social Capital primer identifies four capabilities that converged to make ag
 
 ---
 
-## Part 5 — Hands-On: Trace a ReAct Loop · 25 min
+## Part 5 — Hands-On: Trace a ReAct Loop
 ### Exercise: Trace a 3-Step ReAct Loop
 
 On paper (or a whiteboard), trace a 3-step ReAct loop for:
@@ -292,7 +290,7 @@ List 3 real tasks that **need** an agent (vs. an assistant). For each, sketch th
 
 ---
 
-## Part 6 — Hands-On: Chain-Reliability Math · 20 min
+## Part 6 — Hands-On: Chain-Reliability Math
 ### Reading — Long-Horizon Drift
 
 Every prompt in an agent loop must be **≥95% reliable**. At 5 steps × 0.90 = 59% success; at 5 steps × 0.95 = 77%; at 5 steps × 0.99 = 95%.
@@ -324,7 +322,7 @@ If each LLM call costs $0.005 and a task averages 15 steps:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 15 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -408,7 +406,7 @@ Tomorrow: **tools and MCP** — how the `Action:` step actually executes, and th
 
 ### Pre-read for tomorrow (Day 28 · Tools & MCP)
 
-- **Resource:** <a href="../../../readings/ai-agents/">AI Agents Pre-Lecture Reading — Tools & MCP section</a> (~30 min). Supplement: <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener">Anthropic — Introducing the Model Context Protocol</a> (5 min).
+- **Resource:** <a href="../../../readings/ai-agents/#day-28-tools-mcp">AI Agents Pre-Lecture Reading — Tools & MCP section</a>. Supplement: <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener">Anthropic — Introducing the Model Context Protocol</a>.
 - **Reflection questions:**
   1. What problem do **tools** solve that prompts alone can't?
   2. What is **MCP** (Model Context Protocol)? Why does it matter for interoperability?

@@ -41,10 +41,10 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 36 (Mon) | Connecting to Machines | Lab Guide Module 5 (~15 min) | [module-1/index.md](module-1/index.md) |
-| 37 (Tue) | Files & Storage | Lab Guide Modules 6+7 (~30 min) | [module-2/index.md](module-2/index.md) |
-| 38 (Wed) | Streaming | Lab Guide Module 7 (~15 min) | [module-3/index.md](module-3/index.md) |
-| 39 (Thu) | Known Quirks | Lab Guide Module 10 Known Quirks (~15 min) | [module-4/index.md](module-4/index.md) |
+| 36 (Mon) | Connecting to Machines | Lab Guide Module 5 | [module-1/index.md](module-1/index.md) |
+| 37 (Tue) | Files & Storage | Lab Guide Modules 6+7 | [module-2/index.md](module-2/index.md) |
+| 38 (Wed) | Streaming | Lab Guide Module 7 | [module-3/index.md](module-3/index.md) |
+| 39 (Thu) | Known Quirks | Lab Guide Module 10 Known Quirks | [module-4/index.md](module-4/index.md) |
 | 40 (Fri) | **Consolidation** | — | [module-5/index.md](module-5/index.md) |
 
 ## Friday — the bar

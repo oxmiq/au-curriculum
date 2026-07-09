@@ -1,7 +1,7 @@
 # Day 11 · Prefill and Decode
 
 > **Concept of the day:** the two phases of inference. **Prefill** = parallel, compute-bound, drives TTFT. **Decode** = sequential, memory-bound, drives TPS.<br>
-> **Pre-reading:** "Prefill vs decode" explainer — <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering Best Practices</a> (~15 min, read the prefill/decode section).
+> **Pre-reading:** "Prefill vs decode" explainer — <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering Best Practices</a> (read the prefill/decode section).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 3 — Attention &amp; KV Cache</a>
     <span class="sep">/</span>
     <span>Day 11 · Prefill vs Decode</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-03/module-1}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 10 min |
-| Part 2 | Core Concepts: Prefill | 20 min |
-| Part 3 | Core Concepts: Decode | 20 min |
-| Part 4 | Visual Timeline | 15 min |
-| Part 5 | Hands-On: Calculate | 30 min |
-| 7 | Wrap-up & Connection | 15 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Prefill |
+| Part 3 | Core Concepts: Decode |
+| Part 4 | Visual Timeline |
+| Part 5 | Hands-On: Calculate |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 10 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: "Prefill vs decode" explainer — Pre-Lecture Reading **Reader 4 (attention math)** and Reader 6 sections on serving (~15 min).
+You should have already read: "Prefill vs decode" explainer — Pre-Lecture Reading **Reader 4 (attention math)** and Reader 6 sections on serving.
 
 ### Quick Self-Check
 
@@ -150,7 +148,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — Prefill · 20 min
+## Part 2 — Core Concepts — Prefill
 ### Reading — The Two Phases
 
 This is the conceptual hinge of the entire serving stack. Every metric, every engine, every parallelism choice in Weeks 4–5 is about *which phase* it optimizes. Confuse them and your latency/throughput trade-offs make no sense.
@@ -178,7 +176,7 @@ Given N input tokens, prefill runs them through the transformer as a single larg
 
 ---
 
-## Part 3 — Core Concepts — Decode · 20 min
+## Part 3 — Core Concepts — Decode
 ### Decode — One Token at a Time
 
 > **Analogy: writing one word at a time.**
@@ -213,7 +211,7 @@ until stop
 
 ---
 
-## Part 4 — Visual Timeline · 15 min
+## Part 4 — Visual Timeline
 ### Reading — One Picture, Both Phases
 
 ```
@@ -233,8 +231,8 @@ time →
 
 ---
 
-## Part 5 — Hands-On — Calculate · 30 min
-### Exercise 1: Sketch the Timeline (15 min)
+## Part 5 — Hands-On — Calculate
+### Exercise 1: Sketch the Timeline
 
 Given a request with 1000 input + 500 output tokens:
 
@@ -242,7 +240,7 @@ Given a request with 1000 input + 500 output tokens:
 2. Label where TTFT lives
 3. Label where end-to-end latency lives
 
-### Exercise 2: Numerical Calculation (15 min)
+### Exercise 2: Numerical Calculation
 
 **Given:** Llama-3-8B on one H100
 
@@ -257,7 +255,7 @@ Given a request with 1000 input + 500 output tokens:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 15 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -345,7 +343,7 @@ Tomorrow: the **KV cache** — the structure that makes decode possible at all, 
 
 ### Pre-read for tomorrow (Day 12 · The KV Cache)
 
-- **Resource:** <a href="https://medium.com/@joaolages/kv-caching-explained-276520203249" target="_blank" rel="noopener">João Lages — KV Caching Explained</a> (~20 min). Alternative: <a href="https://huggingface.co/docs/transformers/main/en/kv_cache" target="_blank" rel="noopener">Hugging Face — KV Cache in Transformers</a>.
+- **Resource:** <a href="https://medium.com/@joaolages/kv-caching-explained-276520203249" target="_blank" rel="noopener">João Lages — KV Caching Explained</a>. Alternative: <a href="https://huggingface.co/docs/transformers/main/en/kv_cache" target="_blank" rel="noopener">Hugging Face — KV Cache in Transformers</a>.
 - **Reflection questions:**
   1. What grows every time the model generates a token?
   2. Where in the transformer is the KV cache used?

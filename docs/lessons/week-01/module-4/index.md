@@ -1,7 +1,7 @@
 # Day 4 · How Computers Run AI (GPU Primer)
 
 > **Concept of the day:** CPU vs GPU. Matrix multiplication = parallelism. Training vs serving. The journey of a prompt.<br>
-> **Pre-reading:** <a href="https://www.youtube.com/watch?v=h9Z4oGN89MU" target="_blank" rel="noopener">GPU Explained</a> (~15 min).
+> **Pre-reading:** <a href="https://www.youtube.com/watch?v=h9Z4oGN89MU" target="_blank" rel="noopener">GPU Explained</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 1 — Orientation &amp; Foundations</a>
     <span class="sep">/</span>
     <span>Day 4 · How Computers Run AI</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-01/module-4}
   </div>
 </div>
@@ -26,22 +24,22 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 10 min |
-| Part 2 | Core Concepts: CPU vs GPU | 20 min |
-| Part 3 | Deep Dive: The Numbers | 15 min |
-| Part 4 | Deep Dive: Journey of a Prompt | 20 min |
-| Part 5 | Hands-On: GPU Comparison | 25 min |
-| Part 6 | Hands-On: Draw the Path | 20 min |
-| Part 7 | Wrap-up & Connection | 10 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: CPU vs GPU |
+| Part 3 | Deep Dive: The Numbers |
+| Part 4 | Deep Dive: Journey of a Prompt |
+| Part 5 | Hands-On: GPU Comparison |
+| Part 6 | Hands-On: Draw the Path |
+| Part 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 10 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have watched the GPU video (15 min) from your facilitator.
+You should have watched the GPU video from your facilitator.
 
 ### Quick Self-Check
 
@@ -75,7 +73,7 @@ You should have watched the GPU video (15 min) from your facilitator.
 
 ---
 
-## Part 2 — Core Concepts — CPU vs GPU · 20 min
+## Part 2 — Core Concepts — CPU vs GPU
 ### Reading — Three Facts to Internalize
 
 You don't need to know how a transistor works to be a good GPU engineer. You *do* need to know why a GPU exists, what makes it different from a CPU, and what kinds of work it's good at — because every design decision in Weeks 2–5 follows from those three facts.
@@ -111,7 +109,7 @@ Most of this program is about *serving*, which is the bigger and harder operatio
 
 ---
 
-## Part 3 — Deep Dive — The Numbers · 15 min
+## Part 3 — Deep Dive — The Numbers
 ### Reading — Real Numbers to Remember
 
 You'll see these numbers repeatedly in Week 2. Memorize what you can:
@@ -130,7 +128,7 @@ You'll see these numbers repeatedly in Week 2. Memorize what you can:
 
 ---
 
-## Part 4 — Deep Dive — Journey of a Prompt · 20 min
+## Part 4 — Deep Dive — Journey of a Prompt
 ### Reading — What Happens When You Send a Prompt
 
 This previews Week 2 (Day 6). Understanding this path is crucial:
@@ -156,7 +154,7 @@ Everything in Weeks 2–5 is about making that loop faster and cheaper.
 
 ---
 
-## Part 5 — Hands-On — GPU Comparison · 25 min
+## Part 5 — Hands-On — GPU Comparison
 ### Exercise: Compare GPUs
 
 Look up specs for these GPUs and create a comparison table:
@@ -179,7 +177,7 @@ Look up specs for these GPUs and create a comparison table:
 
 ---
 
-## Part 6 — Hands-On — Draw the Path · 20 min
+## Part 6 — Hands-On — Draw the Path
 ### Exercise: Visualize the Prompt Journey
 
 On paper, draw the path of "Hello, world." from your keyboard to a response on screen.
@@ -202,7 +200,7 @@ Which box do you understand least? That's a question for Week 2.
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-01-m4-wrapup" data-kind="wrap-up" data-draw="5" data-source="Parts 2-6">
@@ -239,7 +237,7 @@ Write down one question about GPUs you want answered before Friday.
 
 ### Connect Forward
 
-Friday: consolidation. We make sure shell, git, and the GPU mental model all stuck — then take the [Week 1 quiz](knowledge-check.html). Monday we open the GPU and look inside.
+Friday: consolidation. We make sure shell, git, and the GPU mental model all stuck — then take the [Week 1 quiz](knowledge-check.md). Monday we open the GPU and look inside.
 
 ---
 

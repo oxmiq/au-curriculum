@@ -13,8 +13,6 @@
     <a href="../">Week 10 — Capstone Project</a>
     <span class="sep">/</span>
     <span>Day 51 · Close</span>
-    <span class="sep">·</span>
-    <span class="duration">Full-day milestone</span>
     {status:week-10/module-5}
   </div>
 </div>
@@ -24,13 +22,13 @@
 
 ## Time budget for today
 
-| Block | Activity | Duration |
-|---|---|---|
-| Block 1 | Fill retrospective form | 30 min |
-| Block 2 | 1:1 feedback session with instructor | 30 min |
-| Block 3 | Career mapping session | 45 min |
-| Block 4 | Portfolio polish (fork README + tidy docs) | 60 min |
-| Block 5 | Closing ceremony | 15 min |
+| Block | Activity |
+|---|---|
+| Block 1 | Fill retrospective form |
+| Block 2 | 1:1 feedback session with instructor |
+| Block 3 | Career mapping session |
+| Block 4 | Portfolio polish (fork README + tidy docs) |
+| Block 5 | Closing ceremony |
 
 ## Why this matters
 

@@ -1,7 +1,7 @@
 # Day 7 · Meet the GPU
 
 > **Concept of the day:** GPU anatomy. SMs, Tensor Cores, CUDA Cores, HBM, L2 cache. Analogy: SM = factory floor, Tensor Core = specialized machine, HBM = warehouse.<br>
-> **Pre-reading:** <a href="https://resources.nvidia.com/en-us-hopper-architecture/nvidia-tensor-core-gpu-datasheet" target="_blank" rel="noopener">NVIDIA H100 GPU Datasheet</a> (~10 min, focus on SMs, memory, bandwidth, FLOPS).
+> **Pre-reading:** <a href="https://resources.nvidia.com/en-us-hopper-architecture/nvidia-tensor-core-gpu-datasheet" target="_blank" rel="noopener">NVIDIA H100 GPU Datasheet</a> (focus on SMs, memory, bandwidth, FLOPS).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 2 — The GPU &amp; Memory</a>
     <span class="sep">/</span>
     <span>Day 7 · Meet the GPU</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-02/module-2}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 10 min |
-| Part 2 | Core Concepts: GPU Anatomy | 25 min |
-| Part 3 | The Mental Model | 15 min |
-| Part 4 | GPU Classes Comparison | 20 min |
-| Part 5 | Hands-On: Calculate Bandwidth | 30 min |
-| 7 | Wrap-up & Connection | 10 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: GPU Anatomy |
+| Part 3 | The Mental Model |
+| Part 4 | GPU Classes Comparison |
+| Part 5 | Hands-On: Calculate Bandwidth |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 10 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: Pre-Lecture Reading **Reader 5 — Computer architecture primer** (~10 min) + H100 1-page spec.
+You should have already read: Pre-Lecture Reading **Reader 5 — Computer architecture primer** + H100 1-page spec.
 
 ### Quick Self-Check
 
@@ -150,7 +148,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — GPU Anatomy · 25 min
+## Part 2 — Core Concepts — GPU Anatomy
 ### Reading — Why GPU Anatomy Matters
 
 Every optimization in Weeks 3–5 — KV cache layout, FlashAttention, tensor parallelism, batching — is a response to the *physical* GPU. You can't reason about the optimization without the hardware.
@@ -178,7 +176,7 @@ Every optimization in Weeks 3–5 — KV cache layout, FlashAttention, tensor pa
 
 ---
 
-## Part 3 — The Mental Model · 15 min
+## Part 3 — The Mental Model
 ### Reading — Factory Floor Analogy
 
 > **SM = factory floor. Tensor Core = specialized machine on the floor. HBM = warehouse across the road. L2 = on-site storage. Registers = workbench.**
@@ -202,7 +200,7 @@ Every optimization in Weeks 3–5 — KV cache layout, FlashAttention, tensor pa
 
 ---
 
-## Part 4 — GPU Classes Comparison · 20 min
+## Part 4 — GPU Classes Comparison
 ### Reading — Three GPU Classes to Remember
 
 | Class | Example | Memory | Bandwidth | Where You See It |
@@ -226,8 +224,8 @@ Every optimization in Weeks 3–5 — KV cache layout, FlashAttention, tensor pa
 
 ---
 
-## Part 5 — Hands-On — Calculate Bandwidth · 30 min
-### Exercise 1: Time to Load Weights (15 min)
+## Part 5 — Hands-On — Calculate Bandwidth
+### Exercise 1: Time to Load Weights
 
 **Calculate:** How long would it take to move all 80 GB of H100 weights from HBM into the chip *once*?
 
@@ -243,7 +241,7 @@ Every optimization in Weeks 3–5 — KV cache layout, FlashAttention, tensor pa
 
 Each decode step needs to read the KV cache from HBM. If each step takes ~10 ms and you need 500 tokens, that's 5 seconds just for memory reads!
 
-### Exercise 2: Match GPU Specs (15 min)
+### Exercise 2: Match GPU Specs
 
 Given this stripped table, identify which row is which GPU:
 
@@ -257,7 +255,7 @@ Given this stripped table, identify which row is which GPU:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -352,7 +350,7 @@ Tomorrow: why those bandwidth numbers — not the TFLOPs — usually decide how 
 
 ### Pre-read for tomorrow (Day 8 · Memory Is the Bottleneck)
 
-- **Resource:** "Why bandwidth matters more than compute" — <a href="https://horace.io/brrr_intro.html#bandwidth" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Bandwidth section)</a> (~20 min)
+- **Resource:** "Why bandwidth matters more than compute" — <a href="https://horace.io/brrr_intro.html#bandwidth" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Bandwidth section)</a>
 - **Reflection questions:**
   1. Which is faster: L2 cache or HBM? By roughly how much?
   2. What is **temporal locality**? **spatial locality**?

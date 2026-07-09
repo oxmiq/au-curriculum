@@ -13,8 +13,6 @@
     <a href="../">Week 10 — Capstone Project</a>
     <span class="sep">/</span>
     <span>Day 48 · Execute</span>
-    <span class="sep">·</span>
-    <span class="duration">Full-day milestone</span>
     {status:week-10/module-2}
   </div>
 </div>
@@ -24,12 +22,12 @@
 
 ## Execution checklist at a glance
 
-| Step | Milestone | Time budget |
-|---|---|---|
-| 1 | Lease hardware, deploy model, sanity-check server | 60 min |
-| 2 | Run benchmark sweep (all charter configs) | 150 min |
-| 3 | Run interactive eval (10-prompt suite, each config) | 90 min |
-| 4 | Documentation cleanup — log finalized, run dirs named | 30 min |
+| Step | Milestone |
+|---|---|
+| 1 | Lease hardware, deploy model, sanity-check server |
+| 2 | Run benchmark sweep (all charter configs) |
+| 3 | Run interactive eval (10-prompt suite, each config) |
+| 4 | Documentation cleanup — log finalized, run dirs named |
 
 ## Why this matters
 

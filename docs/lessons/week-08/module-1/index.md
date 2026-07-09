@@ -7,7 +7,7 @@ drift: |
 # Day 37 · Connecting to Machines
 
 > **Concept of the day:** `capsule connect <node>` opens a brokered shell — identity-aware, audited, no key management. Session state lives in your home dir on the node and persists across reconnects. **Detach early, detach often** with `tmux` / `screen` — don't lose work to network blips.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 38 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 5.
+> **Pre-reading:** <a href="../../../readings/capsule/#day-38-connecting-to-machines">Capsule Power-User Pre-Lecture Reading — Day 38 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -19,8 +19,6 @@ drift: |
     <a href="../">Week 8 — Capsule: Connections &amp; Operations</a>
     <span class="sep">/</span>
     <span>Day 37 · Connecting</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-08/module-1}
   </div>
 </div>
@@ -30,21 +28,21 @@ drift: |
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: The Connect Command | 20 min |
-| Part 3 | Core Concepts: Session State & What Persists | 20 min |
-| Part 4 | Deep Dive: tmux for Reliable Sessions | 20 min |
-| Part 5 | Hands-On: Connect, Detach, Reconnect | 30 min |
-| Part 6 | Hands-On: Tunneling & Multi-User Etiquette | 25 min |
-| Part 7 | Wrap-up & Connection | 10 min |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: The Connect Command |
+| Part 3 | Core Concepts: Session State & What Persists |
+| Part 4 | Deep Dive: tmux for Reliable Sessions |
+| Part 5 | Hands-On: Connect, Detach, Reconnect |
+| Part 6 | Hands-On: Tunneling & Multi-User Etiquette |
+| Part 7 | Wrap-up & Connection |
 
 **Total: ~140 min** (leaves buffer for reading the Lab Guide pre-read)
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 
 ### Reading — Why this matters
 
@@ -159,7 +157,7 @@ If you can answer all five without scrolling down — skip to Part 5.
 
 ---
 
-## Part 2 — Core Concepts: The Connect Command · 20 min
+## Part 2 — Core Concepts: The Connect Command
 
 ### Reading — The connect command
 
@@ -192,7 +190,7 @@ Look at `capsule connect <node-id> --command 'nvidia-smi'`:
 
 ---
 
-## Part 3 — Core Concepts: Session State & What Persists · 20 min
+## Part 3 — Core Concepts: Session State & What Persists
 
 ### Reading — What persists across reconnects
 
@@ -218,7 +216,7 @@ For each item, answer "persists" or "lost on disconnect":
 
 ---
 
-## Part 4 — Deep Dive: tmux for Reliable Sessions · 20 min
+## Part 4 — Deep Dive: tmux for Reliable Sessions
 
 ### Reading — tmux quick survival
 
@@ -258,24 +256,24 @@ Without looking at reference material:
 
 ---
 
-## Part 5 — Hands-On: Connect, Detach, Reconnect · 30 min
+## Part 5 — Hands-On: Connect, Detach, Reconnect
 
 ### Exercise: The Full Detach Test
 
 **Goal:** lose zero work to a simulated network blip.
 
-1. (5 min) Connect to your dev node.
-2. (5 min) Start a tmux session named `work`. Inside it, start: `while true; do echo $(date); sleep 5; done`
-3. (5 min) Detach from tmux (`Ctrl-b d`). Exit the shell (`exit`). You are now fully disconnected.
-4. (5 min) Reconnect with `capsule connect <same-node>`. Run `tmux a`. Verify your date-printing loop is still running.
-5. (5 min) Start a *second* window in the same tmux session (`Ctrl-b c`). Verify both windows are visible with `tmux ls` showing 1 session, 2 windows.
-6. (5 min) Stop the loop (`Ctrl-c`). Note the behaviour. Clean up.
+1. Connect to your dev node.
+2. Start a tmux session named `work`. Inside it, start: `while true; do echo $(date); sleep 5; done`
+3. Detach from tmux (`Ctrl-b d`). Exit the shell (`exit`). You are now fully disconnected.
+4. Reconnect with `capsule connect <same-node>`. Run `tmux a`. Verify your date-printing loop is still running.
+5. Start a *second* window in the same tmux session (`Ctrl-b c`). Verify both windows are visible with `tmux ls` showing 1 session, 2 windows.
+6. Stop the loop (`Ctrl-c`). Note the behaviour. Clean up.
 
 **Success criterion:** you completed steps 1–4 without any work loss — the loop was still running when you reattached.
 
 ---
 
-## Part 6 — Hands-On: Tunneling & Multi-User Etiquette · 25 min
+## Part 6 — Hands-On: Tunneling & Multi-User Etiquette
 
 ### Reading — Tunneling for local UIs
 
@@ -317,7 +315,7 @@ Even on a leased node, you're sharing with the platform:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 
@@ -391,7 +389,7 @@ Tomorrow: **files, storage** — getting code in, getting results out, the share
 
 ### Pre-read for tomorrow (Day 38 · Files & Storage)
 
-- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 39 section</a> (~40 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Modules 6 + 7.
+- **Resource:** <a href="../../../readings/capsule/#day-39-files-storage-streaming">Capsule Power-User Pre-Lecture Reading — Day 39 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-6-files-storage-and-the-onedrive-mount">Capsule Lab Guide</a> Modules 6 + 7.
 - **Reflection questions:**
   1. How do you copy a small file to / from a node? A 50 GB model checkpoint?
   2. What's the difference between per-user home dir and the shared storage pool?

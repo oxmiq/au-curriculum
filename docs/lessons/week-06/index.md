@@ -42,11 +42,11 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 26 (Mon) | Prompt Engineering (overview + supplementary deep-dives) | Anthropic Prompt Engineering Tutorial Ch1+Ch2 (~20 min) | [module-1/index.md](module-1/index.md) |
-| 27 (Tue) | Agent Fundamentals — The Agent Loop (ReAct) | AI Agents Student Guide Module 0 (~20 min) | [module-2/index.md](module-2/index.md) |
-| 28 (Wed) | Tools & Action Layer (MCP) | AI Agents Student Guide Module 2 + Anthropic MCP (~25 min) | [module-3/index.md](module-3/index.md) |
-| 29 (Thu) | Governance & Security | Student Guide Module 3 Governance + EchoLeak (~25 min) | [module-4/index.md](module-4/index.md) |
-| 30 (Fri) | **Orchestration + Consolidation** — Phase 2 assessment (10%) | Student Guide Module 4 Orchestration (~20 min) | [module-5/index.md](module-5/index.md) |
+| 26 (Mon) | Prompt Engineering (overview + supplementary deep-dives) | Anthropic Prompt Engineering Tutorial Ch1+Ch2 | [module-1/index.md](module-1/index.md) |
+| 27 (Tue) | Agent Fundamentals — The Agent Loop (ReAct) | AI Agents Student Guide Module 0 | [module-2/index.md](module-2/index.md) |
+| 28 (Wed) | Tools & Action Layer (MCP) | AI Agents Student Guide Module 2 + Anthropic MCP | [module-3/index.md](module-3/index.md) |
+| 29 (Thu) | Governance & Security | Student Guide Module 3 Governance + EchoLeak | [module-4/index.md](module-4/index.md) |
+| 30 (Fri) | **Orchestration + Consolidation** — Phase 2 assessment (10%) | Student Guide Module 4 Orchestration | [module-5/index.md](module-5/index.md) |
 
 ## Friday — the bar
 
@@ -56,6 +56,13 @@
 ## Big-picture connect
 
 "MoE = cheaper, FlashAttention = faster — *that's* why agents work now." This week is where Phase 1's hardware + prompt engineering converge into shippable systems.
+
+## Companion guides
+
+Deep-dive reference handbooks for this week — they open in a new tab, meant to be read alongside the daily lessons:
+
+- **[Prompt Engineering — Student Guide](../../readings/prompt-engineering/student-guide.md#the-week-at-a-glance)** — a 5-day companion on roles, structure, chain-of-thought, and structured output (Days 26–27).
+- **[AI Agents — Student Guide](../../readings/ai-agents/student-guide.md#module-0-why-now-the-agentic-explosion)** — the 5-layer agent stack (loop, action, governance, orchestration) companion for Days 27–30.
 
 ## Stuck?
 

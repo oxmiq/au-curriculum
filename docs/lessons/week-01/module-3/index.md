@@ -1,7 +1,7 @@
 # Day 3 · Git Workflow
 
 > **Concept of the day:** Branch, commit (conventional format), push, PR. Why commit messages matter.<br>
-> **Pre-reading:** <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian Git Tutorial — Basic Workflow</a> (~15 min).
+> **Pre-reading:** <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian Git Tutorial — Basic Workflow</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 1 — Orientation &amp; Foundations</a>
     <span class="sep">/</span>
     <span>Day 3 · Git Workflow</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-01/module-3}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 10 min |
-| Part 2 | Core Concepts Deep Dive | 20 min |
-| Part 3 | Conventional Commits | 15 min |
-| Part 4 | Hands-On: Git Workflow | 40 min |
-| Part 5 | Hands-On: PR & Review | 30 min |
-| 7 | Common Mistakes & Wrap-up | 15 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts Deep Dive |
+| Part 3 | Conventional Commits |
+| Part 4 | Hands-On: Git Workflow |
+| Part 5 | Hands-On: PR & Review |
+| 7 | Common Mistakes & Wrap-up |
 
 ---
 
-## Part 1 — Pre-Reading Review · 10 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian Git Tutorial — Basic Workflow</a> (~15 min).
+You should have already read: <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian Git Tutorial — Basic Workflow</a>.
 
 ### Quick Self-Check
 
@@ -74,7 +72,7 @@ You should have already read: <a href="https://www.atlassian.com/git/tutorials/s
 
 ---
 
-## Part 2 — Core Concepts Deep Dive · 20 min
+## Part 2 — Core Concepts Deep Dive
 ### Reading — Why Git Matters
 
 Every line of code you touch in this program lives in a git repository. Every PR, every benchmark commit, every capstone deliverable. Git is the difference between "I lost two days of work" and "I rolled back in 30 seconds."
@@ -104,7 +102,7 @@ Every line of code you touch in this program lives in a git repository. Every PR
 
 ---
 
-## Part 3 — Conventional Commits · 15 min
+## Part 3 — Conventional Commits
 ### Reading — Why Commit Messages Matter
 
 Bad commit messages like `wip`, `temp`, `update`, `fix stuff` make git history unreadable. Conventional commits add structure:
@@ -137,12 +135,12 @@ Bad commit messages like `wip`, `temp`, `update`, `fix stuff` make git history u
 
 ---
 
-## Part 4 — Hands-On — Git Workflow · 40 min
+## Part 4 — Hands-On — Git Workflow
 ### Prerequisites
 
 You need a GitHub account. If you don't have one, create one at github.com.
 
-### Exercise 1: Fork and Clone (15 min)
+### Exercise 1: Fork and Clone
 
 1. Go to the practice repository (ask your facilitator for the URL, or use any repo you own)
 2. Click "Fork" to create your own copy
@@ -152,7 +150,7 @@ git clone https://github.com/YOUR_USERNAME/repo-name.git
 cd repo-name
 ```
 
-### Exercise 2: Create Branch and Commit (25 min)
+### Exercise 2: Create Branch and Commit
 
 ```bash
 # 1. Create a new branch
@@ -172,8 +170,8 @@ git push origin feat/my-greeting
 
 ---
 
-## Part 5 — Hands-On — PR & Review · 30 min
-### Exercise: Create a Pull Request (15 min)
+## Part 5 — Hands-On — PR & Review
+### Exercise: Create a Pull Request
 
 1. Go to your forked repo on GitHub
 2. You should see a prompt to create a PR for your new branch
@@ -183,7 +181,7 @@ git push origin feat/my-greeting
    - **Body:** Brief description of what you added
 5. Click "Create pull request"
 
-### Exercise: Review (15 min)
+### Exercise: Review
 
 If you have access to a peer's PR:
 1. Go to their PR page
@@ -193,7 +191,7 @@ If you have access to a peer's PR:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 15 min
+## Part 7 — Wrap-up & Connection
 ### Reading — Common Mistakes to Avoid
 
 | Mistake | Why it's bad | Correct approach |
@@ -239,7 +237,7 @@ Tomorrow: GPUs. We move from tooling to the hardware that will dominate the next
 
 ### Pre-read for tomorrow (Day 4 · How Computers Run AI)
 
-- **Resource:** <a href="https://www.youtube.com/watch?v=h9Z4oGN89MU" target="_blank" rel="noopener">GPU Explained</a> (~15 min).
+- **Resource:** <a href="https://www.youtube.com/watch?v=h9Z4oGN89MU" target="_blank" rel="noopener">GPU Explained</a>.
 - **Reflection questions:**
   1. Name one reason GPUs are faster than CPUs for ML.
   2. Why is matrix multiplication central to neural networks? (One sentence.)

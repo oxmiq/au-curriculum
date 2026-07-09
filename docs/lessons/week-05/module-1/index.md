@@ -1,7 +1,7 @@
 # Day 21 · Metrics That Matter
 
 > **Concept of the day:** **TTFT, ITL/TPS, throughput, percentiles (P50/P95/P99)**. Means lie; percentiles tell the truth. **Goodhart's Law:** once a metric becomes a target it stops being a good metric.<br>
-> **Pre-reading:** "Latency vs throughput in LLM serving" — <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale — LLM Inference Performance</a> (~15 min).
+> **Pre-reading:** "Latency vs throughput in LLM serving" — <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale — LLM Inference Performance</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 5 — Metrics &amp; Production</a>
     <span class="sep">/</span>
     <span>Day 21 · Latency vs Throughput</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-05/module-1}
   </div>
 </div>
@@ -26,22 +24,22 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Read: Why Metrics Matter | 10 min |
-| Part 2 | Deep Dive: Metric Vocabulary | 20 min |
-| Part 3 | Hands-On: Percentile Calculations | 25 min |
-| Part 4 | Hands-On: Latency vs Throughput | 25 min |
-| Part 5 | Discussion: Goodhart Traps | 20 min |
-| 7 | Reflection: Metric Scorecard | 10 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Read: Why Metrics Matter |
+| Part 2 | Deep Dive: Metric Vocabulary |
+| Part 3 | Hands-On: Percentile Calculations |
+| Part 4 | Hands-On: Latency vs Throughput |
+| Part 5 | Discussion: Goodhart Traps |
+| 7 | Reflection: Metric Scorecard |
 
 ---
 
-## Part 1 — Why Metrics Matter · 10 min
+## Part 1 — Why Metrics Matter
 
 ### Before You Start
 
-You should have already read: <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale — Latency vs Throughput in LLM Serving</a> (~15 min).
+You should have already read: <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale — Latency vs Throughput in LLM Serving</a>.
 
 ### Readiness Check
 
@@ -153,7 +151,7 @@ Take 2 minutes to write down:
 
 ---
 
-## Part 2 — Deep Dive — The Metric Vocabulary · 20 min
+## Part 2 — Deep Dive — The Metric Vocabulary
 ### Reading — Latency Metrics (Per Request)
 
 | Metric | What it Measures | Driven By |
@@ -184,8 +182,8 @@ Mean latency hides outliers. Real reporting uses **percentiles**:
 
 ---
 
-## Part 3 — Hands-On — Percentile Calculations · 25 min
-### Exercise 1: Calculate Percentiles (15 min)
+## Part 3 — Hands-On — Percentile Calculations
+### Exercise 1: Calculate Percentiles
 
 Given the following latency distribution (in milliseconds):
 ```
@@ -200,7 +198,7 @@ Given the following latency distribution (in milliseconds):
 
 **Write down:** What does the mean hide? What does P99 reveal that the mean doesn't?
 
-### Exercise 2: Interpret the Distribution (10 min)
+### Exercise 2: Interpret the Distribution
 
 Look at the distribution above. The value `5000` ms (5 seconds) represents a cold start or a timeout.
 
@@ -210,8 +208,8 @@ Look at the distribution above. The value `5000` ms (5 seconds) represents a col
 
 ---
 
-## Part 4 — Hands-On — Latency vs Throughput Tradeoff · 25 min
-### Exercise 1: Sketch the Frontier (15 min)
+## Part 4 — Hands-On — Latency vs Throughput Tradeoff
+### Exercise 1: Sketch the Frontier
 
 Draw a coordinate system with:
 - **X-axis:** Throughput (tokens/sec)
@@ -223,7 +221,7 @@ Sketch two curves:
 
 **Mark the point** where the system transitions from "healthy" to "overloaded."
 
-### Exercise 2: The Tradeoff Explained (10 min)
+### Exercise 2: The Tradeoff Explained
 
 **Why does this tradeoff exist?**
 
@@ -237,14 +235,14 @@ Sketch two curves:
 
 ---
 
-## Part 5 — Discussion — Goodhart Traps · 20 min
+## Part 5 — Discussion — Goodhart Traps
 ### Reading — Goodhart's Law
 
 > *"When a measure becomes a target, it ceases to be a good measure."*
 
 If you bonus on "TPS averaged over the day" you'll see engineers slowly slip TTFT and never get called on it. Always report **a vector of metrics with percentiles**, not a single number.
 
-### Exercise: Identify Goodhart Traps (Pair Drill) (15 min)
+### Exercise: Identify Goodhart Traps (Pair Drill)
 
 Pick two products from this list:
 - ChatGPT (consumer chat)
@@ -256,7 +254,7 @@ For each product:
 1. Name the **top-two metrics** you'd track
 2. Identify **one Goodhart trap** — what could go wrong if you optimized only for that metric?
 
-### Discussion Prompt (5 min)
+### Discussion Prompt
 
 **"GPU utilization is 95%."** Why is that not enough to know if your system is healthy?
 
@@ -266,7 +264,7 @@ Think about:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 ### What to Measure Per Workload
 
 | Workload | Top-Priority Metric |
@@ -366,7 +364,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Pre-read for tomorrow (Day 22 · Production Patterns)
 
-- **Resource:** <a href="https://huyenchip.com/2024/01/16/mlops-landscape.html" target="_blank" rel="noopener">Chip Huyen — Deploying ML Models to Production</a> (~20 min, serving section). Alternative: <a href="https://modal.com/blog/llm-inference-guide" target="_blank" rel="noopener">Modal — A Guide to LLM Inference in Production</a>.
+- **Resource:** <a href="https://huyenchip.com/2024/01/16/mlops-landscape.html" target="_blank" rel="noopener">Chip Huyen — Deploying ML Models to Production</a> (serving section). Alternative: <a href="https://modal.com/blog/llm-inference-guide" target="_blank" rel="noopener">Modal — A Guide to LLM Inference in Production</a>.
 - **Reflection questions:**
   1. What's the difference between **horizontal** and **vertical** autoscale for LLM serving? Why is horizontal usually preferred?
   2. What's a **warm pool** and why does cold-start hurt LLMs more than other services?

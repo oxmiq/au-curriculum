@@ -41,10 +41,10 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 16 (Mon) | Tensor Parallelism | Reader 6 — parallelism overview (~20 min) | [Day 1 · Tensor Parallelism](module-1/index.md) |
-| 17 (Tue) | Pipeline & Expert Parallelism | Reader 6 — PP + MoE (~20 min) | [Day 2 · Pipeline Expert Parallelism](module-2/index.md) |
-| 18 (Wed) | Speculative Decoding | Reader 8 — advanced serving (~15 min) | [Day 3 · Speculative Decoding](module-3/index.md) |
-| 19 (Thu) | Serving Engines & Continuous Batching | Reader 9 — production engines (~15 min) | [Day 4 · Serving Engines](module-4/index.md) |
+| 16 (Mon) | Tensor Parallelism | Reader 6 — parallelism overview | [Day 1 · Tensor Parallelism](module-1/index.md) |
+| 17 (Tue) | Pipeline & Expert Parallelism | Reader 6 — PP + MoE | [Day 2 · Pipeline Expert Parallelism](module-2/index.md) |
+| 18 (Wed) | Speculative Decoding | Reader 8 — advanced serving | [Day 3 · Speculative Decoding](module-3/index.md) |
+| 19 (Thu) | Serving Engines & Continuous Batching | Reader 9 — production engines | [Day 4 · Serving Engines](module-4/index.md) |
 | 20 (Fri) | **Consolidation** — serving-system design | — | [module-5/index.md](module-5/index.md) |
 
 ## Friday — the bar

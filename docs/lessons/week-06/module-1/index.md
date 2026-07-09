@@ -1,7 +1,7 @@
 # Day 26 · Prompt Structure & Clarity
 
 > **Concept of the day:** **clear, specific, structured prompts** beat clever ones. A model can't read your mind — give it role, context, task, format, and constraints **explicitly**. Anthropic tutorial Chapters 1–2.<br>
-> **Pre-reading:** <a href="../../../readings/prompt-engineering/">Prompt Engineering Pre-Lecture Reading — Day 26 primer</a> (~10 min). Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic Prompt Engineering Interactive Tutorial</a> (Ch 1 + Ch 2, ~20 min).
+> **Pre-reading:** <a href="../../../readings/prompt-engineering/#day-26-primer-why-the-same-question-gives-different-answers">Prompt Engineering Pre-Lecture Reading — Day 26 primer</a>. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic Prompt Engineering Interactive Tutorial</a> (Ch 1 + Ch 2).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 6 — Prompt Engineering + AI Agents</a>
     <span class="sep">/</span>
     <span>Day 26 · Prompt Engineering</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-06/module-1}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours are organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: Prompt Anatomy | 20 min |
-| Part 3 | Deep Dive: The Three Vagueness Traps | 20 min |
-| Part 4 | Hands-On: Rewrite Vague Prompts | 30 min |
-| Part 5 | Hands-On: Prompt Checklist Practice | 25 min |
-| 7 | Wrap-up & Connection | 10 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Prompt Anatomy |
+| Part 3 | Deep Dive: The Three Vagueness Traps |
+| Part 4 | Hands-On: Rewrite Vague Prompts |
+| Part 5 | Hands-On: Prompt Checklist Practice |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: Anthropic Prompt Engineering Interactive Tutorial — **Chapter 1 (Basic Prompt Structure)** + **Chapter 2 (Being Clear and Direct)** (~20 min).
+You should have already read: Anthropic Prompt Engineering Interactive Tutorial — **Chapter 1 (Basic Prompt Structure)** + **Chapter 2 (Being Clear and Direct)**.
 
 ### Quick Self-Check
 
@@ -148,7 +146,7 @@ If you couldn't answer all three, review the tutorial chapters again before proc
 
 ---
 
-## Part 2 — Core Concepts: Prompt Anatomy · 20 min
+## Part 2 — Core Concepts: Prompt Anatomy
 ### Reading — Why This Matters
 
 Prompts are how you program an LLM. The single biggest source of bad output is **ambiguous instruction**, not model capability. By the end of this week you should be able to look at a failing prompt and say *what's missing* with the same fluency as debugging code.
@@ -188,7 +186,7 @@ POST /v1/chat/completions
 
 ---
 
-## Part 3 — Deep Dive: The Three Vagueness Traps · 20 min
+## Part 3 — Deep Dive: The Three Vagueness Traps
 ### Reading — Specificity Beats Vagueness
 
 The model is a probability machine over text. Give it a vague instruction → it samples from the broad distribution of valid completions. Give it a specific one → the distribution narrows to what you actually wanted.
@@ -217,8 +215,8 @@ The model is a probability machine over text. Give it a vague instruction → it
 
 ---
 
-## Part 4 — Hands-On: Rewrite Vague Prompts · 30 min
-### Exercise 1: Identify the Trap (15 min)
+## Part 4 — Hands-On: Rewrite Vague Prompts
+### Exercise 1: Identify the Trap
 
 For each vague prompt, identify which trap it falls into (Undefined Audience, Undefined Format, or Undefined Success Criteria), then rewrite it:
 
@@ -230,7 +228,7 @@ For each vague prompt, identify which trap it falls into (Undefined Audience, Un
 | "Tell me about AI" | | |
 | "List the best GPUs" | | |
 
-### Exercise 2: Test Your Rewrites (15 min)
+### Exercise 2: Test Your Rewrites
 
 If you have access to an LLM:
 1. Run the original vague prompt
@@ -244,7 +242,7 @@ If you have access to an LLM:
 
 ---
 
-## Part 5 — Hands-On: Prompt Checklist Practice · 25 min
+## Part 5 — Hands-On: Prompt Checklist Practice
 ### Exercise: The 6-Component Prompt Checklist
 
 Every well-formed prompt should have these components. Use this checklist:
@@ -287,7 +285,7 @@ My Prompt Checklist:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -371,7 +369,7 @@ Tomorrow: **roles, data separation, output formatting** — the patterns that tu
 
 ### Pre-read for tomorrow (Day 27 · Roles, Data, Output Formatting)
 
-- **Resource:** <a href="../../../readings/prompt-engineering/">Prompt Engineering Pre-Lecture Reading — Day 27 primer</a> (~12 min). Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic tutorial</a> Ch 3 + Ch 4 + Ch 5 (~20 min).
+- **Resource:** <a href="../../../readings/prompt-engineering/#day-27-primer-roles-walls-and-shapes">Prompt Engineering Pre-Lecture Reading — Day 27 primer</a>. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic tutorial</a> Ch 3 + Ch 4 + Ch 5.
 - **Reflection questions:**
   1. How does giving the model a **specific role** change its output quality? Why?
   2. What attack does proper data separation defend against?

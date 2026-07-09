@@ -10,7 +10,7 @@ drift: |
 # Day 38 · Files & Storage (with streaming primer)
 
 > **Concept of the day:** **`capsule cp`** for small files. **Shared storage pool** for big artifacts (models, datasets, results). **Streaming output** (`capsule run --stream`) for live logs without scraping after-the-fact. Per-user home is fast but ephemeral relative to the cluster lifecycle.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 39 section</a> (~40 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Modules 6 + 7.
+> **Pre-reading:** <a href="../../../readings/capsule/#day-39-files-storage-streaming">Capsule Power-User Pre-Lecture Reading — Day 39 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-6-files-storage-and-the-onedrive-mount">Capsule Lab Guide</a> Modules 6 + 7.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -22,8 +22,6 @@ drift: |
     <a href="../">Week 8 — Capsule: Connections &amp; Operations</a>
     <span class="sep">/</span>
     <span>Day 38 · Files & Storage</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-08/module-2}
   </div>
 </div>
@@ -33,21 +31,21 @@ drift: |
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: Three Transfer Mechanisms | 20 min |
-| Part 3 | Core Concepts: Storage Scopes | 20 min |
-| Part 4 | Deep Dive: Shared Storage Workflow | 25 min |
-| Part 5 | Hands-On: Upload / Download Drill | 30 min |
-| Part 6 | Hands-On: Streaming & Daily Rhythm | 20 min |
-| Part 7 | Wrap-up & Connection | 10 min |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Three Transfer Mechanisms |
+| Part 3 | Core Concepts: Storage Scopes |
+| Part 4 | Deep Dive: Shared Storage Workflow |
+| Part 5 | Hands-On: Upload / Download Drill |
+| Part 6 | Hands-On: Streaming & Daily Rhythm |
+| Part 7 | Wrap-up & Connection |
 
 **Total: ~140 min**
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 
 ### Reading — Why this matters
 
@@ -160,7 +158,7 @@ Answer before reading on:
 
 ---
 
-## Part 2 — Core Concepts: Three Transfer Mechanisms · 20 min
+## Part 2 — Core Concepts: Three Transfer Mechanisms
 
 ### Reading — File transfer commands
 
@@ -184,7 +182,7 @@ For each scenario, write the correct command:
 
 ---
 
-## Part 3 — Core Concepts: Storage Scopes · 20 min
+## Part 3 — Core Concepts: Storage Scopes
 
 ### Reading — Per-user home vs shared storage
 
@@ -220,7 +218,7 @@ For each artifact, decide: `$HOME` or `/shared`? Justify in one sentence.
 
 ---
 
-## Part 4 — Deep Dive: Shared Storage Workflow · 25 min
+## Part 4 — Deep Dive: Shared Storage Workflow
 
 ### Reading — Streaming: see logs live
 
@@ -280,20 +278,20 @@ For each mistake: what's wrong, and what's the correct approach?
 
 ---
 
-## Part 5 — Hands-On: Upload / Download Drill · 30 min
+## Part 5 — Hands-On: Upload / Download Drill
 
 ### Exercise: File Round-Trip
 
-1. (5 min) Create a small test file on your laptop: `echo "hello capsule" > test.txt`
-2. (5 min) Copy it to your dev node: `capsule cp ./test.txt <node>:./`
-3. (5 min) On the node: verify it exists (`capsule connect <node> --command 'cat ~/test.txt'`).
-4. (5 min) Modify the file on the node (`capsule connect` → `echo "modified" >> test.txt`).
-5. (5 min) Pull it back: `capsule cp <node>:./test.txt ./test-returned.txt`.
-6. (5 min) Run `capsule storage ls /shared/`. Note what's pre-staged. Read a `README` if present.
+1. Create a small test file on your laptop: `echo "hello capsule" > test.txt`
+2. Copy it to your dev node: `capsule cp ./test.txt <node>:./`
+3. On the node: verify it exists (`capsule connect <node> --command 'cat ~/test.txt'`).
+4. Modify the file on the node (`capsule connect` → `echo "modified" >> test.txt`).
+5. Pull it back: `capsule cp <node>:./test.txt ./test-returned.txt`.
+6. Run `capsule storage ls /shared/`. Note what's pre-staged. Read a `README` if present.
 
 ---
 
-## Part 6 — Hands-On: Streaming & Daily Rhythm · 20 min
+## Part 6 — Hands-On: Streaming & Daily Rhythm
 
 ### Exercise: Streaming a Long Command
 
@@ -313,7 +311,7 @@ For each mistake: what's wrong, and what's the correct approach?
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 

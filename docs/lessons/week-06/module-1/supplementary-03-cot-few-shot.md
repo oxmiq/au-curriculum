@@ -1,25 +1,25 @@
 # Supplementary · Chain-of-Thought & Few-Shot Prompting
 
-> **Concept of the day:** each token a model writes becomes context for the next — "writing out reasoning" gives the model more effective compute steps before committing to an answer. Showing 2–5 examples teaches format and style without weight updates. CoT and few-shot are the two highest-leverage capability levers you have before touching the model itself. **Pre-reading:** Anthropic tutorial Ch 6 (Pre-cognition / CoT) + Ch 7 (Using Examples) (~20 min).
+> **Concept of the day:** each token a model writes becomes context for the next — "writing out reasoning" gives the model more effective compute steps before committing to an answer. Showing 2–5 examples teaches format and style without weight updates. CoT and few-shot are the two highest-leverage capability levers you have before touching the model itself. **Pre-reading:** Anthropic tutorial Ch 6 (Pre-cognition / CoT) + Ch 7 (Using Examples).
 
 ---
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: Chain-of-Thought | 25 min |
-| Part 3 | Deep Dive: When CoT Helps and Costs | 20 min |
-| Part 4 | Core Concepts: Few-Shot In-Context Learning | 20 min |
-| Part 5 | Hands-On: CoT Token Cost Lab | 25 min |
-| Part 6 | Hands-On: Few-Shot Classifier Build | 25 min |
-| Part 7 | Wrap-up & Connection | 10 min |
-| **Total** | | **~180 min** |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Chain-of-Thought |
+| Part 3 | Deep Dive: When CoT Helps and Costs |
+| Part 4 | Core Concepts: Few-Shot In-Context Learning |
+| Part 5 | Hands-On: CoT Token Cost Lab |
+| Part 6 | Hands-On: Few-Shot Classifier Build |
+| Part 7 | Wrap-up & Connection |
+| **Total** | |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15min
+## Part 1 — Pre-Reading Review
 
 ### Reading —
 
@@ -28,7 +28,7 @@ Before continuing, you should have read:
 - Anthropic tutorial **Ch 6 (Pre-cognition / Chain-of-Thought)** — why CoT works, zero-shot vs few-shot CoT
 - **Ch 7 (Using Examples)** — how many examples, bias risks, choosing good examples
 
-If you haven't yet, stop and read them now (~20 min).
+If you haven't yet, stop and read them now.
 
 ### Exercise:
 
@@ -42,7 +42,7 @@ Answer from memory:
 
 ---
 
-## Part 2 — Core Concepts: Chain-of-Thought · 25min
+## Part 2 — Core Concepts: Chain-of-Thought
 
 ### Reading —
 
@@ -95,7 +95,7 @@ Take this multi-step word problem:
 
 ---
 
-## Part 3 — Deep Dive: When CoT Helps and Costs · 20min
+## Part 3 — Deep Dive: When CoT Helps and Costs
 
 ### Reading —
 
@@ -146,7 +146,7 @@ For each of the following tasks, decide: CoT or no CoT? Explain your reasoning.
 
 ---
 
-## Part 4 — Core Concepts: Few-Shot In-Context Learning · 20min
+## Part 4 — Core Concepts: Few-Shot In-Context Learning
 
 ### Reading —
 
@@ -211,19 +211,19 @@ This teaches the **reasoning style**, not just the answer style. Often the stron
 
 ---
 
-## Part 5 — Hands-On: CoT Token Cost Lab · 25min
+## Part 5 — Hands-On: CoT Token Cost Lab
 
 ### Exercise:
 
 **Setup:** Pick a real multi-step task (math, code analysis, or logic). You'll need access to an LLM API with token counting (or use the token counter at platform.openai.com/tokenizer).
 
-**Part A — Measure the cost (10 min):**
+**Part A — Measure the cost:**
 
 1. Write the task as a minimal prompt (no CoT). Count output tokens for 5 test inputs. Record average.
 2. Add "Think step by step." Count output tokens for the same 5 inputs. Record average.
 3. Add the full `<reasoning>...</reasoning><answer>...</answer>` structure. Count output tokens again.
 
-**Part B — Calculate the economics (10 min):**
+**Part B — Calculate the economics:**
 
 Assume: $5 / 1M output tokens; 1,000 requests per day.
 
@@ -235,23 +235,23 @@ Assume: $5 / 1M output tokens; 1,000 requests per day.
 
 At what request volume does CoT cost become a business decision rather than a rounding error?
 
-**Part C — Quality vs cost decision (5 min):**
+**Part C — Quality vs cost decision:**
 
 For your specific task, write a one-sentence justification for or against using CoT in production, quantified: "CoT costs $X/month extra and improves accuracy by approximately Y% on hard inputs — [worth it / not worth it] because ___."
 
 ---
 
-## Part 6 — Hands-On: Few-Shot Classifier Build · 25min
+## Part 6 — Hands-On: Few-Shot Classifier Build
 
 ### Exercise:
 
 You are building a prompt to classify GitHub issue titles as: `bug | feature_request | question | documentation`.
 
-**Step 1 — Zero-shot baseline (5 min):**
+**Step 1 — Zero-shot baseline:**
 
 Write a zero-shot classification prompt. Run on 10 real GitHub issue titles (mix of all 4 classes). Record accuracy.
 
-**Step 2 — Add few-shot examples (10 min):**
+**Step 2 — Add few-shot examples:**
 
 Write 4 few-shot examples (one per class). Rules for your examples:
 - Must vary across irrelevant dimensions (language of the title, length, software domain)
@@ -259,7 +259,7 @@ Write 4 few-shot examples (one per class). Rules for your examples:
 
 Run on the same 10 issues. Record accuracy delta.
 
-**Step 3 — Add CoT to examples (5 min):**
+**Step 3 — Add CoT to examples:**
 
 Add one-sentence reasoning to each example:
 ```
@@ -270,13 +270,13 @@ Class: bug
 
 Run again. Record accuracy delta vs Step 2.
 
-**Step 4 — Adversarial test (5 min):**
+**Step 4 — Adversarial test:**
 
 Write a deliberately confusing issue title that shares surface features of multiple classes (e.g., "The documentation for the login feature is wrong and causes bugs"). Which version (zero-shot / few-shot / CoT+few-shot) handles it best?
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 
@@ -302,7 +302,7 @@ These patterns are the final building blocks before agents:
 
 ## Pre-read for the next supplementary (supplementary-04: Hallucinations, Complex Prompts & Evals)
 
-- **Resource:** Anthropic tutorial **Ch 8 (Avoiding Hallucinations)** + **Ch 9 (Complex Prompts from Scratch)** (~25 min).
+- **Resource:** Anthropic tutorial **Ch 8 (Avoiding Hallucinations)** + **Ch 9 (Complex Prompts from Scratch)**.
 - **Reflection questions:**
   1. Why do LLMs hallucinate? Name two structural causes.
   2. What is the chain reliability multiplication problem? If each of 3 steps is 90% reliable, what is the end-to-end success rate?

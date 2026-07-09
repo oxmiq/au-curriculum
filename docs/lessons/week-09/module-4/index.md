@@ -9,7 +9,7 @@ drift: |
 # Day 45 · Scheduling & MCP
 
 > **Concept of the day:** stop running benchmarks by hand. **Schedule** them nightly with `capsule schedule`. Expose Capsule's surface via **MCP** so the agents you designed in Week 6 can run, monitor, and report on benchmarks autonomously. This is where Phase 2 (agents) and Phase 3 (Capsule) compose.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 44 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 10.
+> **Pre-reading:** <a href="../../../readings/capsule/#day-44-scheduling-mcp">Capsule Power-User Pre-Lecture Reading — Day 44 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -21,8 +21,6 @@ drift: |
     <a href="../">Week 9 — Capsule: Benchmarking &amp; Eval</a>
     <span class="sep">/</span>
     <span>Day 45 · Scheduling & MCP</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-09/module-4}
   </div>
 </div>
@@ -32,21 +30,21 @@ drift: |
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: capsule schedule | 25 min |
-| Part 3 | Core Concepts: MCP for Capsule | 20 min |
-| Part 4 | Deep Dive: Phase 1 + 2 + 3 Composition | 20 min |
-| Part 5 | Hands-On: Create & Monitor a Schedule | 35 min |
-| Part 6 | Hands-On: Sketch the Nightly Agent | 20 min |
-| Part 7 | Wrap-up & Connection | 10 min |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: capsule schedule |
+| Part 3 | Core Concepts: MCP for Capsule |
+| Part 4 | Deep Dive: Phase 1 + 2 + 3 Composition |
+| Part 5 | Hands-On: Create & Monitor a Schedule |
+| Part 6 | Hands-On: Sketch the Nightly Agent |
+| Part 7 | Wrap-up & Connection |
 
 **Total: ~145 min**
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 
 ### Reading — Why this matters
 
@@ -159,7 +157,7 @@ Answer before reading on:
 
 ---
 
-## Part 2 — Core Concepts: capsule schedule · 25 min
+## Part 2 — Core Concepts: capsule schedule
 
 ### Reading — The cron of Capsule
 
@@ -209,7 +207,7 @@ Each run logs:
 
 ---
 
-## Part 3 — Core Concepts: MCP for Capsule · 20 min
+## Part 3 — Core Concepts: MCP for Capsule
 
 ### Reading — Week 6 closing the loop
 
@@ -253,7 +251,7 @@ For each MCP tool listed in the table above, classify it:
 
 ---
 
-## Part 4 — Deep Dive: Phase 1 + 2 + 3 Composition · 20 min
+## Part 4 — Deep Dive: Phase 1 + 2 + 3 Composition
 
 ### Reading — The full picture
 
@@ -285,19 +283,19 @@ Using the 5-layer map from Week 6 Day 31, design the "nightly regression-watchin
 
 ---
 
-## Part 5 — Hands-On: Create & Monitor a Schedule · 35 min
+## Part 5 — Hands-On: Create & Monitor a Schedule
 
 ### Exercise: Test Schedule Lifecycle
 
-1. (5 min) Create a test schedule that runs at the shortest allowable cadence (e.g. every 15 minutes) on a small benchmark.
-2. (10 min) Wait for the next run. Watch it trigger in `capsule schedule runs`.
-3. (10 min) Inspect the run log. Trace the full lifecycle: scheduler → lease → node → benchmark → output.
-4. (5 min) Disable the test schedule.
-5. (5 min) Pull the output from the run. Verify it matches what `capsule benchmark` would produce directly.
+1. Create a test schedule that runs at the shortest allowable cadence (e.g. every 15 minutes) on a small benchmark.
+2. Wait for the next run. Watch it trigger in `capsule schedule runs`.
+3. Inspect the run log. Trace the full lifecycle: scheduler → lease → node → benchmark → output.
+4. Disable the test schedule.
+5. Pull the output from the run. Verify it matches what `capsule benchmark` would produce directly.
 
 ---
 
-## Part 6 — Hands-On: Sketch the Nightly Agent · 20 min
+## Part 6 — Hands-On: Sketch the Nightly Agent
 
 ### Exercise: Nightly Agent Blueprint
 
@@ -311,7 +309,7 @@ Using the 5-layer map from Week 6 Day 31, design the "nightly regression-watchin
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 
@@ -381,7 +379,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect forward
 
-Friday: **timed sprint** + [the canonical quiz](knowledge-check.html). Cold-run the full benchmark workflow in 20 min. The capstone begins Monday.
+Friday: **timed sprint** + [the canonical quiz](knowledge-check.md). Cold-run the full benchmark workflow in 20 min. The capstone begins Monday.
 
 ---
 

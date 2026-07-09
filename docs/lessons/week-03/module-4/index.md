@@ -1,7 +1,7 @@
 # Day 14 · Quantization
 
 > **Concept of the day:** fewer bits → less data to move → faster decode. FP16 → FP8 → FP4 progression. **Float > int** (dynamic range). Sensitivity ladder: weights → activations → KV → attention.<br>
-> **Pre-reading:** "What is quantization?" — <a href="https://huggingface.co/docs/optimum/concept_guides/quantization" target="_blank" rel="noopener">Hugging Face — Quantization</a> (~20 min).
+> **Pre-reading:** "What is quantization?" — <a href="https://huggingface.co/docs/optimum/concept_guides/quantization" target="_blank" rel="noopener">Hugging Face — Quantization</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 3 — Attention &amp; KV Cache</a>
     <span class="sep">/</span>
     <span>Day 14 · Quantization</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-03/module-4}
   </div>
 </div>
@@ -26,22 +24,22 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 10 min |
-| Part 2 | Core Concepts: The Precision Ladder | 20 min |
-| Part 3 | Deep Dive: Float vs Int & Sensitivity Ladder | 20 min |
-| Part 4 | Hands-On: Weight Memory Calculations | 20 min |
-| Part 5 | Hands-On: Decode Latency at Different Precisions | 25 min |
-| Part 6 | Hands-On: Combined Memory Budget | 20 min |
-| Part 7 | Wrap-up & Connection | 5 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: The Precision Ladder |
+| Part 3 | Deep Dive: Float vs Int & Sensitivity Ladder |
+| Part 4 | Hands-On: Weight Memory Calculations |
+| Part 5 | Hands-On: Decode Latency at Different Precisions |
+| Part 6 | Hands-On: Combined Memory Budget |
+| Part 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 10 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: "What is quantization?" — Pre-Lecture Reading **Reader 7** (~20 min).
+You should have already read: "What is quantization?" — Pre-Lecture Reading **Reader 7**.
 
 ### Quick Self-Check
 
@@ -153,7 +151,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — The Precision Ladder · 20 min
+## Part 2 — Core Concepts — The Precision Ladder
 ### Reading — The Numerical Precision Spectrum
 
 Quantization is the *single biggest lever* for decode latency. Halving the bits roughly halves the HBM traffic — and decode is memory-bound, so that roughly halves the time per token.
@@ -181,7 +179,7 @@ From **Inference Engineering Study Guide §5.1**: "Quantization lowers the numer
 
 ---
 
-## Part 3 — Deep Dive — Float vs Int & Sensitivity Ladder · 20 min
+## Part 3 — Deep Dive — Float vs Int & Sensitivity Ladder
 ### Float vs Int — Why Float Usually Wins
 
 **Floating-point formats** have a sign bit, exponent, and mantissa — giving **dynamic range** to represent very large and very small values. **Integer formats** have no exponent — they represent uniformly spaced values.
@@ -208,8 +206,8 @@ From **Inference Engineering Study Guide §5.1**:
 
 ---
 
-## Part 4 — Hands-On — Weight Memory Calculations · 20 min
-### Exercise 1: Llama-3-8B Weight Memory (10 min)
+## Part 4 — Hands-On — Weight Memory Calculations
+### Exercise 1: Llama-3-8B Weight Memory
 
 Calculate weight memory for Llama-3-8B at different precisions:
 
@@ -224,7 +222,7 @@ Calculate weight memory for Llama-3-8B at different precisions:
 - FP8: 8B × 1 = **8 GB** (50% of FP16)
 - INT4: 8B × 0.5 = **4 GB** (25% of FP16)
 
-### Exercise 2: Savings Visualization (10 min)
+### Exercise 2: Savings Visualization
 
 If you have an 80 GB H100:
 - FP16 weights + KV headroom = ~64 GB for model, 16 GB for KV
@@ -233,8 +231,8 @@ If you have an 80 GB H100:
 
 ---
 
-## Part 5 — Hands-On — Decode Latency at Different Precisions · 25 min
-### Exercise: 70B Model Decode Time Floor (25 min)
+## Part 5 — Hands-On — Decode Latency at Different Precisions
+### Exercise: 70B Model Decode Time Floor
 
 **Given:**
 - Llama-3-70B: 140 GB FP16 weights
@@ -262,8 +260,8 @@ From **Inference Engineering Study Guide §A.5**: "FP8 vs FP16 throughput on H10
 
 ---
 
-## Part 6 — Hands-On — Combined Memory Budget · 20 min
-### Exercise: Full System Memory Budget (20 min)
+## Part 6 — Hands-On — Combined Memory Budget
+### Exercise: Full System Memory Budget
 
 **Scenario:** 70B model on 8×H100 (80 GB each = 640 GB total)
 
@@ -284,14 +282,14 @@ From **Inference Engineering Study Guide §A.5**: "FP8 vs FP16 throughput on H10
 
 ### When NOT to Quantize
 
-Pair discussion (10 min):
+Pair discussion:
 - Small batch + abundant memory + quality-critical task
 - Early-stage eval where you're still measuring quality
 - Models with known quantization sensitivity (some architectures)
 
 ---
 
-## Part 7 — Wrap-up & Connection · 5 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -375,7 +373,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Friday: consolidation. We build the **memory budget calculator** — given GPU, model, context, batch → does it fit, and what does it cost at each precision level? Then [the canonical quiz](knowledge-check.html).
+Friday: consolidation. We build the **memory budget calculator** — given GPU, model, context, batch → does it fit, and what does it cost at each precision level? Then [the canonical quiz](knowledge-check.md).
 
 ---
 

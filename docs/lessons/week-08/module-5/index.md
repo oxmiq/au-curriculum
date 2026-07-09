@@ -10,8 +10,6 @@
     <a href="../">Week 8 — Capsule: Connections &amp; Operations</a>
     <span class="sep">/</span>
     <span>Day 41 · Consolidation</span>
-    <span class="sep">·</span>
-    <span class="duration">Friday · review &amp; wrap</span>
     {status:week-08/module-5}
   </div>
 </div>
@@ -19,21 +17,21 @@
 
 ## Self-Study Time Buckets
 
-| Bucket | Activity | Duration |
-|---|---|---|
-| 🔵 Bucket 1 | Knowledge Check | 30 min |
-| 🟢 Bucket 2 | Self-Assessment Checklist | 20 min |
-| 🟡 Bucket 3 | Connection Drills | 25 min |
-| 🟠 Bucket 4 | Files & Storage Drills | 25 min |
-| 🔴 Bucket 5 | Known Quirks & Bug Report Drill | 25 min |
-| 🟣 Bucket 6 | Open Lab & Week 9 Preview | 25 min |
-| **Total** | | **~150 min** |
+| Bucket | Activity |
+|---|---|
+| 🔵 Bucket 1 | Knowledge Check |
+| 🟢 Bucket 2 | Self-Assessment Checklist |
+| 🟡 Bucket 3 | Connection Drills |
+| 🟠 Bucket 4 | Files & Storage Drills |
+| 🔴 Bucket 5 | Known Quirks & Bug Report Drill |
+| 🟣 Bucket 6 | Open Lab & Week 9 Preview |
+| **Total** | |
 
 ---
 
-## 🔵 Bucket 1: Knowledge Check · 30min
+## 🔵 Bucket 1: Knowledge Check
 
-Take the **[canonical knowledge check](knowledge-check.html)**.
+Take the **[canonical knowledge check](knowledge-check.md)**.
 
 This covers: connecting to machines (`capsule term` / `capsule code` / `capsule exec`), files & storage mechanisms, streaming (architecture, hardware encoding, when to stream), and known quirks (triage tree, quirks table, bug-report rubric).
 
@@ -41,7 +39,7 @@ Aim for 80% before moving on. For any topic below 60%: revisit the specific day'
 
 ---
 
-## 🟢 Bucket 2: Self-Assessment Checklist · 20min
+## 🟢 Bucket 2: Self-Assessment Checklist
 
 Without notes, answer each question. Write your answers before looking anything up.
 
@@ -60,11 +58,11 @@ For any unchecked item: write the answer out longhand, then return to the source
 
 ---
 
-## 🟡 Bucket 3: Connection Drills · 25min
+## 🟡 Bucket 3: Connection Drills
 
 Work through these exercises with your actual dev node. Each exercise tests a skill from Days 37–38.
 
-**Drill 1 — tmux persistence (10 min):**
+**Drill 1 — tmux persistence:**
 
 1. `capsule term <config-tag>` — connect to a dev node.
 2. Start a new tmux session: `tmux new -s drill`
@@ -76,14 +74,14 @@ Work through these exercises with your actual dev node. Each exercise tests a sk
 
 If the command was still running when you detached and reconnected, your tmux persistence is working correctly. This is the core of the "never lose work" discipline.
 
-**Drill 2 — port forward test (10 min):**
+**Drill 2 — port forward test:**
 
 1. On the remote node, start an HTTP server: `python3 -m http.server 8001 &`
 2. In a second local terminal, set up a port forward: `capsule port-forward <config-tag> 8001:localhost:8001`
 3. Open `http://localhost:8001` in your local browser. Confirm you see the remote directory listing.
 4. Disconnect the capsule session. Confirm the tunnel drops (browser should fail to load).
 
-**Drill 3 — triage decision tree (5 min):**
+**Drill 3 — triage decision tree:**
 
 Speak the 4-step triage decision tree aloud, from memory:
 - Step 1: ___
@@ -95,9 +93,9 @@ For each step, say what failure mode it catches.
 
 ---
 
-## 🟠 Bucket 4: Files & Storage Drills · 25min
+## 🟠 Bucket 4: Files & Storage Drills
 
-**Drill 1 — scp round-trip (10 min):**
+**Drill 1 — scp round-trip:**
 
 1. Create a 1 MB test file locally: `dd if=/dev/urandom of=/tmp/test1mb.bin bs=1024 count=1024`
 2. Upload: `capsule scp upload /tmp/test1mb.bin <config-tag>:/tmp/test1mb.bin`
@@ -106,7 +104,7 @@ For each step, say what failure mode it catches.
 
 If checksums match, your scp workflow is working correctly.
 
-**Drill 2 — OneDrive persistence (10 min):**
+**Drill 2 — OneDrive persistence:**
 
 1. On the remote node, write a test file to your OneDrive-mounted directory: `echo "test content $(date)" > ~/OneDrive/capsule-drill-test.txt`
 2. Disconnect from that node.
@@ -116,7 +114,7 @@ If checksums match, your scp workflow is working correctly.
 
 This confirms your OneDrive mount is working as shared persistent storage across machines.
 
-**Drill 3 — Storage mechanism selection (5 min):**
+**Drill 3 — Storage mechanism selection:**
 
 For each scenario, name the correct mechanism and explain why:
 
@@ -129,9 +127,9 @@ For each scenario, name the correct mechanism and explain why:
 
 ---
 
-## 🔴 Bucket 5: Known Quirks & Bug Report Drill · 25min
+## 🔴 Bucket 5: Known Quirks & Bug Report Drill
 
-**Drill 1 — Quirks recall (10 min):**
+**Drill 1 — Quirks recall:**
 
 Cover the known-quirks table. From memory, name the fix for each of these 4 symptoms:
 
@@ -142,7 +140,7 @@ Cover the known-quirks table. From memory, name the fix for each of these 4 symp
 
 Write the fix for each. Then check against the [Day 40 known-quirks table](../module-4/index.md).
 
-**Drill 2 — Bug report (15 min):**
+**Drill 2 — Bug report:**
 
 Write a complete bug report (all 8 fields) for the following scenario:
 
@@ -154,7 +152,7 @@ After writing: apply the **specificity test** — could a support engineer repro
 
 ---
 
-## 🟣 Bucket 6: Open Lab & Week 9 Preview · 25min
+## 🟣 Bucket 6: Open Lab & Week 9 Preview
 
 **Catch up (if needed):**
 
@@ -177,7 +175,7 @@ Module 8 of the Lab Guide (Benchmarking) is the most important module for this t
 
 ## Pre-read for Monday (Week 9 · Day 42 · Your First Benchmark)
 
-- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 41 section</a> (~30 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 8 (Benchmarking) — budget the full 30 minutes.
+- **Resource:** <a href="../../../readings/capsule/#day-41-your-first-benchmark">Capsule Power-User Pre-Lecture Reading — Day 41 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-8-model-evaluation-benchmarking-the-inferencemax-path">Capsule Lab Guide</a> Module 8 (Benchmarking) — budget the full 30 minutes.
 - **Reflection questions:**
   1. What is **InferenceMAX** and what does it measure?
   2. What are the four backend options for `capsule benchmark`?

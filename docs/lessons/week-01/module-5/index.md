@@ -12,8 +12,6 @@
     <a href="../">Week 1 — Orientation &amp; Foundations</a>
     <span class="sep">/</span>
     <span>Day 5 · Consolidation</span>
-    <span class="sep">·</span>
-    <span class="duration">Friday · review &amp; wrap</span>
     {status:week-01/module-5}
   </div>
 </div>
@@ -25,21 +23,21 @@
 
 This consolidation day is different from other days — it's for practice and review. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Week 1 Knowledge Check | 30 min |
-| Part 2 | Self-Assessment | 20 min |
-| Part 3 | Practice: Shell Review | 30 min |
-| Part 4 | Practice: Git Review | 30 min |
-| Part 5 | Practice: GPU Review | 20 min |
-| 7 | Open Lab & Wrap-up | 30 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Week 1 Knowledge Check |
+| Part 2 | Self-Assessment |
+| Part 3 | Practice: Shell Review |
+| Part 4 | Practice: Git Review |
+| Part 5 | Practice: GPU Review |
+| 7 | Open Lab & Wrap-up |
 
 ---
 
-## Part 1 — Week 1 Knowledge Check · 30 min
+## Part 1 — Week 1 Knowledge Check
 ### Exercise: Take the Knowledge Check
 
-[Take the Week 1 knowledge check](knowledge-check.html) — 15 questions across shell, git, and GPU primer.
+[Take the Week 1 knowledge check](knowledge-check.md) — 15 questions across shell, git, and GPU primer.
 
 **Passing score:** 10/15 (67%)
 
@@ -51,7 +49,7 @@ If you score below 10/15:
 
 ---
 
-## Part 2 — Self-Assessment · 20 min
+## Part 2 — Self-Assessment
 ### Self-Check List
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-01-m5-wrapup" data-kind="wrap-up" data-draw="5" data-source="Week 1 consolidation (shell, git, GPU)">
@@ -91,7 +89,7 @@ For any item you can't do:
 
 ---
 
-## Part 3 — Practice — Shell Review · 30 min
+## Part 3 — Practice — Shell Review
 ### Hands-On: Shell Drills
 
 Practice these until they're automatic:
@@ -128,7 +126,7 @@ echo "Found $count files in /tmp"
 
 ---
 
-## Part 4 — Practice — Git Review · 30 min
+## Part 4 — Practice — Git Review
 ### Hands-On: Git Drills
 
 If you have a GitHub account, practice these:
@@ -172,7 +170,7 @@ git branch -d practice-branch
 
 ---
 
-## Part 5 — Practice — GPU Review · 20 min
+## Part 5 — Practice — GPU Review
 ### Hands-On: GPU Knowledge Check
 
 Write your answers to these from memory (no notes!):
@@ -187,7 +185,7 @@ Compare your answers to what you wrote on Day 4. Have you improved?
 
 ---
 
-## Part 7 — Wrap-up & Connection · 30 min
+## Part 7 — Wrap-up & Connection
 ### What to Do
 
 This is open time. Choose what you need:
@@ -206,7 +204,7 @@ Week 2 begins on Monday. You'll learn about:
 
 ### Pre-read for Monday (Week 2, Day 6)
 
-**Resource:** <a href="https://huyenchip.com/2023/04/11/llm-engineering.html" target="_blank" rel="noopener">Chip Huyen — LLM Engineering: Inference Optimization</a> (~15 min, read the Inference section).
+**Resource:** <a href="https://huyenchip.com/2023/04/11/llm-engineering.html" target="_blank" rel="noopener">Chip Huyen — LLM Engineering: Inference Optimization</a> (read the Inference section).
 
 **Reflection questions:**
 1. Why is inference cumulatively more expensive than training?

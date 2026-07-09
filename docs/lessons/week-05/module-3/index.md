@@ -1,7 +1,7 @@
 # Day 23 · Evaluation & Quality
 
 > **Concept of the day:** **perplexity** for sanity, **benchmarks** for comparison, **task evals** for production decisions. Public benchmarks are gameable; your own eval suite is the only one that matters. **Quantization quality must be measured, not assumed.**
-> **Pre-reading:** "Evaluating LLMs" overview — <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/llm-evaluations/" target="_blank" rel="noopener">Eugene Yan — How to Evaluate LLMs</a> (~20 min).
+> **Pre-reading:** "Evaluating LLMs" overview — <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/llm-evaluations/" target="_blank" rel="noopener">Eugene Yan — How to Evaluate LLMs</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,14 +13,12 @@
     <a href="../">Week 5 — Metrics &amp; Production</a>
     <span class="sep">/</span>
     <span>Day 23 · Evaluation & Quality</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-05/module-3}
   </div>
   <div class="ox-lesson-header__cta">
     <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button md-button--primary" href="knowledge-check/">Knowledge check</a>
+    <a class="md-button" href="assignment/">Assignment</a>
     <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Inference%20Engineering">Source material</a>
   </div>
 </div>
@@ -30,23 +28,23 @@
 
 ## Lesson plan
 
-| # | What you do | Time |
-|---|-------------|------|
-| 1 | Why Evaluation Matters | 15 min |
-| 2 | Three Evaluation Layers | 25 min |
-| 3 | Build a Task Eval Suite | 25 min |
-| 4 | Quantization Quality Check | 25 min |
-| 5 | LLM-as-a-Judge | 20 min |
-| 6 | Design Your Eval Pipeline | 20 min |
-| 7 | Wrap-up & Connection | 10 min |
+| # | What you do |
+|---|-------------|
+| 1 | Why Evaluation Matters |
+| 2 | Three Evaluation Layers |
+| 3 | Build a Task Eval Suite |
+| 4 | Quantization Quality Check |
+| 5 | LLM-as-a-Judge |
+| 6 | Design Your Eval Pipeline |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Why Evaluation Matters · 15 min
+## Part 1 — Why Evaluation Matters
 
 ### Before You Start
 
-You should have already read: <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/llm-evaluations/" target="_blank" rel="noopener">Eugene Yan — How to Evaluate LLMs</a> (~20 min).
+You should have already read: <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/llm-evaluations/" target="_blank" rel="noopener">Eugene Yan — How to Evaluate LLMs</a>.
 
 ### Readiness Check
 
@@ -158,7 +156,7 @@ Take 2 minutes to write down:
 
 ---
 
-## Part 2 — Three Evaluation Layers · 25 min
+## Part 2 — Three Evaluation Layers
 
 ### Layer 1: Sanity (Perplexity)
 
@@ -202,7 +200,7 @@ For each prompt:
 
 ---
 
-## Part 3 — Build a Task Eval Suite · 25 min
+## Part 3 — Build a Task Eval Suite
 
 ### Exercise: Create a 10-Prompt Eval Suite
 
@@ -230,7 +228,7 @@ For each prompt, define:
 
 ---
 
-## Part 4 — Quantization Quality Check · 25 min
+## Part 4 — Quantization Quality Check
 
 ### Scenario
 
@@ -261,7 +259,7 @@ Even with only 1% perplexity loss, the model could:
 
 ---
 
-## Part 5 — LLM-as-a-Judge · 20 min
+## Part 5 — LLM-as-a-Judge
 
 ### Reading — When It Works, When It Deceives
 
@@ -290,7 +288,7 @@ Design an LLM-as-a-judge prompt for grading:
 
 ---
 
-## Part 6 — Design Your Eval Pipeline · 20 min
+## Part 6 — Design Your Eval Pipeline
 
 ### The Quantization-Quality Contract
 
@@ -310,7 +308,7 @@ Write one sentence:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 
 ### Synthesis
 
@@ -395,7 +393,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Pre-read for tomorrow (Day 24 · Cost & Economics)
 
-- **Resource:** <a href="https://a16z.com/the-economics-of-ai-inference/" target="_blank" rel="noopener">a16z — The Economics of AI Inference</a> (~15 min).
+- **Resource:** <a href="https://a16z.com/the-economics-of-ai-inference/" target="_blank" rel="noopener">a16z — The Economics of AI Inference</a>.
 - **Reflection questions:**
   1. What dominates cost: prefill tokens or decode tokens? Why?
   2. **Dedicated GPU** vs **token-priced API** — at what utilization does dedicated break even?

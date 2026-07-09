@@ -75,57 +75,55 @@ flowchart TD
     W06M2 --> W06M3
     W06M4["Day 29 · Governance"]
     W06M3 --> W06M4
-    W06M5["Day 30 · Orchestration"]
+    W06M5["Day 30 · Orchestration + Consolidation + Phase 2 Assessment"]
     W06M4 --> W06M5
-    W06M6["Day 31 · Consolidation + Phase 2 Agent Design"]
-    W06M5 --> W06M6
   end
   subgraph W07["Week 07 · Bridge: Theory Meets Tooling"]
     direction TB
-    W07M1["Day 32 · Agent Case Studies"]
-    W07M2["Day 33 · Capsule Foundations"]
+    W07M1["Day 31 · Agent Case Studies"]
+    W07M2["Day 32 · Capsule Foundations"]
     W07M1 --> W07M2
-    W07M3["Day 34 · Installation"]
+    W07M3["Day 33 · Installation"]
     W07M2 --> W07M3
-    W07M4["Day 35 · Environments"]
+    W07M4["Day 34 · Environments"]
     W07M3 --> W07M4
-    W07M5["Day 36 · Consolidation"]
+    W07M5["Day 35 · Consolidation"]
     W07M4 --> W07M5
   end
   subgraph W08["Week 08 · Capsule: Connections & Operations"]
     direction TB
-    W08M1["Day 37 · Connecting"]
-    W08M2["Day 38 · Files & Storage"]
+    W08M1["Day 36 · Connecting"]
+    W08M2["Day 37 · Files & Storage"]
     W08M1 --> W08M2
-    W08M3["Day 39 · Streaming"]
+    W08M3["Day 38 · Streaming"]
     W08M2 --> W08M3
-    W08M4["Day 40 · Known Quirks"]
+    W08M4["Day 39 · Known Quirks"]
     W08M3 --> W08M4
-    W08M5["Day 41 · Consolidation"]
+    W08M5["Day 40 · Consolidation"]
     W08M4 --> W08M5
   end
   subgraph W09["Week 09 · Capsule: Benchmarking & Eval"]
     direction TB
-    W09M1["Day 42 · Benchmarking"]
-    W09M2["Day 43 · Model Evaluation"]
+    W09M1["Day 41 · Benchmarking"]
+    W09M2["Day 42 · Model Evaluation"]
     W09M1 --> W09M2
-    W09M3["Day 44 · Interactive Chat"]
+    W09M3["Day 43 · Interactive Chat"]
     W09M2 --> W09M3
-    W09M4["Day 45 · Scheduling & MCP"]
+    W09M4["Day 44 · Scheduling & MCP"]
     W09M3 --> W09M4
-    W09M5["Day 46 · Consolidation"]
+    W09M5["Day 45 · Consolidation"]
     W09M4 --> W09M5
   end
   subgraph W10["Week 10 · Capstone Project"]
     direction TB
-    W10M1["Day 47 · Kickoff & Planning"]
-    W10M2["Day 48 · Execute"]
+    W10M1["Day 46 · Kickoff & Planning"]
+    W10M2["Day 47 · Execute"]
     W10M1 --> W10M2
-    W10M3["Day 49 · Analyze & Recommend"]
+    W10M3["Day 48 · Analyze & Recommend"]
     W10M2 --> W10M3
-    W10M4["Day 50 · Present"]
+    W10M4["Day 49 · Present"]
     W10M3 --> W10M4
-    W10M5["Day 51 · Close"]
+    W10M5["Day 50 · Close"]
     W10M4 --> W10M5
   end
   W01M5 --> W02M1
@@ -133,7 +131,7 @@ flowchart TD
   W03M5 --> W04M1
   W04M5 --> W05M1
   W05M5 --> W06M1
-  W06M6 --> W07M1
+  W06M5 --> W07M1
   W07M5 --> W08M1
   W08M5 --> W09M1
   W09M5 --> W10M1
@@ -163,7 +161,7 @@ flowchart TD
   classDef capstone fill:#3a1320,stroke:#fb7185,color:#ffe2e8;
   class W01M1,W01M2,W01M3,W01M4,W01M5 orientation;
   class W02M1,W02M2,W02M3,W02M4,W02M5,W03M1,W03M2,W03M3,W03M4,W03M5,W04M1,W04M2,W04M3,W04M4,W04M5,W05M1,W05M2,W05M3,W05M4,W05M5 inference;
-  class W06M1,W06M2,W06M3,W06M4,W06M5,W06M6 agents;
+  class W06M1,W06M2,W06M3,W06M4,W06M5 agents;
   class W08M1,W08M2,W08M3,W08M4,W08M5,W09M1,W09M2,W09M3,W09M4,W09M5 capsule;
   class W10M1,W10M2,W10M3,W10M4,W10M5 capstone;
 
@@ -196,8 +194,7 @@ flowchart TD
   click W06M2 "../lessons/week-06/module-2/index/" "Agent Fundamentals"
   click W06M3 "../lessons/week-06/module-3/index/" "Tools & Action Layer"
   click W06M4 "../lessons/week-06/module-4/index/" "Governance"
-  click W06M5 "../lessons/week-06/module-5/index/" "Orchestration"
-  click W06M6 "../lessons/week-06/module-6/index/" "Consolidation + Phase 2 Agent Design"
+  click W06M5 "../lessons/week-06/module-5/index/" "Orchestration + Consolidation + Phase 2 Assessment"
   click W07M1 "../lessons/week-07/module-1/index/" "Agent Case Studies"
   click W07M2 "../lessons/week-07/module-2/index/" "Capsule Foundations"
   click W07M3 "../lessons/week-07/module-3/index/" "Installation"

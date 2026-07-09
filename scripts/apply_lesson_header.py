@@ -12,14 +12,12 @@ The header is an HTML block bounded by markers so the script is idempotent::
         <a href="../">Week 2 — The GPU &amp; Memory</a>
         <span class="sep">/</span>
         <span>Day 7 · Meet the GPU</span>
-        <span class="sep">·</span>
-        <span class="duration">~3 hrs</span>
         {status:week-02/module-2}
       </div>
       <div class="ox-lesson-header__cta">
         <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-        <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-        <a class="md-button" href="assignment.md">Assignment</a>
+        <a class="md-button md-button--primary" href="knowledge-check/">Knowledge check</a>
+        <a class="md-button" href="assignment/">Assignment</a>
         <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Inference%20Engineering">Source material</a>
       </div>
     </div>
@@ -174,14 +172,12 @@ def _lesson_header_block(week: dict, module: dict, day_in_week: int,
         f'    <a href="../">{week_title_escaped}</a>\n'
         f'    <span class="sep">/</span>\n'
         f'    <span>{full_module_label}</span>\n'
-        f'    <span class="sep">·</span>\n'
-        f'    <span class="duration">{duration}</span>\n'
         f'    {{status:{module_id}}}\n'
         f'  </div>\n'
         f'  <div class="ox-lesson-header__cta">\n'
         f'    <a class="md-button" href="{pre_read_anchor}">Pre-read</a>\n'
-        f'    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>\n'
-        f'    <a class="md-button" href="assignment.md">Assignment</a>\n'
+        f'    <a class="md-button md-button--primary" href="knowledge-check/">Knowledge check</a>\n'
+        f'    <a class="md-button" href="assignment/">Assignment</a>\n'
         f'    <a class="md-button" href="{source_url}">Source material</a>\n'
         f'  </div>\n'
         f'</div>\n'

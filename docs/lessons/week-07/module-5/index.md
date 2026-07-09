@@ -10,8 +10,6 @@
     <a href="../">Week 7 — Bridge: Theory Meets Tooling</a>
     <span class="sep">/</span>
     <span>Day 36 · Consolidation</span>
-    <span class="sep">·</span>
-    <span class="duration">Friday · review &amp; wrap</span>
     {status:week-07/module-5}
   </div>
 </div>
@@ -19,21 +17,21 @@
 
 ## Self-Study Time Buckets
 
-| Bucket | Activity | Duration |
-|---|---|---|
-| 🔵 Bucket 1 | Knowledge Check | 30 min |
-| 🟢 Bucket 2 | Self-Assessment: 5-Layer Map | 20 min |
-| 🟡 Bucket 3 | Case Studies Review | 25 min |
-| 🟠 Bucket 4 | Capsule Architecture Drill | 25 min |
-| 🔴 Bucket 5 | Installation & Fleet Drill | 25 min |
-| 🟣 Bucket 6 | Open Lab & Week 8 Preview | 25 min |
-| **Total** | | **~150 min** |
+| Bucket | Activity |
+|---|---|
+| 🔵 Bucket 1 | Knowledge Check |
+| 🟢 Bucket 2 | Self-Assessment: 5-Layer Map |
+| 🟡 Bucket 3 | Case Studies Review |
+| 🟠 Bucket 4 | Capsule Architecture Drill |
+| 🔴 Bucket 5 | Installation & Fleet Drill |
+| 🟣 Bucket 6 | Open Lab & Week 8 Preview |
+| **Total** | |
 
 ---
 
-## 🔵 Bucket 1: Knowledge Check · 30min
+## 🔵 Bucket 1: Knowledge Check
 
-Take the **[canonical knowledge check](knowledge-check.html)**.
+Take the **[canonical knowledge check](knowledge-check.md)**.
 
 This covers: agent case studies (Klarna, Claude Code, research agents), Capsule architecture (3-layer model), installation flow, authentication tokens, environments, and fleet discovery.
 
@@ -41,7 +39,7 @@ Aim for 80% before moving on. If you score below 70%, revisit the specific day's
 
 ---
 
-## 🟢 Bucket 2: Self-Assessment — 5-Layer Map · 20min
+## 🟢 Bucket 2: Self-Assessment — 5-Layer Map
 
 Without notes, answer each question. Score yourself honestly.
 
@@ -57,7 +55,7 @@ For any item you couldn't answer: write the answer out longhand (not just look i
 
 ---
 
-## 🟡 Bucket 3: Case Studies Review · 25min
+## 🟡 Bucket 3: Case Studies Review
 
 For each of the three case studies from Day 32 (Klarna / Claude Code + Cursor / SemiAnalysis research), answer from memory:
 
@@ -81,7 +79,7 @@ Write your answers, then check against the [Day 32 lesson](../module-1/index.md)
 
 ---
 
-## 🟠 Bucket 4: Capsule Architecture Drill · 25min
+## 🟠 Bucket 4: Capsule Architecture Drill
 
 **Draw from memory:**
 
@@ -110,7 +108,7 @@ For each layer, label:
 
 ---
 
-## 🔴 Bucket 5: Installation & Fleet Drill · 25min
+## 🔴 Bucket 5: Installation & Fleet Drill
 
 Answer each question precisely. No notes.
 
@@ -132,7 +130,7 @@ If any of the above fails, treat it as a gotcha reproduction exercise and fix it
 
 ---
 
-## 🟣 Bucket 6: Open Lab & Week 8 Preview · 25min
+## 🟣 Bucket 6: Open Lab & Week 8 Preview
 
 **Catch up (if needed):**
 
@@ -156,7 +154,7 @@ These are the skills you will use every single day of the internship.
 
 ## Pre-read for Monday (Week 8 · Day 37 · Connecting to Machines)
 
-- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 38 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 5 (Connecting to Machines).
+- **Resource:** <a href="../../../readings/capsule/#day-38-connecting-to-machines">Capsule Power-User Pre-Lecture Reading — Day 38 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5 (Connecting to Machines).
 - **Reflection questions:**
   1. What is the difference between `capsule term`, `capsule code`, and `capsule exec`?
   2. What does `--idle-timeout` do and when would you set it?

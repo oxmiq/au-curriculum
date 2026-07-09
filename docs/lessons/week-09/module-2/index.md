@@ -24,8 +24,6 @@ drift: |
     <a href="../">Week 9 — Capsule: Benchmarking &amp; Eval</a>
     <span class="sep">/</span>
     <span>Day 43 · Model Evaluation</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-09/module-2}
   </div>
 </div>
@@ -35,21 +33,21 @@ drift: |
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: The Sweep Template | 25 min |
-| Part 3 | Core Concepts: Expected Shapes & Phase-1 Recall | 20 min |
-| Part 4 | Deep Dive: Saturation Curves & Regimes | 20 min |
-| Part 5 | Hands-On: Predict, Then Run the Concurrency Sweep | 35 min |
-| Part 6 | Hands-On: Reconcile Predictions Against Results | 20 min |
-| Part 7 | Wrap-up & Connection | 10 min |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: The Sweep Template |
+| Part 3 | Core Concepts: Expected Shapes & Phase-1 Recall |
+| Part 4 | Deep Dive: Saturation Curves & Regimes |
+| Part 5 | Hands-On: Predict, Then Run the Concurrency Sweep |
+| Part 6 | Hands-On: Reconcile Predictions Against Results |
+| Part 7 | Wrap-up & Connection |
 
 **Total: ~145 min**
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 
 ### Reading — Why this matters
 
@@ -69,7 +67,7 @@ Keep your written predictions — you'll compare them against reality in Part 6.
 
 ---
 
-## Part 2 — Core Concepts: The Sweep Template · 25 min
+## Part 2 — Core Concepts: The Sweep Template
 
 ### Reading — Vary one axis at a time
 
@@ -108,7 +106,7 @@ Design (don't run yet) three sweeps:
 
 ---
 
-## Part 3 — Core Concepts: Expected Shapes & Phase-1 Recall · 20 min
+## Part 3 — Core Concepts: Expected Shapes & Phase-1 Recall
 
 ### Reading — Predict before you run
 
@@ -128,7 +126,7 @@ For each row in the table above, write the exact Phase-1 concept in your own wor
 
 ---
 
-## Part 4 — Deep Dive: Saturation Curves & Regimes · 20 min
+## Part 4 — Deep Dive: Saturation Curves & Regimes
 
 ### Reading — Reading a saturation curve
 
@@ -169,7 +167,7 @@ Given these observations, name the regime and explain your reasoning:
 
 ---
 
-## Part 5 — Hands-On: Predict, Then Run the Concurrency Sweep · 35 min
+## Part 5 — Hands-On: Predict, Then Run the Concurrency Sweep
 
 ### Exercise: Write Your Prediction First
 
@@ -192,7 +190,7 @@ Stream the first run (`--stream`); let the rest finish.
 
 ---
 
-## Part 6 — Hands-On: Reconcile Predictions Against Results · 20 min
+## Part 6 — Hands-On: Reconcile Predictions Against Results
 
 ### Exercise: Plot & Reconcile
 
@@ -204,7 +202,7 @@ Stream the first run (`--stream`); let the rest finish.
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 
@@ -300,7 +298,7 @@ Tomorrow: **interactive chat evaluation** — throughput numbers aren't quality.
 
 ### Pre-read for tomorrow (Day 44 · Interactive Evaluation)
 
-- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 43 section</a> (~20 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 9.
+- **Resource:** <a href="../../../readings/capsule/#day-43-interactive-evaluation">Capsule Power-User Pre-Lecture Reading — Day 43 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-9-model-evaluation-interactive-chat">Capsule Lab Guide</a> Module 9.
 - **Reflection questions:**
   1. What does the chat interface let you measure that the benchmark report cannot?
   2. Why might a "fast" config be the wrong choice for production?

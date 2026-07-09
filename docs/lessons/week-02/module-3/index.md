@@ -1,7 +1,7 @@
 # Day 8 · Memory Is the Bottleneck
 
 > **Concept of the day:** the memory hierarchy. Data movement is the real cost. Most inference time = moving data, not computing.<br>
-> **Pre-reading:** "Why bandwidth matters more than compute" — <a href="https://horace.io/brrr_intro.html#bandwidth" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Bandwidth section)</a> (~20 min). 
+> **Pre-reading:** "Why bandwidth matters more than compute" — <a href="https://horace.io/brrr_intro.html#bandwidth" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Bandwidth section)</a>. 
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 2 — The GPU &amp; Memory</a>
     <span class="sep">/</span>
     <span>Day 8 · Memory Is the Bottleneck</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-02/module-3}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: Memory Hierarchy | 20 min |
-| Part 3 | Deep Dive: Arithmetic Intensity | 25 min |
-| Part 4 | Worked Example Analysis | 20 min |
-| Part 5 | Hands-On: Calculate | 25 min |
-| 7 | Wrap-up & Connection | 15 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Memory Hierarchy |
+| Part 3 | Deep Dive: Arithmetic Intensity |
+| Part 4 | Worked Example Analysis |
+| Part 5 | Hands-On: Calculate |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: Pre-Lecture Reading **Reader 5 (memory section)** + Study Guide §A.3 (~20 min).
+You should have already read: Pre-Lecture Reading **Reader 5 (memory section)** + Study Guide §A.3.
 
 ### Quick Self-Check
 
@@ -150,7 +148,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — Memory Hierarchy · 20 min
+## Part 2 — Core Concepts — Memory Hierarchy
 ### Reading — The Single Most Important Insight
 
 This is the single most important insight in the entire phase: **for LLM decode, the GPU is almost always waiting on HBM, not computing.** Once you see it, every Week 3–5 trick (KV cache, FlashAttention, quantization, paged attention) becomes "obvious" — they're all about moving less data.
@@ -182,7 +180,7 @@ slow ▼   PCIe / Net     µs–ms       unlimited
 
 ---
 
-## Part 3 — Deep Dive — Arithmetic Intensity · 25 min
+## Part 3 — Deep Dive — Arithmetic Intensity
 ### Reading — Compute-Bound vs Memory-Bound
 
 For a kernel that does `B` bytes of memory traffic and `F` FLOPs:
@@ -205,7 +203,7 @@ This single fact explains why batching, KV cache, quantization, and continuous b
 
 ---
 
-## Part 4 — Worked Example Analysis · 20 min
+## Part 4 — Worked Example Analysis
 ### Reading — Read Time Calculation
 
 > **Worked example:** Time to read 16 GB from HBM at 3.35 TB/s
@@ -224,8 +222,8 @@ If you had to do this for every output token of a 70B model loaded across 8 GPUs
 
 ---
 
-## Part 5 — Hands-On — Calculate · 25 min
-### Exercise 1: Read Time (10 min)
+## Part 5 — Hands-On — Calculate
+### Exercise 1: Read Time
 
 Calculate: time to read 16 GB from H100 HBM at 3.35 TB/s.
 
@@ -239,7 +237,7 @@ Now calculate: time if you could keep it in L2 (assume L2 bandwidth ≈ 12 TB/s)
 **Answer:**
 - 16 GB ÷ 12 TB/s = 16 ÷ 12,000 seconds = **1.3 ms**
 
-### Exercise 2: Arithmetic Intensity (15 min)
+### Exercise 2: Arithmetic Intensity
 
 Calculate arithmetic intensity for:
 
@@ -259,7 +257,7 @@ Calculate arithmetic intensity for:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 15 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -343,7 +341,7 @@ Tomorrow: arithmetic intensity gets formalized into the **roofline model**, and 
 
 ### Pre-read for tomorrow (Day 9 · Compute-Bound vs Memory-Bound)
 
-- **Resource:** <a href="https://horace.io/brrr_intro.html#compute" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Compute section)</a> (~15 min, read the arithmetic intensity section).
+- **Resource:** <a href="https://horace.io/brrr_intro.html#compute" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Compute section)</a> (read the arithmetic intensity section).
 - **Reflection questions:**
   1. If a kernel does 100 ops and reads 50 bytes, what's its intensity?
   2. Why is prefill compute-bound and decode memory-bound? (One sentence.)

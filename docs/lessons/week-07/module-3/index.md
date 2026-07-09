@@ -1,6 +1,6 @@
 # Day 34 · Installation
 
-> **Concept of the day:** **install once, use every day.** A clean Capsule install takes under 15 minutes; a botched one loses you a day. Today you install the CLI, complete the auth flow, run `capsule status`, and memorise the four most-asked support questions.<br> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 36 section</a> (~40 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 2 (~15 min).
+> **Concept of the day:** **install once, use every day.** A clean Capsule install takes under 15 minutes; a botched one loses you a day. Today you install the CLI, complete the auth flow, run `capsule status`, and memorise the four most-asked support questions.<br> **Pre-reading:** <a href="../../../readings/capsule/#day-36-capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading — Day 36 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-2-installation-first-login">Capsule Lab Guide</a> Module 2.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -12,8 +12,6 @@
     <a href="../">Week 7 — Bridge: Theory Meets Tooling</a>
     <span class="sep">/</span>
     <span>Day 34 · Installation</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-07/module-3}
   </div>
 </div>
@@ -21,20 +19,20 @@
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: What the Install Actually Does | 20 min |
-| Part 3 | Core Concepts: Authentication Flow | 20 min |
-| Part 4 | Hands-On: Install on Your Laptop | 45 min |
-| Part 5 | Core Concepts: Four Common Gotchas | 20 min |
-| Part 6 | Hands-On: Gotcha Reproduction Lab | 30 min |
-| Part 7 | Wrap-up & Connection | 10 min |
-| **Total** | | **~160 min + pre-reading** |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: What the Install Actually Does |
+| Part 3 | Core Concepts: Authentication Flow |
+| Part 4 | Hands-On: Install on Your Laptop |
+| Part 5 | Core Concepts: Four Common Gotchas |
+| Part 6 | Hands-On: Gotcha Reproduction Lab |
+| Part 7 | Wrap-up & Connection |
+| **Total** | |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15min
+## Part 1 — Pre-Reading Review
 
 ### Reading —
 
@@ -45,7 +43,7 @@ Before continuing, you should have read **Lab Guide Module 2** (Installation). I
 - The `capsule --version` → `capsule auth login` → `capsule status` verification sequence
 - Common install gotchas
 
-If you haven't read it yet, stop and read it now (~20 min).
+If you haven't read it yet, stop and read it now.
 
 ### Exercise:
 
@@ -154,7 +152,7 @@ Answer from memory:
 
 ---
 
-## Part 2 — Core Concepts: What the Install Actually Does · 20min
+## Part 2 — Core Concepts: What the Install Actually Does
 
 ### Reading —
 
@@ -213,7 +211,7 @@ Without looking at the above:
 
 ---
 
-## Part 3 — Core Concepts: Authentication Flow · 20min
+## Part 3 — Core Concepts: Authentication Flow
 
 ### Reading —
 
@@ -265,7 +263,7 @@ Fix: sync NTP — `sudo sntp -sS time.apple.com` (macOS) or `w32tm /resync` (Win
 
 ---
 
-## Part 4 — Hands-On: Install on Your Laptop · 45min
+## Part 4 — Hands-On: Install on Your Laptop
 
 ### Exercise:
 
@@ -312,7 +310,7 @@ If any step failed, jump to Part 5 for the gotcha table.
 
 ---
 
-## Part 5 — Core Concepts: Four Common Gotchas · 20min
+## Part 5 — Core Concepts: Four Common Gotchas
 
 ### Reading —
 
@@ -357,26 +355,26 @@ For each gotcha, fill in this table from memory (no notes):
 
 ---
 
-## Part 6 — Hands-On: Gotcha Reproduction Lab · 30min
+## Part 6 — Hands-On: Gotcha Reproduction Lab
 
 ### Exercise:
 
 Reproduce three of the four gotchas deliberately and fix them. You will remember what you reproduce much better than what you only read.
 
-**Reproduce Gotcha 1 (8 min):**
+**Reproduce Gotcha 1:**
 
 1. Temporarily remove the capsule binary directory from PATH: `export PATH=$(echo $PATH | tr ':' '\n' | grep -v capsule | tr '\n' ':')`
 2. Run `capsule --version`. Observe the "command not found" error.
 3. Fix: add the directory back, or run `source ~/.zshrc`.
 4. Confirm `capsule --version` works again.
 
-**Reproduce Gotcha 2 (7 min):**
+**Reproduce Gotcha 2:**
 
 1. Run `capsule auth login --device-code`. Observe that it prints a URL + code instead of opening a browser.
 2. Copy the URL. Open it in a browser. Enter the code. Confirm auth completes.
 3. This is exactly what you'll do in any headless environment.
 
-**Reproduce Gotcha 3 (7 min):**
+**Reproduce Gotcha 3:**
 
 1. Set your system clock 10 minutes ahead (macOS System Preferences → Date & Time → uncheck "Set automatically" → advance by 10 minutes).
 2. Run `capsule status`. Observe the unauthorized error.
@@ -393,7 +391,7 @@ Reproduce three of the four gotchas deliberately and fix them. You will remember
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 
@@ -467,7 +465,7 @@ You've installed the tool. The next two days build the daily workflow: environme
 
 ### Pre-read for tomorrow (Day 35 · Environments & Fleet Discovery)
 
-- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 37 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 3.
+- **Resource:** <a href="../../../readings/capsule/#day-37-environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading — Day 37 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
 - **Reflection questions:**
   1. How do you list available machines? What command shows machine details?
   2. What fields distinguish an `available` machine from a `leased` one?

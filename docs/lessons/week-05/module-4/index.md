@@ -1,7 +1,7 @@
 # Day 24 · Cost & Economics
 
 > **Concept of the day:** **cost / million tokens** = (GPU $/hour × hours) / (tokens served × utilization). **Decode dominates** end-to-end cost for chat workloads. **Dedicated breaks even with API** somewhere around 30–50% utilization.
-> **Pre-reading:** "Cost of inference" with worked numbers — <a href="https://a16z.com/the-economics-of-ai-inference/" target="_blank" rel="noopener">a16z — The Economics of AI Inference</a> (~15 min).
+> **Pre-reading:** "Cost of inference" with worked numbers — <a href="https://a16z.com/the-economics-of-ai-inference/" target="_blank" rel="noopener">a16z — The Economics of AI Inference</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,14 +13,12 @@
     <a href="../">Week 5 — Metrics &amp; Production</a>
     <span class="sep">/</span>
     <span>Day 24 · Cost & Economics</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-05/module-4}
   </div>
   <div class="ox-lesson-header__cta">
     <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button md-button--primary" href="knowledge-check/">Knowledge check</a>
+    <a class="md-button" href="assignment/">Assignment</a>
     <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Inference%20Engineering">Source material</a>
   </div>
 </div>
@@ -30,23 +28,23 @@
 
 ## Lesson plan
 
-| # | What you do | Time |
-|---|-------------|------|
-| 1 | The Cost Formula | 15 min |
-| 2 | Worked Example | 20 min |
-| 3 | Calculate Your Cost | 25 min |
-| 4 | Break-Even Analysis | 25 min |
-| 5 | Cost Levers | 20 min |
-| 6 | Build Your Cost Model | 25 min |
-| 7 | Wrap-up & Connection | 10 min |
+| # | What you do |
+|---|-------------|
+| 1 | The Cost Formula |
+| 2 | Worked Example |
+| 3 | Calculate Your Cost |
+| 4 | Break-Even Analysis |
+| 5 | Cost Levers |
+| 6 | Build Your Cost Model |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — The Cost Formula · 15 min
+## Part 1 — The Cost Formula
 
 ### Before You Start
 
-You should have already read: <a href="https://a16z.com/the-economics-of-ai-inference/" target="_blank" rel="noopener">a16z — The Economics of AI Inference</a> (~15 min).
+You should have already read: <a href="https://a16z.com/the-economics-of-ai-inference/" target="_blank" rel="noopener">a16z — The Economics of AI Inference</a>.
 
 ### Readiness Check
 
@@ -170,7 +168,7 @@ A typical chat request: 500 input tokens, 1500 output tokens. Prefill is one par
 
 ---
 
-## Part 2 — Worked Example · 20 min
+## Part 2 — Worked Example
 
 ### Reading — Llama-3-70B FP16 on 8×H100
 
@@ -197,7 +195,7 @@ API pricing (Llama-3-70B class via fireworks/together/etc.): **~$0.60–$1.00 / 
 
 ---
 
-## Part 3 — Calculate Your Cost · 25 min
+## Part 3 — Calculate Your Cost
 
 ### Exercise: Re-Derive Cost at Different Utilizations
 
@@ -222,7 +220,7 @@ Cost / 1M = $30 / (10.8M × utilization)
 
 ---
 
-## Part 4 — Break-Even Analysis · 25 min
+## Part 4 — Break-Even Analysis
 
 ### Exercise: When Does Dedicated Win?
 
@@ -252,7 +250,7 @@ Cost / 1M = $30 / (10.8M × utilization)
 
 ---
 
-## Part 5 — Cost Levers · 20 min
+## Part 5 — Cost Levers
 
 ### Reading — The Levers in Order of Impact
 
@@ -273,7 +271,7 @@ If you could implement **one** change to cut your Week 4 deployment cost in half
 
 ---
 
-## Part 6 — Build Your Cost Model · 25 min
+## Part 6 — Build Your Cost Model
 
 ### Exercise: One-Page Cost Model
 
@@ -299,7 +297,7 @@ Write one sentence summarizing what you learned about cost:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 
 ### Synthesis
 

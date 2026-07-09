@@ -19,7 +19,7 @@ Rules (L001-L015):
         (B7 = lesson plan table + Part 1-7 headings;
          F  = Self-Study Time Buckets table + Bucket headings;
          C  = Today's milestones section present)
-  L012  B7 invariants: Part headings use "·" separator, Part 7 = Wrap-up,
+  L012  B7 invariants: Part 7 = Wrap-up,
         "### Pre-read for tomorrow" is H3 (not standalone H2), "## Stuck?" present,
         no legacy H2s (## Wrap-up / ## Connect forward / ## Pre-read for tomorrow)
   L013  F invariants: Self-Study Time Buckets table present, ≥3 Bucket headings,
@@ -244,14 +244,6 @@ def audit_module_shape(index_md: Path, week_name: str, module_name: str, report:
             report.add("L012", week_name, module_name, index_md,
                        "B7: missing '## Part 7 — Wrap-up & Connection'")
 
-        # Check all Part headings use middle-dot · time separator
-        all_parts = B7_PART_ANY_RE.findall(text)
-        if all_parts:
-            parts_with_dot = B7_PART_MIDDLE_DOT_RE.findall(text)
-            if len(parts_with_dot) < len(all_parts):
-                report.add("L012", week_name, module_name, index_md,
-                           "B7: one or more Part headings missing '· N min' time annotation with middle dot")
-
         if not B7_STUCK_RE.search(text):
             report.add("L012", week_name, module_name, index_md,
                        "B7: missing '## Stuck?' section")
@@ -325,8 +317,8 @@ def audit_module(module_dir: Path, week_name: str, report: Report) -> None:
         # L011–L014: shape classification and invariant checks
         audit_module_shape(index_md, week_name, name, report)
 
-    if not (module_dir / "knowledge-check.html").exists():
-        report.add("L005", week_name, name, module_dir, "knowledge-check.html missing")
+    if not (module_dir / "knowledge-check.md").exists():
+        report.add("L005", week_name, name, module_dir, "knowledge-check.md missing")
 
     assignment = module_dir / "assignment.md"
     if not assignment.exists():

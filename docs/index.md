@@ -16,7 +16,7 @@
     <p class="ox-card__desc">Welcome, shell, git, and why GPUs exist. By Friday you're ready for Phase 1.</p>
     <span class="ox-card__cta">Open week →</span>
   </a>
-  <a class="ox-card" href="curriculum.md" style="--i:2">
+  <a class="ox-card" href="curriculum/" style="--i:2">
     <span class="ox-card__eyebrow">Orient</span>
     <h3 class="ox-card__title">Curriculum</h3>
     <p class="ox-card__desc">The full 10-week shape — phases, weeks, the why behind each block.</p>

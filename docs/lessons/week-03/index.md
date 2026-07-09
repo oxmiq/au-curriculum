@@ -41,10 +41,10 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 11 (Mon) | Prefill and Decode | Reader 4 + Study Guide §A.2 (~15 min) | [Day 1 · Prefill And Decode](module-1/index.md) |
-| 12 (Tue) | The KV Cache | Reader 4 + Study Guide §A.2 KV subsection (~20 min) | [Day 2 · Kv Cache](module-2/index.md) |
-| 13 (Wed) | FlashAttention & PagedAttention | Reader 4 FlashAttention section (~20 min) | [Day 3 · Flash And Paged Attention](module-3/index.md) |
-| 14 (Thu) | Quantization | Reader 7 — numerical precision (~20 min) | [Day 4 · Quantization](module-4/index.md) |
+| 11 (Mon) | Prefill and Decode | Reader 4 + Study Guide §A.2 | [Day 1 · Prefill And Decode](module-1/index.md) |
+| 12 (Tue) | The KV Cache | Reader 4 + Study Guide §A.2 KV subsection | [Day 2 · Kv Cache](module-2/index.md) |
+| 13 (Wed) | FlashAttention & PagedAttention | Reader 4 FlashAttention section | [Day 3 · Flash And Paged Attention](module-3/index.md) |
+| 14 (Thu) | Quantization | Reader 7 — numerical precision | [Day 4 · Quantization](module-4/index.md) |
 | 15 (Fri) | **Consolidation** — memory-budget calculator | — | [module-5/index.md](module-5/index.md) |
 
 ## Friday — the bar

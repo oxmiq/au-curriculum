@@ -1,7 +1,7 @@
 # Day 19 · Serving Engines & Continuous Batching
 
 > **Concept of the day:** **Continuous batching** = new requests join the running batch every step. Engines (vLLM, TGI, TensorRT-LLM) bundle this with PagedAttention, FlashAttention, quantization, scheduling. PyTorch alone is *not* a production serving stack.<br>
-> **Pre-reading:** vLLM + "what is continuous batching" — <a href="https://docs.vllm.ai/en/latest/getting_started/quickstart.html" target="_blank" rel="noopener">vLLM — Getting Started</a> + <a href="https://www.anyscale.com/blog/comparing-llm-inference-frameworks" target="_blank" rel="noopener">Anyscale — Comparing LLM Inference Frameworks</a> (~15 min).
+> **Pre-reading:** vLLM + "what is continuous batching" — <a href="https://docs.vllm.ai/en/latest/getting_started/quickstart.html" target="_blank" rel="noopener">vLLM — Getting Started</a> + <a href="https://www.anyscale.com/blog/comparing-llm-inference-frameworks" target="_blank" rel="noopener">Anyscale — Comparing LLM Inference Frameworks</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 4 — Scaling &amp; Stacks</a>
     <span class="sep">/</span>
     <span>Day 19 · vLLM Introduction</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-04/module-4}
   </div>
 </div>
@@ -26,21 +24,21 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review + Readiness Check | 15 min |
-| Part 2 | Core Concept: Static vs Continuous Batching | 20 min |
-| Part 3 | Deep Dive: Why This Needs PagedAttention | 15 min |
-| Part 4 | Core Concept: Serving Engines Comparison | 20 min |
-| Part 5 | Hands-On: Engine Selection + vLLM Quickstart | 30 min |
-| 7 | Wrap-up & Connection | 10 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review + Readiness Check |
+| Part 2 | Core Concept: Static vs Continuous Batching |
+| Part 3 | Deep Dive: Why This Needs PagedAttention |
+| Part 4 | Core Concept: Serving Engines Comparison |
+| Part 5 | Hands-On: Engine Selection + vLLM Quickstart |
+| 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review + Readiness Check · 15 min
+## Part 1 — Pre-Reading Review + Readiness Check
 ### Before You Start
 
-You should have already read: vLLM landing page + "what is continuous batching" — Pre-Lecture Reading **Reader 6** (~15 min).
+You should have already read: vLLM landing page + "what is continuous batching" — Pre-Lecture Reading **Reader 6**.
 
 ### Readiness Check
 
@@ -149,7 +147,7 @@ Answer these questions from memory before proceeding:
 
 ---
 
-## Part 2 — Core Concept — Static vs Continuous Batching · 20 min
+## Part 2 — Core Concept — Static vs Continuous Batching
 ### Reading — Why This Matters
 
 The serving engine is **where every Week 2–3–4 concept lands in code**. Continuous batching is the *single biggest throughput multiplier* of the era — often 5–10× over PyTorch. Pick the wrong engine for your workload and you give up performance and operability for nothing.
@@ -187,7 +185,7 @@ The serving engine is **where every Week 2–3–4 concept lands in code**. Cont
 
 ---
 
-## Part 3 — Deep Dive — Why This Needs PagedAttention · 15 min
+## Part 3 — Deep Dive — Why This Needs PagedAttention
 ### Reading — The Connection
 
 Continuous batching ⇒ KV-cache slots constantly allocated/freed at variable sizes. Without PagedAttention's block-based allocator, fragmentation kills you. That's why vLLM ships both — they're symbiotic.
@@ -204,7 +202,7 @@ Continuous batching ⇒ KV-cache slots constantly allocated/freed at variable si
 
 ---
 
-## Part 4 — Core Concept — Serving Engines Comparison · 20 min
+## Part 4 — Core Concept — Serving Engines Comparison
 ### Reading — The Big Three
 
 | Engine | Maintainer | Key strengths | Best for |
@@ -313,8 +311,8 @@ It works. It's also **5–10× slower** and falls over under any real concurrenc
 
 ---
 
-## Part 5 — Hands-On — Engine Selection + vLLM Quickstart · 30 min
-### Exercise 1: Draw the Batching Timeline (15 min)
+## Part 5 — Hands-On — Engine Selection + vLLM Quickstart
+### Exercise 1: Draw the Batching Timeline
 
 Draw two timelines for 4 requests with lengths 50/150/100/300:
 - Timeline A: Static batching
@@ -322,7 +320,7 @@ Draw two timelines for 4 requests with lengths 50/150/100/300:
 
 Mark where GPU is idle in Timeline A. This visual difference explains the 5-10× throughput gap.
 
-### Exercise 2: vLLM CLI Flags (15 min)
+### Exercise 2: vLLM CLI Flags
 
 Visit the vLLM quickstart page. Identify three CLI flags that correspond to concepts from Weeks 2-3:
 - Example: `--dtype` relates to numerical precision (Week 3)
@@ -332,7 +330,7 @@ Document your findings.
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -416,7 +414,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Friday: design a serving system end-to-end. Then **[the canonical quiz](knowledge-check.html)**.
+Friday: design a serving system end-to-end. Then **[the canonical quiz](knowledge-check.md)**.
 
 ---
 

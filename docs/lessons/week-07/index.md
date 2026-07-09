@@ -41,10 +41,10 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 31 (Mon) | Agent Case Studies — Klarna, coding agents, post-mortems | Klarna AI post + coding-agent case study (~20 min) | [module-1/index.md](module-1/index.md) |
-| 32 (Tue) | Capsule Foundations & Architecture | Capsule Power User Lab Guide Modules 1+2 (~35 min) | [module-2/index.md](module-2/index.md) |
-| 33 (Wed) | Installation | Lab Guide Module 2 (~20 min) | [module-3/index.md](module-3/index.md) |
-| 34 (Thu) | Environments & Fleet Discovery | Lab Guide Module 3 (~15 min) | [module-4/index.md](module-4/index.md) |
+| 31 (Mon) | Agent Case Studies — Klarna, coding agents, post-mortems | Klarna AI post + coding-agent case study | [module-1/index.md](module-1/index.md) |
+| 32 (Tue) | Capsule Foundations & Architecture | Capsule Power User Lab Guide Modules 1+2 | [module-2/index.md](module-2/index.md) |
+| 33 (Wed) | Installation | Lab Guide Module 2 | [module-3/index.md](module-3/index.md) |
+| 34 (Thu) | Environments & Fleet Discovery | Lab Guide Module 3 | [module-4/index.md](module-4/index.md) |
 | 35 (Fri) | **Consolidation** | — | [module-5/index.md](module-5/index.md) |
 
 ## Friday — the bar
@@ -55,6 +55,12 @@
 ## Big-picture connect
 
 By Friday you can install Capsule, list environments, and discover nodes. That unlocks Week 8 (operating Capsule day-to-day) and Week 9 (running real benchmarks on it).
+
+## Companion guide
+
+Day 31 revisits agents as real, shipped systems — read alongside it (opens in a new tab):
+
+- **[AI Agents — Student Guide → The Economic Layer & What Comes Next](../../readings/ai-agents/student-guide.md#module-5-the-economic-layer-and-what-comes-next)** — the Klarna deployment, price-per-completed-task economics, and where agents go from here.
 
 ## Stuck?
 

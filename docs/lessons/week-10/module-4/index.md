@@ -13,8 +13,6 @@
     <a href="../">Week 10 — Capstone Project</a>
     <span class="sep">/</span>
     <span>Day 50 · Present</span>
-    <span class="sep">·</span>
-    <span class="duration">Full-day milestone</span>
     {status:week-10/module-4}
   </div>
 </div>

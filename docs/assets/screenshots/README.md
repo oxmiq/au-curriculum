@@ -9,4 +9,4 @@ README screenshots. Referenced from the root [`README.md`](../../../README.md#sc
 
 Captured at 1400×950 @2x from `mkdocs serve`. To refresh, serve the site and re-shoot
 `/kb/interactive-graph.html`, `/lessons/week-01/module-1/`, and that lesson's
-`knowledge-check.html`.
+`knowledge-check.md`.

@@ -1,25 +1,25 @@
 # Supplementary · Roles, Data Separation & Output Formatting
 
-> **Concept of the day:** a model is a probability distribution over text — the role you assign shifts that distribution toward the sub-corpus most useful for your task. XML delimiters separate trusted instructions from untrusted data. Structured schemas make output machine-consumable. These three patterns together are non-negotiable for production prompts. **Pre-reading:** Anthropic tutorial Ch 3 (Roles) + Ch 4 (Separating Data and Instructions) + Ch 5 (Output Formatting) (~25 min).
+> **Concept of the day:** a model is a probability distribution over text — the role you assign shifts that distribution toward the sub-corpus most useful for your task. XML delimiters separate trusted instructions from untrusted data. Structured schemas make output machine-consumable. These three patterns together are non-negotiable for production prompts. **Pre-reading:** Anthropic tutorial Ch 3 (Roles) + Ch 4 (Separating Data and Instructions) + Ch 5 (Output Formatting).
 
 ---
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: Role Prompting | 20 min |
-| Part 3 | Core Concepts: Data Separation & Injection Defense | 25 min |
-| Part 4 | Deep Dive: Output Formatting & Schema | 25 min |
-| Part 5 | Hands-On: Role A/B Test | 20 min |
-| Part 6 | Hands-On: Injection Defense & Schema Lab | 25 min |
-| Part 7 | Wrap-up & Connection | 10 min |
-| **Total** | | **~180 min** |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Role Prompting |
+| Part 3 | Core Concepts: Data Separation & Injection Defense |
+| Part 4 | Deep Dive: Output Formatting & Schema |
+| Part 5 | Hands-On: Role A/B Test |
+| Part 6 | Hands-On: Injection Defense & Schema Lab |
+| Part 7 | Wrap-up & Connection |
+| **Total** | |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15min
+## Part 1 — Pre-Reading Review
 
 ### Reading —
 
@@ -43,7 +43,7 @@ Answer from memory (no peeking):
 
 ---
 
-## Part 2 — Core Concepts: Role Prompting · 20min
+## Part 2 — Core Concepts: Role Prompting
 
 ### Reading —
 
@@ -89,7 +89,7 @@ For each task below, write a role assignment (2–3 sentences) and explain which
 
 ---
 
-## Part 3 — Core Concepts: Data Separation & Injection Defense · 25min
+## Part 3 — Core Concepts: Data Separation & Injection Defense
 
 ### Reading —
 
@@ -162,7 +162,7 @@ You are building a prompt that classifies customer support emails as: `billing_i
 
 ---
 
-## Part 4 — Deep Dive: Output Formatting & Schema · 25min
+## Part 4 — Deep Dive: Output Formatting & Schema
 
 ### Reading —
 
@@ -245,7 +245,7 @@ Advantages: each tag can be extracted with a regex even if siblings are malforme
 
 ---
 
-## Part 5 — Hands-On: Role A/B Test · 20min
+## Part 5 — Hands-On: Role A/B Test
 
 ### Exercise:
 
@@ -263,9 +263,9 @@ Score each output on: (a) accuracy of domain-specific content, (b) appropriate t
 
 ---
 
-## Part 6 — Hands-On: Injection Defense & Schema Lab · 25min
+## Part 6 — Hands-On: Injection Defense & Schema Lab
 
-### Exercise — Part A: Injection Red-Team (12 min)
+### Exercise — Part A: Injection Red-Team
 
 You are given this production prompt (deliberately weak):
 
@@ -281,7 +281,7 @@ User: {user_document}
 2. Now add XML delimiter defense to the prompt. Rerun all 3 attacks. Which still work?
 3. Add an explicit "treat as data" instruction. Rerun Level 3 specifically.
 
-### Exercise — Part B: Schema Hardening (13 min)
+### Exercise — Part B: Schema Hardening
 
 You need a prompt that extracts action items from a meeting transcript. Required JSON schema:
 
@@ -306,7 +306,7 @@ You need a prompt that extracts action items from a meeting transcript. Required
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 
@@ -332,7 +332,7 @@ These patterns form the foundation for **Week 7/8/9 tool prompts** — you canno
 
 ## Pre-read for the next supplementary (supplementary-03: Chain-of-Thought & Few-Shot)
 
-- **Resource:** Anthropic tutorial **Ch 6 (Pre-cognition / CoT)** + **Ch 7 (Using Examples)** (~20 min).
+- **Resource:** Anthropic tutorial **Ch 6 (Pre-cognition / CoT)** + **Ch 7 (Using Examples)**.
 - **Reflection questions:**
   1. Why does "think step by step" measurably improve multi-step reasoning accuracy?
   2. What is the token cost of CoT — and how does it connect to the Week 2 decode bottleneck?

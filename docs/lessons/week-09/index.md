@@ -41,10 +41,10 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 41 (Mon) | Your First Benchmark | Lab Guide Module 8 (~20 min) | [module-1/index.md](module-1/index.md) |
+| 41 (Mon) | Your First Benchmark | Lab Guide Module 8 | [module-1/index.md](module-1/index.md) |
 | 42 (Tue) | Model Evaluation (Varying Parameters) | — | [module-2/index.md](module-2/index.md) |
-| 43 (Wed) | Interactive Chat (Quality Evaluation) | Lab Guide Module 9 (~15 min) | [module-3/index.md](module-3/index.md) |
-| 44 (Thu) | Scheduling & MCP | Lab Guide Module 10 (~15 min) | [module-4/index.md](module-4/index.md) |
+| 43 (Wed) | Interactive Chat (Quality Evaluation) | Lab Guide Module 9 | [module-3/index.md](module-3/index.md) |
+| 44 (Thu) | Scheduling & MCP | Lab Guide Module 10 | [module-4/index.md](module-4/index.md) |
 | 45 (Fri) | **Consolidation** — Timed end-to-end sprint | — | [module-5/index.md](module-5/index.md) |
 
 ## Friday — the bar

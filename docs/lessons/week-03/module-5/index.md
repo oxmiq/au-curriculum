@@ -12,8 +12,6 @@
     <a href="../">Week 3 — Attention &amp; KV Cache</a>
     <span class="sep">/</span>
     <span>Day 15 · Consolidation</span>
-    <span class="sep">·</span>
-    <span class="duration">Friday · review &amp; wrap</span>
     {status:week-03/module-5}
   </div>
 </div>
@@ -25,19 +23,19 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Week 3 Concept Review | 15 min |
-| Part 2 | Knowledge Check | 30 min |
-| Part 3 | Memory Budget Calculator Assignment | 45 min |
-| Part 4 | Open Lab / Catch-up Time | 30 min |
-| Part 5 | Self-Check Before Week 4 | 15 min |
-| Part 6 | Wrap-up & Connection | 15 min |
-| 7 | Pre-read for Next Week | 10 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Week 3 Concept Review |
+| Part 2 | Knowledge Check |
+| Part 3 | Memory Budget Calculator Assignment |
+| Part 4 | Open Lab / Catch-up Time |
+| Part 5 | Self-Check Before Week 4 |
+| Part 6 | Wrap-up & Connection |
+| 7 | Pre-read for Next Week |
 
 ---
 
-## Part 1 — Week 3 Concept Review · 15 min
+## Part 1 — Week 3 Concept Review
 ### Before You Start
 
 Today consolidates everything from Days 11-14. No new content — just mastery.
@@ -61,10 +59,10 @@ Fill in this quick reference from memory:
 
 ---
 
-## Part 2 — Knowledge Check · 30 min
+## Part 2 — Knowledge Check
 ### Take the Canonical Quiz
 
-[Take the knowledge check](knowledge-check.html) — this covers:
+[Take the knowledge check](knowledge-check.md) — this covers:
 - Prefill vs decode distinction
 - KV cache math
 - FP8/INT4 sizing
@@ -80,7 +78,7 @@ Fill in this quick reference from memory:
 
 ---
 
-## Part 3 — Memory Budget Calculator Assignment · 45 min
+## Part 3 — Memory Budget Calculator Assignment
 ### The Assignment
 
 **Memory budget calculator:** Given GPU (80 GB), model, context length, batch size → does it fit? What if you quantize to FP8?
@@ -125,7 +123,7 @@ From **Inference Engineering Study Guide §A.2**: "At 8K context per request: 12
 
 ---
 
-## Part 4 — Open Lab / Catch-up Time · 30 min
+## Part 4 — Open Lab / Catch-up Time
 ### Use This Time For
 
 1. **Catch up** on any concepts still fuzzy
@@ -149,7 +147,7 @@ The KV cache and quantization sensitivity ladder (weights → activations → KV
 
 ---
 
-## Part 5 — Self-Check Before Week 4 · 15 min
+## Part 5 — Self-Check Before Week 4
 ### Can You Explain These From Memory?
 
 - [ ] Why is prefill compute-bound and decode memory-bound?
@@ -171,7 +169,7 @@ The KV cache and quantization sensitivity ladder (weights → activations → KV
 
 ---
 
-## Part 6 — Wrap-up & Connection · 15 min
+## Part 6 — Wrap-up & Connection
 ### Week 3 Summary
 
 You've now mastered:
@@ -192,10 +190,10 @@ Week 4 builds on this foundation:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 ### Pre-read for Monday (Week 4, Day 16 · Tensor & Pipeline Parallelism)
 
-**Resource:** <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a> (~20 min, read the Tensor Parallel section). Alternative: <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Transformer Inference Optimization</a>.
+**Resource:** <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a> (read the Tensor Parallel section). Alternative: <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Transformer Inference Optimization</a>.
 
 **Reflection questions:**
 
@@ -209,7 +207,7 @@ Week 4 builds on this foundation:
 
 You've covered prefill/decode, KV cache math, FlashAttention/PagedAttention, and quantization. Friday is the day to:
 
-1. **Pass the knowledge check.** [Take the canonical knowledge check](knowledge-check.html) — prefill/decode, KV cache math, FP8/INT4 sizing.
+1. **Pass the knowledge check.** [Take the canonical knowledge check](knowledge-check.md) — prefill/decode, KV cache math, FP8/INT4 sizing.
 2. **Submit the memory budget calculator assignment** — given GPU (80 GB), model, context length, batch size → does it fit?
 3. **Open-ended lab time.** Catch up; ask oxtutor to re-explain anything still fuzzy.
 

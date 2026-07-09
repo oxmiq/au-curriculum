@@ -13,8 +13,6 @@
     <a href="../">Week 10 — Capstone Project</a>
     <span class="sep">/</span>
     <span>Day 49 · Analyze & Recommend</span>
-    <span class="sep">·</span>
-    <span class="duration">Full-day milestone</span>
     {status:week-10/module-3}
   </div>
 </div>
@@ -24,13 +22,13 @@
 
 ## Analysis checklist at a glance
 
-| Step | Activity | Time budget |
-|---|---|---|
-| 1 | Compile comparison table + cost calculation | 90 min |
-| 2 | Write the claim sentence + recommendation | 30 min |
-| 3 | Build the 12-slide deck | 120 min |
-| 4 | Dry run with partner team (15 min talk + 10 min Q&A) | 30 min |
-| 5 | Revise based on dry-run feedback | 60 min |
+| Step | Activity |
+|---|---|
+| 1 | Compile comparison table + cost calculation |
+| 2 | Write the claim sentence + recommendation |
+| 3 | Build the 12-slide deck |
+| 4 | Dry run with partner team (15 min talk + 10 min Q&A) |
+| 5 | Revise based on dry-run feedback |
 
 ## Why this matters
 

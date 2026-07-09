@@ -12,14 +12,12 @@
     <a href="../">Week 5 — Metrics &amp; Production</a>
     <span class="sep">/</span>
     <span>Day 25 · Phase 1 Wrap</span>
-    <span class="sep">·</span>
-    <span class="duration">Friday · review &amp; wrap</span>
     {status:week-05/module-5}
   </div>
   <div class="ox-lesson-header__cta">
     <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check.html">Knowledge check</a>
-    <a class="md-button" href="assignment.md">Assignment</a>
+    <a class="md-button md-button--primary" href="knowledge-check/">Knowledge check</a>
+    <a class="md-button" href="assignment/">Assignment</a>
     <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Inference%20Engineering">Source material</a>
   </div>
 </div>
@@ -31,22 +29,22 @@
 
 This consolidation day is different from other days — it's for practice, review, and assessment. Here's how your ~3 hours are organized:
 
-| Time Bucket | Activity Type | Duration |
-|-------------|---------------|----------|
-| 🔵 Bucket 1 | Phase 1 Assessment | 30 min |
-| 🟢 Bucket 2 | Self-Assessment | 20 min |
-| 🟡 Bucket 3 | Practice: Metric Review | 25 min |
-| 🟠 Bucket 4 | Practice: Production Review | 25 min |
-| 🔴 Bucket 5 | Practice: Cost Model Review | 20 min |
-| 🟣 Bucket 6 | Open Lab & Wrap-up | 30 min |
+| Time Bucket | Activity Type |
+|-------------|---------------|
+| 🔵 Bucket 1 | Phase 1 Assessment |
+| 🟢 Bucket 2 | Self-Assessment |
+| 🟡 Bucket 3 | Practice: Metric Review |
+| 🟠 Bucket 4 | Practice: Production Review |
+| 🔴 Bucket 5 | Practice: Cost Model Review |
+| 🟣 Bucket 6 | Open Lab & Wrap-up |
 
 ---
 
-## 🔵 Bucket 1: Phase 1 Assessment (30 min)
+## 🔵 Bucket 1: Phase 1 Assessment
 
 ### Exercise: Take the Knowledge Check
 
-[Take the Phase 1 assessment](knowledge-check.html) — 15 questions covering Weeks 2-5.
+[Take the Phase 1 assessment](knowledge-check.md) — 15 questions covering Weeks 2-5.
 
 **Passing score:** 10/15 (67%)
 
@@ -61,7 +59,7 @@ This is **15% of the program grade**. The quiz is open-book — reasoning-focuse
 
 ---
 
-## 🟢 Bucket 2: Self-Assessment (20 min)
+## 🟢 Bucket 2: Self-Assessment
 
 ### Self-Check List
 
@@ -97,7 +95,7 @@ For any item you can't do:
 
 ---
 
-## 🟡 Bucket 3: Practice — Metric Review (25 min)
+## 🟡 Bucket 3: Practice — Metric Review
 
 ### Hands-On: Metric Drills
 
@@ -123,7 +121,7 @@ Always report a ___ of metrics with ___, not a single ___.
 
 ---
 
-## 🟠 Bucket 4: Practice — Production Review (25 min)
+## 🟠 Bucket 4: Practice — Production Review
 
 ### Hands-On: Production Drills
 
@@ -149,7 +147,7 @@ Draw the failure chain for "cold start during traffic spike":
 
 ---
 
-## 🔴 Bucket 5: Practice — Cost Model Review (20 min)
+## 🔴 Bucket 5: Practice — Cost Model Review
 
 ### Hands-On: Cost Model Drills
 
@@ -179,7 +177,7 @@ Answer: ___, ___, ___, ___, ___
 
 ---
 
-## 🟣 Bucket 6: Open Lab & Wrap-up (30 min)
+## 🟣 Bucket 6: Open Lab & Wrap-up
 
 ### What to Do
 
@@ -192,7 +190,7 @@ This is open time. Choose what you need:
 
 ### Phase 2 Pre-Reading
 
-Read **Phase 2 (Prompt Engineering) intro** from `planning/source-material/Prompt Engineering/` (file: `Prompt_Engineering_Student_Guide.md`, Modules 0–1, ~30 min).
+Read **Phase 2 (Prompt Engineering) intro** from `planning/source-material/Prompt Engineering/` (file: `Prompt_Engineering_Student_Guide.md`, Modules 0–1).
 
 Bring **one written question** to Week 6 Day 26.
 
@@ -224,7 +222,7 @@ Ask **oxtutor** to re-explain — Goodhart's Law and the percentile (P50/P95/P99
 
 ## Pre-read for Monday (Week 6 · Day 26 · Prompt Engineering)
 
-- **Resource:** <a href="../../../readings/prompt-engineering/">Prompt Engineering Pre-Lecture Reading</a> — work through the Day 26 and Day 27 primers before Monday (~25 min). Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic Prompt Engineering Interactive Tutorial</a>.
+- **Resource:** <a href="../../../readings/prompt-engineering/#day-26-primer-why-the-same-question-gives-different-answers">Prompt Engineering Pre-Lecture Reading</a> — work through the Day 26 and Day 27 primers before Monday. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic Prompt Engineering Interactive Tutorial</a>.
 - **Reflection questions:**
   1. What's the difference between "prompting" and "prompt engineering"?
   2. Why does chain-of-thought work? What's happening inside the model?

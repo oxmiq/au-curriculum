@@ -1,6 +1,6 @@
 # Day 40 · Known Quirks
 
-> **Concept of the day:** every system has failure modes that look mysterious until you've seen them once. Today you learn Capsule's known-quirks list from the Lab Guide so you never waste 30 minutes on a problem that has a 10-second fix.<br> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 40 section</a> (~15 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 10 — Known Quirks.
+> **Concept of the day:** every system has failure modes that look mysterious until you've seen them once. Today you learn Capsule's known-quirks list from the Lab Guide so you never waste 30 minutes on a problem that has a 10-second fix.<br> **Pre-reading:** <a href="../../../readings/capsule/#day-40-consolidation-reliability-diagnostics">Capsule Power-User Pre-Lecture Reading — Day 40 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10 — Known Quirks.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -12,8 +12,6 @@
     <a href="../">Week 8 — Capsule: Connections &amp; Operations</a>
     <span class="sep">/</span>
     <span>Day 40 · Known Quirks</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-08/module-4}
   </div>
 </div>
@@ -21,20 +19,20 @@
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: The Triage Decision Tree | 20 min |
-| Part 3 | Deep Dive: The Known-Quirks Table | 30 min |
-| Part 4 | Core Concepts: The Bug-Report Rubric | 20 min |
-| Part 5 | Hands-On: Reproduce Three Quirks | 35 min |
-| Part 6 | Hands-On: File a Proper Bug Report | 20 min |
-| Part 7 | Wrap-up & Connection | 10 min |
-| **Total** | | **~150 min + pre-reading** |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: The Triage Decision Tree |
+| Part 3 | Deep Dive: The Known-Quirks Table |
+| Part 4 | Core Concepts: The Bug-Report Rubric |
+| Part 5 | Hands-On: Reproduce Three Quirks |
+| Part 6 | Hands-On: File a Proper Bug Report |
+| Part 7 | Wrap-up & Connection |
+| **Total** | |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15min
+## Part 1 — Pre-Reading Review
 
 ### Reading —
 
@@ -173,7 +171,7 @@ Answer from memory:
 
 ---
 
-## Part 2 — Core Concepts: The Triage Decision Tree · 20min
+## Part 2 — Core Concepts: The Triage Decision Tree
 
 ### Reading —
 
@@ -219,7 +217,7 @@ Walk through the decision tree for each scenario below. State which step catches
 
 ---
 
-## Part 3 — Deep Dive: The Known-Quirks Table · 30min
+## Part 3 — Deep Dive: The Known-Quirks Table
 
 ### Reading —
 
@@ -242,7 +240,7 @@ Users will report these as "Capsule is broken." You need to immediately recogniz
 
 ### Exercise:
 
-**Part A — Recall drill (10 min):**
+**Part A — Recall drill:**
 
 Cover the table. For each symptom below, write the fix from memory:
 
@@ -251,7 +249,7 @@ Cover the table. For each symptom below, write the fix from memory:
 3. "VS Code Remote-SSH is failing to connect to my node and showing config errors."
 4. "`capsule update` exits with an error about permissions or auth."
 
-**Part B — Root cause analysis (10 min):**
+**Part B — Root cause analysis:**
 
 For each quirk, identify which layer of the triage decision tree would catch it (Step 1 / 2 / 3 / 4 / none — it's a client-side config issue):
 
@@ -262,13 +260,13 @@ For each quirk, identify which layer of the triage decision tree would catch it 
 | 4 (VS Code SSH config) | | |
 | 6 (Windows filter) | | |
 
-**Part C — Memorization test (10 min):**
+**Part C — Memorization test:**
 
 Close the table. Write all 8 rows from memory. Check. Repeat for any you missed.
 
 ---
 
-## Part 4 — Core Concepts: The Bug-Report Rubric · 20min
+## Part 4 — Core Concepts: The Bug-Report Rubric
 
 ### Reading —
 
@@ -301,20 +299,20 @@ You receive a bug report from a colleague:
 
 ---
 
-## Part 5 — Hands-On: Reproduce Three Quirks · 35min
+## Part 5 — Hands-On: Reproduce Three Quirks
 
 ### Exercise:
 
 Reproduce three quirks deliberately. You remember what you reproduce far better than what you read.
 
-**Quirk 2 — Wrong machines (10 min):**
+**Quirk 2 — Wrong machines:**
 
 1. Check your current env: `capsule env show`. Note it.
 2. Switch to a different env: `capsule config env set public` (or another env you're not normally in).
 3. Run `capsule list`. Observe — the machines shown are different (or none).
 4. Fix: `capsule config env set <your-correct-env>`. Confirm `capsule list` shows your fleet again.
 
-**Quirk 6 — Windows filter with `>` (or macOS equivalent) (10 min):**
+**Quirk 6 — Windows filter with `>` (or macOS equivalent):**
 
 On macOS/Linux, test the filter quoting behavior:
 
@@ -322,7 +320,7 @@ On macOS/Linux, test the filter quoting behavior:
 2. Run: `capsule list --filter "vram>=16"` (quoted). Observe this works correctly.
 3. The lesson: always quote filter arguments. This applies on any shell, not just Windows PowerShell.
 
-**Quirk 3 — SshRTC won't connect (simulate) (15 min):**
+**Quirk 3 — SshRTC won't connect (simulate):**
 
 1. Set a bad proxy: `export HTTPS_PROXY=http://127.0.0.1:9999`
 2. Attempt to connect: `capsule term <your-dev-node-config-tag>`. Observe the hang or connection error.
@@ -337,7 +335,7 @@ On macOS/Linux, test the filter quoting behavior:
 
 ---
 
-## Part 6 — Hands-On: File a Proper Bug Report · 20min
+## Part 6 — Hands-On: File a Proper Bug Report
 
 ### Exercise:
 
@@ -364,7 +362,7 @@ Bug report: [brief description]
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 

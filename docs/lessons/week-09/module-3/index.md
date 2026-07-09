@@ -8,7 +8,7 @@ drift: |
 # Day 44 · Interactive Chat (Quality Evaluation)
 
 > **Concept of the day:** **throughput is not quality.** A fast config that produces worse answers is a worse config. Use the Capsule chat UI to probe quality *interactively* — both speed (TTFT/ITL felt as a human) and quality (correctness, refusals, hallucinations) — alongside the benchmark numbers.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 43 section</a> (~20 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 9.
+> **Pre-reading:** <a href="../../../readings/capsule/#day-43-interactive-evaluation">Capsule Power-User Pre-Lecture Reading — Day 43 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-9-model-evaluation-interactive-chat">Capsule Lab Guide</a> Module 9.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -20,8 +20,6 @@ drift: |
     <a href="../">Week 9 — Capsule: Benchmarking &amp; Eval</a>
     <span class="sep">/</span>
     <span>Day 44 · Interactive Chat</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-09/module-3}
   </div>
 </div>
@@ -31,21 +29,21 @@ drift: |
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: What Benchmarks Miss | 20 min |
-| Part 3 | Core Concepts: The 5-Prompt Eval Suite | 25 min |
-| Part 4 | Deep Dive: Latency You Measure vs Latency You Feel | 20 min |
-| Part 5 | Hands-On: Build Your Eval Suite | 25 min |
-| Part 6 | Hands-On: Evaluate Two Configs Side by Side | 30 min |
-| Part 7 | Wrap-up & Connection | 10 min |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: What Benchmarks Miss |
+| Part 3 | Core Concepts: The 5-Prompt Eval Suite |
+| Part 4 | Deep Dive: Latency You Measure vs Latency You Feel |
+| Part 5 | Hands-On: Build Your Eval Suite |
+| Part 6 | Hands-On: Evaluate Two Configs Side by Side |
+| Part 7 | Wrap-up & Connection |
 
 **Total: ~145 min**
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 
 ### Reading — Why this matters
 
@@ -158,7 +156,7 @@ Answer before reading on:
 
 ---
 
-## Part 2 — Core Concepts: What Benchmarks Miss · 20 min
+## Part 2 — Core Concepts: What Benchmarks Miss
 
 ### Reading — The benchmark vs chat comparison
 
@@ -185,7 +183,7 @@ For each production scenario, identify what the benchmark report would NOT tell 
 
 ---
 
-## Part 3 — Core Concepts: The 5-Prompt Eval Suite · 25 min
+## Part 3 — Core Concepts: The 5-Prompt Eval Suite
 
 ### Reading — Borrow from Week 6 Day 29
 
@@ -221,7 +219,7 @@ Write one prompt for each of the 8 types above, targeting a "code assistant" use
 
 ---
 
-## Part 4 — Deep Dive: Latency You Measure vs Latency You Feel · 20 min
+## Part 4 — Deep Dive: Latency You Measure vs Latency You Feel
 
 ### Reading — The human perception table
 
@@ -253,7 +251,7 @@ Your benchmark shows: Config A: TTFT p99 = 380 ms. Config B: TTFT p99 = 1150 ms.
 
 ---
 
-## Part 5 — Hands-On: Build Your Eval Suite · 25 min
+## Part 5 — Hands-On: Build Your Eval Suite
 
 ### Exercise: Finalize Your 8-Prompt Suite
 
@@ -263,14 +261,14 @@ Your benchmark shows: Config A: TTFT p99 = 380 ms. Config B: TTFT p99 = 1150 ms.
 
 ---
 
-## Part 6 — Hands-On: Evaluate Two Configs Side by Side · 30 min
+## Part 6 — Hands-On: Evaluate Two Configs Side by Side
 
 ### Exercise: Comparative Evaluation
 
-1. (5 min) Ensure two model configs are reachable (e.g. FP16 vs FP8 of the same model, or two concurrency settings from yesterday).
-2. (15 min) Run your 8-prompt suite against Config A in the chat UI. Record pass/fail per prompt.
-3. (5 min) Run the same suite against Config B. Record pass/fail per prompt.
-4. (5 min) Compare: where does Config B lose quality? Where does it keep up? Is the throughput win worth it?
+1. Ensure two model configs are reachable (e.g. FP16 vs FP8 of the same model, or two concurrency settings from yesterday).
+2. Run your 8-prompt suite against Config A in the chat UI. Record pass/fail per prompt.
+3. Run the same suite against Config B. Record pass/fail per prompt.
+4. Compare: where does Config B lose quality? Where does it keep up? Is the throughput win worth it?
 
 Fill in:
 
@@ -289,7 +287,7 @@ Write your 3-sentence verdict per config and commit it alongside your Day 43 sat
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 
@@ -363,7 +361,7 @@ Tomorrow: **scheduling & MCP** — once you trust a config, automate the benchma
 
 ### Pre-read for tomorrow (Day 45 · Scheduling & MCP)
 
-- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 44 section</a> (~25 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 10.
+- **Resource:** <a href="../../../readings/capsule/#day-44-scheduling-mcp">Capsule Power-User Pre-Lecture Reading — Day 44 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10.
 - **Reflection questions:**
   1. Why schedule benchmarks instead of running them by hand?
   2. What does an MCP surface for Capsule unlock that the CLI alone doesn't?

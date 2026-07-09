@@ -13,8 +13,6 @@
     <a href="../">Week 1 — Orientation &amp; Foundations</a>
     <span class="sep">/</span>
     <span>Day 1 · Welcome & Context</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-01/module-1}
   </div>
 </div>
@@ -26,18 +24,18 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Read: Why This Matters | 10 min |
-| Part 2 | Read: Core Concepts | 20 min |
-| Part 3 | Deep Dive: 10-Week Journey | 15 min |
-| Part 4 | Hands-On: Research Capsule | 30 min |
-| Part 5 | Hands-On: Write Your Summary | 30 min |
-| 7 | Reflection: Connect Forward | 15 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Read: Why This Matters |
+| Part 2 | Read: Core Concepts |
+| Part 3 | Deep Dive: 10-Week Journey |
+| Part 4 | Hands-On: Research Capsule |
+| Part 5 | Hands-On: Write Your Summary |
+| 7 | Reflection: Connect Forward |
 
 ---
 
-## Part 1 — Why This Matters · 10 min
+## Part 1 — Why This Matters
 ### Reading
 
 You're about to spend 10 weeks learning how GPU inference works, how agents are built, and how Capsule is operated. That's a lot. Today is the only day that's *just* context — every day after this is technical content. Use today to internalize the "why."
@@ -51,7 +49,7 @@ Take 2 minutes to write down:
 
 ---
 
-## Part 2 — Core Concepts · 20 min
+## Part 2 — Core Concepts
 ### Reading — What Oxmiq Does (in three sentences)
 
 1. **Oxmiq Labs builds Capsule** — a platform that lets engineers and researchers use remote GPU machines (NVIDIA H100, Tenstorrent, AMD MI300, Apple Silicon, etc.) as if they were sitting on their own desk.
@@ -70,7 +68,7 @@ Take 2 minutes to write down:
 
 ---
 
-## Part 3 — The 10-Week Journey · 15 min
+## Part 3 — The 10-Week Journey
 ### Reading
 
 Here's the roadmap you'll follow:
@@ -92,16 +90,16 @@ Here's the roadmap you'll follow:
 
 - **Part A** (10-20 min): Reading — understand the core concept
 - **Part B** (20-30 min): Deep dive — explore the details
-- **Part C** (30 min): Hands-on practice — apply what you learned
-- **Part D** (15 min): Reflection — connect to tomorrow's content
+- **Part C**: Hands-on practice — apply what you learned
+- **Part D**: Reflection — connect to tomorrow's content
 
 **Fridays are consolidation days.** No new content. Practice, ask, catch up.
 **Afternoons are free.** Learning needs space.
 
 ---
 
-## Part 4 — Hands-On — Research Capsule · 30 min
-### Exercise 1: Explore the Capsule Product (15 min)
+## Part 4 — Hands-On — Research Capsule
+### Exercise 1: Explore the Capsule Product
 
 1. Visit `oxmiq.com` and browse the product documentation
 2. Look for information about:
@@ -110,7 +108,7 @@ Here's the roadmap you'll follow:
    - Pricing model (if available)
 3. Take notes on 3 things that surprise you
 
-### Exercise 2: Watch the Demo (15 min)
+### Exercise 2: Watch the Demo
 
 If a demo video link is available, watch it. Otherwise, search for "Capsule platform demo" or similar.
 
@@ -121,7 +119,7 @@ Focus on:
 
 ---
 
-## Part 5 — Hands-On — Write Your Summary · 30 min
+## Part 5 — Hands-On — Write Your Summary
 ### Assignment: Three-Sentence Summary
 
 Write a **three-sentence answer** to: *"What does Capsule do, and why does it exist?"*
@@ -145,7 +143,7 @@ If you have a partner:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 15 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -240,7 +238,7 @@ Tomorrow: the shell. Every operation in this curriculum — every git commit, ev
 
 ### Pre-read for tomorrow (Day 2 · Shell & Linux)
 
-**Resource:** <a href="https://missing.csail.mit.edu/2020/course-shell/" target="_blank" rel="noopener">MIT Missing Semester — Shell chapter</a> (~20 min, lecture 1 only).
+**Resource:** <a href="https://missing.csail.mit.edu/2020/course-shell/" target="_blank" rel="noopener">MIT Missing Semester — Shell chapter</a> (lecture 1 only).
 
 **Reflection questions** (write your answers; bring them to the readiness check):
 1. What's the difference between `ls` and `ls -la`?

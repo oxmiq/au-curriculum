@@ -1,25 +1,25 @@
 # Supplementary · Hallucinations, Complex Prompts & Evals
 
-> **Concept of the day:** LLMs hallucinate when they extrapolate beyond their training data or context — "I don't know" is a low-probability token unless explicitly invited. Guardrails, chain reliability math, and eval suites are the engineering tools that convert a fragile prompt into a production system. **Pre-reading:** Anthropic tutorial Ch 8 (Avoiding Hallucinations) + Ch 9 (Complex Prompts from Scratch) (~25 min).
+> **Concept of the day:** LLMs hallucinate when they extrapolate beyond their training data or context — "I don't know" is a low-probability token unless explicitly invited. Guardrails, chain reliability math, and eval suites are the engineering tools that convert a fragile prompt into a production system. **Pre-reading:** Anthropic tutorial Ch 8 (Avoiding Hallucinations) + Ch 9 (Complex Prompts from Scratch).
 
 ---
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: Why LLMs Hallucinate | 20 min |
-| Part 3 | Core Concepts: Six Guardrails | 25 min |
-| Part 4 | Deep Dive: Chain Reliability Math | 15 min |
-| Part 5 | Core Concepts: Prompt Evals | 20 min |
-| Part 6 | Hands-On: Hallucination Guardrail Lab | 30 min |
-| Part 7 | Wrap-up & Connection | 15 min |
-| **Total** | | **~180 min** |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Why LLMs Hallucinate |
+| Part 3 | Core Concepts: Six Guardrails |
+| Part 4 | Deep Dive: Chain Reliability Math |
+| Part 5 | Core Concepts: Prompt Evals |
+| Part 6 | Hands-On: Hallucination Guardrail Lab |
+| Part 7 | Wrap-up & Connection |
+| **Total** | |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15min
+## Part 1 — Pre-Reading Review
 
 ### Reading —
 
@@ -28,7 +28,7 @@ Before continuing, you should have read:
 - Anthropic tutorial **Ch 8 (Avoiding Hallucinations)** — causes, guardrails, grounding patterns
 - **Ch 9 (Complex Prompts from Scratch)** — the iterative process for building production prompts
 
-If you haven't yet, stop and read them now (~25 min).
+If you haven't yet, stop and read them now.
 
 ### Exercise:
 
@@ -42,7 +42,7 @@ Answer from memory:
 
 ---
 
-## Part 2 — Core Concepts: Why LLMs Hallucinate · 20min
+## Part 2 — Core Concepts: Why LLMs Hallucinate
 
 ### Reading —
 
@@ -81,7 +81,7 @@ For each of the following prompts, assess hallucination risk (high/medium/low) a
 
 ---
 
-## Part 3 — Core Concepts: Six Guardrails · 25min
+## Part 3 — Core Concepts: Six Guardrails
 
 ### Reading —
 
@@ -117,7 +117,7 @@ You are building a RAG (retrieval-augmented generation) prompt that answers user
 
 ---
 
-## Part 4 — Deep Dive: Chain Reliability Math · 15min
+## Part 4 — Deep Dive: Chain Reliability Math
 
 ### Reading —
 
@@ -157,7 +157,7 @@ Design a 3-step classification chain: (1) extract entities → (2) classify inte
 
 ---
 
-## Part 5 — Core Concepts: Prompt Evals · 20min
+## Part 5 — Core Concepts: Prompt Evals
 
 ### Reading —
 
@@ -198,22 +198,22 @@ Build a 5-input eval suite for the RAG prompt from Part 3.
 
 ---
 
-## Part 6 — Hands-On: Hallucination Guardrail Lab · 30min
+## Part 6 — Hands-On: Hallucination Guardrail Lab
 
-### Exercise — Part A: Guardrail A/B Test (15 min)
+### Exercise — Part A: Guardrail A/B Test
 
 **Setup:** Use a factual Q&A task. Your source document is a short Wikipedia paragraph about a technical topic (your choice).
 
-**Condition 1 — No guardrails (5 min):**
+**Condition 1 — No guardrails:**
 Ask a question whose answer is NOT in the paragraph. What does the model do? Does it say it doesn't know, or does it hallucinate?
 
-**Condition 2 — Guardrail 1 + 2 (5 min):**
+**Condition 2 — Guardrail 1 + 2:**
 Add grounding (`<source>` tags) and "I don't know" permission. Run the same question. What happens?
 
-**Condition 3 — Full guardrail stack (5 min):**
+**Condition 3 — Full guardrail stack:**
 Add Guardrail 3 (citation) and write a 2-input eval suite. Does the model correctly cite the source for answerable questions and correctly return "I don't know" for unanswerable ones?
 
-### Exercise — Part B: Chain Reliability Experiment (15 min)
+### Exercise — Part B: Chain Reliability Experiment
 
 Build a 2-step chain:
 - Step 1: Extract action items from a meeting transcript (5 items)
@@ -226,7 +226,7 @@ Build a 2-step chain:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 15min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 

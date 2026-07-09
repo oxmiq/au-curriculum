@@ -1,6 +1,6 @@
 # Day 32 · Agent Case Studies
 
-> **Concept of the day:** the same 5-layer stack (intelligence → action → governance → orchestration → economics) shows up in every real deployed agent. Reading case studies teaches you where the *actual* hard problems live — not in the whiteboard diagram, but in production. **Pre-reading:** <a href="../../../readings/ai-agents/">AI Agents Pre-Lecture Reading</a> (~20 min). Case studies: <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" target="_blank" rel="noopener">Klarna AI assistant</a> or <a href="https://www.anthropic.com/news/claude-code" target="_blank" rel="noopener">Anthropic — Claude Code</a>.
+> **Concept of the day:** the same 5-layer stack (intelligence → action → governance → orchestration → economics) shows up in every real deployed agent. Reading case studies teaches you where the *actual* hard problems live — not in the whiteboard diagram, but in production. **Pre-reading:** <a href="../../../readings/ai-agents/#consolidation-phase-2-wrap">AI Agents Pre-Lecture Reading</a>. Case studies: <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" target="_blank" rel="noopener">Klarna AI assistant</a> or <a href="https://www.anthropic.com/news/claude-code" target="_blank" rel="noopener">Anthropic — Claude Code</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -12,8 +12,6 @@
     <a href="../">Week 7 — Bridge: Theory Meets Tooling</a>
     <span class="sep">/</span>
     <span>Day 32 · Agent Case Studies</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-07/module-1}
   </div>
 </div>
@@ -21,24 +19,24 @@
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Case Study: Klarna Customer-Service Agent | 30 min |
-| Part 3 | Case Study: Coding Agents (Claude Code / Cursor) | 30 min |
-| Part 4 | Case Study: Research & Analysis Agents | 20 min |
-| Part 5 | Hands-On: 5-Layer Stack Mapping | 25 min |
-| Part 6 | Hands-On: Failure Mode Analysis | 20 min |
-| Part 7 | Wrap-up & Connection | 10 min |
-| **Total** | | **~150 min + pre-reading** |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Case Study: Klarna Customer-Service Agent |
+| Part 3 | Case Study: Coding Agents (Claude Code / Cursor) |
+| Part 4 | Case Study: Research & Analysis Agents |
+| Part 5 | Hands-On: 5-Layer Stack Mapping |
+| Part 6 | Hands-On: Failure Mode Analysis |
+| Part 7 | Wrap-up & Connection |
+| **Total** | |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15min
+## Part 1 — Pre-Reading Review
 
 ### Before You Start
 
-You should have already read: <a href="../../../readings/ai-agents/">AI Agents Pre-Lecture Reading</a> (~20 min). Case studies: <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" target="_blank" rel="noopener">Klarna AI assistant</a> or <a href="https://www.anthropic.com/news/claude-code" target="_blank" rel="noopener">Anthropic — Claude Code</a>.
+You should have already read: <a href="../../../readings/ai-agents/#consolidation-phase-2-wrap">AI Agents Pre-Lecture Reading</a>. Case studies: <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" target="_blank" rel="noopener">Klarna AI assistant</a> or <a href="https://www.anthropic.com/news/claude-code" target="_blank" rel="noopener">Anthropic — Claude Code</a>.
 
 ### Readiness Check
 
@@ -163,7 +161,7 @@ From memory, for each layer, give one concrete example of what it looks like in 
 
 ---
 
-## Part 2 — Case Study: Klarna Customer-Service Agent · 30min
+## Part 2 — Case Study: Klarna Customer-Service Agent
 
 ### Reading —
 
@@ -222,7 +220,7 @@ Fix: Added a human review step for any conversation with > 3 complaint signals. 
 
 ---
 
-## Part 3 — Case Study: Coding Agents (Claude Code / Cursor) · 30min
+## Part 3 — Case Study: Coding Agents (Claude Code / Cursor)
 
 ### Reading —
 
@@ -269,7 +267,7 @@ Fix: Added a human review step for any conversation with > 3 complaint signals. 
 
 ---
 
-## Part 4 — Case Study: Research & Analysis Agents · 20min
+## Part 4 — Case Study: Research & Analysis Agents
 
 ### Reading —
 
@@ -298,7 +296,7 @@ SemiAnalysis is an investment research firm that runs approximately **$7M/year i
 
 ---
 
-## Part 5 — Hands-On: 5-Layer Stack Mapping · 25min
+## Part 5 — Hands-On: 5-Layer Stack Mapping
 
 ### Exercise:
 
@@ -320,7 +318,7 @@ Then answer:
 
 ---
 
-## Part 6 — Hands-On: Failure Mode Analysis · 20min
+## Part 6 — Hands-On: Failure Mode Analysis
 
 ### Exercise:
 
@@ -348,7 +346,7 @@ Fill in:
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 
@@ -422,7 +420,7 @@ These case studies are the vocabulary for the rest of the course. When you insta
 
 ### Pre-read for tomorrow (Day 33 · Capsule Foundations & Architecture)
 
-- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 36 section</a> (~40 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Modules 1 + 2.
+- **Resource:** <a href="../../../readings/capsule/#day-36-capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading — Day 36 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-1-capsule-foundations">Capsule Lab Guide</a> Modules 1 + 2.
 - **Reflection questions:**
   1. What are the three layers of Capsule's architecture? What does each layer do?
   2. What is the role of the control plane in Capsule's architecture?

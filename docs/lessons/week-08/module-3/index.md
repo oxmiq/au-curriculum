@@ -1,6 +1,6 @@
 # Day 39 · Streaming
 
-> **Concept of the day:** `capsule stream` gives you a live hardware-encoded desktop or single-app view of a remote machine. Know when to use it vs `capsule term`, how GPU hardware encoding works, and what backpressure / network sensitivity looks like.<br> **Pre-reading:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 39 section</a> (~40 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 7 (~15 min).
+> **Concept of the day:** `capsule stream` gives you a live hardware-encoded desktop or single-app view of a remote machine. Know when to use it vs `capsule term`, how GPU hardware encoding works, and what backpressure / network sensitivity looks like.<br> **Pre-reading:** <a href="../../../readings/capsule/#day-39-files-storage-streaming">Capsule Power-User Pre-Lecture Reading — Day 39 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-7-streaming-containers">Capsule Lab Guide</a> Module 7.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -12,8 +12,6 @@
     <a href="../">Week 8 — Capsule: Connections &amp; Operations</a>
     <span class="sep">/</span>
     <span>Day 39 · Streaming</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-08/module-3}
   </div>
 </div>
@@ -21,20 +19,20 @@
 
 ## Lesson plan
 
-| Part | Activity | Duration |
-|---|---|---|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: Streaming Architecture | 25 min |
-| Part 3 | Core Concepts: When to Stream vs Term/Exec | 20 min |
-| Part 4 | Hands-On: Launch Desktop Stream | 25 min |
-| Part 5 | Hands-On: App Streaming & Containers | 25 min |
-| Part 6 | Core Concepts: Network Sensitivity & Failure Modes | 20 min |
-| Part 7 | Wrap-up & Connection | 10 min |
-| **Total** | | **~140 min + pre-reading** |
+| Part | Activity |
+|---|---|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Streaming Architecture |
+| Part 3 | Core Concepts: When to Stream vs Term/Exec |
+| Part 4 | Hands-On: Launch Desktop Stream |
+| Part 5 | Hands-On: App Streaming & Containers |
+| Part 6 | Core Concepts: Network Sensitivity & Failure Modes |
+| Part 7 | Wrap-up & Connection |
+| **Total** | |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15min
+## Part 1 — Pre-Reading Review
 
 ### Reading —
 
@@ -153,7 +151,7 @@ Answer from memory:
 
 ---
 
-## Part 2 — Core Concepts: Streaming Architecture · 25min
+## Part 2 — Core Concepts: Streaming Architecture
 
 ### Reading —
 
@@ -208,7 +206,7 @@ The `-- --gpus all` passes Docker flags through the Capsule CLI to the container
 
 ---
 
-## Part 3 — Core Concepts: When to Stream vs Term/Exec · 20min
+## Part 3 — Core Concepts: When to Stream vs Term/Exec
 
 ### Reading —
 
@@ -249,13 +247,13 @@ For each task, choose `stream` or `term/exec` and write one-sentence justificati
 
 ---
 
-## Part 4 — Hands-On: Launch Desktop Stream · 25min
+## Part 4 — Hands-On: Launch Desktop Stream
 
 ### Exercise:
 
 Work through the desktop streaming flow end-to-end.
 
-**Step 1 — Open a full desktop stream (5 min):**
+**Step 1 — Open a full desktop stream:**
 
 ```bash
 capsule stream <your-config-tag>
@@ -263,20 +261,20 @@ capsule stream <your-config-tag>
 
 Verify the desktop loads. Note the GPU listed in the stream quality overlay (if shown).
 
-**Step 2 — Test clipboard sync (5 min):**
+**Step 2 — Test clipboard sync:**
 
 1. In a local terminal, copy a short text string.
 2. Paste it on the remote desktop (right-click → paste, or Ctrl+V).
 3. On the remote desktop, copy a different string.
 4. Paste it in your local terminal. Confirm bidirectional sync works.
 
-**Step 3 — Single-app stream (5 min):**
+**Step 3 — Single-app stream:**
 
 1. Stop the full desktop stream.
 2. Launch with an installed application: `capsule stream <config-tag> --app firefox` (or another installed app on your machine).
 3. Verify the app opens in the stream window.
 
-**Step 4 — Comparison test (10 min):**
+**Step 4 — Comparison test:**
 
 1. Stop the stream.
 2. Open the same application via `capsule term`: SSH in, launch the app from the command line.
@@ -284,11 +282,11 @@ Verify the desktop loads. Note the GPU listed in the stream quality overlay (if 
 
 ---
 
-## Part 5 — Hands-On: App Streaming & Containers · 25min
+## Part 5 — Hands-On: App Streaming & Containers
 
 ### Exercise:
 
-**Part A — Container GPU access (12 min):**
+**Part A — Container GPU access:**
 
 1. `capsule docker <config-tag>` — enter an Ubuntu container. Run `nvidia-smi`. Record the output (should fail or show no devices).
 2. Exit. Re-launch with `-- --gpus all`. Run `nvidia-smi` again. Record the output (should show GPU).
@@ -300,7 +298,7 @@ python3 -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device
 
 4. What would you change if you needed a specific Docker image instead of the default Ubuntu? (Hint: `--image` flag.)
 
-**Part B — Port forwarding alternative to streaming (13 min):**
+**Part B — Port forwarding alternative to streaming:**
 
 For web-based tools (JupyterLab, ComfyUI, Gradio), you can often use `capsule term` with port forwarding instead of full streaming:
 
@@ -312,7 +310,7 @@ For web-based tools (JupyterLab, ComfyUI, Gradio), you can often use `capsule te
 
 ---
 
-## Part 6 — Core Concepts: Network Sensitivity & Failure Modes · 20min
+## Part 6 — Core Concepts: Network Sensitivity & Failure Modes
 
 ### Reading —
 
@@ -345,7 +343,7 @@ WebRTC streaming is bandwidth-sensitive. Know the failure modes before users rep
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10min
+## Part 7 — Wrap-up & Connection
 
 ### Self-check
 
@@ -419,7 +417,7 @@ Streaming is the gateway to interactive GPU workloads. When you run benchmarks n
 
 ### Pre-read for tomorrow (Day 40 · Known Quirks)
 
-- **Resource:** <a href="../../../readings/capsule/">Capsule Power-User Pre-Lecture Reading — Day 40 section</a> (~15 min). Supplement: <a href="../../../readings/capsule/lab-guide/">Capsule Lab Guide</a> Module 10 (Known Quirks).
+- **Resource:** <a href="../../../readings/capsule/#day-40-consolidation-reliability-diagnostics">Capsule Power-User Pre-Lecture Reading — Day 40 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10 (Known Quirks).
 - **Reflection questions:**
   1. What is `capsule cleanup` and when do you run it?
   2. Name two symptoms whose first diagnostic step is `capsule config customer show`.

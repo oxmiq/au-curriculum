@@ -50,7 +50,7 @@ Appendix A Glossary of Terms36
 
 Appendix B Further Reading38
 
-**Module 0: Why Now? The Agentic Explosion**
+## Module 0 — Why Now? The Agentic Explosion
 
 **Learning Objectives**
 
@@ -128,7 +128,7 @@ The difference is not the cleverness of the prose. It's the fact that the agent 
 
 **Tool:** Any external function the agent can call — an API, a shell command, a database query, a web search.
 
-**Module 1: The Intelligence Layer**
+## Module 1 — The Intelligence Layer
 
 **Learning Objectives**
 
@@ -220,7 +220,7 @@ None of these three is sufficient on its own. A model with great reasoning but n
 
 **Embedding:** A numeric vector that represents a piece of text. Two embeddings are close in vector space if their texts are semantically similar.
 
-**Module 2: The Action Layer**
+## Module 2 — The Action Layer
 
 **Learning Objectives**
 
@@ -358,7 +358,7 @@ Every step is logged in the trace. If anything fails — the date_lookup tool re
 
 **Trace:** A step-by-step log of every action an agent takes, used for observability, debugging, and audit.
 
-**Module 3: The Governance Layer**
+## Module 3 — The Governance Layer
 
 **Learning Objectives**
 
@@ -459,7 +459,7 @@ The attacker still wrote the malicious PDF. The agent still read it. The differe
 
 **Blast radius:** The set of systems and data an exploit can reach once it succeeds; agents tend to have large blast radii.
 
-**Module 4: The Orchestration Layer**
+## Module 4 — The Orchestration Layer
 
 **Learning Objectives**
 
@@ -566,7 +566,7 @@ State carries across the chain: each agent reads the trace of the prior agent. A
 
 **Multi-agent system:** A system in which several specialized agents coordinate, usually via A2A, to complete a task that no single agent should handle alone.
 
-**Module 5: The Economic Layer (and What Comes Next)**
+## Module 5 — The Economic Layer (and What Comes Next)
 
 **Learning Objectives**
 

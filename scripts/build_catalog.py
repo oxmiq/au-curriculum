@@ -22,7 +22,7 @@ Schema (v2):
               "title": "<H1 of module index.md>",
               "index": "docs/lessons/week-01/module-1/index.md",
               "assignment": ".../assignment.md" | null,
-              "knowledge_check": ".../knowledge-check.html" | null,
+              "knowledge_check": ".../knowledge-check.md" | null,
               "supplementary": [ ".../supplementary-NN-slug.md", ... ],
               "source_material": [ "<relative on-disk path>", ... ]
             }, ...
@@ -97,7 +97,7 @@ def build_module(module_dir: Path):
 
     index_md = module_dir / "index.md"
     assignment_md = module_dir / "assignment.md"
-    kc_html = module_dir / "knowledge-check.html"
+    kc_md = module_dir / "knowledge-check.md"
 
     supplementary = []
     sources = set()
@@ -130,7 +130,7 @@ def build_module(module_dir: Path):
         "title": extract_h1(index_md) if index_md.exists() else None,
         "index": relpath(index_md) if index_md.exists() else None,
         "assignment": relpath(assignment_md) if assignment_md.exists() else None,
-        "knowledge_check": relpath(kc_html) if kc_html.exists() else None,
+        "knowledge_check": relpath(kc_md) if kc_md.exists() else None,
         "supplementary": supplementary,
         "source_material": sorted(sources),
     }

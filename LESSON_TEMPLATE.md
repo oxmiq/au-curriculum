@@ -14,11 +14,11 @@ docs/lessons/
 │   ├── index.md                week overview + Day map
 │   ├── module-1/
 │   │   ├── index.md            lesson page
-│   │   ├── knowledge-check.html canonical formative knowledge check
+│   │   ├── knowledge-check.md   canonical formative knowledge check
 │   │   └── assignment.md       module assignment (substantive deliverable lives in module-1 by convention)
 │   ├── module-2/ … module-4/   Mon–Thu lesson modules (same shape)
 │   └── module-5/               Friday consolidation module (same shape)
-├── week-02/ … week-10/         same shape (week-06 has an extra module-6 for the Phase 2 wrap)
+├── week-02/ … week-10/         same shape
 ```
 
 - `NN` is zero-padded (`01`, `02`, …, `10`) — enforced by audit rule **L001**.

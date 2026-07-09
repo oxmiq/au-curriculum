@@ -1,7 +1,7 @@
 # Day 28 · Tools & MCP
 
 > **Concept of the day:** **tools** = functions the agent can call to act on the world. Each call has a **schema** the model must respect. **MCP (Model Context Protocol)** is the emerging standard for exposing tools across model providers — write once, plug into any compatible agent.<br>
-> **Pre-reading:** <a href="../../../readings/ai-agents/">AI Agents Pre-Lecture Reading — Tools & MCP section</a> (~30 min). Supplement: <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener">Anthropic — Introducing the Model Context Protocol</a>.
+> **Pre-reading:** <a href="../../../readings/ai-agents/#day-28-tools-mcp">AI Agents Pre-Lecture Reading — Tools & MCP section</a>. Supplement: <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener">Anthropic — Introducing the Model Context Protocol</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 6 — Prompt Engineering + AI Agents</a>
     <span class="sep">/</span>
     <span>Day 28 · Tools & Action Layer</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-06/module-3}
   </div>
 </div>
@@ -26,23 +24,23 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours are organized:
 
-| Part | What you do | Time |
-|------|---------------|----------|
-| Part 1 | Pre-Reading Review | 15 min |
-| Part 2 | Core Concepts: Tool Anatomy | 25 min |
-| Part 3 | Deep Dive: Read vs Write & Safety | 20 min |
-| Part 4 | Core Concepts: MCP & A2A | 20 min |
-| Part 5 | Hands-On: Design Tool Schemas | 25 min |
-| Part 6 | Hands-On: Reliability Math | 25 min |
-| Part 7 | Wrap-up & Connection | 10 min |
+| Part | What you do |
+|------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Tool Anatomy |
+| Part 3 | Deep Dive: Read vs Write & Safety |
+| Part 4 | Core Concepts: MCP & A2A |
+| Part 5 | Hands-On: Design Tool Schemas |
+| Part 6 | Hands-On: Reliability Math |
+| Part 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 — Pre-Reading Review
 
 ### Before You Start
 
-You should have already read: AI Agents Student Guide **Module 2 — Action Layer** and the Anthropic MCP overview (~25 min).
+You should have already read: AI Agents Student Guide **Module 2 — Action Layer** and the Anthropic MCP overview.
 
 ### Quick Self-Check
 
@@ -152,7 +150,7 @@ If you couldn't answer all four, re-read the Student Guide Module 2 before conti
 
 ---
 
-## Part 2 — Core Concepts: Tool Anatomy · 25 min
+## Part 2 — Core Concepts: Tool Anatomy
 
 ### Reading — From ReAct Skeleton to Real Action
 
@@ -226,7 +224,7 @@ The model uses `description` — not `name` — to decide which tool to call. A 
 
 ---
 
-## Part 3 — Deep Dive: Read vs Write & Safety · 20 min
+## Part 3 — Deep Dive: Read vs Write & Safety
 
 ### Reading — The Most Important Distinction
 
@@ -263,7 +261,7 @@ Solutions:
 
 ---
 
-## Part 4 — Core Concepts: MCP & A2A · 20 min
+## Part 4 — Core Concepts: MCP & A2A
 
 ### Reading — Why MCP Exists
 
@@ -309,7 +307,7 @@ By Week 9, your benchmark runner will use this pattern.
 
 ---
 
-## Part 5 — Hands-On: Design Tool Schemas · 25 min
+## Part 5 — Hands-On: Design Tool Schemas
 
 ### Exercise: Write Three Tool Schemas
 
@@ -370,7 +368,7 @@ This tool schema has at least two problems. Find and fix them:
 
 ---
 
-## Part 6 — Hands-On: Reliability Math · 25 min
+## Part 6 — Hands-On: Reliability Math
 
 ### Reading — Compounding Over a Chain
 
@@ -419,7 +417,7 @@ You're designing an agent with 40 potential tools.
 
 ---
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 — Wrap-up & Connection
 
 ### Self-Check
 
@@ -504,7 +502,7 @@ Tomorrow: **governance & security** — prompt injection at the tool boundary, o
 
 ### Pre-read for tomorrow (Day 29 · Governance & Security)
 
-- **Resource:** <a href="../../../readings/ai-agents/">AI Agents Pre-Lecture Reading — Governance & Security section</a> (~35 min). Supplement: <a href="https://www.cve.org/CVERecord?id=CVE-2025-32711" target="_blank" rel="noopener">MITRE — CVE-2025-32711 (EchoLeak)</a> + <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank" rel="noopener">OWASP Top 10 for LLM Applications</a> (scan LLM01 + LLM02, ~10 min).
+- **Resource:** <a href="../../../readings/ai-agents/#day-29-governance-security">AI Agents Pre-Lecture Reading — Governance & Security section</a>. Supplement: <a href="https://www.cve.org/CVERecord?id=CVE-2025-32711" target="_blank" rel="noopener">MITRE — CVE-2025-32711 (EchoLeak)</a> + <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank" rel="noopener">OWASP Top 10 for LLM Applications</a> (scan LLM01 + LLM02).
 - **Reflection questions:**
   1. What does "tool output is untrusted input" mean concretely? Give an example.
   2. How does indirect prompt injection differ from direct injection?

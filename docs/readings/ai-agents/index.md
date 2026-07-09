@@ -4,13 +4,13 @@ title: AI Agents — Pre-Lecture Reading
 
 # AI Agents — Pre-Lecture Reading
 
-> **Week 7, Days 31–35.** For each day, this file lists the required pre-reading + three reflection questions to write up the evening before class. Pre-reading is mandatory; reflection answers are checked at the start-of-day readiness check.
+> **Week 6, Days 27–30.** For each day, this file lists the required pre-reading + three reflection questions to write up the evening before class. Pre-reading is mandatory; reflection answers are checked at the start-of-day readiness check.
 >
 > **The AI Agents week assumes** you have completed the Inference Engineering phase (Weeks 2–5) and the Prompt Engineering phase (Week 6). If a concept here surprises you, the appendix at the back of the Student Guide cross-references it back to the earlier week where it first appeared.
 
 ---
 
-## Day 31 — The Agent Loop
+## Day 27 — The Agent Loop
 
 **Pre-reading (≈ 25 min total):**
 - *AI Agents — Student Guide*, **Module 0 "Why Now? The Agentic Explosion"** (20 min). Pay special attention to the ReAct loop definition and the "Four Converging Capabilities" list.
@@ -23,7 +23,7 @@ title: AI Agents — Pre-Lecture Reading
 
 ---
 
-## Day 32 — Tools & MCP
+## Day 28 — Tools & MCP
 
 **Pre-reading (≈ 30 min total):**
 - *AI Agents — Student Guide*, **Module 2 "The Action Layer"** (25 min). Read in full.
@@ -36,7 +36,7 @@ title: AI Agents — Pre-Lecture Reading
 
 ---
 
-## Day 33 — Governance & Security
+## Day 29 — Governance & Security
 
 **Pre-reading (≈ 35 min total):**
 - *AI Agents — Student Guide*, **Module 3 "The Governance Layer"** (25 min). Read in full; the EchoLeak case study is required.
@@ -45,12 +45,12 @@ title: AI Agents — Pre-Lecture Reading
 
 **Reflection questions:**
 1. Distinguish *direct* vs *indirect* prompt injection in one sentence each. Then say which one EchoLeak was, and why that mattered for what the attackers could exfiltrate.
-2. "Blast radius" is the central design idea of the Governance Layer. For the deployment agent you sketched on Day 31, what is the worst thing it could do if compromised? What's one design change that would shrink that blast radius by an order of magnitude?
+2. "Blast radius" is the central design idea of the Governance Layer. For the deployment agent you sketched on Day 27, what is the worst thing it could do if compromised? What's one design change that would shrink that blast radius by an order of magnitude?
 3. Week 6 Day 29 covered hallucination defenses (abstain when uncertain, cite sources). Pick one of those defenses and explain how it *also* serves as a governance control against injected instructions.
 
 ---
 
-## Day 34 — Orchestration & Multi-Agent
+## Day 30 — Orchestration & Multi-Agent
 
 **Pre-reading (≈ 30 min total):**
 - *AI Agents — Student Guide*, **Module 4 "The Orchestration Layer"** (20 min).
@@ -63,7 +63,7 @@ title: AI Agents — Pre-Lecture Reading
 
 ---
 
-## Day 35 — Consolidation & Phase 2 Wrap
+## Consolidation & Phase 2 Wrap
 
 **Pre-reading (≈ 20 min total):**
 - *AI Agents — Student Guide*, **Module 5 "The Economic Layer (and What Comes Next)"** (15 min). Read for the big picture; we won't quiz the speculative numbers.
@@ -71,8 +71,8 @@ title: AI Agents — Pre-Lecture Reading
 
 **Reflection questions:**
 1. The 5 layers of the stack are: Intelligence / Action / Governance / Orchestration / Economic. In one sentence per layer, say what it contributes that the layer below it cannot provide.
-2. Pick the *one* concept from Days 31–34 you'd most want to teach back to a peer. Why that one? (Teaching back is how facilitators identify candidates for ML-eng vs systems tracks.)
-3. Looking at Day 36 in the schedule (Capsule Power-User starts tomorrow), what's one connection you already see between agent design and how a user would orchestrate Capsule operations? (You'll revisit this on Day 45.)
+2. Pick the *one* concept from Days 27–30 you'd most want to teach back to a peer. Why that one? (Teaching back is how facilitators identify candidates for ML-eng vs systems tracks.)
+3. Looking ahead to the Capsule Power-User weeks (Days 32 onward), what's one connection you already see between agent design and how a user would orchestrate Capsule operations? (You'll revisit this on Day 45.)
 
 ---
 

@@ -1,7 +1,7 @@
 # Day 13 · FlashAttention & PagedAttention
 
 > **Concept of the day:** **FlashAttention** = fuse attention into one kernel, minimize HBM trips (lossless). **PagedAttention** = virtual memory for the KV cache, modeled on OS paging.<br>
-> **Pre-reading:** FlashAttention summary + PagedAttention — <a href="https://gordicaleksa.medium.com/eli5-flash-attention-5c44017022ad" target="_blank" rel="noopener">Aleksa Gordić — ELI5 FlashAttention</a> + <a href="https://blog.vllm.ai/2023/06/20/vllm.html" target="_blank" rel="noopener">vLLM — PagedAttention</a> (~20 min).
+> **Pre-reading:** FlashAttention summary + PagedAttention — <a href="https://gordicaleksa.medium.com/eli5-flash-attention-5c44017022ad" target="_blank" rel="noopener">Aleksa Gordić — ELI5 FlashAttention</a> + <a href="https://blog.vllm.ai/2023/06/20/vllm.html" target="_blank" rel="noopener">vLLM — PagedAttention</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -13,8 +13,6 @@
     <a href="../">Week 3 — Attention &amp; KV Cache</a>
     <span class="sep">/</span>
     <span>Day 13 · FlashAttention</span>
-    <span class="sep">·</span>
-    <span class="duration">~3 hrs</span>
     {status:week-03/module-3}
   </div>
 </div>
@@ -26,22 +24,22 @@
 
 This lesson is designed for guided self-study. Here's how your ~3 hours is organized:
 
-| Part | What you do | Time |
-|-------------|---------------|----------|
-| Part 1 | Pre-Reading Review | 10 min |
-| Part 2 | Core Concepts: Naive Attention Problem | 20 min |
-| Part 3 | Deep Dive: FlashAttention Mechanics | 20 min |
-| Part 4 | Hands-On: Memory Traffic Calculation | 25 min |
-| Part 5 | Core Concepts: PagedAttention | 20 min |
-| Part 6 | Hands-On: Multi-User Throughput | 20 min |
-| Part 7 | Wrap-up & Connection | 5 min |
+| Part | What you do |
+|-------------|---------------|
+| Part 1 | Pre-Reading Review |
+| Part 2 | Core Concepts: Naive Attention Problem |
+| Part 3 | Deep Dive: FlashAttention Mechanics |
+| Part 4 | Hands-On: Memory Traffic Calculation |
+| Part 5 | Core Concepts: PagedAttention |
+| Part 6 | Hands-On: Multi-User Throughput |
+| Part 7 | Wrap-up & Connection |
 
 ---
 
-## Part 1 — Pre-Reading Review · 10 min
+## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: FlashAttention blog summary + paper abstract — Pre-Lecture Reading **Reader 4** (~20 min).
+You should have already read: FlashAttention blog summary + paper abstract — Pre-Lecture Reading **Reader 4**.
 
 ### Quick Self-Check
 
@@ -153,7 +151,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — Naive Attention's Memory Problem · 20 min
+## Part 2 — Core Concepts — Naive Attention's Memory Problem
 ### Reading — The Hidden Cost
 
 For sequence length N, attention computes the matrix `S = Q · Kᵀ` of shape **N × N**. For N = 32K, that's a **1 billion element matrix** per head per layer.
@@ -176,7 +174,7 @@ On H100, the ops:byte ratio is ~295. Standard attention during decode has intens
 
 ---
 
-## Part 3 — Deep Dive — FlashAttention Mechanics · 20 min
+## Part 3 — Deep Dive — FlashAttention Mechanics
 ### Reading — The I/O-Aware Solution
 
 > **Don't materialize the N×N matrix in HBM. Compute attention in tiles that fit in SRAM, using an online softmax trick.**
@@ -204,8 +202,8 @@ From **Inference Engineering Study Guide §2.5**: "FlashAttention — tens of th
 
 ---
 
-## Part 4 — Hands-On — Memory Traffic Calculation · 25 min
-### Exercise 1: Naive vs FlashAttention Traffic (15 min)
+## Part 4 — Hands-On — Memory Traffic Calculation
+### Exercise 1: Naive vs FlashAttention Traffic
 
 Calculate HBM traffic for one attention head at different sequence lengths (FP16, 2 bytes per element):
 
@@ -225,7 +223,7 @@ Calculate HBM traffic for one attention head at different sequence lengths (FP16
 - FlashAttention: ~0.003 GB per head per layer
 - **Ratio: ~2500× reduction!**
 
-### Exercise 2: When Does FlashAttention Dominate? (10 min)
+### Exercise 2: When Does FlashAttention Dominate?
 
 Given:
 - Naive attention: 2 × N² × d bytes per layer
@@ -236,7 +234,7 @@ For N > 1.5, FlashAttention saves memory. At what sequence length does this beco
 
 ---
 
-## Part 5 — Core Concepts — PagedAttention · 20 min
+## Part 5 — Core Concepts — PagedAttention
 ### Reading — The Fragmentation Problem
 
 In a naive implementation, you reserve a **contiguous** chunk of HBM for each request's KV cache — sized for the *worst-case* sequence length:
@@ -273,8 +271,8 @@ Together they enable **vLLM-class throughput**: high concurrency at long context
 
 ---
 
-## Part 6 — Hands-On — Multi-User Throughput · 20 min
-### Exercise: Concurrent User Memory Budget (20 min)
+## Part 6 — Hands-On — Multi-User Throughput
+### Exercise: Concurrent User Memory Budget
 
 From Day 12: Llama-3-8B at 128K context, KV = 16 GB per request (single user).
 
@@ -301,7 +299,7 @@ This is why vLLM and SGLang use both together. The kernel (FlashAttention) makes
 
 ---
 
-## Part 7 — Wrap-up & Connection · 5 min
+## Part 7 — Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -389,7 +387,7 @@ Tomorrow: **quantization** — the lossy-but-massive lever. K/V/W/A precision ma
 
 ### Pre-read for tomorrow (Day 14 · Quantization)
 
-- **Resource:** <a href="https://huggingface.co/docs/optimum/concept_guides/quantization" target="_blank" rel="noopener">Hugging Face — Quantization</a> (~20 min). Alternative: <a href="https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-quantization" target="_blank" rel="noopener">Maarten Grootendorst — A Visual Guide to Quantization</a>.
+- **Resource:** <a href="https://huggingface.co/docs/optimum/concept_guides/quantization" target="_blank" rel="noopener">Hugging Face — Quantization</a>. Alternative: <a href="https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-quantization" target="_blank" rel="noopener">Maarten Grootendorst — A Visual Guide to Quantization</a>.
 - **Reflection questions:**
   1. FP16 = how many bytes per number? FP8? INT4?
   2. Why is *float* generally preferred over *int* for weights, despite using more bits?
