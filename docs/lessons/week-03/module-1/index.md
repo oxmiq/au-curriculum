@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Core Concepts: Decode |
 | Part 4 | Visual Timeline |
 | Part 5 | Hands-On: Calculate |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 
@@ -43,6 +43,7 @@ You should have already read: "Prefill vs decode" explainer — Pre-Lecture Read
 ### Quick Self-Check
 
 Answer these questions from memory:
+
 1. Which phase processes all input tokens at once? Which one at a time?
 2. Which phase is compute-bound? Which is memory-bound?
 3. What does **TTFT** stand for? What drives it?
@@ -245,6 +246,7 @@ Given a request with 1000 input + 500 output tokens:
 **Given:** Llama-3-8B on one H100
 
 **Estimate:**
+
 1. **Prefill time** for 1000 input tokens (compute-bound, use ~989 TFLOPs FP16)
 2. **Decode time** per token (memory-bound, use 16 GB ÷ 3.35 TB/s)
 3. **Total wall-clock time**

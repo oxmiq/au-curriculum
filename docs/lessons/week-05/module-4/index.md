@@ -158,6 +158,7 @@ Equivalently:
 > **Cost / 1M tokens = $ per GPU-hour / (utilization × tokens-per-GPU-hour)**
 
 **Three levers:**
+
 1. **$ per GPU-hour** — hardware choice, contract length, region
 2. **Tokens-per-GPU-hour at full util** — engine + model + parallelism (Weeks 3–4)
 3. **Utilization** — what fraction of paid GPU time you're actually serving tokens
@@ -232,6 +233,7 @@ Cost / 1M = $30 / (10.8M × utilization)
 **Question:** At what monthly token volume does dedicated break even with the API at 40% utilization?
 
 **Calculate:**
+
 1. At 40% util, cost/1M = $6.94
 2. To spend $21,900/month on API: $21,900 / $0.80 = ___ tokens/month
 3. At 40% util on dedicated: $21,900 / $6.94 = ___ tokens/month

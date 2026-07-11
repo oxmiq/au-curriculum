@@ -30,7 +30,7 @@ This consolidation day is different from other days — it's for practice and re
 | Part 3 | Practice: Pipeline Review |
 | Part 4 | Practice: GPU & Memory Review |
 | Part 5 | Feynman Teach-Back |
-| 7 | Open Lab & Wrap-up |
+| Part 6 | Open Lab & Wrap-up |
 
 ---
 
@@ -79,6 +79,7 @@ text → [tokenize] → token IDs → [embed] → vectors → [layers] → hidde
 ```
 
 Then answer:
+
 1. Which step is compute-bound? (Answer: layers / prefill)
 2. Which step is memory-bound? (Answer: decode / sampling)
 3. What's driving TTFT? (Answer: prefill)
@@ -158,6 +159,7 @@ Week 3 begins on Monday. You'll learn about:
 **Resource:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering Best Practices</a> (read the prefill/decode section). Alternative: <a href="https://www.baseten.co/blog/llm-transformer-inference-guide/" target="_blank" rel="noopener">Baseten — Prefill vs Decode</a>.
 
 **Reflection questions:**
+
 1. What is the KV cache?
 2. Why does attention have O(N²) complexity?
 3. What does FlashAttention optimize?

@@ -30,7 +30,7 @@ This consolidation day is different from other days — it's for practice and re
 | Part 3 | Practice: Shell Review |
 | Part 4 | Practice: Git Review |
 | Part 5 | Practice: GPU Review |
-| 7 | Open Lab & Wrap-up |
+| Part 6 | Open Lab & Wrap-up |
 
 ---
 
@@ -83,6 +83,7 @@ If you score below 10/15:
 ### Action Items
 
 For any item you can't do:
+
 1. Note which day it came from
 2. Spend 10 minutes reviewing that day's content
 3. Practice until you can do it from memory
@@ -114,6 +115,7 @@ chmod +x myscript.sh
 ### Practice Exercise
 
 Write a script that:
+
 1. Lists all files in `/tmp`
 2. Counts how many there are
 3. Prints "Found X files"
@@ -207,6 +209,7 @@ Week 2 begins on Monday. You'll learn about:
 **Resource:** <a href="https://huyenchip.com/2023/04/11/llm-engineering.html" target="_blank" rel="noopener">Chip Huyen — LLM Engineering: Inference Optimization</a> (read the Inference section).
 
 **Reflection questions:**
+
 1. Why is inference cumulatively more expensive than training?
 2. Name one thing a CPU does better than a GPU.
 3. What's the smallest unit of work in inference?

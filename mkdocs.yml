@@ -35,6 +35,7 @@ extra_css:
   - stylesheets/oxblood.css
   - stylesheets/cards.css           # Phase C: card-grid + status-pill + lesson-header
   - stylesheets/editorial.css       # ox-self-check widget styles + long-form primitives
+  - stylesheets/refinements.css     # admonitions, responsive headings, diagram + table polish
 
 # Mermaid is loaded client-side. Material doesn't ship its native mermaid
 # integration unless the theme variant supports it; the small init script below
@@ -164,18 +165,13 @@ hooks:
   - hooks/progress_badges.py
 
 # Linked from lesson pages, intentionally not a sidebar entry.
-# The kb/*.md files are source markdown for the generated kb/*.html views that
-# ARE in the nav (Plan / Reference tabs); listing them here keeps `mkdocs build`
-# quiet instead of emitting "exists but not in nav" notices that read like errors
-# to first-time users. Per-day knowledge checks are reached from their lesson
-# pages rather than the sidebar.
+# The kb/ views are self-contained *.html pages that ARE in the nav (Plan /
+# Reference tabs). Per-day knowledge checks are reached from their lesson pages
+# rather than the sidebar, so they are listed here to keep `mkdocs build` quiet
+# instead of emitting "exists but not in nav" notices that read like errors.
 not_in_nav: |
   /lessons/**/assignment.md
   /lessons/**/knowledge-check.md
   /lessons/**/supplementary-*.md
   /readings/**
-  /kb/edge-graph.md
-  /kb/glossary.md
-  /kb/graph.md
-  /kb/timeline.md
   /assets/screenshots/README.md

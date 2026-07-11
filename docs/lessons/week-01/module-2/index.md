@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Hands-On: Navigation Exercises |
 | Part 4 | Hands-On: Data Processing |
 | Part 5 | Hands-On: Scripting |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 
@@ -304,6 +304,7 @@ nvidia-smi --query-gpu=index,utilization.gpu --format=csv,noheader,nounits \
 ```
 
 **Breakdown:**
+
 1. `nvidia-smi --query-gpu=index,utilization.gpu --format=csv,noheader,nounits` — queries GPU info in CSV format
 2. `grep "^0,"` — filters to only lines starting with "0," (GPU 0)
 3. `awk -F',' '{print $2}'` — splits by comma and prints the second field (utilization)
@@ -375,6 +376,7 @@ nvidia-smi
 ```
 
 Then parse it to extract:
+
 1. All GPU indices
 2. Memory used per GPU
 3. GPU utilization per GPU
@@ -399,6 +401,7 @@ Parse it to extract just the GPU index and utilization.
 ### Exercise: Write disk_watch.sh
 
 Write a bash script `disk_watch.sh` that:
+
 1. Prints disk usage of `/` every 10 seconds
 2. Runs for one minute (6 iterations)
 3. Uses `df`, a `for` loop, and `sleep`

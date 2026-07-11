@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Deep Dive: KV Cache Size Formula |
 | Part 4 | Hands-On: Calculate KV Cache Size |
 | Part 5 | Hands-On: GQA Impact |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 
@@ -43,6 +43,7 @@ You should have already read: "KV cache explained" blog with diagrams — Pre-Le
 ### Quick Self-Check
 
 Answer these questions from memory:
+
 1. What grows every time the model generates a token?
 2. Where in the transformer is the KV cache used?
 3. For a 70B model at 128K context, can the KV cache exceed the size of the model weights?

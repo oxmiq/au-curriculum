@@ -44,6 +44,7 @@ You should have already read: "What is quantization?" — Pre-Lecture Reading **
 ### Quick Self-Check
 
 Answer these questions from memory:
+
 1. FP16 = ___ bytes. FP8 = ___. INT4 = ___.
 2. Why does *float* (FP) have an advantage over *int* (INT) at the same bit count?
 3. Which is more sensitive to quantization: weights or activations?

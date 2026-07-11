@@ -153,15 +153,19 @@ flowchart TD
   W05M3 -.-> W10M1
   W09M2 -.-> W10M1
 
-  classDef orientation fill:#1f2937,stroke:#7c8aa0,color:#e7e9ee;
-  classDef inference fill:#0e2a32,stroke:#22d3ee,color:#e7f7fb;
-  classDef prompting fill:#2a1e3d,stroke:#a78bfa,color:#efeaff;
-  classDef agents fill:#3b2d10,stroke:#fbbf24,color:#fdf3d4;
-  classDef capsule fill:#0f2f25,stroke:#34d399,color:#dff9ee;
-  classDef capstone fill:#3a1320,stroke:#fb7185,color:#ffe2e8;
+  %% Light, on-brand phase fills (cream page): coloured left/border + dark ink
+  %% label. Fills are pale tints so the default dark label text stays legible.
+  classDef orientation fill:#EDF0F4,stroke:#5A6577,color:#26303F,stroke-width:1.5px;
+  classDef inference fill:#E4F3F5,stroke:#0E7C8A,color:#06363D,stroke-width:1.5px;
+  classDef prompting fill:#EEE9F9,stroke:#6A4EC9,color:#291C54,stroke-width:1.5px;
+  classDef agents fill:#F7EFDD,stroke:#B8761E,color:#4A3208,stroke-width:1.5px;
+  classDef bridge fill:#E9ECF7,stroke:#5B6BA8,color:#232C4D,stroke-width:1.5px;
+  classDef capsule fill:#E3F2E7,stroke:#2E7D32,color:#123D18,stroke-width:1.5px;
+  classDef capstone fill:#F8E5E9,stroke:#C43E54,color:#4A1420,stroke-width:1.5px;
   class W01M1,W01M2,W01M3,W01M4,W01M5 orientation;
   class W02M1,W02M2,W02M3,W02M4,W02M5,W03M1,W03M2,W03M3,W03M4,W03M5,W04M1,W04M2,W04M3,W04M4,W04M5,W05M1,W05M2,W05M3,W05M4,W05M5 inference;
   class W06M1,W06M2,W06M3,W06M4,W06M5 agents;
+  class W07M1,W07M2,W07M3,W07M4,W07M5 bridge;
   class W08M1,W08M2,W08M3,W08M4,W08M5,W09M1,W09M2,W09M3,W09M4,W09M5 capsule;
   class W10M1,W10M2,W10M3,W10M4,W10M5 capstone;
 
@@ -221,11 +225,11 @@ flowchart TD
 
 | Colour | Phase | Weeks |
 |--------|-------|-------|
-| ▣ | Orientation | Week 1 |
-| ▣ | Inference Engineering | Week 2, 3, 4, 5 |
-| ▣ | AI Agents | Week 6 |
-| ▣ | Bridge | Week 7 |
-| ▣ | Capsule Hands-On | Week 8, 9 |
-| ▣ | Capstone | Week 10 |
+| <span class="ox-legend-swatch" style="background:#EDF0F4;border-color:#5A6577"></span> | Orientation | Week 1 |
+| <span class="ox-legend-swatch" style="background:#E4F3F5;border-color:#0E7C8A"></span> | Inference Engineering | Week 2, 3, 4, 5 |
+| <span class="ox-legend-swatch" style="background:#F7EFDD;border-color:#B8761E"></span> | AI Agents | Week 6 |
+| <span class="ox-legend-swatch" style="background:#E9ECF7;border-color:#5B6BA8"></span> | Bridge | Week 7 |
+| <span class="ox-legend-swatch" style="background:#E3F2E7;border-color:#2E7D32"></span> | Capsule Hands-On | Week 8, 9 |
+| <span class="ox-legend-swatch" style="background:#F8E5E9;border-color:#C43E54"></span> | Capstone | Week 10 |
 
 Day 05 of weeks 1–9 is the Friday quiz (`quiz.html` in each module folder). Day 50 closes the program.

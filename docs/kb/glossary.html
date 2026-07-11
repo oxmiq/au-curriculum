@@ -25,56 +25,71 @@
 -->
 <style>
   :root {
-    --bg: #05070d;
-    --book-bg: #f5efe1;
-    --book-bg-2: #ece4d0;
-    --book-edge: #c9bd9b;
-    --book-edge-dark: #a89876;
-    --book-ink: #2a2419;
-    --book-ink-soft: #6b6453;
-    --book-line: #d8cdb0;
+    /* OxBlood — OXMIQ brand (light / cream). The book is an oxblood
+       clothbound volume sitting on a cream reading surface. */
+    --bg: #F5F0E4;             /* cream page surface (was cosmic dark) */
+    --bg-2: #EDE8DC;
+    --book-bg: #FBF9F3;        /* paper — lifts off the cream backdrop */
+    --book-bg-2: #F1ECDE;
+    --book-edge: #D8CFBC;
+    --book-edge-dark: #B7AC94;
+    --book-ink: #1A1A1A;
+    --book-ink-soft: #6B6453;
+    --book-line: #D9D0BD;
 
-    --cover-bg: #3a2a18;
-    --cover-bg-2: #1a0f06;
-    --cover-gold: #d4a04a;
-    --cover-cream: #f1e3c4;
+    --cover-bg: #8B0000;       /* oxblood cover boards (was dark brown) */
+    --cover-bg-2: #6B0000;
+    --cover-gold: #E7C46A;     /* warm gilt on the oxblood cover */
+    --cover-cream: #F5F0E4;
 
-    --tab-bg: #d6c89e;
-    --tab-bg-2: #b9a979;
-    --tab-bg-active: #b8651e;
-    --tab-ink: #4a4030;
-    --tab-ink-active: #fff5e0;
-    --tab-disabled-ink: #8a8270;
+    --tab-bg: #E4DCC6;
+    --tab-bg-2: #CFC4A6;
+    --tab-bg-active: #8B0000;  /* active thumb-tab = oxblood */
+    --tab-ink: #4A4030;
+    --tab-ink-active: #FFF5E6;
+    --tab-disabled-ink: #A99F8B;
 
-    --accent: #b8651e;
-    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-    --serif: "Iowan Old Style", "Apple Garamond", Georgia, "Times New Roman", serif;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --accent: #8B0000;         /* oxblood (was burnt orange) */
+    --accent-soft: rgba(139,0,0,.10);
+    --mono: "Oxygen Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --serif: "Source Serif 4", "Iowan Old Style", Georgia, "Times New Roman", serif;
+    --sans: "Oxygen", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
-    --p-foundations: #5a6577;
-    --p-inference:   #0e7c8a;
-    --p-prompting:   #6a4ec9;
-    --p-agents:      #b8761e;
-    --p-capsule:     #2a8b6a;
-    --p-capstone:    #c43e54;
+    --p-foundations: #5A6577;
+    --p-inference:   #0E7C8A;
+    --p-prompting:   #6A4EC9;
+    --p-agents:      #B8761E;
+    --p-capsule:     #2E7D32;
+    --p-capstone:    #C43E54;
+  }
+
+  /* self-hosted brand serif (offline-safe, SIL OFL) for the book body */
+  @font-face{
+    font-family:"Source Serif 4";
+    src:url("../stylesheets/fonts/source-serif-4/SourceSerif4-VariableFont.woff2") format("woff2");
+    font-weight:200 900; font-style:normal; font-display:swap;
+  }
+  @font-face{
+    font-family:"Source Serif 4";
+    src:url("../stylesheets/fonts/source-serif-4/SourceSerif4-Italic-VariableFont.woff2") format("woff2");
+    font-weight:200 900; font-style:italic; font-display:swap;
   }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; height: 100%; }
   body {
     font-family: var(--sans);
-    color: #e7e9ee;
+    color: var(--book-ink);
     background:
-      radial-gradient(ellipse 1400px 900px at 50% 40%, rgba(46,232,255,.08), transparent 70%),
-      radial-gradient(ellipse 900px 700px at 16% 88%, rgba(184,159,253,.06), transparent 75%),
-      radial-gradient(ellipse 900px 700px at 86% 10%, rgba(255,126,147,.05), transparent 75%),
-      radial-gradient(ellipse at 50% 50%, #0a0d18 0%, #04050b 85%),
+      radial-gradient(ellipse 1200px 800px at 50% 0%, rgba(139,0,0,.05), transparent 70%),
+      radial-gradient(ellipse at 50% 50%, #F7F2E7 0%, #EDE7D9 90%),
       var(--bg);
     min-height: 100vh;
     overflow: hidden;
   }
 
   #cosmos {
+    display: none;   /* starfield/vignette belonged to the dark theme */
     position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background-image:
       url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><g fill='white'><circle cx='42' cy='118' r='.6' opacity='.55'/><circle cx='117' cy='53' r='.5' opacity='.4'/><circle cx='208' cy='281' r='.7' opacity='.6'/><circle cx='271' cy='99' r='.5' opacity='.45'/><circle cx='345' cy='402' r='.7' opacity='.5'/><circle cx='402' cy='177' r='.5' opacity='.35'/><circle cx='488' cy='322' r='.6' opacity='.55'/><circle cx='559' cy='75' r='.6' opacity='.45'/><circle cx='633' cy='246' r='.5' opacity='.4'/><circle cx='712' cy='510' r='.7' opacity='.55'/><circle cx='775' cy='124' r='.5' opacity='.4'/><circle cx='60' cy='362' r='.5' opacity='.35'/><circle cx='160' cy='495' r='.6' opacity='.55'/><circle cx='254' cy='540' r='.5' opacity='.4'/><circle cx='322' cy='198' r='.4' opacity='.3'/><circle cx='418' cy='28' r='.6' opacity='.5'/><circle cx='502' cy='455' r='.5' opacity='.4'/><circle cx='584' cy='386' r='.7' opacity='.6'/><circle cx='651' cy='149' r='.4' opacity='.3'/><circle cx='698' cy='350' r='.5' opacity='.45'/></g></svg>"),
@@ -92,13 +107,13 @@
   .eyebrow {
     font-family: var(--mono);
     font-size: 10px; text-transform: uppercase; letter-spacing: .14em;
-    color: #5a6275; margin-bottom: 4px;
+    color: var(--accent); margin-bottom: 4px;
   }
   h1.page-title {
     font-family: var(--serif); font-weight: 600; font-size: 22px;
-    margin: 0 0 4px; color: #e7e9ee;
+    margin: 0 0 4px; color: var(--book-ink);
   }
-  .sub { color: #8b91a0; font-size: 13px; margin: 0; }
+  .sub { color: var(--book-ink-soft); font-size: 13px; margin: 0; }
 
   .search-wrap {
     position: relative; z-index: 5;
@@ -108,15 +123,17 @@
   }
   .search-input {
     flex: 1;
-    background: rgba(20,23,29,.85);
-    border: 1px solid rgba(255,255,255,.12);
+    background: #FFFFFF;
+    border: 1px solid var(--book-line);
     border-radius: 6px;
-    color: #e7e9ee;
+    color: var(--book-ink);
     padding: 8px 12px;
     font: 13px var(--sans);
     outline: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
   }
-  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: var(--book-ink-soft); }
+  .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 
   /* ============================================================
      STAGE + BOOK
@@ -230,7 +247,7 @@
     line-height: 1;
     color: var(--accent);
     margin: -10px 0 -6px -4px;
-    text-shadow: 2px 2px 0 rgba(184,101,30,.15);
+    text-shadow: 2px 2px 0 rgba(139,0,0,.14);
   }
   .drop-cap-page .count {
     font-family: var(--mono);
@@ -434,7 +451,7 @@
     padding: 2px 4px;
     border-radius: 2px;
   }
-  .search-list-page a.hit:hover { background: rgba(184,101,30,.12); color: var(--accent); }
+  .search-list-page a.hit:hover { background: var(--accent-soft); color: var(--accent); }
   .search-list-page a.hit .num {
     font-family: var(--mono);
     font-size: 9px;
@@ -624,7 +641,7 @@
   }
   .tab:hover:not(.empty) { transform: translateX(4px); }
   .tab.active {
-    background: linear-gradient(90deg, #8d4a14 0%, var(--tab-bg-active) 60%);
+    background: linear-gradient(90deg, #6B0000 0%, var(--tab-bg-active) 60%);
     color: var(--tab-ink-active);
     transform: translateX(8px);
     z-index: 1;
@@ -645,30 +662,31 @@
     left: 50%;
     transform: translateX(-50%);
     display: flex; align-items: center; gap: 14px;
-    background: rgba(20,23,29,.88);
+    background: rgba(255,255,255,.92);
     padding: 8px 16px;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,.1);
+    border: 1px solid var(--book-line);
+    box-shadow: 0 6px 20px rgba(0,0,0,.10), 0 1px 3px rgba(0,0,0,.06);
     z-index: 30;
     backdrop-filter: blur(6px);
   }
   .nav-btn {
     background: none;
-    border: 1px solid rgba(255,255,255,.2);
-    color: #e7e9ee;
+    border: 1px solid var(--line-strong, #A89E92);
+    color: var(--book-ink);
     width: 32px; height: 32px;
     border-radius: 50%;
     font: 18px/1 var(--serif);
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    transition: background .15s;
+    transition: background .15s, border-color .15s, color .15s;
   }
-  .nav-btn:hover:not(:disabled) { background: rgba(255,255,255,.08); }
+  .nav-btn:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); color: #FFF5E6; }
   .nav-btn:disabled { opacity: .3; cursor: not-allowed; }
   .pos {
     font-family: var(--mono);
     font-size: 11px;
-    color: #b1b6c1;
+    color: var(--book-ink);
     letter-spacing: .1em;
     min-width: 140px;
     text-align: center;
@@ -676,7 +694,7 @@
   .kbd {
     font-family: var(--mono);
     font-size: 9px;
-    color: #6b7385;
+    color: var(--book-ink-soft);
     letter-spacing: .1em;
     text-transform: uppercase;
     margin-left: 6px;

@@ -44,6 +44,7 @@ You should have already read: AI Agents Student Guide **Module 0 — Why Now?**.
 ### Quick Self-Check
 
 Answer these questions from memory:
+
 1. What is an AI agent and how does it differ from a chatbot?
 2. What are the four capabilities whose convergence made agents possible?
 3. What is the agent loop?

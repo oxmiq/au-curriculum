@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Deep Dive: Bubbles & TP vs PP |
 | Part 4 | Core Concept: Expert Parallelism |
 | Part 5 | Hands-On: Config Design |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 

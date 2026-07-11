@@ -1,5 +1,19 @@
-# Local site tooling for the AU curriculum.
-# Install into a virtual environment:  pip install -r requirements.txt
+# Requirements for the AU curriculum MkDocs site
+# Install into the project's virtualenv:  pip install -r requirements.txt
+
+# Core
 mkdocs>=1.6,<2.0
+
+# Theme
 mkdocs-material>=9.7,<10.0
+
+# Markdown extensions
 pymdown-extensions>=10.0,<11.0
+
+# Common plugins
+mkdocs-redirects
+mkdocs-awesome-pages-plugin
+mkdocs-git-revision-date-plugin
+mkdocs-minify-plugin
+mkdocs-macros-plugin
+

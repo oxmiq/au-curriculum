@@ -1,0 +1,249 @@
+/* ============================================================
+   refinements.css — UX/UI polish layered on the OxBlood system
+   ------------------------------------------------------------
+   Loaded last (after oxblood / cards / editorial). Fixes cross-
+   cutting discrepancies found in visual review:
+     1. Admonitions were rendering in stock Material blue.
+     2. Long monospace headings overflowed narrow viewports.
+     3. Mermaid diagram chrome + legend swatches.
+     4. Small card-grid / table / focus refinements.
+   All colour comes from the OxBlood tokens in oxblood.css.
+   ============================================================ */
+
+/* ============================================================
+   1. ADMONITIONS — on-brand, cream surface, per-type accent
+   ------------------------------------------------------------
+   Content uses `info` (calm teal) and `note` (oxblood) heavily;
+   the rest of the common set is themed for robustness. Icons
+   (the ::before mask images) are left to Material — we only
+   recolour border / title tint / icon fill.
+   ============================================================ */
+
+/* Base shell: cream surface, hairline border, thick accent left edge.
+   Per-type rules below use `.admonition.TYPE` (specificity 0,3,0) so they
+   override Material's own `.md-typeset .admonition.note{border-color}` rule,
+   which our earlier single-class selectors could not. */
+.md-typeset .admonition,
+.md-typeset details{
+  border:1px solid var(--ox-line);
+  border-left-width:.22rem;
+  border-radius:8px;
+  background:var(--ox-surface);
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+  font-size:.72rem;
+}
+.md-typeset .admonition-title,
+.md-typeset summary{
+  font-family:var(--ox-font-mono);
+  font-weight:700;
+  letter-spacing:.01em;
+}
+
+/* note → oxblood */
+.md-typeset .admonition.note,
+.md-typeset details.note{ border-color:var(--ox-line); border-left-color:var(--ox-blood); }
+.md-typeset .note>.admonition-title,
+.md-typeset .note>summary{ background:rgba(139,0,0,.08); }
+.md-typeset .note>.admonition-title::before,
+.md-typeset .note>summary::before{ background-color:var(--ox-blood); }
+
+/* info / todo → calm teal */
+.md-typeset .admonition.info,   .md-typeset details.info,
+.md-typeset .admonition.todo,   .md-typeset details.todo{ border-color:var(--ox-line); border-left-color:#0E7C8A; }
+.md-typeset .info>.admonition-title, .md-typeset .todo>.admonition-title,
+.md-typeset .info>summary,           .md-typeset .todo>summary{ background:rgba(14,124,138,.10); }
+.md-typeset .info>.admonition-title::before, .md-typeset .todo>.admonition-title::before,
+.md-typeset .info>summary::before,           .md-typeset .todo>summary::before{ background-color:#0E7C8A; }
+
+/* abstract / summary → slate */
+.md-typeset .admonition.abstract, .md-typeset details.abstract,
+.md-typeset .admonition.summary,  .md-typeset details.summary,
+.md-typeset .admonition.tldr,     .md-typeset details.tldr{ border-color:var(--ox-line); border-left-color:#5A6577; }
+.md-typeset .abstract>.admonition-title, .md-typeset .summary>.admonition-title,
+.md-typeset .abstract>summary,           .md-typeset .summary>summary{ background:rgba(90,101,119,.10); }
+.md-typeset .abstract>.admonition-title::before, .md-typeset .summary>.admonition-title::before,
+.md-typeset .abstract>summary::before,           .md-typeset .summary>summary::before{ background-color:#5A6577; }
+
+/* tip / success family → green */
+.md-typeset .admonition.tip,       .md-typeset details.tip,
+.md-typeset .admonition.hint,      .md-typeset details.hint,
+.md-typeset .admonition.important, .md-typeset details.important,
+.md-typeset .admonition.success,   .md-typeset details.success,
+.md-typeset .admonition.check,     .md-typeset details.check,
+.md-typeset .admonition.done,      .md-typeset details.done{ border-color:var(--ox-line); border-left-color:var(--ox-green); }
+.md-typeset .tip>.admonition-title,       .md-typeset .hint>.admonition-title,
+.md-typeset .important>.admonition-title, .md-typeset .success>.admonition-title,
+.md-typeset .check>.admonition-title,     .md-typeset .done>.admonition-title,
+.md-typeset .tip>summary,       .md-typeset .hint>summary,
+.md-typeset .important>summary, .md-typeset .success>summary,
+.md-typeset .check>summary,     .md-typeset .done>summary{ background:rgba(46,125,50,.10); }
+.md-typeset .tip>.admonition-title::before,       .md-typeset .hint>.admonition-title::before,
+.md-typeset .important>.admonition-title::before, .md-typeset .success>.admonition-title::before,
+.md-typeset .check>.admonition-title::before,     .md-typeset .done>.admonition-title::before,
+.md-typeset .tip>summary::before,       .md-typeset .hint>summary::before,
+.md-typeset .important>summary::before, .md-typeset .success>summary::before,
+.md-typeset .check>summary::before,     .md-typeset .done>summary::before{ background-color:var(--ox-green); }
+
+/* question / example → violet */
+.md-typeset .admonition.question, .md-typeset details.question,
+.md-typeset .admonition.help,     .md-typeset details.help,
+.md-typeset .admonition.faq,      .md-typeset details.faq,
+.md-typeset .admonition.example,  .md-typeset details.example{ border-color:var(--ox-line); border-left-color:#6A4EC9; }
+.md-typeset .question>.admonition-title, .md-typeset .help>.admonition-title,
+.md-typeset .faq>.admonition-title,      .md-typeset .example>.admonition-title,
+.md-typeset .question>summary, .md-typeset .help>summary,
+.md-typeset .faq>summary,      .md-typeset .example>summary{ background:rgba(106,78,201,.10); }
+.md-typeset .question>.admonition-title::before, .md-typeset .help>.admonition-title::before,
+.md-typeset .faq>.admonition-title::before,      .md-typeset .example>.admonition-title::before,
+.md-typeset .question>summary::before, .md-typeset .help>summary::before,
+.md-typeset .faq>summary::before,      .md-typeset .example>summary::before{ background-color:#6A4EC9; }
+
+/* warning family → gold */
+.md-typeset .admonition.warning,   .md-typeset details.warning,
+.md-typeset .admonition.caution,   .md-typeset details.caution,
+.md-typeset .admonition.attention, .md-typeset details.attention{ border-color:var(--ox-line); border-left-color:#A9781F; }
+.md-typeset .warning>.admonition-title, .md-typeset .caution>.admonition-title,
+.md-typeset .attention>.admonition-title,
+.md-typeset .warning>summary, .md-typeset .caution>summary,
+.md-typeset .attention>summary{ background:rgba(196,153,43,.14); }
+.md-typeset .warning>.admonition-title::before, .md-typeset .caution>.admonition-title::before,
+.md-typeset .attention>.admonition-title::before,
+.md-typeset .warning>summary::before, .md-typeset .caution>summary::before,
+.md-typeset .attention>summary::before{ background-color:#A9781F; }
+
+/* danger family → deep oxblood */
+.md-typeset .admonition.danger,  .md-typeset details.danger,
+.md-typeset .admonition.error,   .md-typeset details.error,
+.md-typeset .admonition.failure, .md-typeset details.failure,
+.md-typeset .admonition.fail,    .md-typeset details.fail,
+.md-typeset .admonition.missing, .md-typeset details.missing,
+.md-typeset .admonition.bug,     .md-typeset details.bug{ border-color:var(--ox-line); border-left-color:var(--ox-blood-mid); }
+.md-typeset .danger>.admonition-title,  .md-typeset .error>.admonition-title,
+.md-typeset .failure>.admonition-title, .md-typeset .bug>.admonition-title,
+.md-typeset .danger>summary,  .md-typeset .error>summary,
+.md-typeset .failure>summary, .md-typeset .bug>summary{ background:rgba(107,0,0,.10); }
+.md-typeset .danger>.admonition-title::before,  .md-typeset .error>.admonition-title::before,
+.md-typeset .failure>.admonition-title::before, .md-typeset .bug>.admonition-title::before,
+.md-typeset .danger>summary::before,  .md-typeset .error>summary::before,
+.md-typeset .failure>summary::before, .md-typeset .bug>summary::before{ background-color:var(--ox-blood-mid); }
+
+/* quote → muted */
+.md-typeset .admonition.quote, .md-typeset details.quote,
+.md-typeset .admonition.cite,  .md-typeset details.cite{ border-color:var(--ox-line); border-left-color:var(--ox-line-strong); }
+.md-typeset .quote>.admonition-title, .md-typeset .cite>.admonition-title,
+.md-typeset .quote>summary,           .md-typeset .cite>summary{ background:var(--ox-surface-2); }
+
+
+/* ============================================================
+   2. RESPONSIVE HEADINGS — stop long mono titles overflowing
+   ------------------------------------------------------------
+   The mono display face + tight letter-spacing produced long
+   unbreakable runs that clipped off narrow viewports. Let every
+   heading wrap, and fluidly scale the h1 so it never exceeds the
+   content column on phones.
+   ============================================================ */
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6{
+  overflow-wrap:anywhere;
+  word-break:normal;
+  hyphens:none;
+}
+.md-typeset h1{
+  font-size:clamp(1.55rem, 5.2vw, 2rem);
+  line-height:1.15;
+}
+
+/* guard against any single wide child forcing horizontal scroll */
+.md-main,
+.md-content{ overflow-x:clip; }
+
+@media (max-width:50rem){
+  .md-typeset h1{ letter-spacing:-.015em; }
+  .md-typeset h2{ font-size:1.2rem; }
+  .md-typeset h3{ font-size:1rem; }
+}
+
+
+/* ============================================================
+   3. DIAGRAMS — Mermaid framing + roadmap legend swatches
+   ============================================================ */
+
+.md-typeset .mermaid{
+  margin:1.6em 0;
+  text-align:center;
+}
+/* belt-and-braces: keep node labels legible regardless of how the
+   Mermaid build resolves htmlLabels vs classDef colours. */
+.md-typeset .mermaid .nodeLabel,
+.md-typeset .mermaid .edgeLabel,
+.md-typeset .mermaid span.nodeLabel{
+  font-family:var(--ox-font-mono);
+}
+.md-typeset .mermaid .cluster-label .nodeLabel,
+.md-typeset .mermaid .cluster span{
+  color:var(--ox-blood);
+  font-weight:700;
+}
+
+/* legend colour chips used in roadmap.md table */
+.ox-legend-swatch{
+  display:inline-block;
+  width:1.05em;
+  height:1.05em;
+  border:1.5px solid var(--ox-muted);
+  border-radius:3px;
+  vertical-align:-.15em;
+}
+
+
+/* ============================================================
+   4. SMALL POLISH — cards, tables, links, focus
+   ============================================================ */
+
+/* keep the "Start here" 3-up grid from leaving a lonely wide card:
+   allow up to 3 tracks, but let them shrink gracefully. */
+@media (min-width:60rem){
+  .ox-card-grid{ grid-template-columns:repeat(3, 1fr); }
+}
+@media (min-width:45rem) and (max-width:60rem){
+  .ox-card-grid{ grid-template-columns:repeat(2, 1fr); }
+}
+
+/* data tables: hairline, breathable, brand header row */
+.md-typeset table:not([class]){
+  border:1px solid var(--ox-line);
+  border-radius:8px;
+  overflow:hidden;
+  font-size:.76rem;
+}
+.md-typeset table:not([class]) th{
+  background:var(--ox-surface-2);
+  font-family:var(--ox-font-mono);
+  font-weight:700;
+  color:var(--ox-ink);
+}
+.md-typeset table:not([class]) tr:hover td{
+  background:rgba(139,0,0,.03);
+}
+
+/* visible, on-brand keyboard focus ring for accessibility */
+.md-typeset a:focus-visible,
+.md-nav__link:focus-visible,
+.md-tabs__link:focus-visible,
+.ox-card:focus-visible{
+  outline:2px solid var(--ox-blood);
+  outline-offset:2px;
+  border-radius:3px;
+}
+
+/* inline code: subtle brand tint so it reads as a token, not a box */
+.md-typeset :not(pre) > code{
+  border:1px solid var(--ox-line);
+  border-radius:4px;
+  padding:.05em .34em;
+}

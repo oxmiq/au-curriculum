@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Worked Example: Llama-3-70B on 8×H100 |
 | Part 4 | Deep Dive: NVLink & The Roofline |
 | Part 5 | Hands-On: Memory Calculations |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 

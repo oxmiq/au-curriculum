@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Deep Dive: Arithmetic Intensity |
 | Part 4 | Worked Example Analysis |
 | Part 5 | Hands-On: Calculate |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 
@@ -43,6 +43,7 @@ You should have already read: Pre-Lecture Reading **Reader 5 (memory section)** 
 ### Quick Self-Check
 
 Answer these questions from memory:
+
 1. Which is faster: L2 cache or HBM? By roughly how much?
 2. What is **temporal locality**? **spatial locality**?
 3. Why does **kernel fusion** make things faster?

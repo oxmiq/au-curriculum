@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | The Mental Model |
 | Part 4 | GPU Classes Comparison |
 | Part 5 | Hands-On: Calculate Bandwidth |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 
@@ -43,6 +43,7 @@ You should have already read: Pre-Lecture Reading **Reader 5 — Computer archit
 ### Quick Self-Check
 
 Answer these questions from memory:
+
 1. What does "80 GB HBM3" mean? (Memory technology + capacity)
 2. What's an SM? What's a Tensor Core?
 3. Why is intra-GPU memory faster than GPU-to-GPU?

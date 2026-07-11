@@ -60,17 +60,20 @@ For any item you couldn't answer: write the answer out longhand (not just look i
 For each of the three case studies from Day 32 (Klarna / Claude Code + Cursor / SemiAnalysis research), answer from memory:
 
 **Klarna:**
+
 1. What orchestration pattern did it use? (single / planner-worker / supervisor)
 2. What was the key governance control? (specific, not "human review in general")
 3. What was the dominant failure mode and which layer did it belong to?
 4. What was the per-task cost advantage vs human agents?
 
 **Claude Code / Cursor:**
+
 1. What orchestration pattern?
 2. What makes coding agents' environment different from customer-service agents?
 3. Name three failure modes. Which layer does each belong to?
 
 **SemiAnalysis Research Agent:**
+
 1. What orchestration pattern?
 2. What was the throughput improvement (companies screened per month)?
 3. Why is the Action layer often the bottleneck for research agents, not the Intelligence layer?

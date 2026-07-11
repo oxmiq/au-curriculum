@@ -299,6 +299,7 @@ For each mistake: what's wrong, and what's the correct approach?
    ```
    capsule run <node> --stream -- bash -c 'for i in $(seq 1 6); do echo "step $i"; sleep 5; done'
    ```
+
 2. Observe: you see output as it happens.
 3. After step 3 appears, press Ctrl-C. Verify the job aborts.
 4. Now design your Week 9 benchmark artifact layout. Fill in:

@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours are orga
 | Part 3 | Hands-On: Design an Autoscaler |
 | Part 4 | Hands-On: Load Balancing Strategies |
 | Part 5 | Discussion: Rollout Strategies |
-| 7 | Reflection: Observability Kit |
+| Part 6 | Reflection: Observability Kit |
 
 ---
 
@@ -170,6 +170,7 @@ Production usually combines two (e.g., queue depth + P95 TTFT thresholds).
 ### Reading — Cold Starts: The LLM Problem
 
 A fresh replica needs to:
+
 1. **Pull the model image** (10–50 GB over the network)
 2. **Load weights into HBM** (10s of seconds for 70B FP16)
 3. **Warm caches, JIT-compile kernels** (additional seconds)
@@ -207,6 +208,7 @@ Design an autoscaler by answering:
 **Scenario:** A cold start during a traffic spike.
 
 Draw the failure chain:
+
 1. Traffic spikes
 2. Autoscaler adds a new replica
 3. ___?___

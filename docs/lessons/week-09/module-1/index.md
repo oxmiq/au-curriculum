@@ -286,6 +286,7 @@ Write one sentence describing what you'd need to run to answer each question:
      --stream
    ```
    Watch the live output. Confirm it produces a `report.json`.
+
 3. Pull the report: `capsule storage get /shared/runs/<your-dir>/report.json ./`.
 4. Release the lease: `capsule lease release`.
 

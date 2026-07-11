@@ -345,17 +345,20 @@ Reference numbers:
 Assume each LLM call costs $0.005 (average blended rate at current prices).
 
 **Single-agent baseline:**
+
 1. Cost per task (15 calls): ___
 2. Cost for 1,000 tasks/day: ___
 3. Monthly cost (30 days): ___
 
 **Multi-agent (planner + 3 workers, 10 calls each):**
+
 1. Cost per task (45 calls): ___
 2. Cost for 1,000 tasks/day: ___
 3. Monthly cost: ___
 4. Cost increase vs single-agent: ___×
 
 **Break-even analysis:**
+
 5. If the multi-agent system produces work of twice the quality, how much more should it be worth per task?
 6. At what quality multiplier is the 3× cost justified?
 

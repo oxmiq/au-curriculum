@@ -89,6 +89,7 @@ Go through each item and mark whether you can do it **without notes**:
 ### Action Items
 
 For any item you can't do:
+
 1. Note which week/day it came from
 2. Spend 10 minutes reviewing that day's content
 3. Practice until you can explain it from memory
@@ -140,6 +141,7 @@ Pick the right strategy for each change:
 
 **Drill 3: Failure Mode**
 Draw the failure chain for "cold start during traffic spike":
+
 1. Traffic spikes →
 2. ___ →
 3. ___ →
@@ -167,6 +169,7 @@ At what utilization does dedicated break even? ___
 
 **Drill 4: Cost Levers**
 Rank these by typical cost reduction (highest first):
+
 1. FP8 quantization
 2. Speculative decoding
 3. Spot pricing

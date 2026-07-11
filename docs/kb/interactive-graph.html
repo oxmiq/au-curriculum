@@ -36,32 +36,34 @@
 -->
 <style>
   :root {
-    --bg: #05070d;
-    --surface: #14171d;
-    --surface-2: #1b1f27;
-    --line: rgba(255,255,255,.08);
-    --line-strong: rgba(255,255,255,.16);
-    --text: #e7e9ee;
-    --muted: #8b91a0;
-    --faint: #5b616e;
-    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    /* OxBlood — OXMIQ brand tokens (light / cream). Mirrors graph.html so the
+       whole kb section reads as one product. */
+    --bg: #F5F0E4;
+    --surface: #EFEADD;
+    --surface-2: #FBF9F3;
+    --line: rgba(26,26,26,.10);
+    --line-strong: rgba(26,26,26,.22);
+    --text: #1A1A1A;
+    --muted: #666666;
+    --faint: #9C9486;
+    --mono: "Oxygen Mono", ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: "Oxygen", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
-    /* Oxmiq brand accent — used only for the eyebrow line in the header so the
-       visualization itself keeps its high-chroma cosmos palette. */
-    --ox-blood-accent: #c95a5a;   /* lifted from #8B0000 for legibility on dark bg */
+    /* Oxmiq brand accent — reads directly on cream, no lift needed. */
+    --ox-blood-accent: #8B0000;
 
-    /* Vivid GraphXR-ish palette — high chroma against the deep cosmos. */
-    --p-foundations: #8da0bf;
-    --p-inference:   #2ee8ff;
-    --p-prompting:   #b89ffd;
-    --p-agents:      #ffc933;
-    --p-capsule:     #44e8a8;
-    --p-capstone:    #ff7e93;
+    /* Phase palette — mid-tone, distinguishable, legible as solid orbs on cream
+       (the neon cosmos palette washed out on a light background). */
+    --p-foundations: #5A6577;
+    --p-inference:   #0E7C8A;
+    --p-prompting:   #6A4EC9;
+    --p-agents:      #B8761E;
+    --p-capsule:     #2E7D32;
+    --p-capstone:    #C43E54;
 
-    --edge: #6b7385;
-    --edge-prereq: #2ee8ff;
-    --edge-dependent: #ff7e93;
+    --edge: #A69C8C;
+    --edge-prereq: #0E7C8A;
+    --edge-dependent: #C43E54;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; }
@@ -75,7 +77,7 @@
   header {
     position: fixed; top: 0; left: 0; right: 0;
     padding: 14px 20px;
-    background: linear-gradient(180deg, rgba(11,13,16,.95), rgba(11,13,16,.7) 80%, transparent);
+    background: linear-gradient(180deg, rgba(245,240,228,.96), rgba(245,240,228,.75) 80%, transparent);
     z-index: 10;
   }
   .eyebrow {
@@ -88,19 +90,16 @@
 
   #cy {
     position: fixed; inset: 0;
-    /* Deep-cosmos canvas: layered radial gradients give the
-       "floating in space" feel GraphXR sells. The blue/purple/rose
-       halos suggest nebula tints, while the vignette at the corners
-       focuses attention on the centre of the graph. */
+    /* Cream reading canvas with a faint warm centre-glow so the graph has a
+       subtle focal wash without the old "deep space" darkness. */
     background:
-      radial-gradient(ellipse 1400px 900px at 50% 40%, rgba(46,232,255,.10), transparent 70%),
-      radial-gradient(ellipse 900px 700px at 16% 88%, rgba(184,159,253,.08), transparent 75%),
-      radial-gradient(ellipse 900px 700px at 86% 10%, rgba(255,126,147,.07), transparent 75%),
-      radial-gradient(ellipse at 50% 50%, #0a0d18 0%, #04050b 85%),
+      radial-gradient(ellipse 1300px 850px at 50% 42%, rgba(139,0,0,.04), transparent 70%),
+      radial-gradient(ellipse at 50% 50%, #F7F2E7 0%, #ECE6D8 92%),
       var(--bg);
   }
-  /* Starfield + corner vignette layered above #cy via fixed div (see body). */
+  /* Starfield/vignette belonged to the dark cosmos theme — hidden on cream. */
   #cosmos {
+    display: none;
     position: fixed; inset: 0; pointer-events: none; z-index: 1;
     background-image:
       /* tiny SVG-encoded starfield: ~250 dots distributed pseudo-randomly */
@@ -329,12 +328,12 @@
   }
 
   const PHASE_COLOR = {
-    foundations: '#8da0bf',
-    inference:   '#2ee8ff',
-    prompting:   '#b89ffd',
-    agents:      '#ffc933',
-    capsule:     '#44e8a8',
-    capstone:    '#ff7e93'
+    foundations: '#5A6577',
+    inference:   '#0E7C8A',
+    prompting:   '#6A4EC9',
+    agents:      '#B8761E',
+    capsule:     '#2E7D32',
+    capstone:    '#C43E54'
   };
 
   fetch('concepts.json')
@@ -475,10 +474,10 @@
             'underlay-shape': 'ellipse',
             // Label OUTSIDE the node, below it, with a dark halo so it pops against any background.
             'label': 'data(label)',
-            'color': '#f3f5f9',
-            'text-outline-color': '#04050b',
-            'text-outline-width': 2.5,
-            'text-outline-opacity': 0.9,
+            'color': '#1A1A1A',
+            'text-outline-color': '#F5F0E4',
+            'text-outline-width': 3,
+            'text-outline-opacity': 0.92,
             'font-family': 'ui-monospace, "SF Mono", Menlo, monospace',
             'font-size': '11px',
             'font-weight': 'bold',
@@ -493,8 +492,8 @@
             'width': 'data(size)',
             'height': 'data(size)',
             'shape': 'ellipse',
-            'border-width': 2,
-            'border-color': 'rgba(255,255,255,.55)',
+            'border-width': 1.5,
+            'border-color': 'rgba(26,26,26,.28)',
             'border-opacity': 0.9,
             'overlay-opacity': 0,  // suppress Cytoscape default hover overlay
             'transition-property': 'opacity, border-width, border-color, width, height, font-size, underlay-padding, underlay-opacity',
@@ -508,12 +507,12 @@
             // even when nothing is selected — hence the higher opacity and a
             // slightly cooler grey than the surface chrome.
             'width': 1.5,
-            'line-color': '#8590a5',
-            'target-arrow-color': '#8590a5',
+            'line-color': '#9A9182',
+            'target-arrow-color': '#9A9182',
             'target-arrow-shape': 'triangle',
             'arrow-scale': 0.85,
             'curve-style': 'bezier',
-            'opacity': 0.55,
+            'opacity': 0.7,
             'transition-property': 'opacity, line-color, target-arrow-color, width, underlay-padding, underlay-opacity',
             'transition-duration': 250
           }
@@ -526,14 +525,14 @@
           selector: 'node.focus',
           style: {
             'border-width': 4,
-            'border-color': '#ffffff',
+            'border-color': '#8B0000',
             'border-opacity': 1,
             'font-size': '13px',
             'text-outline-width': 3,
-            // Intense white aura on the focused node — reads as "selected".
-            'underlay-color': '#ffffff',
+            // Oxblood aura on the focused node — reads as "selected" on cream.
+            'underlay-color': '#8B0000',
             'underlay-padding': 22,
-            'underlay-opacity': 0.55,
+            'underlay-opacity': 0.28,
             'z-index': 999
           }
         },
@@ -543,10 +542,10 @@
         {
           selector: 'node.prereq-node',
           style: {
-            'underlay-color': '#2ee8ff',
+            'underlay-color': '#0E7C8A',
             'underlay-padding': 14,
-            'underlay-opacity': 0.55,
-            'border-color': '#2ee8ff',
+            'underlay-opacity': 0.35,
+            'border-color': '#0E7C8A',
             'border-width': 2.5,
             'z-index': 50
           }
@@ -554,10 +553,10 @@
         {
           selector: 'node.dep-node',
           style: {
-            'underlay-color': '#ff7e93',
+            'underlay-color': '#C43E54',
             'underlay-padding': 14,
-            'underlay-opacity': 0.55,
-            'border-color': '#ff7e93',
+            'underlay-opacity': 0.35,
+            'border-color': '#C43E54',
             'border-width': 2.5,
             'z-index': 50
           }
@@ -566,33 +565,33 @@
           selector: 'node.match',
           style: {
             'border-width': 3,
-            'border-color': '#fde047'
+            'border-color': '#C4992B'
           }
         },
         {
           selector: 'edge.prereq-path',
           style: {
-            'line-color': '#2ee8ff',
-            'target-arrow-color': '#2ee8ff',
+            'line-color': '#0E7C8A',
+            'target-arrow-color': '#0E7C8A',
             'width': 3,
             'opacity': 1,
-            // Soft cyan glow along the prereq trace — "laser light" effect.
-            'underlay-color': '#2ee8ff',
+            // Soft teal glow along the prereq trace.
+            'underlay-color': '#0E7C8A',
             'underlay-padding': 5,
-            'underlay-opacity': 0.45,
+            'underlay-opacity': 0.22,
             'z-index': 50
           }
         },
         {
           selector: 'edge.dependent-path',
           style: {
-            'line-color': '#ff7e93',
-            'target-arrow-color': '#ff7e93',
+            'line-color': '#C43E54',
+            'target-arrow-color': '#C43E54',
             'width': 3,
             'opacity': 1,
-            'underlay-color': '#ff7e93',
+            'underlay-color': '#C43E54',
             'underlay-padding': 5,
-            'underlay-opacity': 0.45,
+            'underlay-opacity': 0.22,
             'z-index': 50
           }
         }
@@ -662,7 +661,7 @@
       const panel = document.getElementById('panel');
       const phaseEl = document.getElementById('p-phase');
       phaseEl.textContent = d.phase_title;
-      phaseEl.style.background = 'rgba(255,255,255,.05)';
+      phaseEl.style.background = 'rgba(0,0,0,.04)';
       phaseEl.style.color = d.color;
       phaseEl.style.border = '1px solid ' + d.color;
       document.getElementById('p-title').textContent = d.title;

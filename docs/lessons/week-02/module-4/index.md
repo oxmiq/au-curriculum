@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Deep Dive: Ridge Points |
 | Part 4 | Deep Dive: Where Kernels Sit |
 | Part 5 | Hands-On: Calculate |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 
@@ -43,6 +43,7 @@ You should have already read: Pre-Lecture Reading **Reader 4 (complexity, memory
 ### Quick Self-Check
 
 Answer these questions from memory:
+
 1. If a kernel does 100 ops and reads 50 bytes, what's its intensity?
 2. Why is prefill compute-bound and decode memory-bound? (One sentence.)
 3. What does the *roofline model* tell you that arithmetic intensity alone doesn't?

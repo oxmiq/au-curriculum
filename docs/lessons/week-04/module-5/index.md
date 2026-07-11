@@ -31,7 +31,7 @@ This consolidation day is different from other days — it's for practice and re
 | Part 4 | Practice: Pipeline & Expert Parallelism |
 | Part 5 | Practice: Speculative Decoding |
 | Part 6 | Practice: Serving Engines |
-| 7 | Open Lab & Wrap-up |
+| Part 7 | Open Lab & Wrap-up |
 
 ---
 
@@ -68,6 +68,7 @@ Go through each item and mark whether you can do it **without notes**:
 ### Action Items
 
 For any item you can't do:
+
 1. Note which day it came from (Day 16, 17, 18, or 19)
 2. Spend 10 minutes reviewing that day's content
 3. Practice until you can do it from memory
@@ -240,6 +241,7 @@ Week 5 begins on Monday. You'll learn about:
 **Resource:** <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale — LLM Inference Performance</a>. Alternative: <a href="https://www.baseten.co/blog/understanding-llm-latency/" target="_blank" rel="noopener">Baseten — Understanding LLM Latency</a>.
 
 **Reflection questions:**
+
 1. What does TTFT stand for? What drives it?
 2. What does TPOT stand for? What drives it?
 3. Why is throughput/$/token the ultimate metric?

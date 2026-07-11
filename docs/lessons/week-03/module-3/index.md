@@ -44,6 +44,7 @@ You should have already read: FlashAttention blog summary + paper abstract — P
 ### Quick Self-Check
 
 Answer these questions from memory:
+
 1. In naive attention, where does the N×N attention matrix live? (Hint: it's huge.)
 2. Why is FlashAttention called "I/O-aware"?
 3. What's "lossless" about FlashAttention?

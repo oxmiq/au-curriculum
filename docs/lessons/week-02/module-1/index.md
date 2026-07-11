@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Deep Dive: Prefill vs Decode |
 | Part 4 | Worked Example Analysis |
 | Part 5 | Hands-On: Trace the Pipeline |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 
@@ -43,6 +43,7 @@ You should have already read: Inference Engineering Pre-Lecture Reading — **Re
 ### Quick Self-Check
 
 Answer these questions from memory:
+
 1. What's more expensive long-term: training or inference? Why?
 2. What's the difference between a closed model and an open model? Name one of each.
 3. What is a **token**?
@@ -259,6 +260,7 @@ Given:
 - Model: 32 layers, hidden size 4096
 
 **Calculate:**
+
 1. How many total forward passes? (Answer: 1000 + 500 = 1500)
 2. How many prefill passes? (Answer: 1000)
 3. How many decode passes? (Answer: 500)

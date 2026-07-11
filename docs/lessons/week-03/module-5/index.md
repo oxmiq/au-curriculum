@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 4 | Open Lab / Catch-up Time |
 | Part 5 | Self-Check Before Week 4 |
 | Part 6 | Wrap-up & Connection |
-| 7 | Pre-read for Next Week |
+| Part 7 | Pre-read for Next Week |
 
 ---
 

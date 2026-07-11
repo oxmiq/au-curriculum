@@ -330,6 +330,7 @@ On macOS/Linux, test the filter quoting behavior:
    capsule cleanup
    capsule term <your-dev-node-config-tag>
    ```
+
 4. Confirm the connection succeeds.
 5. Note: `capsule cleanup` was essential here — it cleared the stale connection attempt state before retrying.
 

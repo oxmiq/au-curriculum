@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Hands-On: Percentile Calculations |
 | Part 4 | Hands-On: Latency vs Throughput |
 | Part 5 | Discussion: Goodhart Traps |
-| 7 | Reflection: Metric Scorecard |
+| Part 6 | Reflection: Metric Scorecard |
 
 ---
 
@@ -191,6 +191,7 @@ Given the following latency distribution (in milliseconds):
 ```
 
 **Calculate:**
+
 1. **Mean** (arithmetic average)
 2. **P50** (median)
 3. **P95** (95th percentile)
@@ -216,6 +217,7 @@ Draw a coordinate system with:
 - **Y-axis:** Latency (ms per request)
 
 Sketch two curves:
+
 1. **P50 Latency** curve — typically decreases slightly then increases as batch size grows
 2. **P99 Latency** curve — stays low initially, then spikes dramatically at high load
 
@@ -251,6 +253,7 @@ Pick two products from this list:
 - An agent that does 30 tool calls per task (agentic)
 
 For each product:
+
 1. Name the **top-two metrics** you'd track
 2. Identify **one Goodhart trap** — what could go wrong if you optimized only for that metric?
 

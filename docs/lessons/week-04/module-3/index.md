@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Core Concept: The Speculative Trick |
 | Part 4 | Deep Dive: Why It's Faster + Bit-Exactness |
 | Part 5 | Hands-On: Calculations + Tradeoffs |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 

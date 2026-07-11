@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Deep Dive: 10-Week Journey |
 | Part 4 | Hands-On: Research Capsule |
 | Part 5 | Hands-On: Write Your Summary |
-| 7 | Reflection: Connect Forward |
+| Part 6 | Reflection: Connect Forward |
 
 ---
 
@@ -136,6 +136,7 @@ Requirements:
 ### Peer Review (if available)
 
 If you have a partner:
+
 1. Read your three sentences to them
 2. Ask: "Did you understand what Capsule does?"
 3. Revise based on their feedback
@@ -241,6 +242,7 @@ Tomorrow: the shell. Every operation in this curriculum — every git commit, ev
 **Resource:** <a href="https://missing.csail.mit.edu/2020/course-shell/" target="_blank" rel="noopener">MIT Missing Semester — Shell chapter</a> (lecture 1 only).
 
 **Reflection questions** (write your answers; bring them to the readiness check):
+
 1. What's the difference between `ls` and `ls -la`?
 2. Pipes (`|`) let you compose small commands into larger workflows. What's one example of two commands you'd pipe together?
 3. Why is the shell still the primary tool for engineers in 2026, despite GUIs being everywhere?

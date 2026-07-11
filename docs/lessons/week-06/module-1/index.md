@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours are orga
 | Part 3 | Deep Dive: The Three Vagueness Traps |
 | Part 4 | Hands-On: Rewrite Vague Prompts |
 | Part 5 | Hands-On: Prompt Checklist Practice |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 
@@ -43,6 +43,7 @@ You should have already read: Anthropic Prompt Engineering Interactive Tutorial 
 ### Quick Self-Check
 
 Answer these questions from memory:
+
 1. What are the two structural slots in a chat-completion API call?
 2. What's the difference between the system prompt and user messages?
 3. Why does specificity beat vagueness in prompting?
@@ -231,6 +232,7 @@ For each vague prompt, identify which trap it falls into (Undefined Audience, Un
 ### Exercise 2: Test Your Rewrites
 
 If you have access to an LLM:
+
 1. Run the original vague prompt
 2. Run your rewritten prompt
 3. Compare the outputs
@@ -265,6 +267,7 @@ Take one prompt from your real work (or these examples):
 3. "Explain transformer architecture"
 
 For each:
+
 1. Identify what's missing from the 6-component checklist
 2. Rewrite with all 6 components
 3. Test against an LLM if possible

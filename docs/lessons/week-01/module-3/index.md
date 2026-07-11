@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Conventional Commits |
 | Part 4 | Hands-On: Git Workflow |
 | Part 5 | Hands-On: PR & Review |
-| 7 | Common Mistakes & Wrap-up |
+| Part 6 | Common Mistakes & Wrap-up |
 
 ---
 
@@ -184,6 +184,7 @@ git push origin feat/my-greeting
 ### Exercise: Review
 
 If you have access to a peer's PR:
+
 1. Go to their PR page
 2. Click "Files changed" to see what they modified
 3. Leave a comment on a specific line

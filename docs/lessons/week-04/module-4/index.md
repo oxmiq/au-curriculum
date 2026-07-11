@@ -31,7 +31,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 | Part 3 | Deep Dive: Why This Needs PagedAttention |
 | Part 4 | Core Concept: Serving Engines Comparison |
 | Part 5 | Hands-On: Engine Selection + vLLM Quickstart |
-| 7 | Wrap-up & Connection |
+| Part 6 | Wrap-up & Connection |
 
 ---
 

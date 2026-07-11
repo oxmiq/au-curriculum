@@ -6,18 +6,23 @@
 <title>Concept Library — Oxmiq × AU Internship</title>
 <style>
   :root{
-    --bg:#0b0d10;--surface:#14171d;--surface-2:#1b1f27;--line:rgba(255,255,255,.08);
-    --line-strong:rgba(255,255,255,.16);--text:#e7e9ee;--muted:#8b91a0;--faint:#5b616e;
-    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
-    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
-    --p-foundations:#7c8aa0;--p-inference:#22d3ee;--p-prompting:#a78bfa;
-    --p-agents:#fbbf24;--p-capsule:#34d399;--p-capstone:#fb7185;
-    --accent:#22d3ee;
+    /* OxBlood — OXMIQ brand tokens (light / cream) */
+    --bg:#F5F0E4;--surface:#EFEADD;--surface-2:#FBF9F3;--line:rgba(26,26,26,.10);
+    --line-strong:rgba(26,26,26,.22);--text:#1A1A1A;--muted:#666666;--faint:#9C9486;
+    --mono:"Oxygen Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Oxygen",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    /* category ramp — mid-dark hues, distinct on cream */
+    --p-foundations:#5A6577;--p-inference:#0E7C8A;--p-prompting:#6A4EC9;
+    --p-agents:#B8761E;--p-capsule:#2E7D32;--p-capstone:#C43E54;
+    --accent:#8B0000;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
   body{
-    background:radial-gradient(1100px 520px at 50% -8%,rgba(34,211,238,.06),transparent 60%),var(--bg);
+    background:
+      radial-gradient(1100px 520px at 50% -8%,rgba(139,0,0,.06),transparent 60%),
+      linear-gradient(rgba(26,26,26,.035) 1px, transparent 1px) 0 0 / 100% 40px,
+      var(--bg);
     color:var(--text);font-family:var(--sans);padding:36px 20px 70px;
   }
   .wrap{max-width:1100px;margin:0 auto}
@@ -49,14 +54,14 @@
   .row{font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;gap:6px;align-items:flex-start;flex-wrap:wrap}
   .row .lbl{color:var(--faint);text-transform:uppercase;letter-spacing:.08em;min-width:62px;flex-shrink:0}
   .pill{display:inline-block;padding:2px 7px;border-radius:5px;background:var(--surface);border:1px solid var(--line);color:var(--text);margin:0 4px 4px 0;font-size:10.5px}
-  .anchor{background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.3);color:var(--accent)}
+  .anchor{background:rgba(139,0,0,.06);border-color:rgba(139,0,0,.28);color:var(--accent)}
   .anchor .v{font-weight:600}
   .anchor .l{color:var(--muted);font-weight:400;margin-left:4px}
-  .assess{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.3);color:#fbbf24}
-  .src{background:rgba(167,139,250,.06);border-color:rgba(167,139,250,.25);color:#c4b5fd}
+  .assess{background:rgba(184,118,30,.10);border-color:rgba(184,118,30,.38);color:#8A5710}
+  .src{background:rgba(106,78,201,.08);border-color:rgba(106,78,201,.30);color:#6A4EC9}
   footer{margin-top:28px;color:var(--faint);font-size:12px;font-family:var(--mono)}
-  .err{background:#2a1416;border:1px solid #5b2327;color:#fca5a5;padding:16px;border-radius:10px;font-family:var(--mono);font-size:13px}
-  .err code{color:#fde68a}
+  .err{background:#F7E7E4;border:1px solid #E0B4AE;color:#8B0000;padding:16px;border-radius:10px;font-family:var(--mono);font-size:13px}
+  .err code{color:#6B0000}
   .empty{color:var(--muted);font-family:var(--mono);font-size:13px;padding:30px;text-align:center;border:1px dashed var(--line);border-radius:9px}
 </style>
 </head>
