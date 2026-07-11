@@ -2,6 +2,10 @@
 
 Curriculum content is maintained by Oxmiq Labs. External contributions are welcome for typo fixes, broken-link reports, and clarifying edits.
 
+> New to the site's layout? Read **[CONTENT-MAP.md](CONTENT-MAP.md)** first — it
+> maps every content surface and shows which files are sources of truth vs.
+> generated artifacts you should never hand-edit.
+
 ## What goes where
 
 - **Lesson content** (`docs/lessons/`) — authored by the curriculum team; changes here require a content-owner review.
