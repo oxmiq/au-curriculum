@@ -44,6 +44,7 @@ extra_javascript:
   - assets/mermaid-init.js
   - assets/widgets/self-check.js    # ox-self-check MCQ formative widget
   - assets/readings-newtab.js       # open standalone reading/reference pages in a new tab
+  - assets/embed-autosize.js        # grow document-flow kb/*.html embeds to their content height
 
 markdown_extensions:
   - admonition
@@ -149,14 +150,14 @@ nav:
           - "Day 50 · Close": lessons/week-10/module-5/index.md
   - Plan:
       - Roadmap: roadmap.md
-      - Interactive Concept Graph: kb/interactive-graph.html
-      - Curriculum Map: kb/graph.html
-      - Dependency Graph: kb/edge-graph.html
+      - Interactive Concept Graph: kb/interactive-graph.md
+      - Curriculum Map: kb/graph.md
+      - Dependency Graph: kb/edge-graph.md
   - Reference:
-      - Glossary: kb/glossary.html
-      - Concepts: kb/concepts.html
+      - Glossary: kb/glossary.md
+      - Concepts: kb/concepts.md
   - My Progress:
-      - Timeline: kb/timeline.html
+      - Timeline: kb/timeline.md
 
 # Phase D: build-time hook that swaps {status:week-XX/module-Y} tokens with
 # status pills derived from docs/progress/summary.json, and emits
@@ -165,10 +166,13 @@ hooks:
   - hooks/progress_badges.py
 
 # Linked from lesson pages, intentionally not a sidebar entry.
-# The kb/ views are self-contained *.html pages that ARE in the nav (Plan /
-# Reference tabs). Per-day knowledge checks are reached from their lesson pages
-# rather than the sidebar, so they are listed here to keep `mkdocs build` quiet
-# instead of emitting "exists but not in nav" notices that read like errors.
+# The kb/ views are self-contained *.html documents embedded (via a full-bleed
+# iframe) inside thin Markdown wrapper pages (kb/*.md) so they inherit the site
+# header, tabs and nav; those wrappers ARE the nav entries (Plan / Reference /
+# My Progress tabs) and the raw *.html files are treated as static embeds.
+# Per-day knowledge checks are reached from their lesson pages rather than the
+# sidebar, so they are listed here to keep `mkdocs build` quiet instead of
+# emitting "exists but not in nav" notices that read like errors.
 not_in_nav: |
   /lessons/**/assignment.md
   /lessons/**/knowledge-check.md

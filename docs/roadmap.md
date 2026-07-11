@@ -2,7 +2,7 @@
 
 The full 50-day path through the curriculum. Each box is a session — click to open the lesson. Colour marks the phase. Solid arrows are the day-to-day sequence; dotted arrows are cross-phase prereqs (a later session that builds on an earlier one outside the immediate week).
 
-If you want the narrative version with rationale, see [Curriculum](curriculum.md) and [Why this curriculum](rationale.md). For the interactive explorable graph, see [Interactive Graph](kb/interactive-graph.html).
+If you want the narrative version with rationale, see [Curriculum](curriculum.md) and [Why this curriculum](rationale.md). For the interactive explorable graph, see [Interactive Graph](kb/interactive-graph.md).
 
 ```mermaid
 flowchart TD

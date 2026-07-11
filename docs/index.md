@@ -22,7 +22,7 @@
     <p class="ox-card__desc">The full 10-week shape — phases, weeks, the why behind each block.</p>
     <span class="ox-card__cta">Read curriculum →</span>
   </a>
-  <a class="ox-card" href="kb/interactive-graph.html" style="--i:3">
+  <a class="ox-card" href="kb/interactive-graph/" style="--i:3">
     <span class="ox-card__eyebrow">Visualize</span>
     <h3 class="ox-card__title">Concept graph</h3>
     <p class="ox-card__desc">Every concept, what unlocks what, and where you are.</p>
@@ -32,6 +32,6 @@
 
 ## Useful links
 
-- **[Curriculum Map](kb/graph.html)** — every concept, what you've passed, and what unlocks next.
-- **[Dependency Graph](kb/edge-graph.html)** — the same map as a dependency DAG; follow the arrows.
-- **[Glossary](kb/glossary.html)** — canonical definitions for every term used in the program.
+- **[Curriculum Map](kb/graph.md)** — every concept, what you've passed, and what unlocks next.
+- **[Dependency Graph](kb/edge-graph.md)** — the same map as a dependency DAG; follow the arrows.
+- **[Glossary](kb/glossary.md)** — canonical definitions for every term used in the program.

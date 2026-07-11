@@ -22,10 +22,10 @@
   flex-direction:column;
   gap:.55rem;
   padding:1rem 1.05rem 1.05rem;
-  background:#FFFFFF;
-  border:1px solid var(--ox-cream-2);
+  background:var(--ox-surface);
+  border:1px solid var(--ox-line);
   border-top:3px solid var(--ox-blood);
-  border-radius:6px;
+  border-radius:8px;
   box-shadow:0 1px 2px rgba(0,0,0,.04);
   transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   text-decoration:none;
@@ -54,11 +54,14 @@
 }
 
 .ox-card__title{
-  font-family:"Oxygen Mono","Oxygen",monospace;
-  font-size:0.92rem;
+  /* sans (not mono) — matches the refined kb Concepts card titles;
+     mono is reserved for the small label layer (eyebrow / meta / cta). */
+  font-family:var(--ox-font-body);
+  font-size:0.98rem;
   font-weight:700;
   color:var(--ox-ink);
   line-height:1.25;
+  letter-spacing:-.005em;
   margin:0;
 }
 
@@ -158,9 +161,11 @@
   color:var(--ox-blood);
 }
 .ox-hero__title{
-  font-family:"Oxygen Mono","Oxygen",monospace;
-  font-size:1.4rem;
+  font-family:var(--ox-font-body);   /* sans display, like the Concepts titles */
+  font-size:1.5rem;
   font-weight:700;
+  line-height:1.2;
+  letter-spacing:-.01em;
   color:var(--ox-ink);
   margin:.25rem 0 .4rem;
 }
@@ -179,10 +184,10 @@
 .ox-lesson-header{
   margin:0 0 1.4em;
   padding:1rem 1.05rem 1.05rem;
-  background:#FFFFFF;
-  border:1px solid var(--ox-cream-2);
+  background:var(--ox-surface);
+  border:1px solid var(--ox-line);
   border-left:4px solid var(--ox-blood);
-  border-radius:6px;
+  border-radius:8px;
 }
 .ox-lesson-header__crumbs{
   display:flex;
@@ -218,9 +223,9 @@
   margin-right:.4rem;
 }
 .ox-header-link{
-  font-family:"Oxygen Mono","Oxygen",monospace;
-  font-size:.78rem;
-  font-weight:600;
+  font-family:var(--ox-font-body);   /* sans, matches the header chrome */
+  font-size:.8rem;
+  font-weight:700;
   letter-spacing:.01em;
   color:var(--md-primary-bg-color);     /* cream on the oxblood bar */
   opacity:.85;

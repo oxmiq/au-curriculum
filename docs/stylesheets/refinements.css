@@ -153,9 +153,25 @@
   word-break:normal;
   hyphens:none;
 }
+/* Compact, refined heading scale — matches the kb Concepts proportions
+   (h1 ~24-26px, tight step-down). Large bold sans headings read "raw"; this
+   dials them in. Weight stays 700 (Oxygen ships only 400/700); hierarchy is
+   carried by size. */
 .md-typeset h1{
-  font-size:clamp(1.55rem, 5.2vw, 2rem);
-  line-height:1.15;
+  font-size:1.5rem;      /* 24px at the 100% root — matches the Concepts h1 */
+  line-height:1.2;
+  margin-bottom:.55rem;
+}
+.md-typeset h2{
+  font-size:1.1rem;
+  line-height:1.25;
+}
+.md-typeset h3{
+  font-size:.95rem;
+  line-height:1.3;
+}
+.md-typeset h4{
+  font-size:.85rem;
 }
 
 /* guard against any single wide child forcing horizontal scroll */
@@ -164,8 +180,8 @@
 
 @media (max-width:50rem){
   .md-typeset h1{ letter-spacing:-.015em; }
-  .md-typeset h2{ font-size:1.2rem; }
-  .md-typeset h3{ font-size:1rem; }
+  .md-typeset h2{ font-size:1.05rem; }
+  .md-typeset h3{ font-size:.92rem; }
 }
 
 
@@ -205,13 +221,10 @@
    4. SMALL POLISH — cards, tables, links, focus
    ============================================================ */
 
-/* keep the "Start here" 3-up grid from leaving a lonely wide card:
-   allow up to 3 tracks, but let them shrink gracefully. */
-@media (min-width:60rem){
-  .ox-card-grid{ grid-template-columns:repeat(3, 1fr); }
-}
-@media (min-width:45rem) and (max-width:60rem){
-  .ox-card-grid{ grid-template-columns:repeat(2, 1fr); }
+/* card grids auto-fill: pack as many columns as fit (min 16rem each), so the
+   wider layout shows 4–5 cards per row instead of a fixed 3. */
+.ox-card-grid{
+  grid-template-columns:repeat(auto-fill, minmax(16rem, 1fr));
 }
 
 /* data tables: hairline, breathable, brand header row */
@@ -246,4 +259,78 @@
   border:1px solid var(--ox-line);
   border-radius:4px;
   padding:.05em .34em;
+}
+
+/* ============================================================
+   5. EDITORIAL TYPESET — align default doc pages with the
+      refined "Concepts" language (card surfaces, lede band,
+      link + list polish). Applies site-wide, no opt-in class.
+   ============================================================ */
+
+/* Lede blockquote — the "Concept of the day / Pre-reading" band atop every
+   lesson, and any pull-quote. Was stock Material; now a warm Concepts-style
+   card with an oxblood spine. */
+.md-typeset blockquote{
+  margin:1.4em 0;
+  padding:.75rem .95rem;
+  border:1px solid var(--ox-line);
+  border-left:3px solid var(--ox-blood);
+  border-radius:0 8px 8px 0;
+  background:var(--ox-surface);
+  color:var(--ox-body);
+  box-shadow:0 1px 2px rgba(0,0,0,.03);
+}
+.md-typeset blockquote > :first-child{ margin-top:0; }
+.md-typeset blockquote > :last-child{ margin-bottom:0; }
+
+/* Links — refined underline that sits off the baseline like the Concepts UI. */
+.md-typeset a:not(.ox-card):not(.md-button){
+  text-decoration-color:rgba(139,0,0,.35);
+  text-underline-offset:.15em;
+}
+.md-typeset a:not(.ox-card):not(.md-button):hover{
+  text-decoration-color:var(--ox-blood);
+}
+
+/* Body rhythm — a touch more air between paragraphs/list items, matching the
+   unhurried spacing of the Concepts cards. */
+.md-typeset li + li{ margin-top:.28em; }
+
+/* ============================================================
+   Embedded knowledge-base visualizations (kb/*.md wrappers)
+   ------------------------------------------------------------
+   The kb/ pages are self-contained *.html documents shown inside
+   an iframe so they inherit the site header/tabs/nav while keeping
+   their own sandboxed styles. The frame sits in the standard,
+   centered content column (matching the other doc pages) and the
+   viz's own header acts as the page title. Scoped via :has() so no
+   other page is affected.
+   ============================================================ */
+/* Material auto-injects an <h1> from the page title when the Markdown has no
+   heading. Each embedded viz already renders its own title + controls, so hide
+   the injected one to avoid a doubled header. */
+.md-content__inner:has(.ox-embed-page) > h1{
+  display:none;
+}
+.ox-embed-page{
+  margin:0;
+}
+.ox-embed{
+  display:block;
+  width:100%;
+  border:0;                        /* no frame — the embed reads as page content */
+  background:transparent;
+}
+/* Document-flow views (card lists) grow to their content height via
+   assets/embed-autosize.js, so they scroll as one with the page — no inner
+   scrollbar and no boxed "page-in-a-page". The height below is only the
+   pre-script placeholder. */
+.ox-embed[data-embed="flow"]{
+  height:60vh;
+}
+/* Full-window apps (force-directed graph, glossary book) manage their own
+   layout and fill a viewport-height frame under the header + tabs strip. */
+.ox-embed[data-embed="app"]{
+  height:calc(100vh - 9rem);
+  min-height:34rem;
 }

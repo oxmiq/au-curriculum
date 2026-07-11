@@ -39,7 +39,7 @@
 
   /* semantic tokens — used by editorial.css widgets */
   --ox-bg:          #F5F0E4;                              /* page background    */
-  --ox-surface:     #FFFFFF;                              /* card / input face  */
+  --ox-surface:     #FBF9F3;                              /* card / input face — warm off-white (matches kb Concepts) */
   --ox-surface-2:   #EDE8DC;                              /* option row fill    */
   --ox-line:        #D0C8BC;                              /* subtle border      */
   --ox-line-strong: #A89E92;                              /* prominent border   */
@@ -87,6 +87,13 @@
   --md-code-font:"Oxygen Mono";
 }
 
+/* ---- scale ----
+   Material's default root is 125% (1rem = 20px), which renders every doc page
+   ~20% larger than the standalone kb pages (Concepts et al. run at the normal
+   100% / 16px root). Drop the doc root to 100% so type, spacing and chrome all
+   match the Concepts reference at the same viewport size. */
+:root{ font-size:100%; }
+
 /* ---- typography ---- */
 body, input, .md-typeset{
   font-family:"Oxygen", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
@@ -95,11 +102,20 @@ code, pre, kbd, .md-typeset code, .md-typeset pre{
   font-family:"Oxygen Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
-/* monospaced authority — headings + chrome in Oxygen Mono */
-.md-typeset h1,.md-typeset h2,.md-typeset h3,
-.md-typeset h4,.md-typeset h5,.md-typeset h6,
+/* header / nav chrome → sans, to match the sans content layer.
+   (Mono is now reserved for the small label layer only: eyebrows, ids,
+   metadata, chips, status pills, code.) */
 .md-header__title,.md-nav__title,.md-tabs__link,.md-ellipsis{
-  font-family:"Oxygen Mono","Oxygen",monospace;
+  font-family:"Oxygen",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  letter-spacing:-.01em;
+}
+/* content headings → sans (Oxygen), matching the refined Concepts titles.
+   Oxygen ships 400/700, so 700 gives the bold display weight; hierarchy is
+   carried by size, not weight. */
+.md-typeset h1,.md-typeset h2,.md-typeset h3,
+.md-typeset h4,.md-typeset h5,.md-typeset h6{
+  font-family:"Oxygen",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  font-weight:700;
   letter-spacing:-.01em;
 }
 
@@ -110,8 +126,11 @@ code, pre, kbd, .md-typeset code, .md-typeset pre{
 }
 .md-header__title{font-weight:700}
 
-/* ---- breathing room + engineered section rhythm (brand) ---- */
-.md-grid{max-width:62rem}
+/* ---- breathing room + engineered section rhythm (brand) ----
+   Use the screen: the whole grid (nav · content · toc) fills ~92% of the
+   viewport, capped at 100rem so lines never get absurd on ultrawide monitors.
+   (Was 62rem, which centred everything in ~half the screen.) */
+.md-grid{max-width:min(100rem, 92vw)}
 .md-typeset h2{
   border-left:3px solid var(--ox-blood);
   padding-left:.6rem;
