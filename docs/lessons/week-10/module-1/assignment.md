@@ -13,7 +13,7 @@ Backed by:
 | Artifact | Where |
 |---|---|
 | **Charter** (Day 47) | Filled `Day-46-Charter-Template.md` in your fork |
-| **Execution log** (Day 48) | Markdown in `/shared/runs/capstone/<team>/` + mirrored to fork |
+| **Execution log** (Day 48) | Markdown in your fork, with a dashboard run link per benchmark |
 | **Comparison table + cost calc** (Day 49) | In presentation + a 2-page written report |
 | **12-slide presentation** (Day 49–50) | PDF in fork |
 | **Live 15-min presentation + 10-min Q&A** (Day 50) | Assessed by panel |

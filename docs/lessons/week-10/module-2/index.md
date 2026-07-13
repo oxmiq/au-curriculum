@@ -35,10 +35,10 @@ This is the day you put Weeks 1–9 to work. The benchmark workflow you sprinted
 
 ## Today's milestones
 
-1. **Lease appropriate hardware** for your charter's plan (Day 36–37 skills).
-2. **Deploy your model.** Stand it up on the leased node (Week 4 Day 19 serving-engine choice → Week 8 Day 38 connect → Week 9 Day 41 first benchmark).
-3. **Run the benchmark sweep** from your charter. Multiple configs as planned. **Stream output** (Day 39).
-4. **Pull results to `/shared/runs/capstone/<team>/<config>/`.** Stable, named, dated.
+1. **Select appropriate hardware** from the fleet for your charter's plan — `capsule list --filter` (Day 36–37 skills).
+2. **Deploy your model.** Stand it up on your chosen machine (Week 4 Day 19 serving-engine choice → Week 8 Day 38 connect → Week 9 Day 41 first benchmark).
+3. **Run the benchmark sweep** from your charter — multiple configs as planned; watch the live run output.
+4. **Results upload to the Capsule benchmark dashboard automatically** (unless `--no-upload`). Label each run so your team can find it.
 5. **Run the interactive eval** (Day 43) — your 10-prompt suite against each config.
 6. **Log everything** — see "Execution log" below.
 7. **End of day: a complete data set** sufficient to write the recommendation tomorrow.
@@ -54,7 +54,7 @@ For every run, the log entry has:
 | Command run | Reproducibility |
 | Start / end time | Cost calculation later |
 | Outcome (success / fail / partial) | Status |
-| `report.json` path | Evidence link |
+| Dashboard run link | Evidence link |
 | Eval pass/fail per prompt | Quality evidence |
 | Notes / surprises | Day 48 narrative seed |
 
@@ -63,23 +63,21 @@ Keep this in a single markdown file in your run dir. **No log = the run didn't h
 ## Suggested execution shape (per config)
 
 ```
-# 1. Lease (or reuse)
-capsule node lease --gpu <type> --duration 4h --reason "capstone team <X> config <Y>"
+# 1. Pick your machine from the fleet (Day 36-37)
+capsule list --filter "vendor=nvidia,vram>=80"
 
-# 2. Stage config
-capsule cp ./config.yaml <node>:./
+# 2. Benchmark against that config tag — results upload to the dashboard
+capsule benchmark <config-tag> <model> \
+  --backend <vllm|llamacpp|mlx|oxpython> --concurrency <C> \
+  --input-length 256 --output-length 256 --num-prompts <N>
 
-# 3. Benchmark (stream + record)
-capsule run <node> --stream -- \
-  capsule benchmark --model <M> --engine <E> --concurrency <C> \
-    --duration 60s --out /shared/runs/capstone/teamX/configY/
+# 3. Interactive eval (Day 43) — run your 10-prompt suite against this config
 
-# 4. Eval (interactive — open chat tab, run 10 prompts, record pass/fail)
+# 4. Read results on the Capsule benchmark dashboard
+#    (throughput, latency percentiles, cost-per-token).
+#    Add --no-upload to step 2 only while iterating.
 
-# 5. Pull report
-capsule storage get /shared/runs/capstone/teamX/configY/report.json ./teamX/configY/
-
-# 6. Log it
+# 5. Log it (config tag, machine unique ID, exact command, dashboard link)
 ```
 
 ## Time budget for today
@@ -96,7 +94,7 @@ If a config blows up, **don't debug forever** — note it, move on, come back if
 ## When you're stuck
 
 - "Model won't load" → memory math (Week 3 Day 12); maybe wrong GPU or wrong quant.
-- "Benchmark stalls at 0 RPS" → engine config; check `stdout.log`.
+- "Benchmark stalls at 0 RPS" → serving-engine config didn't come up; check the run's engine startup output / dashboard run status.
 - "Numbers don't match yesterday" → confound (Day 42); check warmup, neighbor processes, thermal.
 - "Eval is subjective" → write the criterion down *before* you grade; have a teammate grade independently.
 
