@@ -42,6 +42,7 @@ extra_css:
 # initialises any <pre class="mermaid"> blocks emitted by pymdownx.superfences.
 extra_javascript:
   - assets/mermaid-init.js
+  - assets/supabase-config.js       # public Supabase URL + publishable key (readiness persistence)
   - assets/widgets/self-check.js    # ox-self-check MCQ formative widget
   - assets/readings-newtab.js       # open standalone reading/reference pages in a new tab
   - assets/embed-autosize.js        # grow document-flow kb/*.html embeds to their content height

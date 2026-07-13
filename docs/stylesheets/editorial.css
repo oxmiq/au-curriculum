@@ -570,6 +570,43 @@
   cursor: default;
 }
 
+/* readiness sign-in / auth bar (server-persisted attempts) */
+.ox-self-check__auth{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .55rem;
+  margin: .2rem 0 .6rem;
+  padding: .5rem .7rem;
+  border: 1px dashed var(--ox-line-strong);
+  border-radius: 8px;
+}
+.ox-self-check__auth-status{
+  font-family: var(--ox-font-mono);
+  font-size: .62rem;
+  color: var(--ox-muted);
+}
+.ox-self-check__signin{
+  font-family: var(--ox-font-mono);
+  font-size: .58rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: var(--ox-ink);
+  color: var(--ox-bg);
+  border: 1px solid var(--ox-ink);
+  border-radius: 999px;
+  padding: .35rem .8rem;
+  cursor: pointer;
+}
+.ox-self-check__signin:hover{ filter: brightness(1.1); }
+.ox-self-check__error{
+  font-family: var(--ox-font-mono);
+  font-size: .58rem;
+  color: var(--ox-accent);
+  margin-top: .4rem;
+}
+
 /* summary panel */
 .ox-self-check__summary{
   margin-top: .3rem;

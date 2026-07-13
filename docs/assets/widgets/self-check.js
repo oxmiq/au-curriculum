@@ -49,6 +49,122 @@
 (function () {
   'use strict';
 
+  // ----- supabase (readiness persistence) -----------------------
+  // Readiness attempts are graded + stored server-side (append-only, tamper-proof)
+  // via the grade-readiness Edge Function. Wrap-up checks keep localStorage.
+  var _supa = null, _supaPromise = null;
+  function supaCfg() { return (typeof window !== 'undefined' && window.OX_SUPABASE) || null; }
+  function serverEnabled(host) { return host.dataset.kind === 'readiness' && !!supaCfg(); }
+  function getSupa() {
+    if (_supa) return Promise.resolve(_supa);
+    var cfg = supaCfg();
+    if (!cfg) return Promise.resolve(null);
+    if (!_supaPromise) {
+      _supaPromise = import('https://esm.sh/@supabase/supabase-js@2')
+        .then(function (m) { _supa = m.createClient(cfg.url, cfg.key); return _supa; })
+        .catch(function (e) { console.warn('[ox-self-check] supabase load failed', e); return null; });
+    }
+    return _supaPromise;
+  }
+  function currentUser() {
+    return getSupa().then(function (s) {
+      if (!s) return null;
+      return s.auth.getUser().then(function (r) { return (r && r.data && r.data.user) || null; },
+        function () { return null; });
+    });
+  }
+  function signIn() {
+    return getSupa().then(function (s) {
+      if (!s) return;
+      return s.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: location.href } });
+    });
+  }
+  function serverSubmit(host, attempt) {
+    var cfg = supaCfg();
+    return getSupa().then(function (s) {
+      if (!s) throw new Error('storage unavailable');
+      return s.auth.getSession();
+    }).then(function (r) {
+      var token = r && r.data && r.data.session && r.data.session.access_token;
+      if (!token) throw new Error('not signed in');
+      var body = {
+        check_id: host.dataset.id,
+        lesson_day: host.dataset.lesson || lessonTitle(host),
+        question_ids: attempt.map(function (q) { return q.poolIdx; }),
+        chosen: attempt.map(function (q) { return q.optOrder[q.chosenIdx]; })
+      };
+      return fetch(cfg.functionUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': cfg.key, 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify(body)
+      });
+    }).then(function (res) {
+      if (!res.ok) throw new Error('grading failed (' + res.status + ')');
+      return res.json();
+    });
+  }
+  function fetchHistory(host) {
+    return getSupa().then(function (s) {
+      if (!s) return [];
+      return s.from('readiness_attempts')
+        .select('score,total,attempted_at')
+        .eq('check_id', host.dataset.id)
+        .order('attempted_at', { ascending: false })
+        .then(function (r) { return (r && r.data) || []; }, function () { return []; });
+    });
+  }
+  function submitReadiness(host, pool) {
+    var attempt = host._attempt;
+    var btn = host.querySelector('.ox-self-check__submit');
+    currentUser().then(function (user) {
+      if (!user) { host._needAuth = true; renderAll(host, pool); return; }
+      host._needAuth = false;
+      if (btn) { btn.disabled = true; btn.textContent = 'Recording…'; }
+      serverSubmit(host, attempt).then(function (result) {
+        host._serverResult = result;
+        host._submitError = null;
+        host._submitted = true;
+        return fetchHistory(host).then(function (h) { host._history = h; renderAll(host, pool); });
+      }).catch(function (e) {
+        host._submitError = String((e && e.message) || e);
+        renderAll(host, pool);
+      });
+    });
+  }
+  function renderAuthBar(host) {
+    var bar = el('div', { class: 'ox-self-check__auth' });
+    bar.appendChild(el('span', { class: 'ox-self-check__auth-status', text: 'Checking sign-in…' }));
+    currentUser().then(function (user) {
+      clear(bar);
+      if (user) {
+        var who = user.email || (user.user_metadata && user.user_metadata.user_name) || 'you';
+        bar.appendChild(el('span', { class: 'ox-self-check__auth-status',
+          text: '✓ Signed in as ' + who + ' — your attempts are recorded for your instructor.' }));
+      } else {
+        bar.appendChild(el('span', { class: 'ox-self-check__auth-status',
+          text: 'Sign in to record this attempt (kept in your progress history).' }));
+        var b = el('button', { class: 'ox-self-check__signin', type: 'button', text: 'Sign in with GitHub' });
+        b.addEventListener('click', function () { signIn(); });
+        bar.appendChild(b);
+      }
+    });
+    return bar;
+  }
+  function renderServerHistory(host, attempts) {
+    var details = el('details', { class: 'ox-self-check__history' });
+    details.appendChild(el('summary', { class: 'ox-self-check__history-summary',
+      text: 'Attempt history (' + attempts.length + ') · saved to your account' }));
+    var list = el('ol', { class: 'ox-self-check__history-list' });
+    attempts.forEach(function (a) {
+      var when = '';
+      try { when = new Date(a.attempted_at).toLocaleString(); } catch (e) { when = a.attempted_at; }
+      list.appendChild(el('li', { class: 'ox-self-check__history-item',
+        text: a.score + ' / ' + a.total + '  ·  ' + when }));
+    });
+    details.appendChild(list);
+    return details;
+  }
+
   // ----- storage ------------------------------------------------
   var STORAGE_VERSION = 1;
 
@@ -295,6 +411,7 @@
     });
 
     if (!locked) {
+      if (serverEnabled(host)) shell.appendChild(renderAuthBar(host));
       var actions = el('div', { class: 'ox-self-check__actions' });
       var btn = el('button', {
         class: 'ox-self-check__submit',
@@ -304,6 +421,14 @@
       btn.textContent = 'Answer all ' + attempt.length + ' to submit';
       btn.addEventListener('click', function () { submitAttempt(host, pool); });
       actions.appendChild(btn);
+      if (host._needAuth) {
+        actions.appendChild(el('div', { class: 'ox-self-check__error',
+          text: 'Sign in above to record your attempt, then submit again.' }));
+      }
+      if (host._submitError) {
+        actions.appendChild(el('div', { class: 'ox-self-check__error',
+          text: 'Not recorded (' + host._submitError + '). Sign in and retry.' }));
+      }
       shell.appendChild(actions);
     } else {
       shell.appendChild(renderSummary(host, pool));
@@ -319,8 +444,8 @@
 
   function renderSummary(host, pool) {
     var attempt = host._attempt;
-    var total = attempt.length;
-    var score = attempt.reduce(function (s, q) {
+    var total = host._serverResult ? host._serverResult.total : attempt.length;
+    var score = host._serverResult ? host._serverResult.score : attempt.reduce(function (s, q) {
       return s + (q.chosenIdx === q.correctIdx ? 1 : 0);
     }, 0);
     var kind = host.dataset.kind === 'wrap-up' ? 'wrap-up' : 'readiness';
@@ -369,9 +494,14 @@
       summary.appendChild(promptWrap);
     }
 
-    var rec = loadRecord(host.dataset.id);
-    if (rec.attempts.length) {
-      summary.appendChild(renderHistory(host, rec));
+    if (serverEnabled(host)) {
+      var h = host._history || [];
+      if (h.length) summary.appendChild(renderServerHistory(host, h));
+    } else {
+      var rec = loadRecord(host.dataset.id);
+      if (rec.attempts.length) {
+        summary.appendChild(renderHistory(host, rec));
+      }
     }
 
     return summary;
@@ -444,6 +574,7 @@
   }
 
   function submitAttempt(host, pool) {
+    if (serverEnabled(host)) { submitReadiness(host, pool); return; }
     var attempt = host._attempt;
     var total = attempt.length;
     var score = attempt.reduce(function (s, q) {
