@@ -367,7 +367,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Pre-read for tomorrow (Day 22 · Production Patterns)
 
-- **Resource:** <a href="https://huyenchip.com/2024/01/16/mlops-landscape.html" target="_blank" rel="noopener">Chip Huyen — Deploying ML Models to Production</a> (serving section). Alternative: <a href="https://modal.com/blog/llm-inference-guide" target="_blank" rel="noopener">Modal — A Guide to LLM Inference in Production</a>.
+- **Resource:** <a href="https://modal.com/docs/guide/high-performance-llm-inference" target="_blank" rel="noopener">Modal — High-Performance LLM Inference</a> (throughput, latency, cold-start sections). Alternative: <a href="https://huyenchip.com/mlops/" target="_blank" rel="noopener">Chip Huyen — MLOps Guide</a> (serving section).
 - **Reflection questions:**
   1. What's the difference between **horizontal** and **vertical** autoscale for LLM serving? Why is horizontal usually preferred?
   2. What's a **warm pool** and why does cold-start hurt LLMs more than other services?

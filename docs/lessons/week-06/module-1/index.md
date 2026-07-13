@@ -50,7 +50,7 @@ Answer these questions from memory:
 
 If you couldn't answer all three, review the tutorial chapters again before proceeding.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-06-m1-readiness" data-kind="readiness" data-draw="5" data-source="Anthropic Prompt Engineering Interactive Tutorial Ch 1-2">
+<div class="ox-self-check" data-widget="self-check" data-id="week-06-m1-readiness" data-kind="readiness" data-draw="5" data-source="Prompt Engineering Day 26 Primer + Anthropic Tutorial Ch 1-2">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -98,37 +98,37 @@ If you couldn't answer all three, review the tutorial chapters again before proc
     "explain": "In most APIs, the system prompt is set once and persists across the conversation, while user messages are the per-turn inputs. The system prompt defines the 'persona' and 'context' while each user message provides a specific task."
   },
   {
-    "stem": "What is 'prefilling' in the context of LLM prompting?",
+    "stem": "Why can the same prompt produce two different answers on repeated runs?",
     "options": [
-      "Providing the beginning of the model's response to guide its output",
-      "Loading the model into memory",
-      "Sending the first message in a conversation",
-      "Configuring model parameters"
-    ],
-    "answer": 0,
-    "explain": "Prefilling (also called 'prompt injection' or providing a 'response prefix') is providing the beginning of the model's response to guide its output. For example, if you want a JSON response, you might prefill with '{' to start the model in the right format."
-  },
-  {
-    "stem": "What is the 'response prefix' technique in prompting?",
-    "options": [
-      "Starting every response with 'Hello'",
-      "Providing the beginning of the desired output format",
-      "The first message in a multi-turn conversation",
-      "Repeating the prompt at the end of the response"
+      "The model retrieves a stored answer that changes over time",
+      "The model samples each next token from a probability distribution, so runs can differ",
+      "The model is being retrained between requests",
+      "Network latency changes the output"
     ],
     "answer": 1,
-    "explain": "Response prefix is providing the beginning of the desired output (like '{' for JSON or 'Sure, here is' for a helpful response) to guide the model into the right format. This is more reliable than asking the model to 'output JSON' after generating text."
+    "explain": "An LLM doesn't retrieve an answer — it samples the next token from a probability distribution, token by token. With temperature above 0, different runs can sample different tokens, producing different completions. That is why the same prompt can give different answers."
   },
   {
-    "stem": "What does it mean to 'give the model an escape hatch'?",
+    "stem": "What does setting temperature = 0 do?",
     "options": [
-      "Allowing the model to refuse inappropriate requests",
-      "Providing the model a way to indicate uncertainty or ask for clarification",
-      "Letting the model generate unlimited output",
-      "Removing all restrictions from the model"
+      "Disables the model",
+      "Makes sampling deterministic — the model always picks the most likely next token",
+      "Removes the system prompt",
+      "Doubles the response speed"
     ],
     "answer": 1,
-    "explain": "Giving an 'escape hatch' means providing the model a way to indicate uncertainty, say it doesn't know, or ask for clarification rather than making up an answer. This is part of building reliable, honest AI systems."
+    "explain": "temperature = 0 gives deterministic (greedy) sampling: the model always takes the most likely next token, so the same prompt yields the same output. Most production systems run around 0.7 because deterministic outputs are less flexible."
+  },
+  {
+    "stem": "In the Day 26 mental model, what does every word you add to a prompt do?",
+    "options": [
+      "It slows the model down proportionally",
+      "It moves probability mass around — shaping the model's next-token distribution",
+      "It is stored in the model's long-term memory",
+      "Nothing until you press enter twice"
+    ],
+    "answer": 1,
+    "explain": "The primer's mental model: the model has a probability distribution over completions, and your prompt determines its shape. A vague prompt produces a broad distribution (many completions about equally likely); a specific prompt produces a sharp one. Every word moves probability mass — prompt engineering is shaping that distribution."
   },
   {
     "stem": "What is the key insight about prompting versus programming?",

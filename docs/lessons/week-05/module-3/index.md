@@ -1,7 +1,7 @@
 # Day 23 · Evaluation & Quality
 
 > **Concept of the day:** **perplexity** for sanity, **benchmarks** for comparison, **task evals** for production decisions. Public benchmarks are gameable; your own eval suite is the only one that matters. **Quantization quality must be measured, not assumed.**
-> **Pre-reading:** "Evaluating LLMs" overview — <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/llm-evaluations/" target="_blank" rel="noopener">Eugene Yan — How to Evaluate LLMs</a>.
+> **Pre-reading:** "Evaluating LLMs" overview — <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/evals/" target="_blank" rel="noopener">Eugene Yan — Task-Specific LLM Evals that Do & Don't Work</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -44,13 +44,13 @@
 
 ### Before You Start
 
-You should have already read: <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/llm-evaluations/" target="_blank" rel="noopener">Eugene Yan — How to Evaluate LLMs</a>.
+You should have already read: <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/evals/" target="_blank" rel="noopener">Eugene Yan — Task-Specific LLM Evals that Do & Don't Work</a>.
 
 ### Readiness Check
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-05-m3-readiness" data-kind="readiness" data-draw="5" data-source="Hugging Face Evaluate + Eugene Yan — Evaluating LLMs">
+<div class="ox-self-check" data-widget="self-check" data-id="week-05-m3-readiness" data-kind="readiness" data-draw="5" data-source="Hugging Face — Evaluate + Eugene Yan — Task-Specific LLM Evals">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -393,7 +393,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Pre-read for tomorrow (Day 24 · Cost & Economics)
 
-- **Resource:** <a href="https://a16z.com/the-economics-of-ai-inference/" target="_blank" rel="noopener">a16z — The Economics of AI Inference</a>.
+- **Resource:** <a href="https://a16z.com/navigating-the-high-cost-of-ai-compute/" target="_blank" rel="noopener">a16z — Navigating the High Cost of AI Compute</a>.
 - **Reflection questions:**
   1. What dominates cost: prefill tokens or decode tokens? Why?
   2. **Dedicated GPU** vs **token-priced API** — at what utilization does dedicated break even?

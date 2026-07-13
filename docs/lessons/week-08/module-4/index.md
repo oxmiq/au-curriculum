@@ -40,15 +40,15 @@ Before continuing, you should have read **Lab Guide Module 10 (Known Quirks)**. 
 
 - The 4-step triage decision tree
 - The known-quirks table (all 8 rows)
-- The bug-report rubric (8 required fields)
-- `capsule cleanup` — when and why
+- The bug-report rubric (6 required fields)
+- `capsule session endall` — when and why
 
 ### Exercise:
 
 Answer from memory:
 
 1. What is the first command you run when any Capsule operation fails?
-2. What is `capsule cleanup` and what state does it tear down?
+2. What is `capsule session endall` and what state does it tear down?
 3. Name four rows from the known-quirks table (symptom + fix).
 4. How many fields does a proper bug report require? Name three of them.
 
@@ -56,114 +56,114 @@ Answer from memory:
 <script type="application/json" class="ox-self-check__pool">
 [
   {
-    "stem": "What is the FIRST command to run in the triage decision tree when a Capsule operation fails?",
+    "stem": "`capsule list` shows completely different machines than yesterday. Which two commands do you check FIRST?",
     "options": [
-      "capsule cleanup",
-      "capsule status",
-      "capsule env show",
-      "capsule auth login"
+      "capsule status and capsule auth login",
+      "capsule --version and capsule update",
+      "capsule env show and capsule config customer show",
+      "capsule session endall and capsule list --json"
     ],
-    "answer": 1,
-    "explain": "Step 1 is always 'capsule status'. It tells you whether your auth is valid, your identity is correct, and your token hasn't expired — the most common root causes of failures."
+    "answer": 2,
+    "explain": "Per the known-quirks table, 'capsule list shows wrong machines' is fixed by checking 'capsule env show' and 'capsule config customer show' before anything else — one of them is pointed at the wrong environment or customer fleet. Both settings persist across sessions, which is why a single accidental switch explains 'everything stopped working'."
   },
   {
-    "stem": "What does `capsule cleanup` do?",
+    "stem": "SshRTC won't connect. Per the Capsule troubleshooting steps, what is the first thing you do to reset connection state?",
     "options": [
-      "Deletes your remote home directory and all benchmark results",
-      "Tears down stale WebRTC sessions and SSH state on the local client",
-      "Removes all your leases and frees the nodes",
-      "Resets your environment and customer config to defaults"
+      "Reinstall the Capsule CLI",
+      "Immediately file a bug report",
+      "Switch to `capsule stream`",
+      "Run `capsule session endall`, then retry the connection"
     ],
-    "answer": 1,
-    "explain": "'capsule cleanup' tears down stale WebRTC sessions and SSH state on the local client only. It does NOT affect running processes on the remote machine. It fixes ~40% of 'SshRTC won't connect' and 'session hung' issues."
+    "answer": 3,
+    "explain": "USAGE.md's 'SshRTC Connection Issues' recipe is: (1) run 'capsule session endall' to reset connection state, (2) retry the connection, (3) if it still fails, use '--direct' as a fallback. 'capsule session endall' ends every active SshRTC data-channel tunnel without disturbing anything on the remote machine."
   },
   {
-    "stem": "You run 'capsule list' and it shows completely different machines than yesterday. Which triage step catches this?",
+    "stem": "You ran `capsule session endall` and retried, but SshRTC still won't connect. What is the documented fallback?",
     "options": [
-      "Step 1 — capsule status (auth issue)",
-      "Step 2 — capsule env show / capsule config customer show (wrong env or customer)",
-      "Step 3 — capsule cleanup (stale state)",
-      "Step 4 — --direct flag (WebRTC path issue)"
+      "Add the `--direct` flag to bypass the WebRTC data channel",
+      "Run `capsule auth login` again",
+      "Delete your entire ~/.ssh/config file",
+      "Downgrade with `capsule update --pre-release`"
     ],
-    "answer": 1,
-    "explain": "Step 2 catches this. Run 'capsule env show' and 'capsule config customer show'. One of them is wrong — you're looking at a different environment or customer context than you think."
+    "answer": 0,
+    "explain": "The known-quirks fix for 'SshRTC won't connect' is: cleanup/endall, retry, then '--direct' as a fallback, and capture logs. The '--direct' flag uses a traditional direct SSH connection instead of the SshRTC (WebRTC) data channel. If '--direct' succeeds, the problem is in the WebRTC path — a network/infrastructure issue worth escalating."
   },
   {
-    "stem": "SshRTC won't connect. After Step 1 (status) and Step 2 (env/customer) are clean, what is Step 3?",
-    "options": [
-      "Re-install Capsule",
-      "capsule cleanup, then retry",
-      "File a bug report immediately",
-      "Use capsule stream instead"
-    ],
-    "answer": 1,
-    "explain": "Step 3 is 'capsule cleanup', then retry. This tears down stale local WebRTC/SSH state and fixes ~40% of SshRTC connectivity issues. Only proceed to Step 4 if cleanup + retry still fails."
-  },
-  {
-    "stem": "A bug report must contain exactly how many required fields?",
+    "stem": "When you capture data for a Capsule bug report / triage, how many pieces of information does the Lab Guide's reliability-lens list say to gather?",
     "options": [
       "4",
+      "5",
       "6",
-      "8",
-      "10"
+      "8"
     ],
     "answer": 2,
-    "explain": "A proper bug report has exactly 8 required fields: (1) capsule --version, (2) capsule env show, (3) capsule config customer show, (4) exact command, (5) exact error output, (6) timestamp, (7) machine unique ID, (8) what you already tried."
+    "explain": "The Lab Guide (Module 10, reliability lens) lists exactly 6 things to capture: (1) 'capsule --version', (2) 'capsule env show', (3) 'capsule config customer show', (4) the exact failing command, (5) the timestamp, and (6) the unique ID of the machine (from 'capsule list --all'). Not 8."
   },
   {
-    "stem": "macOS Keychain prompts appear on every Capsule command. What is the fix?",
+    "stem": "Which set is the Lab Guide's list of what to capture for a good triage / bug report?",
     "options": [
-      "Uninstall and reinstall Capsule",
-      "Run 'capsule cleanup'",
-      "Click 'Always Allow' once in the Keychain dialog",
-      "Use sudo for all Capsule commands"
-    ],
-    "answer": 2,
-    "explain": "This is Known Quirk #5. Click 'Always Allow' once in the Keychain dialog. It will remember the permission and stop prompting for subsequent commands."
-  },
-  {
-    "stem": "VS Code Remote-SSH errors appear after a Capsule session. What is the fix?",
-    "options": [
-      "Run 'capsule cleanup' to clear local state",
-      "Remove 'capsule-<uniqueId>' blocks from ~/.ssh/config",
-      "Reinstall the VS Code Remote-SSH extension",
-      "Re-authenticate with 'capsule auth login'"
+      "CPU, RAM, GPU model, disk, OS, kernel version",
+      "capsule --version, env show, config customer show, the exact command, the timestamp, the machine unique ID",
+      "title, severity, component, assignee, labels, status",
+      "symptom, expected behavior, actual behavior, priority, owner, ETA"
     ],
     "answer": 1,
-    "explain": "This is Known Quirk #4. Old Capsule sessions leave stale 'capsule-<uniqueId>' blocks in ~/.ssh/config. Remove them manually. VS Code Remote-SSH picks up stale entries and fails."
+    "explain": "The Lab Guide's reliability-lens capture list is exactly: 'capsule --version', 'capsule env show', 'capsule config customer show', the exact command, the timestamp, and the machine unique ID (via 'capsule list --all'). Get the unique ID from 'capsule list --all', not the display name — a config tag names a pool, not a specific box."
   },
   {
-    "stem": "You must file a bug report. Which triage steps must you have completed BEFORE filing?",
+    "stem": "VS Code Remote-SSH errors appear after a Capsule session ends. What is the fix?",
     "options": [
-      "Only Step 1 (capsule status)",
-      "Steps 1 and 2 only",
-      "All four steps — status, env/customer, cleanup, then --direct + logs",
-      "None — file immediately to get faster support"
+      "Reinstall the VS Code Remote-SSH extension",
+      "Run `capsule auth login`",
+      "Clear the macOS Keychain",
+      "Remove the `capsule-<uniqueId>` blocks from ~/.ssh/config"
+    ],
+    "answer": 3,
+    "explain": "This is a known quirk: old sessions leave stale 'capsule-<uniqueId>' blocks in ~/.ssh/config, and VS Code Remote-SSH picks up those stale entries and fails. Remove the blocks manually. (The Lab Guide's Module 5 reliability lens gives the same advice: don't leave stale capsule-<uniqueId> entries in your local ~/.ssh/config.)"
+  },
+  {
+    "stem": "On macOS, a Keychain prompt appears on every Capsule command. What is the fix?",
+    "options": [
+      "Run every Capsule command with sudo",
+      "Uninstall and reinstall Capsule",
+      "Click 'Always Allow' once in the Keychain dialog",
+      "Disable the SshRTC data channel"
     ],
     "answer": 2,
-    "explain": "You must complete all 4 steps before filing. Step 4 specifically requires trying '--direct' to bypass WebRTC and collecting logs from ~/.capsule/logs/. Those logs are the most important data for the engineering team."
+    "explain": "The known-quirks table fix for 'macOS Keychain prompts every command' is to click 'Always Allow' once in the Keychain dialog — it then remembers the permission and stops prompting. (USAGE.md also documents the equivalent 'security set-generic-password-partition-list' command as an alternative.)"
   },
   {
-    "stem": "`gh release download` returns 401/403. What is the most likely cause?",
+    "stem": "`gh release download` returns 401/403. Per the known-quirks table, what is the most likely cause?",
     "options": [
+      "Your GH_TOKEN is missing one or more required scopes",
       "Your Capsule version is outdated",
-      "Your GH_TOKEN is missing one or more of the 4 required scopes",
-      "You need to re-run 'capsule auth login'",
+      "You are pointed at the wrong environment",
       "The GitHub release was deleted"
     ],
-    "answer": 1,
-    "explain": "This is Known Quirk #8. The GH_TOKEN must have all four scopes: repo, read:org, workflow, user. Regenerate the token if you're unsure. 401/403 almost always means missing scopes, not an invalid token."
+    "answer": 0,
+    "explain": "The known-quirks table fix for 'gh release download 401/403' is to re-check your GH_TOKEN scopes. The GitHub token is used during installation and updates to fetch releases, so a missing scope surfaces as a 401/403 on download — not as a Capsule auth failure."
   },
   {
-    "stem": "The 'specificity test' for a bug report asks:",
+    "stem": "Which four scopes must the GitHub token (GH_TOKEN) carry for Capsule installs and release downloads?",
     "options": [
-      "Is the report under 500 words?",
-      "Did you try capsule cleanup first?",
-      "Could a stranger who has never seen your machine reproduce the issue from your report alone?",
-      "Does the report include your Capsule version?"
+      "admin, write, delete, read",
+      "repo, gist, notifications, admin:org",
+      "read:user, read:packages, workflow, repo",
+      "repo, read:org, workflow, user"
     ],
-    "answer": 2,
-    "explain": "The specificity test: read your bug report and ask whether a stranger with no context could reproduce the issue. If you'd need to answer follow-up questions, the report is incomplete. This is the quality bar for every field."
+    "answer": 3,
+    "explain": "The Lab Guide (Module 2) and the known-quirks table both state the GH_TOKEN needs scopes 'repo', 'read:org', 'workflow', and 'user'. The token is used only during installation and updates — not at runtime — but a 'gh release download 401/403' almost always traces back to one of these four being absent."
+  },
+  {
+    "stem": "On Windows PowerShell, a filter using `>` (e.g. vram>=24) fails. What is the fix?",
+    "options": [
+      "Run the command with sudo and the `cap` shortcut",
+      "Use `capsule` (not the `cap` shortcut) and quote the whole filter, e.g. capsule list --filter \"vram>=24\"",
+      "Switch to the demo environment first",
+      "Add the `--direct` flag to the command"
+    ],
+    "answer": 1,
+    "explain": "The known-quirks table fix for 'Windows PowerShell filter with > fails' is to use 'capsule' (not the 'cap' shortener) and quote the whole filter argument. PowerShell interprets an unquoted '>' as output redirection; quoting the filter and avoiding the 'cap' wrapper prevents the shell from creating a file instead of running the filter."
   }
 ]
 </script>
@@ -189,22 +189,22 @@ Check: is auth valid? Is identity correct? Is the token expiry in the future?
 
 Check: are you pointed at the right environment and customer?
 
-- Wrong environment → `capsule config env set <correct-env>`
+- Wrong environment → `capsule env set <correct-env>` (then re-run `capsule auth login`, since the token is scoped per environment)
 - Wrong customer → `capsule config customer set <correct-customer>`
 - Both of these settings persist across sessions; getting them wrong once explains why "everything stopped working"
 
-**Step 3: `capsule cleanup`**
+**Step 3: `capsule session endall`**
 
-Tears down stale WebRTC sessions and SSH state. Retry the failing operation.
+Ends every active SshRTC data-channel tunnel on your machine at once, resetting stale connection state. Retry the failing operation.
 
-- This fixes ~40% of "SshRTC won't connect" and "session hung" issues
-- Does **not** affect your running processes on the remote machine — it only cleans local state
+- This fixes many "SshRTC won't connect" and "session hung" issues
+- Does **not** affect your running processes on the remote machine or anyone else's sessions — it only closes your local tunnels (`capsule session list` shows them; `capsule session end` closes just one)
 
 **Step 4: `--direct` flag + collect logs**
 
-If Steps 1–3 don't fix it: retry the command with `--direct` to bypass WebRTC. If `--direct` succeeds, the issue is in the WebRTC/SshRTC path (a network or infrastructure issue). Collect logs from `~/.capsule/logs/` and escalate.
+If Steps 1–3 don't fix it: retry the command with `--direct` to bypass WebRTC. If `--direct` succeeds, the issue is in the WebRTC/SshRTC path (a network or infrastructure issue). Capture the exact command, its full output, and your `capsule --version` / `capsule env show` / `capsule config customer show`, then escalate.
 
-**The rule:** if you're going to file a bug, you must have tried all 4 steps first. Step 4's logs are the most important data for the engineering team.
+**The rule:** if you're going to file a bug, you must have tried all 4 steps first. Step 4's captured command and full output are the most important data for the engineering team.
 
 ### Exercise:
 
@@ -225,9 +225,9 @@ These are all 8 known quirks from Lab Guide Module 10. Memorize every row — sy
 
 | # | Symptom | Fix |
 |---|---|---|
-| 1 | Auth fails in browser flow | CLI falls back to manual token: go to `https://oxmiq.ai/oxcapsule/auth` in a browser, copy the token, run `capsule auth login --token <paste>` |
+| 1 | Auth fails in browser flow | CLI falls back to a manual token: run `capsule auth login`, go to `https://oxmiq.ai/oxcapsule/auth` in a browser when prompted, and paste the token |
 | 2 | `capsule list` shows wrong machines | Check `capsule env show` and `capsule config customer show` — one of them is wrong |
-| 3 | SshRTC won't connect | Run `capsule cleanup`, retry; if still failing, use `--direct` as fallback; capture `~/.capsule/logs/` and escalate |
+| 3 | SshRTC won't connect | Run `capsule session endall`, retry; if still failing, use `--direct` as fallback; capture the command output and escalate |
 | 4 | VS Code Remote-SSH errors after a session | Remove `capsule-<uniqueId>` blocks from `~/.ssh/config` — old sessions leave stale config blocks |
 | 5 | macOS Keychain prompts on every command | Click "Always Allow" once in the Keychain dialog — it remembers and stops prompting |
 | 6 | Windows PowerShell filter with `>` fails | Use `capsule` (not the `cap` alias) and quote the entire filter: `capsule list --filter "vram>=24"` |
@@ -270,20 +270,18 @@ Close the table. Write all 8 rows from memory. Check. Repeat for any you missed.
 
 ### Reading —
 
-A bug report that is missing any of these 8 fields will be sent back to you for more information. The engineering team cannot reproduce an issue without them.
+A bug report that is missing any of these 6 fields will be sent back to you for more information. The engineering team cannot reproduce an issue without them.
 
-**Required fields — all 8 must be present:**
+**Required fields — all 6 must be present:**
 
 | Field | What to include | Why it matters |
 |---|---|---|
 | 1 | `capsule --version` output | Different versions have different bugs |
 | 2 | `capsule env show` output | "Wrong machines" bugs are actually env bugs half the time |
 | 3 | `capsule config customer show` output | Same reason as env |
-| 4 | The exact command that failed | Copy-paste — not paraphrased. "I ran capsule term" is not enough. Include the full config-tag, all flags. |
-| 5 | The exact error output | Copy-paste — not paraphrased. "It said unauthorized" is not enough. Include the full output. |
-| 6 | Timestamp of the failure | Correlates with server-side logs |
-| 7 | Unique ID of the machine (if applicable) | `capsule list --all` — the unique ID, not the display name |
-| 8 | What you already tried | Prevents the support team from suggesting things you've already done |
+| 4 | The exact command that failed + its full error output | Copy-paste — not paraphrased. "I ran capsule term" and "it said unauthorized" are not enough. Include the full config-tag, all flags, and the complete output. |
+| 5 | Timestamp of the failure | Correlates with server-side logs |
+| 6 | Unique ID of the machine (from `capsule list --all`) | The unique ID, not the display name — a config tag names a pool, not a specific box |
 
 **The "specificity test":** Read your bug report. Could a stranger who has never seen your machine reproduce the issue from your report alone? If not, it's not complete.
 
@@ -308,9 +306,9 @@ Reproduce three quirks deliberately. You remember what you reproduce far better 
 **Quirk 2 — Wrong machines:**
 
 1. Check your current env: `capsule env show`. Note it.
-2. Switch to a different env: `capsule config env set public` (or another env you're not normally in).
+2. Switch to a different env: `capsule env set public` (or another env you're not normally in), then re-authenticate with `capsule auth login`.
 3. Run `capsule list`. Observe — the machines shown are different (or none).
-4. Fix: `capsule config env set <your-correct-env>`. Confirm `capsule list` shows your fleet again.
+4. Fix: `capsule env set <your-correct-env>` and re-authenticate. Confirm `capsule list` shows your fleet again.
 
 **Quirk 6 — Windows filter with `>` (or macOS equivalent):**
 
@@ -327,12 +325,12 @@ On macOS/Linux, test the filter quoting behavior:
 3. Fix:
    ```bash
    unset HTTPS_PROXY
-   capsule cleanup
+   capsule session endall
    capsule term <your-dev-node-config-tag>
    ```
 
 4. Confirm the connection succeeds.
-5. Note: `capsule cleanup` was essential here — it cleared the stale connection attempt state before retrying.
+5. Note: `capsule session endall` was essential here — it cleared the stale connection state before retrying.
 
 ---
 
@@ -350,11 +348,9 @@ Bug report: [brief description]
 1. capsule --version: [paste output]
 2. capsule env show: [paste output]
 3. capsule config customer show: [paste output]
-4. Exact command: [copy-paste]
-5. Exact error output: [copy-paste]
-6. Timestamp: [YYYY-MM-DD HH:MM UTC]
-7. Machine unique ID: [from capsule list --all, if applicable]
-8. What I already tried: [list each step]
+4. Exact command that failed + full error output: [copy-paste]
+5. Timestamp: [YYYY-MM-DD HH:MM UTC]
+6. Machine unique ID: [from capsule list --all]
 ```
 
 **Peer review (if possible):** Exchange your bug report with a partner. Apply the specificity test: could they reproduce the issue from your report alone, without asking you any follow-up questions? Mark any field that is too vague.
@@ -376,23 +372,23 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "What are the 4 steps of the Capsule triage decision tree in order?",
     "options": [
       "Reboot → reinstall → contact support → escalate",
-      "Identify symptom → check known quirks table → run capsule cleanup → escalate if unresolved",
+      "Identify symptom → check known quirks table → run capsule session endall → escalate if unresolved",
       "Check network → check auth → check node status → retry",
       "Read logs → check GPU → check storage → check network"
     ],
     "answer": 1,
-    "explain": "The lesson's triage decision tree: (1) Identify symptom precisely; (2) Match symptom against the known quirks table; (3) Apply the fix (often `capsule cleanup` or a specific command); (4) Escalate with a complete bug report if unresolved. This order prevents unnecessary reinstalls and captures enough information to get help."
+    "explain": "The lesson's triage decision tree: (1) Identify symptom precisely; (2) Match symptom against the known quirks table; (3) Apply the fix (often `capsule session endall` or a specific command); (4) Escalate with a complete bug report if unresolved. This order prevents unnecessary reinstalls and captures enough information to get help."
   },
   {
-    "stem": "What does `capsule cleanup` NOT affect?",
+    "stem": "What does `capsule session endall` NOT affect?",
     "options": [
-      "Stale socket files and hung connection processes",
-      "Your auth token and local config",
-      "Your active leases and remote files on nodes",
-      "Cached connection state"
+      "The active SshRTC data-channel tunnels open on your machine",
+      "Your local tunnel and port state for open sessions",
+      "Processes and files on the remote machine, and other users' sessions",
+      "The list of open tunnels shown by `capsule session list`"
     ],
     "answer": 2,
-    "explain": "`capsule cleanup` clears LOCAL stale state: hung processes, socket files, cached connection entries. It does NOT release leases, delete remote files, or modify your auth token. This is why it's safe to run as a first diagnostic step — you won't accidentally lose your GPU reservation."
+    "explain": "`capsule session endall` ends every active SshRTC data-channel tunnel on your machine at once. It does NOT kill processes running on the remote, delete remote files, or disturb other users' sessions (USAGE.md: it terminates tunnels 'without affecting other sessions'). That's why it's safe as a first diagnostic step — you won't lose remote work."
   },
   {
     "stem": "Two symptoms in the known-quirks table have 'run `capsule config customer show`' as their first diagnostic step. What kind of symptom would trigger this?",
@@ -406,15 +402,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "explain": "`capsule config customer show` reveals the currently active customer context. Auth failures and 'fleet not found' errors are often caused by being in the wrong customer environment — you authenticated as the right user but the customer context points to a different fleet. Fixing the customer config resolves these without debugging auth itself."
   },
   {
-    "stem": "What are the 8 fields of a complete bug report for Capsule?",
+    "stem": "What are the 6 fields of a complete Capsule bug report (per the Lab Guide's reliability lens)?",
     "options": [
-      "Date, time, user, command, output, hardware, network, OS version",
-      "Symptom, expected behavior, actual behavior, command run, exact output/error, node ID/GPU, steps to reproduce, workarounds tried",
-      "Error code, stack trace, version, platform, priority, assignee, status, resolution",
-      "Title, description, severity, component, environment, attachments, labels, assignee"
+      "Date, time, user, command, output, OS version",
+      "capsule --version, capsule env show, capsule config customer show, the exact failing command (with full output), the timestamp, and the machine unique ID from capsule list --all",
+      "Error code, stack trace, version, platform, priority, assignee",
+      "Title, description, severity, component, environment, assignee"
     ],
     "answer": 1,
-    "explain": "A good Capsule bug report captures: (1) exact symptom, (2) expected behavior, (3) actual behavior, (4) exact command run, (5) exact output/error text, (6) node ID and GPU type, (7) numbered reproduction steps, (8) workarounds already tried. The lesson's 'specificity test': could a support engineer reproduce it without asking follow-ups?"
+    "explain": "The Lab Guide's reliability lens lists exactly 6 things to capture: `capsule --version`, `capsule env show`, `capsule config customer show`, the exact failing command (copy-pasted with its full output), the timestamp, and the machine unique ID (from `capsule list --all`, not the display name). The 'specificity test': could a support engineer reproduce it without asking follow-ups?"
   },
   {
     "stem": "Why is the known-quirks table valuable beyond just fixing current issues?",

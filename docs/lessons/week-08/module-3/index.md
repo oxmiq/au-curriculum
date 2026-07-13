@@ -300,10 +300,10 @@ python3 -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device
 
 **Part B — Port forwarding alternative to streaming:**
 
-For web-based tools (JupyterLab, ComfyUI, Gradio), you can often use `capsule term` with port forwarding instead of full streaming:
+For web-based tools (JupyterLab, ComfyUI, Gradio), you can often use a direct SSH port-forward instead of full streaming:
 
 1. On the remote machine (via `capsule term`), start a simple HTTP server: `python3 -m http.server 8080`
-2. In a second local terminal, set up port forwarding: `capsule port-forward <config-tag> 8080:localhost:8080`
+2. In a second local terminal, set up port forwarding: `capsule ssh <config-tag> --options "-L 8080:localhost:8080"`
 3. Open `http://localhost:8080` in your local browser. Confirm it shows the remote machine's directory listing.
 4. Stop the port forward and the server.
 5. For this use case (a web UI), which is better — `capsule stream` or port forwarding? Why?
@@ -419,7 +419,7 @@ Streaming is the gateway to interactive GPU workloads. When you run benchmarks n
 
 - **Resource:** <a href="../../../readings/capsule/#day-40-consolidation-reliability-diagnostics">Capsule Power-User Pre-Lecture Reading — Day 40 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10 (Known Quirks).
 - **Reflection questions:**
-  1. What is `capsule cleanup` and when do you run it?
+  1. What is `capsule session endall` and when do you run it?
   2. Name two symptoms whose first diagnostic step is `capsule config customer show`.
   3. What is the 4-step triage decision tree for any Capsule failure?
 

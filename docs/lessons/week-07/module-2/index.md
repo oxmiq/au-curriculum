@@ -9,7 +9,7 @@ drift: |
 
 # Day 33 · Capsule Foundations & Architecture
 
-> **Concept of the day:** **Capsule** = orchestration platform for on-prem GPU fleets. CLI on your laptop talks to a **control plane**; the control plane manages **environments** (clusters of nodes); each node runs an **agent** that exposes machines. Install once, configure once, operate every day.<br>
+> **Concept of the day:** **Capsule** = a remote development and application streaming platform for GPU fleets. You stay on your laptop; the CLI brokers a connection to a remote machine — by default over the **SshRTC data channel** (SSH tunnelled through WebRTC), or over **direct SSH** with `--direct`. What machines you *see* is governed by two routing dimensions: the **environment** (backend deployment — `prod`/`public`/`dev`/`demo`) and the **customer** fleet selector. Install once, configure once, operate every day.<br>
 > **Pre-reading:** <a href="../../../readings/capsule/#day-36-capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading — Day 36 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-1-capsule-foundations">Capsule Lab Guide</a> Modules 1 + 2.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
@@ -34,9 +34,9 @@ drift: |
 | Part | What you do |
 |---|---|
 | Part 1 | Pre-Reading Review |
-| Part 2 | Core Concepts: The Three Layers |
+| Part 2 | Core Concepts: How Capsule Connects You |
 | Part 3 | Core Concepts: Installation Flow |
-| Part 4 | Deep Dive: What Each Layer Stores |
+| Part 4 | Deep Dive: What the CLI Stores Locally |
 | Part 5 | Hands-On: Install & Verify |
 | Part 6 | Hands-On: Architecture Diagram |
 | Part 7 | Wrap-up & Connection |
@@ -49,10 +49,10 @@ drift: |
 
 Answer these before you continue — they preview where you'll be uncertain:
 
-1. Name the three layers of the Capsule architecture.
-2. What's the difference between the **CLI**, the **control plane**, and the **node agent**?
-3. Where does authentication live?
-4. What does an **environment** contain?
+1. Name the two connection paths Capsule can use to reach a machine.
+2. What's the difference between an **environment** and a **customer** — which routing dimension does each control?
+3. How does Capsule authenticate you, and where is the cached token stored?
+4. What does switching to a different **environment** change, and why does it force a re-login?
 5. After install, what's the first command you run to verify it works?
 
 If you hesitated on any of these, flag it — the next three Parts will close those gaps.
@@ -61,226 +61,223 @@ If you hesitated on any of these, flag it — the next three Parts will close th
 <script type="application/json" class="ox-self-check__pool">
 [
   {
-    "stem": "What are the three layers of the Capsule architecture?",
+    "stem": "What is Capsule?",
     "options": [
-      "Input, Processing, Output",
-      "CLI, control plane, node agent",
-      "Model, Tools, API",
-      "Training, Testing, Deployment"
+      "A managed cloud GPU rental marketplace",
+      "A remote development and application streaming platform — you stay on your laptop while terminals, editors, and desktops run on remote hardware and are piped back over the network",
+      "A Python library for quantizing model weights",
+      "A Kubernetes distribution you install on your own cluster"
     ],
     "answer": 1,
-    "explain": "The three layers of Capsule architecture are: (1) CLI — the command-line interface on your laptop, (2) control plane — the orchestration service that manages environments, (3) node agent — the software running on each GPU node that exposes machines."
+    "explain": "Per Lab Guide Module 1, Capsule is a remote development and application streaming platform. The CPU, GPU, RAM, and disk live on remote machines; terminals, VS Code, Cursor, Claude Code, and full desktops run there and stream back to your laptop."
   },
   {
-    "stem": "What is the Capsule CLI?",
+    "stem": "Which connection method does `capsule term` use by default?",
     "options": [
-      "A web interface",
-      "The command-line interface you run on your laptop to interact with Capsule",
-      "A model training tool",
-      "A type of GPU"
+      "The SshRTC data channel — SSH carried over a WebRTC peer connection, which reaches machines that have no public-facing port",
+      "Direct TCP SSH to a publicly reachable port",
+      "A plain HTTP REST call to the machine",
+      "Telnet"
     ],
-    "answer": 1,
-    "explain": "The Capsule CLI is the command-line interface you run on your laptop. It's how you interact with Capsule — running commands, deploying models, managing environments. You type commands locally and they go to the control plane."
+    "answer": 0,
+    "explain": "USAGE.md and Lab Guide Module 5: `capsule term` uses the SshRTC data channel (SSH over WebRTC) by default, so the remote never needs a public port. `capsule ssh` uses a direct SSH connection by default instead."
   },
   {
-    "stem": "What is the Capsule control plane?",
+    "stem": "How do you force a plain TCP SSH connection instead of the SshRTC (WebRTC) data channel?",
     "options": [
-      "A physical server",
-      "The orchestration service that manages environments and coordinates node agents",
-      "A type of LLM",
-      "A monitoring dashboard"
+      "Run `capsule connect --tcp`",
+      "Set the environment variable CAPSULE_TCP=1",
+      "Add the `--direct` flag to the command",
+      "There is no way; SshRTC is mandatory"
     ],
-    "answer": 1,
-    "explain": "The control plane is the orchestration service that manages environments (clusters of nodes) and coordinates node agents. It's the central service that your CLI talks to over HTTPS."
+    "answer": 2,
+    "explain": "USAGE.md: adding `--direct` to `term`, `code`, `cursor`, etc. bypasses the SshRTC data channel and uses a direct TCP SSH connection. It is the documented fallback when WebRTC misbehaves and is needed for clean port-forwarding, though it requires a reachable SSH port."
   },
   {
-    "stem": "What is a node agent in Capsule?",
+    "stem": "How does Capsule authenticate you when you first log in?",
     "options": [
-      "A human operator",
-      "Software running on each GPU node that exposes machines to the fleet",
-      "A type of virtual machine",
-      "A network switch"
+      "A static API key you paste into a config file",
+      "A username and password stored in `~/.capsule/credentials`",
+      "An SSH key exchanged directly with each node",
+      "A browser-based Azure B2C login via `capsule auth login`, which caches an auth token (with a manual-token fallback for headless sessions)"
     ],
-    "answer": 1,
-    "explain": "A node agent is software running on each GPU node that exposes machines to the fleet. It handles the actual model serving, execution, and reporting back to the control plane."
+    "answer": 3,
+    "explain": "USAGE.md and Lab Guide Module 2: `capsule auth login` opens the Azure B2C browser flow and caches a token, falling back to a manual token URL when no browser is available. A GitHub token (GH_TOKEN) is only used for install/updates and `--repo` access, not for runtime authentication."
   },
   {
-    "stem": "Where does authentication live in Capsule?",
+    "stem": "What is an 'environment' in Capsule (e.g. prod, public, dev, demo)?",
     "options": [
-      "In the node agent",
-      "In the control plane (auth token-based)",
-      "In the CLI only",
-      "Authentication is not required"
+      "A cluster of GPU nodes managed together as one unit",
+      "A backend deployment that selects the endpoint and B2C tenant you authenticate against",
+      "A Python virtualenv created on the remote machine",
+      "A saved set of default benchmark parameters"
     ],
     "answer": 1,
-    "explain": "Authentication lives in the control plane. The CLI authenticates with an auth token when talking to the control plane. This provides secure access to the Capsule fleet."
+    "explain": "Lab Guide Module 1/Module 3 and the Glossary define an environment as a backend deployment (`prod`, `public`, `dev`, `demo`) that determines the endpoint and B2C tenant. You switch with `capsule env set`; because the token is scoped to an environment, switching env requires a fresh `capsule auth login`."
   },
   {
-    "stem": "What does an environment contain in Capsule?",
+    "stem": "`capsule list` looks empty or shows the wrong machines. What should you check first?",
     "options": [
-      "Only the CLI",
-      "A cluster of nodes (GPU machines) managed together",
-      "Just the control plane",
-      "Only the user credentials"
+      "The customer selector, with `capsule config customer show`",
+      "The GPU driver version installed on each node",
+      "Your local `~/.ssh/known_hosts` file",
+      "The benchmark results dashboard"
     ],
-    "answer": 1,
-    "explain": "An environment is a cluster of nodes (GPU machines) managed together. It's a logical grouping of machines that you can deploy models to. You configure an environment once and deploy to all nodes in it."
+    "answer": 0,
+    "explain": "Lab Guide Modules 1 and 3: the customer selector (`micc` default, plus `modelhosting`, `oneplay`, `cree8`) scopes which fleet you see, so a wrong or empty list almost always traces to it. `capsule config customer show` is the first command in that conversation; `capsule config customer set`/`unset` change it."
   },
   {
-    "stem": "After installing Capsule, what's the first command you run to verify it works?",
+    "stem": "Where does the Capsule CLI store its configuration and SSH keys on macOS?",
     "options": [
-      "capsule deploy",
-      "capsule status",
-      "capsule init",
-      "capsule login"
+      "In `~/.capsule/`",
+      "In `/etc/capsule/`",
+      "In `$HOME/Library/Application Support/Capsule/`",
+      "In `/usr/local/share/capsule/`"
     ],
-    "answer": 1,
-    "explain": "After installing Capsule, the first command you run is 'capsule status' to verify the installation works and check the connection to the control plane."
+    "answer": 2,
+    "explain": "USAGE.md 'File Locations': macOS uses `$HOME/Library/Application Support/Capsule/` and Windows uses `%APPDATA%\\capsule`. That directory holds `capsule.conf` and the auto-generated `capsule_rsa` / `capsule_rsa.pub` key pair. There is no `~/.capsule/` directory."
   },
   {
-    "stem": "What is the relationship between Capsule and on-prem GPU fleets?",
+    "stem": "You want any available machine from a pool in one case, and one specific physical box in another. How do you target each?",
     "options": [
-      "Capsule is a cloud service",
-      "Capsule is an orchestration platform for on-prem GPU fleets",
-      "Capsule is a model training framework",
-      "Capsule is a type of GPU"
+      "Both always require the `--unique` flag",
+      "Config tags need `--json`; unique IDs need `--users`",
+      "You can only ever connect to the default machine",
+      "Use a config tag for any-from-pool; use `-u`/`--unique <unique-id>` for a specific box"
     ],
-    "answer": 1,
-    "explain": "Capsule is an orchestration platform for on-prem GPU fleets. It lets you manage your own GPU machines (on-premises or in your own cloud VPC) rather than using managed services. Install once, configure once, operate every day."
+    "answer": 3,
+    "explain": "Lab Guide Modules 4/5 and the Glossary: a config tag names a machine pool/class and the scheduler hands you any available member, while a unique ID (e.g. `boostergold461`) targets one physical machine and requires the `-u`/`--unique` flag. Run `capsule list` to see the pools you can reach."
   }
 ]
 </script>
 </div>
 
-## Part 2 — Core Concepts: The Three Layers
+## Part 2 — Core Concepts: How Capsule Connects You
 
 ### Reading — Why this matters
 
-This is Phase 3's foundation. Every benchmark in Week 9, every agent in Week 7's project — they all land on Capsule machines. If you don't have a clean mental model of the architecture, every "why won't this connect?" debug session will burn 30 minutes instead of 30 seconds.
+This is Phase 3's foundation. Every benchmark in Week 9, every agent in Week 7's project — they all land on Capsule machines. If you don't have a clean mental model of how the CLI reaches a machine and how the fleet you see is scoped, every "why won't this connect?" or "why can't I see my machine?" debug session will burn 30 minutes instead of 30 seconds.
 
-### Reading — The three layers
+### Reading — The shape: your laptop → the platform → remote machines
 
-```
-┌───────────────────────────────────────┐
-│ 1. Capsule CLI (your laptop)          │ ← you type here
-└──────────────┬────────────────────────┘
-               │ HTTPS + auth token
-               ▼
-┌───────────────────────────────────────┐
-│ 2. Control plane (cloud-hosted)       │ ← state, scheduling, identity
-│    - environments / inventory          │
-│    - user identity                     │
-│    - scheduling / leases               │
-└──────────────┬────────────────────────┘
-               │ secure channel
-               ▼
-┌───────────────────────────────────────┐
-│ 3. Node agent (on each GPU machine)   │ ← actually runs your workload
-│    - tunnel / SSH                      │
-│    - file transfer                     │
-│    - GPU access                        │
-└───────────────────────────────────────┘
-```
+You stay on your laptop. The CPU, GPU, RAM, and disk live on a remote machine. Everything you type — terminals, VS Code, Cursor, full desktops — runs remotely and is piped back to you over the network. The CLI (`capsule`, or its shortcut `cap`) is the only piece that runs locally.
 
-**Key insight:** you never SSH directly to a node. The CLI brokers everything through the control plane, which authenticates you, then opens a session via the node agent. This gives you identity, audit, and bookkeeping for free.
+There are **two connection paths** underneath every connect command:
+
+| Path | Flag | Tradeoff |
+|---|---|---|
+| **SshRTC data channel** (default) | *(none)* | SSH carried over a WebRTC peer connection. The remote never needs a publicly reachable port; NAT traversal "just works" most of the time. |
+| **Direct SSH** | `--direct` | Plain TCP SSH. Needs a reachable SSH port. Faster and easier to debug; needed when WebRTC fails or for clean port-forwarding. |
+
+`capsule term`, `capsule code`, and `capsule cursor` use SshRTC by default; add `--direct` to fall back to TCP SSH. (`capsule ssh` is the direct-SSH-by-default variant.)
+
+### Reading — The two routing dimensions
+
+The single biggest source of "Capsule is broken" tickets is not the connection path — it's *which fleet you are pointed at*. Two independent settings decide that:
+
+| Dimension | Command | What it controls |
+|---|---|---|
+| **Environment** | `capsule env show` / `capsule env set <name>` | The backend deployment you talk to — `prod`, `public`, `dev`, or `demo`. Each selects a B2C tenant and API endpoint. |
+| **Customer** | `capsule config customer show` / `set` / `unset` | The fleet selector *inside* an environment — `micc` (default), `modelhosting`, `oneplay`, `cree8`. It scopes which machines appear in `capsule list`. |
+
+**Key insight:** an *environment* is a backend deployment, **not** a cluster of machines. Which machines you can see is chosen by the *customer* selector, layered on top of the environment. When `capsule list` looks empty or wrong, check `capsule env show` and `capsule config customer show` before anything else.
 
 ### Reading — Why this design
 
 | Goal | Mechanism |
 |---|---|
-| Identity-aware access | CLI → control plane → node, never direct |
-| Multi-tenant safety | Per-user / per-team environments + leases |
-| Heterogeneous fleet | Environments group by hardware; users select by capability |
-| Auditable operation | Every CLI action logs through control plane |
+| Identity-aware access | Every command carries your Azure B2C token; the backend authorizes you |
+| Reach machines behind NAT/firewalls | SshRTC data channel — no public port required on the remote |
+| One UX over a heterogeneous fleet | `capsule list` groups machines by config tag; filter by capability |
+| Isolated tenants | Environment (tenant/endpoint) × customer (fleet) scoping |
 
-### Reading — What an environment contains
+### Reading — Authentication
 
-An **environment** is a logical grouping of nodes — usually one per geographic site or per hardware class:
+Capsule authenticates through **Azure B2C** (not GitHub). `capsule auth login` opens a browser to the B2C login page and caches the returned token locally. If no browser is available (headless/remote), it falls back to a manual token flow: it prints a URL (`https://oxmiq.ai/oxcapsule/auth`) and you paste back the token it gives you. For automation you can instead set `CAPSULE_AUTH_TOKEN`. Because the token is scoped to an environment, switching environments with `capsule env set` is followed by a fresh `capsule auth login`.
 
-- A list of nodes (machines).
-- Per-node metadata: GPU type, model, status, leased-by.
-- Per-environment policies: who can connect, what tools are pre-installed.
-- A shared storage pool (covered Day 39).
-
-Examples: `production`, `development`, `production-fre`, `production-tenstorrent` (mirroring the `capsule-ansible` inventory naming).
+> A GitHub token (`GH_TOKEN`) is used only to *install and update* Capsule and to access private repos with `--repo` — never for runtime authentication. Don't confuse the two.
 
 ## Part 3 — Core Concepts: Installation Flow
 
 ### Reading — Installation flow (macOS + Linux)
 
 1. Install the CLI: `brew install capsule` (or the equivalent for your platform).
-2. Authenticate: `capsule login` — opens a browser, returns a token.
-3. Verify: `capsule whoami` — confirms identity.
-4. Configure default env: `capsule env use <env-name>`.
+2. Authenticate: `capsule auth login` — opens a browser for the Azure B2C flow, caches a token.
+3. Verify: `capsule status` — confirms your identity and token expiry.
+4. Select your environment: `capsule env set <env-name>`, then re-run `capsule auth login` (the token is scoped per environment).
 
-That's the happy path. On a fresh laptop it's ~5 minutes.
+That's the happy path. On a fresh laptop it's ~5 minutes. (Day 34 covers install in depth.)
 
-### Reading — Common install gotchas (Module 1 quirks)
+### Reading — Common install gotchas
 
 | Symptom | Cause |
 |---|---|
 | `capsule: command not found` | PATH doesn't include install dir; restart shell |
-| `capsule login` browser doesn't open | Headless terminal; use `--device-code` flow |
-| `whoami` says unauthorized after login | Clock skew between laptop and control plane; sync NTP |
-| SSH to a node hangs after `capsule connect` | Corporate proxy mangling websockets; need `HTTPS_PROXY` |
+| `capsule auth login` browser doesn't open | Headless terminal; use the manual-token fallback (it prints a URL) or set `CAPSULE_AUTH_TOKEN` |
+| `capsule status` says unauthorized after login | Wrong environment selected, or an expired/mismatched token; re-run `capsule auth login` for the right env |
+| Connection hangs after `capsule term` | Corporate proxy mangling WebRTC; fall back to `--direct` or fix `HTTPS_PROXY` |
 
-These are the four most-asked support questions. Memorize them.
+These are the most-asked support questions. Memorize them.
 
-## Part 4 — Deep Dive: What Each Layer Stores
+## Part 4 — Deep Dive: What the CLI Stores Locally
 
 ### Reading — What a Capsule "install" actually does
 
+The CLI keeps its state in one OS-specific config directory — **there is no `~/.capsule/`**:
+
 | Component | Where it lives | What it stores |
 |---|---|---|
-| Binary | `/usr/local/bin/capsule` (or equivalent) | the CLI itself |
-| Config dir | `~/.capsule/` | tokens, default env, cached env metadata |
-| Token | `~/.capsule/credentials` | refresh + access tokens, encrypted at rest on macOS Keychain when available |
+| Binary | `/usr/local/bin/capsule` (Intel) or `/opt/homebrew/bin/capsule` (Apple Silicon); on PATH | the CLI itself (invoked as `capsule` or `cap`) |
+| Config dir (macOS) | `$HOME/Library/Application Support/Capsule/` | `capsule.conf`, the auto-generated `capsule_rsa`/`capsule_rsa.pub` SSH keypair, `rclone.conf` |
+| Config dir (Windows) | `%APPDATA%\capsule` | same contents as above |
 
-### Exercise: Trace the auth path
+The cached Azure B2C auth token lives alongside this config (on macOS it can be held in the Keychain). Your SSH keypair is generated here automatically the first time you connect.
 
-Draw the flow for `capsule connect nv-h100-04-1`:
+### Exercise: Trace a connection
 
-1. The CLI reads your token from `~/.capsule/credentials`.
-2. It calls the control plane over HTTPS with that token.
-3. The control plane checks: is this user authorized to connect to this node?
-4. The control plane tells the node agent to open a session.
-5. The CLI receives the tunnel info and proxies your shell.
+Draw the flow for `capsule term <config-tag>`:
 
-**Question:** at which step would a clock-skew problem manifest? At which step would a corporate proxy problem manifest? Write your answers before continuing.
+1. The CLI reads your cached Azure B2C token from the config directory.
+2. It contacts the Capsule backend for the environment named by `capsule env show`, scoped to the fleet from `capsule config customer show`.
+3. The backend authorizes you and resolves the config tag to an available machine.
+4. An SshRTC (WebRTC) data channel is negotiated to that machine — no public port required.
+5. The CLI proxies your shell over that channel. (Add `--direct` to use plain TCP SSH instead.)
+
+**Question:** at which step would a wrong-customer setting manifest? At which step would a corporate proxy blocking WebRTC manifest? Write your answers before continuing.
 
 ## Part 5 — Hands-On: Install & Verify
 
 ### Exercise: Install Capsule on your laptop
 
- Install Capsule on your laptop. Verify with `capsule version` and `capsule whoami`.
+ Install Capsule on your laptop. Verify with `capsule --version` and `capsule status`.
 
 Expected output:
 
 ```
-$ capsule version
-capsule v2.x.x ...
-$ capsule whoami
+$ capsule --version
+capsule version 1.x.x
+$ capsule status
 user: alice@oxmiq.com
-env: development
+env: prod
 ```
 
-If you hit one of the four gotchas from Part 3, resolve it now. Pair up if needed.
+If you hit one of the gotchas from Part 3, resolve it now. Pair up if needed.
 
-### Exercise: Configure your default environment
+### Exercise: Select your environment
 
- Run `capsule env list`. Identify which environments you have access to. Pick one as default with `capsule env use <env-name>`.
+ Run `capsule env show` to see your current environment. Switch with `capsule env set <env-name>` (`prod`, `public`, `dev`, or `demo`) and re-run `capsule auth login`, since the token is scoped per environment.
 
 ## Part 6 — Hands-On: Architecture Diagram
 
 ### Exercise: Draw from memory
 
- Draw the 3-layer architecture on paper — no peeking. Label each layer with:
+ Draw Capsule's connection model on paper — no peeking. Include:
 
-- Where it runs
-- What it stores
-- Who talks to it
+- Your laptop (the CLI) and the remote machine
+- The two connection paths (SshRTC by default, `--direct` fallback)
+- The two routing dimensions (environment and customer) and what each controls
 
-Compare your drawing to the diagram in Part 2. Note every discrepancy.
+Compare your drawing to Part 2. Note every discrepancy.
 
 ### Exercise: Explore the Cheatsheet
 
@@ -290,10 +287,10 @@ Compare your drawing to the diagram in Part 2. Note every discrepancy.
 
 **Before you finish, check each item:**
 
-- [ ] I can run `capsule whoami` successfully.
-- [ ] I can name the three layers of the Capsule architecture (CLI, control plane, node agent).
-- [ ] I know what `~/.capsule/` stores and why the token is there.
-- [ ] I know what an "environment" is and which one I'm in.
+- [ ] I can run `capsule status` successfully.
+- [ ] I can name the two connection paths (SshRTC by default, direct SSH via `--direct`).
+- [ ] I know what the config directory stores (config, SSH keypair, cached token) and where it lives on my OS.
+- [ ] I know the difference between an "environment" and a "customer", and which one I'm in.
 - [ ] I've resolved any install gotchas I encountered.
 
 ### Self-check
@@ -304,59 +301,59 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 <script type="application/json" class="ox-self-check__pool">
 [
   {
-    "stem": "What are the three layers of Capsule's architecture?",
+    "stem": "What are the two connection paths Capsule can use to reach a remote machine?",
     "options": [
-      "Frontend, backend, database",
-      "CLI (client), control plane (management), and node agent (machine-side)",
-      "Authentication, orchestration, and execution",
-      "User interface, API gateway, and compute cluster"
+      "HTTP polling and gRPC streaming",
+      "The SshRTC data channel (SSH over WebRTC, the default) and direct TCP SSH (via `--direct`)",
+      "Telnet and rlogin",
+      "A control-plane tunnel and a node-agent tunnel"
     ],
     "answer": 1,
-    "explain": "Capsule has three layers: the CLI (your local tool for sending commands), the control plane (cloud service that authenticates, schedules, and manages fleet state), and the node agent (runs on each GPU machine, executes commands and reports status). Understanding this layering helps diagnose where failures occur."
+    "explain": "Every connect command uses one of two paths: the SshRTC data channel (SSH carried over a WebRTC peer connection) by default, which reaches machines with no public port; or direct TCP SSH when you pass `--direct`. `capsule term`/`code`/`cursor` default to SshRTC; `--direct` is the fallback for clean port-forwarding or when WebRTC fails."
   },
   {
-    "stem": "What does `~/.capsule/` store and why is the token kept there?",
+    "stem": "Where does the Capsule CLI keep its local config and cached token, and why store the token locally?",
     "options": [
-      "Model weights — because they need to be accessible from the CLI",
-      "Auth token, config, and environment settings — the token is stored locally so you don't re-authenticate on every command",
-      "Log files — so you can review past commands",
-      "GPU firmware — to enable local hardware monitoring"
+      "In `~/.capsule/` — because every CLI relies on a dotfile in the home directory",
+      "In the OS config dir (macOS `$HOME/Library/Application Support/Capsule/`, Windows `%APPDATA%\\capsule`) — the token is cached so you don't re-authenticate on every command",
+      "In `/etc/capsule/` — so all users on the machine share one token",
+      "Nowhere; the token is re-fetched from the server on every command"
     ],
     "answer": 1,
-    "explain": "`~/.capsule/` stores: the auth token (so you stay authenticated between CLI calls), your active config (environment, customer), and CLI state. The token must be kept confidential — it grants access to lease machines and run commands on behalf of your account."
+    "explain": "Capsule stores `capsule.conf`, the auto-generated `capsule_rsa`/`capsule_rsa.pub` SSH keypair, and `rclone.conf` in an OS-specific config directory — `$HOME/Library/Application Support/Capsule/` on macOS, `%APPDATA%\\capsule` on Windows. There is no `~/.capsule/`. The Azure B2C token is cached there (Keychain on macOS) so you stay authenticated between commands; keep it confidential because it grants access to run commands as you."
   },
   {
-    "stem": "What is an 'environment' in Capsule?",
+    "stem": "What is an 'environment' in Capsule (e.g. prod, public, dev, demo)?",
     "options": [
       "A Python virtualenv for running model code",
-      "A logical namespace that groups a set of machines under a customer's access scope, defining which fleet you can see and operate",
-      "A GPU driver version that determines which models are compatible",
+      "A backend deployment that selects the API endpoint and Azure B2C tenant you authenticate against — switched with `capsule env set`",
+      "A cluster of GPU machines managed together as one unit",
       "A container image used as the base for all workloads"
     ],
     "answer": 1,
-    "explain": "An environment in Capsule is a logical grouping of machines under a specific customer or deployment context. Environments determine what fleet you can list and lease. `capsule env list` shows available environments; `capsule config customer set` switches which customer's environment you're operating in."
+    "explain": "An environment is a backend deployment — `prod`, `public`, `dev`, or `demo` — that determines which endpoint and B2C tenant you talk to. `capsule env show` shows the current one; `capsule env set` switches it (and forces a re-login, since the token is per-environment). It is NOT a cluster of machines: which machines you SEE is controlled separately by the customer selector (`capsule config customer set`)."
   },
   {
-    "stem": "What does `capsule whoami` tell you?",
+    "stem": "What does `capsule status` tell you?",
     "options": [
-      "The current operating system user running the Capsule process",
-      "Your authenticated identity (user email / identity provider) and the active environment/customer config",
+      "The current operating-system user running the Capsule process",
+      "Your authenticated identity (user email) and token expiry, as seen by the Capsule backend",
       "The version of the Capsule CLI installed",
       "The GPU hardware specification of the machine you're connected to"
     ],
     "answer": 1,
-    "explain": "`capsule whoami` verifies that your auth token is valid and shows your identity as seen by the control plane. It's the first diagnostic command after install or when experiencing auth issues. If it fails, authentication is broken."
+    "explain": "`capsule status` verifies that your cached Azure B2C token is valid and shows your identity and token expiry. It's the first diagnostic command after install or when you suspect an auth problem. (`capsule --version` is the separate command for the CLI build.)"
   },
   {
-    "stem": "What role does the control plane play in Capsule's architecture?",
+    "stem": "`capsule list` is empty or shows the wrong machines. What should you check first, and why?",
     "options": [
-      "It runs the model inference workloads",
-      "It authenticates requests, manages fleet state and leases, routes commands to node agents, and enforces access control",
-      "It stores model weights for download",
-      "It provides the CLI interface to the user"
+      "The GPU driver version on each machine — a mismatch hides machines from the list",
+      "Your environment (`capsule env show`) and customer selector (`capsule config customer show`) — these two settings scope which fleet you see",
+      "Your `~/.ssh/known_hosts` file — stale host keys hide machines",
+      "The benchmark dashboard — the fleet list mirrors the last benchmark run"
     ],
     "answer": 1,
-    "explain": "The control plane is the central brain: it authenticates your CLI token, maintains the inventory of machines and their states (available, leased, unhealthy), routes your commands to the correct node agent, and enforces multi-tenant access control. It's the 'management layer' between your CLI and the physical machines."
+    "explain": "Which machines you see is decided by two settings: the environment (backend deployment/tenant) and the customer selector (the fleet inside that environment — `micc` default, plus `modelhosting`, `oneplay`, `cree8`). A wrong or empty `capsule list` almost always traces to one of them, so `capsule env show` and `capsule config customer show` are the first commands to run."
   }
 ]
 </script>

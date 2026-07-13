@@ -45,13 +45,13 @@ Without notes, answer each question. Write your answers before looking anything 
 
 **Can you...**
 
-- [ ] Explain what `capsule connect` does that raw SSH doesn't — name at least 3 differences?
-- [ ] State the first command you run after `capsule connect` and explain exactly why (what problem does it solve)?
+- [ ] Explain what `capsule term` does that raw SSH doesn't — name at least 3 differences?
+- [ ] State the first command you run after `capsule term` and explain exactly why (what problem does it solve)?
 - [ ] Name the three file-transfer mechanisms and give the correct scenario for each?
 - [ ] Recite all 8 rows of the known-quirks table from memory — symptom and fix?
 - [ ] Name all 8 fields of a proper bug report in order?
 - [ ] Walk through the 4-step triage decision tree from memory?
-- [ ] Explain what `capsule cleanup` does and does NOT affect?
+- [ ] Explain what `capsule session endall` does and does NOT affect?
 - [ ] Describe the hardware encoding pipeline: GPU → encoder → WebRTC → client?
 
 For any unchecked item: write the answer out longhand, then return to the source lesson to verify.
@@ -77,9 +77,9 @@ If the command was still running when you detached and reconnected, your tmux pe
 **Drill 2 — port forward test:**
 
 1. On the remote node, start an HTTP server: `python3 -m http.server 8001 &`
-2. In a second local terminal, set up a port forward: `capsule port-forward <config-tag> 8001:localhost:8001`
+2. In a second local terminal, open a session with a forwarded port: `capsule term <config-tag> --direct --options "-L 8001:localhost:8001"`
 3. Open `http://localhost:8001` in your local browser. Confirm you see the remote directory listing.
-4. Disconnect the capsule session. Confirm the tunnel drops (browser should fail to load).
+4. Exit that capsule session. Confirm the tunnel drops (browser should fail to load).
 
 **Drill 3 — triage decision tree:**
 
@@ -144,7 +144,7 @@ Write the fix for each. Then check against the [Day 40 known-quirks table](../mo
 
 Write a complete bug report (all 8 fields) for the following scenario:
 
-> "You ran `capsule term <config-tag>` at 14:32 UTC. The command printed 'connecting...' and then hung for 60 seconds, then exited with no error message. You are on a dev node with unique ID `NV-3060-04-1`. You tried `capsule cleanup` before the connection attempt. Your env is `development`. Your customer is set correctly."
+> "You ran `capsule term <config-tag>` at 14:32 UTC. The command printed 'connecting...' and then hung for 60 seconds, then exited with no error message. You are on a dev node with unique ID `NV-3060-04-1`. You tried `capsule session endall` before the connection attempt. Your env is `development`. Your customer is set correctly."
 
 Fill in all 8 fields. For any field you can't fill in from the scenario description (e.g. `capsule --version`), write exactly what command you would run to get it.
 

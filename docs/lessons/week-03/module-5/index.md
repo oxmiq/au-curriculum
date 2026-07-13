@@ -143,7 +143,7 @@ Try these memory budget calculations:
 
 ### Stuck?
 
-The KV cache and quantization sensitivity ladder (weights → activations → KV → attention) are the highest-leverage concepts of the entire phase. Ask **oxtutor** to re-explain.
+The KV cache and quantization sensitivity ladder (weights → KV → activations → attention) are the highest-leverage concepts of the entire phase. Ask **oxtutor** to re-explain.
 
 ---
 

@@ -1,7 +1,7 @@
 # Day 24 · Cost & Economics
 
 > **Concept of the day:** **cost / million tokens** = (GPU $/hour × hours) / (tokens served × utilization). **Decode dominates** end-to-end cost for chat workloads. **Dedicated breaks even with API** somewhere around 30–50% utilization.
-> **Pre-reading:** "Cost of inference" with worked numbers — <a href="https://a16z.com/the-economics-of-ai-inference/" target="_blank" rel="noopener">a16z — The Economics of AI Inference</a>.
+> **Pre-reading:** "Cost of inference" with worked numbers — <a href="https://a16z.com/navigating-the-high-cost-of-ai-compute/" target="_blank" rel="noopener">a16z — Navigating the High Cost of AI Compute</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -44,13 +44,13 @@
 
 ### Before You Start
 
-You should have already read: <a href="https://a16z.com/the-economics-of-ai-inference/" target="_blank" rel="noopener">a16z — The Economics of AI Inference</a>.
+You should have already read: <a href="https://a16z.com/navigating-the-high-cost-of-ai-compute/" target="_blank" rel="noopener">a16z — Navigating the High Cost of AI Compute</a>.
 
 ### Readiness Check
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-05-m4-readiness" data-kind="readiness" data-draw="5" data-source="a16z — The Economics of AI Inference">
+<div class="ox-self-check" data-widget="self-check" data-id="week-05-m4-readiness" data-kind="readiness" data-draw="5" data-source="a16z — Navigating the High Cost of AI Compute">
 <script type="application/json" class="ox-self-check__pool">
 [
   {

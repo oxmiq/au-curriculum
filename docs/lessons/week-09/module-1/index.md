@@ -63,92 +63,92 @@ Answer before reading on:
 <script type="application/json" class="ox-self-check__pool">
 [
   {
-    "stem": "What are the three pieces of a Capsule benchmark run?",
+    "stem": "Which four serving backends does `capsule benchmark` support?",
     "options": [
-      "Model, GPU, and network",
-      "Load generator, serving engine, and metric collection",
-      "Config, logs, and report",
-      "Lease, environment, and node"
-    ],
-    "answer": 1,
-    "explain": "A benchmark has three pieces: (1) load generator — controls what prompts, what concurrency, how long; (2) serving engine — which engine (vLLM/SGLang), which model, which config; (3) metric collection — gathers TTFT, ITL, throughput, GPU util and writes report.json."
-  },
-  {
-    "stem": "What does the `--concurrency` flag control in `capsule benchmark`?",
-    "options": [
-      "The number of GPUs to use",
-      "The number of simultaneous in-flight requests during the load test",
-      "The number of benchmark iterations to run",
-      "The tensor-parallel degree"
-    ],
-    "answer": 1,
-    "explain": "--concurrency sets the number of simultaneous in-flight requests. Higher concurrency stresses the GPU more and pushes throughput up — until saturation. This is distinct from tensor-parallel degree (--tp), which is about model distribution."
-  },
-  {
-    "stem": "Where do benchmark results live by convention?",
-    "options": [
-      "~/.capsule/results/",
-      "/shared/runs/<YYYY-MM-DD-HHMM>-<label>/",
-      "/tmp/benchmark/",
-      "The current working directory"
-    ],
-    "answer": 1,
-    "explain": "Convention is /shared/runs/<YYYY-MM-DD-HHMM>-<label>/. Inside: report.json, stdout.log, config.yaml. Results in /shared/ are accessible from your laptop via 'capsule storage get' and visible to the team."
-  },
-  {
-    "stem": "What does `report.json` NOT tell you directly?",
-    "options": [
-      "TTFT p50 and p99",
-      "GPU memory used",
-      "Whether the model answers correctly or hallucinates",
-      "Throughput in tokens per second"
+      "vllm, sglang, tensorrt-llm, triton",
+      "vllm, ollama, mlx, transformers",
+      "vllm, llamacpp, mlx, oxpython",
+      "llamacpp, exllama, mlx, deepspeed"
     ],
     "answer": 2,
-    "explain": "report.json captures performance metrics (TTFT, ITL, throughput, GPU util) but says nothing about answer quality. Whether the model is correct, refuses appropriately, or hallucinates requires interactive evaluation — which is Day 44."
+    "explain": "The four supported backends are vllm (default; best for NVIDIA, batched serving, paged-attention), llamacpp (CPU-friendly, GGUF quants), mlx (Apple Silicon), and oxpython (the OXMIQ Python runtime for in-house eval). SGLang is a common distractor but is NOT one of them."
   },
   {
-    "stem": "What does a SINGLE benchmark run prove?",
+    "stem": "Which flag chooses the serving backend for a benchmark run?",
     "options": [
-      "This engine is better than all alternatives",
-      "The GPU is fully saturated",
-      "This config, this load, this moment — nothing more",
-      "The model's quality is acceptable"
+      "--engine",
+      "--serve",
+      "--runtime",
+      "--backend"
+    ],
+    "answer": 3,
+    "explain": "The backend is selected with `--backend` (for example `--backend llamacpp`). There is no `--engine` flag in `capsule benchmark`; if you omit `--backend`, vllm is the default on an NVIDIA box."
+  },
+  {
+    "stem": "What does `--num-prompts` (`-n`) control, and what is its default?",
+    "options": [
+      "The total number of requests sent; it defaults to concurrency × 10",
+      "How long the load runs in seconds; it defaults to 60",
+      "The number of GPUs to use; it defaults to 1",
+      "The number of benchmark iterations; it defaults to 3"
+    ],
+    "answer": 0,
+    "explain": "`--num-prompts` (`-n`) sets the total number of requests sent to the server, and it defaults to concurrency × 10. Run size is controlled by `--num-prompts`, not by any duration flag."
+  },
+  {
+    "stem": "By default, where do the results of a `capsule benchmark` run go?",
+    "options": [
+      "They are written to /shared/runs/<timestamp>/report.json",
+      "They are saved to ~/.capsule/results/ on the remote",
+      "They are uploaded to the Capsule benchmark dashboard unless you pass --no-upload",
+      "They are printed to stdout and then discarded"
     ],
     "answer": 2,
-    "explain": "One benchmark is a single data point: this config, this load, this moment. It cannot tell you whether the engine beats alternatives (need comparison), whether the GPU is saturated (need to vary --concurrency), or whether quality is acceptable (need eval). That's why tomorrow's lesson is about sweeps."
+    "explain": "Results upload to the Capsule benchmark dashboard by default; pass `--no-upload` to suppress this while iterating. There is no `/shared/runs/` convention for benchmark output — the dashboard is the destination."
   },
   {
-    "stem": "In the minimum-viable `capsule benchmark` command, what does `--duration 60s` control?",
+    "stem": "Which metrics does a `capsule benchmark` run report?",
     "options": [
-      "How long the GPU is leased",
-      "How long the load generator runs before stopping and writing the report",
-      "How long before the connection times out",
-      "The maximum time allowed for a single request"
+      "Training loss, validation loss, and epoch count",
+      "Throughput, latency percentiles, and cost-per-token",
+      "CPU usage, disk I/O, and network latency",
+      "Time-to-first-token only"
     ],
     "answer": 1,
-    "explain": "--duration 60s tells the load generator to run for 60 seconds before stopping and collecting the final metrics into report.json. Shorter durations give less stable statistics; the lesson recommends at least 60s for a clean baseline."
+    "explain": "`capsule benchmark` drives the inference server with InferenceMAX and reports throughput, latency percentiles, and cost-per-token. Those three families are exactly the Phase-1 vocabulary you built up over prior weeks."
   },
   {
-    "stem": "Which metrics appear in a typical report.json? (Select the complete set.)",
+    "stem": "What is the minimum-viable command to benchmark a model on a remote machine?",
     "options": [
-      "TTFT only",
-      "TTFT (p50/p99), ITL (p50/p99), throughput (tokens/s, requests/s), GPU util and memory",
-      "Throughput and GPU util only",
-      "TTFT, throughput, cost per token, error rate"
+      "capsule benchmark --model <model> --engine vllm --duration 60s",
+      "capsule bench <model> --backend auto --out /shared/runs/",
+      "capsule benchmark run <model> --concurrency 8 --duration 60s",
+      "capsule benchmark <config-tag> <model>"
     ],
-    "answer": 1,
-    "explain": "A typical report.json contains: ttft_p50, ttft_p99, itl_p50, itl_p99 (latency), tokens_per_sec, requests_per_sec (throughput), and gpu.util_avg, gpu.mem_used_gb. These are exactly the Phase-1 metrics you've been studying."
+    "answer": 3,
+    "explain": "`capsule benchmark <config-tag> <model>` is the minimal form: it provisions an inference server on the target machine and drives it with InferenceMAX using defaults (vllm on NVIDIA). The other options invent flags like `--engine` and `--duration` that don't exist."
   },
   {
-    "stem": "You want to run a benchmark that stores results in /shared/runs/. What command do you use to pull the report.json to your laptop after the run?",
+    "stem": "How do you benchmark an OpenAI-compatible endpoint you already have, without provisioning a machine?",
     "options": [
-      "capsule term — then cp /shared/runs/.../report.json ~",
-      "capsule storage get /shared/runs/<your-dir>/report.json ./",
-      "scp capsule-node:/shared/runs/.../report.json ./",
-      "capsule benchmark --fetch-results"
+      "capsule benchmark --api-base <url> --api-key <key> <model>",
+      "capsule benchmark --external-endpoint <url> <model>",
+      "capsule benchmark --remote <url> --no-deploy <model>",
+      "You cannot; capsule benchmark always provisions a fresh server"
     ],
-    "answer": 1,
-    "explain": "'capsule storage get <remote-path> <local-path>' is the correct command. It copies the file from the shared storage volume to your laptop. Using scp or raw cp won't work because you don't have direct SSH access to the shared volume path."
+    "answer": 0,
+    "explain": "`--api-base` plus `--api-key` skips provisioning entirely and benchmarks an OpenAI-compatible endpoint you already have (for example a local `capsule chat` server). No `<config-tag>` is needed in that form."
+  },
+  {
+    "stem": "You are iterating on a config and don't want results published to the dashboard yet. Which flag do you add?",
+    "options": [
+      "--dry-run",
+      "--local-only",
+      "--no-upload",
+      "--skip-dashboard"
+    ],
+    "answer": 2,
+    "explain": "`--no-upload` suppresses the default dashboard upload — the right choice while you're iterating and don't want noisy in-progress runs cluttering the shared dashboard. The other flags are fabricated."
   }
 ]
 </script>
@@ -164,7 +164,7 @@ Answer before reading on:
 ┌────────────┐        ┌───────────────┐        ┌──────────────┐
 │ load gen   │ ─────▶ │ serving       │ ─────▶ │ metric       │
 │ (requests/s│        │ engine        │        │ collection   │
-│ prompts)   │ ◀───── │ (vLLM/SGLang) │ ◀───── │              │
+│ prompts)   │ ◀───── │ (vllm, etc.)  │ ◀───── │              │
 └────────────┘        └───────────────┘        └──────────────┘
                               │
                               ▼
@@ -181,26 +181,35 @@ Three pieces:
 
 ### Reading — The minimum-viable command
 
+At its smallest, a benchmark is just the target machine and the model:
+
 ```
-capsule benchmark \
-  --model meta-llama/Llama-3.1-8B-Instruct \
-  --engine vllm \
-  --concurrency 8 \
-  --duration 60s \
-  --out /shared/runs/$(date +%F-%H%M)-first/
+capsule benchmark <config-tag> meta-llama/Llama-3.1-8B-Instruct
 ```
 
-That's it. Defaults give sensible TP, quant, and prompt distribution. The report writes to `/shared/runs/.../report.json`.
+Add flags to shape the load:
+
+```
+capsule benchmark <config-tag> \
+  meta-llama/Llama-3.1-8B-Instruct \
+  --backend vllm \
+  --concurrency 8 \
+  --input-length 256 \
+  --output-length 256 \
+  --num-prompts 80
+```
+
+That's it. Defaults give sensible TP, quant, and prompt distribution. Results upload to the Capsule benchmark dashboard unless you pass `--no-upload`.
 
 ### Exercise: Command Anatomy
 
 Without looking at the documentation:
 
 1. What does `--concurrency 8` control? (number of simultaneous in-flight requests)
-2. What does `--duration 60s` control? (how long the load runs before stopping)
-3. What does `--out /shared/runs/$(date +%F-%H%M)-first/` do? (where results land)
-4. If you omit `--engine`, what happens? (default engine is chosen by Capsule)
-5. Write the command to benchmark `Qwen2.5-7B-Instruct` with concurrency 4, duration 120s, outputting to `/shared/runs/qwen-test/`.
+2. What does `--num-prompts 80` control? (the total number of requests sent before the run stops)
+3. Where do the results go by default, and what does `--no-upload` change? (they upload to the Capsule benchmark dashboard; `--no-upload` keeps them off it)
+4. If you omit `--backend`, what happens? (vllm is the default on an NVIDIA box)
+5. Write the command to benchmark `Qwen/Qwen2.5-7B-Instruct` on `<config-tag>` at concurrency 4 with 80 total prompts, suppressing the dashboard upload.
 
 ---
 
@@ -212,7 +221,7 @@ A typical `report.json` excerpt:
 
 ```json
 {
-  "config": {"model": "...", "engine": "vllm", "concurrency": 8, "tp": 1, "quant": "fp16"},
+  "config": {"model": "...", "backend": "vllm", "concurrency": 8, "tp": 1, "quant": "fp16"},
   "latency_ms": {"ttft_p50": 142, "ttft_p99": 380, "itl_p50": 18, "itl_p99": 41},
   "throughput": {"tokens_per_sec": 1240, "requests_per_sec": 7.2},
   "gpu": {"util_avg": 0.83, "mem_used_gb": 18.4}
@@ -253,17 +262,17 @@ So today's goal: a *clean* baseline. Tomorrow we sweep.
 
 ### Reading — Where the result lives
 
-Convention (from Day 38):
+`capsule benchmark` uploads each run to the Capsule benchmark dashboard by default:
 
-- Per-run dir: `/shared/runs/<YYYY-MM-DD-HHMM>-<label>/`
-- Inside: `report.json`, `stdout.log`, `config.yaml` (capsule writes these).
-- Pull `report.json` to your laptop for analysis; leave logs in shared for traceability.
+- The dashboard is the durable home for a run — throughput, latency percentiles, and cost-per-token, keyed to the model + config you ran.
+- Pass `--no-upload` while iterating to keep noisy in-progress runs off the shared dashboard.
+- Open the dashboard to compare runs side by side and share links with teammates.
 
 ### Exercise: Limitations List
 
 Write one sentence describing what you'd need to run to answer each question:
 
-1. "Is vLLM faster than SGLang for this model?"
+1. "Is vLLM faster than llamacpp for this model?"
 2. "At what concurrency does the GPU saturate?"
 3. "Does AWQ hurt quality on my use-case prompts?"
 4. "Is this performance typical, or did I get lucky?"
@@ -275,22 +284,22 @@ Write one sentence describing what you'd need to run to answer each question:
 ### Exercise: First Clean Baseline
 
 1. Lease an H100 or T4 node depending on availability.
-2. Run the minimum-viable benchmark with `--stream`:
+2. Run the minimum-viable benchmark:
    ```
-   capsule benchmark \
-     --model meta-llama/Llama-3.1-8B-Instruct \
-     --engine vllm \
+   capsule benchmark <config-tag> \
+     meta-llama/Llama-3.1-8B-Instruct \
+     --backend vllm \
      --concurrency 8 \
-     --duration 60s \
-     --out /shared/runs/$(date +%F-%H%M)-first/ \
-     --stream
+     --input-length 256 \
+     --output-length 256 \
+     --num-prompts 80
    ```
-   Watch the live output. Confirm it produces a `report.json`.
+   Watch the live output. Confirm the run completes and reports throughput, latency percentiles, and cost-per-token.
 
-3. Pull the report: `capsule storage get /shared/runs/<your-dir>/report.json ./`.
-4. Release the lease: `capsule lease release`.
+3. Open the Capsule benchmark dashboard and find your run.
+4. Release the machine when done: `capsule session end` (or `capsule session endall`).
 
-**Success criterion:** you have a `report.json` on your laptop and can open it.
+**Success criterion:** your run appears on the dashboard and you can read its metrics.
 
 ---
 
@@ -358,15 +367,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "explain": "A single benchmark run has confounds: the GPU may be thermally throttled from prior work, a noisy neighbor process consumes bandwidth, the KV cache isn't warm, or the run happened during a network congestion window. Multiple runs with consistent warmup, no neighbors, and stable thermal state produce reliable baselines."
   },
   {
-    "stem": "What is the recommended artifact convention for benchmark run directories?",
+    "stem": "Where do the results of a `capsule benchmark` run go by default?",
     "options": [
-      "/tmp/<model-name>/latest/",
-      "/shared/runs/<YYYY-MM-DD-HHMM>-<label>/",
-      "/home/<user>/benchmarks/<random-id>/",
-      "/shared/models/<model-name>/benchmarks/"
+      "To a per-run directory under /shared/runs/<YYYY-MM-DD-HHMM>-<label>/",
+      "They are uploaded to the Capsule benchmark dashboard unless you pass --no-upload",
+      "To ~/.capsule/results/ on the remote node",
+      "They print to stdout and are then discarded"
     ],
     "answer": 1,
-    "explain": "The convention from the lesson: `/shared/runs/<YYYY-MM-DD-HHMM>-<label>/`. The timestamp makes runs sortable and reproducible (you can find yesterday's run). The label identifies the configuration. Shared storage makes results accessible to teammates without copying."
+    "explain": "By default each run uploads to the Capsule benchmark dashboard, keyed to the model + config — that is the durable, shareable home for throughput, latency percentiles, and cost-per-token. Pass `--no-upload` to keep in-progress runs off the shared dashboard while iterating. There is no `/shared/runs/` directory convention for benchmark output."
   },
   {
     "stem": "If your benchmark shows TTFT_p99 = 850 ms, which Phase-1 concept explains this?",

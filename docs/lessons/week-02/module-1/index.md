@@ -1,7 +1,7 @@
 # Day 6 · What Happens When You Send a Prompt
 
 > **Concept of the day:** the inference pipeline. Tokenize → embed → layers → logits → sample. One forward pass = one token out.<br>
-> **Pre-reading:** <a href="https://huyenchip.com/2023/04/11/llm-engineering.html" target="_blank" rel="noopener">Chip Huyen — LLM Engineering: Inference Optimization</a> (read the Inference section).
+> **Pre-reading:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering</a> (read the inference-pipeline overview: prefill/decode, KV cache, batching).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -54,7 +54,7 @@ If you couldn't answer all three, review the Pre-Lecture Reading again before pr
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-02-m1-readiness" data-kind="readiness" data-draw="5" data-source="Chip Huyen — LLM Engineering: Inference Optimization">
+<div class="ox-self-check" data-widget="self-check" data-id="week-02-m1-readiness" data-kind="readiness" data-draw="5" data-source="Databricks — LLM Inference Performance Engineering">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -69,7 +69,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
     "explain": "Training modifies the model's weights through backpropagation. Inference is a forward pass only — the model reads its weights to generate predictions. This is the foundational difference that drives all inference optimization."
   },
   {
-    "stem": "Why does Chip Huyen argue that inference is more expensive than training in the long run?",
+    "stem": "Why is inference often more expensive than training in the long run?",
     "options": [
       "Inference requires more compute per token",
       "Inference is done continuously for every user query, while training is one-time",

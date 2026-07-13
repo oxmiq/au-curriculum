@@ -1,7 +1,7 @@
 # Day 22 · Production Patterns
 
 > **Concept of the day:** **autoscale, warm pools, load balancing, observability, rollout strategies**. The operational layer that turns a serving stack into a service.<br>
-> **Pre-reading:** "Deploying LLMs in production" — <a href="https://huyenchip.com/2024/01/16/mlops-landscape.html" target="_blank" rel="noopener">Chip Huyen — Deploying ML Models to Production</a> (read the serving section).
+> **Pre-reading:** "Deploying LLMs in production" — <a href="https://modal.com/docs/guide/high-performance-llm-inference" target="_blank" rel="noopener">Modal — High-Performance LLM Inference</a> (throughput, latency, and cold-start sections).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -39,13 +39,13 @@ This lesson is designed for guided self-study. Here's how your ~3 hours are orga
 
 ### Before You Start
 
-You should have already read: <a href="https://huyenchip.com/2024/01/16/mlops-landscape.html" target="_blank" rel="noopener">Chip Huyen — Deploying ML Models to Production</a> (read the serving section).
+You should have already read: <a href="https://modal.com/docs/guide/high-performance-llm-inference" target="_blank" rel="noopener">Modal — High-Performance LLM Inference</a> (throughput, latency, and cold-start sections).
 
 ### Readiness Check
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-05-m2-readiness" data-kind="readiness" data-draw="5" data-source="Chip Huyen — Deploying ML Models to Production">
+<div class="ox-self-check" data-widget="self-check" data-id="week-05-m2-readiness" data-kind="readiness" data-draw="5" data-source="Modal — High-Performance LLM Inference + Chip Huyen — MLOps Guide">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -389,7 +389,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Pre-read for tomorrow (Day 23 · Evaluation & Quality)
 
-- **Resource:** <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/llm-evaluations/" target="_blank" rel="noopener">Eugene Yan — How to Evaluate LLMs</a>.
+- **Resource:** <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/evals/" target="_blank" rel="noopener">Eugene Yan — Task-Specific LLM Evals that Do & Don't Work</a>.
 - **Reflection questions:**
   1. What's **perplexity** and what does it capture? What does it miss?
   2. **Benchmark** (MMLU) vs **task eval** (your own use-case suite) — which is more honest about production quality?

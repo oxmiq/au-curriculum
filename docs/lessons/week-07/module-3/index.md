@@ -59,92 +59,92 @@ Answer from memory:
 <script type="application/json" class="ox-self-check__pool">
 [
   {
-    "stem": "What GitHub token scopes are required for Capsule install?",
+    "stem": "Which GitHub token (GH_TOKEN) scopes are required to install Capsule?",
     "options": [
-      "Only repo scope",
-      "repo, read:org, workflow, admin:repo_hook",
-      "gist and user scopes",
-      "No scopes needed"
+      "Only `repo`",
+      "`repo`, `read:org`, `workflow`, `admin:repo_hook`",
+      "`repo`, `read:org`, `workflow`, `user`",
+      "No token or scopes are required"
     ],
-    "answer": 1,
-    "explain": "The required GitHub token scopes are: (1) repo, (2) read:org, (3) workflow, (4) admin:repo_hook. These are needed for Capsule to access repositories, read organization membership, manage workflows, and set up webhook integrations."
+    "answer": 2,
+    "explain": "The PAT needs `repo` (read the private tap and release downloads), `read:org` (verify org membership), `workflow` (workflow-triggered releases), and `user` (read the user profile for identity). Lab Guide Module 2 and Part 2 of this lesson both list exactly these four. The token is used at install/update time only, not at runtime."
   },
   {
-    "stem": "What directory does Capsule store config and tokens in after install?",
+    "stem": "What does `capsule auth login` actually do?",
     "options": [
-      "/usr/local/bin",
-      "~/.capsule (the Capsule config directory in home)",
-      "/etc/capsule",
-      "The current working directory"
+      "Opens a browser to the Azure B2C login page (`https://login.oxmiq.ai`), completes OAuth, and caches the returned token",
+      "Authenticates against GitHub and stores a GitHub token",
+      "Installs the CLI binary and rclone",
+      "Lists the machines in your fleet"
     ],
-    "answer": 1,
-    "explain": "Capsule stores config and tokens in ~/.capsule (the Capsule config directory in your home directory). This includes authentication tokens, configuration files, and other runtime data."
+    "answer": 0,
+    "explain": "`capsule auth login` opens a browser tab to the Azure B2C tenant, you sign in with your org account, and the CLI exchanges the returned authorization code for refresh + access tokens. It authenticates via Azure B2C, not GitHub. If the browser can't open (headless/remote), it falls back to a manual token flow."
   },
   {
-    "stem": "What is rclone and why does Capsule install it?",
+    "stem": "Where does Capsule store its configuration, cached token, and SSH keys after install?",
     "options": [
-      "A text editor",
-      "A file transfer tool used for model caching and data movement",
-      "A Python package manager",
-      "A type of GPU driver"
+      "`/etc/capsule/` on every platform",
+      "The current working directory",
+      "`~/.capsule/` on every OS",
+      "macOS: `$HOME/Library/Application Support/Capsule/`; Windows: `%APPDATA%\\capsule`"
     ],
-    "answer": 1,
-    "explain": "rclone is a file transfer tool used for model caching and data movement. Capsule uses it to efficiently move models and data between local storage, cloud storage, and the GPU fleet."
+    "answer": 3,
+    "explain": "The USAGE guide lists the config directory as `$HOME/Library/Application Support/Capsule/` on macOS and `%APPDATA%\\capsule` on Windows. It holds `capsule.conf`, the auto-generated `capsule_rsa`/`capsule_rsa.pub` SSH keypair, and `rclone.conf`."
   },
   {
-    "stem": "What is the exact command sequence to verify a successful Capsule install?",
+    "stem": "What is `rclone` and why does the Capsule install include it?",
     "options": [
-      "capsule init",
-      "capsule --version → capsule auth login → capsule status",
-      "capsule check",
-      "capsule verify"
+      "A GPU driver Capsule needs to run benchmarks",
+      "A file-transfer tool Capsule uses under the hood for cloud storage mounts (OneDrive); it must be on PATH",
+      "A Python package manager for installing model dependencies",
+      "A terminal multiplexer for keeping sessions alive"
     ],
     "answer": 1,
-    "explain": "The verification sequence is: (1) capsule --version to check the CLI is installed, (2) capsule auth login to authenticate, (3) capsule status to verify the connection to the control plane."
+    "explain": "Capsule uses `rclone` under the hood for cloud storage mounts (OneDrive). You never call it directly — `capsule auth storage` and the OneDrive mount handle it — but it must be on PATH. The brew formula installs it automatically on macOS; on Windows you run `winget install Rclone.Rclone`."
   },
   {
-    "stem": "Which of the following is a common install gotcha for Capsule?",
+    "stem": "What is the post-install command sequence used to verify a working Capsule install?",
     "options": [
-      "Installing in /usr/local/bin requires sudo",
-      "Wrong GitHub token scopes, rclone not in PATH, stale cached credentials, or proxy issues",
-      "Installing on Linux instead of macOS",
-      "Using the wrong GPU model"
+      "`capsule init`",
+      "`capsule verify --all`",
+      "`capsule --version` → `capsule auth login` → `capsule status`",
+      "`capsule check`"
     ],
-    "answer": 1,
-    "explain": "Common install gotchas include: (1) Wrong GitHub token scopes, (2) rclone not in PATH after installation, (3) Stale cached credentials causing auth failures, (4) Proxy/network issues. These are the most common issues that cause install failures."
+    "answer": 2,
+    "explain": "Run `capsule --version` to confirm the binary is on PATH, `capsule auth login` to complete the browser auth flow, then `capsule status` to confirm your identity and a non-empty token expiry. Both the lesson and Lab Guide Module 2 use this exact sequence."
   },
   {
-    "stem": "What is the recommended way to install Capsule on macOS?",
+    "stem": "The Capsule CLI can be invoked as `capsule`. What is `cap`?",
     "options": [
-      "Download from website",
-      "brew tap and brew install",
-      "pip install",
-      "Download tarball"
+      "A separate, lighter client that only supports a subset of commands",
+      "A shortcut alias for `capsule`, created automatically during install",
+      "A command that only exists on Windows",
+      "There is no shortcut; you must always type `capsule`"
     ],
     "answer": 1,
-    "explain": "The recommended way to install Capsule on macOS is via Homebrew: 'brew tap' to add the repository and 'brew install' to install the CLI. This handles dependencies and PATH setup automatically."
+    "explain": "`cap` is a shortcut for `capsule`, created during install as a symlink (Unix/macOS) or batch wrapper (Windows); `cap list` and `capsule list` are equivalent. One caveat: on PowerShell, `cap list --filter` with a `>` breaks, so use `capsule` and quote the filter argument there."
   },
   {
-    "stem": "What does 'capsule auth login' do?",
+    "stem": "How do you check whether a newer Capsule version is available without installing it?",
     "options": [
-      "Installs the CLI",
-      "Opens a browser flow to authenticate with GitHub and store credentials",
-      "Checks GPU availability",
-      "Deploys a model"
+      "`capsule update --dry-run`",
+      "`capsule check-update`",
+      "`capsule --version --remote`",
+      "`capsule update --check-only`"
     ],
-    "answer": 1,
-    "explain": "'capsule auth login' opens a browser flow to authenticate with GitHub and store credentials. This is required before you can interact with the Capsule control plane."
+    "answer": 3,
+    "explain": "`capsule update --check-only` reports whether a newer stable release exists without installing. `capsule update` installs the latest stable build, and `capsule update --pre-release` installs the latest pre-release. (Updates require a valid auth token and no in-use CLI files / open SshRTC sessions.)"
   },
   {
-    "stem": "What happens if you skip the 'capsule status' verification after install?",
+    "stem": "After `capsule auth login`, how do you grant Capsule access to your OneDrive cloud storage?",
     "options": [
-      "Nothing",
-      "You might have installation issues that cause failures later when trying to use Capsule",
-      "The CLI will stop working",
-      "You lose your license"
+      "Run `capsule auth storage` and complete the separate consent flow",
+      "It is granted automatically as part of `capsule auth login`",
+      "Edit `rclone.conf` by hand and paste your OneDrive password",
+      "Run `capsule mount --login`"
     ],
-    "answer": 1,
-    "explain": "Skipping 'capsule status' verification means you might have undetected installation issues. These will cause confusing failures later when you try to deploy models or interact with the fleet. Always verify with 'capsule status' after install."
+    "answer": 0,
+    "explain": "OneDrive access is a separate consent step: run `capsule auth storage` once and complete the browser consent flow. After that, connection commands auto-mount your OneDrive folder. Login and storage auth are distinct — logging in does not by itself grant storage access."
   }
 ]
 </script>
@@ -165,19 +165,20 @@ Running the Capsule install does four things:
 
 After install, `capsule --version` should return the version string. If it doesn't, PATH is the problem.
 
-**2. Creates the config directory `~/.capsule/`**
+**2. Creates the OS-specific config directory**
 
-Contents after first run:
+There is no `~/.capsule/`. Capsule stores its state in the platform config directory — `$HOME/Library/Application Support/Capsule/` on macOS, `%APPDATA%\capsule` on Windows. Contents after first run:
 ```
-~/.capsule/
-  credentials        ← auth tokens (encrypted on macOS Keychain)
-  config.json        ← default env, default customer, cached metadata
-  logs/              ← debug logs for support
+Capsule/
+  capsule.conf          ← config: default env, customer, settings
+  capsule_rsa / .pub    ← auto-generated SSH keypair
+  rclone.conf           ← cloud storage (OneDrive) config
 ```
+The cached Azure B2C auth token lives alongside this config (held in the macOS Keychain where available).
 
 **3. Installs `rclone` alongside**
 
-Capsule uses `rclone` under the hood for cloud storage mounts (OneDrive). You don't invoke rclone directly — `capsule auth storage` and `capsule mount` handle it — but rclone must be on PATH. The brew formula handles this automatically on macOS.
+Capsule uses `rclone` under the hood for cloud storage mounts (OneDrive). You don't invoke rclone directly — `capsule auth storage` and the automatic OneDrive mount handle it — but rclone must be on PATH. The brew formula handles this automatically on macOS.
 
 **4. Requires GH_TOKEN during tap**
 
@@ -205,7 +206,7 @@ If any step fails, see Part 5.
 Without looking at the above:
 
 1. List the 4 things the install does, in order.
-2. What is in `~/.capsule/credentials`?
+2. Where does Capsule store its config and cached token, and what files does that directory contain?
 3. Why is `rclone` needed?
 4. What 4 GH_TOKEN scopes are needed and why does each matter?
 
@@ -221,14 +222,14 @@ Without looking at the above:
 2. You complete the OAuth flow (sign in with your org account)
 3. Azure B2C returns an authorization code
 4. The CLI exchanges the code for refresh + access tokens
-5. Tokens are stored in `~/.capsule/credentials`, encrypted using macOS Keychain (macOS) or Windows DPAPI (Windows)
+5. The token is cached in Capsule's config directory (`$HOME/Library/Application Support/Capsule/` on macOS, `%APPDATA%\capsule` on Windows), held in the macOS Keychain where available
 6. `capsule status` shows: identity (email), token type, and expiry timestamp
 
 **Token lifecycle:**
 
 | Token | TTL | What it controls |
 |---|---|---|
-| Access token | ~60 minutes | API calls to control plane |
+| Access token | ~60 minutes | API calls to the Capsule backend |
 | Refresh token | ~30 days | Mint new access tokens without browser re-auth |
 
 When the access token expires, Capsule uses the refresh token automatically. When the refresh token expires (30 days of inactivity), you must re-run `capsule auth login`.
@@ -245,8 +246,8 @@ capsule auth storage   # opens browser → consent to OneDrive access → stores
 
 In headless terminals (no browser), two options:
 
-1. `capsule auth login --device-code` — prints a URL and a code; you open the URL on any browser, enter the code, and the CLI polls for completion
-2. Set `CAPSULE_AUTH_TOKEN=<access_token>` environment variable — the CLI uses this token directly (useful in CI pipelines)
+1. **Manual token fallback** — when the browser can't open, `capsule auth login` automatically prints a URL (`https://oxmiq.ai/oxcapsule/auth`); open it on any browser, complete auth, then paste the token it gives you back into the CLI when prompted
+2. Set the `CAPSULE_AUTH_TOKEN=<token>` environment variable — the CLI uses this token directly (this is how headless CI authenticates)
 
 **Clock skew causes silent auth failures:**
 
@@ -256,7 +257,7 @@ Fix: sync NTP — `sudo sntp -sS time.apple.com` (macOS) or `w32tm /resync` (Win
 
 ### Exercise:
 
-1. Draw the auth flow as a sequence diagram: CLI → Browser → Azure B2C → CLI → `~/.capsule/credentials`.
+1. Draw the auth flow as a sequence diagram: CLI → Browser → Azure B2C → CLI → cached token in Capsule's config directory.
 2. What is the difference between an access token and a refresh token? What happens when each expires?
 3. You are setting up Capsule in a GitHub Actions CI workflow. Which auth method do you use and why?
 4. A colleague says "I logged in fine but now all commands say unauthorized." What is the most likely cause and how do you diagnose it?
@@ -326,7 +327,7 @@ These are the four most common support questions after a new install. Memorize t
 
 - **Symptom:** The command runs but no browser opens; it prints a URL but hangs.
 - **Cause:** Headless terminal (remote SSH session, tmux with no display), or browser association is broken.
-- **Fix:** Use `--device-code` flag: `capsule auth login --device-code`. Copy the printed URL + code to any browser.
+- **Fix:** Use the manual token fallback — `capsule auth login` prints a URL (`https://oxmiq.ai/oxcapsule/auth`); open it in any browser, complete auth, and paste the returned token back into the CLI. In CI, set `CAPSULE_AUTH_TOKEN` instead.
 
 **Gotcha 3: `capsule status` shows "unauthorized" after successful login**
 
@@ -335,7 +336,7 @@ These are the four most common support questions after a new install. Memorize t
 - **Diagnosis:** `date -u` — compare to actual UTC time.
 - **Fix:** Sync NTP: `sudo sntp -sS time.apple.com` (macOS) or `sudo ntpdate -s time.nist.gov` (Linux).
 
-**Gotcha 4: SSH to a node hangs after `capsule connect`**
+**Gotcha 4: connection hangs after `capsule term`**
 
 - **Symptom:** `capsule term <config-tag>` prints "connecting..." and hangs indefinitely.
 - **Cause:** Corporate proxy is intercepting the WebRTC / SSH traffic. Capsule SshRTC uses non-standard ports that some proxies block.
@@ -370,9 +371,9 @@ Reproduce three of the four gotchas deliberately and fix them. You will remember
 
 **Reproduce Gotcha 2:**
 
-1. Run `capsule auth login --device-code`. Observe that it prints a URL + code instead of opening a browser.
-2. Copy the URL. Open it in a browser. Enter the code. Confirm auth completes.
-3. This is exactly what you'll do in any headless environment.
+1. Run `capsule auth login` in a shell with no browser available (e.g. over SSH). Observe that it falls back to printing a URL (`https://oxmiq.ai/oxcapsule/auth`) instead of opening a browser.
+2. Open the URL in a browser, complete auth, then paste the returned token back into the CLI. Confirm auth completes.
+3. This is exactly what you'll do in any headless environment (or set `CAPSULE_AUTH_TOKEN`).
 
 **Reproduce Gotcha 3:**
 
@@ -386,7 +387,7 @@ Reproduce three of the four gotchas deliberately and fix them. You will remember
 
 1. Set a bad proxy: `export HTTPS_PROXY=http://127.0.0.1:9999`
 2. Attempt to connect: `capsule term <your-dev-node-config-tag>`. Observe the hang or error.
-3. Fix: `unset HTTPS_PROXY && capsule cleanup && capsule term <config-tag>`.
+3. Fix: `unset HTTPS_PROXY && capsule session endall && capsule term <config-tag>`.
 4. Confirm connection succeeds.
 
 ---
@@ -401,26 +402,26 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 <script type="application/json" class="ox-self-check__pool">
 [
   {
-    "stem": "What is the `--device-code` flag used for in Capsule authentication?",
+    "stem": "You're authenticating Capsule on a headless server with no browser. What does `capsule auth login` do?",
     "options": [
-      "It specifies which GPU device to authenticate against",
-      "It enables headless authentication (for machines without a browser) by displaying a code you enter on a separate device",
-      "It generates a device-specific license key for Capsule",
-      "It disables multi-factor authentication for faster login"
+      "It fails — Capsule can only authenticate from a machine with a browser",
+      "It falls back to a manual token flow: it prints a URL you open on any browser, then you paste the returned token back into the CLI (or you set `CAPSULE_AUTH_TOKEN`)",
+      "It generates a device-specific license key that never expires",
+      "It silently logs you in as an anonymous user"
     ],
     "answer": 1,
-    "explain": "`--device-code` enables OAuth device-code flow: the CLI displays a short code and URL. You open that URL on any browser (your laptop while the CLI runs on a headless server), enter the code, and authenticate. The CLI then receives the token. Essential for remote or server-only environments."
+    "explain": "When no browser is available, `capsule auth login` automatically switches to the manual token fallback: it prints a URL (`https://oxmiq.ai/oxcapsule/auth`), you complete auth there and paste the token back into the CLI. For CI/automation you can instead export `CAPSULE_AUTH_TOKEN` and skip the interactive flow entirely."
   },
   {
-    "stem": "What does `capsule cleanup` do and when should you run it?",
+    "stem": "An SshRTC connection (`capsule term`) keeps failing. What is the correct fallback?",
     "options": [
-      "It deletes all files from the remote node — run it when you're done with a session",
-      "It clears stale local state (cached connections, hung processes, corrupt config entries) — run it as the first step when Capsule commands hang or behave unexpectedly",
-      "It logs you out of Capsule and removes your auth token",
-      "It releases all your active leases and disconnects all sessions"
+      "Delete all files from the remote machine and reconnect",
+      "Add `--direct` to use a direct SSH connection instead of the SshRTC data channel",
+      "Re-install the Capsule CLI from scratch",
+      "Switch to a different GPU vendor"
     ],
     "answer": 1,
-    "explain": "`capsule cleanup` clears local state that may be stale or corrupted — hung connection processes, cached socket files, partial config entries. It does NOT release your leases or delete remote files. It's the go-to first diagnostic step when Capsule seems stuck: run cleanup, then retry the command."
+    "explain": "The SshRTC (WebRTC) data channel is the default because it works without public-facing ports, but it can fail behind restrictive networks/proxies. The documented fallback is `--direct`, which forces a traditional SSH connection (requires an open port). First reset connection state with `capsule session endall`, then retry; if it still fails, use `--direct`."
   },
   {
     "stem": "What is the typical TTL difference between an access token and a refresh token in Capsule?",
@@ -437,12 +438,12 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "What is the first diagnostic step when a Capsule command appears stuck or hangs?",
     "options": [
       "Restart the GPU machine",
-      "Run `capsule cleanup` to clear stale local state, then retry",
+      "Run `capsule session endall` to reset SshRTC connection state, then retry",
       "Re-install the Capsule CLI",
       "Contact support immediately"
     ],
     "answer": 1,
-    "explain": "The lesson states: 'capsule cleanup as the first step when something is stuck.' Hung connections, stale socket files, or corrupt local config entries cause most hangs. `capsule cleanup` resolves these without affecting your leases or remote data. After cleanup, retry the failing command."
+    "explain": "Most hangs come from stuck SshRTC tunnels. `capsule session endall` tears down all active data-channel tunnels so you can retry cleanly; `capsule session list`/`end` do the same at finer grain. After resetting, retry the failing command; if it still fails, fall back to `--direct`."
   },
   {
     "stem": "Which of the following is a common install gotcha for Capsule on Linux?",

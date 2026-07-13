@@ -353,7 +353,7 @@ Tomorrow: **speculative decoding** — turn slow sequential decode into a series
 
 ### Pre-read for tomorrow (Day 18 · Speculative Decoding)
 
-- **Resource:** <a href="https://lilianweng.github.io/posts/2023-11-21-spec-decoding/" target="_blank" rel="noopener">Lilian Weng — Speculative Decoding</a> (first half). Alternative: <a href="https://jalammar.github.io/illustrated-speculative-decoding/" target="_blank" rel="noopener">Jay Alammar — Illustrated Speculative Decoding</a>.
+- **Resource:** <a href="https://huggingface.co/blog/assisted-generation" target="_blank" rel="noopener">Hugging Face — Assisted Generation (Speculative Decoding)</a>. Alternative: <a href="https://developer.nvidia.com/blog/an-introduction-to-speculative-decoding-for-reducing-latency-in-ai-inference/" target="_blank" rel="noopener">NVIDIA — An Introduction to Speculative Decoding</a>.
 - **Reflection questions:**
   1. Decode is memory-bound and sequential. What can a smaller "draft" model contribute?
   2. What does the big "target" model verify?

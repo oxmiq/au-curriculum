@@ -124,7 +124,7 @@ Goal: the central resource-management problem of serving LLMs.
 | 11 | Prefill & Decode | Prefill parallel, compute-bound (TTFT); decode sequential, memory-bound (TPS) | 1000-in / 500-out — sketch the timeline |
 | 12 | The KV Cache | Grows linearly with context; can exceed weights at long context | Llama-3.1-8B KV at 4K / 32K / 128K — does it fit in 80 GB? |
 | 13 | Flash- & Paged-Attention | FlashAttention: fuse one kernel, fewer HBM trips. PagedAttention: virtual memory for the KV cache | Draw memory access before vs after FlashAttention |
-| 14 | Quantization | Fewer bits → less data moved → faster decode; sensitivity ladder weights→activations→KV→attention | 8B model FP16 vs FP8 vs INT4 — memory and theoretical speedup |
+| 14 | Quantization | Fewer bits → less data moved → faster decode; sensitivity ladder weights→KV→activations→attention | 8B model FP16 vs FP8 vs INT4 — memory and theoretical speedup |
 | 15 | **Consolidation** | Memory-budget calculator mini-project | Pair presentations — one insight each |
 
 ### Week 4 — Inference: Scaling & Stacks
@@ -185,7 +185,7 @@ Goal: Capsule installed, understood, and operationally fluent.
 | 37 | Environments & Fleet | `capsule env`, `capsule config customer`, `capsule list` + filters | Switch envs; filter fleet by GPU/VRAM/vendor; `\| jq` exercises |
 | 38 | Connecting to Machines | `term`, `exec`, `code`, `cursor`, `claude`; SshRTC vs `--direct` | `term` + `nvidia-smi`; VS Code remote; compare `--direct` |
 | 39 | Files, Storage, Streaming | OneDrive mount; SCP; passthrough; `stream`; `docker` w/ GPU | SCP a file; stream a desktop; container with `nvidia-smi` |
-| 40 | **Consolidation: Reliability** | `capsule cleanup`; diagnostic sequence; bug-report shape | Diagnose 3 instructor-simulated breakages; write proper reports |
+| 40 | **Consolidation: Reliability** | `capsule session endall`; diagnostic sequence; bug-report shape | Diagnose 3 instructor-simulated breakages; write proper reports |
 
 ### Week 9 — Capsule: Benchmarking
 

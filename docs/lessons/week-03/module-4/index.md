@@ -117,12 +117,12 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
     "stem": "What is the 'sensitivity ladder' for quantization (from most to least sensitive)?",
     "options": [
       "Weights > Activations > KV > Attention",
-      "Activations > KV > Attention > Weights",
+      "Attention output > Activations > KV cache > Weights",
       "KV > Attention > Activations > Weights",
       "Attention > Weights > KV > Activations"
     ],
     "answer": 1,
-    "explain": "The sensitivity ladder (most to least sensitive): Activations > KV > Attention > Weights. This guides quantization strategy: quantize weights aggressively, keep activations higher precision."
+    "explain": "The sensitivity ladder (most to least sensitive): attention output > activations > KV cache > weights. This guides quantization strategy: quantize weights aggressively (INT4/FP8), keep activations and attention outputs at higher precision."
   },
   {
     "stem": "What does quantization achieve for decode-phase inference?",
@@ -138,13 +138,13 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
   {
     "stem": "What is the difference between static and dynamic quantization?",
     "options": [
-      "Static quantization quantizes weights only; dynamic quantizes weights and activations at runtime",
+      "Static: activation scales are precomputed offline via a calibration pass; dynamic: activation scales are computed on-the-fly at runtime",
       "There is no difference",
       "Dynamic is always better",
       "Static is always better"
     ],
     "answer": 0,
-    "explain": "Static quantization: quantize weights offline (at low precision), activations stay FP16. Dynamic quantization: quantize weights offline, quantize activations at runtime. Dynamic gives better accuracy but more overhead."
+    "explain": "Both quantize the weights. The difference is how activation scales are chosen: static (PTQ) runs a calibration pass to precompute activation scales offline; dynamic computes activation scales per input at runtime. Static is faster at inference; dynamic adapts better to each input but adds runtime overhead."
   }
 ]
 </script>
@@ -313,12 +313,12 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "In the quantization sensitivity ladder (least to most sensitive), which is the ordering?",
     "options": [
       "Activations are least sensitive; KV cache is most sensitive",
-      "Weights are least sensitive; activations are most sensitive",
+      "Weights are least sensitive; attention output is most sensitive",
       "KV cache is least sensitive; weights are most sensitive",
       "All components are equally sensitive to quantization"
     ],
     "answer": 1,
-    "explain": "The sensitivity ladder from least to most sensitive is approximately: weights < KV cache < activations. Weights are static and can be calibrated offline. Activations are computed dynamically per input and vary widely, making them hardest to quantize without accuracy loss."
+    "explain": "The sensitivity ladder from least to most sensitive is approximately: weights < KV cache < activations < attention output. Weights are static and can be calibrated offline. Activations and attention outputs are computed dynamically per input and have outliers, making them hardest to quantize without accuracy loss."
   },
   {
     "stem": "Why does decode benefit more from weight quantization than prefill does?",

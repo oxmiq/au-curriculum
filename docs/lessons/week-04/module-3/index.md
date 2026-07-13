@@ -1,7 +1,7 @@
 # Day 18 · Speculative Decoding
 
 > **Concept of the day:** a small **draft** model proposes K tokens; the big **target** model verifies them in **one** parallel forward pass. Convert sequential memory-bound decode into batched-style verification. 2–3× speedup typical.<br>
-> **Pre-reading:** "Speculative decoding explained" — <a href="https://lilianweng.github.io/posts/2023-11-21-spec-decoding/" target="_blank" rel="noopener">Lilian Weng — Speculative Decoding</a> (first half).
+> **Pre-reading:** "Speculative decoding explained" — <a href="https://huggingface.co/blog/assisted-generation" target="_blank" rel="noopener">Hugging Face — Assisted Generation (Speculative Decoding)</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -44,7 +44,7 @@ You should have already read: "Speculative decoding explained" — Pre-Lecture R
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-04-m3-readiness" data-kind="readiness" data-draw="5" data-source="Lilian Weng — Speculative Decoding">
+<div class="ox-self-check" data-widget="self-check" data-id="week-04-m3-readiness" data-kind="readiness" data-draw="5" data-source="Hugging Face — Assisted Generation + NVIDIA — Speculative Decoding">
 <script type="application/json" class="ox-self-check__pool">
 [
   {

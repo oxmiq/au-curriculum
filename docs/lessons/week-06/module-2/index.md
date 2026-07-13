@@ -66,7 +66,7 @@ If you couldn't answer all three, review the Student Guide again before proceedi
     "explain": "ReAct (Reason + Act) is the simplest viable agent pattern. The agent: (1) reasons about the current state, (2) decides on an action, (3) acts, (4) observes the result, and (5) repeats until the goal is met. It's the core pattern behind most agent implementations."
   },
   {
-    "stem": "What are the four steps in the agent loop?",
+    "stem": "What are the steps in the agent loop?",
     "options": [
       "Input, Processing, Output, Storage",
       "Perceive → Plan → Act → Observe → Repeat",

@@ -78,15 +78,15 @@ then submit to reveal explanations and your score band.
     "explain": "SemiAnalysis's research agent screened ~2,000 companies per month — a massive throughput leap over manual research. The Action layer (web scraping, data processing) was often the bottleneck, not the Intelligence layer."
   },
   {
-    "stem": "Capsule's 3-layer architecture is: CLI → Control Plane → Node Agents. What protocol connects CLI to Control Plane?",
+    "stem": "Capsule's default connection method, SshRTC, carries SSH traffic over what transport?",
     "options": [
-      "Raw SSH",
-      "WebRTC (SshRTC)",
-      "HTTPS REST API",
+      "A raw public TCP port on the remote",
+      "A WebRTC data channel (no public port needed)",
+      "An HTTPS REST API",
       "gRPC"
     ],
-    "answer": 2,
-    "explain": "CLI connects to Control Plane via HTTPS REST API. The Control Plane coordinates, stores metadata, and routes. Node Agents connect back via WebRTC for interactive sessions."
+    "answer": 1,
+    "explain": "SshRTC (the default for term/code/cursor) tunnels SSH through a WebRTC data channel, so the remote machine never needs a publicly reachable port. Use --direct to force a traditional TCP SSH connection instead."
   },
   {
     "stem": "In Capsule's architecture, where are authentication tokens stored after <code>capsule auth login</code> on macOS?",
@@ -100,18 +100,18 @@ then submit to reveal explanations and your score band.
     "explain": "Tokens are stored in the macOS Keychain for security. This keeps credentials out of config files that might be committed to version control."
   },
   {
-    "stem": "In Capsule's vocabulary, what is the relationship between a config-tag, a node, and a machine?",
+    "stem": "In Capsule's vocabulary, what is the relationship between a config-tag, a unique ID, and a machine?",
     "options": [
-      "A config-tag IS a machine",
-      "A node is a running instance; a machine is the physical/gce resource; a config-tag labels nodes",
+      "A config-tag IS a single machine",
+      "A config-tag names a machine pool/class; a unique ID targets one specific machine; a machine is the physical box the scheduler hands you",
       "They are all the same thing",
-      "config-tag refers to hardware, node refers to software"
+      "config-tag refers to hardware, unique ID refers to software"
     ],
     "answer": 1,
-    "explain": "A machine is the underlying resource (physical or cloud VM). A node is Capsule's running agent on that machine. A config-tag is the label you use to route commands to specific nodes."
+    "explain": "A config-tag is a machine pool/class name — the scheduler hands you any available machine in that pool. A unique ID (used with -u/--unique) targets one specific physical machine. Run capsule list to see pools and capsule list --all to see unique IDs."
   },
   {
-    "stem": "undefined",
+    "stem": "Why does Capsule default to SshRTC (a WebRTC data channel) instead of raw SSH?",
     "options": [
       "SSH is not secure enough",
       "WebRTC works through NAT/firewalls without port-forwarding and supports streaming",
@@ -124,13 +124,13 @@ then submit to reveal explanations and your score band.
   {
     "stem": "What are the exact four GH_TOKEN scopes required for Capsule installation?",
     "options": [
-      "repo, read:user, workflow",
+      "repo, read:org, workflow, user",
       "repo, read:org, gist",
       "repo, read:user, admin:org",
       "repo, read:org, workflow, write:discussion"
     ],
     "answer": 0,
-    "explain": "The four required scopes are: repo (full control of private repositories), read:user (read user profile data), workflow (update GitHub Actions workflows), and gist (create/manage gists)."
+    "explain": "The four required scopes are repo (private repository access), read:org, workflow (update GitHub Actions workflows), and user. The GH_TOKEN is used only during installation and updates, not at runtime."
   },
   {
     "stem": "The Capsule access token has a TTL of approximately 60 minutes. What happens automatically when it expires?",

@@ -73,7 +73,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
     "stem": "Why is FlashAttention called 'I/O-aware'?",
     "options": [
       "It uses more memory than naive attention",
-      "It explicitly accounts for the cost of读写HBM in its algorithm design, minimizing data movement",
+      "It explicitly accounts for the cost of reading/writing HBM in its algorithm design, minimizing data movement",
       "It works with any GPU",
       "It requires fast storage"
     ],

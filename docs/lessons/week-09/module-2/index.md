@@ -75,12 +75,13 @@ Vary **one axis at a time**, hold everything else fixed:
 
 ```bash
 for c in 1 2 4 8 16 32 64; do
-  capsule benchmark \
-    --model meta-llama/Llama-3.1-8B-Instruct \
-    --engine vllm \
+  capsule benchmark <config-tag> \
+    meta-llama/Llama-3.1-8B-Instruct \
+    --backend vllm \
     --concurrency $c \
-    --duration 60s \
-    --out /shared/runs/$(date +%F-%H%M)-sweep-c$c/
+    --input-length 256 \
+    --output-length 256 \
+    --num-prompts $((c * 20))
 done
 ```
 
@@ -177,16 +178,17 @@ Then run the sweep:
 
 ```bash
 for c in 1 2 4 8 16 32; do
-  capsule benchmark \
-    --model meta-llama/Llama-3.1-8B-Instruct \
-    --engine vllm \
+  capsule benchmark <config-tag> \
+    meta-llama/Llama-3.1-8B-Instruct \
+    --backend vllm \
     --concurrency $c \
-    --duration 60s \
-    --out /shared/runs/$(date +%F-%H%M)-sweep-c$c/
+    --input-length 256 \
+    --output-length 256 \
+    --num-prompts $((c * 20))
 done
 ```
 
-Stream the first run (`--stream`); let the rest finish.
+Watch the first run's live output; let the rest finish.
 
 ---
 
@@ -194,7 +196,7 @@ Stream the first run (`--stream`); let the rest finish.
 
 ### Exercise: Plot & Reconcile
 
-1. Pull all reports: `capsule storage get /shared/runs/ ./sweeps/ --glob '*sweep-c*'`
+1. Open the Capsule benchmark dashboard and pull up every run from your sweep (they upload automatically unless you passed `--no-upload`).
 2. Plot throughput vs concurrency (a spreadsheet works).
 3. Mark the elbow you predicted vs the actual elbow.
 4. For every deviation between prediction and result, write 2–3 sentences naming the Phase-1 concept that explains it.

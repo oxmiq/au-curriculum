@@ -255,7 +255,7 @@ capsule claude <config-tag>
 
 Three rules:
 
-1. If SshRTC negotiation fails, retry once after `capsule cleanup`. If it fails again, fall through to `--direct` and report the original failure with logs.
+1. If SshRTC negotiation fails, retry once after `capsule session endall`. If it fails again, fall through to `--direct` and report the original failure with logs.
 2. Always supply `--idle-timeout` and `--max-session-length` for batch-like work (benchmarks, long evals). Otherwise an idle terminal can pin a GPU for hours.
 3. Don't leave stale `capsule-<uniqueId>` entries in your local `~/.ssh/config`. They cause cryptic Remote-SSH failures in VS Code.
 
@@ -484,7 +484,7 @@ These are the commands you'll reach for most often in a triage session:
 capsule status                    # auth, identity, expiry
 capsule env show                  # current environment
 capsule config customer show      # current customer fleet
-capsule cleanup                   # tear down stale WebRTC + SSH state
+capsule session endall                   # tear down stale WebRTC + SSH state
 capsule --version                 # exact CLI build for bug reports
 capsule --no-banner list          # clean output for logs / pasting in tickets
 ```
@@ -495,7 +495,7 @@ And the known-quirks list every intern should memorise:
 |------------------------------------------|------------------------------------------------------------------------------|
 | Auth fails in browser flow               | The CLI falls back to a manual token at `https://oxmiq.ai/oxcapsule/auth`.   |
 | `capsule list` shows wrong machines      | Check `env show` and `config customer show` before anything else.            |
-| SshRTC won't connect                     | `capsule cleanup`, retry, then `--direct` as fallback. Capture logs.         |
+| SshRTC won't connect                     | `capsule session endall`, retry, then `--direct` as fallback. Capture logs.         |
 | VS Code Remote-SSH errors after a session| Remove `capsule-<uniqueId>` blocks from `~/.ssh/config`.                     |
 | macOS Keychain prompts every command     | Click "Always Allow" once.                                                   |
 | Windows PowerShell filter with `>` fails | Use `capsule` (not `cap`) and quote the whole filter argument.               |
@@ -513,7 +513,7 @@ capsule schedule cancel <job-id>
 capsule mcp                       # install Capsule MCP for Claude
 capsule mcp --output ./mcp.json   # inspect config without installing
 
-capsule cleanup
+capsule session endall
 capsule --version
 ```
 
@@ -522,7 +522,7 @@ capsule --version
 1. Write a tiny `eval.sh` that runs `capsule benchmark` against an external `--api-base` and prints the result. Submit it with `capsule schedule start`, then watch `schedule status` and `schedule logs --tail`.
 2. Cancel the job you just submitted.
 3. Run `capsule mcp --output ./mcp.json` and read the file. Identify, by name, which Capsule actions the MCP exposes to Claude.
-4. Run `capsule cleanup`. Re-list machines. Confirm nothing visibly changed for you (`cleanup` is mostly cleanup of *state*, not visible fleet objects).
+4. Run `capsule session endall`. Re-list machines. Confirm nothing visibly changed for you (`cleanup` is mostly cleanup of *state*, not visible fleet objects).
 5. Reproduce one entry from the known-quirks table on purpose (e.g. set the wrong customer) and follow the recovery recipe.
 
 **Checkpoint:** You can run, monitor, and cancel a scheduled job. You can navigate the troubleshooting table from memory.
@@ -556,7 +556,7 @@ Do this end-to-end without notes. Time yourself.
 7. Open the benchmark dashboard and find both runs.
 8. Schedule the same benchmark as a background job with a 1-hour timeout.
 9. While the scheduled job runs, open `capsule chat` against the same model and verify a few prompts qualitatively.
-10. After everything completes, run `capsule cleanup`. Run `capsule list --users` and confirm you are no longer holding the machine.
+10. After everything completes, run `capsule session endall`. Run `capsule list --users` and confirm you are no longer holding the machine.
 
 Target time: under 30 minutes once you've done it once. Reliability work is mostly muscle memory.
 
@@ -655,7 +655,7 @@ The labs above teach you the happy path. This appendix teaches you the *unhappy*
 
 1. On a single machine, write the same 100MB file to `/tmp/test.bin`, `~/test.bin`, and `~/OneDrive/test.bin`.
 2. Time each write. Record the throughput.
-3. Restart the container (or `capsule cleanup` and reconnect).
+3. Restart the container (or `capsule session endall` and reconnect).
 4. Confirm `/tmp/test.bin` is gone; `~/test.bin` survives; `~/OneDrive/test.bin` is also visible from a *second* machine.
 5. Delete `~/OneDrive/test.bin` from machine A; confirm it disappears from machine B within ~60 sec.
 

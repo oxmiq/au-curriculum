@@ -56,7 +56,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Files sorted by modification time, newest first"
     ],
     "answer": 1,
-    "explain": "The <code>-l</code> flag enables long format (permissions, owner, size, timestamp) and <code>-a</code> reveals entries whose names begin with <code>.</code>. Plain <code>ls</code> shows only unhidden filenames without metadata. The MIT Missing Semester Shell chapter demonstrates <code>ls -l</code> in its first navigation example."
+    "explain": "The <code>-l</code> flag enables long format (permissions, owner, size, timestamp) and <code>-a</code> reveals entries whose names begin with <code>.</code>. Plain <code>ls</code> shows only unhidden filenames without metadata. The MIT Missing Semester course demonstrates <code>ls -l</code> in its first navigation example."
   },
   {
     "stem": "What does <code>echo hello | tr a-z A-Z</code> print?",
@@ -67,7 +67,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "HELLO followed by hello on the next line"
     ],
     "answer": 1,
-    "explain": "<code>echo hello</code> writes <code>hello</code> to stdout; the pipe sends it to <code>tr a-z A-Z</code>, which translates each lowercase letter to its uppercase equivalent, yielding <code>HELLO</code>. The MIT Missing Semester Shell chapter introduces pipes with text-transformation examples."
+    "explain": "<code>echo hello</code> writes <code>hello</code> to stdout; the pipe sends it to <code>tr a-z A-Z</code>, which translates each lowercase letter to its uppercase equivalent, yielding <code>HELLO</code>. The MIT Missing Semester course introduces pipes with text-transformation examples."
   },
   {
     "stem": "What does a pipe (<code>|</code>) connect in a shell pipeline?",
@@ -78,7 +78,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "The standard error of one command to the standard output of the next"
     ],
     "answer": 2,
-    "explain": "A Unix pipe routes stdout from the left-hand command into stdin of the right-hand command. It does not automatically merge stderr (that requires <code>2&gt;&amp;1</code>). The MIT Missing Semester Shell chapter introduces the pipe with examples such as <code>ls | wc -l</code>."
+    "explain": "A Unix pipe routes stdout from the left-hand command into stdin of the right-hand command. It does not automatically merge stderr (that requires <code>2&gt;&amp;1</code>). The MIT Missing Semester course introduces the pipe with examples such as <code>ls | wc -l</code>."
   },
   {
     "stem": "What is the difference between <code>&gt;</code> and <code>&gt;&gt;</code> when redirecting output to a file?",
@@ -89,7 +89,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "<code>&gt;</code> redirects stdout; <code>&gt;&gt;</code> redirects both stdout and stderr"
     ],
     "answer": 2,
-    "explain": "<code>&gt;</code> truncates the target file to zero length and writes from the start. <code>&gt;&gt;</code> opens in append mode, preserving existing content. The MIT Missing Semester Shell chapter covers this distinction in its section on redirections."
+    "explain": "<code>&gt;</code> truncates the target file to zero length and writes from the start. <code>&gt;&gt;</code> opens in append mode, preserving existing content. The MIT Missing Semester course covers this distinction in its section on redirections."
   },
   {
     "stem": "A student runs <code>./script.sh</code> and sees <code>bash: ./script.sh: Permission denied</code>. What is the most likely fix?",
@@ -100,7 +100,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Move the script to <code>/usr/local/bin/</code>"
     ],
     "answer": 1,
-    "explain": "The error indicates the file lacks the execute bit. <code>chmod +x</code> adds it. A missing shebang line causes different behaviour; moving the script to a system directory is unrelated to the permission error. The MIT Missing Semester Shell chapter covers file permissions and <code>chmod</code>."
+    "explain": "The error indicates the file lacks the execute bit. <code>chmod +x</code> adds it. A missing shebang line causes different behaviour; moving the script to a system directory is unrelated to the permission error. The MIT Missing Semester course covers file permissions and <code>chmod</code>."
   },
   {
     "stem": "What does the environment variable <code>$PATH</code> control?",
@@ -111,7 +111,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "The list of directories the shell searches when resolving a command name"
     ],
     "answer": 3,
-    "explain": "When you type a bare command name, the shell checks each directory listed in <code>$PATH</code> in order. <code>$HOME</code> tracks the home directory; <code>$EDITOR</code> or <code>$VISUAL</code> tracks the editor. The MIT Missing Semester Shell chapter explains <code>$PATH</code> in its section on how commands are resolved."
+    "explain": "When you type a bare command name, the shell checks each directory listed in <code>$PATH</code> in order. <code>$HOME</code> tracks the home directory; <code>$EDITOR</code> or <code>$VISUAL</code> tracks the editor. The MIT Missing Semester course explains <code>$PATH</code> in its section on how commands are resolved."
   },
   {
     "stem": "Which character is the shell shortcut for the current user\u2019s home directory?",
@@ -122,7 +122,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "<code>*</code>"
     ],
     "answer": 1,
-    "explain": "<code>~</code> expands to the value of <code>$HOME</code> in most POSIX shells. <code>/</code> is the filesystem root; <code>.</code> means the current directory; <code>*</code> is a glob wildcard. The MIT Missing Semester Shell chapter uses <code>cd ~</code> to navigate home."
+    "explain": "<code>~</code> expands to the value of <code>$HOME</code> in most POSIX shells. <code>/</code> is the filesystem root; <code>.</code> means the current directory; <code>*</code> is a glob wildcard. The MIT Missing Semester course uses <code>cd ~</code> to navigate home."
   },
   {
     "stem": "Which command correctly counts the number of lines in a file named <code>results.log</code>?",
@@ -133,7 +133,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "<code>wc -l results.log</code>"
     ],
     "answer": 3,
-    "explain": "<code>wc -l</code> counts newline characters, giving the line count. <code>ls -l</code> shows file metadata, not content. <code>cat -n</code> prefixes each line with its number but does not produce a count. There is no standard <code>count</code> command. The MIT Missing Semester Shell chapter uses <code>wc</code> in its pipe examples."
+    "explain": "<code>wc -l</code> counts newline characters, giving the line count. <code>ls -l</code> shows file metadata, not content. <code>cat -n</code> prefixes each line with its number but does not produce a count. There is no standard <code>count</code> command. The MIT Missing Semester course uses <code>wc</code> in its pipe examples."
   },
   {
     "stem": "Which command prints the absolute path of the current working directory?",
@@ -144,7 +144,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "<code>ls -d .</code>"
     ],
     "answer": 2,
-    "explain": "<code>pwd</code> (print working directory) outputs the full absolute path. There is no standard <code>cwd</code> command; <code>$CWD</code> is not a standard shell variable (the conventional variable is <code>$PWD</code>); <code>ls -d .</code> prints a single dot. The MIT Missing Semester Shell chapter introduces <code>pwd</code> as one of the first commands."
+    "explain": "<code>pwd</code> (print working directory) outputs the full absolute path. There is no standard <code>cwd</code> command; <code>$CWD</code> is not a standard shell variable (the conventional variable is <code>$PWD</code>); <code>ls -d .</code> prints a single dot. The MIT Missing Semester course introduces <code>pwd</code> as one of the first commands."
   },
   {
     "stem": "A student wants to append the output of <code>date</code> to an existing file <code>log.txt</code> without erasing its current content. Which command achieves this?",
@@ -155,7 +155,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "<code>date &gt;&gt; log.txt</code>"
     ],
     "answer": 3,
-    "explain": "<code>&gt;&gt;</code> opens the file in append mode, preserving existing content. <code>&gt;</code> would truncate the file. <code>|</code> pipes to another command, not to a file. The MIT Missing Semester Shell chapter distinguishes <code>&gt;</code> and <code>&gt;&gt;</code> explicitly."
+    "explain": "<code>&gt;&gt;</code> opens the file in append mode, preserving existing content. <code>&gt;</code> would truncate the file. <code>|</code> pipes to another command, not to a file. The MIT Missing Semester course distinguishes <code>&gt;</code> and <code>&gt;&gt;</code> explicitly."
   },
   {
     "stem": "In the pipeline <code>ps aux | grep python | awk '{print $2}'</code>, which component is responsible for filtering lines?",
@@ -166,7 +166,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "<code>grep python</code>"
     ],
     "answer": 3,
-    "explain": "<code>grep python</code> selects only lines containing the string <code>python</code>. <code>ps aux</code> generates all process data; <code>awk '{print $2}'</code> extracts a column from the filtered output. The pipe operator routes data but performs no filtering. The MIT Missing Semester Shell chapter covers <code>grep</code> as a filtering tool."
+    "explain": "<code>grep python</code> selects only lines containing the string <code>python</code>. <code>ps aux</code> generates all process data; <code>awk '{print $2}'</code> extracts a column from the filtered output. The pipe operator routes data but performs no filtering. The MIT Missing Semester course covers <code>grep</code> as a filtering tool."
   },
   {
     "stem": "What does the <code>-n</code> flag add to <code>grep</code>\u2019s default output?",
@@ -177,7 +177,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "The filename prefixed before each match"
     ],
     "answer": 1,
-    "explain": "<code>-n</code> prefixes each matching line with its line number in the source file. <code>-c</code> counts matches; <code>-v</code> inverts the match; <code>-l</code> prints filenames only. The MIT Missing Semester Shell chapter covers common <code>grep</code> flags."
+    "explain": "<code>-n</code> prefixes each matching line with its line number in the source file. <code>-c</code> counts matches; <code>-v</code> inverts the match; <code>-l</code> prints filenames only. The MIT Missing Semester course covers common <code>grep</code> flags."
   },
   {
     "stem": "Why does Unix philosophy favour small, composable commands over large monolithic programs?",
@@ -188,7 +188,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Small programs cannot be run as root, improving security through privilege separation"
     ],
     "answer": 2,
-    "explain": "The Unix \u201cdo one thing well\u201d principle means <code>ls</code>, <code>grep</code>, <code>awk</code>, and <code>wc</code> each solve a narrow problem and compose on demand via pipes. Large monolithic programs tie logic together, requiring rewrites for new task combinations. The MIT Missing Semester Shell chapter motivates this with its pipeline examples."
+    "explain": "The Unix \u201cdo one thing well\u201d principle means <code>ls</code>, <code>grep</code>, <code>awk</code>, and <code>wc</code> each solve a narrow problem and compose on demand via pipes. Large monolithic programs tie logic together, requiring rewrites for new task combinations. The MIT Missing Semester course motivates this with its pipeline examples."
   },
   {
     "stem": "A student types <code>cd Documents/project</code> and gets \u201cNo such file or directory.\u201d Which two causes are most likely?",
@@ -199,7 +199,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "The terminal session has not been restarted since the directory was created"
     ],
     "answer": 1,
-    "explain": "Relative paths resolve from <code>$PWD</code>. If you are not in the directory containing <code>Documents</code>, the path fails. Linux filesystems are case-sensitive, so <code>documents</code> and <code>Documents</code> are distinct entries. A permission error produces a different message. The MIT Missing Semester Shell chapter discusses relative vs absolute paths."
+    "explain": "Relative paths resolve from <code>$PWD</code>. If you are not in the directory containing <code>Documents</code>, the path fails. Linux filesystems are case-sensitive, so <code>documents</code> and <code>Documents</code> are distinct entries. A permission error produces a different message. The MIT Missing Semester course discusses relative vs absolute paths."
   },
   {
     "stem": "Why is the shell still the primary interface for engineers, even though graphical tools exist?",
@@ -210,7 +210,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Company IT policies generally prohibit GUI tools on production servers"
     ],
     "answer": 1,
-    "explain": "Automation, reproducibility, and remote access are the decisive advantages. The same commands run unchanged on a laptop, a CI server, or a GPU node accessed over SSH. GUIs can display text; there is no kernel scheduling difference. The MIT Missing Semester Shell chapter opens with this motivation."
+    "explain": "Automation, reproducibility, and remote access are the decisive advantages. The same commands run unchanged on a laptop, a CI server, or a GPU node accessed over SSH. GUIs can display text; there is no kernel scheduling difference. The MIT Missing Semester course opens with this motivation."
   },
   {
     "stem": "Compare <code>cat file.txt | grep pattern</code> and <code>grep pattern file.txt</code>. Which is generally preferred and why?",
@@ -221,7 +221,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "<code>cat file.txt | grep pattern</code> \u2014 <code>grep</code> cannot accept filenames in all shells"
     ],
     "answer": 1,
-    "explain": "Using <code>cat</code> solely to feed a file into another command is called a \u201cuseless use of cat.\u201d <code>grep</code> accepts a filename argument directly, avoiding the extra process fork. The MIT Missing Semester Shell chapter demonstrates direct file arguments as the idiomatic form."
+    "explain": "Using <code>cat</code> solely to feed a file into another command is called a \u201cuseless use of cat.\u201d <code>grep</code> accepts a filename argument directly, avoiding the extra process fork. The MIT Missing Semester course demonstrates direct file arguments as the idiomatic form."
   },
   {
     "stem": "What is the practical difference between a relative path and an absolute path?",
@@ -232,7 +232,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "A relative path resolves from the current working directory; an absolute path always resolves from the filesystem root <code>/</code>"
     ],
     "answer": 3,
-    "explain": "An absolute path like <code>/home/shiva/data</code> is unambiguous wherever you are. A relative path like <code>data/</code> means different things depending on <code>$PWD</code>. Both forms can use <code>..</code>; there is no kernel speed difference. The MIT Missing Semester Shell chapter explains this in its navigation section."
+    "explain": "An absolute path like <code>/home/shiva/data</code> is unambiguous wherever you are. A relative path like <code>data/</code> means different things depending on <code>$PWD</code>. Both forms can use <code>..</code>; there is no kernel speed difference. The MIT Missing Semester course explains this in its navigation section."
   },
   {
     "stem": "Why does <code>source script.sh</code> behave differently from <code>./script.sh</code>?",
@@ -243,7 +243,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "<code>source</code> works only with Python scripts; <code>./</code> works with any executable"
     ],
     "answer": 0,
-    "explain": "<code>source</code> (or <code>.</code>) evaluates the script in the calling shell\u2019s environment \u2014 variable assignments and <code>cd</code> calls take effect immediately. A subprocess from <code>./</code> has its own environment that is discarded on exit. This is why shell setup scripts must be sourced. The MIT Missing Semester Shell chapter covers environment variables and sub-processes."
+    "explain": "<code>source</code> (or <code>.</code>) evaluates the script in the calling shell\u2019s environment \u2014 variable assignments and <code>cd</code> calls take effect immediately. A subprocess from <code>./</code> has its own environment that is discarded on exit. This is why shell setup scripts must be sourced. The MIT Missing Semester course covers environment variables and sub-processes."
   },
   {
     "stem": "What does the <code>$()</code> notation do in a shell command such as <code>today=$(date +%F)</code>?",
@@ -254,7 +254,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Creates a subshell that inherits but cannot modify the parent\u2019s variables"
     ],
     "answer": 2,
-    "explain": "<code>$()</code> triggers command substitution: the shell executes the inner command and replaces the expression with its stdout. In <code>today=$(date +%F)</code>, the current date (e.g., <code>2026-06-24</code>) is captured and assigned. The MIT Missing Semester Shell chapter covers this syntax for using command output in variable assignments."
+    "explain": "<code>$()</code> triggers command substitution: the shell executes the inner command and replaces the expression with its stdout. In <code>today=$(date +%F)</code>, the current date (e.g., <code>2026-06-24</code>) is captured and assigned. The MIT Missing Semester course covers this syntax for using command output in variable assignments."
   },
   {
     "stem": "A student wants to view the contents of <code>notes.txt</code> without opening an interactive editor. Which command is correct?",
@@ -265,7 +265,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "<code>echo notes.txt</code>"
     ],
     "answer": 2,
-    "explain": "<code>cat</code> concatenates and prints file contents to stdout without opening an editor. <code>vim</code> opens an interactive editor; <code>touch</code> updates the file\u2019s timestamp (or creates it if absent); <code>echo notes.txt</code> prints the literal string <code>notes.txt</code>, not the file\u2019s contents. The MIT Missing Semester Shell chapter introduces <code>cat</code> as a basic file-viewing tool."
+    "explain": "<code>cat</code> concatenates and prints file contents to stdout without opening an editor. <code>vim</code> opens an interactive editor; <code>touch</code> updates the file\u2019s timestamp (or creates it if absent); <code>echo notes.txt</code> prints the literal string <code>notes.txt</code>, not the file\u2019s contents. The MIT Missing Semester course introduces <code>cat</code> as a basic file-viewing tool."
   }
 ]
 </script>
@@ -668,7 +668,7 @@ Tomorrow: git. Version control is how multiple humans collaborate on the same sh
 
 ### Pre-read for tomorrow (Day 3 · Git Workflow)
 
-- **Resource:** <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian Git Tutorial — Basic Workflow</a>.
+- **Resource:** <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian — Saving Changes</a> + <a href="https://www.atlassian.com/git/tutorials/using-branches" target="_blank" rel="noopener">Using Branches</a> + <a href="https://www.atlassian.com/git/tutorials/syncing" target="_blank" rel="noopener">Syncing</a>.
 - **Reflection questions:**
   1. What's the difference between `git commit` and `git push`?
   2. Why is "always work on a branch, never directly on main" a near-universal convention?

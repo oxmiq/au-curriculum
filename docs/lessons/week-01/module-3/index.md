@@ -1,7 +1,7 @@
 # Day 3 · Git Workflow
 
 > **Concept of the day:** Branch, commit (conventional format), push, PR. Why commit messages matter.<br>
-> **Pre-reading:** <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian Git Tutorial — Basic Workflow</a>.
+> **Pre-reading:** <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian — Saving Changes</a>, <a href="https://www.atlassian.com/git/tutorials/using-branches" target="_blank" rel="noopener">Using Branches</a>, and <a href="https://www.atlassian.com/git/tutorials/syncing" target="_blank" rel="noopener">Syncing</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -38,11 +38,11 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 ## Part 1 — Pre-Reading Review
 ### Before You Start
 
-You should have already read: <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian Git Tutorial — Basic Workflow</a>.
+You should have already read: <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian — Saving Changes</a>, <a href="https://www.atlassian.com/git/tutorials/using-branches" target="_blank" rel="noopener">Using Branches</a>, and <a href="https://www.atlassian.com/git/tutorials/syncing" target="_blank" rel="noopener">Syncing</a>.
 
 ### Quick Self-Check
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-01-m3-readiness" data-kind="readiness" data-draw="5" data-source="Atlassian Git Tutorial — Basic Workflow">
+<div class="ox-self-check" data-widget="self-check" data-id="week-01-m3-readiness" data-kind="readiness" data-draw="5" data-source="Atlassian Git Tutorials — Saving Changes, Branches & Syncing">
 
 <script type="application/json" class="ox-self-check__pool">
 [

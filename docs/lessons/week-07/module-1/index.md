@@ -1,6 +1,6 @@
 # Day 32 · Agent Case Studies
 
-> **Concept of the day:** the same 5-layer stack (intelligence → action → governance → orchestration → economics) shows up in every real deployed agent. Reading case studies teaches you where the *actual* hard problems live — not in the whiteboard diagram, but in production. **Pre-reading:** <a href="../../../readings/ai-agents/#consolidation-phase-2-wrap">AI Agents Pre-Lecture Reading</a>. Case studies: <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" target="_blank" rel="noopener">Klarna AI assistant</a> or <a href="https://www.anthropic.com/news/claude-code" target="_blank" rel="noopener">Anthropic — Claude Code</a>.
+> **Concept of the day:** the same 5-layer stack (intelligence → action → governance → orchestration → economics) shows up in every real deployed agent. Reading case studies teaches you where the *actual* hard problems live — not in the whiteboard diagram, but in production. **Pre-reading:** <a href="../../../readings/ai-agents/#consolidation-phase-2-wrap">AI Agents Pre-Lecture Reading</a>. Case studies: <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" target="_blank" rel="noopener">Klarna AI assistant</a> or <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">Anthropic — Claude Code</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -36,7 +36,7 @@
 
 ### Before You Start
 
-You should have already read: <a href="../../../readings/ai-agents/#consolidation-phase-2-wrap">AI Agents Pre-Lecture Reading</a>. Case studies: <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" target="_blank" rel="noopener">Klarna AI assistant</a> or <a href="https://www.anthropic.com/news/claude-code" target="_blank" rel="noopener">Anthropic — Claude Code</a>.
+You should have already read: <a href="../../../readings/ai-agents/#consolidation-phase-2-wrap">AI Agents Pre-Lecture Reading</a>. Case studies: <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" target="_blank" rel="noopener">Klarna AI assistant</a> or <a href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener">Anthropic — Claude Code</a>.
 
 ### Readiness Check
 

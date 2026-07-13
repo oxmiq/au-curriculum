@@ -206,7 +206,7 @@ Week 2 begins on Monday. You'll learn about:
 
 ### Pre-read for Monday (Week 2, Day 6)
 
-**Resource:** <a href="https://huyenchip.com/2023/04/11/llm-engineering.html" target="_blank" rel="noopener">Chip Huyen — LLM Engineering: Inference Optimization</a> (read the Inference section).
+**Resource:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering</a> (read the inference-pipeline overview: prefill/decode, KV cache, batching).
 
 **Reflection questions:**
 
