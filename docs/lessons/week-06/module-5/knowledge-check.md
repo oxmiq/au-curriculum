@@ -92,7 +92,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
     "stem": "Why do MoE (Mixture of Experts) and FlashAttention make agents economically viable?",
     "options": [
       "They make the model larger and slower, reducing costs",
-      "They enable selective activation (only relevant experts fire) and fast attention (O(N) not O(N²))",
+      "They enable selective activation (only relevant experts fire) and faster, memory-efficient attention",
       "They eliminate the need for GPUs entirely",
       "They automatically generate optimal prompts"
     ],
@@ -103,12 +103,12 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
     "stem": "The minimum six fields of a tool schema are:",
     "options": [
       "name, description, parameters, returns, version, author",
-      "description, name, parameters (properties, required), strict",
+      "name, description, parameters, returns, side_effects, cost",
       "title, description, type, format, default, example",
       "id, name, schema, handler, timeout, retries"
     ],
     "answer": 1,
-    "explain": "The canonical six are: description (what it does), name (how to call it), parameters with properties and required fields, and strict flag for JSON mode."
+    "explain": "The lesson's six fields are: name (the identifier the model writes in Action), description (what it does — used for tool selection), parameters (JSON Schema of inputs), returns (schema of the observation), side_effects (none vs write — gates safety), and cost (optional hint)."
   },
   {
     "stem": "The fundamental safety rule for read vs write tools is:",
@@ -116,7 +116,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
       "Read tools can be called freely; write tools require human approval",
       "Write tools should never be exposed to agents",
       "Read tools are safe; write tools need sandboxing or approval gates",
-      "All tools are equally safe if the model is对齐"
+      "All tools are equally safe if the model is aligned"
     ],
     "answer": 2,
     "explain": "Read tools (search, fetch, inspect) are generally safe. Write tools (delete, send, write) need safeguards: sandboxing, rate limits, or human-in-the-loop approval."
@@ -141,7 +141,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
       "50%"
     ],
     "answer": 2,
-    "explain": "0.95¹⁰ ≈ 0.60 or 60%. Chain reliability compounds multiplicatively, which is why agent systems need retries, fallbacks, and gracefull degradation."
+    "explain": "0.95¹⁰ ≈ 0.60 or 60%. Chain reliability compounds multiplicatively, which is why agent systems need retries, fallbacks, and graceful degradation."
   },
   {
     "stem": "Indirect prompt injection works by:",
@@ -155,15 +155,15 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
     "explain": "Indirect injection hides instructions in retrieved documents, web pages, or system messages the agent processes — the agent 'sees' the attack as legitimate input."
   },
   {
-    "stem": "EchoLeak was a CVE that exploited:",
+    "stem": "EchoLeak (CVE-2025-32711) was a real agent exploit that worked by:",
     "options": [
-      "Buffer overflow in NVIDIA drivers",
-      "Model weights shipped in Docker images",
-      "Tool output that echoed back unsanitized prompt content",
+      "A buffer overflow in NVIDIA GPU drivers",
+      "Model weights being shipped inside Docker images",
+      "Hidden instructions in a crafted email that Copilot processed as context, exfiltrating user data zero-click",
       "A vulnerability in the MCP Sampling protocol"
     ],
     "answer": 2,
-    "explain": "EchoLeak (CVE-2024-6981) was a vulnerability where tool outputs were echoed back without sanitization, potentially exposing system prompts or sensitive data."
+    "explain": "EchoLeak (CVE-2025-32711, June 2025) was a zero-click indirect prompt injection against Microsoft 365 Copilot: a crafted email in the inbox carried hidden instructions that triggered tool calls to exfiltrate emails and files with no user interaction. It was patched server-side."
   },
   {
     "stem": "The three governance classes are:",
@@ -499,7 +499,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
     "stem": "Most cost-effective hallucination guardrail is:",
     "options": [
       "Bigger model",
-      "Adding 'If the answer isn't in the source, say I don\\'t know'",
+      "Adding 'If the answer isn't in the source, say I don't know'",
       "Quantize to FP8",
       "Use TGI"
     ],
