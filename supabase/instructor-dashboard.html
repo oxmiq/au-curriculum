@@ -54,6 +54,7 @@
     <thead><tr>
       <th data-k="student_email">Student</th>
       <th data-k="check_id">Check</th>
+      <th>Type</th>
       <th data-k="attempts">Attempts</th>
       <th data-k="best_ratio">Best</th>
       <th data-k="last_ratio">Last</th>
@@ -118,6 +119,7 @@ function render() {
     tr.innerHTML =
       "<td>" + (r.student_email||"—") + "</td>" +
       "<td class='muted'>" + r.check_id + "</td>" +
+      "<td>" + (/-readiness$/.test(r.check_id) ? 'Readiness' : /-wrapup$/.test(r.check_id) ? 'Self-Check' : '—') + "</td>" +
       "<td>" + r.attempts + "</td>" +
       "<td class='ratio'>" + bar(r.best_ratio) + pct(r.best_ratio) + "</td>" +
       "<td class='ratio'>" + pct(r.last_ratio) + "</td>" +

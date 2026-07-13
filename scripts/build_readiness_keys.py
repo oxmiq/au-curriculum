@@ -16,8 +16,11 @@ from __future__ import annotations
 import glob, json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Seed keys for BOTH readiness pools and end-of-lesson self-checks (wrap-up in
+# lesson index.md). Canonical weekly knowledge-checks live in knowledge-check.md,
+# which this glob does not read, so they are excluded automatically.
 POOL_RE = re.compile(
-    r'<div class="ox-self-check"[^>]*data-kind="readiness"[^>]*>\s*'
+    r'<div class="ox-self-check"[^>]*data-kind="(?:readiness|wrap-up)"[^>]*>\s*'
     r'<script[^>]*class="ox-self-check__pool">(.*?)</script>',
     re.S,
 )
