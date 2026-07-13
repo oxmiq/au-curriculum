@@ -455,6 +455,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "A common install gotcha: the install script adds Capsule to a PATH directory but the current shell session doesn't see it yet. Fix: run `source ~/.bashrc` (or `~/.zshrc`) or open a new terminal. This is one of the four gotchas the lesson enumerates — check the gotchas table for the full list."
+  },
+  {
+    "stem": "Which four GitHub token (GH_TOKEN) scopes does the Capsule install require, and why?",
+    "options": [
+      "`repo` only — nothing else is needed",
+      "`repo`, `read:org`, `workflow`, `admin:repo_hook`",
+      "`repo` (read the private tap + release downloads), `read:org` (verify org membership), `workflow` (workflow-triggered releases), and `user` (read the profile for identity)",
+      "No token is needed; the tap is public"
+    ],
+    "answer": 2,
+    "explain": "Part 2 ('Requires GH_TOKEN during tap'): the software-packages repo is private, so `brew tap` authenticates with a PAT carrying `repo`, `read:org`, `workflow`, and `user`. The token is used only at install/update time, not at runtime — runtime auth is Azure B2C via `capsule auth login`."
+  },
+  {
+    "stem": "What is the exact post-install command sequence to verify a working Capsule install?",
+    "options": [
+      "`capsule --version` -> `capsule auth login` -> `capsule status` (then `capsule auth storage` and `capsule list | head`)",
+      "`capsule init` -> `capsule verify --all`",
+      "`capsule check` -> `capsule login` -> `capsule ping`",
+      "`capsule doctor` -> `capsule test`"
+    ],
+    "answer": 0,
+    "explain": "Part 2 and Part 4: run `capsule --version` to confirm the binary is on PATH, `capsule auth login` to complete the Azure B2C browser flow, then `capsule status` to print your identity and token expiry. Part 4 adds `capsule auth storage` (OneDrive consent) and `capsule list | head` to confirm fleet visibility. There is no `capsule init`, `verify`, `check`, or `doctor` command."
+  },
+  {
+    "stem": "Why does the Capsule install include `rclone`?",
+    "options": [
+      "It is the GPU driver Capsule needs to run benchmarks",
+      "It is a Python package manager for model dependencies",
+      "It is a terminal multiplexer that keeps sessions alive",
+      "Capsule uses it under the hood for cloud storage mounts (OneDrive); you never call it directly, but it must be on PATH"
+    ],
+    "answer": 3,
+    "explain": "Part 2 ('Installs rclone alongside') and Part 1: rclone is a file-transfer tool Capsule uses under the hood for OneDrive cloud-storage mounts. `capsule auth storage` and the automatic OneDrive mount drive it — you never invoke it directly — but it must be on PATH. The brew formula installs it automatically on macOS."
+  },
+  {
+    "stem": "`capsule status` reports 'unauthorized' immediately after a successful `capsule auth login`. What is the most likely cause?",
+    "options": [
+      "The GH_TOKEN scopes are wrong",
+      "The system clock is skewed more than 5 minutes from UTC, so a locally valid token fails server-side validation (diagnose with `date -u`, fix by syncing NTP)",
+      "rclone is missing from PATH",
+      "You must reinstall the CLI from scratch"
+    ],
+    "answer": 1,
+    "explain": "Part 3 and Gotcha 3 in Part 5: clock skew causes silent auth failures — if the system clock is more than ~5 minutes ahead of UTC the access token is rejected server-side even though it looks valid locally. Diagnose with `date -u` against real UTC; fix by syncing NTP (`sudo sntp -sS time.apple.com` on macOS, `w32tm /resync` on Windows)."
   }
 ]
 </script>

@@ -340,6 +340,28 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "Part 2 shows NVLink provides 900 GB/s GPU↔GPU bandwidth, compared to PCIe at ~64 GB/s. NVLink enables tensor parallelism to work efficiently across GPUs on the same server. Without it, inter-GPU communication would bottleneck multi-GPU inference."
+  },
+  {
+    "stem": "How many SMs and Tensor Cores does the H100 SXM5 have, according to Part 2?",
+    "options": [
+      "16,896 SMs and 132 Tensor Cores",
+      "50 SMs and 989 Tensor Cores",
+      "80 SMs and 3,350 Tensor Cores",
+      "132 SMs and 528 Tensor Cores"
+    ],
+    "answer": 3,
+    "explain": "Part 2's 'Key Numbers to Memorize': 132 SMs (the compute units) and 528 Tensor Cores (the specialized AI accelerators). The 16,896 figure is the CUDA Core count, and 989 TFLOPs is the FP16 compute throughput."
+  },
+  {
+    "stem": "In the Part 5 exercise, roughly how long does it take to move all 80 GB of H100 weights from HBM into the chip once (at 3.35 TB/s)?",
+    "options": [
+      "~24 ms",
+      "~2.4 ms",
+      "~240 ms",
+      "~24 seconds"
+    ],
+    "answer": 0,
+    "explain": "Part 5 computes Time = Size / Bandwidth = 80 GB ÷ 3,350 GB/s ≈ 0.024 s = ~24 ms. Interestingly the RTX 4090 works out to the same 24 ms (24 GB ÷ 1,000 GB/s), because its smaller memory is paired with proportionally smaller bandwidth."
   }
 ]
 </script>

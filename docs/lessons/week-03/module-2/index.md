@@ -284,29 +284,29 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "The logit vocabulary distribution"
     ],
     "answer": 1,
-    "explain": "Each generated token appends a new K and V vector to every attention layer's cache. For a model with L layers and H hidden dimension, the cache grows by 2 × L × H bytes per new token. This is the source of the linear scaling that makes long contexts expensive."
+    "explain": "Each generated token appends a new K and V vector to every attention layer's cache. The cache grows by 2 × num_layers × num_kv_heads × head_dim × bytes_per_element per new token (Part 3). This per-token growth is the source of the linear scaling that makes long contexts expensive."
   },
   {
     "stem": "Which of the following correctly expresses the KV cache size formula?",
     "options": [
-      "2 × num_layers × hidden_size × sequence_length × bytes_per_element",
+      "2 × num_layers × num_kv_heads × head_dim × seq_len × bytes_per_element",
       "num_layers × hidden_size × vocab_size × bytes_per_element",
-      "sequence_length × vocab_size × bytes_per_element",
+      "seq_len × vocab_size × bytes_per_element",
       "2 × hidden_size × batch_size × bytes_per_element"
     ],
     "answer": 0,
-    "explain": "KV cache = 2 (K + V) × num_layers × hidden_size × sequence_length × bytes_per_element. The factor of 2 is because both K and V are stored. This formula shows why both long sequences and deep models create large caches."
+    "explain": "Per Part 3: KV bytes = 2 (K + V) × num_layers × num_kv_heads × head_dim × seq_len × bytes_per_element. Using num_kv_heads (not the full hidden_size) is exactly what lets GQA/MQA shrink the cache — Llama-3.1-8B uses 8 KV heads vs 32 query heads, a 4× reduction versus full multi-head attention."
   },
   {
     "stem": "Why does serving long-context requests push against HBM limits?",
     "options": [
       "Long contexts increase the model weight size proportionally",
-      "KV cache size scales linearly with sequence length — at 128K tokens, it can exceed model weight size and consume most HBM",
+      "KV cache size scales linearly with sequence length — at 128K it equals the weights at batch=1 and exceeds them at batch>1, consuming most of HBM",
       "Long contexts require FP32 precision instead of FP16",
       "HBM bandwidth decreases as more data is stored in it"
     ],
     "answer": 1,
-    "explain": "KV cache scales linearly with sequence length. For an 8B model at 128K context, the KV cache can be 32+ GB — exceeding the 16 GB model weights and consuming nearly half the H100's 80 GB HBM. Less HBM for KV cache means smaller batch sizes and lower throughput."
+    "explain": "Per the Part 3 table, an 8B model at 128K context has a ~16 GB KV cache at batch=1 — equal to the 16 GB weights, not larger; it exceeds them at batch>1. Either way it consumes a large share of the H100's 80 GB HBM, leaving less room for batching and cutting throughput."
   },
   {
     "stem": "What is the direct impact of a large KV cache on serving throughput?",
@@ -329,6 +329,39 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The lesson states: 'KV cache scales linearly with context, blows past model weights, eats HBM that batching needs.' This triple impact — linear growth, overtaking weights, consuming batch budget — is why KV cache management is a central concern in Weeks 3-4."
+  },
+  {
+    "stem": "In the Part 3 worked example (Llama-3.1-8B, FP16, 8 KV heads, head_dim 128, 32 layers), how large is the KV cache per token for the whole model?",
+    "options": [
+      "4 KB",
+      "128 KB",
+      "16 GB",
+      "512 MB"
+    ],
+    "answer": 1,
+    "explain": "Per-token, per-layer = 2 × 8 × 128 × 2 = 4 KB. Across all 32 layers that is 4 KB × 32 = 128 KB per token for the full model. You then multiply by seq_len for the total (e.g. 128 KB × 131,072 ≈ 16 GB at 128K context)."
+  },
+  {
+    "stem": "By how much does Llama-3's GQA shrink the KV cache relative to full multi-head attention, and why?",
+    "options": [
+      "No change — GQA only affects the query heads",
+      "2× smaller, by halving head_dim",
+      "4× smaller, because 8 KV heads are shared across 32 query heads instead of one KV head per query head",
+      "32× smaller, by collapsing to a single KV head"
+    ],
+    "answer": 2,
+    "explain": "Part 5: Llama-3 uses GQA with 8 KV heads vs 32 query heads → a 4× smaller KV cache than full MHA. MQA/GQA shrink the cache purely by reducing num_kv_heads in the size formula; the query heads still number 32."
+  },
+  {
+    "stem": "The lesson stores K and V in FP8 (1 byte) instead of FP16 for the 8B model at 128K context. What is the effect?",
+    "options": [
+      "It doubles the cache to 32 GB",
+      "It halves the cache from 16 GB to 8 GB, so it fits alongside the 16 GB weights",
+      "It has no effect — precision does not change cache size",
+      "It quadruples throughput but leaves cache size unchanged"
+    ],
+    "answer": 1,
+    "explain": "Part 5's quantization preview: FP8 halves bytes_per_element, so the 128K KV cache drops from 16 GB to 8 GB. Then 8 GB KV + 16 GB weights = 24 GB, leaving 56 GB of the 80 GB H100 free for batching."
   }
 ]
 </script>

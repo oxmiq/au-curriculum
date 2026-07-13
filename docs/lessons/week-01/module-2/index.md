@@ -571,15 +571,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "explain": "In <code>ls -la</code> long format, directory entries begin with <code>d</code> in the permission string. Piping to <code>grep \"^d\"</code> keeps only those lines. Part 4 Exercise 1 uses this exact pipeline. <code>ls -d</code> alone lists the directory itself, not its contents."
   },
   {
-    "stem": "A student\u2019s <code>disk_watch.sh</code> runs correctly in the terminal but fails when triggered by an automated scheduler. What is the most likely cause?",
+    "stem": "In the Part 5 <code>disk_watch.sh</code> starter script, what does the <code>df -h /</code> command report on each loop iteration?",
     "options": [
-      "The script uses <code>sleep</code>, which automated schedulers do not support",
-      "The shebang points to <code>/bin/bash</code>, which automated schedulers cannot find",
-      "The scheduler runs with a minimal <code>$PATH</code>, so commands like <code>df</code> may not be found unless their full path is specified",
-      "The for-loop syntax <code>{1..6}</code> is not valid outside an interactive terminal"
+      "The number of files stored in the root directory",
+      "Human-readable disk-space usage of the root filesystem <code>/</code>",
+      "The current CPU utilization percentage",
+      "The total amount of RAM installed on the machine"
     ],
-    "answer": 2,
-    "explain": "Automated schedulers (such as cron) run jobs in a stripped-down environment with a minimal <code>$PATH</code>. Commands found interactively may not be found in a scheduler context. The fix is to use full paths (e.g., <code>/bin/df</code>) or set <code>PATH</code> explicitly at the top of the script. Part 5 teaches the scripting pattern that makes this a real operational concern."
+    "answer": 1,
+    "explain": "Part 5 asks you to write a script that \"Prints disk usage of <code>/</code> every 10 seconds\" using <code>df</code>, a <code>for</code> loop, and <code>sleep</code>. The <code>-h</code> flag makes <code>df</code>'s disk-usage figures human-readable (e.g. GB/MB), and <code>/</code> targets the root filesystem. It reports disk space, not file counts, CPU, or RAM."
   },
   {
     "stem": "In <code>ls -la | grep \"^d\"</code>, why does the pattern <code>^d</code> correctly identify directories?",

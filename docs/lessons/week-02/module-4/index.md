@@ -342,6 +342,39 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "Quantization reduces bytes transferred per parameter (e.g., FP16 → INT4 = 4× fewer bytes → 4× higher intensity). Batching amortizes weight reads across multiple requests (intensity scales with batch size). Both are covered in Weeks 3–4 of the curriculum."
+  },
+  {
+    "stem": "What is the ridge-point formula given in Part 3?",
+    "options": [
+      "Bandwidth ÷ Peak FLOPs",
+      "Peak FLOPs ÷ Bandwidth",
+      "Peak FLOPs × Bandwidth",
+      "Peak FLOPs − Bandwidth"
+    ],
+    "answer": 1,
+    "explain": "Part 3 gives Ridge Point = Peak FLOPs ÷ Bandwidth. For the H100 that's 989 TFLOPs ÷ 3.35 TB/s ≈ 295 ops/byte. Below this intensity you are memory-bound; above it you are compute-bound."
+  },
+  {
+    "stem": "Using the Part 3 examples, what is the approximate ridge point of an RTX 4090 (165 TFLOPs, 1 TB/s)?",
+    "options": [
+      "~2,950 ops/byte",
+      "~10 ops/byte",
+      "~165 ops/byte",
+      "~1,000 ops/byte"
+    ],
+    "answer": 2,
+    "explain": "Ridge = Peak FLOPs ÷ Bandwidth = 165 TFLOPs ÷ 1 TB/s ≈ 165 ops/byte, as listed in the Part 3 table. Different hardware has different ridge points, so the same kernel can be compute-bound on one GPU and memory-bound on another."
+  },
+  {
+    "stem": "In the Part 4 workloads table, which kernel is classified as network-bound?",
+    "options": [
+      "GEMM, large square",
+      "Decode attention (one token)",
+      "All-reduce across nodes",
+      "Prefill attention (long input)"
+    ],
+    "answer": 2,
+    "explain": "Part 4 lists 'All-reduce across nodes' with intensity ~0 and verdict Network-bound — it moves data between machines and does essentially no local compute. Large GEMM and prefill are compute-bound; decode attention is memory-bound."
   }
 ]
 </script>

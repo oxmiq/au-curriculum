@@ -397,15 +397,59 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "explain": "Modern NVIDIA GPUs have dedicated NVENC encoder hardware separate from CUDA cores and Tensor Cores. Encoder activity shows in `nvidia-smi` but does NOT consume the compute resources your training/inference uses. High encoder utilization + high compute utilization can coexist without interference."
   },
   {
-    "stem": "What is the first diagnostic step when users report 'input lag makes streaming unusable'?",
+    "stem": "A user reports 'input lag makes streaming unusable.' Per the lesson's reliability rule, what is your FIRST diagnostic step?",
     "options": [
       "Restart the GPU and reconnect",
-      "Check if P2P WebRTC is working (direct connection) or if TURN relay is being used — TURN relay adds significant latency",
-      "Reduce the streaming resolution to 720p",
-      "Disable hardware encoding and fall back to software encoding"
+      "Run a local speed test first — ~80% of 'streaming is slow' reports are a local network problem, not Capsule; only after that do you check whether a TURN relay is adding latency",
+      "Immediately disable hardware encoding and fall back to software encoding",
+      "Force the resolution down to 720p without checking anything else"
     ],
     "answer": 1,
-    "explain": "The lesson's diagnostic: if P2P is working (no TURN relay), the input lag likely comes from encoder settings, network jitter, or client-side rendering. If TURN relay is active, the added relay hop causes significant latency. Check with `capsule stream --turn` to test relay vs P2P. The lesson's failure-mode table maps symptoms to root causes."
+    "explain": "The Part 6 reliability rule: when users report input lag, always run a local speed test first before blaming the encoder or relay — 80% of 'streaming is slow' reports are a local network problem. Only after that do you test the transport: the failure-mode table maps 'input lag > 200ms' to an active TURN relay, diagnosed by forcing direct P2P with `capsule stream --no-turn` (does the lag drop?)."
+  },
+  {
+    "stem": "You run `capsule docker <config-tag>` and `nvidia-smi` inside the container reports no NVIDIA devices. How do you get GPU access in the container?",
+    "options": [
+      "GPU access is impossible from a Capsule container",
+      "Re-run `capsule auth login` first",
+      "Relaunch with `capsule docker <config-tag> -- --gpus all` — the `-- --gpus all` passes the Docker flag through to the container runtime",
+      "Add `--turn` to the command"
+    ],
+    "answer": 2,
+    "explain": "By default `capsule docker` gives you an Ubuntu container with no GPU access, so `nvidia-smi` fails. Relaunch with `capsule docker <config-tag> -- --gpus all`; the `--` passes the `--gpus all` Docker flag through the Capsule CLI to the container runtime, and `nvidia-smi` then shows the GPU."
+  },
+  {
+    "stem": "For which task should you reach for `capsule stream` rather than `capsule term`/`capsule exec`?",
+    "options": [
+      "Running an unattended overnight training benchmark and collecting the loss curve",
+      "Pulling a report.json file back to your laptop",
+      "Executing a one-off `nvidia-smi` check",
+      "Interactively using ComfyUI with visual feedback on the remote GPU"
+    ],
+    "answer": 3,
+    "explain": "The decision key is: does the task require a human to see and interact with a GUI? ComfyUI with visual feedback → yes → stream. Unattended benchmarks, file transfers, and one-off CLI checks are all text/CLI work → `capsule term` or `capsule exec`, which are lower overhead and more reliable."
+  },
+  {
+    "stem": "Capsule streaming connects peer-to-peer by default. When does it fall back to a TURN relay, and what's the tradeoff?",
+    "options": [
+      "When direct P2P is blocked (corporate firewall, symmetric NAT), traffic relays through a TURN server — it guarantees connectivity but adds latency (~100–200ms via relay vs ~20–50ms local)",
+      "Never — Capsule streaming is always peer-to-peer",
+      "When the GPU is busy, it relays to save compute",
+      "On every connection, purely to encrypt the stream"
+    ],
+    "answer": 0,
+    "explain": "WebRTC tries direct peer-to-peer first (best latency, ~20–50ms local). If a corporate firewall or symmetric NAT blocks the direct path, it falls back to a TURN relay, which guarantees connectivity but adds a relay hop (~100–200ms). You can force relay with `--turn` for testing, or force direct P2P with `--no-turn` when diagnosing lag."
+  },
+  {
+    "stem": "A stream opens but shows a black screen. Per the Part 6 failure-mode table, the most likely cause and check is?",
+    "options": [
+      "Insufficient downlink bandwidth; run a local speed test",
+      "TURN relay latency; force P2P with `--no-turn`",
+      "The display compositor (X server / Wayland) isn't running on the remote; SSH in and check with `systemctl status display-manager`",
+      "The NVENC encoder is disabled; re-enable hardware encoding"
+    ],
+    "answer": 2,
+    "explain": "The failure-mode table maps 'stream opens but shows a black screen' to the display compositor not running on the remote. The diagnostic is to SSH in and check whether the X server / Wayland session is up (`systemctl status display-manager`). Bandwidth issues cause stutter/dropped frames, and relay latency causes input lag — different rows."
   }
 ]
 </script>

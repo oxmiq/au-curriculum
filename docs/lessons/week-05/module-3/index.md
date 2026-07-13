@@ -386,6 +386,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "A quality contract specifies: which task eval suite runs, what pass criteria are (e.g., 8/10 prompts pass all criteria), and that the gate must clear before shipping. It protects against regressing quality while optimizing cost or latency — the lesson says it 'ensures that nothing ships without measuring quality.'"
+  },
+  {
+    "stem": "In the lesson's quantization-quality contract, what perplexity delta on a held-out set triggers rejection?",
+    "options": [
+      "Δ > 1%",
+      "Δ > 10%",
+      "Δ > 25%",
+      "Any increase at all"
+    ],
+    "answer": 0,
+    "explain": "The quantization-quality contract (Part 6) says: 'Perplexity delta on a held-out set. Reject if Δ > 1%.' Perplexity is the cheap first gate that catches catastrophic damage before you spend effort on the more expensive task and human evals."
+  },
+  {
+    "stem": "The quality contract rejects a precision change if the task eval pass rate regresses by more than how much?",
+    "options": [
+      "20 percentage points",
+      "10 percentage points",
+      "2 percentage points",
+      "50 percentage points"
+    ],
+    "answer": 2,
+    "explain": "Part 6's contract states: 'Task eval pass rate. Reject if regression > 2 pp.' Task evals run on prompts drawn from real production traffic, so even a small pass-rate drop signals user-visible quality loss."
+  },
+  {
+    "stem": "According to the lesson, where does LLM-as-a-judge work well?",
+    "options": [
+      "Absolute scoring of subjective quality",
+      "Math correctness without a reference answer",
+      "Format/structural checks and pairwise win-rate (paired with human spot-checks)",
+      "Judging output length and writing style"
+    ],
+    "answer": 2,
+    "explain": "The Part 5 table shows LLM-as-a-judge works well for format/structural checks, factuality with a reference, and pairwise win-rate — but poorly for subjective quality, math without a reference, and absolute scoring (judges are biased toward positive scores). Always pair it with human spot-checks on ~10% of items."
+  },
+  {
+    "stem": "According to the lesson, what are public benchmarks like MMLU best used for?",
+    "options": [
+      "Declaring a model production-ready on their own",
+      "Comparing models — never for declaring production ready; task evals are for shipping decisions",
+      "Replacing a task-specific eval suite entirely",
+      "Measuring inference latency and throughput"
+    ],
+    "answer": 1,
+    "explain": "Layer 2 of the eval stack states 'Benchmarks are for comparing — never for declaring production ready,' and the lesson adds 'Task evals are for shipping decisions — benchmarks are tiebreakers.' Benchmarks also suffer from Goodhart effects and training-data leakage (MMLU saturation)."
   }
 ]
 </script>

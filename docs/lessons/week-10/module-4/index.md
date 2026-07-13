@@ -139,15 +139,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "explain": "The lesson's Q&A advice: 'Take 5 seconds.' This prevents the impulse to fill silence with an unstructured answer. A 5-second pause looks confident, not uncertain. Use it to identify which data point addresses the question. Structured answers beat rapid stream-of-consciousness responses."
   },
   {
-    "stem": "How many rubric dimensions are used to grade Day 50 presentations?",
+    "stem": "How many rubric dimensions grade the Day 50 presentation, and what are they?",
     "options": [
-      "3 dimensions: content, delivery, Q&A",
-      "8 dimensions covering: claim sentence, data quality, methodology, visual clarity, time discipline, Q&A accuracy, team participation, and use of Phase-1 vocabulary",
+      "3 dimensions: content, delivery, and Q&A",
       "5 dimensions: one per project day (Day 47-51)",
-      "10 dimensions: one per lesson module"
+      "8 dimensions: use case clarity, technical depth, methodology rigor, evidence quality, recommendation strength, Q&A handling, teamwork, and presentation polish",
+      "6 dimensions: charter, execution, analysis, slides, delivery, and teamwork"
     ],
-    "answer": 1,
-    "explain": "The lesson's rubric has 8 dimensions: (1) claim sentence quality, (2) benchmark data quality, (3) eval methodology, (4) slide visual clarity, (5) time discipline, (6) Q&A accuracy, (7) every member presents ≥1 slide, (8) Phase-1 vocabulary applied correctly. Each dimension is scored separately — you can score well on data quality even with imperfect delivery."
+    "answer": 2,
+    "explain": "The lesson's rubric table has exactly 8 dimensions, each scored separately: use case clarity, technical depth, methodology rigor, evidence quality, recommendation strength, Q&A handling, teamwork, and presentation polish. The final grade is the rubric total. Because each dimension is scored on its own, you can score well on one (e.g., evidence quality) even if another (e.g., presentation polish) is weaker."
   },
   {
     "stem": "Why does the rubric explicitly require every team member to present at least one slide section?",
@@ -170,6 +170,28 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The lesson's pre-checklist includes: 'Backup plan ready if live demo fails (screenshots / pre-recorded run).' Network issues, node lease expiry, and unexpected API errors are common on presentation day. Screenshots with timestamps or a short screen recording are as credible as a live demo — and they can't fail. Plan for it on Day 49."
+  },
+  {
+    "stem": "The lesson gives three rules for handling Q&A. Which set is correct?",
+    "options": [
+      "Answer immediately, never say 'I don't know', and let the lead presenter field every question",
+      "Deflect hostile questions, restate the claim sentence, and defer hard questions to email",
+      "Take every question yourself, guess when unsure, and keep answers under 10 seconds",
+      "Think before answering (a 5-second pause is fine); if you don't know, 'we didn't test that' plus what you'd do to find out; hand off cleanly to the teammate who owns the answer"
+    ],
+    "answer": 3,
+    "explain": "The lesson's three Q&A rules: (1) if asked something you didn't prepare for, think before answering — a 5-second pause is fine; (2) if you don't know, 'We didn't test that' beats making something up, followed by what you would do to find out; (3) if a teammate has the answer, hand off cleanly ('Anita has the cost numbers'). Composure and honesty are scored under the Q&A handling rubric dimension."
+  },
+  {
+    "stem": "What role does peer assessment play on Day 50?",
+    "options": [
+      "After each presentation every other student fills a short peer-feedback form that carries a small but real weight — be specific, kind, and honest",
+      "It is informal feedback with no bearing on grades",
+      "Only the panel scores; peers watch silently",
+      "Peers rank all teams and the lowest-ranked team must re-present"
+    ],
+    "answer": 0,
+    "explain": "The lesson: after each presentation, every other student fills a short peer-feedback form, and 'this counts (small but real weight).' The guidance is to be specific, be kind, be honest. Both the panel and peers score, which is part of why the presentation is the program's clearest single hiring signal for communication and teamwork."
   }
 ]
 </script>

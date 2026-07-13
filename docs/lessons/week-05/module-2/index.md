@@ -382,6 +382,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The lesson explicitly notes: 'Not the full prompt body (privacy).' Prompts may contain user PII, confidential business data, or sensitive information. Logging only the request ID, tenant, prompt hash, and output token count provides operational visibility without creating a privacy liability."
+  },
+  {
+    "stem": "The lesson lists GPU utilization as an autoscaling signal. What is its main drawback?",
+    "options": [
+      "It lags real demand by 30–60 seconds",
+      "It is expensive to collect",
+      "It is only exposed by some serving engines",
+      "It cannot be read during the decode phase"
+    ],
+    "answer": 0,
+    "explain": "In the autoscaler signal table, GPU utilization is 'cheap, available' but 'lags real demand by 30–60s.' That lag is why production usually combines signals — e.g., request queue depth (direct but spiky) plus P95 TTFT thresholds."
+  },
+  {
+    "stem": "What rule does the lesson give about autoscaling replicas down to zero?",
+    "options": [
+      "Always scale to zero to eliminate idle cost",
+      "Never autoscale to zero when user-facing traffic is expected",
+      "Scale to zero only during peak hours",
+      "Scale to zero whenever GPU utilization exceeds 80%"
+    ],
+    "answer": 1,
+    "explain": "Because a fresh replica takes 1–5 minutes to cold-start (pull image, load weights into HBM, warm caches), the lesson's rule is: 'Never autoscale to zero when user-facing traffic is expected.' Warm pools keep N replicas always-on to absorb the first requests."
+  },
+  {
+    "stem": "Why does the lesson call round-robin a poor load-balancing strategy for LLM serving?",
+    "options": [
+      "Different requests cost very different amounts (e.g., 200-token vs 8K-token outputs), so even distribution still overloads some replicas",
+      "It requires session affinity to function",
+      "It cannot distribute across more than two replicas",
+      "It always routes to the coldest replica"
+    ],
+    "answer": 0,
+    "explain": "The lesson states 'Round-robin is bad — different requests cost very different amounts.' A replica handed several 8K-token generations is far busier than one handed 200-token replies. Strategies like Least Outstanding Requests or Least KV-Cache Used route by actual load instead."
+  },
+  {
+    "stem": "Which rollout strategy does the lesson recommend for a quality-sensitive change such as swapping in a quantized model?",
+    "options": [
+      "Blue-green (full rollback in seconds)",
+      "Feature flag per tenant",
+      "Shadow (run in parallel, don't serve the output)",
+      "Immediate 100% rollout"
+    ],
+    "answer": 2,
+    "explain": "The rollout table pairs Shadow — 'parallel run, don't serve' — with quality-sensitive changes like a new model or quantization, because a quality regression may not trip latency alerts. Blue-green fits major version swaps, canary fits most weight/config changes, and feature flags fit adapter/system-prompt changes."
   }
 ]
 </script>

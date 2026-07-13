@@ -357,15 +357,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "explain": "Port-forwarding rides on a direct SSH connection: `capsule ssh <config-tag> --options \"-L <local_port>:localhost:<remote_port>\"`. Example: `--options \"-L 8080:localhost:8080\"` makes the node's port 8080 reachable at your local port 8080 — used for Jupyter notebooks, web UIs, and API servers on the GPU node. There is no `capsule port-forward`, `capsule tunnel`, or `--tunnel` flag."
   },
   {
-    "stem": "What are the four connection failure modes and their first diagnostic step?",
+    "stem": "This lesson's connection-failure-modes table lists four symptoms. Which option pairs each symptom with the correct fix?",
     "options": [
       "Hardware failure, software crash, network outage, auth expiry — restart the machine for all four",
-      "Auth errors (re-run `capsule auth login`), wrong env/customer (check `capsule env show` and `capsule config customer show`), SshRTC won't connect (run `capsule session endall`, then retry), still failing (fall back to `--direct` and capture logs)",
-      "GPU driver error, CUDA version mismatch, memory error, thermal throttling — reboot for all four",
-      "DNS failure, TLS error, firewall block, rate limit — contact support for all four"
+      "DNS failure, TLS error, firewall block, rate limit — contact support for all four",
+      "`capsule term` hangs → corporate proxy, set `HTTPS_PROXY` and `WSS_PROXY`; `permission denied` after lease → lease expired between list & connect, re-lease; `unhealthy node` mid-session → network/agent crash, reconnect after the agent recovers (your tmux survives); tunnel refuses port → port already in use, pick another port",
+      "GPU driver error, CUDA mismatch, out-of-memory, thermal throttle — reboot for all four"
     ],
-    "answer": 1,
-    "explain": "The four connection failure modes: (1) Auth errors → re-run `capsule auth login` to refresh the token; (2) Wrong environment/customer → `capsule env show` and `capsule config customer show`; (3) SshRTC won't connect → `capsule session endall` to reset tunnel state, then retry; (4) Still failing → fall back to `--direct` and capture logs. Check in this order."
+    "answer": 2,
+    "explain": "Straight from the Part 6 table: (1) `capsule term` hangs → corporate proxy, set `HTTPS_PROXY` and `WSS_PROXY`; (2) `permission denied` after lease → the lease expired between listing and connecting, so re-lease; (3) `unhealthy node` mid-session → a network or agent crash, reconnect once the agent recovers (a tmux session that was already running survives); (4) tunnel refuses the port → it's already in use locally or remotely, pick another port. These are connection-workflow symptoms, not hardware failures."
   },
   {
     "stem": "After a successful connection, what is the first thing you should verify on the node?",
@@ -377,6 +377,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "After connecting: (1) `whoami` confirms you're running as the right user; (2) `nvidia-smi` confirms GPU access, shows GPU count and memory availability. Both together verify the connection is healthy and the hardware is as expected. Do this in < 30 seconds before starting any real work."
+  },
+  {
+    "stem": "You need to run `nvidia-smi` once on `nv-h100-04-1` and get its output back, without opening an interactive shell. Which command?",
+    "options": [
+      "capsule term nv-h100-04-1",
+      "capsule exec nv-h100-04-1 \"nvidia-smi\"",
+      "capsule stream nv-h100-04-1",
+      "capsule ssh nv-h100-04-1 --options \"-L 8080:localhost:8080\""
+    ],
+    "answer": 1,
+    "explain": "`capsule exec <config-tag> \"<command>\"` runs a single command on the remote and exits, returning its output — ideal for scripted checks. `capsule term` opens a full interactive shell (more than you need), `capsule stream` opens a WebRTC desktop, and the `capsule ssh --options \"-L …\"` form is for port-forwarding, not a one-off command."
+  },
+  {
+    "stem": "Your connection drops mid-session. Per the session-state table, which items survive on the node and which are lost?",
+    "options": [
+      "A foreground benchmark survives; your tmux session is lost",
+      "Files in `$HOME` and a running tmux session survive; a foreground process not in tmux, and anything written to `/tmp`, are lost",
+      "Everything is wiped — the node restarts empty on every reconnect",
+      "Only `/tmp` survives; `$HOME` is cleared each session"
+    ],
+    "answer": 1,
+    "explain": "Files in `$HOME` and detached tmux sessions persist across reconnects, so you reattach and your work is still there. Foreground processes (not inside tmux) die with the connection, and `/tmp` is ephemeral — gone after cleanup. That's why the rule is: anything you can't afford to lose runs inside tmux, and anything you want to keep goes in `$HOME` (or the OneDrive mount)."
+  },
+  {
+    "stem": "SshRTC connections are stalling. What's the documented first step to reset tunnel state before retrying?",
+    "options": [
+      "Run `capsule session endall`, then retry the connection",
+      "Reinstall the CLI with `capsule update`",
+      "Delete your entire `~/.ssh/config` file",
+      "Reboot the remote node"
+    ],
+    "answer": 0,
+    "explain": "`capsule session endall` closes every active SshRTC data-channel tunnel on your machine at once, clearing stale connection state — the recommended first step when SshRTC misbehaves. Then retry; if it still fails, fall back to `--direct`. It does not touch your remote processes or other users' sessions."
+  },
+  {
+    "stem": "You're working on a leased node that the platform still shares. Which practice matches the lesson's multi-user etiquette?",
+    "options": [
+      "`sudo apt install` whatever you need — leases grant root by default",
+      "Install project Python deps into a user-space conda/venv, avoid `sudo` system installs unless your lease allows it, and clean up large `/tmp` files before releasing",
+      "Write all output to `/tmp` so the next user inherits your results",
+      "Leave background jobs running after you release so others can reuse them"
+    ],
+    "answer": 1,
+    "explain": "Multi-user etiquette from Part 6: don't `sudo`-install system packages unless your lease says you may, use user-space Python (conda/venv) for project deps, clean up large temp files in `/tmp` before releasing, and leave the node 'no worse than you found it.'"
   }
 ]
 </script>

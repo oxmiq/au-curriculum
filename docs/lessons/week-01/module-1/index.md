@@ -227,7 +227,29 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Week 8"
     ],
     "answer": 3,
-    "explain": "The Week-by-Week roadmap in Part 3 shows: Week 8 = \"Capsule foundations & operations (hands-on)\" and Week 7 bridges with agent case studies. The Capsule CLI itself is introduced in Week 7 module-2."
+    "explain": "The Week-by-Week roadmap in Part 3 lists Week 8 as \"Capsule foundations & operations (hands-on)\" with key technologies \"Capsule CLI, fleet management.\" That is where hands-on use of Capsule and its CLI begins; Weeks 1-7 build the prerequisite foundations (tooling, GPU hardware, inference internals, serving, prompting, and agents)."
+  },
+  {
+    "stem": "According to Part 2, which kinds of remote hardware does Capsule let engineers and researchers use as if they were local?",
+    "options": [
+      "NVIDIA H100, Tenstorrent, AMD MI300, and Apple Silicon",
+      "Only NVIDIA H100 GPUs",
+      "CPU clusters and FPGAs, but not GPUs",
+      "Consumer gaming graphics cards exclusively"
+    ],
+    "answer": 0,
+    "explain": "Part 2 states that Capsule lets engineers and researchers use remote GPU machines \"(NVIDIA H100, Tenstorrent, AMD MI300, Apple Silicon, etc.) as if they were sitting on their own desk.\" The platform spans multiple vendors, not a single GPU type."
+  },
+  {
+    "stem": "In the self-study day structure described in Part 3, what is the focus of the final part (Part D) of each day?",
+    "options": [
+      "A graded exam that determines whether you advance",
+      "Installing the software dependencies for the next lesson",
+      "Reading to first understand the core concept",
+      "Reflection that connects what you learned to the next day's content"
+    ],
+    "answer": 3,
+    "explain": "Part 3's \"How Each Day Works\" breakdown lists Part D as \"Reflection — connect to tomorrow's content.\" Part A is reading the core concept, Part B is the deep dive, and Part C is hands-on practice."
   }
 ]
 </script>

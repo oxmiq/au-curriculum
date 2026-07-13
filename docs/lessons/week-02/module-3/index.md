@@ -329,8 +329,41 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Cannot be determined without knowing the clock speed",
       "Balanced — it is exactly at the ridge point"
     ],
-    "answer": 0,
-    "explain": "Arithmetic intensity = 600 GFLOP ÷ 4 GB = 150 ops/byte. Wait — 150 < 295, so this is actually memory-bound. But the question says 600 GFLOP / 4 GB: let me recalculate: 600×10^9 / (4×10^9) = 150 ops/byte < 295 → memory-bound. A kernel is compute-bound only if its intensity exceeds the ridge point (~295 ops/byte for H100)."
+    "answer": 1,
+    "explain": "Arithmetic intensity = 600 GFLOP ÷ 4 GB = 600×10^9 ÷ 4×10^9 = 150 ops/byte. Since 150 < 295 (the H100 ridge point), the kernel is memory-bound — it does too little compute per byte fetched, so the Tensor Cores sit idle waiting on HBM. A kernel is compute-bound only when its intensity exceeds the ridge point."
+  },
+  {
+    "stem": "In the Part 4 worked example, roughly how long does it take to read 16 GB from H100 HBM at 3.35 TB/s?",
+    "options": [
+      "~0.48 ms",
+      "~48 ms",
+      "~4.8 ms",
+      "~480 ms"
+    ],
+    "answer": 2,
+    "explain": "Part 4 computes Time = Size / Bandwidth = 16 GB ÷ 3.35 TB/s = 16 ÷ 3,350 s ≈ 4.8 ms — just to read the data once, before doing any math. This read-time floor is why decode latency is dominated by memory traffic."
+  },
+  {
+    "stem": "According to Part 2, why can't you simply keep an entire model in L2 cache?",
+    "options": [
+      "L2 cache cannot store floating-point numbers",
+      "Fast memory is small — L2 is only ~50 MB chip-wide, while models are many gigabytes",
+      "L2 is reserved for the operating system",
+      "L2 is actually slower than HBM"
+    ],
+    "answer": 1,
+    "explain": "Part 2's first rule: 'Fast memory is small.' L2 is ~50 MB and HBM is 80 GB — a multi-gigabyte model can't fit in L2, so weights must be streamed from HBM. That is the root cause of the memory bottleneck."
+  },
+  {
+    "stem": "Part 4 notes that FlashAttention (covered the next day) is essentially an application of which idea from this lesson?",
+    "options": [
+      "Adding more HBM capacity to the GPU",
+      "Increasing the GPU clock speed",
+      "Quantizing the KV cache to INT8",
+      "Kernel fusion — fusing operations so intermediates stay on-chip instead of round-tripping to HBM"
+    ],
+    "answer": 3,
+    "explain": "Part 4 states 'FlashAttention is exactly this idea' immediately after explaining kernel fusion: fusing operations into one kernel keeps intermediates in registers (sub-ns) instead of writing them to and re-reading them from HBM. Same math, far less data movement."
   }
 ]
 </script>

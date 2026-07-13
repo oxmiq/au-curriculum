@@ -491,6 +491,28 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The lesson states: 'Tool-count degradation: >30 tools hurts model accuracy.' When given too many tools, models struggle to select the right one and may hallucinate calls to non-existent tools. Mitigations: tool tiering (load only relevant tools), tool-of-tools (a dispatcher that selects subsets)."
+  },
+  {
+    "stem": "Which of the following is a write tool (per the lesson's read-vs-write distinction)?",
+    "options": [
+      "search_docs",
+      "get_weather",
+      "send_email",
+      "read_file"
+    ],
+    "answer": 2,
+    "explain": "The lesson classifies send_email (along with create_ticket, write_file, transfer_money, delete_record) as write tools — they modify state and are often irreversible, so they need approval / dry-run / audit / rate-limiting. search_docs, get_weather, and read_file are read tools: they only retrieve information and are safe to call freely."
+  },
+  {
+    "stem": "Which tool-schema field does the model primarily use to decide which tool to call?",
+    "options": [
+      "name",
+      "cost",
+      "returns",
+      "description"
+    ],
+    "answer": 3,
+    "explain": "The lesson's 'Why the Description Field Dominates' section: the model uses description — not name — to choose a tool. A vague or misleading description is the most common source of tool-selection errors. Rule of thumb: the description should answer 'when would I pick this tool over the others?'"
   }
 ]
 </script>

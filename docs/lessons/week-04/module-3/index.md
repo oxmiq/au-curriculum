@@ -264,12 +264,12 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "How does the target model verify the draft model's proposals?",
     "options": [
       "It re-runs the draft model on each proposal and compares outputs",
-      "It runs a single parallel forward pass over all K draft tokens and checks if each token's probability under the target model exceeds a threshold",
+      "It runs a single parallel forward pass over all K draft tokens and applies a rejection-sampling correction — accepting each token with probability min(1, p_target / p_draft) — that preserves the target model's distribution",
       "It uses a separate scorer model trained specifically for verification",
       "It sends the proposals to a human evaluator"
     ],
     "answer": 1,
-    "explain": "The target model runs one forward pass over all K draft tokens simultaneously — this is the key insight. Each token is accepted or rejected based on a rejection sampling scheme that preserves the target model's output distribution. Accepted tokens are free; rejected tokens trigger a resample."
+    "explain": "The target model runs one forward pass over all K draft tokens simultaneously — this is the key insight. Each token is accepted with probability min(1, p_target / p_draft); on rejection the target resamples from the corrected distribution. This stochastic rejection-sampling correction preserves the target model's exact output distribution, which is why the output is bit-exact. Accepted tokens are effectively free."
   },
   {
     "stem": "Why is speculative decoding output bit-exact with standard decode?",
@@ -314,6 +314,39 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The key phrase is: 'Free latency, if the workload is predictable.' For structured outputs (code, JSON, templated text), the small draft model closely predicts the large model — high acceptance rate, large speedup. For open-ended creative generation, acceptance rates are lower and speedup shrinks. Always profile your workload."
+  },
+  {
+    "stem": "According to the lesson, how much faster than the target must the draft model be for speculative decoding to pay off?",
+    "options": [
+      "Only about 2x faster",
+      "Roughly 10-30x faster; if the draft is too big it becomes memory-bound itself and there is no compute savings",
+      "Exactly the same speed as the target",
+      "Draft speed does not matter — only its accuracy does"
+    ],
+    "answer": 1,
+    "explain": "The lesson states the draft needs to be about 10-30x faster than the target (e.g. a 1B draft vs a 70B target). If the draft is too big it becomes memory-bound like the target and there is no benefit — 'no benefit if draft compute is roughly target compute.'"
+  },
+  {
+    "stem": "What do EAGLE and Medusa do differently from classic draft-model speculative decoding?",
+    "options": [
+      "They run the draft model on a separate GPU cluster to free HBM bandwidth",
+      "They enlarge the draft model to push acceptance rates higher",
+      "Instead of a separate draft model, they train extra prediction heads on the target model itself — even cheaper",
+      "They remove the verification pass entirely and trust the draft"
+    ],
+    "answer": 2,
+    "explain": "The lesson lists EAGLE and Medusa under production choices: rather than pairing the target with a separate draft model, they train extra prediction heads onto the target model itself, which is cheaper than maintaining a distinct draft."
+  },
+  {
+    "stem": "What observation about the decode step motivates speculative decoding in the first place?",
+    "options": [
+      "The KV cache grows too large to fit in HBM during long generations",
+      "Prefill is compute-bound and underutilizes memory bandwidth",
+      "Attention becomes the dominant cost during decode",
+      "During decode the GPU reads all the model's weights from HBM just to produce one token, leaving the Tensor Cores almost entirely idle"
+    ],
+    "answer": 3,
+    "explain": "The wasted-compute observation: decode reads all ~16 GB of weights from HBM to produce just one token (~32 GFLOPs), while an H100 can do ~989 TFLOPs — so the Tensor Cores are ~99.99% idle during the weight read. Speculative decoding puts that otherwise-wasted compute to use by verifying K tokens at once."
   }
 ]
 </script>

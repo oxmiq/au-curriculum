@@ -350,6 +350,39 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "ITL = time between consecutive output tokens during decode. If ITL > ~100-200 ms, users see stuttering — the text stream pauses mid-sentence. Low TTFT but high ITL means the response starts quickly but feels jerky. ITL is directly driven by decode throughput (tokens/sec): high throughput = low ITL."
+  },
+  {
+    "stem": "For an autonomous agent making 50 tool calls per task, which metric matters most — and which matters least?",
+    "options": [
+      "Throughput (tok/s) matters most — no human reads the stream, so push it as high as you can; TTFT per call matters far less",
+      "TTFT matters most — the agent feels every first-token delay the way a human does",
+      "Streaming smoothness matters most — the agent needs a comfortable reading pace",
+      "Tone and register matter most — the agent judges the style of each response"
+    ],
+    "answer": 0,
+    "explain": "Part 4: 'For agent / tool calls, push throughput as high as you can — no human is reading the stream.' The felt-latency thresholds (TTFT < ~600 ms, ITL matched to reading pace) exist to serve human perception; an agent has no perception, so raw throughput dominates and per-call TTFT matters far less."
+  },
+  {
+    "stem": "Your 5-prompt eval suite includes both a 'refusal probe' and a 'safety probe'. How do they differ?",
+    "options": [
+      "They are the same test run twice for reliability",
+      "The refusal probe checks GPU limits; the safety probe checks memory pressure",
+      "The refusal probe is a benign-but-edgy request the model should NOT refuse; the safety probe is a clearly out-of-bounds request the model SHOULD refuse",
+      "The safety probe measures TTFT while the refusal probe measures ITL"
+    ],
+    "answer": 2,
+    "explain": "Part 3's eval-suite list distinguishes them: the refusal probe is a benign-but-edgy request the model shouldn't refuse (catches over-refusal), while the safety probe is a clearly out-of-bounds request the model should refuse (catches under-refusal). They probe opposite failure modes of the same safety boundary."
+  },
+  {
+    "stem": "Why is an 8-prompt interactive eval a 'smoke test' rather than a production-quality certification?",
+    "options": [
+      "Because 8 prompts is the maximum the chat UI supports",
+      "Because smoke tests only measure latency, never correctness",
+      "Because interactive evals cannot detect hallucinations",
+      "It catches regressions on the specific capabilities you care about, but certifying general quality needs far broader coverage — the full eval setup from Week 5 Day 23"
+    ],
+    "answer": 3,
+    "explain": "Part 3: 'This isn't statistical validation — it's a smoke test. Enough to catch regressions, not enough to certify production quality (that needs Week 5 Day 23's full eval setup).' A small focused suite flags when a config change breaks something specific; validating general quality requires hundreds of prompts across topics, formats, and edge cases."
   }
 ]
 </script>

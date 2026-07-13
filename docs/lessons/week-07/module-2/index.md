@@ -354,6 +354,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "Which machines you see is decided by two settings: the environment (backend deployment/tenant) and the customer selector (the fleet inside that environment — `micc` default, plus `modelhosting`, `oneplay`, `cree8`). A wrong or empty `capsule list` almost always traces to one of them, so `capsule env show` and `capsule config customer show` are the first commands to run."
+  },
+  {
+    "stem": "What is the difference between an 'environment' and a 'customer' in Capsule?",
+    "options": [
+      "The environment is the backend deployment (prod/public/dev/demo — endpoint + B2C tenant); the customer is the fleet selector inside it that scopes which machines appear in `capsule list`",
+      "The environment is a cluster of GPU machines; the customer is the billing account",
+      "They are two names for the same setting",
+      "The environment picks a GPU vendor; the customer picks a region"
+    ],
+    "answer": 0,
+    "explain": "Part 2's 'two routing dimensions': an environment is a backend deployment — prod, public, dev, or demo — that selects the API endpoint and Azure B2C tenant (`capsule env show` / `capsule env set`). The customer is a separate fleet selector layered inside an environment — `micc` (default), `modelhosting`, `oneplay`, `cree8` — that scopes which machines `capsule list` shows (`capsule config customer show` / `set` / `unset`). An environment is NOT a cluster of machines."
+  },
+  {
+    "stem": "`capsule term` won't connect through a corporate proxy that mangles WebRTC. How do you force a plain TCP SSH connection instead?",
+    "options": [
+      "Run `capsule connect --tcp`",
+      "Set the environment variable `CAPSULE_TCP=1`",
+      "Add the `--direct` flag (e.g. `capsule term <tag> --direct`)",
+      "There is no fallback; SshRTC is mandatory"
+    ],
+    "answer": 2,
+    "explain": "Per Part 2 and USAGE.md, `capsule term` / `code` / `cursor` use the SshRTC data channel (SSH over WebRTC) by default so the remote needs no public port. Adding `--direct` bypasses WebRTC for a direct TCP SSH connection — the documented fallback when WebRTC fails or for clean port-forwarding (it requires a reachable SSH port). `capsule ssh` is the direct-by-default variant."
+  },
+  {
+    "stem": "How does Capsule authenticate you at runtime, and what is GH_TOKEN used for?",
+    "options": [
+      "GitHub OAuth handles both runtime auth and machine access",
+      "A static API key in capsule.conf; GH_TOKEN is unused",
+      "SSH keys exchanged with each node; GH_TOKEN authorizes those keys",
+      "Azure B2C via `capsule auth login` (browser flow, cached token, manual-token fallback for headless); GH_TOKEN is only for installing/updating Capsule and `--repo` access, never runtime auth"
+    ],
+    "answer": 3,
+    "explain": "Part 2's Authentication reading and Part 4: `capsule auth login` runs the Azure B2C browser flow and caches a token (with a manual-token fallback that prints `https://oxmiq.ai/oxcapsule/auth` for headless sessions, or `CAPSULE_AUTH_TOKEN` for automation). A GitHub token (`GH_TOKEN`) is used only to install/update Capsule and to reach private repos via `--repo` — it is not runtime authentication."
+  },
+  {
+    "stem": "You run `capsule list` and see the wrong fleet. Which command changes which customer's machines you see?",
+    "options": [
+      "`capsule env set <name>`",
+      "`capsule config customer set <name>` (and `capsule config customer show` / `unset` to inspect or clear it)",
+      "`capsule list --refresh`",
+      "`capsule node list --customer <name>`"
+    ],
+    "answer": 1,
+    "explain": "The customer selector scopes the fleet inside an environment. `capsule config customer show` displays it, `capsule config customer set <name>` switches it (`micc` default, plus `modelhosting`, `oneplay`, `cree8`), and `capsule config customer unset` clears an override. `capsule env set` switches the backend/tenant — a different dimension. There is no `capsule node list` or `capsule list --refresh` command."
   }
 ]
 </script>

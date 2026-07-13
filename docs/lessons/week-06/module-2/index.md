@@ -396,6 +396,28 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 2,
     "explain": "0.95^10 ≈ 0.60. A 10-step chain that's 95% reliable per step has only ~60% end-to-end reliability. This is why production agents must have retry logic, error handling, and fallback paths — and why keeping chains short where possible matters."
+  },
+  {
+    "stem": "According to the Assistant vs Agent table, how many LLM calls does a typical agent make per task versus an assistant?",
+    "options": [
+      "Both make exactly 1 call per task",
+      "Assistant: 1 call; Agent: 5–50+ calls",
+      "Assistant: 5–50+ calls; Agent: 1 call",
+      "Both make 5–50+ calls per task"
+    ],
+    "answer": 1,
+    "explain": "The lesson's Assistant vs Agent table lists 1 call per task for an assistant (single-shot, stateless) versus 5–50+ calls for an agent (a stateful loop). This is why the cost model shifts from '$ per query' for assistants to '$ per task' for agents."
+  },
+  {
+    "stem": "Roughly what per-step reliability is needed for a 20-step loop to succeed at least 80% of the time?",
+    "options": [
+      "~90%",
+      "~95%",
+      "~98.9%",
+      "~99.9%"
+    ],
+    "answer": 2,
+    "explain": "0.80^(1/20) ≈ 0.989, so about 98.9% per step. Because reliability compounds multiplicatively (r^N), long chains demand very high per-step reliability — the lesson's core 'long-horizon drift' point."
   }
 ]
 </script>

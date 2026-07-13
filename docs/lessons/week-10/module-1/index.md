@@ -173,6 +173,28 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The lesson's example: '10-prompt suite: 5 real triage tickets with ground-truth summaries from Anita, judge by 3 criteria (factuality, brevity, action-orientation).' Ground truth = criteria defined before you run. 'Check the output' is not an eval plan — you can't tell if config A is better than config B without pre-defined pass criteria."
+  },
+  {
+    "stem": "The charter's failure-mode table warns against an 'aspirational stack' (e.g., 'let's also try an MoE model'). What is the prescribed fix?",
+    "options": [
+      "Add a second GPU so the extra models fit",
+      "Defer the extra models to Day 49 if time allows",
+      "One model, one config sweep — cut everything else",
+      "Split the team so each person tries a different model"
+    ],
+    "answer": 2,
+    "explain": "The failure-mode table pairs 'Aspirational stack (\"let's also try MoE\")' with the fix 'One model, one config sweep. Cut everything else.' A 4-day window kills any project that isn't sharply scoped. Extra models multiply the benchmark + eval matrix beyond what the week allows, so the charter commits to exactly one model and one sweep."
+  },
+  {
+    "stem": "After the Day 47 charter is approved, what does the rest of Week 10 look like?",
+    "options": [
+      "Day 48 execute (deploy + sweeps + evals), Day 49 analyze + build presentation, Day 50 present (assessed, 15 min + 10 min Q&A), Day 51 retrospective + career conversation",
+      "Day 48 present, Day 49 execute, Day 50 analyze, Day 51 retrospective",
+      "Days 48-51 are all execution days with a single presentation at the very end",
+      "Day 48 peer review, Day 49 charter revision, Day 50 execute, Day 51 present"
+    ],
+    "answer": 0,
+    "explain": "The 'How to use the rest of the week' table: Day 48 (Tue) execute — deploy on Capsule, run sweeps, run evals; Day 49 (Wed) analyze + build presentation; Day 50 (Thu) present (15 min + 10 min Q&A) — assessed; Day 51 (Fri) retrospective + career conversation. The charter on Day 47 is the forcing function that makes the compressed rest of the week possible."
   }
 ]
 </script>

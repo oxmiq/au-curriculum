@@ -200,6 +200,28 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 2,
     "explain": "The charter's success criteria are the tiebreaker. If the charter says 'P95 TTFT < 800 ms AND quality > 8/10', and config A has 400 ms TTFT but 6/10 quality (fails), while config B has 700 ms TTFT and 9/10 quality (passes), config B wins — it satisfies the charter. The recommendation must be derived from pre-committed criteria, not post-hoc preference."
+  },
+  {
+    "stem": "In the 12-slide presentation outline, what belongs on slide 10?",
+    "options": [
+      "The comparison table with all configs",
+      "The claim sentence — large, on its own slide",
+      "Risks & limitations",
+      "The cost calculation and monthly projection"
+    ],
+    "answer": 1,
+    "explain": "The outline puts slide 10 = 'Recommendation — the claim sentence, large, on its own slide.' The comparison table is slide 6, the cost story is slide 9, and risks & limitations are slide 11. All 12 slides exist to defend the single sentence on slide 10, which is why it gets a slide to itself."
+  },
+  {
+    "stem": "The lesson says 'pessimistic assumptions beat optimistic ones' in the cost calculation. Why?",
+    "options": [
+      "Optimistic assumptions are not allowed in the cost formula",
+      "Pessimistic numbers make the recommendation look more impressive",
+      "Surprises in production hurt — under-counting cost or load leaves you exposed when real traffic exceeds the projection",
+      "The panel requires worst-case numbers on every slide"
+    ],
+    "answer": 2,
+    "explain": "The lesson: 'Pessimistic assumptions beat optimistic ones — surprises in production hurt.' monthly_cost = cost_per_request × requests_per_day × 30, so if you project on optimistic request volume and real load is higher, the economics of your recommendation break after deployment. Inflate the load estimate rather than under-count it, so the number you commit to survives contact with reality."
   }
 ]
 </script>

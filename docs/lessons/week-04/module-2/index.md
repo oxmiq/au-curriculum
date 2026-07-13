@@ -338,6 +338,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The lesson states: 'TP for latency (within node), PP for fit (across nodes), EP for MoE throughput.' TP uses fast NVLink within a node to split layers for low latency. PP scales across nodes to fit models too large for a single node. EP handles MoE expert routing."
+  },
+  {
+    "stem": "According to the lesson, how do you shrink the pipeline bubble fraction?",
+    "options": [
+      "Add more pipeline stages so the idle time is spread thinner",
+      "Switch the interconnect from InfiniBand to NVLink between stages",
+      "Increase the number of micro-batches — bubble fraction is approximately (num_stages - 1) / num_micro_batches, so more micro-batches keeps stages filled",
+      "Reduce the hidden dimension of each transformer layer"
+    ],
+    "answer": 2,
+    "explain": "The lesson gives the bubble fraction as approximately (num_stages - 1) / num_micro_batches. Scheduling many micro-batches concurrently fills the stages and drives the bubble toward zero: at stages=4, going from 1 to 64 micro-batches drops the bubble from ~300% to ~5%. Real systems target under 10%."
+  },
+  {
+    "stem": "In Mixtral 8x7B, why is only about 13B of its ~47B total parameters active per token?",
+    "options": [
+      "It uses top-2-of-8 expert routing, so each token flows through only 2 of the 8 expert MLPs per layer",
+      "The other ~34B parameters are stored on CPU and never used at inference",
+      "Mixtral quantizes ~34B of its parameters down to zero",
+      "Only the attention layers run per token; all experts are skipped"
+    ],
+    "answer": 0,
+    "explain": "An MoE layer has many expert MLPs but each token is routed to only a small subset. Mixtral uses top-2 of 8 experts (8 experts x ~7B each), so ~13B parameters are active per token even though the model totals ~47B. Total parameters are huge; active parameters per token stay small."
+  },
+  {
+    "stem": "What communication pattern does Expert Parallelism (EP) rely on to route tokens to their experts?",
+    "options": [
+      "All-reduce at every layer, exactly like tensor parallelism",
+      "Point-to-point activation passing between adjacent stages, exactly like pipeline parallelism",
+      "A single broadcast from a central parameter server to all experts",
+      "All-to-all — each token's activation is sent to the GPUs holding its selected experts, and the results are sent back"
+    ],
+    "answer": 3,
+    "explain": "In EP each expert lives on a different GPU. Per token: the router picks the top-K experts, the token's activation is all-to-all'd to those experts, each expert computes locally, and the results are all-to-all'd back. All-to-all is expensive because every token touches the network, which is part of why EP is hard."
+  },
+  {
+    "stem": "How does production MoE serving typically combine parallelism strategies?",
+    "options": [
+      "It uses expert parallelism alone and never mixes in TP or PP",
+      "In a 3D mesh — for example TP within a node for dense weights and attention, EP across nodes to distribute experts, and PP (1 or 2) only if the model still exceeds capacity",
+      "It always picks exactly one strategy and refuses to combine them",
+      "It uses PP to split experts and EP to split layers"
+    ],
+    "answer": 1,
+    "explain": "The lesson describes a TP x EP x PP 3D mesh: e.g. TP=8 within a node for dense weights plus attention, EP=8 across nodes distributing experts, and PP=1 or 2 only if the model exceeds even that. Each stage can still use TP internally, so the strategies stack."
   }
 ]
 </script>

@@ -363,15 +363,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "explain": "From Day 28's safety rule: action tools must be wrapped in confirmation. The Capsule agent even explains what it intends to do before calling `capsule_exec` or the `scp` tools. `capsule_exec` runs code on a machine and `capsule_scp_upload` writes files — both have real side effects — while read tools like `capsule_list` and `capsule_filter` are safe to call automatically."
   },
   {
-    "stem": "What are the five layers of an agent blueprint for a nightly benchmark regression watcher?",
+    "stem": "In Part 4's '5-Layer Agent' map, which five layers do you fill in for the nightly regression-watching agent?",
     "options": [
       "Database, API, Business Logic, UI, Auth",
-      "Intelligence (model reasoning), Observation (benchmark results + history), Action (Capsule tools: list/exec/scp), Orchestration (schedule and trigger logic), Safety (approval gates for write actions)",
-      "Cron job, script, HTTP client, data store, alerting",
+      "Intelligence, Observation, Action, Orchestration, Safety",
+      "Goal / task definition, Planner, Tools (read + write), Governance controls, Orchestration pattern",
       "Input, Processing, Output, Storage, Monitoring"
     ],
-    "answer": 1,
-    "explain": "The 5-layer agent stack applied to the benchmark watcher: Intelligence (LLM decides if a regression is significant), Observation (reads current + historical benchmark results from the dashboard), Action (Capsule tools such as `capsule_exec` to run a benchmark and `capsule_scp_download` to pull results), Orchestration (an external nightly trigger plus a multi-step workflow), Safety (human approval before write actions, audit log of everything)."
+    "answer": 2,
+    "explain": "Part 4's map uses five layers: Goal / task definition (compare last night's run to the 7-day baseline), Planner (decide each morning whether a regression is significant), Tools — read + write (read tools like `capsule_list`/`capsule_filter` and `capsule_scp_download`; write tools like `capsule_exec`), Governance controls (session/cost caps, approval gate for new jobs, audit log, least-privilege creds), and the Orchestration pattern (an external nightly trigger driving the multi-step workflow). 'Intelligence/Observation/Action/Safety' is a different framing and is not this lesson's map."
   },
   {
     "stem": "How do Phase 1, Phase 2, and Phase 3 compose into a real product?",
@@ -383,6 +383,39 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The lesson synthesis: 'Phase 1 explains the numbers; Phase 2 provides the agent architecture; Phase 3 provides the infrastructure.' A nightly regression watcher uses: H100 bandwidth to explain TTFT (P1), a ReAct agent to interpret and respond to results (P2), and Capsule MCP tools to automate the execution (P3). All three phases are necessary."
+  },
+  {
+    "stem": "Which command submits a benchmark script to a node pool as a one-shot detached job?",
+    "options": [
+      "`capsule schedule create --cron '0 2 * * *' --command ./bench.sh`",
+      "`capsule schedule submit ./bench.sh --pool <config-tag>`",
+      "`capsule schedule start <config-tag> --script ./bench.sh --name nightly --timeout 4h`",
+      "`capsule benchmark schedule ./bench.sh --nightly`"
+    ],
+    "answer": 2,
+    "explain": "The real form is `capsule schedule start <config-tag> --script <file>` (script required; `-n`/`--name`, `-t`/`--timeout` shape the job). With a config tag it dispatches to the first available node in the pool. `capsule schedule` is a one-shot job queue — there is no `create`, `submit`, or `--cron`; the recurring nightly cadence comes from an external cron/CI trigger that calls `schedule start`."
+  },
+  {
+    "stem": "A scheduled job is still running and you no longer need it. How do you stop it?",
+    "options": [
+      "`capsule schedule cancel <job-id>` (or `--all`) — a pending job is marked Cancelled; a running job is killed on its node",
+      "`capsule schedule disable <name>` to pause the recurring schedule",
+      "Delete the entry from `~/.capsule/crontab`",
+      "You can't interrupt it — wait for `--timeout` to expire"
+    ],
+    "answer": 0,
+    "explain": "`capsule schedule cancel <job-id>` stops a job, and `--all` cancels every one; the orchestration solicits the node and kills the process for a running job. There is nothing to 'disable' and no crontab, because a scheduled job is a one-shot, not a recurring cron entry."
+  },
+  {
+    "stem": "How do you monitor a scheduled job's state and read its output after it runs?",
+    "options": [
+      "`capsule schedule list` shows the next cron fire time; open `report.json` in the `--out` directory",
+      "`capsule schedule ps --watch` tails jobs, and logs auto-commit to your repo as `stdout.log`",
+      "`capsule schedule runs <name>` prints run history; results save to `~/.capsule/results`",
+      "`capsule schedule status` (filter with `--me` / `--state pending|running|completed|failed`) for state, and `capsule schedule logs <job-id> --tail N` for the streamed output"
+    ],
+    "answer": 3,
+    "explain": "`capsule schedule status` lists jobs and their state (PENDING → RUNNING → COMPLETED/FAILED/CANCELLED), filterable by `--me` and `--state`. The node streams `output.log` to storage during the run; you read it back with `capsule schedule logs <job-id>`, optionally `--tail N`. There is no `schedule list`/`ps`/`runs` subcommand, no `--out` audit directory, and logs are not committed to your repo."
   }
 ]
 </script>

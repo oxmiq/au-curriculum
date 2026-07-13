@@ -360,6 +360,39 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 2,
     "explain": "The lesson states: 'Agentic tool calls (multi-turn): P99 end-to-end per turn.' Agents run sequentially — each turn must finish before the next tool call starts. End-to-end latency per turn (including both prefill and decode) determines how quickly the agent chain completes."
+  },
+  {
+    "stem": "If a deployment's inter-token latency (ITL) is 25 ms, what is its tokens-per-second (TPS)?",
+    "options": [
+      "40 tokens/sec",
+      "25 tokens/sec",
+      "400 tokens/sec",
+      "0.04 tokens/sec"
+    ],
+    "answer": 0,
+    "explain": "From the metric vocabulary, TPS = 1000 / ITL_ms. With ITL = 25 ms, TPS = 1000 / 25 = 40 tokens/sec. TPS and ITL both describe decode-phase speed and are inverses of each other."
+  },
+  {
+    "stem": "As batch size grows very large, what does the lesson say happens to P99 latency and throughput?",
+    "options": [
+      "Both P99 latency and throughput fall",
+      "P99 latency stays flat while throughput falls",
+      "P99 latency spikes dramatically (queueing + slower decode) even as aggregate throughput keeps rising",
+      "P99 latency and throughput are unaffected by batch size"
+    ],
+    "answer": 2,
+    "explain": "The latency-vs-throughput frontier: small batches are fast but under-utilize the GPU; large batches push aggregate throughput 'very high' but P99 latency spikes from queueing and slower per-token decode. There is a point where the system transitions from healthy to overloaded."
+  },
+  {
+    "stem": "The lesson's rule of thumb says a P99/P50 latency ratio above what value points to a queueing or batching problem?",
+    "options": [
+      "Above 1.5×",
+      "Above 5×",
+      "Above 100×",
+      "Below 1×"
+    ],
+    "answer": 1,
+    "explain": "The percentile section states: 'P99 / P50 ratio > 5× means you have a queueing or batching issue.' A healthy system keeps the tail close to the median; a large gap signals requests piling up behind large batches."
   }
 ]
 </script>

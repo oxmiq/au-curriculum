@@ -363,6 +363,39 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The lesson notes: 'When NOT to use: small batch + abundant memory + quality-critical task; early-stage eval where you're still measuring quality; models with known quantization sensitivity.' INT4 is more aggressive — use it for throughput-critical deployments where you've validated quality on your specific workload."
+  },
+  {
+    "stem": "What is the 'modern Hopper sweet spot' starter quantization config the lesson recommends?",
+    "options": [
+      "INT4 weights, INT4 activations, INT4 KV cache",
+      "FP8 weights, FP16 activations, FP8 KV cache",
+      "FP32 for every component, for maximum safety",
+      "FP16 weights, FP8 activations, FP16 KV cache"
+    ],
+    "answer": 1,
+    "explain": "Part 3's recommended starter is FP8 weights, FP16 activations, FP8 KV cache. This follows the sensitivity ladder: weights are least sensitive (quantize aggressively), KV cache tolerates FP8 (halving both size and read bandwidth), while activations are kept in higher precision because they are more sensitive."
+  },
+  {
+    "stem": "Per the lesson's precision ladder, how many bytes per parameter do INT4 and FP4/NF4 use, and how does that compare with FP16?",
+    "options": [
+      "1 byte each; 2× smaller than FP16",
+      "2 bytes each; the same as FP16",
+      "0.5 bytes each; 4× smaller than FP16",
+      "0.25 bytes each; 8× smaller than FP16"
+    ],
+    "answer": 2,
+    "explain": "The Part 2 table lists INT4 and FP4/NF4 at 0.5 bytes per parameter versus FP16's 2 bytes — a 4× reduction. Part 4 confirms it: Llama-3-8B is 16 GB at FP16 but only 4 GB at INT4."
+  },
+  {
+    "stem": "Why does the lesson say float formats like FP8 handle LLM values better than integer formats like INT8 at the same bit count?",
+    "options": [
+      "Integers are computed faster, so quality is traded away for speed",
+      "FP8's exponent gives dynamic range and logarithmic spacing (finer near zero), handling the heavy-tailed activation outliers; INT8's uniform spacing clips or wastes range",
+      "FP8 physically stores more bits than INT8",
+      "There is no quality difference; the choice is arbitrary"
+    ],
+    "answer": 1,
+    "explain": "Part 3: neural-network activations are heavy-tailed with outliers in every layer. A float's sign/exponent/mantissa gives dynamic range and logarithmic spacing (wider near zero), so FP8 handles outliers gracefully; INT8's uniform spacing either clips the outliers or wastes range on them. Hence FP8 > INT8 for LLM weights at equal bits."
   }
 ]
 </script>

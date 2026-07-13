@@ -403,6 +403,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 2,
     "explain": "SGLang (Structured Generation LAnguage) is designed for structured output and complex generation programs — JSON schemas, constrained decoding, multi-turn agents. It adds a RadixAttention mechanism for KV cache reuse across shared prefixes. vLLM is the most versatile general-purpose engine."
+  },
+  {
+    "stem": "In static batching, why does a request with a short output still wait to return?",
+    "options": [
+      "Because short outputs are deprioritized by the scheduler until long ones finish",
+      "Because the batch returns only when ALL requests finish, so the longest output dominates and short ones sit idle",
+      "Because PagedAttention holds finished requests until memory is freed",
+      "Because quantization of the batch must complete before any result is returned"
+    ],
+    "answer": 1,
+    "explain": "Static batching runs N requests together and returns only when all finish — the longest output dominates. If one request generates 300 tokens and another 50, the short one sits idle waiting for the long one, wasting GPU cycles between batches. That waste is what continuous batching removes."
+  },
+  {
+    "stem": "How does PagedAttention actually reduce KV-cache memory waste?",
+    "options": [
+      "It compresses the KV cache using FP8 quantization",
+      "It offloads the KV cache to CPU RAM and pages it back in on demand",
+      "It stores the KV cache in fixed-size blocks (typically 16 tokens) that are allocated and freed independently, like OS virtual memory — giving near-zero fragmentation",
+      "It discards KV entries for finished requests during the prefill phase"
+    ],
+    "answer": 2,
+    "explain": "PagedAttention holds the KV cache in fixed-size blocks (typically 16 tokens each) that can be allocated and freed independently, analogous to virtual memory in an OS. Traditional serving assumes a contiguous KV cache, so variable-length outputs cause internal fragmentation and OOM; paging drives fragmentation to near zero."
+  },
+  {
+    "stem": "According to the lesson, what does every modern serving engine ship with?",
+    "options": [
+      "Only continuous batching, with all other features left to the user",
+      "Continuous batching, PagedAttention (or equivalent), FlashAttention v2+ kernels, quantized weight loading, KV-cache prefix sharing, and an OpenAI-compatible API",
+      "A built-in training loop and dataset loader for fine-tuning",
+      "Exclusive support for a single model family per engine"
+    ],
+    "answer": 1,
+    "explain": "The lesson's 'what every modern engine ships with' list: continuous batching, PagedAttention (or equivalent), FlashAttention v2+ kernels, quantized weight loading (FP8/INT4/GPTQ/AWQ), KV-cache prefix sharing for system prompts, an HTTP/gRPC server with an OpenAI-compatible API, and multi-GPU TP with optional PP."
+  },
+  {
+    "stem": "Which engine originated PagedAttention, and who maintains it?",
+    "options": [
+      "vLLM, from UC Berkeley plus the community",
+      "TensorRT-LLM, from NVIDIA",
+      "TGI, from Hugging Face",
+      "SGLang, from LMSys"
+    ],
+    "answer": 0,
+    "explain": "The lesson credits vLLM (UC Berkeley plus community) as the origin of PagedAttention. It is one of the key innovations that makes vLLM the OSS default, and continuous batching plus PagedAttention are 'symbiotic' — vLLM ships both together."
   }
 ]
 </script>

@@ -373,6 +373,39 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "FlashAttention reduces the compute/IO cost per attention call (latency benefit). PagedAttention enables more concurrent requests to fit in HBM (throughput benefit). Neither substitutes for the other — production engines like vLLM use both together: FlashAttention for kernel efficiency, PagedAttention for memory management."
+  },
+  {
+    "stem": "What technique lets FlashAttention compute attention in tiles without ever materializing the full N×N matrix in HBM?",
+    "options": [
+      "Quantizing the attention scores to INT8 before the matmul",
+      "Skipping the softmax entirely for long sequences",
+      "An online (incremental) softmax that combines per-tile statistics with numerically stable rescaling",
+      "Precomputing the whole attention matrix during prefill and caching it"
+    ],
+    "answer": 2,
+    "explain": "Part 3: FlashAttention tiles Q, K, V into blocks that fit in SM-local SRAM, then combines them with an online softmax — accumulating the running max and denominator incrementally with numerically stable rescaling. Only the O(N)-sized output ever touches HBM, so the full N×N matrix is never written."
+  },
+  {
+    "stem": "The lesson describes PagedAttention's KV blocks. What is the typical block size, and what maps logical positions to physical blocks?",
+    "options": [
+      "Blocks of 128K tokens; a single contiguous buffer reserved per request",
+      "One block per layer; the model weights hold the mapping",
+      "Blocks of ~16 tokens each; a per-request block table maps logical positions to physical blocks allocated on demand",
+      "Blocks of 1 token; the tokenizer holds the mapping"
+    ],
+    "answer": 2,
+    "explain": "Part 5: KV cache is split into fixed-size blocks (typically 16 tokens). Each request has a block table mapping logical positions to physical blocks, with new blocks allocated on demand — exactly the way an OS pages physical RAM via a page table."
+  },
+  {
+    "stem": "According to the lesson, what does PagedAttention do to KV-cache HBM utilization, and why does prefix caching become effectively free?",
+    "options": [
+      "It drops utilization to ~20%; prefix caching requires copying blocks between requests",
+      "It raises utilization from ~20% to ~90%+; a shared prefix's blocks can be referenced by many requests instead of duplicated",
+      "It has no effect on utilization; prefix caching is unrelated to paging",
+      "It raises utilization only during prefill, never during decode"
+    ],
+    "answer": 1,
+    "explain": "Part 5: paging raises KV-cache HBM utilization from ~20% to ~90%+ and lifts long-context throughput 2–4×. Because blocks are referenced through block tables, a shared system prompt's blocks can simply be pointed to by many requests — so prefix caching costs nothing extra."
   }
 ]
 </script>

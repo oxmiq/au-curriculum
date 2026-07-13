@@ -331,41 +331,41 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Around 60–80%",
       "Only at 100% utilization"
     ],
+    "answer": 1,
+    "explain": "The concept of the day states dedicated breaks even with API pricing somewhere around 30–50% utilization; the worked example puts it at 35–60% sustained utilization for general-purpose inference. Below that, the fixed cost of owning GPUs isn't justified and the token-priced API is cheaper; above it, running your own GPUs wins."
+  },
+  {
+    "stem": "According to Part 1, what are the three levers in the cost-per-1M-tokens formula?",
+    "options": [
+      "Prompt length, vocabulary size, and hardware vendor",
+      "Model accuracy, context window, and request rate",
+      "$ per GPU-hour, tokens-per-GPU-hour at full utilization, and utilization",
+      "TTFT, TPS, and P99 latency"
+    ],
     "answer": 2,
-    "explain": "A dedicated GPU costs ~$X/hour regardless of load. A token-priced API charges per token. The break-even is when GPU cost / (utilization × tokens_per_hour) equals the API price per token. Typically this occurs around 60–80% sustained utilization — below that, APIs are cheaper; above that, dedicated is cheaper."
+    "explain": "The lesson writes cost / 1M tokens = $ per GPU-hour / (utilization × tokens-per-GPU-hour) and names three levers: (1) $ per GPU-hour (hardware choice, contract length, region); (2) tokens-per-GPU-hour at full utilization (engine + model + parallelism); (3) utilization (the fraction of paid GPU time you actually serve tokens)."
   },
   {
-    "stem": "What are the three primary levers for reducing inference cost?",
+    "stem": "What is the lesson's formula for cost per 1M output tokens?",
     "options": [
-      "Reducing input prompt length, using a smaller vocabulary, and switching hardware vendors",
-      "Quantization (fewer bytes per weight), batching (amortize weight reads across requests), and improved GPU utilization (generate more tokens per GPU-dollar)",
-      "Model pruning, knowledge distillation, and early exit",
-      "Caching responses, deduplicating requests, and rate limiting users"
+      "(tokens served × utilization) / (GPU $/hour × hours)",
+      "(GPU $/hour × hours of usage) / (1M output tokens served at that utilization)",
+      "GPU $/hour × utilization × tokens-per-hour",
+      "(API price per 1M tokens) / GPU hours"
     ],
     "answer": 1,
-    "explain": "The a16z Economics of AI Inference piece and the lesson identify three main cost levers: (1) quantization reduces memory footprint and bandwidth use; (2) batching amortizes fixed costs across more requests; (3) utilization — idle GPU time is wasted money. All three compound: quantize → fit larger batches → improve utilization."
+    "explain": "Part 1 gives: Cost per 1M output tokens = (GPU $/hour × hours of usage) / (1M output tokens served at that utilization). Equivalently, cost / 1M tokens = $ per GPU-hour / (utilization × tokens-per-GPU-hour). Higher utilization spreads the fixed GPU cost across more tokens, lowering cost per token."
   },
   {
-    "stem": "What is the cost per request formula?",
+    "stem": "In Part 5's table of cost levers, which change offers the largest typical cost reduction?",
     "options": [
-      "cost = (GPU_price_per_token × output_tokens) + (network_cost × request_size)",
-      "cost = (lease_$/hr ÷ 3600) × seconds_per_request",
-      "cost = model_size_GB × bandwidth_GB_per_s × latency_seconds",
-      "cost = TTFT × TPS × batch_size"
+      "Continuous batching instead of static batching (5–10×)",
+      "Switching FP16 to FP8 weights + KV (1.5–2×)",
+      "Enabling speculative decoding (1.5–2.5×)",
+      "Caching system-prompt prefixes (1.2–3× on prefill)"
     ],
-    "answer": 1,
-    "explain": "The lesson formula: cost_per_request = (lease_$/hr ÷ 3600) × seconds_per_request. Where seconds_per_request = TTFT + (avg_output_tokens / throughput_per_request). This converts hourly GPU cost to per-request cost by factoring in how long each request holds GPU time."
-  },
-  {
-    "stem": "How does quantization reduce cost per million tokens?",
-    "options": [
-      "Quantization reduces the number of tokens generated per request",
-      "Quantization reduces weight bytes → increases arithmetic intensity → enables larger batch sizes → more tokens per GPU-second → lower cost per token",
-      "Quantization reduces the GPU hourly rate",
-      "Quantization is only a quality tradeoff and has no direct cost impact"
-    ],
-    "answer": 1,
-    "explain": "The chain: fewer bytes per weight (e.g., FP16→INT4: 4× reduction) → each weight read loads more 'computations worth' of information → arithmetic intensity rises → decode becomes less memory-bound → GPU can handle larger batches → more tokens per GPU-hour → lower cost per million tokens."
+    "answer": 0,
+    "explain": "The lever table lists continuous batching (replacing static batching) at 5–10×, tied with 'smaller model + better prompting' at 5–10× — the largest reductions shown. FP8 weights + KV give 1.5–2×, speculative decoding 1.5–2.5×, and prefix caching 1.2–3× on prefill cost."
   },
   {
     "stem": "What does the lesson's 'SLO tripod' consist of?",
@@ -377,6 +377,28 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The 'SLO tripod' is the three-axis measurement framework built over Weeks 5 Days 21–24: latency (Day 21 metrics), quality (Day 23 evals), and cost (Day 24 economics). A production LLM deployment must satisfy all three axes simultaneously — optimizing one at the expense of another creates problems."
+  },
+  {
+    "stem": "In the worked example (8×H100 at ~$30/hr, ~3000 tokens/sec decode), roughly what is the cost per 1M tokens at a realistic 40% utilization?",
+    "options": [
+      "About $0.80",
+      "About $2.78",
+      "About $6.94",
+      "About $21,900"
+    ],
+    "answer": 2,
+    "explain": "At 100% utilization the box produces 10.8M tokens/hour, giving $30 / 10.8 = $2.78 / 1M (the impossible ceiling). At a realistic 40% utilization: $30 / (10.8M × 0.4) = $6.94 / 1M. The $0.80 figure is API pricing, and $21,900 is the full monthly box cost."
+  },
+  {
+    "stem": "Why does Part 6 advise long-context products to 'charge for context'?",
+    "options": [
+      "Long prompts always lower answer quality",
+      "Input tokens are billed at a higher rate than output tokens",
+      "Longer context pushes TTFT past every SLO",
+      "The KV cache blows up cost per request — roughly 10× at 128K context"
+    ],
+    "answer": 3,
+    "explain": "Part 6's Token Economics section notes that long-context products make the KV cache blow up cost per request — about 10× at 128K context — so you should charge for context. It also warns that multi-turn agentic tasks make 10–50 LLM calls, so cost per task is not the same as cost per call."
   }
 ]
 </script>

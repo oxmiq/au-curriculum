@@ -387,7 +387,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "A denial-of-service attack against OpenAI's API infrastructure"
     ],
     "answer": 1,
-    "explain": "EchoLeak (CVE-2025-32711, June 2025) was an indirect prompt injection in Microsoft 365 Copilot. A malicious email body contained hidden instructions that caused Copilot to exfiltrate sensitive data when the user asked Copilot to summarize their inbox. Zero-click: the user only had to receive the email. Patched server-side."
+    "explain": "EchoLeak (CVE-2025-32711, June 2025) was an indirect prompt injection in Microsoft 365 Copilot. A malicious email body contained hidden instructions that caused Copilot to exfiltrate sensitive data. Zero-click: the user only had to receive the email — no interaction required. Patched server-side."
   },
   {
     "stem": "What are the three governance classes?",
@@ -432,6 +432,28 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 2,
     "explain": "Direct injection: the attacker controls the input (e.g., a user types 'Ignore all instructions and...'). Indirect injection: the attacker places malicious instructions in content the agent retrieves — a web page, a document, an API response. Indirect is harder to defend because the source appears legitimate to the model."
+  },
+  {
+    "stem": "Why does the lesson call least-privilege scoping the highest-leverage single defense?",
+    "options": [
+      "It is the cheapest control to implement",
+      "It bounds the blast radius — even a fully compromised agent can only reach what its credentials cover, regardless of what instructions it receives",
+      "It prevents every prompt-injection attack outright",
+      "It is legally mandated for AI systems"
+    ],
+    "answer": 1,
+    "explain": "Least-privilege limits what the agent can do no matter what instructions it receives. Even if an injection fully hijacks the agent, it can only act within its authorized scopes — reducing the blast radius (the set of systems reachable after a successful exploit) to what that agent's credentials cover."
+  },
+  {
+    "stem": "The lesson frames a successful prompt-injection attack on an agent as equivalent to what?",
+    "options": [
+      "A minor chat misbehavior",
+      "A denial-of-service attack",
+      "Remote code execution (RCE) in your environment, just dressed in natural language",
+      "A routine data-entry error"
+    ],
+    "answer": 2,
+    "explain": "The lesson's mental model is 'Agents Are RCE-Equivalent': giving an agent write tools grants whoever can influence its inputs the ability to take actions in your name. So a successful prompt injection is not a chat misbehavior — it is remote code execution in your environment, expressed in natural language. Treat agent boundaries with the same paranoia as a public API."
   }
 ]
 </script>

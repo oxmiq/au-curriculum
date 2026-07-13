@@ -342,6 +342,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "There is no `capsule node show`. `capsule list` groups machines by config tag; `capsule list --all` additionally reveals each machine's unique ID (e.g. `boostergold461`) so you can target it with `-u`, and `capsule list --json` emits the full specs (CPU, memory, GPU) for piping into `jq`."
+  },
+  {
+    "stem": "You're in the right environment but `capsule list` shows a different customer's machines. Which command changes the fleet you see?",
+    "options": [
+      "`capsule env set <name>`",
+      "`capsule list --refresh`",
+      "`capsule config customer set <name>` (and `capsule config customer unset` to clear a stray override)",
+      "`capsule node list --customer <name>`"
+    ],
+    "answer": 2,
+    "explain": "The customer selector scopes the fleet inside an environment. `capsule config customer show` reveals it and `capsule config customer set <name>` switches it (`micc` default, plus `modelhosting` / `oneplay` / `cree8`); a stray `set` is the usual cause of a wrong-looking fleet, cleared with `capsule config customer unset`. `capsule env set` switches the backend/tenant — a different dimension. There is no `capsule node list` or `capsule list --refresh`."
+  },
+  {
+    "stem": "Using the `--filter` grammar, how do you list NVIDIA machines with at least 24 GB VRAM AND at least 100 GB system memory?",
+    "options": [
+      "`capsule list --gpu nvidia --min-vram 24 --min-mem 100`",
+      "`capsule node list --vendor nvidia --vram 24 --memory 100`",
+      "`capsule filter vendor=nvidia vram=24 memory=100`",
+      "`capsule list --filter \"vendor=nvidia,vram>=24,memory>=100\"`"
+    ],
+    "answer": 3,
+    "explain": "Part 4's filter grammar is a comma-separated list of `key=value` / `key>=value` terms combined with AND semantics: `capsule list --filter \"vendor=nvidia,vram>=24,memory>=100\"`. Valid keys include vendor, vram, gpu, memory, os, and ci. There is no `--gpu` / `--min-vram` / `--min-mem` flag and no `capsule node list` command."
+  },
+  {
+    "stem": "Capsule has no lease/reservation system. How do you manage and clean up your connections when you're done?",
+    "options": [
+      "`capsule session list` shows your active SshRTC tunnels; `capsule session end` closes one (by unique id, port, or session id) and `capsule session endall` closes them all",
+      "`capsule lease release` returns the machine to the pool",
+      "`capsule disconnect --all` ends every reservation",
+      "There is nothing to clean up; sessions expire on a timer"
+    ],
+    "answer": 0,
+    "explain": "Part 5 ('There is no lease'): you don't reserve machines — you connect and the machine is yours while the session is open, so cleanup is your responsibility. `capsule session list` shows your active SshRTC data-channel tunnels, `capsule session end` closes a specific one (by unique id, port, or 32-char session id), and `capsule session endall` closes them all without disturbing other sessions. Check `capsule list --users` before claiming so you don't disrupt someone else."
+  },
+  {
+    "stem": "On PowerShell, `cap list --filter \"vram>=24\"` misbehaves because of the `>`. What is the fix?",
+    "options": [
+      "`>` is never allowed in a filter on any shell; use `=` only",
+      "Use `capsule list --filter` (not the `cap` shortener) and keep the whole filter argument quoted",
+      "Escape it as `\\>` and run it under cmd.exe",
+      "Switch to name-based selection; filters don't work on Windows"
+    ],
+    "answer": 1,
+    "explain": "Part 4's note (and USAGE.md): on PowerShell the `cap` shortener breaks `--filter` arguments containing `>`, and an unquoted `>` redirects output to a file on any OS. The fix is to use `capsule list --filter \"...\"` with the entire filter expression quoted. Capability filtering still works fine on Windows."
   }
 ]
 </script>

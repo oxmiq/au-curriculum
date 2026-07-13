@@ -369,15 +369,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 <script type="application/json" class="ox-self-check__pool">
 [
   {
-    "stem": "What are the 4 steps of the Capsule triage decision tree in order?",
+    "stem": "What are the 4 steps of the Part 2 triage decision tree, in order?",
     "options": [
       "Reboot → reinstall → contact support → escalate",
-      "Identify symptom → check known quirks table → run capsule session endall → escalate if unresolved",
-      "Check network → check auth → check node status → retry",
-      "Read logs → check GPU → check storage → check network"
+      "Read logs → check GPU → check storage → check network",
+      "Check node hardware → check drivers → check CUDA → retry",
+      "(1) `capsule status` — auth / identity / token valid?; (2) `capsule env show` + `capsule config customer show` — right environment & customer?; (3) `capsule session endall` — reset stale SshRTC tunnels, then retry; (4) retry with `--direct` and collect logs / escalate"
     ],
-    "answer": 1,
-    "explain": "The lesson's triage decision tree: (1) Identify symptom precisely; (2) Match symptom against the known quirks table; (3) Apply the fix (often `capsule session endall` or a specific command); (4) Escalate with a complete bug report if unresolved. This order prevents unnecessary reinstalls and captures enough information to get help."
+    "answer": 3,
+    "explain": "The Part 2 tree runs in this order: (1) `capsule status` verifies auth, identity, and token expiry; (2) `capsule env show` + `capsule config customer show` confirm you're pointed at the right environment and customer; (3) `capsule session endall` clears stale SshRTC tunnel state before you retry; (4) if it still fails, retry with `--direct` (bypassing WebRTC) and capture the exact command, full output, and version/env/customer for escalation."
   },
   {
     "stem": "What does `capsule session endall` NOT affect?",
@@ -391,15 +391,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "explain": "`capsule session endall` ends every active SshRTC data-channel tunnel on your machine at once. It does NOT kill processes running on the remote, delete remote files, or disturb other users' sessions (USAGE.md: it terminates tunnels 'without affecting other sessions'). That's why it's safe as a first diagnostic step — you won't lose remote work."
   },
   {
-    "stem": "Two symptoms in the known-quirks table have 'run `capsule config customer show`' as their first diagnostic step. What kind of symptom would trigger this?",
+    "stem": "Which symptom's first diagnostic step is `capsule config customer show` (together with `capsule env show`)?",
     "options": [
+      "Auth 'unauthorized' errors — you check `capsule config customer show` first",
+      "`capsule list` shows the wrong machines or an empty/unexpected fleet — one of `env` or `customer` is pointed at the wrong context",
       "GPU compute errors and CUDA crashes",
-      "Auth failures or 'fleet not found' errors where the wrong customer context might be configured",
-      "Network timeouts and connection drops",
-      "Streaming quality issues and encoder errors"
+      "Streaming input lag and dropped frames"
     ],
     "answer": 1,
-    "explain": "`capsule config customer show` reveals the currently active customer context. Auth failures and 'fleet not found' errors are often caused by being in the wrong customer environment — you authenticated as the right user but the customer context points to a different fleet. Fixing the customer config resolves these without debugging auth itself."
+    "explain": "Known-quirks row 2 — '`capsule list` shows wrong machines' — is fixed by checking `capsule env show` and `capsule config customer show`; one of them is pointed at the wrong environment or customer fleet, and both persist across sessions. Auth 'unauthorized' errors go to triage Step 1 instead (`capsule status`, then `capsule auth login`), not to the customer config."
   },
   {
     "stem": "What are the 6 fields of a complete Capsule bug report (per the Lab Guide's reliability lens)?",
@@ -422,6 +422,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The lesson says: 'After a few weeks, you'll recognize symptoms instantly. After a month, you'll be the person other interns ask when something breaks.' The table builds pattern recognition — each symptom + fix pair is a mental model. Experienced engineers debug by pattern-matching, not by systematic elimination."
+  },
+  {
+    "stem": "SshRTC won't connect. Per the known-quirks table / triage tree, what is the documented sequence?",
+    "options": [
+      "Reinstall the CLI, then reboot the node",
+      "Run `capsule session endall`, retry the connection; if it still fails, fall back to `--direct` and capture the command output to escalate",
+      "File a bug report immediately",
+      "Switch to `capsule stream` instead"
+    ],
+    "answer": 1,
+    "explain": "Known-quirks row 3 and USAGE.md's 'SshRTC Connection Issues' recipe agree: (1) `capsule session endall` to reset connection state, (2) retry, (3) if still failing, use `--direct` as a fallback and capture the command output for escalation. `capsule session endall` ends every active SshRTC tunnel without disturbing remote processes or other users."
+  },
+  {
+    "stem": "VS Code Remote-SSH throws config errors after a Capsule session ends. What is the fix?",
+    "options": [
+      "Reinstall the VS Code Remote-SSH extension",
+      "Run `capsule auth login` again",
+      "Remove the stale `capsule-<uniqueId>` blocks from `~/.ssh/config`",
+      "Clear the macOS Keychain"
+    ],
+    "answer": 2,
+    "explain": "Known-quirks row 4: old sessions leave stale `capsule-<uniqueId>` blocks in `~/.ssh/config`, and VS Code Remote-SSH picks up those stale entries and fails. Remove the blocks manually — USAGE.md gives the same advice for switching between `--direct` and SshRTC connections."
+  },
+  {
+    "stem": "On Windows PowerShell, `cap list --filter vram>=24` fails or silently creates a file instead of filtering. What is the fix?",
+    "options": [
+      "Run the command with sudo",
+      "Use `capsule` (not the `cap` shortcut) and quote the whole filter: `capsule list --filter \"vram>=24\"`",
+      "Switch to the demo environment first",
+      "Add the `--direct` flag"
+    ],
+    "answer": 1,
+    "explain": "Known-quirks row 6 (and USAGE.md): PowerShell interprets an unquoted `>` as output redirection, and the `cap` shortener compounds the problem. Use the full `capsule` command and quote the entire filter argument — `capsule list --filter \"vram>=24\"` — so the shell passes it through instead of creating a file."
+  },
+  {
+    "stem": "In the triage tree, retrying with `--direct` succeeds where the normal connection failed. What does that tell you?",
+    "options": [
+      "Your auth token is expired",
+      "`--direct` bypasses the SshRTC/WebRTC data channel and uses plain TCP SSH; if it works, the fault is in the WebRTC path — a network/infrastructure issue worth escalating",
+      "The remote node is out of disk space",
+      "You are pointed at the wrong customer fleet"
+    ],
+    "answer": 1,
+    "explain": "Step 4 of the tree: `--direct` forces a traditional direct SSH connection instead of the SshRTC (WebRTC) data channel. If `--direct` succeeds, the problem is isolated to the WebRTC path — a network or infrastructure issue — which is exactly the finding to capture (with the exact command, output, version, env, and customer) when you escalate."
   }
 ]
 </script>

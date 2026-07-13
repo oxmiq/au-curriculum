@@ -379,6 +379,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "A machine's `$HOME`/`/tmp` is node-local; if you `scp` a checkpoint to one machine and then connect to another, it isn't there. `~/OneDrive` auto-mounts the same folder everywhere, so weights staged once are available on every machine and survive restarts — ideal for a 70B checkpoint you'll reuse. Reach for `capsule scp upload` when it's a genuinely one-off transfer to a single machine."
+  },
+  {
+    "stem": "A benchmark left `report.json` at `/workspace/report.json` on `nv-h100-04-1`. Which command pulls it onto your laptop?",
+    "options": [
+      "capsule scp download nv-h100-04-1 /workspace/report.json ./",
+      "capsule scp upload nv-h100-04-1 ./report.json /workspace/",
+      "capsule storage get /workspace/report.json ./",
+      "capsule cp nv-h100-04-1:/workspace/report.json ./"
+    ],
+    "answer": 0,
+    "explain": "`capsule scp download <config-tag> <remote-path> <local-dest>` pulls a single artifact off a specific machine — here `capsule scp download nv-h100-04-1 /workspace/report.json ./`. `capsule scp upload` goes the other direction (laptop → machine). There is no `capsule storage get` and no `capsule cp` in Capsule."
+  },
+  {
+    "stem": "OneDrive isn't mounting at `~/OneDrive` on your sessions yet. What one-time step enables it?",
+    "options": [
+      "Create a /shared/ pool with `capsule storage init`",
+      "Run `capsule auth storage` and complete the OneDrive consent flow — after that your OxCapsule folder auto-mounts at ~/OneDrive on every term/code/cursor/stream session",
+      "Add it with `capsule config files add OneDrive`",
+      "Nothing — reboot the node and it appears"
+    ],
+    "answer": 1,
+    "explain": "`capsule auth storage` runs the OneDrive OAuth/consent flow once and writes `rclone.conf`; from then on your OxCapsule folder auto-mounts at `~/OneDrive` on every subsequent term/code/cursor/stream session. There is no `capsule storage init` and no `/shared/` pool in Capsule."
+  },
+  {
+    "stem": "You want your `.gitconfig` copied into the remote home directory automatically every time you connect. Which mechanism does the lesson use?",
+    "options": [
+      "`capsule scp upload` it by hand on every connect",
+      "Put it in a cluster-wide /shared/ pool",
+      "File passthrough: `capsule config files add .gitconfig ~/.gitconfig` — the mapping lives in config-files.json and is copied to the remote home on connect",
+      "`capsule storage put ~/.gitconfig /shared/dotfiles/`"
+    ],
+    "answer": 2,
+    "explain": "File passthrough handles small dotfiles. You register them locally with `capsule config files add` (and manage the list with `capsule config files list` / `remove`); the mappings live in `config-files.json`, and on every `term`/`code` connect those files are copied to the remote home directory. There is no `/shared/` pool or `capsule storage put`."
+  },
+  {
+    "stem": "A teammate claims `capsule stream` streams a command's stdout back to your terminal. How should you correct them?",
+    "options": [
+      "They're right — it's just `capsule exec` running continuously",
+      "`capsule stream` opens a hardware-encoded WebRTC pixel stream of the remote desktop (or one app with `--app`) on Windows/Mac; for a command's stdout you want `capsule exec`",
+      "They're right — but it only works for benchmark logs",
+      "`capsule stream` uploads files in a continuous stream to OneDrive"
+    ],
+    "answer": 1,
+    "explain": "`capsule stream <config-tag>` opens a hardware-encoded WebRTC pixel stream of the remote desktop (or a single GUI app with `--app`), for GUI work like ComfyUI or Blender — Windows and Mac only. It is NOT stdout streaming. To run a command and watch its output, use `capsule exec`."
   }
 ]
 </script>

@@ -361,43 +361,43 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Intelligence layer — because Klarna used a custom-trained model",
       "Action layer — because Klarna's agent directly integrated with payment and customer service APIs",
       "Orchestration layer — because Klarna ran multiple parallel agents",
-      "Observation layer — because Klarna focused on monitoring agent outcomes"
+      "Economics layer — because Klarna focused only on cost savings"
     ],
     "answer": 1,
-    "explain": "Klarna's agent is primarily an Action layer story: the agent calls Klarna's internal APIs (payment status, refund initiation, dispute logging) to resolve customer service issues. The governance controls (approval gates for refunds above threshold, audit logs) are the defensive layer around those actions."
+    "explain": "Klarna's agent is primarily an Action layer story: the agent calls Klarna's internal APIs (order-management, returns, read-only payment) to resolve customer-service issues. The governance controls (a refund threshold above which a human decides, disputes routed to humans, complaint threads held for review) are the defensive layer around those actions."
   },
   {
-    "stem": "What are the three main failure modes of coding agents?",
+    "stem": "What are the three failure modes of coding agents identified in the lesson (Part 3)?",
     "options": [
       "Syntax errors, runtime errors, and logical errors",
-      "Intelligence layer failures (wrong code), Action layer failures (bad tool calls), and Orchestration layer failures (wrong subtask decomposition)",
-      "Model hallucination, context overflow, and token limit errors",
-      "Incorrect imports, missing dependencies, and type mismatches"
+      "Shell execution errors, file-permission errors, and network timeouts",
+      "Context-window overflow, imagined/hallucinated functions, and planner drift",
+      "Merge conflicts, failing CI, and flaky tests"
     ],
-    "answer": 1,
-    "explain": "The lesson identifies three coding agent failure modes mapped to stack layers: Intelligence layer (model generates incorrect code), Action layer (tool calls fail — shell execution errors, file system issues, permission problems), and Orchestration layer (task decomposition is wrong — agent works on the wrong subproblem)."
+    "answer": 2,
+    "explain": "Part 3's coding-agent case study (Claude Code / Cursor) lists three failure modes: context-window overflow (large codebases exceed the window so the agent 'forgets' earlier files — fixed with RAG / codebase indexing and summarizing rather than copying full files); imagined functions (the agent calls something like utils.calculate_checksum() that doesn't exist — fixed by requiring it to verify a function exists before calling); and planner drift (the agent over-commits to one approach early and can't recover — fixed with an explicit re-planning step every N tool calls)."
   },
   {
-    "stem": "Why do research agents hit Action layer failures more than Intelligence layer failures?",
+    "stem": "Why do research agents hit Action-layer failures more than Intelligence-layer failures?",
     "options": [
-      "Research agents use smaller models that are less capable",
-      "Research tasks require many external tool calls (search, fetch, read) — each call can fail due to network errors, rate limits, or empty results; the model's intelligence is rarely the bottleneck",
-      "Research agents are given worse instructions than coding agents",
-      "Research agents use more steps, which statistically increases the chance of Intelligence layer errors"
+      "Research agents use smaller, less capable models",
+      "Research agents are given deliberately vague instructions",
+      "They run more steps, which statistically increases Intelligence-layer errors",
+      "The bottleneck is tool quality — messy inputs like HTML tables with merged cells cause misreads and parsing failures, so better data-extraction tooling beats a better model"
     ],
-    "answer": 1,
-    "explain": "Research agents make many external calls: web search, URL fetch, document read. Each call can fail (404, timeout, rate limit, empty result). The model can reason perfectly but be stuck because its tools fail. This contrasts with coding agents where model capability (generating correct code) is often the limiting factor."
+    "answer": 3,
+    "explain": "Part 4 concludes that for research agents the Action layer (tool quality) is usually the bottleneck, not the Intelligence layer (model quality). Their failures — misread financial tables with merged cells, fabricated metrics when a value wasn't found, and HTML parsing failures on nested rows — are all tooling problems. The fixes (convert tables to JSON and validate against constraints, require a citation for every numeric claim, run specialized HTML parsers before the LLM) improve the tools, not the model: 'Better tooling outperforms a better model on messy data.'"
   },
   {
     "stem": "How does the 5-layer agent stack help you analyze a failure?",
     "options": [
+      "It gives you a diagnostic vocabulary — Intelligence, Action, Governance, Orchestration, Economics — so you can name which layer failed and narrow the fix",
       "It tells you exactly which line of code caused the failure",
-      "It provides a structured framework to diagnose which layer failed — Intelligence, Observation, Action, Orchestration, or Safety — helping pinpoint the fix",
       "It automatically fixes the failure by routing to a backup model",
       "It prevents failures by pre-validating all tool schemas"
     ],
-    "answer": 1,
-    "explain": "The 5-layer stack is a diagnostic vocabulary: if the agent's reasoning is wrong → Intelligence layer; if tool calls fail → Action layer; if task decomposition is wrong → Orchestration layer; if dangerous actions aren't caught → Safety layer. Identifying the layer narrows the solution space."
+    "answer": 0,
+    "explain": "The five layers — Intelligence (reasoning), Action (tools and protocols), Governance (controls that bound behavior), Orchestration (the pattern sequencing intelligence + action), and Economics (cost model) — are a diagnostic vocabulary. Wrong reasoning points to Intelligence; failed tool calls to Action; unbounded or unsafe behavior to Governance; wrong task decomposition to Orchestration. Naming the layer narrows the solution space."
   },
   {
     "stem": "What is the connection between Capsule's architecture and the agent 5-layer stack?",
@@ -409,6 +409,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The lesson states: 'When you install Capsule tomorrow and connect to machines next week, you are working with the Action layer of a real deployed agent infrastructure. When you read the architecture docs, you are learning the Orchestration layer.' Capsule is a real production agent system implementing these concepts."
+  },
+  {
+    "stem": "Klarna's early agent apologized for problems that weren't Klarna's fault after several turns of a complaint thread. Which layer did this failure originate in, and where was it fixed?",
+    "options": [
+      "It originated in Governance and was fixed in Economics",
+      "It originated in the Action layer and was fixed by adding a new API",
+      "It originated in the Intelligence layer (model output/tone) but was fixed at the Governance layer — a human-review step for threads with more than three complaint signals",
+      "It originated in Orchestration and was fixed by adding more sub-agents"
+    ],
+    "answer": 2,
+    "explain": "Part 2 calls this 'tone drift': over long complaint conversations the agent began apologizing for issues that weren't Klarna's fault, eroding brand trust. The defect is in the Intelligence layer (model output), but the fix was applied at the Governance layer — a human review step for any conversation with more than three complaint signals, where a person approves or edits the draft before it is sent. Governance controls tone and framing, not just wrong actions."
+  },
+  {
+    "stem": "Why does git make write-access safe for coding agents in a way that isn't true for a financial agent?",
+    "options": [
+      "Git encrypts every file so the agent can't leak data",
+      "Git runs the model locally, which is inherently safer",
+      "Git prevents the agent from ever writing to the repo",
+      "Git makes every write reversible (you can revert a commit), so a bad edit can be undone; a financial mutation like an issued refund has no clean undo, so a human must approve the write"
+    ],
+    "answer": 3,
+    "explain": "In the coding case study git is the undo mechanism — every write is reversible, so interactive dev can let the agent write directly and rely on git to roll back mistakes. A financial agent has no such clean reversal, which is why Klarna gives its agent read access plus recommend/initiate power but no direct payment-mutation, keeping a human on the critical path for high-stakes writes."
+  },
+  {
+    "stem": "What orchestration pattern does SemiAnalysis's due-diligence agent use?",
+    "options": [
+      "A planner agent decomposes 'research [company]' into sub-tasks, specialist sub-agents (web search, SEC-filing retrieval, financial-table parsing) do the work, and a composer agent writes the final report",
+      "A single agent that does everything in one loop",
+      "A supervisor agent that only monitors humans",
+      "No orchestration — it is a single prompt to the model"
+    ],
+    "answer": 0,
+    "explain": "Part 4 describes the due-diligence agent as a planner-worker-composer architecture: a planner decomposes 'research [company]' into sub-tasks, specialist sub-agents handle web search, SEC-filing retrieval, and financial-table parsing, and a composer agent assembles the final report. This cut initial screening from 45 minutes to 8 minutes per company, letting the firm screen 200+ more companies per month."
+  },
+  {
+    "stem": "Anthropic-internal data showed 1,279 Claude Code sessions had 50+ consecutive failures before completing a task. How does the lesson interpret this?",
+    "options": [
+      "It proves coding agents don't work and should be abandoned",
+      "It is expected for hard tasks — the agent retries; 50+ steps is the cost of multi-step reasoning in complex environments, not a sign of failure",
+      "It means the model was mis-trained",
+      "It shows the Governance layer was disabled"
+    ],
+    "answer": 1,
+    "explain": "The lesson frames the 1,279 sessions with 50+ consecutive failures as expected behavior for hard tasks: the agent retries until it completes. It is 'the cost of multi-step reasoning in complex environments,' not evidence of a broken system — a typical medium coding task already takes 50+ model calls (read file, plan, edit, run tests, debug, commit)."
   }
 ]
 </script>

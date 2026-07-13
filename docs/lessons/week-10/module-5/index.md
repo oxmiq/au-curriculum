@@ -149,15 +149,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "explain": "The lesson's hiring path table maps deliverables to claims: benchmark saturation curves → 'I can find the elbow and explain it with Phase-1 concepts'; capstone deck → 'I can go from benchmark data to a defensible recommendation'; Week 7 agent design → 'I can design multi-step agent systems on real infrastructure.' Concrete artifacts beat claimed skills."
   },
   {
-    "stem": "What career paths does the program open, according to the lesson?",
+    "stem": "The Day 51 career-mapping session lays out which paths from here?",
     "options": [
-      "Only AI research roles at major labs",
-      "ML infrastructure engineering, developer relations, technical consulting, AI product management, and open-source contribution — all requiring the ability to operate real GPU infrastructure and explain it",
-      "Data science and machine learning engineering exclusively",
-      "Cloud infrastructure engineering with no specific AI specialization"
+      "Research scientist, MLOps engineer, and data analyst",
+      "Internship, apprenticeship, and full-time employment",
+      "Hiring path (Oxmiq + partner roles and the bar), portfolio path (open-source, blog posts, agent project on your fork), and advanced study path (research papers, courses)",
+      "Frontend, backend, and infrastructure engineering"
     ],
-    "answer": 1,
-    "explain": "The lesson lists paths: ML infrastructure engineering (deploy and tune serving stacks), developer relations (explain Capsule to developers), technical consulting (help companies evaluate GPU infrastructure options), AI product management (spec GPU-backed features with real constraints), open-source contribution (fork → contribute improvements back). What unites them: the ability to operate real hardware and communicate about it."
+    "answer": 2,
+    "explain": "The career-mapping session names three paths: (1) Hiring path — Oxmiq + partner companies, what roles fit and what the bar is; (2) Portfolio path — open-source contribution, blog posts, an agent project on your fork; (3) Advanced study path — specific resources for going deeper (research papers, courses)."
   },
   {
     "stem": "What does 'fluent in Phase 1 vocabulary' mean as a hiring signal, per the evidence table?",
@@ -169,6 +169,28 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The hiring path table maps 'fluent in Phase 1 vocabulary' to 'Capstone Q&A, fork artifacts.' Fluency means applying vocabulary to explain data under questioning — not just defining terms. The capstone Q&A (Day 50) is the proof: panel asks 'why is your TTFT P99 3× your P50?' and you answer with arithmetic intensity, memory bandwidth, and queue dynamics — from your own data."
+  },
+  {
+    "stem": "The hiring-path table lists five things to bring to your career conversation. Which set matches the lesson?",
+    "options": [
+      "GPA, resume, cover letter, references, and a portfolio site",
+      "LeetCode rating, system-design prep, a GitHub streak, and two side projects",
+      "A published paper, a conference talk, an open-source PR, and a blog",
+      "Fluent in Phase 1 vocabulary, can operate Capsule cold, designed an agent, made a defensible recommendation, and can teach a peer"
+    ],
+    "answer": 3,
+    "explain": "The hiring-path table maps five bars to their evidence: fluent in Phase 1 vocabulary (capstone Q&A, fork artifacts), can operate Capsule cold (Day 45 sprint + Day 48 execution log), designed an agent (Week 7 5-layer map, ideally a stub MCP server in the fork), made a defensible recommendation (capstone claim sentence + Day 50 grade), and can teach a peer (practice quizzes + Feynman teach-back). The lesson says bring all five."
+  },
+  {
+    "stem": "A hiring manager visiting your fork should see the artifacts in what order?",
+    "options": [
+      "README (what this is + what you did + link to capstone), capstone deck + report, practice quizzes, saturation curves + benchmark reports, then Week 7 agent design",
+      "License, changelog, install instructions, then contributors",
+      "Agent design first, then benchmarks, then the README last",
+      "Raw benchmark logs, then the model files, then a conclusion"
+    ],
+    "answer": 0,
+    "explain": "The 'Your fork as a portfolio piece' list, in order: (1) README at the fork root — one paragraph on what it is, what you did, link to capstone; (2) capstone deck + a 2-page write-up; (3) practice quizzes (weekly engagement); (4) saturation curves + benchmark reports from Week 9 (technical depth); (5) Week 7 agent design (systems thinking). Order matters because a hiring manager reads top-down."
   }
 ]
 </script>

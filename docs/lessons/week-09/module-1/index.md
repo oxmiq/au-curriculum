@@ -356,6 +356,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "explain": "A benchmark report captures latency percentiles (TTFT p50, p99), throughput (tokens/second), the concurrency and config used, GPU type, and timestamp. Every field is explainable using Phase-1 vocabulary: TTFT ← prefill, throughput ← decode + batching, GPU type ← bandwidth and compute specs."
   },
   {
+    "stem": "The lesson describes a benchmark run as a three-piece architecture. What are the three pieces?",
+    "options": [
+      "A load generator (prompts + concurrency), a serving engine (vllm etc. with a model/config), and metric collection (TTFT, ITL, throughput, percentiles)",
+      "A dataset, a training loop, and a saved checkpoint",
+      "A load balancer, a database, and a cache layer",
+      "A tokenizer, an optimizer, and a learning-rate scheduler"
+    ],
+    "answer": 0,
+    "explain": "Part 2's diagram breaks a benchmark into three pieces: the load generator (what prompts, what concurrency, how long), the serving engine (which engine, model, and config — TP, quant, batching), and metric collection (TTFT, ITL, throughput, p50/p95/p99, GPU util). Training-loop and web-infra options are distractors — a benchmark drives inference, it does not train."
+  },
+  {
+    "stem": "You run `capsule benchmark <config-tag> meta-llama/Llama-3.1-8B-Instruct` on an NVIDIA node and omit `--backend`. Which serving backend runs?",
+    "options": [
+      "llamacpp",
+      "mlx",
+      "vllm",
+      "oxpython"
+    ],
+    "answer": 2,
+    "explain": "Defaults give sensible TP, quant, and prompt distribution — and vllm is the default backend on an NVIDIA box (it is best for batched serving with paged-attention). The four supported backends are vllm, llamacpp, mlx, and oxpython; mlx targets Apple Silicon and oxpython is the OXMIQ Python runtime, so neither is the NVIDIA default."
+  },
+  {
+    "stem": "In `capsule benchmark ... --concurrency 8 --num-prompts 80`, what does `--num-prompts` control?",
+    "options": [
+      "How many seconds the load runs before stopping",
+      "The number of GPUs allocated to the run",
+      "The number of simultaneous in-flight requests",
+      "The total number of requests sent before the run stops"
+    ],
+    "answer": 3,
+    "explain": "`--num-prompts` is the total number of requests sent before the run stops; `--concurrency` is the number of simultaneous in-flight requests. Run size is set by `--num-prompts`, not by any duration flag — there is no `--duration` in `capsule benchmark`."
+  },
+  {
+    "stem": "Today's goal was one clean baseline. Which question can that single benchmark run NOT answer on its own?",
+    "options": [
+      "What throughput this exact config achieved at this moment",
+      "What TTFT p99 this config produced under this load",
+      "Whether vllm is faster than llamacpp for this model — that needs a comparison run",
+      "What the GPU memory usage was during the run"
+    ],
+    "answer": 2,
+    "explain": "Part 4 lists what one benchmark can't tell you: is this engine better than another (need comparison), does it scale (vary load), is the GPU saturated (vary --concurrency), is quality acceptable (need eval, Day 44). A single run does report this config's own throughput, TTFT, and memory at this moment — those it can answer."
+  },
+  {
     "stem": "Why does one benchmark run prove very little on its own?",
     "options": [
       "One run is statistically insufficient — variance from thermal state, neighbor processes, KV cache warmup, and measurement noise requires multiple runs to establish reliable baselines",

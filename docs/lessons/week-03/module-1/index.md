@@ -330,6 +330,50 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "Perceived responsiveness in chat is dominated by TTFT — users feel the response is 'instant' once streaming begins, even if the full response takes several more seconds. A low TTFT with moderate TPS feels fast; a high TTFT with fast TPS still feels slow."
+  },
+  {
+    "stem": "When the prefill phase finishes, what has it produced besides beginning the response?",
+    "options": [
+      "The complete output response in a single parallel pass",
+      "The first output token plus the initial KV cache for the prompt",
+      "A quantized copy of the model weights for decode",
+      "Only the tokenized input, with no computation performed yet"
+    ],
+    "answer": 1,
+    "explain": "Per the Part 2 table, prefill processes all N input tokens in parallel and produces the first output token AND the initial KV cache. That cache is exactly what decode then reads from, one token at a time, to continue the sequence."
+  },
+  {
+    "stem": "The lesson defines end-to-end latency in terms of the two phases. How is it computed?",
+    "options": [
+      "TTFT divided by the number of output tokens",
+      "The prefill time alone, since decode overlaps with it",
+      "TTFT + (number of output tokens × ITL)",
+      "The decode time alone, since prefill is negligible"
+    ],
+    "answer": 2,
+    "explain": "From the Part 4 timeline: end-to-end latency = TTFT + (tokens × ITL). TTFT (driven by prefill) is the wait for the first token; then each of the remaining output tokens adds one inter-token latency (ITL), driven by decode."
+  },
+  {
+    "stem": "The lesson gives arithmetic-intensity figures for the two phases. Which statement matches them?",
+    "options": [
+      "Prefill runs at ~2 ops/byte; decode runs at hundreds of ops/byte",
+      "Both phases run near the H100 ridge of ~295 ops/byte",
+      "Prefill has high arithmetic intensity (hundreds of ops/byte); decode has low intensity (~2 ops/byte)",
+      "Arithmetic intensity is identical in both phases"
+    ],
+    "answer": 2,
+    "explain": "Part 2 states prefill reaches high arithmetic intensity — hundreds of ops per byte — so it saturates Tensor Cores (compute-bound). Part 3 states decode has low arithmetic intensity of ~2 ops/byte, so the GPU idles waiting on HBM (memory-bound)."
+  },
+  {
+    "stem": "The lesson relates TPS to Inter-Token Latency (ITL). What is the relationship?",
+    "options": [
+      "TPS = ITL_ms × 1000",
+      "TPS = 1000 / ITL_ms",
+      "TPS and ITL measure unrelated things",
+      "TPS = ITL_ms / 1000"
+    ],
+    "answer": 1,
+    "explain": "Part 3 defines TPS = 1000 / ITL_ms — tokens per second per stream. ITL is the gap between consecutive output tokens; the smaller that gap, the higher the tokens-per-second rate. Both are decode-phase metrics."
   }
 ]
 </script>

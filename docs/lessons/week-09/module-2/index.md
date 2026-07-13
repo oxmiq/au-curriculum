@@ -289,6 +289,39 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 1,
     "explain": "The lesson's concept: 'one number means nothing; a sweep means everything.' A single TTFT=400ms data point tells you nothing about whether you're at peak efficiency. A 6-point concurrency sweep reveals the elbow, shows throughput saturation, shows P99 degradation — you can see the system's behavior envelope. The curve is the evidence; naming the regime is the deliverable."
+  },
+  {
+    "stem": "The sweep template varies one axis at a time and holds everything else fixed. Why?",
+    "options": [
+      "So any change in the metric can be attributed to the single axis you varied — otherwise you can't tell which variable caused the effect",
+      "Because the serving engine only accepts one flag per invocation",
+      "Because varying two parameters at once crashes the GPU",
+      "Because the dashboard can only plot one run at a time"
+    ],
+    "answer": 0,
+    "explain": "Part 2's rule: 'Vary one axis at a time, hold everything else fixed.' If you change concurrency AND quantization together, a throughput shift can't be attributed to either — the experiment is confounded. Isolating one variable is what lets each observed change map back to a single Phase-1 concept you can name."
+  },
+  {
+    "stem": "You benchmark an 8B model at TP=4 and throughput barely improves over TP=2, with GPU compute util only 0.35. Which regime is this?",
+    "options": [
+      "Memory bandwidth-bound — quantization would help most",
+      "Compute-bound — a faster GPU or more TP would help",
+      "Communication-bound — per-step time barely drops as you add GPUs; drop TP or change the model",
+      "I/O-bound — disk reads of the model weights dominate"
+    ],
+    "answer": 2,
+    "explain": "Part 4's third regime: communication-bound (high TP, small model). Adding GPUs via TP barely improves per-step time because all-reduce communication overhead eats the wins, and compute util stays low (0.35) because each GPU has too little work. The fix is to drop TP or move to a larger model — not more quant or a faster GPU."
+  },
+  {
+    "stem": "Per the lesson's confound table, which is a real confounding variable when running back-to-back benchmarks on the same node — and its mitigation?",
+    "options": [
+      "The model's parameter count silently changing between runs; re-download the weights",
+      "The CLI version being out of date; run `capsule update` between runs",
+      "Thermal throttling from the previous run; pause ~30s between runs and check `nvidia-smi -q -d CLOCK`",
+      "The dashboard being offline; pass `--no-upload`"
+    ],
+    "answer": 2,
+    "explain": "Part 2's confound table lists thermal throttling between runs, mitigated by pausing ~30s and checking `nvidia-smi -q -d CLOCK`. Other listed confounds are cold warmup (pre-warm), neighbor processes (verify idle GPU util = 0), drifted prompt distribution (same seed/prompt set), and reused quant cache (clear between fundamentally different configs)."
   }
 ]
 </script>

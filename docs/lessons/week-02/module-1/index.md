@@ -351,6 +351,28 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     ],
     "answer": 2,
     "explain": "Part 3 states: 'Prefill = compute-bound (GPU is the bottleneck); Decode = memory-bound (KV cache reads are the bottleneck).' This distinction drives everything in Weeks 2–4."
+  },
+  {
+    "stem": "In the Part 5 exercise (1000 input tokens, 500 output tokens), how many decode forward passes are required?",
+    "options": [
+      "500 — one decode pass per output token",
+      "1000 — one per input token",
+      "1500 — one per input and output token combined",
+      "1 — decode processes all output tokens in parallel"
+    ],
+    "answer": 0,
+    "explain": "Part 5 works this out: prefill processes the 1000 input tokens (in parallel), then decode generates the 500 output tokens one at a time — so 500 decode passes. Total forward passes = 1000 + 500 = 1500, but only 500 of those are decode."
+  },
+  {
+    "stem": "Which throughput metric does the decode phase drive?",
+    "options": [
+      "TTFT (Time To First Token)",
+      "The model's vocabulary size",
+      "TPS (Tokens Per Second)",
+      "The embedding dimension"
+    ],
+    "answer": 2,
+    "explain": "Part 3 states decode 'Drives: TPS (Tokens Per Second)' because decode generates output tokens one at a time. Prefill, by contrast, drives TTFT — the time until the first token appears."
   }
 ]
 </script>
