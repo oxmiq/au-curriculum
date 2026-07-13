@@ -16,9 +16,9 @@ from __future__ import annotations
 import glob, json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# Seed keys for BOTH readiness pools and end-of-lesson self-checks (wrap-up in
-# lesson index.md). Canonical weekly knowledge-checks live in knowledge-check.md,
-# which this glob does not read, so they are excluded automatically.
+# Seed keys for every server-persisted check: readiness pools + end-of-lesson
+# self-checks (wrap-up in lesson index.md) + weekly knowledge-checks (wrap-up,
+# data-id "*-canonical", in knowledge-check.md). All are data-kind readiness/wrap-up.
 POOL_RE = re.compile(
     r'<div class="ox-self-check"[^>]*data-kind="(?:readiness|wrap-up)"[^>]*>\s*'
     r'<script[^>]*class="ox-self-check__pool">(.*?)</script>',
@@ -33,7 +33,9 @@ def sql_str(s: str) -> str:
 
 def main() -> int:
     rows = []
-    for f in sorted(glob.glob(os.path.join(ROOT, "docs/lessons/week-*/module-*/index.md"))):
+    sources = (glob.glob(os.path.join(ROOT, "docs/lessons/week-*/module-*/index.md"))
+               + glob.glob(os.path.join(ROOT, "docs/lessons/week-*/module-*/knowledge-check.md")))
+    for f in sorted(sources):
         text = open(f, encoding="utf-8").read()
         for m in POOL_RE.finditer(text):
             div = text[m.start(): m.start() + 400]

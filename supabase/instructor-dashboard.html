@@ -119,7 +119,7 @@ function render() {
     tr.innerHTML =
       "<td>" + (r.student_email||"—") + "</td>" +
       "<td class='muted'>" + r.check_id + "</td>" +
-      "<td>" + (/-readiness$/.test(r.check_id) ? 'Readiness' : /-wrapup$/.test(r.check_id) ? 'Self-Check' : '—') + "</td>" +
+      "<td>" + (/-readiness$/.test(r.check_id) ? 'Readiness' : /-wrapup$/.test(r.check_id) ? 'Self-Check' : /-canonical$/.test(r.check_id) ? 'Knowledge Check' : '—') + "</td>" +
       "<td>" + r.attempts + "</td>" +
       "<td class='ratio'>" + bar(r.best_ratio) + pct(r.best_ratio) + "</td>" +
       "<td class='ratio'>" + pct(r.last_ratio) + "</td>" +

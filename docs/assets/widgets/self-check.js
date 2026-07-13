@@ -54,9 +54,9 @@
   // via the grade-readiness Edge Function. Wrap-up checks keep localStorage.
   var _supa = null, _supaPromise = null;
   function supaCfg() { return (typeof window !== 'undefined' && window.OX_SUPABASE) || null; }
-  // Server-persist readiness checks and end-of-lesson self-checks (ids ending
-  // -readiness / -wrapup). Canonical weekly knowledge-checks (-canonical) stay local.
-  function serverEnabled(host) { return !!supaCfg() && /-(readiness|wrapup)$/.test(host.dataset.id || ''); }
+  // Server-persist readiness checks, end-of-lesson self-checks, and weekly
+  // knowledge-checks (ids ending -readiness / -wrapup / -canonical).
+  function serverEnabled(host) { return !!supaCfg() && /-(readiness|wrapup|canonical)$/.test(host.dataset.id || ''); }
   function getSupa() {
     if (_supa) return Promise.resolve(_supa);
     var cfg = supaCfg();
