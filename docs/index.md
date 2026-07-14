@@ -4,7 +4,7 @@
   <div class="ox-hero__eyebrow">10-week internship</div>
   <div class="ox-hero__title">Inference engineering, prompt engineering, AI agents &amp; Capsule</div>
   <p class="ox-hero__body">Your learning environment for the program. Half-days, one concept per day, Friday consolidation. Run this site locally with <code>mkdocs serve</code> and ask the <strong>course agent</strong> to re-explain anything or check your understanding as you go.</p>
-  <div class="ox-hero__meta">50 modules · 10 weeks · OxBlood-served</div>
+  <div class="ox-hero__meta">50 modules · 10 weeks</div>
 </div>
 
 ## Start here

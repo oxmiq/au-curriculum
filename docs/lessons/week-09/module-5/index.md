@@ -7,7 +7,7 @@
   <div class="ox-lesson-header__crumbs">
     <a href="../../../">Home</a>
     <span class="sep">/</span>
-    <a href="../../">Learn</a>
+    <a href="../../../curriculum/">Learn</a>
     <span class="sep">/</span>
     <a href="../">Week 9 - Capsule: Benchmarking &amp; Eval</a>
     <span class="sep">/</span>

@@ -14,7 +14,7 @@ drift: |
   <div class="ox-lesson-header__crumbs">
     <a href="../../../">Home</a>
     <span class="sep">/</span>
-    <a href="../../">Learn</a>
+    <a href="../../../curriculum/">Learn</a>
     <span class="sep">/</span>
     <a href="../">Week 7 - Bridge: Theory Meets Tooling</a>
     <span class="sep">/</span>

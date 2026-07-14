@@ -7,7 +7,7 @@ The header is an HTML block bounded by markers so the script is idempotent::
       <div class="ox-lesson-header__crumbs">
         <a href="../../../">Home</a>
         <span class="sep">/</span>
-        <a href="../../">Learn</a>
+        <a href="../../../curriculum/">Learn</a>
         <span class="sep">/</span>
         <a href="../">Week 2 - The GPU &amp; Memory</a>
         <span class="sep">/</span>
@@ -118,7 +118,7 @@ def _lesson_header_block(week: dict, module: dict, day_in_week: int,
         f'  <div class="ox-lesson-header__crumbs">\n'
         f'    <a href="../../../">Home</a>\n'
         f'    <span class="sep">/</span>\n'
-        f'    <a href="../../">Learn</a>\n'
+        f'    <a href="../../../curriculum/">Learn</a>\n'
         f'    <span class="sep">/</span>\n'
         f'    <a href="../">{week_title_escaped}</a>\n'
         f'    <span class="sep">/</span>\n'
