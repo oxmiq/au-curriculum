@@ -26,6 +26,11 @@ jobs:
           # Warn-only — do not fail the build yet.
           python3 scripts/build_catalog.py --check || true
 
+      - name: Verify roadmap.md is current
+        run: |
+          # Warn-only — do not fail the build yet.
+          python3 scripts/generate_roadmap.py --check || true
+
   mkdocs:
     name: mkdocs build
     runs-on: ubuntu-latest
