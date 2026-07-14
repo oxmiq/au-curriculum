@@ -1,8 +1,8 @@
 {#-
-  Custom Material header — extends the default with right-side actions for
-  au-curriculum:
-    - Source material  (link to upstream planning/ on GitHub)
-    - Fork & sync help (FORKING.md on GitHub)
+  Custom Material header — extends the default with:
+    - Fork identity ("<github-username> / <email>"), centered in the bar and
+      rendered server-side from the local clone's git config (fork owner of the
+      `origin` remote + `user.email`), via hooks/git_identity.py. No sign-in.
     - Overall progress pill (read from docs/assets/status.json at runtime
       via a tiny script, with a static fallback rendered server-side from
       the Phase D hook's `extra.progress.overall`)
@@ -11,8 +11,6 @@
 -#}
 {% set site_url = config.site_url | default('') %}
 {% set repo_url = config.repo_url | default('') %}
-{% set source_material_url = repo_url ~ '/tree/main/planning/source-material' if repo_url else '' %}
-{% set forking_url           = repo_url ~ '/blob/main/FORKING.md'             if repo_url else '' %}
 {% set progress = config.extra.progress | default({}) %}
 {% set overall  = progress.overall      | default({}) %}
 {% set pct      = overall.percent       | default(0) %}
@@ -63,18 +61,17 @@
       </div>
     </div>
 
+    {# Fork identity ("<github-username> / <email>") from the local clone's git
+       config (build-time, via hooks/git_identity.py). Centered in the bar. #}
+    {% set gid = config.extra.git_identity | default({}) %}
+    {% if gid.user or gid.email %}
+      <span class="ox-header-user" id="ox-header-user"
+            data-git-user="{{ gid.user }}"
+            title="Your fork identity: GitHub user and git email from this clone">{{ gid.user }}{% if gid.user and gid.email %} / {% endif %}{{ gid.email }}</span>
+    {% endif %}
+
     {# ── au-curriculum custom right-side actions ── #}
     <div class="md-header__option ox-header-actions" aria-label="Course actions">
-      {% if source_material_url %}
-        <a class="ox-header-link" href="{{ source_material_url }}" target="_blank" rel="noopener" title="Open the upstream source-material library on GitHub">
-          Source material
-        </a>
-      {% endif %}
-      {% if forking_url %}
-        <a class="ox-header-link" href="{{ forking_url }}" target="_blank" rel="noopener" title="How to fork &amp; keep your copy in sync">
-          Fork &amp; sync
-        </a>
-      {% endif %}
       <span class="ox-progress-pill status-pill {{ pill_class }}"
             id="ox-progress-pill"
             data-pct="{{ pct }}"

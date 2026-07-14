@@ -545,18 +545,27 @@
   margin-left:.6rem;
   margin-right:.4rem;
 }
-.ox-header-link{
-  font-family:var(--ox-font-body);   /* sans, matches the header chrome */
-  font-size:.8rem;
-  font-weight:700;
+/* fork identity ("<github-user> / <email>", hooks/git_identity.py) — centered
+   in the header bar so the full string has room, independent of the side clusters */
+.md-header__inner{ position:relative; }
+.ox-header-user{
+  position:absolute;
+  left:50%; top:0; bottom:0;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  max-width:52vw;
+  font-family:var(--ox-font-mono);      /* mono reads like an account handle */
+  font-size:.78rem;
   letter-spacing:.01em;
   color:var(--md-primary-bg-color);     /* cream on the oxblood bar */
-  opacity:.85;
-  text-decoration:none;
+  opacity:.9;
   white-space:nowrap;
-  transition:opacity .15s ease;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  pointer-events:none;                  /* it's a label; never intercept clicks */
 }
-.ox-header-link:hover{opacity:1; text-decoration:underline}
 
 .ox-progress-pill{
   /* override default status-pill chrome so it reads on the oxblood bar */
@@ -567,8 +576,45 @@
 
 /* hide right-side actions on narrow viewports — the hamburger drawer wins */
 @media (max-width:76.1875em){
-  .ox-header-actions .ox-header-link{display:none}
+  .ox-header-user{display:none}
   .ox-progress-pill{font-size:.7rem; padding:.1em .4em}
+}
+
+/* identity nudge: fork's GitHub user ≠ signed-in GitHub user (identity-check.js).
+   Gold "heads up" toast, dismissible. */
+.ox-identity-nudge{
+  position:fixed;
+  left:50%; bottom:1rem;
+  transform:translateX(-50%);
+  z-index:1000;
+  max-width:min(680px, 92vw);
+  display:flex; align-items:flex-start; gap:.6rem;
+  padding:.7rem .7rem .7rem 1rem;
+  background:var(--ox-surface);
+  color:var(--ox-body);
+  border:1px solid var(--ox-gold);
+  border-left:4px solid var(--ox-gold);
+  border-radius:8px;
+  box-shadow:0 6px 24px rgba(0,0,0,.16);
+  font-size:.82rem;
+  line-height:1.45;
+}
+.ox-identity-nudge b{ color:var(--ox-ink); }
+.ox-identity-nudge__x{
+  flex:0 0 auto;
+  cursor:pointer;
+  border:0; background:transparent;
+  color:var(--ox-muted);
+  font-size:1.15rem; line-height:1;
+  padding:0 .25rem;
+}
+.ox-identity-nudge__x:hover{ color:var(--ox-ink); }
+@media (prefers-reduced-motion: no-preference){
+  .ox-identity-nudge{ animation:ox-nudge-in .3s ease-out both; }
+  @keyframes ox-nudge-in{
+    from{ opacity:0; transform:translate(-50%, 8px) }
+    to  { opacity:1; transform:translate(-50%, 0) }
+  }
 }
 
 /* ============================================================

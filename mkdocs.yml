@@ -43,6 +43,7 @@ extra_css:
 extra_javascript:
   - assets/mermaid-init.js
   - assets/supabase-config.js       # public Supabase URL + publishable key (readiness persistence)
+  - assets/identity-check.js        # nudge to use one GitHub account for both fork + Supabase sign-in
   - assets/widgets/self-check.js    # ox-self-check MCQ formative widget
   - assets/readings-newtab.js       # open standalone reading/reference pages in a new tab
   - assets/embed-autosize.js        # grow document-flow kb/*.html embeds to their content height
@@ -162,6 +163,7 @@ nav:
 # docs/assets/status.json for the header partial (Phase B).
 hooks:
   - hooks/progress_badges.py
+  - hooks/git_identity.py            # expose fork owner + git email to the header (config.extra.git_identity)
 
 # Linked from lesson pages, intentionally not a sidebar entry.
 # The kb/ views are self-contained *.html documents embedded (via a full-bleed
