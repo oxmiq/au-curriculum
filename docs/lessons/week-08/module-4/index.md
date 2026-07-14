@@ -1,6 +1,6 @@
 # Day 39 · Known Quirks
 
-> **Concept of the day:** every system has failure modes that look mysterious until you've seen them once. Today you learn Capsule's known-quirks list from the Lab Guide so you never waste 30 minutes on a problem that has a 10-second fix.<br> **Pre-reading:** <a href="../../../readings/capsule/#day-40-consolidation-reliability-diagnostics">Capsule Power-User Pre-Lecture Reading - Day 40 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10 - Known Quirks.
+> **Concept of the day:** every system has failure modes that look mysterious until you've seen them once. Today you learn Capsule's known-quirks list from the Lab Guide so you never waste 30 minutes on a problem that has a 10-second fix.<br> **Pre-reading:** <a href="../../../readings/capsule/#consolidation-reliability-diagnostics">Capsule Power-User Pre-Lecture Reading - Reliability & Diagnostics</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10 - Known Quirks.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">

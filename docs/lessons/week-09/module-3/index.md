@@ -8,7 +8,7 @@ drift: |
 # Day 43 · Interactive Chat (Quality Evaluation)
 
 > **Concept of the day:** **throughput is not quality.** A fast config that produces worse answers is a worse config. Use the Capsule chat UI to probe quality *interactively*, both speed (TTFT/ITL felt as a human) and quality (correctness, refusals, hallucinations), alongside the benchmark numbers.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-43-interactive-evaluation">Capsule Power-User Pre-Lecture Reading - Day 43 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-9-model-evaluation-interactive-chat">Capsule Lab Guide</a> Module 9.
+> **Pre-reading:** <a href="../../../readings/capsule/#interactive-evaluation">Capsule Power-User Pre-Lecture Reading - Interactive Evaluation</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-9-model-evaluation-interactive-chat">Capsule Lab Guide</a> Module 9.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -394,7 +394,7 @@ Tomorrow: **scheduling & MCP**: once you trust a config, automate the benchmark 
 
 ### Pre-read for tomorrow (Day 44 · Scheduling & MCP)
 
-- **Resource:** <a href="../../../readings/capsule/#day-44-scheduling-mcp">Capsule Power-User Pre-Lecture Reading - Day 44 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10.
+- **Resource:** <a href="../../../readings/capsule/#scheduling-mcp">Capsule Power-User Pre-Lecture Reading - Scheduling & MCP</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10.
 - **Reflection questions:**
   1. Why schedule benchmarks instead of running them by hand?
   2. What does an MCP surface for Capsule unlock that the CLI alone doesn't?

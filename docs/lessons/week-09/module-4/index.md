@@ -9,7 +9,7 @@ drift: |
 # Day 44 · Scheduling & MCP
 
 > **Concept of the day:** stop babysitting benchmarks in an interactive terminal. Hand a long run to `capsule schedule` and it executes unattended on a remote node as a detached job; drive the *nightly* cadence from an external trigger (cron/CI). Expose Capsule's surface via **MCP** so the agents you designed in Week 6 can run, monitor, and report on benchmarks autonomously. This is where Phase 2 (agents) and Phase 3 (Capsule) compose.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-44-scheduling-mcp">Capsule Power-User Pre-Lecture Reading - Day 44 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10.
+> **Pre-reading:** <a href="../../../readings/capsule/#scheduling-mcp">Capsule Power-User Pre-Lecture Reading - Scheduling & MCP</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">

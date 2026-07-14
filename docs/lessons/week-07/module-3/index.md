@@ -1,6 +1,6 @@
 # Day 33 · Installation
 
-> **Concept of the day:** **install once, use every day.** A clean Capsule install takes under 15 minutes; a botched one loses you a day. Today you install the CLI, complete the auth flow, run `capsule status`, and memorise the four most-asked support questions.<br> **Pre-reading:** <a href="../../../readings/capsule/#day-36-capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading - Day 36 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-2-installation-first-login">Capsule Lab Guide</a> Module 2.
+> **Concept of the day:** **install once, use every day.** A clean Capsule install takes under 15 minutes; a botched one loses you a day. Today you install the CLI, complete the auth flow, run `capsule status`, and memorise the four most-asked support questions.<br> **Pre-reading:** <a href="../../../readings/capsule/#capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading - Capsule Architecture & Installation</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-2-installation-first-login">Capsule Lab Guide</a> Module 2.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -510,7 +510,7 @@ You've installed the tool. The next two days build the daily workflow: environme
 
 ### Pre-read for tomorrow (Day 34 · Environments & Fleet Discovery)
 
-- **Resource:** <a href="../../../readings/capsule/#day-37-environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading - Day 37 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
+- **Resource:** <a href="../../../readings/capsule/#environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading - Environments & Fleet Discovery</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
 - **Reflection questions:**
   1. How do you list available machines? What command shows machine details?
   2. What fields distinguish an `available` machine from a `leased` one?

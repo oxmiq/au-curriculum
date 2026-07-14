@@ -31,6 +31,11 @@ jobs:
           # Warn-only — do not fail the build yet.
           python3 scripts/generate_roadmap.py --check || true
 
+      - name: Verify flashcards.json is current
+        run: |
+          # Warn-only — do not fail the build yet.
+          python3 scripts/build_flashcards.py --check || true
+
   mkdocs:
     name: mkdocs build
     runs-on: ubuntu-latest

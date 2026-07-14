@@ -1,6 +1,6 @@
 # Day 38 · Streaming
 
-> **Concept of the day:** `capsule stream` gives you a live hardware-encoded desktop or single-app view of a remote machine. Know when to use it vs `capsule term`, how GPU hardware encoding works, and what backpressure / network sensitivity looks like.<br> **Pre-reading:** <a href="../../../readings/capsule/#day-39-files-storage-streaming">Capsule Power-User Pre-Lecture Reading - Day 39 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-7-streaming-containers">Capsule Lab Guide</a> Module 7.
+> **Concept of the day:** `capsule stream` gives you a live hardware-encoded desktop or single-app view of a remote machine. Know when to use it vs `capsule term`, how GPU hardware encoding works, and what backpressure / network sensitivity looks like.<br> **Pre-reading:** <a href="../../../readings/capsule/#files-storage-streaming">Capsule Power-User Pre-Lecture Reading - Files, Storage & Streaming</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-7-streaming-containers">Capsule Lab Guide</a> Module 7.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -461,7 +461,7 @@ Streaming is the gateway to interactive GPU workloads. When you run benchmarks n
 
 ### Pre-read for tomorrow (Day 39 · Known Quirks)
 
-- **Resource:** <a href="../../../readings/capsule/#day-40-consolidation-reliability-diagnostics">Capsule Power-User Pre-Lecture Reading - Day 40 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10 (Known Quirks).
+- **Resource:** <a href="../../../readings/capsule/#consolidation-reliability-diagnostics">Capsule Power-User Pre-Lecture Reading - Reliability & Diagnostics</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10 (Known Quirks).
 - **Reflection questions:**
   1. What is `capsule session endall` and when do you run it?
   2. Name two symptoms whose first diagnostic step is `capsule config customer show`.

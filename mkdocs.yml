@@ -157,6 +157,7 @@ nav:
   - Reference:
       - Glossary: kb/glossary.md
       - Concepts: kb/concepts.md
+      - Flashcards: kb/flashcards.md
 
 # Phase D: build-time hook that swaps {status:week-XX/module-Y} tokens with
 # status pills derived from docs/progress/summary.json, and emits

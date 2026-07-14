@@ -10,7 +10,7 @@ drift: |
 # Day 32 · Capsule Foundations & Architecture
 
 > **Concept of the day:** **Capsule** = a remote development and application streaming platform for GPU fleets. You stay on your laptop; the CLI brokers a connection to a remote machine: by default over the **SshRTC data channel** (SSH tunnelled through WebRTC), or over **direct SSH** with `--direct`. What machines you *see* is governed by two routing dimensions: the **environment** (backend deployment: `prod`/`public`/`dev`/`demo`) and the **customer** fleet selector. Install once, configure once, operate every day.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-36-capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading - Day 36 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-1-capsule-foundations">Capsule Lab Guide</a> Modules 1 + 2.
+> **Pre-reading:** <a href="../../../readings/capsule/#capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading - Capsule Architecture & Installation</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-1-capsule-foundations">Capsule Lab Guide</a> Modules 1 + 2.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -409,7 +409,7 @@ Tomorrow: **environments and fleet discovery** - how to find what's available, w
 
 ### Pre-read for tomorrow (Day 36 · Environments & Fleet Discovery)
 
-- **Resource:** <a href="../../../readings/capsule/#day-37-environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading - Day 37 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
+- **Resource:** <a href="../../../readings/capsule/#environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading - Environments & Fleet Discovery</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
 - **Reflection questions:**
   1. How do you list available machines in an environment?
   2. What fields tell you a machine is *available* vs *leased*?

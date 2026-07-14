@@ -175,7 +175,7 @@ Module 8 of the Lab Guide (Benchmarking) is the most important module for this t
 
 ## Pre-read for Monday (Week 9 · Day 41 · Your First Benchmark)
 
-- **Resource:** <a href="../../../readings/capsule/#day-41-your-first-benchmark">Capsule Power-User Pre-Lecture Reading - Day 41 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-8-model-evaluation-benchmarking-the-inferencemax-path">Capsule Lab Guide</a> Module 8 (Benchmarking): budget the full 30 minutes.
+- **Resource:** <a href="../../../readings/capsule/#your-first-benchmark">Capsule Power-User Pre-Lecture Reading - Your First Benchmark</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-8-model-evaluation-benchmarking-the-inferencemax-path">Capsule Lab Guide</a> Module 8 (Benchmarking): budget the full 30 minutes.
 - **Reflection questions:**
   1. What is **InferenceMAX** and what does it measure?
   2. What are the four backend options for `capsule benchmark`?

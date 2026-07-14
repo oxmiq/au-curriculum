@@ -333,7 +333,7 @@ Tomorrow: **interactive chat evaluation** - throughput numbers aren't quality. S
 
 ### Pre-read for tomorrow (Day 43 · Interactive Evaluation)
 
-- **Resource:** <a href="../../../readings/capsule/#day-43-interactive-evaluation">Capsule Power-User Pre-Lecture Reading - Day 43 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-9-model-evaluation-interactive-chat">Capsule Lab Guide</a> Module 9.
+- **Resource:** <a href="../../../readings/capsule/#interactive-evaluation">Capsule Power-User Pre-Lecture Reading - Interactive Evaluation</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-9-model-evaluation-interactive-chat">Capsule Lab Guide</a> Module 9.
 - **Reflection questions:**
   1. What does the chat interface let you measure that the benchmark report cannot?
   2. Why might a "fast" config be the wrong choice for production?

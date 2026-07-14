@@ -25,7 +25,7 @@ below is declared in the `nav:` block of [`mkdocs.yml`](mkdocs.yml).
 | **🏠 Home** | 2 | `index.md` (Welcome), `rationale.md` (Why this curriculum) |
 | **📚 Learn** | 61 | `curriculum.md` + 10 week overviews + 50 daily lessons |
 | **🗺️ Plan** | 2 | `roadmap.md` (progress-aware sitemap) + Interactive Concept Graph |
-| **📖 Reference** | 2 | Glossary, Concepts |
+| **📖 Reference** | 3 | Glossary, Concepts, Flashcards |
 
 Progress is surfaced on the **Roadmap** itself (per-week + overall bars, a "next up" flag) and via status pills on lesson pages; there is no separate progress tab.
 
@@ -90,9 +90,12 @@ The core rule: **edit sources of truth, never edit generated artifacts.**
    (hand-authored)          (scripts/ + hooks/, run in CI)      (derived - don't edit)
    ─────────────────        ──────────────────────────────      ────────────────────────
    lessons/**/*.md      ──▶ build_catalog.py              ──▶   catalog.json
-   kb/graph.json        ──▶ build_glossary.py             ──▶   kb/glossary.json
+   source-material/     ──▶ build_glossary.py             ──▶   kb/glossary.json
+     (5 *-Glossary.md)
+   source-material/     ──▶ build_flashcards.py           ──▶   kb/flashcards.json
+     (4 *-Flashcards.md)
    kb/graph.json        ──▶ generate_roadmap.py           ──▶   roadmap.md (sitemap)
-   source-material/     ──▶ build_card_grids.py           ──▶   AUTO-GEN card grids
+   mkdocs.yml (nav)     ──▶ build_card_grids.py           ──▶   AUTO-GEN card grids
                             apply_lesson_header.py         ──▶   AUTO-GEN lesson headers
                             hooks/progress_badges.py       ──▶   {status:…} → status pills
                             audit_lessons.py (lint L001–L015)
@@ -114,6 +117,7 @@ The core rule: **edit sources of truth, never edit generated artifacts.**
 |----------|--------------|-------|
 | `catalog.json` (repo root) | `build_catalog.py` | Filesystem-derived week/module catalog; committed so CI can diff structure. |
 | `docs/kb/glossary.json` | `build_glossary.py` | A–Z dictionary built from the 5 source-material glossaries. |
+| `docs/kb/flashcards.json` | `build_flashcards.py` | Q/A decks built from the 4 source-material `*-Flashcards.md` files (has `--check`). Renders the Reference-tab Flashcards page. |
 | `docs/roadmap.md` | `generate_roadmap.py` | Phase-banded sitemap derived from `kb/graph.json` (has `--check`). |
 | In-page card grids | `build_card_grids.py` | Bounded by `<!-- AUTO-GEN:CARD-GRID:START/END -->` markers. |
 | In-page lesson headers | `apply_lesson_header.py` | Bounded by `<!-- AUTO-GEN:LESSON-HEADER:START/END -->` markers. |
@@ -139,6 +143,7 @@ that `.html` file's inline styles directly: not the global stylesheets.
 | `interactive-graph.html` | Plan | `graph.json` |
 | `glossary.html` | Reference | `glossary.json` (generated) |
 | `concepts.html` | Reference | `concepts.json`, `facts.json` |
+| `flashcards.html` | Reference | `flashcards.json` (generated) |
 
 Other committed data: `docs/kb/lesson-frontmatter.json` (per-lesson metadata).
 

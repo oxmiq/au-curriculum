@@ -77,7 +77,7 @@ title: AI Agents - Pre-Lecture Reading
 
 1. The 5 layers of the stack are: Intelligence / Action / Governance / Orchestration / Economic. In one sentence per layer, say what it contributes that the layer below it cannot provide.
 2. Pick the *one* concept from Days 27–30 you'd most want to teach back to a peer. Why that one? (Teaching back is how facilitators identify candidates for ML-eng vs systems tracks.)
-3. Looking ahead to the Capsule Power-User weeks (Days 32 onward), what's one connection you already see between agent design and how a user would orchestrate Capsule operations? (You'll revisit this on Day 45.)
+3. Looking ahead to the Capsule Power-User phase, what's one connection you already see between agent design and how a user would orchestrate Capsule operations? (You'll revisit this in the end-of-phase sprint.)
 
 ---
 

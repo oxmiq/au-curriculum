@@ -7,7 +7,7 @@ drift: |
 # Day 36 · Connecting to Machines
 
 > **Concept of the day:** `capsule term <config-tag>` opens a shell over the SshRTC data channel: no public-facing port needed, and Capsule auto-generates and manages the SSH keys for you. Session state lives in your home dir on the node and persists across reconnects. **Detach early, detach often** with `tmux` / `screen`; don't lose work to network blips.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-38-connecting-to-machines">Capsule Power-User Pre-Lecture Reading - Day 38 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5.
+> **Pre-reading:** <a href="../../../readings/capsule/#connecting-to-machines">Capsule Power-User Pre-Lecture Reading - Connecting to Machines</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -432,7 +432,7 @@ Tomorrow: **files, storage**: getting code in, getting results out, the auto-mou
 
 ### Pre-read for tomorrow (Day 37 · Files & Storage)
 
-- **Resource:** <a href="../../../readings/capsule/#day-39-files-storage-streaming">Capsule Power-User Pre-Lecture Reading - Day 39 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-6-files-storage-and-the-onedrive-mount">Capsule Lab Guide</a> Modules 6 + 7.
+- **Resource:** <a href="../../../readings/capsule/#files-storage-streaming">Capsule Power-User Pre-Lecture Reading - Files, Storage & Streaming</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-6-files-storage-and-the-onedrive-mount">Capsule Lab Guide</a> Modules 6 + 7.
 - **Reflection questions:**
   1. How do you copy a small file to / from a node? A 50 GB model checkpoint?
   2. What's the difference between the per-user home dir and the auto-mounted OneDrive folder?

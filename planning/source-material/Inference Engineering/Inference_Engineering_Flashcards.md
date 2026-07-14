@@ -1,490 +1,252 @@
-**Inference Engineering Flashcards**
+# Inference Engineering — Flashcards
 
-208 study cards across two decks:
-
-- **Deck A — Recall (cards 1–104):** definitions and core facts. Sit-down review.
-- **Deck B — Application, discrimination & numbers (cards 105–208):** scenarios, "what's the difference between X and Y", and back-of-envelope math. Quiz a partner.
-
-> **Source & permitted use.** These flashcards are an instructor-authored companion derived from *Inference Engineering* by Philip Kiely (Baseten Books, 2026). Card content paraphrases and adapts material from that book for internal use within the Andhra University / Oxmiq curriculum only. **Do not redistribute, mirror, or publish outside this course.** Students and instructors should obtain the original book for canonical text, code samples, and references. If a formal license or permission grant for this material is established, replace this notice with a pointer to the source agreement.
-
-*Print double-sided, flip on long edge. Cut along grid lines.* Each page has 4 cards in a 2×2 grid; the back of each front-page card holds the matching definition.
-
-Coverage: every Inference-phase concept node from `docs/kb/concepts.json` appears in at least one card. Several appear in 3+ (different angles).
-
-|                                |                            |
-|:------------------------------:|:--------------------------:|
-|         **Inference**          | **Training vs. inference** |
-| **The three inference layers** | **Six runtime techniques** |
-
-|  |  |
-|:--:|:--:|
-| Training learns weights from data (one-time, capital expense). Inference uses those weights at runtime (continuous, operational expense). | Serving AI models in production — using trained weights to answer user requests. |
-| Batching · Caching · Quantization · Speculation · Parallelism · Disaggregation. | Runtime (single instance), Infrastructure (scaling, multi-cloud), Tooling (developer abstraction). |
-
-|                               |                        |
-|:-----------------------------:|:----------------------:|
-|           **TTFT**            |   **Perceived TPS**    |
-| **Inter-token latency (ITL)** | **P50, P90, P95, P99** |
-
-|  |  |
-|:--:|:--:|
-| Tokens per second observed by one user during streaming. Driven by decode (memory-bound). | Time to First Token. Latency metric, driven by prefill (compute-bound). |
-| Latency percentiles. P50 = median; P99 = 99% of requests faster (1 in 100 slower). Optimize P99 for user-facing reliability. | Time between consecutive tokens. Formula: perceived TPS = 1000 / ITL (ms). |
-
-|                                        |                            |
-|:--------------------------------------:|:--------------------------:|
-| **Inference time vs. end-to-end time** | **Online vs. offline app** |
-|   **Shared vs. dedicated inference**   |      **Fine-tuning**       |
-
-|  |  |
-|:--:|:--:|
-| Online: user waiting, optimize latency. Offline: batch jobs, optimize throughput. | Inference time = on-GPU time only. End-to-end time = what user experiences (includes network, queueing, client). |
-| Adapt a pretrained foundation model to a domain by training on new data. Same architecture, new weight values. | Shared: public API, pay per token, zero ops. Dedicated: rented GPUs, pay per hour, full control. Switch when scale economics flip or specialization needed. |
-
-|                    |                  |
-|:------------------:|:----------------:|
-|  **Distillation**  |    **Evals**     |
-| **Goodhart's Law** | **Linear layer** |
-
-|  |  |
-|:--:|:--:|
-| Task-specific tests that mirror your product's real use cases. Used to confirm a model is useful and to establish a baseline before optimizing. | Train a smaller student model to emulate a larger teacher's probability distributions. Different (smaller) architecture. |
-| Simplest neural layer: y = xW + b. Matrix multiplication plus bias. | "When a measure becomes a target, it ceases to be a good measure." Why public benchmarks get gamed and you need product-specific evals. |
-
-|                         |                                          |
-|:-----------------------:|:----------------------------------------:|
-| **Activation function** |              **Tokenizer**               |
-|       **Logits**        | **Greedy / temperature / top-k / top-p** |
-
-|  |  |
-|:--:|:--:|
-| Maps strings to integer IDs deterministically. Vocabulary typically \>100K tokens. ~4:3 token:word ratio in English. | Non-linear, mostly-differentiable function inserted between linear layers (ReLU, SwiGLU). Prevents collapse of stacked matmuls. |
-| Sampling strategies. Greedy = argmax (deterministic). Temperature scales logits. Top-k keeps highest k. Top-p (nucleus) keeps smallest set summing to p. | Vector of unnormalized scores (one per vocab token) emitted by the LM head. Softmax → probabilities → sample. |
-
-|                       |                          |
-|:---------------------:|:------------------------:|
-|      **Prefill**      |        **Decode**        |
-| **Attention formula** | **Multi-head attention** |
-
-|  |  |
-|:--:|:--:|
-| Memory-bandwidth-bound phase: generate one output token per forward pass autoregressively. Drives TPS. | Compute-bound phase: process all input tokens in parallel, build the KV cache. Drives TTFT. |
-| Multiple independent attention computations in parallel — each head specializes in different relationships. | Attention(Q,K,V) = softmax( QK^T / √d_k ) V. Q = query, K = keys (prior), V = values (prior), d_k = head dim. |
-
-|                              |                         |
-|:----------------------------:|:-----------------------:|
-| **Self vs. cross-attention** |      **KV cache**       |
-| **Mixture of Experts (MoE)** | **Iterative denoising** |
-
-|  |  |
-|:--:|:--:|
-| Stored K and V for each prior token. Turns attention from O(N²) to O(N). Lives on GPU memory by default. | Self: Q, K, V from same sequence (LLMs). Cross: Q from one sequence, K/V from another (e.g., image gen conditioning on text). |
-| Image/video gen archetype: start from random noise in latent space, refine over ~50 steps. | Linear layers split into many sparse experts; a router activates a few per token. e.g., Qwen3-235B-A22B: 22B active of 235B total. |
-
-|                  |                              |
-|:----------------:|:----------------------------:|
-| **Latent space** | **Classifier-free guidance** |
-|     **VAE**      |   **Arithmetic intensity**   |
-
-|  |  |
-|:--:|:--:|
-| Each denoising step runs 2 passes (with prompt + without), combined by guidance scale. 50 steps × 2 = 100 forward passes. | Low-dimensional representation (e.g., 128×128 for a 1024×1024 image) where denoising happens. ~1% of pixel space. |
-| Ops per byte of memory traffic for a specific kernel. Compare to GPU's ops:byte ratio to diagnose compute- vs memory-bound. | Variational autoencoder. Decodes denoised latent into pixel-space image. |
-
-|                            |                    |
-|:--------------------------:|:------------------:|
-|     **Ops:byte ratio**     | **Roofline model** |
-| **Three core bottlenecks** | **FlashAttention** |
-
-|  |  |
-|:--:|:--:|
-| Visualization of arithmetic intensity vs. bandwidth & compute ceilings. Shows whether to optimize memory or compute. | GPU peak compute / memory bandwidth. H100 FP16 ≈ 295. If kernel intensity \> ops:byte → compute-bound; \< → memory-bound. |
-| Lossless optimized attention kernel that minimizes HBM reads/writes. FA-3 = Hopper, FA-4 = Blackwell. | LLM prefill = compute-bound. LLM decode = memory-bound. Image/video gen = compute-bound. |
-
-|                                   |                              |
-|:---------------------------------:|:----------------------------:|
-|        **PagedAttention**         | **Sliding-window attention** |
-| **Streaming Multiprocessor (SM)** |       **Tensor Core**        |
-
-|  |  |
-|:--:|:--:|
-| Lossy variant: each token attends only to a window of w previous tokens. O(N²) → O(Nw). | Partitions KV cache into fixed-size pages accessed by lookup table. Reduces VRAM fragmentation. |
-| GPU hardware unit for matrix multiply-accumulate (MMA): D = A×B + C. The most important compute for inference. | GPU compute unit. Contains Tensor Cores, CUDA Cores, SFUs, and L1 cache. |
-
-|               |                              |
-|:-------------:|:----------------------------:|
-| **CUDA Core** |           **HBM**            |
-| **L2 cache**  | **FLOPS — dense vs. sparse** |
-
-|  |  |
-|:--:|:--:|
-| High-Bandwidth Memory. GPU VRAM. Generations: HBM3, HBM3e, HBM4 (Rubin). | General-purpose scalar arithmetic unit on a GPU. |
-| Inference uses dense FLOPS. Sparse (2:4 sparsity) Tensor Cores can skip zeros but is uncommon in inference. | Global on-chip GPU cache shared across all SMs. 50 MB on H100. |
-
-|          |            |
-|:--------:|:----------:|
-| **H100** |  **H200**  |
-| **B200** | **NVLink** |
-
-|  |  |
-|:--:|:--:|
-| Hopper, 141 GB HBM, 4.8 TB/s bandwidth. Better for memory-bound decode. | Hopper, 80 GB HBM, 3.35 TB/s bandwidth, 989 TFLOPS FP16 / 1,979 FP8. Today's workhorse. |
-| GPU-to-GPU interconnect within a node. 900 GB/s on Hopper, up to 1,800 GB/s on Blackwell. | Blackwell, 192 GB HBM, ~8 TB/s, ~5 PFLOPS FP8. Adds FP4 and microscaling formats. New gold standard. |
-
-|              |                |
-|:------------:|:--------------:|
-| **NVSwitch** | **InfiniBand** |
-|   **Node**   |    **MIG**     |
-
-|  |  |
-|:--:|:--:|
-| Inter-node interconnect, up to 400 Gb/s per NIC. Much slower than NVLink — shapes parallelism choices. | All-to-all communication layer on top of NVLink. Connects all GPUs in a node. |
-| Multi-Instance GPU. Splits one GPU into up to 7 compute slices / 8 memory slices for serving small models. | Standard 8-GPU chassis with NVLink + NVSwitch. |
-
-|                   |                    |
-|:-----------------:|:------------------:|
-|     **NVL72**     |  **CUDA kernel**   |
-| **Kernel fusion** | **cuBLAS / cuDNN** |
-
-|  |  |
-|:--:|:--:|
-| User-defined function that runs in parallel on the GPU. NVIDIA's GPU programming primitive. | Rack-scale Blackwell system with 72 GPUs + 36 Grace CPUs, all on NVLink. |
-| NVIDIA's linear algebra and deep-learning primitive libraries. | Combine multiple kernels into one to avoid HBM round-trips. Critical for memory-bound decode. |
-
-|                 |                |
-|:---------------:|:--------------:|
-|    **GEMM**     | **FlashInfer** |
-| **safetensors** |    **ONNX**    |
-
-|  |  |
-|:--:|:--:|
-| Library of optimized attention + sampling kernels for LLM inference. | General Matrix-Matrix Multiplication. The dominant operation in inference. Implemented in cuBLAS. |
-| Open Neural Network Exchange. Stores weights + execution graph. Portable across hardware. | Hugging Face's safe weight-storage format. Doesn't execute arbitrary code on load (unlike pickle). |
-
-|                  |                   |
-|:----------------:|:-----------------:|
-|     **vLLM**     |    **SGLang**     |
-| **TensorRT-LLM** | **NVIDIA Dynamo** |
-
-|  |  |
-|:--:|:--:|
-| Inference engine with strong MoE support (DeepSeek, Kimi). Flexible frontend language. Supports image/video gen. | Most widely-used inference engine. Broadest hardware support (NVIDIA, AMD, Intel, TPU). Easy to use. |
-| Distributed serving system that orchestrates across replicas. Works with vLLM, SGLang, TRT-LLM as backends. KV reuse, disaggregation, multi-node. | NVIDIA's high-performance inference engine. Best raw perf on Hopper/Blackwell, NVFP4-native. Harder to use. |
-
-|                |                                       |
-|:--------------:|:-------------------------------------:|
-| **FP8 (E4M3)** |           **MXFP8 / MXFP4**           |
-|   **NVFP4**    | **Why float beats int for inference** |
-
-|  |  |
-|:--:|:--:|
-| Microscaling 8-bit / 4-bit formats. Block of 32 values share a scale factor → better outlier preservation. | 8-bit floating point. Sweet spot for inference quality + perf. 4-bit exponent + 3-bit mantissa + 1 sign bit. |
-| Floats have an exponent → dynamic range to preserve outliers. Integers clip outliers, hurting attention quality. | NVIDIA's 4-bit format. Block of 16 + global 32-bit scale factor. Highest granularity 4-bit option. |
-
-|                          |                                           |
-|:------------------------:|:-----------------------------------------:|
-|     **PTQ vs. QAT**      | **Component sensitivity to quantization** |
-| **Speculative decoding** |       **Draft-target speculation**        |
-
-|  |  |
-|:--:|:--:|
-| Least → most sensitive: weights → activations → KV cache → attention. Softmax is almost always left in original precision. | Post-training quantization (calibrate after training; only option for open models) vs. quantization-aware training (train weights + scales jointly). |
-| Use a smaller separate draft model (≥10× smaller, same family). Quick OOTB but high overhead. | Generate cheap draft tokens; target model validates. Yields N+1 tokens per forward pass. Only useful when batch size is low (spare compute). |
-
-|                        |                    |
-|:----------------------:|:------------------:|
-|       **Medusa**       |     **EAGLE**      |
-| **N-gram speculation** | **Prefix caching** |
-
-|  |  |
-|:--:|:--:|
-| Purpose-built draft model trained on target's hidden states. Up to 8 draft tokens. Production go-to. | Fine-tune extra decoder heads onto the target. 2-4 draft tokens. Inspired EAGLE. |
-| Reuse KV cache for shared prefix across requests. Improves TTFT. Rule: novel tokens last. | Build n-gram dictionary at prefill; match suffixes during decode. Best for code completion. |
-
-|                             |                             |
-|:---------------------------:|:---------------------------:|
-|     **KV cache tiers**      |   **Cache-aware routing**   |
-| **Tensor Parallelism (TP)** | **Expert Parallelism (EP)** |
-
-|  |  |
-|:--:|:--:|
-| Route a user's conversation back to the same replica so their prefix cache hits. | G1 GPU VRAM (TB/s) \> G2 CPU RAM (100s GB/s) \> G3 local SSD (GB/s) \> G4 networked SSD. |
-| Shard MoE experts across GPUs. Highest throughput. Multi-node-friendly (low communication). | Split each layer's weights across GPUs in a node. Lowest latency. Needs all-reduce — not multi-node-friendly. |
-
-|                               |                                |
-|:-----------------------------:|:------------------------------:|
-| **Pipeline Parallelism (PP)** |       **Disaggregation**       |
-|       **xPyD notation**       | **Conditional disaggregation** |
-
-|  |  |
-|:--:|:--:|
-| Separate prefill and decode onto independent engines. Each can be sized for its bottleneck. | Split successive layers across GPUs. Multi-node fallback for dense models. Pipeline bubbles waste compute. |
-| Requests go to decode first; only forwarded to prefill if input is long or uncached. | x prefill engines + y decode engines serving one model. e.g., 5P3D = 5 prefill, 3 decode. |
-
-|                               |                            |
-|:-----------------------------:|:--------------------------:|
-|            **VLM**            |    **Embedding model**     |
-| **Matryoshka representation** | **Real-Time Factor (RTF)** |
-
-|  |  |
-|:--:|:--:|
-| Encodes input to fixed-length semantic vector. Used for RAG, search, recommendations. Big batches, no caching, scale horizontally. | Vision-Language Model. Wraps an LLM with a small vision encoder. Adds ~1,000 tokens per image. |
-| How fast ASR transcribes audio. RTF 600 = 1 hour in 6 seconds. Optimized Whisper hits ~1,000×. | Embedding where the prefix of the vector encodes more meaning. Variable dimensionality without retraining. |
-
-|                                    |                                  |
-|:----------------------------------:|:--------------------------------:|
-| **Voice Activity Detection (VAD)** | **Time to first sentence (TTS)** |
-|      **Context Parallelism**       |        **Ring attention**        |
-
-|  |  |
-|:--:|:--:|
-| User-meaningful latency metric for text-to-speech. More useful than time to first byte. | Detects speech vs. silence; chunks audio at natural boundaries for ASR. Used in real-time pipelines. |
-| GPUs pass partial attention results around a ring. Mechanism behind Context Parallelism. | Used by video gen models. Replicates weights across all GPUs; splits attention computation via ring attention. |
-
-|  |  |
-|:--:|:--:|
-| **Container / Docker / image / registry** | **NIM** |
-| **Autoscaling signals** | **Continuous (in-flight) batching** |
-
-|  |  |
-|:--:|:--:|
-| NVIDIA Inference Microservice. Pre-built containers for popular models. | Container = running instance. Image = built package. Dockerfile = build script. Registry = image store. |
-| Token-level interleaving of requests. Best latency. Default in vLLM, SGLang, TRT-LLM. | Use both utilization (lagging) and traffic (proactive). They diverge. |
-
-|  |  |
-|:--:|:--:|
-| **Cold start** | **Scale to zero** |
-| **Hyperscaler vs. neocloud vs. reseller** | **Reserved vs. on-demand vs. spot** |
-
-|  |  |
-|:--:|:--:|
-| Drop to 0 replicas when idle. Good for dev or predictable workloads; bad for latency-sensitive low traffic. | Time from launching a replica to first response. Mitigate: slim images, cached engines, weights stored near GPUs. |
-| Reserved (long-term, discounted), on-demand (flexible), spot (cheap, pre-emptible). Production mixes all three. | AWS/GCP (premium, broad) vs. CoreWeave/Nebius (GPU-focused) vs. spot markets like SF Compute. |
-
-|                                      |                              |
-|:------------------------------------:|:----------------------------:|
-| **Active-active vs. active-passive** | **Geo-aware load balancing** |
-| **Blue-green vs. canary deployment** |   **WebSockets vs. gRPC**    |
-
-|  |  |
-|:--:|:--:|
-| Roughly 5 ms per time zone. Route users to a nearby datacenter. | Active-active: multiple regions serve live, failures transparent. Active-passive: hot standby idle until failover. |
-| WebSockets = unstructured bidirectional real-time (audio). gRPC = schema-enforced service-to-service. Both enable streaming. | Blue-green doubles GPU spend; canary ramps traffic gradually. Canary preferred for GPU workloads. |
+*Spaced-repetition flashcards for the Inference Engineering phase (Weeks 2–5). Format: `Q` on one side, `A` on the other. Use Anki, Mochi, or any SR tool — or just cover the answer column and self-test. Organized by day, with a numerical-anchor tier for back-of-envelope facts.*
 
 ---
 
-## Deck B — Application, Discrimination & Numbers (cards 105–208)
+## Day 6 — What Happens When You Send a Prompt
 
-These cards test whether you can *use* the vocabulary, not just recite it. Many have multi-part answers — say all parts out loud before flipping.
+| # | Q | A |
+|---|---|---|
+| 1 | What is the difference between training and inference? | Training learns the weights from data once (capital expense). Inference uses those fixed weights to answer requests, continuously (operational expense). |
+| 2 | What is a token? | The unit an LLM reads and writes — a sub-word chunk (~4 chars / ~0.75 words in English). The model predicts one token at a time. |
+| 3 | What is the context window? | The maximum number of tokens (prompt + generation) the model can attend to in one request. Everything outside it is invisible to the model. |
+| 4 | What does temperature control? | How sharply the next-token probability distribution is sampled. Low temperature → deterministic/repetitive; high → diverse/creative. Temperature 0 ≈ greedy (argmax). |
+| 5 | Why can the same prompt give different answers? | Sampling is stochastic: at temperature > 0 the model draws from a probability distribution, so runs differ unless you fix the seed and set temperature 0. |
+| 6 | What are the two phases of generating a response? | Prefill (process the whole prompt in parallel, produce the first token) then decode (generate the rest one token at a time, each conditioned on the last). |
 
-### B.1 — Differences ("what's the difference between X and Y?")
+---
 
-|  |  |
-|:--:|:--:|
-| **Prefill vs. decode — three differences** | **TTFT vs. ITL — when does each dominate user pain?** |
-| **TP vs. PP vs. EP — one-line each** | **Reserved vs. on-demand vs. spot — when to use each** |
+## Day 7 — Meet the GPU
 
-|  |  |
-|:--:|:--:|
-| TTFT dominates for short outputs (chat first reply, code completions). ITL dominates for long outputs (essay, agent traces). A 50-token reply with 200 ms TTFT + 10 ms ITL feels worse than a 2,000-token reply with the same numbers. | (1) Prefill processes all input tokens in parallel; decode processes one token at a time. (2) Prefill is compute-bound; decode is memory-bandwidth-bound. (3) Prefill drives TTFT; decode drives ITL/TPS. |
-| Reserved: predictable steady load (baseline). On-demand: bursty unknown traffic. Spot: batch / offline / restartable jobs. Production mixes all three. | TP: shard each layer's weights across GPUs *inside a node* — lowest latency, needs all-reduce. PP: split layers sequentially across GPUs — multi-node, bubbles. EP: shard MoE experts — highest throughput, low comms. |
+| # | Q | A |
+|---|---|---|
+| 7 | Why are GPUs used for inference instead of CPUs? | GPUs have thousands of cores optimized for the massively parallel matrix multiplies at the heart of a transformer; CPUs have few, latency-optimized cores. |
+| 8 | What is a Streaming Multiprocessor (SM)? | The GPU's fundamental compute unit — a cluster of cores that execute threads in parallel. An H100 has ~132 SMs. |
+| 9 | What are Tensor Cores? | Dedicated hardware units that do fused matrix-multiply-accumulate on small tiles, giving the bulk of an LLM GPU's FLOPs (esp. at FP16/FP8). |
+| 10 | Name the GPU generations in order (recent NVIDIA). | Pascal → Volta → Ampere (A100) → Hopper (H100/H200) → Blackwell (B200). Each adds bandwidth, memory, and lower-precision formats. |
+| 11 | What is the CUDA stack? | The software layers between your model and the metal: CUDA (kernels) → cuDNN/cuBLAS → framework (PyTorch) → inference engine (vLLM). |
+| 12 | What is HBM? | High-Bandwidth Memory — the GPU's large, fast on-package DRAM (e.g. 80 GB on an H100) where weights and the KV cache live. |
 
-|  |  |
-|:--:|:--:|
-| **Continuous batching vs. static batching** | **PTQ vs. QAT — when forced to use each** |
-| **FP16 vs. FP8 vs. FP4 — quality vs. speed tradeoff** | **Self-attention vs. cross-attention** |
+---
 
-|  |  |
-|:--:|:--:|
-| PTQ: you're consuming an open-weights model someone else trained. QAT: you control training and want best-quality 4-bit (e.g., on-device deployment). Default to PTQ; QAT only if PTQ quality is unacceptable. | Static: wait for batch to fill (or timeout), then run. Continuous: interleave requests at token granularity — exited requests free their slot immediately. Continuous wins on both latency and throughput; static is rarely correct. |
-| Self: Q, K, V from the *same* sequence (LLM token-on-token). Cross: Q from one sequence, K/V from another (image-gen UNet attending over text encoder output). | FP16: baseline quality, baseline speed. FP8: ~0 perceptible quality loss, ~30–50% real speedup. FP4: visible quality drop, ~2× speedup over FP8. Default to FP8 in production; FP4 only after evals confirm. |
+## Day 8 — Memory Is the Bottleneck
 
-|  |  |
-|:--:|:--:|
-| **Hyperscaler vs. neocloud — three trade-offs** | **NVLink vs. InfiniBand — which is faster, and why does it matter?** |
-| **Greedy vs. temperature sampling — when is each correct?** | **MoE vs. dense model — serving cost comparison** |
+| # | Q | A |
+|---|---|---|
+| 13 | Name the tiers of the GPU memory hierarchy, fastest to slowest. | Registers → shared memory / L1 → L2 cache → HBM (device memory) → host (CPU) RAM. Capacity grows as speed drops. |
+| 14 | What is memory bandwidth and why does it matter? | The rate data moves between HBM and the compute units (H100 ≈ 3.35 TB/s). Decode reads all weights per token, so bandwidth caps token throughput. |
+| 15 | Why is decoding usually memory-bound, not compute-bound? | Generating one token touches every weight but does little math per byte loaded, so the GPU waits on HBM reads rather than on the ALUs. |
+| 16 | Where does the KV cache live, and why is that a problem? | In HBM, alongside the weights. It grows with sequence length × batch, competing with weights for scarce memory and capping concurrency. |
+| 17 | Two things consuming GPU memory during serving? | (1) Model weights (fixed). (2) The KV cache (grows with tokens in flight). Activations are comparatively small during decode. |
 
-|  |  |
-|:--:|:--:|
-| NVLink: intra-node, ~900 GB/s (Hopper) up to 1.8 TB/s (Blackwell). InfiniBand: inter-node, ~400 Gb/s per NIC — *50× slower*. That gap is exactly why TP stays inside a node and PP/EP crosses nodes. | Hyperscaler (AWS, GCP): broad services, higher $/GPU-hr, deep ecosystem. Neocloud (CoreWeave, Nebius): GPU-focused, lower $/GPU-hr, fewer ancillaries. Reseller / spot markets (SF Compute): cheapest, least guarantees. |
-| MoE: parameter count overstates serving cost. Qwen3-235B-A22B uses 22B active per token → serves like a 22B dense model on compute, but needs ~235B worth of VRAM for weights. Cheaper per-token, expensive per-GPU. | Greedy (T=0): deterministic, repeatable evals, code completion. Temperature > 0: creative tasks, brainstorming. Top-p ~0.9 is a safer default than temperature alone for production chat. |
+---
 
-|  |  |
-|:--:|:--:|
-| **vLLM vs. SGLang vs. TensorRT-LLM — pick one for each scenario** | **Active-active vs. active-passive — the cost-vs-RTO trade** |
-| **Disaggregation vs. continuous batching — which problem do they solve?** | **Quantization-of-weights vs. quantization-of-KV-cache** |
+## Day 9 — Compute-Bound vs Memory-Bound
 
-|  |  |
-|:--:|:--:|
-| Active-active doubles GPU spend (both regions live). Active-passive saves money but adds failover latency (10s of seconds, sometimes minutes). Pick active-active for consumer chat, active-passive for batch / B2B. | (1) Broad hardware portability, easy MoE → vLLM. (2) Cutting-edge MoE (DeepSeek, Kimi) + multi-modal → SGLang. (3) Raw peak perf on Hopper/Blackwell, NVFP4 native, can afford harder ops → TensorRT-LLM. |
-| Weights: large fixed footprint, cheapest to quantize first (FP8 weights ≈ 0 quality loss). KV cache: grows per-request, quantizing it (FP8 KV) lets you serve longer contexts or more concurrent users without OOM. Often combined. | Continuous batching solves *within-replica* GPU under-utilization. Disaggregation solves *prefill vs. decode contention* — they have opposite bottlenecks fighting for the same GPU. Different problems; both can be on at once. |
+| # | Q | A |
+|---|---|---|
+| 18 | What is arithmetic intensity? | FLOPs performed per byte of memory moved. High intensity → compute-bound; low intensity → memory-bound. |
+| 19 | What is the roofline model? | A chart of achievable FLOPs vs arithmetic intensity: performance is capped by memory bandwidth (sloped part) until intensity is high enough to be capped by peak compute (flat part). |
+| 20 | Is prefill compute-bound or memory-bound? | Compute-bound — it multiplies the whole prompt through the weights in parallel (high arithmetic intensity). |
+| 21 | Is decode compute-bound or memory-bound? | Memory-bound — one token at a time reuses each weight once, so it is limited by HBM bandwidth. |
+| 22 | How does batching change the bound? | Batching raises arithmetic intensity (weights loaded once, reused across many sequences), pushing decode toward compute-bound and lifting throughput. |
 
-|  |  |
-|:--:|:--:|
-| **Medusa vs. EAGLE vs. n-gram speculation** | **MIG vs. MPS — when to slice a GPU vs. share it** |
-| **L1 cache vs. L2 cache vs. HBM** | **Speculative decoding vs. parallel sampling** |
+---
 
-|  |  |
-|:--:|:--:|
-| Medusa: extra heads on the target. EAGLE: small dedicated draft model trained on target's hidden states (production go-to). N-gram: zero-model dictionary lookup (best for code completion, repeating tokens). | MIG: hardware partition into up to 7 isolated compute slices. Use for *deterministic* small-model serving (embeddings). MPS: software time-share between processes. Use for *bursty* mixed workloads where isolation isn't critical. |
-| Speculation: one user, faster generation (draft + verify). Parallel sampling: one user, *N* alternative completions in parallel (for best-of-N reranking). Different goals — don't confuse them. | L1: per-SM, ~256 KB, ~10 TB/s. L2: chip-wide, ~50 MB on H100, ~5 TB/s. HBM: off-die VRAM, ~80–192 GB, ~3–8 TB/s. Each tier is roughly 2× slower and 100× larger than the next. |
+## Day 10 — Consolidation: The GPU & Memory
 
-### B.2 — Scenario cards ("you're asked X, what's the right answer?")
+| # | Q | A |
+|---|---|---|
+| 23 | In one sentence, why is inference a memory problem before it is a compute problem? | Decode rereads gigabytes of weights and KV cache from HBM for every token, so bandwidth — not raw FLOPs — sets the ceiling for most workloads. |
+| 24 | You want more tokens/sec on a memory-bound workload. First lever? | Increase batch size (more concurrency) so each weight load is amortized across many sequences — until memory or latency limits are hit. |
+| 25 | Why does a longer context slow generation even before the window fills? | A larger KV cache means more bytes read from HBM per decode step and less room for concurrent requests. |
+| 26 | Prefill vs decode: which sets time-to-first-token and which sets tokens-per-second? | Prefill sets TTFT; decode sets steady-state TPS. |
 
-|  |  |
-|:--:|:--:|
-| **Scenario: chat product TTFT regressed from 200 ms to 800 ms. Three things to check.** | **Scenario: throughput is fine but P99 latency is awful. What's likely?** |
-| **Scenario: serving 70B model, 8×A100 80GB node, OOM under load. Two fixes.** | **Scenario: long-context RAG (40K tokens). Top three optimizations.** |
+---
 
-|  |  |
-|:--:|:--:|
-| (1) Long-tail batching — a few P99 outliers dragging the tail; check static batch timeout. (2) GC / Python pauses in the serving layer. (3) A specific input length triggering re-compile or new CUDA graph capture. | (1) Did average input length grow (more prefill work)? (2) Is prefix caching still hitting (system prompt change?)? (3) Did a model swap or quant change happen (FP8 → FP16)? |
-| (1) Prefix caching for the retrieved chunks (TTFT killer otherwise). (2) Quantize KV cache to FP8 (long context = huge KV). (3) Disaggregate prefill from decode — different bottlenecks at scale. | (1) Quantize weights to FP8 (frees ~50% weight memory). (2) Quantize KV cache to FP8 (frees per-request memory). Combined, you can usually double concurrency before next OOM. |
+## Day 11 — Prefill vs Decode
 
-|  |  |
-|:--:|:--:|
-| **Scenario: cold start is 4 minutes; SLA needs <30 s. What to fix?** | **Scenario: cost-per-token is fine but cost-per-GPU-hour grew 3×. What happened?** |
-| **Scenario: a new model release uses MLA. What changes in your serving?** | **Scenario: agentic workload — average 12 LLM calls per task. Optimization priority?** |
+| # | Q | A |
+|---|---|---|
+| 27 | What happens during prefill? | The entire prompt is processed in one parallel pass, building the KV cache for all prompt tokens and emitting the first output token. |
+| 28 | What happens during decode? | Tokens are generated autoregressively — one forward pass per token, each attending to the growing KV cache. |
+| 29 | What is TTFT and which phase drives it? | Time To First Token — the latency until the first token appears; driven by prefill (and queueing). |
+| 30 | What is ITL and which phase drives it? | Inter-Token Latency — the gap between successive tokens during streaming; driven by decode (memory-bound). |
+| 31 | What is prefill–decode disaggregation? | Running prefill and decode on separate GPU pools so the compute-heavy prefill doesn't stall latency-sensitive decode, and each pool is tuned independently. |
 
-|  |  |
-|:--:|:--:|
-| Utilization dropped — same per-token cost but GPUs sit idler. Likely causes: traffic dropped (autoscale lagging), batch size shrank, or KV cache hit ratio collapsed (cache invalidation). Cost-per-token is the right unit; per-GPU-hr alone is a trap. | (1) Slim the container image (no torch dev deps). (2) Cache compiled engines (TRT compile is minutes). (3) Pre-warm replicas before traffic shifts. (4) Store weights on local NVMe near the GPU. |
-| (1) Prefix caching — agent loops reuse system prompt + recent turns; cache hit ratio dominates cost. (2) Smaller model — most agent steps are routing/tool-calls, not reasoning. (3) Speculative decoding for the long generation steps. | KV cache footprint shrinks dramatically (MLA compresses KV via low-rank projection) — you can serve longer context per GPU. But engine support is the gating factor; check vLLM/SGLang version. |
+---
 
-|  |  |
-|:--:|:--:|
-| **Scenario: ASR pipeline RTF is 30 (real-time = 1.0). Acceptable?** | **Scenario: image gen — denoising takes 50 steps × 2 (CFG) = 100 forward passes. Two ways to halve cost.** |
-| **Scenario: a customer demands FP16 "for quality." How do you push back?** | **Scenario: P99 latency is 10× P50. Healthy or broken?** |
+## Day 12 — KV Cache
 
-|  |  |
-|:--:|:--:|
-| (1) Skip classifier-free guidance in the last ~10–20% of steps (late steps refine detail, not structure). (2) Distill the model into a smaller stepped version (Latent Consistency Models, SDXL Turbo). | RTF 30 means 1 hour of audio in 2 minutes. Acceptable for offline batch transcription. For real-time captioning you need RTF ≥ ~1.0 with low latency per chunk; tune Whisper + VAD chunking. |
-| Broken in most cases. P99/P50 > 5× usually means: (a) some requests hit cold compile/recapture, (b) static batching timeout, or (c) a specific input shape misses a fast path. Investigate the slow requests' shapes. | Run an eval at FP8 vs FP16 on *their* tasks. Almost always: FP8 is within noise. Cost: FP8 is ~2× cheaper per token. Frame it as ROI, not religion. If their eval shows a real gap, accept FP16 for that model only. |
+| # | Q | A |
+|---|---|---|
+| 32 | What does the KV cache store, and why? | The key and value vectors for every past token, so each new token can attend to history without recomputing prior tokens' K/V every step. |
+| 33 | What drives KV cache size? | Roughly 2 (K and V) × layers × kv-heads × head-dim × sequence-length × batch × bytes-per-value. It grows linearly with tokens and batch. |
+| 34 | What problem does PagedAttention solve? | KV-cache memory fragmentation. It stores the cache in fixed-size non-contiguous blocks (like OS paging), so memory isn't wasted and blocks can be shared. |
+| 35 | How does PagedAttention enable prefix sharing? | Identical prompt prefixes can point to the same physical KV blocks (copy-on-write), saving memory across requests that share a system prompt. |
+| 36 | One trick to shrink the KV cache at the model level? | Grouped-Query Attention (GQA) or Multi-head Latent Attention (MLA) — fewer/compressed KV heads mean a much smaller cache. |
 
-|  |  |
-|:--:|:--:|
-| **Scenario: GPT-OSS-120B vs. Llama-3.1-70B for chat — quick decision framework.** | **Scenario: prefix cache hit rate dropped from 80% to 30% overnight. Triage.** |
-| **Scenario: tokens/sec drops 40% when you turn on speculation. Why?** | **Scenario: serving in 3 regions, one region's P99 doubles. Likely cause.** |
+---
 
-|  |  |
-|:--:|:--:|
-| (1) Run both on the same eval. (2) Compare cost-per-completed-task (not cost-per-token). (3) Pick smaller model if eval-gap < ~2%. Don't over-pay for marginal quality. | (1) Did the system prompt change (invalidates cache for every user)? (2) Did the cache routing layer break (users no longer pinned to same replica)? (3) Did a new model rev evict cache on load? |
-| Region-specific issues: hardware difference (older GPUs), data-center congestion, or interconnect saturation. Check per-region GPU model + utilization. Add a region-tag to your latency dashboards. | High batch size. Speculation only helps when there's spare compute during decode. At high batch, compute is saturated — speculation now *competes* with real tokens. Disable speculation under load. |
+## Day 13 — FlashAttention
 
-### B.3 — Numerical / back-of-envelope cards
+| # | Q | A |
+|---|---|---|
+| 37 | What is self-attention, in one line? | Each token computes a weighted sum over all tokens' values, where weights come from query·key similarity — how the model mixes context. |
+| 38 | What is the naive cost of attention in sequence length? | O(N²) in both compute and memory to materialize the full N×N attention score matrix. |
+| 39 | What does FlashAttention change? | It fuses the attention computation into tiles kept in fast SRAM and never writes the full N×N matrix to HBM — same math, O(N) memory, far less IO. |
+| 40 | Is FlashAttention an approximation? | No — it is exact attention. The speedup comes purely from IO-aware tiling and recomputation, not from dropping terms. |
+| 41 | Why does FlashAttention help most on long contexts? | The O(N²) HBM traffic it eliminates grows with sequence length, so the IO savings compound as contexts get longer. |
 
-|  |  |
-|:--:|:--:|
-| **A 70B FP16 model — how much VRAM for weights alone?** | **A 70B FP8 model — how much VRAM for weights?** |
-| **8K-token context, 70B model, FP16 KV cache — KV size per sequence?** | **Same as above but FP8 KV — new size?** |
+---
 
-|  |  |
-|:--:|:--:|
-| ~70 GB. Rule of thumb: 1 GB per 1B params at FP8. Frees half your VRAM compared to FP16. | ~140 GB. Rule of thumb: 2 GB per 1B params at FP16. Doesn't fit on a single 80 GB GPU — needs TP across at least 2 GPUs. |
-| ~1.3 GB per sequence. KV cache scales linearly with sequence length, halved by FP8 quantization. | ~2.6 GB per sequence. Formula: 2 (K+V) × num_layers × hidden_dim × bytes_per_value × seq_len. For 70B model: ~80 layers × ~8K hidden × 2 B × 8K seq ≈ 2.6 GB. |
+## Day 14 — Quantization
 
-|  |  |
-|:--:|:--:|
-| **H100 SXM5 specs — FP16 TFLOPS, HBM, bandwidth?** | **B200 specs — FP8 TFLOPS, HBM, bandwidth?** |
-| **Arithmetic intensity of attention at N=4K, d=128, FP16 — bound by what?** | **Same kernel at FP8 — does it become compute-bound?** |
+| # | Q | A |
+|---|---|---|
+| 42 | What is quantization? | Representing weights/activations in fewer bits (FP16 → INT8 → INT4) to cut memory and bandwidth, trading a little numeric precision for speed and capacity. |
+| 43 | Bytes per value: FP16, INT8, INT4? | FP16 = 2 bytes, INT8 = 1 byte, INT4 = 0.5 byte. Halving precision roughly halves the memory and bandwidth for that tensor. |
+| 44 | What is the sensitivity ladder, least to most sensitive? | Weights < KV cache < activations < attention output. Weights tolerate the most aggressive quantization; attention outputs are the most fragile. |
+| 45 | Why quantize weights before activations? | Weights are static and least sensitive, so low-bit weights give big memory wins with little quality loss; activations are dynamic and higher-risk. |
+| 46 | How do you know quantization didn't break the model? | Run an eval suite (incl. a refusal/safety category) and compare against the full-precision baseline — speed alone can hide quality regressions. |
 
-|  |  |
-|:--:|:--:|
-| ~5 PFLOPS FP8, 192 GB HBM3e, ~8 TB/s. Adds FP4 + microscaling formats. Today's gold standard. | ~989 TFLOPS FP16, ~1,979 TFLOPS FP8, 80 GB HBM3, ~3.35 TB/s. Workhorse of 2024–2025. |
-| Intensity doubles to ~126 (bytes halved). H100 FP8 ops:byte ≈ 590. Still memory-bound (126 < 590). Quantization helps but doesn't flip the bottleneck — FlashAttention does (by reducing memory reads). | Intensity ≈ 63 ops/byte. H100 FP16 ops:byte ≈ 295. 63 < 295 → memory-bound. This is exactly why FlashAttention (fewer HBM reads) is so valuable. |
+---
 
-|  |  |
-|:--:|:--:|
-| **A user types ~5 words/sec. What's the minimum TPS that feels "faster than typing"?** | **A 200-token reply at 50 TPS — total streaming time?** |
-| **Cost-per-1M-tokens decline — what's the historical rate?** | **A100 vs H100 — rough cost-per-token ratio?** |
+## Day 15 — Consolidation: Attention & KV Cache
 
-|  |  |
-|:--:|:--:|
-| 4 seconds (200 / 50). Add ~300 ms TTFT → ~4.3 s end-to-end. Good chat feel; below the 5s "users disengage" threshold. | ~7 TPS (5 words × ~1.4 tokens/word). Below 10 TPS feels slow; 30+ TPS feels snappy; 100+ TPS feels instant for streaming. |
-| H100 is ~2–3× more expensive per GPU-hour but delivers ~3–5× the throughput on FP8 workloads → roughly *half* the cost-per-token of A100 for properly-sized models. Newer hardware usually wins on $/token. | Roughly 10× per year over the past 3 years (Epoch AI, a16z 2025). Drives the "don't over-optimize for cost today, the curve will solve it" advice — but also the "capacity-planning is brutal" reality. |
+| # | Q | A |
+|---|---|---|
+| 47 | Why is the KV cache the central object of inference optimization? | It is the fast-growing, memory-hungry state that limits concurrency and context length; most serving tricks (paging, GQA/MLA, quantized KV) target it. |
+| 48 | FlashAttention vs PagedAttention — what does each optimize? | FlashAttention optimizes the *compute* of attention (IO-aware tiling). PagedAttention optimizes the *storage* of the KV cache (block paging). |
+| 49 | You must serve a 128k-context model on limited memory. Two levers? | Quantize the KV cache (e.g. to INT8) and use a smaller-KV attention variant (GQA/MLA); page the cache to avoid fragmentation. |
 
-|  |  |
-|:--:|:--:|
-| **A 70B model with 50% MoE sparsity (35B active) — VRAM and per-token compute?** | **8-GPU node with NVLink — TP-8 vs. TP-4 + DP-2: latency difference?** |
-| **A 1,000-token system prompt, served 1M times/day, cached — savings?** | **Cold start 90 s, traffic doubles every 30 min — autoscale lead time?** |
+---
 
-|  |  |
-|:--:|:--:|
-| TP-8: lowest latency (all 8 GPUs work on each request, more all-reduce overhead per token but smaller per-GPU work). TP-4 + DP-2: 2× throughput (two independent requests in parallel) but per-request latency similar to TP-4. Pick TP-8 for latency-sensitive, TP-4+DP-2 for throughput. | VRAM: ~70 GB (need to store all 70B weights). Per-token compute: ~half that of dense 70B. MoE = same memory footprint as dense, but cheaper per token. |
-| Autoscale must add capacity 30 min *before* you need it, but cold start takes 90 s. So launch new replicas when current utilization hits ~50% (giving 30 min headroom for traffic to grow + cold start). Reactive scaling at 80% utilization will always lag traffic doubling. | At ~1K tokens × ~$1/M input tokens × 1M requests = $1,000/day in input compute. Prefix caching turns ~95% of that prefill into a cache hit → savings of ~$950/day. |
+## Day 16 — Multi-GPU Parallelism
 
-### B.4 — Common-confusion / gotcha cards
+| # | Q | A |
+|---|---|---|
+| 50 | What is tensor parallelism? | Splitting individual weight matrices across GPUs within a layer; each GPU computes a shard and results are combined with an all-reduce every layer. |
+| 51 | What interconnect does tensor parallelism demand, and why? | Fast intra-node links (NVLink) — it all-reduces activations every layer, so slow links (PCIe/Ethernet) throttle it badly. |
+| 52 | What is data parallelism? | Replicating the whole model on each GPU and splitting *requests* across replicas. Scales throughput, not model size. |
+| 53 | Tensor parallelism vs data parallelism — when each? | Tensor parallelism when the model is too big for one GPU (split the model); data parallelism when it fits and you need more throughput (replicate it). |
+| 54 | What is the `--tp` (tensor-parallel size) flag controlling? | How many GPUs one model instance is sharded across. |
 
-|  |  |
-|:--:|:--:|
-| **Why doesn't more VRAM = more throughput automatically?** | **Why does "perceived TPS" matter more than "total TPS"?** |
-| **Why is FP8 "usually fine" but FP4 "requires evals"?** | **Why is the model's parameter count a bad capacity-planning unit?** |
+---
 
-|  |  |
-|:--:|:--:|
-| Total TPS describes total system tokens/sec; perceived TPS describes one user's stream. A system at 10,000 TPS with 1,000 concurrent users gives each user 10 TPS — unusable. Always quote both. | More VRAM lets you fit a bigger model or more KV cache, but throughput is gated by *memory bandwidth*, not capacity. An H100 with 80 GB at 3.35 TB/s often out-throughputs an H200 with 141 GB at 4.8 TB/s by less than the bandwidth ratio suggests. |
-| Need to also account for: activation memory during prefill, KV cache growth per request, framework overhead, and quantization scale factors. Rule of thumb: VRAM_required ≈ 1.5–1.8× weight memory. | FP8 has 4 exponent bits — preserves dynamic range needed by softmax. FP4 doesn't — softmax outliers get clipped, attention degrades. PTQ at FP8: works. PTQ at FP4: often visible quality loss; QAT or fancy calibration recommended. |
+## Day 17 — Pipeline Parallelism + MoE
 
-|  |  |
-|:--:|:--:|
-| **Why does turning on speculation sometimes "work in dev but break in prod"?** | **Why does quantizing the KV cache help long-context users more than short-context users?** |
-| **Why doesn't "inference time" equal "end-to-end latency"?** | **Why is "the model is hallucinating" rarely the right diagnosis at the inference layer?** |
+| # | Q | A |
+|---|---|---|
+| 55 | What is pipeline parallelism? | Splitting the model's *layers* across GPUs in stages; activations flow stage to stage, with micro-batches keeping stages busy. |
+| 56 | What is the "bubble" in pipeline parallelism? | Idle time while the pipeline fills and drains; micro-batching shrinks it but never fully removes it. |
+| 57 | What is a Mixture of Experts (MoE)? | An FFN split into many "expert" sub-networks; a router sends each token to only the top-k experts, so total params are huge but active params per token are small. |
+| 58 | Why is MoE attractive for inference? | You get the quality of a very large parameter count while only paying compute for the few experts activated per token. |
+| 59 | What is Multi-head Latent Attention (MLA)? | An attention variant that compresses keys/values into a low-rank latent, drastically shrinking the KV cache while preserving quality. |
 
-|  |  |
-|:--:|:--:|
-| KV grows linearly with context length. For a 1K-token chat, KV is small either way. For a 100K-token RAG request, FP8 KV is the difference between fitting and OOM. Long-context users benefit disproportionately. | Dev: low concurrency, spare GPU compute, speculation pays off (faster decode). Prod: high concurrency, GPU saturated, speculation now *steals* compute from real tokens. Tune by load, not by feature flag. |
-| Hallucination is a *model behavior* — different model or different prompt fixes it. The inference layer determines *latency and cost*, not *content correctness*. Don't blame TensorRT for a confabulation. | E2E includes network RTT (10–100 ms), TLS handshake (cached after first request), queueing at the load balancer (variable), serialization, and client overhead. Often 2–3× the on-GPU inference time. Measure both. |
+---
 
-|  |  |
-|:--:|:--:|
-| **Why isn't "just use a bigger GPU" usually the right answer?** | **Why does the second user often experience higher latency than the first?** |
-| **Why does autoscaling on "CPU utilization" usually fail for GPU workloads?** | **Why is prefix caching's value sensitive to user routing?** |
+## Day 18 — Speculative Decoding
 
-|  |  |
-|:--:|:--:|
-| First user arrives — empty batch, gets full GPU, low ITL. Second user arrives — joins the batch, contends for memory bandwidth, slower ITL for *both*. This is normal continuous-batching behavior, not a bug. | Bigger GPU helps when memory or compute is the bottleneck. But often the constraint is *interconnect* (NVLink saturation), *cold start time*, or *cache miss rate*. Bigger GPU may just mean a more expensive bottleneck. |
-| If user A's request hits replica 1 (cache built up), and follow-up hits replica 2 (cold cache), the cache value evaporates. Need session affinity / cache-aware routing for prefix caching to actually pay off. | CPU on a GPU server is mostly idle — Python orchestration only. The right signals are: GPU utilization, KV cache occupancy, queue depth, and incoming RPS. Use multiple signals; they diverge. |
+| # | Q | A |
+|---|---|---|
+| 60 | What is speculative decoding? | A small "draft" model proposes several tokens ahead; the large "target" model verifies them in a single parallel pass, keeping the longest correct prefix. |
+| 61 | Why does speculative decoding speed things up? | Decode is memory-bound, so one target forward pass can verify k draft tokens for nearly the cost of generating one — turning latency into parallel verification. |
+| 62 | Does speculative decoding change the output distribution? | No — with proper acceptance sampling it is lossless: output matches what the target model would have produced alone. |
+| 63 | What determines the speedup? | The draft model's acceptance rate — how often its proposals survive verification. Higher acceptance → more tokens per target pass. |
 
-|  |  |
-|:--:|:--:|
-| **Why does enabling FP8 weights sometimes *slow down* inference?** | **Why is "this is a 70B model" not enough info to plan capacity?** |
-| **Why does "we'll just retry on failure" not fix a latency tail?** | **Why is the 4 GB/s NVMe throughput often more interesting than HBM bandwidth?** |
+---
 
-|  |  |
-|:--:|:--:|
-| Also need: dense or MoE (active params)? Context length budget? FP16 or FP8? Concurrent users? Streaming or batch? Same 70B model can need 1 GPU or 8 GPUs depending on those answers. | Engine may not have FP8 kernels for that operation → falls back to upcast → slower than native FP16. Verify with profiler: are you actually on the FP8 fast path, or just *configured* to be? |
-| For cold-start scenarios. If you're paging weights from NVMe to HBM on cold-load (not pre-cached), the 4 GB/s NVMe bottleneck dominates the 8,000 GB/s HBM speed. Storage tier choice matters more than people realize. | Retries multiply load on an already-strained system. If P99 is 10s, a 30s retry timeout means *every* slow request triggers a duplicate request hitting the same hot path. Classic incident amplifier. |
+## Day 19 — vLLM Introduction
 
-### B.5 — Concept-graph anchor cards (recall by ID)
+| # | Q | A |
+|---|---|---|
+| 64 | Name three inference engines. | vLLM, TensorRT-LLM, SGLang. They wrap the model with batching, paging, and scheduling for production serving. |
+| 65 | What is continuous (in-flight) batching? | Iteration-level scheduling: sequences join and leave the batch every decode step, so finished requests free slots immediately instead of waiting for the whole batch. |
+| 66 | Static batching vs continuous batching? | Static waits for a fixed batch to all finish (GPU idles on stragglers). Continuous swaps sequences in/out each step, keeping the GPU full. |
+| 67 | What two vLLM features most raise throughput? | PagedAttention (memory-efficient KV cache) and continuous batching (high GPU utilization). |
+| 68 | What does `--concurrency` control in a benchmark? | How many requests are in flight at once — the primary knob for trading latency against throughput. |
 
-For every Inference-phase concept in `docs/kb/concepts.json`, can you produce a 1-sentence definition and one consequence? Sample challenge cards:
+---
 
-|  |  |
-|:--:|:--:|
-| **`inference-vs-training` — one-sentence def + cost shape** | **`gpu-memory-hierarchy` — four tiers + relative speeds** |
-| **`continuous-batching` — what it replaces + the win** | **`paged-attention` — analogy + what problem it solves** |
+## Day 20 — Consolidation: Scaling & Stacks
 
-|  |  |
-|:--:|:--:|
-| Registers → SRAM (L1, ~10 TB/s) → L2 (~5 TB/s) → HBM (~3–8 TB/s) → system RAM (~100 GB/s). Each tier is ~10–100× larger and ~2× slower than the one above. | Training writes weights (one-time, capital expense, ~$10s of M for a frontier model). Inference uses them (ongoing, operational expense, $0.10–$10 per 1M tokens depending on size + provider). |
-| Like OS virtual memory for KV cache. Stores K/V in fixed-size pages with a lookup table → variable-length sequences no longer cause memory fragmentation. Solves the "set max-seq-len to worst-case, waste 90% of allocation" problem. | Replaces static (wait-for-full-batch) batching. Win: token-granularity request scheduling — completed requests free their slot immediately, new requests join mid-flight. Both lower latency *and* higher throughput. |
+| # | Q | A |
+|---|---|---|
+| 69 | Order these by interconnect demand: data, tensor, pipeline parallelism. | Tensor (highest, per-layer all-reduce) > pipeline (stage-to-stage activations) > data (lowest, independent replicas). |
+| 70 | Which techniques cut *latency* vs *memory* vs *throughput*? | Latency: speculative decoding, disaggregation. Memory: quantization, paging, MLA/GQA. Throughput: continuous batching, tensor parallelism. |
+| 71 | A 70B model won't fit on one 80 GB GPU. What do you reach for first? | Tensor parallelism across GPUs on one node (NVLink), optionally plus weight quantization to reduce the shard sizes. |
 
-|  |  |
-|:--:|:--:|
-| **`tensor-parallelism` — when it stops scaling** | **`disaggregated-serving` — when the overhead is worth it** |
-| **`speculative-decoding` — the one number that decides if it pays off** | **`mla` — what gets compressed and why it matters** |
+---
 
-|  |  |
-|:--:|:--:|
-| All-reduce communication grows. Inside a node on NVLink: scales well to 8 GPUs. Across nodes on InfiniBand: communication eats the win. Rule: keep TP inside a node, use PP/EP across nodes. | Roughly: above ~100M tokens/day on one model. Below that, the routing + KV-transfer overhead exceeds the prefill/decode contention savings. Above that, disaggregation lets each engine be sized for its bottleneck. |
-| KV cache. MLA compresses K and V via low-rank projection (DeepSeek's design) → 10–100× smaller per-token KV footprint → long-context becomes affordable. Trade: requires architectural buy-in (not retrofittable). | Accept rate of draft tokens. Above ~70% accept rate, speculation pays off (~1.5–2× decode speedup). Below ~50%, speculation costs more than it saves (verification overhead exceeds tokens won). |
+## Day 21 — Latency vs Throughput
 
-|  |  |
-|:--:|:--:|
-| **`inference-cost` — name the unit that beats $/M-tokens** | **`flash-attention` — why HBM reads matter more than FLOPS** |
-| **`cuda-stack` — name the four layers** | **`gpu-generations` — name three things that change each generation** |
+| # | Q | A |
+|---|---|---|
+| 72 | Define latency vs throughput for inference. | Latency: time for one request (TTFT, ITL). Throughput: total tokens/requests served per second across all users. They trade off. |
+| 73 | The core latency–throughput tradeoff, in one line? | Bigger batches raise throughput but add queueing/compute delay per request, raising latency; smaller batches do the reverse. |
+| 74 | What is perceived TPS and its formula? | Tokens/sec a single streaming user sees. perceived TPS ≈ 1000 / ITL(ms). |
+| 75 | What do P50, P95, P99 mean? | Latency percentiles: P95 = 95% of requests are faster than this value. Tail percentiles (P95/P99) capture the bad-case UX. |
+| 76 | Why optimize P99 for user-facing services? | Because the slowest 1% of requests are what frustrated users actually feel; a good median hides a bad tail. |
+| 77 | Which metric answers "is the model fast?" for a chat app vs a batch job? | Chat: TTFT / ITL (latency). Batch summarization: total throughput (tokens/sec). |
 
-|  |  |
-|:--:|:--:|
-| CUDA (kernels) → cuDNN / cuBLAS (DL & linear-algebra primitives) → framework (PyTorch) → inference engine (vLLM / SGLang / TRT-LLM). Each layer abstracts over the one below. | Cost per *completed task* (e.g., $ per resolved support ticket, $ per generated PR review). $/M-tokens is a vendor unit; $/task is the business unit. Lets you compare a smarter expensive model to a cheaper chain. |
-| Tensor Core throughput (faster FP8, then FP4); HBM bandwidth (3 → 4.8 → 8 TB/s); interconnect (NVLink 900 → 1,800 GB/s). Plus new precisions (FP4, microscaling) every other generation. | Standard attention reads/writes K, V, and intermediate matrices to HBM multiple times. FlashAttention tiles the computation in SRAM → fewer HBM round-trips → kernel goes from memory-bound toward compute-bound. Same math, much faster. |
+---
+
+## Day 22 — Production Deployment
+
+| # | Q | A |
+|---|---|---|
+| 78 | Shared (serverless) vs dedicated inference? | Shared: public API, pay per token, zero ops, noisy neighbors. Dedicated: rented GPUs, pay per hour, full control, you own utilization. |
+| 79 | When does dedicated beat shared economically? | Once sustained volume is high enough that per-hour GPU cost per token drops below the per-token API price — i.e. you can keep the GPU busy. |
+| 80 | Why is autoscaling LLM serving hard? | Cold starts are slow (load tens of GB of weights) and GPUs are expensive to keep warm, so scaling to zero trades cost against first-request latency. |
+| 81 | What is an SLO in this context? | A Service-Level Objective — a target such as "P95 TTFT < 500 ms" that the deployment must meet, driving batch-size and capacity choices. |
+| 82 | Why report latency at a fixed concurrency? | Latency is meaningless without load; the same server is fast at concurrency 1 and slow at 100, so numbers must state the concurrency. |
+
+---
+
+## Day 23 — LLM Evaluation
+
+| # | Q | A |
+|---|---|---|
+| 83 | Why is measuring inference speed not enough? | Speed can look great while quality quietly regresses (e.g. after quantization); you must evaluate output quality alongside latency/throughput. |
+| 84 | What four categories should a structured eval cover? | Factual recall, math/reasoning, code generation, and refusal/safety. |
+| 85 | Why must an eval include a refusal/safety category? | Aggressive optimization (esp. quantization) can erode guardrails; without a refusal category you systematically over-rate a broken model. |
+| 86 | What is Goodhart's Law and why does it bite evals? | "When a measure becomes a target, it ceases to be a good measure" — models/teams overfit the benchmark, so it stops reflecting real quality. |
+| 87 | What is constrained (structured) decoding? | Masking the logits so only tokens valid under a grammar or JSON schema can be sampled — guaranteeing structurally valid output. |
+| 88 | What does "passed" mean for an eval prompt? | An expected *behavior*, not just an expected answer — the specific, checkable property the response must satisfy. |
+
+---
+
+## Day 24 — Inference Economics
+
+| # | Q | A |
+|---|---|---|
+| 89 | What are the main drivers of inference cost? | GPU-hours (hardware × time) divided by tokens served — so utilization, batch efficiency, and model size dominate cost per token. |
+| 90 | Why does higher utilization lower cost per token? | Fixed GPU rental is paid per hour regardless of load; packing more tokens into each GPU-hour spreads that cost over more output. |
+| 91 | How does quantization affect cost? | Smaller weights/KV fit more concurrency per GPU and raise throughput, cutting GPU-hours per token — provided quality holds. |
+| 92 | Cost lever with the biggest headline effect on $/token? | Right-sizing the model (smallest model that passes evals) — compute scales steeply with parameter count. |
+
+---
+
+## Day 25 — Consolidation: Phase 1 Synthesis
+
+| # | Q | A |
+|---|---|---|
+| 93 | Trace a request end-to-end through the concepts. | Tokenize → prefill (compute-bound, builds KV cache, sets TTFT) → decode (memory-bound, streams tokens, sets ITL/TPS) → detokenize; batching + paging keep the GPU busy. |
+| 94 | Give the one-line role of each: batching, caching, quantization, speculation, parallelism, disaggregation. | Batching: utilization. Caching (KV): avoid recompute. Quantization: shrink memory. Speculation: cut latency. Parallelism: fit/scale the model. Disaggregation: isolate prefill from decode. |
+| 95 | A chat SLO of P95 TTFT < 300 ms is missed under load. Two levers? | Add prefill capacity / disaggregate prefill from decode, and cap batch size or add replicas to shorten the queue. |
+| 96 | Why is "throughput per dollar" the metric that ties Phase 1 together? | Every technique ultimately moves tokens-per-GPU-hour; latency SLOs bound how far you can push batching, and quality evals bound how far you can push quantization. |
+
+---
+
+## Numerical-anchor cards (high-yield facts)
+
+| # | Q | A |
+|---|---|---|
+| 97 | H100 HBM capacity and bandwidth? | 80 GB HBM3, ≈ 3.35 TB/s memory bandwidth. |
+| 98 | Rough tokens-to-words and chars-per-token? | ~0.75 words per token; ~4 characters per token in English. |
+| 99 | Bytes per value at FP16 / INT8 / INT4? | 2 / 1 / 0.5 bytes. |
+| 100 | Perceived tokens/sec from a 20 ms ITL? | 1000 / 20 = 50 tokens/sec. |
+| 101 | Which phase is compute-bound and which is memory-bound? | Prefill = compute-bound; decode = memory-bound. |
+| 102 | Attention memory cost: naive vs FlashAttention? | Naive O(N²), FlashAttention O(N) HBM traffic (exact, not approximate). |

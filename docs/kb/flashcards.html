@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flashcards - Oxmiq × AU Internship</title>
+<!--
+  Flashcards - a self-testing deck browser.
+
+  Data:  flashcards.json (built by scripts/build_flashcards.py from the four
+         planning/source-material/*-Flashcards.md decks). Never hand-edit the
+         JSON or this page's card content; edit the source decks + rebuild.
+
+  Model: DECK (phase) ▸ GROUP (topic) ▸ CARD (question / answer).
+         Pick a deck + topic, flip cards (click / Space), navigate (← / →),
+         shuffle, and mark cards "known" (persisted to localStorage) so you can
+         drill only what you haven't locked in yet. Pure client-side; no auth.
+-->
+<style>
+  :root{
+    --bg:#F5F0E4; --bg-2:#EDE8DC;
+    --paper:#FBF9F3; --paper-2:#F1ECDE;
+    --ink:#1A1A1A; --ink-soft:#6B6453; --line:#D9D0BD; --line-strong:#B7AC94;
+    --accent:#8B0000; --accent-2:#6B0000; --accent-soft:rgba(139,0,0,.10);
+    --gold:#E7C46A;
+    --mono:"Oxygen Mono", ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Oxygen",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    --p-foundations:#5A6577; --p-inference:#0E7C8A; --p-prompting:#6A4EC9;
+    --p-agents:#B8761E; --p-capsule:#2E7D32; --p-all:#8B0000;
+  }
+  @font-face{font-family:"Oxygen";src:url("../stylesheets/fonts/Oxygen-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:"Oxygen";src:url("../stylesheets/fonts/Oxygen-Bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
+  @font-face{font-family:"Oxygen Mono";src:url("../stylesheets/fonts/OxygenMonospace.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  /* Transparent + left-aligned so the embed reads as page content, not a
+     boxed "page-in-a-page". Left edge lines up with native Material h1s
+     (no left padding); mirrors the Concepts embed. */
+  body{ font-family:var(--sans); color:var(--ink); background:transparent; }
+  .wrap{max-width:1000px; margin:0; padding:2px 20px 56px 0;}
+
+  header h1{font-size:24px;font-weight:700;letter-spacing:-.01em;margin:0 0 4px;}
+  header .sub{color:var(--ink-soft);font-size:13.5px;line-height:1.5;margin:0 0 18px;max-width:64ch;}
+
+  /* deck chips */
+  .decks{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+  .deck{
+    font:600 12px var(--mono);letter-spacing:.04em;
+    padding:7px 14px;border-radius:999px;cursor:pointer;
+    background:var(--paper);border:1px solid var(--line);color:var(--ink-soft);
+    transition:transform .12s, border-color .12s, color .12s, background .12s;
+    display:inline-flex;align-items:center;gap:7px;
+  }
+  .deck:hover{transform:translateY(-1px);border-color:var(--line-strong);}
+  .deck .dot{width:9px;height:9px;border-radius:50%;background:var(--dc,#999);}
+  .deck.active{background:var(--dc,var(--accent));color:#FFF5E6;border-color:var(--dc,var(--accent));}
+  .deck.active .dot{background:rgba(255,245,230,.9);}
+  .deck .n{opacity:.7;font-weight:400;}
+
+  /* toolbar: topic select + toggles */
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px;}
+  .toolbar label{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+  select#topic{
+    font:13px var(--sans);color:var(--ink);background:#fff;
+    border:1px solid var(--line);border-radius:6px;padding:7px 10px;max-width:100%;
+  }
+  .toggle{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);cursor:pointer;}
+  .toggle input{accent-color:var(--accent);}
+  .spacer{flex:1;}
+  .progress{font:11px var(--mono);letter-spacing:.06em;color:var(--ink-soft);}
+  .progress b{color:var(--p-capsule);}
+
+  /* the card */
+  .stage{perspective:1600px;margin:6px 0 14px;}
+  .card{
+    position:relative;width:100%;min-height:300px;
+    transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.05,.3,1);
+    cursor:pointer;
+    -webkit-user-select:none;user-select:none;   /* clicking to flip must not select text */
+  }
+  .card.flipped{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;backface-visibility:hidden;
+    background:var(--paper);
+    border:1px solid var(--line);border-top:3px solid var(--dc,var(--accent));
+    border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.06);
+    padding:26px 30px 52px;display:flex;flex-direction:column;
+  }
+  .face.back{transform:rotateY(180deg);}
+  .face .side{font:10px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--dc,var(--accent));margin-bottom:14px;}
+  .face .body{
+    flex:1;display:flex;align-items:center;overflow:auto;
+    font-size:19px;line-height:1.55;font-weight:400;
+  }
+  /* single flow child so the text wraps as one paragraph (never split into
+     flex columns by inline <em>/<code>) */
+  .face .body>div{width:100%;overflow-wrap:anywhere;}
+  .face.back .body{font-size:16px;line-height:1.6;color:var(--ink);align-items:flex-start;}
+  .face .body code{font-family:var(--mono);font-size:.88em;color:var(--accent-2);white-space:pre-wrap;word-break:break-word;}
+  .face .body em{font-style:italic;}
+  .face .tag{position:absolute;left:34px;bottom:16px;font:10px var(--mono);letter-spacing:.1em;color:var(--ink-soft);}
+  .face .hint{position:absolute;right:34px;bottom:16px;font:10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);opacity:.8;}
+  .card.known .face{opacity:.72;}
+
+  /* controls */
+  .controls{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:6px;flex-wrap:wrap;}
+  .btn{
+    font:600 12px var(--mono);letter-spacing:.04em;color:var(--ink);
+    background:var(--paper);border:1px solid var(--line-strong);border-radius:8px;
+    padding:9px 14px;cursor:pointer;transition:background .12s,color .12s,border-color .12s,transform .12s;
+  }
+  .btn:hover:not(:disabled){background:var(--accent);border-color:var(--accent);color:#FFF5E6;}
+  .btn:active:not(:disabled){transform:translateY(1px);}
+  .btn:disabled{opacity:.35;cursor:not-allowed;}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#FFF5E6;}
+  .btn.primary:hover{background:var(--accent-2);border-color:var(--accent-2);}
+  .btn.good:hover{background:var(--p-capsule);border-color:var(--p-capsule);}
+  .nav-round{width:40px;height:40px;border-radius:50%;font-size:18px;padding:0;display:inline-flex;align-items:center;justify-content:center;}
+  .pos{font:12px var(--mono);letter-spacing:.08em;color:var(--ink);min-width:96px;text-align:center;}
+  .kbd{font:9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);text-align:center;margin-top:10px;}
+  .kbd b{color:var(--ink);}
+
+  .empty{padding:60px 20px;text-align:center;color:var(--ink-soft);font-size:15px;}
+
+  @media (max-width:640px){
+    .face{padding:24px 22px 54px;} .face .body{font-size:18px;} .face.back .body{font-size:16px;}
+    .face .tag,.face .hint{left:22px;right:22px;}
+    .face .hint{left:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Flashcards</h1>
+    <p class="sub">Self-test the whole program. Pick a deck, flip the card, and mark what you've locked in - your progress is saved on this device.</p>
+  </header>
+
+  <div class="decks" id="decks"></div>
+
+  <div class="toolbar">
+    <label for="topic">Topic</label>
+    <select id="topic"><option value="__all">All topics</option></select>
+    <label class="toggle"><input type="checkbox" id="hideKnown"> Hide known</label>
+    <label class="toggle"><input type="checkbox" id="autoShuffle"> Shuffle</label>
+    <span class="spacer"></span>
+    <span class="progress" id="progress"></span>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="card" id="card">
+      <div class="face front"><div class="side">Question</div><div class="body" id="qBody"></div><span class="tag" id="tag"></span><span class="hint">click / space to flip ↻</span></div>
+      <div class="face back"><div class="side">Answer</div><div class="body" id="aBody"></div><span class="tag" id="tagB"></span><span class="hint" id="knownHint"></span></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn nav-round" id="prev" title="Previous (←)" aria-label="Previous">‹</button>
+    <span class="pos" id="pos">0 / 0</span>
+    <button class="btn nav-round" id="next" title="Next (→)" aria-label="Next">›</button>
+    <button class="btn" id="flip">Flip</button>
+    <button class="btn good" id="know" title="Mark known (k)">✓ Got it</button>
+    <button class="btn" id="again" title="Mark for review (j)">↺ Review</button>
+    <button class="btn" id="shuffle" title="Shuffle deck">⤨ Shuffle</button>
+  </div>
+  <div class="kbd"><b>Space</b> flip · <b>←/→</b> navigate · <b>k</b> got it · <b>j</b> review · <b>s</b> shuffle</div>
+
+  <div class="empty" id="empty" style="display:none;"></div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var PHASE={foundations:'--p-foundations',inference:'--p-inference',prompting:'--p-prompting',agents:'--p-agents',capsule:'--p-capsule'};
+  var KNOWN_KEY='ox.flashcards.known.v1';
+
+  var DATA={decks:[]};
+  var deckId='__all';         // '__all' or a deck id
+  var topicKey='__all';       // '__all' or a group title
+  var cards=[];               // working set (filtered + ordered)
+  var idx=0, flipped=false, shuffled=false, hideKnown=false;
+
+  var $=function(s){return document.querySelector(s);};
+
+  // ---- known-set persistence ----
+  function loadKnown(){ try{return JSON.parse(localStorage.getItem(KNOWN_KEY))||{};}catch(e){return {};} }
+  function saveKnown(k){ try{localStorage.setItem(KNOWN_KEY,JSON.stringify(k));}catch(e){} }
+  var KNOWN=loadKnown();
+  function hash(str){var h=5381,i=str.length;while(i)h=(h*33)^str.charCodeAt(--i);return (h>>>0).toString(36);}
+  function cardId(c){return c.deckId+':'+hash(c.q);}
+  function isKnown(c){return !!KNOWN[cardId(c)];}
+  function setKnown(c,v){ if(v)KNOWN[cardId(c)]=1; else delete KNOWN[cardId(c)]; saveKnown(KNOWN); }
+
+  // ---- escaping + light markdown (backticks -> <code>) ----
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function fmt(s){
+    // escape, then render `code`, *em*, and keep it simple/safe.
+    var out=esc(s);
+    out=out.replace(/`([^`]+)`/g,function(_,m){return '<code>'+m+'</code>';});
+    out=out.replace(/\*([^*]+)\*/g,function(_,m){return '<em>'+m+'</em>';});
+    return out;
+  }
+
+  // ---- build the flat card list for current deck+topic ----
+  function allCards(){
+    var list=[];
+    DATA.decks.forEach(function(dk){
+      if(deckId!=='__all' && dk.id!==deckId) return;
+      dk.groups.forEach(function(g){
+        if(topicKey!=='__all' && g.title!==topicKey) return;
+        g.cards.forEach(function(c){
+          list.push({q:c.q,a:c.a,deckId:dk.id,deckTitle:dk.title,phase:dk.phase,topic:g.title,day:g.day});
+        });
+      });
+    });
+    return list;
+  }
+  function shuffleArr(a){ for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+
+  function rebuild(){
+    var list=allCards();
+    if(hideKnown) list=list.filter(function(c){return !isKnown(c);});
+    if(shuffled) shuffleArr(list);
+    cards=list; idx=0; flipped=false;
+    render();
+  }
+
+  // ---- deck accent colour ----
+  function deckColor(phase){ var v=PHASE[phase]; return v?('var('+v+')'):'var(--p-all)'; }
+
+  function renderDecks(){
+    var el=$('#decks'); el.innerHTML='';
+    var total=DATA.decks.reduce(function(s,d){return s+d.card_count;},0);
+    var mk=function(id,title,phase,n){
+      var d=document.createElement('button');
+      d.className='deck'+(deckId===id?' active':'');
+      d.style.setProperty('--dc', id==='__all'?'var(--p-all)':deckColor(phase));
+      d.innerHTML='<span class="dot"></span>'+esc(title)+' <span class="n">'+n+'</span>';
+      d.addEventListener('click',function(){deckId=id; topicKey='__all'; renderDecks(); renderTopics(); rebuild();});
+      el.appendChild(d);
+    };
+    mk('__all','All decks',null,total);
+    DATA.decks.forEach(function(dk){ mk(dk.id,dk.title,dk.phase,dk.card_count); });
+  }
+
+  function renderTopics(){
+    var sel=$('#topic'); sel.innerHTML='<option value="__all">All topics</option>';
+    DATA.decks.forEach(function(dk){
+      if(deckId!=='__all' && dk.id!==deckId) return;
+      dk.groups.forEach(function(g){
+        var o=document.createElement('option');
+        o.value=g.title;
+        o.textContent=(deckId==='__all'?dk.title+' · ':'')+g.title+' ('+g.cards.length+')';
+        sel.appendChild(o);
+      });
+    });
+    sel.value=topicKey;
+  }
+
+  function render(){
+    var stage=$('#stage'), empty=$('#empty');
+    if(!cards.length){
+      stage.style.display='none';
+      $('.controls').style.display='none';
+      empty.style.display='block';
+      empty.textContent = hideKnown ? 'Nothing left to review here - every card is marked known. Uncheck "Hide known" to see them again.' : 'No cards for this selection.';
+      updateProgress();
+      return;
+    }
+    stage.style.display=''; $('.controls').style.display='flex'; empty.style.display='none';
+
+    if(idx<0) idx=0; if(idx>=cards.length) idx=cards.length-1;
+    var c=cards[idx];
+    var color=deckColor(c.phase);
+    var card=$('#card');
+    card.style.setProperty('--dc',color);
+    document.querySelectorAll('.face').forEach(function(f){f.style.setProperty('--dc',color);});
+
+    $('#qBody').innerHTML='<div>'+fmt(c.q)+'</div>';
+    $('#aBody').innerHTML='<div>'+fmt(c.a)+'</div>';
+    var tag=c.deckTitle+' · '+c.topic;
+    $('#tag').textContent=tag; $('#tagB').textContent=tag;
+    card.classList.toggle('flipped',flipped);
+    card.classList.toggle('known',isKnown(c));
+    $('#knownHint').textContent=isKnown(c)?'✓ known':'';
+    $('#pos').textContent=(idx+1)+' / '+cards.length;
+    $('#prev').disabled=idx<=0; $('#next').disabled=idx>=cards.length-1;
+    updateProgress();
+  }
+
+  function updateProgress(){
+    // progress over the CURRENT deck+topic universe (ignoring hideKnown filter)
+    var universe=allCards();
+    var known=universe.filter(isKnown).length;
+    $('#progress').innerHTML='<b>'+known+'</b> known / '+universe.length;
+  }
+
+  function go(d){ if(!cards.length)return; idx=Math.min(Math.max(idx+d,0),cards.length-1); flipped=false; render(); }
+  function doFlip(){ flipped=!flipped; render(); }
+  function mark(v){ if(!cards.length)return; setKnown(cards[idx],v); if(v) { if(hideKnown){ cards.splice(idx,1); flipped=false; render(); return;} go(1);} render(); }
+
+  function wire(){
+    $('#prev').addEventListener('click',function(){go(-1);});
+    $('#next').addEventListener('click',function(){go(1);});
+    $('#flip').addEventListener('click',doFlip);
+    $('#card').addEventListener('click',doFlip);
+    $('#know').addEventListener('click',function(){mark(true);});
+    $('#again').addEventListener('click',function(){mark(false);});
+    $('#shuffle').addEventListener('click',function(){shuffled=true;$('#autoShuffle').checked=true;rebuild();});
+    $('#topic').addEventListener('change',function(e){topicKey=e.target.value;rebuild();});
+    $('#hideKnown').addEventListener('change',function(e){hideKnown=e.target.checked;rebuild();});
+    $('#autoShuffle').addEventListener('change',function(e){shuffled=e.target.checked;rebuild();});
+    document.addEventListener('keydown',function(e){
+      if(e.target.tagName==='SELECT'||e.target.tagName==='INPUT')return;
+      var k=e.key;
+      if(k===' '||k==='Enter'){e.preventDefault();doFlip();}
+      else if(k==='ArrowLeft'){e.preventDefault();go(-1);}
+      else if(k==='ArrowRight'){e.preventDefault();go(1);}
+      else if(k==='k'||k==='K'){mark(true);}
+      else if(k==='j'||k==='J'){mark(false);}
+      else if(k==='s'||k==='S'){shuffled=true;$('#autoShuffle').checked=true;rebuild();}
+    });
+  }
+
+  function init(){
+    fetch('flashcards.json',{cache:'no-cache'}).then(function(r){return r.json();}).then(function(d){
+      DATA=d||{decks:[]};
+      var params=new URLSearchParams(location.search);
+      var dk=params.get('deck');
+      if(dk && DATA.decks.some(function(x){return x.id===dk;})) deckId=dk;
+      renderDecks(); renderTopics(); wire(); rebuild();
+    }).catch(function(e){
+      console.error('flashcards.json load failed',e);
+      $('#stage').style.display='none'; $('.controls').style.display='none';
+      var em=$('#empty'); em.style.display='block'; em.textContent='Could not load flashcards.';
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+</body>
+</html>

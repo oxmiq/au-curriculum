@@ -7,7 +7,7 @@ drift: |
 # Day 34 · Environments & Fleet Discovery
 
 > **Concept of the day:** an **environment** is a backend deployment (`prod`/`public`/`dev`/`demo`); the **customer** selector scopes which fleet you see inside it; and `capsule list` is how you discover machines. `capsule env show`, `capsule config customer show`, and `capsule list` (with `--filter`, `--users`, `--json`, `--all`) are your workhorse commands. Filter by capability: never by name when you can avoid it.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-37-environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading - Day 37 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
+> **Pre-reading:** <a href="../../../readings/capsule/#environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading - Environments & Fleet Discovery</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -397,7 +397,7 @@ Tomorrow: **connecting**: once you have a lease, how to actually shell in, what 
 
 ### Pre-read for tomorrow (Day 38 · Connecting to Machines)
 
-- **Resource:** <a href="../../../readings/capsule/#day-38-connecting-to-machines">Capsule Power-User Pre-Lecture Reading - Day 38 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5.
+- **Resource:** <a href="../../../readings/capsule/#connecting-to-machines">Capsule Power-User Pre-Lecture Reading - Connecting to Machines</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5.
 - **Reflection questions:**
   1. What command connects you to a leased node?
   2. How does Capsule's connect differ from raw `ssh`?

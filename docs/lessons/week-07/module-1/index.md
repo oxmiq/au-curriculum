@@ -464,7 +464,7 @@ These case studies are the vocabulary for the rest of the course. When you insta
 
 ### Pre-read for tomorrow (Day 32 · Capsule Foundations & Architecture)
 
-- **Resource:** <a href="../../../readings/capsule/#day-36-capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading - Day 36 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-1-capsule-foundations">Capsule Lab Guide</a> Modules 1 + 2.
+- **Resource:** <a href="../../../readings/capsule/#capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading - Capsule Architecture & Installation</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-1-capsule-foundations">Capsule Lab Guide</a> Modules 1 + 2.
 - **Reflection questions:**
   1. What are the three layers of Capsule's architecture? What does each layer do?
   2. What is the role of the control plane in Capsule's architecture?

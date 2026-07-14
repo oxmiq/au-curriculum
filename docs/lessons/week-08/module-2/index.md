@@ -10,7 +10,7 @@ drift: |
 # Day 37 · Files & Storage (with streaming primer)
 
 > **Concept of the day:** **`capsule scp upload/download`** for one-off transfers to a specific machine. **The auto-mounted OneDrive (`~/OneDrive`)** for artifacts (models, datasets, results) you want available on every machine. **`capsule exec`** to run a one-off remote command and see its output without holding an interactive session. Per-user `$HOME` is node-local and `/tmp` is ephemeral; only `~/OneDrive` follows you across machines.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-39-files-storage-streaming">Capsule Power-User Pre-Lecture Reading - Day 39 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-6-files-storage-and-the-onedrive-mount">Capsule Lab Guide</a> Modules 6 + 7.
+> **Pre-reading:** <a href="../../../readings/capsule/#files-storage-streaming">Capsule Power-User Pre-Lecture Reading - Files, Storage & Streaming</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-6-files-storage-and-the-onedrive-mount">Capsule Lab Guide</a> Modules 6 + 7.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">

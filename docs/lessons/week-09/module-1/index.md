@@ -8,7 +8,7 @@ drift: |
 # Day 41 · Your First Benchmark
 
 > **Concept of the day:** `capsule benchmark` orchestrates a serving engine + a request load + metric collection. Phase-1 vocabulary (TTFT, ITL, p99, throughput) lands here in real numbers. Today: run *one* benchmark cleanly, end to end, on a leased GPU node.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-41-your-first-benchmark">Capsule Power-User Pre-Lecture Reading - Day 41 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-8-model-evaluation-benchmarking-the-inferencemax-path">Capsule Lab Guide</a> Module 8.
+> **Pre-reading:** <a href="../../../readings/capsule/#your-first-benchmark">Capsule Power-User Pre-Lecture Reading - Your First Benchmark</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-8-model-evaluation-benchmarking-the-inferencemax-path">Capsule Lab Guide</a> Module 8.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">

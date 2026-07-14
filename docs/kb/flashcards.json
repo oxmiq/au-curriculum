@@ -1,0 +1,1516 @@
+{
+  "$schema_version": 1,
+  "total_cards": 302,
+  "decks": [
+    {
+      "id": "inference",
+      "title": "Inference Engineering",
+      "phase": "inference",
+      "card_count": 102,
+      "groups": [
+        {
+          "title": "What Happens When You Send a Prompt",
+          "day": 6,
+          "cards": [
+            {
+              "q": "What is the difference between training and inference?",
+              "a": "Training learns the weights from data once (capital expense). Inference uses those fixed weights to answer requests, continuously (operational expense)."
+            },
+            {
+              "q": "What is a token?",
+              "a": "The unit an LLM reads and writes - a sub-word chunk (~4 chars / ~0.75 words in English). The model predicts one token at a time."
+            },
+            {
+              "q": "What is the context window?",
+              "a": "The maximum number of tokens (prompt + generation) the model can attend to in one request. Everything outside it is invisible to the model."
+            },
+            {
+              "q": "What does temperature control?",
+              "a": "How sharply the next-token probability distribution is sampled. Low temperature → deterministic/repetitive; high → diverse/creative. Temperature 0 ≈ greedy (argmax)."
+            },
+            {
+              "q": "Why can the same prompt give different answers?",
+              "a": "Sampling is stochastic: at temperature > 0 the model draws from a probability distribution, so runs differ unless you fix the seed and set temperature 0."
+            },
+            {
+              "q": "What are the two phases of generating a response?",
+              "a": "Prefill (process the whole prompt in parallel, produce the first token) then decode (generate the rest one token at a time, each conditioned on the last)."
+            }
+          ]
+        },
+        {
+          "title": "Meet the GPU",
+          "day": 7,
+          "cards": [
+            {
+              "q": "Why are GPUs used for inference instead of CPUs?",
+              "a": "GPUs have thousands of cores optimized for the massively parallel matrix multiplies at the heart of a transformer; CPUs have few, latency-optimized cores."
+            },
+            {
+              "q": "What is a Streaming Multiprocessor (SM)?",
+              "a": "The GPU's fundamental compute unit - a cluster of cores that execute threads in parallel. An H100 has ~132 SMs."
+            },
+            {
+              "q": "What are Tensor Cores?",
+              "a": "Dedicated hardware units that do fused matrix-multiply-accumulate on small tiles, giving the bulk of an LLM GPU's FLOPs (esp. at FP16/FP8)."
+            },
+            {
+              "q": "Name the GPU generations in order (recent NVIDIA).",
+              "a": "Pascal → Volta → Ampere (A100) → Hopper (H100/H200) → Blackwell (B200). Each adds bandwidth, memory, and lower-precision formats."
+            },
+            {
+              "q": "What is the CUDA stack?",
+              "a": "The software layers between your model and the metal: CUDA (kernels) → cuDNN/cuBLAS → framework (PyTorch) → inference engine (vLLM)."
+            },
+            {
+              "q": "What is HBM?",
+              "a": "High-Bandwidth Memory - the GPU's large, fast on-package DRAM (e.g. 80 GB on an H100) where weights and the KV cache live."
+            }
+          ]
+        },
+        {
+          "title": "Memory Is the Bottleneck",
+          "day": 8,
+          "cards": [
+            {
+              "q": "Name the tiers of the GPU memory hierarchy, fastest to slowest.",
+              "a": "Registers → shared memory / L1 → L2 cache → HBM (device memory) → host (CPU) RAM. Capacity grows as speed drops."
+            },
+            {
+              "q": "What is memory bandwidth and why does it matter?",
+              "a": "The rate data moves between HBM and the compute units (H100 ≈ 3.35 TB/s). Decode reads all weights per token, so bandwidth caps token throughput."
+            },
+            {
+              "q": "Why is decoding usually memory-bound, not compute-bound?",
+              "a": "Generating one token touches every weight but does little math per byte loaded, so the GPU waits on HBM reads rather than on the ALUs."
+            },
+            {
+              "q": "Where does the KV cache live, and why is that a problem?",
+              "a": "In HBM, alongside the weights. It grows with sequence length × batch, competing with weights for scarce memory and capping concurrency."
+            },
+            {
+              "q": "Two things consuming GPU memory during serving?",
+              "a": "(1) Model weights (fixed). (2) The KV cache (grows with tokens in flight). Activations are comparatively small during decode."
+            }
+          ]
+        },
+        {
+          "title": "Compute-Bound vs Memory-Bound",
+          "day": 9,
+          "cards": [
+            {
+              "q": "What is arithmetic intensity?",
+              "a": "FLOPs performed per byte of memory moved. High intensity → compute-bound; low intensity → memory-bound."
+            },
+            {
+              "q": "What is the roofline model?",
+              "a": "A chart of achievable FLOPs vs arithmetic intensity: performance is capped by memory bandwidth (sloped part) until intensity is high enough to be capped by peak compute (flat part)."
+            },
+            {
+              "q": "Is prefill compute-bound or memory-bound?",
+              "a": "Compute-bound - it multiplies the whole prompt through the weights in parallel (high arithmetic intensity)."
+            },
+            {
+              "q": "Is decode compute-bound or memory-bound?",
+              "a": "Memory-bound - one token at a time reuses each weight once, so it is limited by HBM bandwidth."
+            },
+            {
+              "q": "How does batching change the bound?",
+              "a": "Batching raises arithmetic intensity (weights loaded once, reused across many sequences), pushing decode toward compute-bound and lifting throughput."
+            }
+          ]
+        },
+        {
+          "title": "Consolidation: The GPU & Memory",
+          "day": 10,
+          "cards": [
+            {
+              "q": "In one sentence, why is inference a memory problem before it is a compute problem?",
+              "a": "Decode rereads gigabytes of weights and KV cache from HBM for every token, so bandwidth - not raw FLOPs - sets the ceiling for most workloads."
+            },
+            {
+              "q": "You want more tokens/sec on a memory-bound workload. First lever?",
+              "a": "Increase batch size (more concurrency) so each weight load is amortized across many sequences - until memory or latency limits are hit."
+            },
+            {
+              "q": "Why does a longer context slow generation even before the window fills?",
+              "a": "A larger KV cache means more bytes read from HBM per decode step and less room for concurrent requests."
+            },
+            {
+              "q": "Prefill vs decode: which sets time-to-first-token and which sets tokens-per-second?",
+              "a": "Prefill sets TTFT; decode sets steady-state TPS."
+            }
+          ]
+        },
+        {
+          "title": "Prefill vs Decode",
+          "day": 11,
+          "cards": [
+            {
+              "q": "What happens during prefill?",
+              "a": "The entire prompt is processed in one parallel pass, building the KV cache for all prompt tokens and emitting the first output token."
+            },
+            {
+              "q": "What happens during decode?",
+              "a": "Tokens are generated autoregressively - one forward pass per token, each attending to the growing KV cache."
+            },
+            {
+              "q": "What is TTFT and which phase drives it?",
+              "a": "Time To First Token - the latency until the first token appears; driven by prefill (and queueing)."
+            },
+            {
+              "q": "What is ITL and which phase drives it?",
+              "a": "Inter-Token Latency - the gap between successive tokens during streaming; driven by decode (memory-bound)."
+            },
+            {
+              "q": "What is prefill-decode disaggregation?",
+              "a": "Running prefill and decode on separate GPU pools so the compute-heavy prefill doesn't stall latency-sensitive decode, and each pool is tuned independently."
+            }
+          ]
+        },
+        {
+          "title": "KV Cache",
+          "day": 12,
+          "cards": [
+            {
+              "q": "What does the KV cache store, and why?",
+              "a": "The key and value vectors for every past token, so each new token can attend to history without recomputing prior tokens' K/V every step."
+            },
+            {
+              "q": "What drives KV cache size?",
+              "a": "Roughly 2 (K and V) × layers × kv-heads × head-dim × sequence-length × batch × bytes-per-value. It grows linearly with tokens and batch."
+            },
+            {
+              "q": "What problem does PagedAttention solve?",
+              "a": "KV-cache memory fragmentation. It stores the cache in fixed-size non-contiguous blocks (like OS paging), so memory isn't wasted and blocks can be shared."
+            },
+            {
+              "q": "How does PagedAttention enable prefix sharing?",
+              "a": "Identical prompt prefixes can point to the same physical KV blocks (copy-on-write), saving memory across requests that share a system prompt."
+            },
+            {
+              "q": "One trick to shrink the KV cache at the model level?",
+              "a": "Grouped-Query Attention (GQA) or Multi-head Latent Attention (MLA) - fewer/compressed KV heads mean a much smaller cache."
+            }
+          ]
+        },
+        {
+          "title": "FlashAttention",
+          "day": 13,
+          "cards": [
+            {
+              "q": "What is self-attention, in one line?",
+              "a": "Each token computes a weighted sum over all tokens' values, where weights come from query·key similarity - how the model mixes context."
+            },
+            {
+              "q": "What is the naive cost of attention in sequence length?",
+              "a": "O(N²) in both compute and memory to materialize the full N×N attention score matrix."
+            },
+            {
+              "q": "What does FlashAttention change?",
+              "a": "It fuses the attention computation into tiles kept in fast SRAM and never writes the full N×N matrix to HBM - same math, O(N) memory, far less IO."
+            },
+            {
+              "q": "Is FlashAttention an approximation?",
+              "a": "No - it is exact attention. The speedup comes purely from IO-aware tiling and recomputation, not from dropping terms."
+            },
+            {
+              "q": "Why does FlashAttention help most on long contexts?",
+              "a": "The O(N²) HBM traffic it eliminates grows with sequence length, so the IO savings compound as contexts get longer."
+            }
+          ]
+        },
+        {
+          "title": "Quantization",
+          "day": 14,
+          "cards": [
+            {
+              "q": "What is quantization?",
+              "a": "Representing weights/activations in fewer bits (FP16 → INT8 → INT4) to cut memory and bandwidth, trading a little numeric precision for speed and capacity."
+            },
+            {
+              "q": "Bytes per value: FP16, INT8, INT4?",
+              "a": "FP16 = 2 bytes, INT8 = 1 byte, INT4 = 0.5 byte. Halving precision roughly halves the memory and bandwidth for that tensor."
+            },
+            {
+              "q": "What is the sensitivity ladder, least to most sensitive?",
+              "a": "Weights < KV cache < activations < attention output. Weights tolerate the most aggressive quantization; attention outputs are the most fragile."
+            },
+            {
+              "q": "Why quantize weights before activations?",
+              "a": "Weights are static and least sensitive, so low-bit weights give big memory wins with little quality loss; activations are dynamic and higher-risk."
+            },
+            {
+              "q": "How do you know quantization didn't break the model?",
+              "a": "Run an eval suite (incl. a refusal/safety category) and compare against the full-precision baseline - speed alone can hide quality regressions."
+            }
+          ]
+        },
+        {
+          "title": "Consolidation: Attention & KV Cache",
+          "day": 15,
+          "cards": [
+            {
+              "q": "Why is the KV cache the central object of inference optimization?",
+              "a": "It is the fast-growing, memory-hungry state that limits concurrency and context length; most serving tricks (paging, GQA/MLA, quantized KV) target it."
+            },
+            {
+              "q": "FlashAttention vs PagedAttention - what does each optimize?",
+              "a": "FlashAttention optimizes the *compute* of attention (IO-aware tiling). PagedAttention optimizes the *storage* of the KV cache (block paging)."
+            },
+            {
+              "q": "You must serve a 128k-context model on limited memory. Two levers?",
+              "a": "Quantize the KV cache (e.g. to INT8) and use a smaller-KV attention variant (GQA/MLA); page the cache to avoid fragmentation."
+            }
+          ]
+        },
+        {
+          "title": "Multi-GPU Parallelism",
+          "day": 16,
+          "cards": [
+            {
+              "q": "What is tensor parallelism?",
+              "a": "Splitting individual weight matrices across GPUs within a layer; each GPU computes a shard and results are combined with an all-reduce every layer."
+            },
+            {
+              "q": "What interconnect does tensor parallelism demand, and why?",
+              "a": "Fast intra-node links (NVLink) - it all-reduces activations every layer, so slow links (PCIe/Ethernet) throttle it badly."
+            },
+            {
+              "q": "What is data parallelism?",
+              "a": "Replicating the whole model on each GPU and splitting *requests* across replicas. Scales throughput, not model size."
+            },
+            {
+              "q": "Tensor parallelism vs data parallelism - when each?",
+              "a": "Tensor parallelism when the model is too big for one GPU (split the model); data parallelism when it fits and you need more throughput (replicate it)."
+            },
+            {
+              "q": "What is the `--tp` (tensor-parallel size) flag controlling?",
+              "a": "How many GPUs one model instance is sharded across."
+            }
+          ]
+        },
+        {
+          "title": "Pipeline Parallelism + MoE",
+          "day": 17,
+          "cards": [
+            {
+              "q": "What is pipeline parallelism?",
+              "a": "Splitting the model's *layers* across GPUs in stages; activations flow stage to stage, with micro-batches keeping stages busy."
+            },
+            {
+              "q": "What is the \"bubble\" in pipeline parallelism?",
+              "a": "Idle time while the pipeline fills and drains; micro-batching shrinks it but never fully removes it."
+            },
+            {
+              "q": "What is a Mixture of Experts (MoE)?",
+              "a": "An FFN split into many \"expert\" sub-networks; a router sends each token to only the top-k experts, so total params are huge but active params per token are small."
+            },
+            {
+              "q": "Why is MoE attractive for inference?",
+              "a": "You get the quality of a very large parameter count while only paying compute for the few experts activated per token."
+            },
+            {
+              "q": "What is Multi-head Latent Attention (MLA)?",
+              "a": "An attention variant that compresses keys/values into a low-rank latent, drastically shrinking the KV cache while preserving quality."
+            }
+          ]
+        },
+        {
+          "title": "Speculative Decoding",
+          "day": 18,
+          "cards": [
+            {
+              "q": "What is speculative decoding?",
+              "a": "A small \"draft\" model proposes several tokens ahead; the large \"target\" model verifies them in a single parallel pass, keeping the longest correct prefix."
+            },
+            {
+              "q": "Why does speculative decoding speed things up?",
+              "a": "Decode is memory-bound, so one target forward pass can verify k draft tokens for nearly the cost of generating one - turning latency into parallel verification."
+            },
+            {
+              "q": "Does speculative decoding change the output distribution?",
+              "a": "No - with proper acceptance sampling it is lossless: output matches what the target model would have produced alone."
+            },
+            {
+              "q": "What determines the speedup?",
+              "a": "The draft model's acceptance rate - how often its proposals survive verification. Higher acceptance → more tokens per target pass."
+            }
+          ]
+        },
+        {
+          "title": "vLLM Introduction",
+          "day": 19,
+          "cards": [
+            {
+              "q": "Name three inference engines.",
+              "a": "vLLM, TensorRT-LLM, SGLang. They wrap the model with batching, paging, and scheduling for production serving."
+            },
+            {
+              "q": "What is continuous (in-flight) batching?",
+              "a": "Iteration-level scheduling: sequences join and leave the batch every decode step, so finished requests free slots immediately instead of waiting for the whole batch."
+            },
+            {
+              "q": "Static batching vs continuous batching?",
+              "a": "Static waits for a fixed batch to all finish (GPU idles on stragglers). Continuous swaps sequences in/out each step, keeping the GPU full."
+            },
+            {
+              "q": "What two vLLM features most raise throughput?",
+              "a": "PagedAttention (memory-efficient KV cache) and continuous batching (high GPU utilization)."
+            },
+            {
+              "q": "What does `--concurrency` control in a benchmark?",
+              "a": "How many requests are in flight at once - the primary knob for trading latency against throughput."
+            }
+          ]
+        },
+        {
+          "title": "Consolidation: Scaling & Stacks",
+          "day": 20,
+          "cards": [
+            {
+              "q": "Order these by interconnect demand: data, tensor, pipeline parallelism.",
+              "a": "Tensor (highest, per-layer all-reduce) > pipeline (stage-to-stage activations) > data (lowest, independent replicas)."
+            },
+            {
+              "q": "Which techniques cut *latency* vs *memory* vs *throughput*?",
+              "a": "Latency: speculative decoding, disaggregation. Memory: quantization, paging, MLA/GQA. Throughput: continuous batching, tensor parallelism."
+            },
+            {
+              "q": "A 70B model won't fit on one 80 GB GPU. What do you reach for first?",
+              "a": "Tensor parallelism across GPUs on one node (NVLink), optionally plus weight quantization to reduce the shard sizes."
+            }
+          ]
+        },
+        {
+          "title": "Latency vs Throughput",
+          "day": 21,
+          "cards": [
+            {
+              "q": "Define latency vs throughput for inference.",
+              "a": "Latency: time for one request (TTFT, ITL). Throughput: total tokens/requests served per second across all users. They trade off."
+            },
+            {
+              "q": "The core latency-throughput tradeoff, in one line?",
+              "a": "Bigger batches raise throughput but add queueing/compute delay per request, raising latency; smaller batches do the reverse."
+            },
+            {
+              "q": "What is perceived TPS and its formula?",
+              "a": "Tokens/sec a single streaming user sees. perceived TPS ≈ 1000 / ITL(ms)."
+            },
+            {
+              "q": "What do P50, P95, P99 mean?",
+              "a": "Latency percentiles: P95 = 95% of requests are faster than this value. Tail percentiles (P95/P99) capture the bad-case UX."
+            },
+            {
+              "q": "Why optimize P99 for user-facing services?",
+              "a": "Because the slowest 1% of requests are what frustrated users actually feel; a good median hides a bad tail."
+            },
+            {
+              "q": "Which metric answers \"is the model fast?\" for a chat app vs a batch job?",
+              "a": "Chat: TTFT / ITL (latency). Batch summarization: total throughput (tokens/sec)."
+            }
+          ]
+        },
+        {
+          "title": "Production Deployment",
+          "day": 22,
+          "cards": [
+            {
+              "q": "Shared (serverless) vs dedicated inference?",
+              "a": "Shared: public API, pay per token, zero ops, noisy neighbors. Dedicated: rented GPUs, pay per hour, full control, you own utilization."
+            },
+            {
+              "q": "When does dedicated beat shared economically?",
+              "a": "Once sustained volume is high enough that per-hour GPU cost per token drops below the per-token API price - i.e. you can keep the GPU busy."
+            },
+            {
+              "q": "Why is autoscaling LLM serving hard?",
+              "a": "Cold starts are slow (load tens of GB of weights) and GPUs are expensive to keep warm, so scaling to zero trades cost against first-request latency."
+            },
+            {
+              "q": "What is an SLO in this context?",
+              "a": "A Service-Level Objective - a target such as \"P95 TTFT < 500 ms\" that the deployment must meet, driving batch-size and capacity choices."
+            },
+            {
+              "q": "Why report latency at a fixed concurrency?",
+              "a": "Latency is meaningless without load; the same server is fast at concurrency 1 and slow at 100, so numbers must state the concurrency."
+            }
+          ]
+        },
+        {
+          "title": "LLM Evaluation",
+          "day": 23,
+          "cards": [
+            {
+              "q": "Why is measuring inference speed not enough?",
+              "a": "Speed can look great while quality quietly regresses (e.g. after quantization); you must evaluate output quality alongside latency/throughput."
+            },
+            {
+              "q": "What four categories should a structured eval cover?",
+              "a": "Factual recall, math/reasoning, code generation, and refusal/safety."
+            },
+            {
+              "q": "Why must an eval include a refusal/safety category?",
+              "a": "Aggressive optimization (esp. quantization) can erode guardrails; without a refusal category you systematically over-rate a broken model."
+            },
+            {
+              "q": "What is Goodhart's Law and why does it bite evals?",
+              "a": "\"When a measure becomes a target, it ceases to be a good measure\" - models/teams overfit the benchmark, so it stops reflecting real quality."
+            },
+            {
+              "q": "What is constrained (structured) decoding?",
+              "a": "Masking the logits so only tokens valid under a grammar or JSON schema can be sampled - guaranteeing structurally valid output."
+            },
+            {
+              "q": "What does \"passed\" mean for an eval prompt?",
+              "a": "An expected *behavior*, not just an expected answer - the specific, checkable property the response must satisfy."
+            }
+          ]
+        },
+        {
+          "title": "Inference Economics",
+          "day": 24,
+          "cards": [
+            {
+              "q": "What are the main drivers of inference cost?",
+              "a": "GPU-hours (hardware × time) divided by tokens served - so utilization, batch efficiency, and model size dominate cost per token."
+            },
+            {
+              "q": "Why does higher utilization lower cost per token?",
+              "a": "Fixed GPU rental is paid per hour regardless of load; packing more tokens into each GPU-hour spreads that cost over more output."
+            },
+            {
+              "q": "How does quantization affect cost?",
+              "a": "Smaller weights/KV fit more concurrency per GPU and raise throughput, cutting GPU-hours per token - provided quality holds."
+            },
+            {
+              "q": "Cost lever with the biggest headline effect on $/token?",
+              "a": "Right-sizing the model (smallest model that passes evals) - compute scales steeply with parameter count."
+            }
+          ]
+        },
+        {
+          "title": "Consolidation: Phase 1 Synthesis",
+          "day": 25,
+          "cards": [
+            {
+              "q": "Trace a request end-to-end through the concepts.",
+              "a": "Tokenize → prefill (compute-bound, builds KV cache, sets TTFT) → decode (memory-bound, streams tokens, sets ITL/TPS) → detokenize; batching + paging keep the GPU busy."
+            },
+            {
+              "q": "Give the one-line role of each: batching, caching, quantization, speculation, parallelism, disaggregation.",
+              "a": "Batching: utilization. Caching (KV): avoid recompute. Quantization: shrink memory. Speculation: cut latency. Parallelism: fit/scale the model. Disaggregation: isolate prefill from decode."
+            },
+            {
+              "q": "A chat SLO of P95 TTFT < 300 ms is missed under load. Two levers?",
+              "a": "Add prefill capacity / disaggregate prefill from decode, and cap batch size or add replicas to shorten the queue."
+            },
+            {
+              "q": "Why is \"throughput per dollar\" the metric that ties Phase 1 together?",
+              "a": "Every technique ultimately moves tokens-per-GPU-hour; latency SLOs bound how far you can push batching, and quality evals bound how far you can push quantization."
+            }
+          ]
+        },
+        {
+          "title": "Numerical-anchor cards (high-yield facts)",
+          "day": null,
+          "cards": [
+            {
+              "q": "H100 HBM capacity and bandwidth?",
+              "a": "80 GB HBM3, ≈ 3.35 TB/s memory bandwidth."
+            },
+            {
+              "q": "Rough tokens-to-words and chars-per-token?",
+              "a": "~0.75 words per token; ~4 characters per token in English."
+            },
+            {
+              "q": "Bytes per value at FP16 / INT8 / INT4?",
+              "a": "2 / 1 / 0.5 bytes."
+            },
+            {
+              "q": "Perceived tokens/sec from a 20 ms ITL?",
+              "a": "1000 / 20 = 50 tokens/sec."
+            },
+            {
+              "q": "Which phase is compute-bound and which is memory-bound?",
+              "a": "Prefill = compute-bound; decode = memory-bound."
+            },
+            {
+              "q": "Attention memory cost: naive vs FlashAttention?",
+              "a": "Naive O(N²), FlashAttention O(N) HBM traffic (exact, not approximate)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prompting",
+      "title": "Prompt Engineering",
+      "phase": "prompting",
+      "card_count": 85,
+      "groups": [
+        {
+          "title": "Prompt Structure & Clarity",
+          "day": 26,
+          "cards": [
+            {
+              "q": "What are the two structural slots in a chat-completion API call?",
+              "a": "System prompt (instructions for the whole conversation) and user turn(s) (per-turn content)."
+            },
+            {
+              "q": "Why use a system prompt instead of putting everything in the user turn?",
+              "a": "(1) Prefix caching saves tokens at scale. (2) Convention discipline: separating rules from data prevents accidentally rewriting rules every turn."
+            },
+            {
+              "q": "What is the Anthropic tutorial's Chapter 2 motto for prompt clarity?",
+              "a": "\"Specificity beats vagueness.\""
+            },
+            {
+              "q": "Name the three vagueness traps.",
+              "a": "Undefined audience, undefined format, undefined success criteria."
+            },
+            {
+              "q": "A vague prompt produces what kind of output distribution?",
+              "a": "A broad one - many different completions are about equally likely."
+            },
+            {
+              "q": "True or false: model `messages` are completely separate channels; system messages are processed differently from user messages by the model.",
+              "a": "False. They're concatenated with role markers. The distinction is conventional and operational (caching, discipline), not architectural."
+            },
+            {
+              "q": "Why does putting the actual question in the middle of a long prompt hurt?",
+              "a": "Models attend to position; instructions in the middle of long contexts are more likely to be missed (\"lost in the middle\")."
+            },
+            {
+              "q": "One concrete fix for an \"explain X\" prompt that gives generic answers?",
+              "a": "Specify the audience: who is reading this, what do they already know, what depth do they need."
+            }
+          ]
+        },
+        {
+          "title": "Roles, Data Separation & Output Formatting",
+          "day": 27,
+          "cards": [
+            {
+              "q": "What does \"role prompting\" do, mechanically?",
+              "a": "Shifts the output distribution toward the part of the training corpus where that persona writes."
+            },
+            {
+              "q": "System prompt vs. inline persona - when to use which?",
+              "a": "System prompt for personas that should persist across the whole conversation; inline for one-shot persona switches mid-conversation."
+            },
+            {
+              "q": "What is prompt injection?",
+              "a": "An attack where adversary-supplied data contains instructions the model obeys as if they were part of the system prompt."
+            },
+            {
+              "q": "What's the first-line defense against prompt injection?",
+              "a": "Wrap user-supplied data in unambiguous delimiters (typically XML tags like `<input>...</input>`) and instruct the model to treat that content as data, not commands."
+            },
+            {
+              "q": "Direct vs. indirect prompt injection?",
+              "a": "Direct: the user themselves writes the injection. Indirect: the model retrieves attacker-controlled content (web page, document) that contains the injection."
+            },
+            {
+              "q": "What is \"prefill\" / \"speaking for Claude\"?",
+              "a": "Supplying an assistant-role message yourself; the model continues from where you stopped. Commits the model to a specific opening."
+            },
+            {
+              "q": "Most reliable technique for forcing structured (JSON) output?",
+              "a": "Prefill with `{` plus an explicit \"JSON only, no commentary\" instruction."
+            },
+            {
+              "q": "\"Schema by example\" - what is it?",
+              "a": "Showing the model the exact shape of the desired output (often with placeholder values), instead of describing the schema in prose."
+            },
+            {
+              "q": "Why does asking for JSON in prose sometimes fail?",
+              "a": "The instruction gets buried, the model wraps JSON in markdown fences, or it adds prose around it. Put the format instruction on its own line, last, in code font, and use prefill."
+            }
+          ]
+        },
+        {
+          "title": "Chain-of-Thought & Few-Shot",
+          "day": 28,
+          "cards": [
+            {
+              "q": "Why does chain-of-thought (CoT) improve multi-step reasoning?",
+              "a": "The model has no separate working memory. Writing out reasoning makes those tokens part of the context the final answer is conditioned on."
+            },
+            {
+              "q": "What's the Anthropic tutorial's word for chain-of-thought?",
+              "a": "\"Precognition.\""
+            },
+            {
+              "q": "Explicit CoT vs. structured CoT - what's the difference?",
+              "a": "Explicit: \"think step by step\" in prose. Structured: wrap reasoning in `<scratchpad>...</scratchpad>` tags so downstream code can strip it."
+            },
+            {
+              "q": "When does CoT *hurt* performance?",
+              "a": "Simple factual recall, single-token answers, tasks where the model's first instinct is already correct, latency-sensitive contexts."
+            },
+            {
+              "q": "What is few-shot prompting?",
+              "a": "Providing 2-5+ input/output examples in the prompt before the real query, so the model infers the task from examples."
+            },
+            {
+              "q": "How many examples is \"few-shot\"?",
+              "a": "2-5 typically; one is \"one-shot\" (teaches format but not range); large counts (20+) start to look like fine-tuning."
+            },
+            {
+              "q": "Three rules for choosing few-shot examples?",
+              "a": "(1) Cover edge cases you care about. (2) Show the full range of variation. (3) Be consistent in labels, format, and style."
+            },
+            {
+              "q": "Does example order matter in few-shot prompts?",
+              "a": "Slightly - recent examples weigh more. Put your hardest/most-important example last."
+            },
+            {
+              "q": "Few-shot + CoT - what does it look like?",
+              "a": "Each example includes the reasoning steps (not just input → output, but input → reasoning → output)."
+            },
+            {
+              "q": "When is few-shot preferred over CoT?",
+              "a": "Tasks that need pattern recognition more than reasoning steps: classification, formatting, style mimicry."
+            }
+          ]
+        },
+        {
+          "title": "Hallucinations & Complex Prompts",
+          "day": 29,
+          "cards": [
+            {
+              "q": "True or false: hallucinations are a bug in LLMs.",
+              "a": "False. They are the default behavior of a probabilistic model operating on questions it doesn't reliably know how to answer."
+            },
+            {
+              "q": "Three structural causes of hallucination?",
+              "a": "(1) Confabulation - no permission to abstain. (2) False-premise acceptance. (3) Mid-generation drift."
+            },
+            {
+              "q": "Defense against confabulation?",
+              "a": "Explicitly authorize abstention: \"If you do not know with high confidence, reply exactly: I don't know. Do not guess.\""
+            },
+            {
+              "q": "Defense against false-premise traps?",
+              "a": "Frame questions to allow rejection: \"Did X do Y? Answer yes or no, then justify.\" Don't ask \"Why did X do Y?\" if X did not."
+            },
+            {
+              "q": "Defense against mid-generation drift in long outputs?",
+              "a": "Require citations or quoted evidence for every factual claim - \"no claim without a quote.\""
+            },
+            {
+              "q": "Strict refusal vs. hedged answer vs. confidence rating - when to use which?",
+              "a": "Strict for high-stakes (legal, medical, customer-facing claims). Hedged for brainstorming. Confidence rating for downstream code that can act on it."
+            },
+            {
+              "q": "Five techniques that should appear in a complex production prompt?",
+              "a": "Clarity (specific audience/format), role, data separation (delimiters), output formatting (schema), hallucination guard (permission to abstain)."
+            },
+            {
+              "q": "One thing a \"production\" prompt typically has that a \"playground\" prompt doesn't?",
+              "a": "A defined hallucination guard, a strict output schema, and accompanying evals."
+            }
+          ]
+        },
+        {
+          "title": "Chaining, Tools, Search, Evals",
+          "day": 30,
+          "cards": [
+            {
+              "q": "What problem does prompt chaining solve?",
+              "a": "A single prompt trying to do multiple distinct phases (parse → reason → format) fails opaquely; chaining isolates phases so failures localize and each phase can be tested independently."
+            },
+            {
+              "q": "What is the \"handoff format\" in a prompt chain?",
+              "a": "The structured data format (usually JSON) that one prompt emits and the next consumes - the contract between chain steps."
+            },
+            {
+              "q": "When *not* to chain?",
+              "a": "When the task is simple enough for one prompt; when phases are tightly coupled and information leaks; when added latency/cost outweighs the benefit."
+            },
+            {
+              "q": "What is tool use, structurally?",
+              "a": "Structured output (the model emits a function-call description) plus a driver loop in your code (execute the function, send result back as a new message)."
+            },
+            {
+              "q": "Why does tool use work using only prompting techniques you already know?",
+              "a": "Because it's just structured output (Day 27) - the model emits JSON describing a call; your code does the rest. The agent is the loop, not the model."
+            },
+            {
+              "q": "What does RAG stand for, and what does it do?",
+              "a": "Retrieval-Augmented Generation. Retrieves relevant passages from a corpus before sending the prompt, so the model answers from those passages instead of from its parametric memory."
+            },
+            {
+              "q": "Why does RAG reduce hallucination?",
+              "a": "The source of truth is in the prompt, not in the model's weights. The model can quote and cite."
+            },
+            {
+              "q": "What is a prompt eval?",
+              "a": "An automated test suite for a prompt: (input, expected, pass-criterion) tuples run against the prompt, with a tracked pass rate."
+            },
+            {
+              "q": "Why are prompt evals important?",
+              "a": "Without them, prompt engineering is vibes-driven. With them, you have regression protection, cross-model comparison, and confidence to ship."
+            },
+            {
+              "q": "Common pass-criterion types in prompt evals?",
+              "a": "Exact match, regex match, JSON schema validity, semantic equivalence (LLM-as-judge), human grading."
+            },
+            {
+              "q": "Why is `temperature=0` recommended when running evals?",
+              "a": "Removes sampling noise so changes in pass rate reflect prompt changes, not random variation."
+            },
+            {
+              "q": "Name one open-source prompt eval tool.",
+              "a": "promptfoo (others: OpenAI Evals, Anthropic eval framework, LangSmith)."
+            },
+            {
+              "q": "One-sentence summary of why Week 6 is the bridge to Week 7 (Agents)?",
+              "a": "Every agent is a chain of prompts with tool calls and an eval suite - exactly the things you learned on Day 30."
+            }
+          ]
+        },
+        {
+          "title": "Cross-week / synthesis cards",
+          "day": null,
+          "cards": [
+            {
+              "q": "If a prompt is \"not working,\" what are the five diagnostic questions to ask?",
+              "a": "(1) Is it vague? (2) Are instructions and data tangled? Is there a role? (3) Does it need scratchpad reasoning or examples? (4) Did I give permission to abstain? (5) Is one prompt trying to do three things?"
+            },
+            {
+              "q": "Why does specifying audience usually help more than specifying format?",
+              "a": "Audience implies all the other choices - register, depth, vocabulary, examples to use - which the model would otherwise pick from priors."
+            },
+            {
+              "q": "What's wrong with \"Be concise but exhaustive\"?",
+              "a": "Conflicting instructions. Pick one. The model will pick one for you and you won't know which."
+            },
+            {
+              "q": "The difference between an instruction-tuned model and a base model?",
+              "a": "Instruction-tuned models are trained to follow instructions; base models autocomplete your \"instruction\" as if it were the start of a document. All API models you use are instruction-tuned."
+            },
+            {
+              "q": "Why might `temperature=0.7` give better-feeling outputs than `temperature=0`?",
+              "a": "At low temperature, the model picks the single most likely next token, which can be repetitive or overly cautious. Slight randomness produces more natural prose and avoids predictable phrasings."
+            },
+            {
+              "q": "If your prompt works on Claude but not on a smaller open model, what should you try first?",
+              "a": "Add few-shot examples. Smaller models follow instructions less reliably; examples lower the difficulty."
+            },
+            {
+              "q": "What's the single most reliable structured-output technique across models?",
+              "a": "Prefill (where supported) + schema-by-example + explicit \"no commentary\" instruction."
+            },
+            {
+              "q": "A prompt has a clear `<scratchpad>` section and a clear `<answer>` section. What does production code do with the scratchpad?",
+              "a": "Strips it before showing the answer to the user. The reasoning costs tokens but isn't seen."
+            },
+            {
+              "q": "True or false: longer system prompts always hurt latency.",
+              "a": "False. Cached system prompts (Anthropic prompt caching, OpenAI cached input) charge a fraction of the per-token rate after the first request and are very fast. Caching changes the math."
+            },
+            {
+              "q": "Roughly how many test cases is a \"minimal serious\" prompt eval?",
+              "a": "5-10 to start, 20-50 once the prompt stabilizes. Below 5 is vibes; above 100 is the next level of engineering investment."
+            },
+            {
+              "q": "If a prompt passes 80% of an eval and the threshold is 95%, what should you do?",
+              "a": "Examine the failing cases for patterns. Often a single prompt change (an added example, a clarified instruction) fixes a cluster of failures. Iterate, re-run, repeat."
+            },
+            {
+              "q": "One thing that transfers from prompt engineering to *any* communication with a junior collaborator?",
+              "a": "Specificity, role-setting, structured deliverables, and explicit permission to ask \"I don't know.\" All four work on humans too."
+            }
+          ]
+        },
+        {
+          "title": "Numerical anchors (25 cards)",
+          "day": null,
+          "cards": [
+            {
+              "q": "At 10M requests/month with a 2K-token system prompt, what's the savings from Anthropic prompt caching vs. uncached?",
+              "a": "~$54K/month (cached prefix priced at ~10% of normal input)."
+            },
+            {
+              "q": "What discount does Anthropic prompt caching apply to cached prefix tokens?",
+              "a": "~90% off normal input price (cached at ~10% of normal rate)."
+            },
+            {
+              "q": "Same instruction placed mid-prompt vs. top-or-bottom of a 4K+ token prompt - what's the follow-rate gap?",
+              "a": "15-25 percentage points worse in the middle (\"lost in the middle\")."
+            },
+            {
+              "q": "Prompt-injection success rate: undefended prompt vs. delimiter + role + abstention defense?",
+              "a": "~38% → <5%."
+            },
+            {
+              "q": "Role prompting on domain tasks - typical lift on a 100-point rubric?",
+              "a": "~+42 points vs. no role."
+            },
+            {
+              "q": "Cost multiplier of chain-of-thought vs. direct answer (per call)?",
+              "a": "~4.4× output tokens."
+            },
+            {
+              "q": "Few-shot accuracy curve: 0-shot / 1-shot / 3-shot / 5-shot / 10-shot?",
+              "a": "62 / 73 / 84 / 87 / 88%."
+            },
+            {
+              "q": "At what example count does few-shot start hitting diminishing returns?",
+              "a": "~5 examples (5 → 10 only buys ~1 point)."
+            },
+            {
+              "q": "Self-consistency: typical accuracy lift over single CoT, and at what compute cost?",
+              "a": "~+11 points at ~5× compute."
+            },
+            {
+              "q": "Abstention permission: hallucination rate on unanswerable questions, before vs. after?",
+              "a": "~46% → <5%."
+            },
+            {
+              "q": "Citation discipline: fabrication rate before vs. after, and the output-token overhead?",
+              "a": "~12% → <1%, at ~30% more output tokens."
+            },
+            {
+              "q": "Three-step prompt chain where each step is 90% reliable - end-to-end reliability?",
+              "a": "0.9³ ≈ 73%."
+            },
+            {
+              "q": "Same chain at 95% per step?",
+              "a": "0.95³ ≈ 86%."
+            },
+            {
+              "q": "Same chain at 99% per step?",
+              "a": "0.99³ ≈ 97%."
+            },
+            {
+              "q": "What's the typical break-even point on an eval suite (hours to write vs. first regression caught)?",
+              "a": "~4 engineer-hours to write; pays for itself the first regression caught (usually within a month)."
+            },
+            {
+              "q": "Healthy eval-suite mix of positive vs. negative cases?",
+              "a": "~70% positive / ~30% negative (cases where the correct output is \"I don't know\" or a refusal)."
+            },
+            {
+              "q": "Real-world indirect-injection CVE you should be able to name?",
+              "a": "EchoLeak - CVE-2025-32711, Microsoft 365 Copilot, mid-2025."
+            },
+            {
+              "q": "Constrained-decoding latency overhead?",
+              "a": "~10-20% vs. unconstrained sampling."
+            },
+            {
+              "q": "Anthropic input price (Sonnet-tier) you can quote as a benchmark?",
+              "a": "~$3 per million input tokens."
+            },
+            {
+              "q": "Batched/cheap-tier output price you can quote?",
+              "a": "~$0.05 per million tokens (batched inference)."
+            },
+            {
+              "q": "When does `temperature=0.7` beat `temperature=0` on subjective quality?",
+              "a": "When users perceive repetitiveness or canned phrasing at T=0 (most prose-generation tasks)."
+            },
+            {
+              "q": "Output-token premium of reasoning models (o1/o3/Sonnet-thinking) vs. non-reasoning peers?",
+              "a": "Roughly 3-10× per call depending on problem; reasoning tokens billed."
+            },
+            {
+              "q": "Minimum eval-suite size to stop being vibes?",
+              "a": "≥5 cases (10-20 is the \"serious\" floor; 50+ is engineering investment)."
+            },
+            {
+              "q": "LLM-as-judge known biases (name three)?",
+              "a": "Position bias (prefers first), self-bias (prefers same-model output), verbosity bias (prefers longer)."
+            },
+            {
+              "q": "Three-defense stack against prompt injection (in order)?",
+              "a": "(1) Delimiters wrapping untrusted input, (2) explicit role for the model (\"you are X and only do X\"), (3) explicit abstention permission with refusal phrasing."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "agents",
+      "title": "AI Agents",
+      "phase": "agents",
+      "card_count": 50,
+      "groups": [
+        {
+          "title": "The Agent Loop",
+          "day": 31,
+          "cards": [
+            {
+              "q": "What is the single structural property that separates an agent from a chatbot?",
+              "a": "The agent runs in a loop (Perceive → Plan → Act → Observe → Repeat). A chatbot returns one response per request and stops."
+            },
+            {
+              "q": "Name the four steps of the ReAct / agent loop in order.",
+              "a": "Perceive → Plan → Act → Observe. (Then repeat.)"
+            },
+            {
+              "q": "What does the *Plan* step of the loop usually consist of, technically?",
+              "a": "A chain-of-thought (CoT) reasoning pass: the model writes its next intent in natural language before emitting a tool call."
+            },
+            {
+              "q": "What paper introduced the ReAct pattern?",
+              "a": "Yao et al., \"ReAct: Synergizing Reasoning and Acting in Language Models,\" arXiv:2210.03629 (2022)."
+            },
+            {
+              "q": "Name the \"four converging capabilities\" that made agents viable.",
+              "a": "Foundational models, new architectures (MoE/MLA), reasoning (CoT + o1-style inference-time), ability to act and course-correct (ReAct + tool protocols)."
+            },
+            {
+              "q": "Of the four capabilities above, which was the *last* to mature?",
+              "a": "Ability to act and course-correct - late 2022/2023 with ReAct + first tool-use APIs. The other three had matured earlier."
+            },
+            {
+              "q": "When does an agent loop terminate?",
+              "a": "When goal reached, max step count hit, or agent declares failure. Step caps are a governance control."
+            }
+          ]
+        },
+        {
+          "title": "Tools & MCP",
+          "day": 32,
+          "cards": [
+            {
+              "q": "Define \"tool\" in the agent sense, in one sentence.",
+              "a": "A function exposed to the agent - with name, description, typed parameters, return type - that the model can invoke in the *Act* step."
+            },
+            {
+              "q": "What does MCP stand for and who originated it?",
+              "a": "Model Context Protocol; originated by Anthropic; now an open standard."
+            },
+            {
+              "q": "What concrete problem does MCP solve?",
+              "a": "Every framework re-implemented its own tool-calling format. MCP standardizes the *interface*, so a tool published once can be consumed by any MCP-aware client."
+            },
+            {
+              "q": "Name three MCP-aware clients (mid-2026).",
+              "a": "Claude Desktop, Cursor, VS Code Copilot (others: custom agents using the MCP SDKs)."
+            },
+            {
+              "q": "What does `capsule mcp --output` produce?",
+              "a": "An MCP server manifest exposing Capsule CLI commands as agent-callable tools (list-machines, deploy-model, benchmark, etc.)."
+            },
+            {
+              "q": "What is A2A, and how does it relate to MCP?",
+              "a": "Agent-to-Agent protocol. A2A is to multi-agent delegation what MCP is to tool calls - a standard interface so agents from different teams interoperate."
+            },
+            {
+              "q": "Two rules of good tool design?",
+              "a": "(1) Narrow - one job per tool. (2) Self-describing - the description field is what the model reasons over; write it as if a junior dev had to use the tool."
+            }
+          ]
+        },
+        {
+          "title": "Governance & Security",
+          "day": 33,
+          "cards": [
+            {
+              "q": "Define \"blast radius\" in one sentence.",
+              "a": "The maximum harm an agent can cause if compromised, as a function of its tools and credentials."
+            },
+            {
+              "q": "What is direct vs indirect prompt injection?",
+              "a": "Direct: the user themselves embeds instructions to override the system prompt. Indirect: the attacker controls *retrieved data* (doc, web page, email) the agent reads."
+            },
+            {
+              "q": "Why is indirect injection more dangerous than direct?",
+              "a": "The user's intent is benign - they only asked the agent to read a document - so the attack rides on the agent's normal operation. No suspicious user behavior to flag."
+            },
+            {
+              "q": "What is EchoLeak?",
+              "a": "CVE-2025-32711 - an indirect-prompt-injection vulnerability in Microsoft 365 Copilot. Adversary-controlled documents triggered exfiltration via Copilot's own tools."
+            },
+            {
+              "q": "EchoLeak: was it fixed by patching the model or by scoping the tools?",
+              "a": "Scoping the tools (and the outbound capabilities of the agent), not the model. The model behaved as designed; the *blast radius* was the bug."
+            },
+            {
+              "q": "One concrete sandboxing technique for a deployment agent?",
+              "a": "Ephemeral containers with scoped credentials and a network-egress allow-list."
+            },
+            {
+              "q": "What are agent \"traces\"?",
+              "a": "Structured logs of every loop iteration: prompts, model responses, tool calls, tool outputs, errors. Required for debugging and audit."
+            },
+            {
+              "q": "Why doesn't training the model to \"refuse harmful requests\" solve the injection problem?",
+              "a": "Because injected instructions look like *normal data* to the model. The classification problem (\"is this an instruction I should obey?\") is exactly what the model is bad at. Governance constrains *what tools the model can call*, not *what it tries to do*."
+            },
+            {
+              "q": "One hallucination defense from Week 6 Day 29 that also functions as governance?",
+              "a": "Requiring citations / quoted evidence. If the agent must point to source text for every claim, injected instructions that aren't in the source can't be obeyed without breaking the citation contract."
+            }
+          ]
+        },
+        {
+          "title": "Orchestration & Multi-Agent",
+          "day": 34,
+          "cards": [
+            {
+              "q": "One sentence: why use multiple agents instead of one?",
+              "a": "Specialized agents with narrow blast radii are safer and more debuggable than one omni-agent with admin rights across every domain."
+            },
+            {
+              "q": "One sentence: why *not* use multiple agents?",
+              "a": "You add an orchestration problem to your reasoning problem; coordination failures often dwarf the per-agent wins."
+            },
+            {
+              "q": "What is \"long-horizon drift\"?",
+              "a": "The compounding-error problem: per-step success probability multiplies across the chain, so long plans collapse fast."
+            },
+            {
+              "q": "A 10-step plan with 90% per-step success - joint success rate?",
+              "a": "0.9¹⁰ ≈ 35%."
+            },
+            {
+              "q": "Same plan but 95% per-step success - joint rate?",
+              "a": "0.95¹⁰ ≈ 60%."
+            },
+            {
+              "q": "Same plan at 99% per-step - joint rate?",
+              "a": "0.99¹⁰ ≈ 90%."
+            },
+            {
+              "q": "Four defenses against long-horizon drift?",
+              "a": "(1) Shorten the chain (decompose differently). (2) Raise per-step reliability (better prompts/tools). (3) Checkpoint + resume. (4) Human gates at high-stakes steps."
+            },
+            {
+              "q": "\"Workflow\" vs \"agent loop\" - one-line difference?",
+              "a": "Workflow has *authored* control flow. Agent loop has control flow *discovered at runtime* by model judgment."
+            },
+            {
+              "q": "Pragmatic production pattern using both?",
+              "a": "Workflow for the spine, agent loops at the leaves."
+            },
+            {
+              "q": "Name two agent frameworks from the HuggingFace Agents Course Unit 2.",
+              "a": "smolagents (minimal flat-loop) and LangGraph (graph-based state machine). LlamaIndex agents also covered."
+            },
+            {
+              "q": "What is the \"value-accrual\" debate, in one sentence?",
+              "a": "Where does economic value land as the agent market matures: in the model layer, the infra layer, or the application layer?"
+            }
+          ]
+        },
+        {
+          "title": "Phase 2 Synthesis",
+          "day": 35,
+          "cards": [
+            {
+              "q": "Name the 5 layers of the agent stack.",
+              "a": "Intelligence → Action → Governance → Orchestration → Economic."
+            },
+            {
+              "q": "What does the Action layer add that the Intelligence layer cannot?",
+              "a": "The ability to *do* things in the world. Tools, MCP, side effects, observable outcomes."
+            },
+            {
+              "q": "What does the Governance layer add that the Action layer cannot?",
+              "a": "Bounds on consequences. Blast-radius limits, sandboxes, audit trails, human gates."
+            },
+            {
+              "q": "What does the Orchestration layer add that the Governance layer cannot?",
+              "a": "Coordination across multiple agents / multiple steps. Routing, workflows, retries, fallback."
+            },
+            {
+              "q": "What does the Economic layer add that the Orchestration layer cannot?",
+              "a": "Sustainability - business models, pricing, value capture across the stack."
+            },
+            {
+              "q": "What's the connection between agent design (Day 34) and Capsule operations (Day 36+)?",
+              "a": "Capsule exposes operations as MCP tools (`capsule mcp`). An agent driving Capsule *is* a deployment agent. The Action layer for that agent is the Capsule CLI."
+            }
+          ]
+        },
+        {
+          "title": "Numerical-anchor cards (high-yield facts)",
+          "day": null,
+          "cards": [
+            {
+              "q": "Year and arXiv ID of the ReAct paper.",
+              "a": "2022; arXiv:2210.03629."
+            },
+            {
+              "q": "CVE ID and year of EchoLeak.",
+              "a": "CVE-2025-32711; disclosed 2025."
+            },
+            {
+              "q": "Joint success of a 10-step plan at 90% per step.",
+              "a": "~35% (0.9¹⁰)."
+            },
+            {
+              "q": "Joint success of a 10-step plan at 95% per step.",
+              "a": "~60% (0.95¹⁰)."
+            },
+            {
+              "q": "Joint success of a 10-step plan at 99% per step.",
+              "a": "~90% (0.99¹⁰)."
+            },
+            {
+              "q": "Joint success of a 3-step plan at 90% per step.",
+              "a": "~73% (0.9³)."
+            },
+            {
+              "q": "The originator and year of MCP.",
+              "a": "Anthropic, late 2024 announcement; broad adoption through 2025."
+            },
+            {
+              "q": "Two of the most-cited agent frameworks taught in HuggingFace Agents Course.",
+              "a": "smolagents, LangGraph."
+            },
+            {
+              "q": "One framework not from Anthropic that adopted MCP.",
+              "a": "Cursor (also VS Code Copilot, plus many self-hosted clients)."
+            },
+            {
+              "q": "The four converging capabilities - what year was the *latest* of them broadly available?",
+              "a": "2022-2023 (ReAct + first tool-use APIs). The other three were earlier."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capsule",
+      "title": "Capsule Power-User",
+      "phase": "capsule",
+      "card_count": 65,
+      "groups": [
+        {
+          "title": "Architecture & Installation",
+          "day": 36,
+          "cards": [
+            {
+              "q": "What are the two connection paths in Capsule?",
+              "a": "SshRTC (WebRTC-tunneled SSH, works through NAT/firewall) and `--direct` (raw TCP, lower latency, requires reachable endpoints)."
+            },
+            {
+              "q": "Capsule's three-tier architecture?",
+              "a": "`client → server → cloud`. Client = your CLI, server = orchestration plane, cloud = GPU fleet + identity (B2C)."
+            },
+            {
+              "q": "Why does Capsule use browser-flow auth on first run?",
+              "a": "OAuth via Azure B2C: user creds never touch the CLI, tokens are scoped and revocable, and re-auth happens through the IdP's standard UX."
+            },
+            {
+              "q": "First three commands to verify a working install?",
+              "a": "`capsule --version`, `capsule auth login`, `capsule status`."
+            },
+            {
+              "q": "Headless / CI auth - what's the mechanism?",
+              "a": "`export CAPSULE_AUTH_TOKEN=<token>` (token obtained via `capsule auth token` on a normal box)."
+            }
+          ]
+        },
+        {
+          "title": "Environments & Fleet Discovery",
+          "day": 37,
+          "cards": [
+            {
+              "q": "Name the four Capsule environments.",
+              "a": "`prod` (internal), `public` (external/partner), `dev`, `demo`."
+            },
+            {
+              "q": "Which B2C tenant maps to `prod`?",
+              "a": "`mihirainfra.b2c`. (`public` ↔ `oxcapsule.b2c`.)"
+            },
+            {
+              "q": "Why does `capsule env set` force re-auth?",
+              "a": "Each env uses a different B2C tenant with its own user registry - your `prod` identity literally doesn't exist in `public` without separate provisioning."
+            },
+            {
+              "q": "The \"wrong machines in `capsule list`\" - first command to check?",
+              "a": "`capsule config customer show`. Customer context drives fleet selection."
+            },
+            {
+              "q": "Name three customer contexts.",
+              "a": "`micc` (default), `modelhosting`, `oneplay`. (Also `cree8` and others.)"
+            },
+            {
+              "q": "Filter expression for \"Nvidia GPUs with ≥80 GB VRAM\"?",
+              "a": "`--filter \"vendor=nvidia,vram>=80\"`"
+            },
+            {
+              "q": "What's special about `--filter` in PowerShell?",
+              "a": "Must be quoted; `>` is redirection in PS so unquoted `vram>=80` breaks. Also use `capsule`, not `cap`."
+            }
+          ]
+        },
+        {
+          "title": "Connecting to Machines",
+          "day": 38,
+          "cards": [
+            {
+              "q": "When to use `capsule term` vs `capsule exec`?",
+              "a": "`term` for interactive shell (exploration). `exec` for one-off scripted commands (automation, CI)."
+            },
+            {
+              "q": "Tag-routing vs unique-ID routing - when each?",
+              "a": "Tag: \"any L4 is fine\" (parallel work, fungible boxes). Unique-ID (`-u`): \"this specific box I set up state on.\""
+            },
+            {
+              "q": "Three editor connectors?",
+              "a": "`capsule code` (VS Code Remote-SSH), `capsule cursor`, `capsule claude` (Claude Code Desktop)."
+            },
+            {
+              "q": "When does `--direct` win?",
+              "a": "When both endpoints are reachable (corporate net, on-prem, dev box) and you need lower latency for keystroke-sensitive work."
+            },
+            {
+              "q": "When does `--direct` *lose*?",
+              "a": "Symmetric NAT or restrictive firewalls - falls back to nothing. Default to SshRTC on laptops in public networks."
+            },
+            {
+              "q": "Session-limit error - what to run?",
+              "a": "`capsule status` to see what's open, then disconnect what you don't need. Limits exist to prevent fleet squatting."
+            }
+          ]
+        },
+        {
+          "title": "Files, Storage & Streaming",
+          "day": 39,
+          "cards": [
+            {
+              "q": "Three ways to move files local↔remote?",
+              "a": "OneDrive mount (persistent, cross-machine), `scp` (one-off), dotfile passthrough (config files on first connect)."
+            },
+            {
+              "q": "When is OneDrive the right choice?",
+              "a": "Files you'll want on the *next* machine too. Datasets ≤ a few GB, results, eval prompts."
+            },
+            {
+              "q": "When is `scp` the right choice?",
+              "a": "One-off transfer; you won't need the file on other machines."
+            },
+            {
+              "q": "What does dotfile passthrough do?",
+              "a": "Copies a curated set of dotfiles (`.vimrc`, `.zshrc`, `.gitconfig`, …) to the remote on first connect - your shell/editor feel like home immediately."
+            },
+            {
+              "q": "Why WebRTC for `capsule stream` instead of VNC/RDP?",
+              "a": "End-to-end codec negotiation gives much higher frame rate for GPU content; same NAT/firewall traversal as SshRTC."
+            },
+            {
+              "q": "What does `capsule docker` save you from?",
+              "a": "Wiring up `nvidia-container-toolkit` (or vendor equivalent) by hand. The container sees the GPU out of the box."
+            }
+          ]
+        },
+        {
+          "title": "Reliability & Diagnostics",
+          "day": 40,
+          "cards": [
+            {
+              "q": "The one command to try first when *anything* about local state looks wrong?",
+              "a": "`capsule cleanup`. Safe, idempotent, fixes ~half the \"why is this weird\" tickets."
+            },
+            {
+              "q": "The full diagnostic sequence?",
+              "a": "`capsule cleanup` → `capsule status` → `capsule env show` → `capsule config customer show` → `capsule list --users` → if still wrong, file a bug."
+            },
+            {
+              "q": "Four required fields in a useful Capsule bug report?",
+              "a": "(1) `capsule --version` (2) `capsule status` output (3) Exact command + flags (4) Full error + the moment it happened."
+            },
+            {
+              "q": "\"I can connect but my VS Code remote crashes\" - first hypothesis?",
+              "a": "Mixed connection method on the same machine (e.g., earlier `--direct` cached the wrong host key). `capsule cleanup`, then retry."
+            }
+          ]
+        },
+        {
+          "title": "Your First Benchmark",
+          "day": 41,
+          "cards": [
+            {
+              "q": "What does `--concurrency` control?",
+              "a": "Number of *simultaneous in-flight requests* the benchmark client maintains against the server. Connects to continuous batching from Week 4."
+            },
+            {
+              "q": "What does `--tp` control?",
+              "a": "Tensor parallelism - how the model's weights are sharded across GPUs. Only meaningful for models large enough to need multiple GPUs."
+            },
+            {
+              "q": "What does TTFT mean?",
+              "a": "Time-To-First-Token: latency from request to the first output token. Chat-quality metric."
+            },
+            {
+              "q": "What does ITL mean?",
+              "a": "Inter-Token Latency: gap between successive output tokens during decode. Drives perceived \"streaming smoothness.\""
+            },
+            {
+              "q": "What does TPS mean?",
+              "a": "Tokens-Per-Second: decode rate after the first token. Throughput metric."
+            },
+            {
+              "q": "What does \"throughput\" mean (req/sec)?",
+              "a": "Completed requests per second across all concurrent in-flight requests. The right number for batch / API-server use cases."
+            },
+            {
+              "q": "Chat use case - which latency metric matters most?",
+              "a": "TTFT P95 (and ITL for streaming smoothness)."
+            },
+            {
+              "q": "Batch summarization - which metric matters most?",
+              "a": "Sustained throughput (req/sec or total tokens/sec) at high concurrency."
+            }
+          ]
+        },
+        {
+          "title": "Varying Parameters",
+          "day": 42,
+          "cards": [
+            {
+              "q": "The cardinal rule of parameter sweeps?",
+              "a": "Vary one knob per run. Hold everything else constant."
+            },
+            {
+              "q": "Doubling concurrency - throughput goes?",
+              "a": "Up, until the GPU saturates (\"the knee\"), then flat."
+            },
+            {
+              "q": "Doubling concurrency - P95 latency goes?",
+              "a": "Up. Always. Throughput-vs-latency is a real tradeoff."
+            },
+            {
+              "q": "Doubling concurrency - TTFT P95 goes?",
+              "a": "Up. New requests queue behind in-flight ones."
+            },
+            {
+              "q": "FP16 → FP8 quantization, naive expectation?",
+              "a": "~1.5-2× throughput, ~1.5-2× lower latency, small quality drop. *Verify with eval suite.*"
+            },
+            {
+              "q": "FP8 → INT4 quantization, watch for?",
+              "a": "Quality cliffs. Especially math, code, refusal correctness. Don't ship without a careful eval."
+            }
+          ]
+        },
+        {
+          "title": "Interactive Evaluation",
+          "day": 43,
+          "cards": [
+            {
+              "q": "One concrete way speed-only benchmarks mislead?",
+              "a": "A quantized model can keep TPS high while silently regressing on math or formatting. Eval suite catches it; benchmark alone doesn't."
+            },
+            {
+              "q": "The 4 categories a structured eval set should cover?",
+              "a": "Factual recall, math/reasoning, code generation, refusal/safety."
+            },
+            {
+              "q": "Why must the eval include a refusal/safety prompt?",
+              "a": "Quantized models often become *over-eager* and fail refusals that the FP16 baseline handled. Without this category, you systematically over-rate the quantized variant."
+            },
+            {
+              "q": "How many prompts is a \"good enough\" eval suite for the capstone?",
+              "a": "10 minimum. Each with a *machine-checkable* expected behavior."
+            }
+          ]
+        },
+        {
+          "title": "Scheduling & MCP",
+          "day": 44,
+          "cards": [
+            {
+              "q": "Why not run a 4-hour benchmark in `capsule term`?",
+              "a": "SSH session drops (laptop sleep, network hiccup, screen lock) kill the job. Use `capsule schedule` instead."
+            },
+            {
+              "q": "`capsule schedule` sub-commands?",
+              "a": "`start`, `status`, `logs`, `cancel`."
+            },
+            {
+              "q": "What does `capsule mcp --output` produce?",
+              "a": "An MCP manifest describing Capsule commands as agent-callable tools."
+            },
+            {
+              "q": "Which clients consume that manifest?",
+              "a": "Claude Desktop, Cursor, VS Code Copilot, any MCP-aware agent."
+            },
+            {
+              "q": "Capsule + MCP = which agent-stack layer is the Capsule CLI?",
+              "a": "The Action layer for a deployment agent. (Week 7 Day 32.)"
+            }
+          ]
+        },
+        {
+          "title": "End-to-End Sprint",
+          "day": 45,
+          "cards": [
+            {
+              "q": "The 4 phases of the timed sprint?",
+              "a": "Find machine → benchmark → evaluate → record."
+            },
+            {
+              "q": "Target time for the full sprint?",
+              "a": "20 minutes."
+            },
+            {
+              "q": "What's the one \"save your data\" command you should not forget?",
+              "a": "Commit results to git. (`capsule list` output, benchmark output, eval table - all goes in the team repo.)"
+            },
+            {
+              "q": "Before logging off, what command?",
+              "a": "`capsule cleanup`. Tomorrow-you will thank today-you."
+            }
+          ]
+        },
+        {
+          "title": "Command-recall tier (for Day 45 sprint readiness)",
+          "day": null,
+          "cards": [
+            {
+              "q": "List Nvidia H100s in JSON",
+              "a": "`capsule list --filter \"vendor=nvidia,vram>=80\" --json`"
+            },
+            {
+              "q": "Connect to specific machine by unique ID",
+              "a": "`capsule term -u <unique-id>`"
+            },
+            {
+              "q": "Run nvidia-smi non-interactively on first matching tag",
+              "a": "`capsule exec <tag> -- nvidia-smi`"
+            },
+            {
+              "q": "Open VS Code on a tagged machine via direct TCP",
+              "a": "`capsule code <tag> --direct`"
+            },
+            {
+              "q": "Submit a benchmark script to run server-side",
+              "a": "`capsule schedule start --script ./eval.sh`"
+            },
+            {
+              "q": "Emit the MCP manifest for an agent to consume",
+              "a": "`capsule mcp --output > capsule-mcp.json`"
+            },
+            {
+              "q": "Fix \"everything looks weird\" local state",
+              "a": "`capsule cleanup`"
+            },
+            {
+              "q": "Show identity + token expiry",
+              "a": "`capsule status`"
+            },
+            {
+              "q": "Switch to public env (re-auths)",
+              "a": "`capsule env set public`"
+            },
+            {
+              "q": "Switch customer context to model hosting fleet",
+              "a": "`capsule config customer set modelhosting`"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
