@@ -9,26 +9,17 @@ The header is an HTML block bounded by markers so the script is idempotent::
         <span class="sep">/</span>
         <a href="../../">Learn</a>
         <span class="sep">/</span>
-        <a href="../">Week 2 — The GPU &amp; Memory</a>
+        <a href="../">Week 2 - The GPU &amp; Memory</a>
         <span class="sep">/</span>
         <span>Day 7 · Meet the GPU</span>
         {status:week-02/module-2}
       </div>
-      <div class="ox-lesson-header__cta">
-        <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-        <a class="md-button md-button--primary" href="knowledge-check/">Knowledge check</a>
-        <a class="md-button" href="assignment/">Assignment</a>
-        <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Inference%20Engineering">Source material</a>
-      </div>
     </div>
     <!-- AUTO-GEN:LESSON-HEADER:END -->
 
-Mapping of week → source-material folder name is canonical: when a week page
-references a different folder we honour that mapping here.
-
 Run::
 
-    python scripts/apply_lesson_header.py            # update all 51 modules
+    python scripts/apply_lesson_header.py            # update all 50 modules
     python scripts/apply_lesson_header.py --check    # exit 1 on drift
 """
 
@@ -47,31 +38,6 @@ DOCS = ROOT / "docs"
 
 START = "<!-- AUTO-GEN:LESSON-HEADER:START -->"
 END = "<!-- AUTO-GEN:LESSON-HEADER:END -->"
-
-# Per-week source-material folder mapping (matches planning/source-material/).
-# Multiple weeks can share a folder (e.g. Phase 1 weeks 2–5 all reference
-# "Inference Engineering").
-SOURCE_FOLDER_BY_WEEK = {
-    1:  "Orientation",
-    2:  "Inference Engineering",
-    3:  "Inference Engineering",
-    4:  "Inference Engineering",
-    5:  "Inference Engineering",
-    6:  "Prompt Engineering",          # Day 26 — combined-week's first half
-    7:  "AI Agents",
-    8:  "Capsule Power User",
-    9:  "Capsule Power User",
-    10: "Capstone",
-}
-
-# Approximate duration text per module. Friday (consolidation/wrap) sessions
-# are typically lighter; Week 10 (capstone) days are full-day milestones.
-def _duration_label(week: int, day_in_week: int, total_in_week: int) -> str:
-    if week == 10:
-        return "Full-day milestone"
-    if day_in_week == total_in_week:
-        return "Friday · review &amp; wrap"
-    return "~3 hrs"
 
 WEEK_TITLE_RE = re.compile(r"^Week\s+(\d+)\s+[-—–]\s+(.+)$")   # accept hyphen / em / en dash
 
@@ -142,24 +108,9 @@ def _module_id_from_path(path: str) -> str:
 
 def _lesson_header_block(week: dict, module: dict, day_in_week: int,
                           total_in_week: int) -> str:
-    week_num = week["number"]
     module_id = _module_id_from_path(module["path"])
-    duration = _duration_label(week_num, day_in_week, total_in_week)
     week_title_escaped = week["full_title"].replace("&", "&amp;")
     full_module_label = f'Day {module["day"]} · {module["title"]}'
-    source_folder = SOURCE_FOLDER_BY_WEEK.get(week_num)
-    # URL-encode spaces in the source-material folder for the GitHub link.
-    source_url = (
-        f"https://github.com/oxmiq/au-curriculum/tree/main/"
-        f"planning/source-material/"
-        + (source_folder.replace(' ', '%20') if source_folder else "")
-    )
-
-    # Anchor for the "Pre-read" button: every module ends with a
-    # "## Pre-read for tomorrow" section. Anchor slug is created by
-    # toc; we use a robust fallback to the page top if the heading is
-    # absent (handled by browsers — empty fragment scrolls to top).
-    pre_read_anchor = "#pre-read-for-tomorrow"
 
     return (
         f"{START}\n"
@@ -173,12 +124,6 @@ def _lesson_header_block(week: dict, module: dict, day_in_week: int,
         f'    <span class="sep">/</span>\n'
         f'    <span>{full_module_label}</span>\n'
         f'    {{status:{module_id}}}\n'
-        f'  </div>\n'
-        f'  <div class="ox-lesson-header__cta">\n'
-        f'    <a class="md-button" href="{pre_read_anchor}">Pre-read</a>\n'
-        f'    <a class="md-button md-button--primary" href="knowledge-check/">Knowledge check</a>\n'
-        f'    <a class="md-button" href="assignment/">Assignment</a>\n'
-        f'    <a class="md-button" href="{source_url}">Source material</a>\n'
         f'  </div>\n'
         f'</div>\n'
         f"{END}"

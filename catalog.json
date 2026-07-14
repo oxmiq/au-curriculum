@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-14T05:21:41Z",
+  "generated_at": "2026-07-14T05:40:04Z",
   "week_count": 10,
   "module_count": 50,
   "weeks": [
@@ -237,7 +237,7 @@
         },
         {
           "id": "week-05/module-3",
-          "title": "Day 23 \u00b7 Evaluation & Quality",
+          "title": "Day 23 \u00b7 LLM Evaluation",
           "index": "docs/lessons/week-05/module-3/index.md",
           "assignment": "docs/lessons/week-05/module-3/assignment.md",
           "knowledge_check": "docs/lessons/week-05/module-3/knowledge-check.md",

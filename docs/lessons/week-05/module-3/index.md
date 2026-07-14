@@ -1,4 +1,4 @@
-# Day 23 · Evaluation & Quality
+# Day 23 · LLM Evaluation
 
 > **Concept of the day:** **perplexity** for sanity, **benchmarks** for comparison, **task evals** for production decisions. Public benchmarks are gameable; your own eval suite is the only one that matters. **Quantization quality must be measured, not assumed.**
 > **Pre-reading:** "Evaluating LLMs" overview: <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face - Evaluate</a> + <a href="https://eugeneyan.com/writing/evals/" target="_blank" rel="noopener">Eugene Yan - Task-Specific LLM Evals that Do & Don't Work</a>.
@@ -12,14 +12,8 @@
     <span class="sep">/</span>
     <a href="../">Week 5 - Metrics &amp; Production</a>
     <span class="sep">/</span>
-    <span>Day 23 · Evaluation & Quality</span>
+    <span>Day 23 · LLM Evaluation</span>
     {status:week-05/module-3}
-  </div>
-  <div class="ox-lesson-header__cta">
-    <a class="md-button" href="#pre-read-for-tomorrow">Pre-read</a>
-    <a class="md-button md-button--primary" href="knowledge-check/">Knowledge check</a>
-    <a class="md-button" href="assignment/">Assignment</a>
-    <a class="md-button" href="https://github.com/oxmiq/au-curriculum/tree/main/planning/source-material/Inference%20Engineering">Source material</a>
   </div>
 </div>
 <!-- AUTO-GEN:LESSON-HEADER:END -->
