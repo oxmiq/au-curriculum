@@ -600,6 +600,29 @@
   line-height:1.45;
 }
 .ox-identity-nudge b{ color:var(--ox-ink); }
+.ox-identity-nudge__body{ display:flex; flex-direction:column; gap:.5rem; }
+.ox-identity-nudge__actions{ display:flex; align-items:center; gap:.7rem; flex-wrap:wrap; }
+.ox-identity-nudge__btn{
+  cursor:pointer;
+  font-family:var(--ox-font-body);
+  font-size:.78rem;
+  font-weight:700;
+  padding:.32em .9em;
+  border-radius:6px;
+  background:var(--ox-blood);
+  color:var(--ox-cream);
+  border:1px solid var(--ox-blood);
+}
+.ox-identity-nudge__btn:hover{ background:var(--ox-blood-mid); border-color:var(--ox-blood-mid); }
+.ox-identity-nudge__link{
+  font-family:var(--ox-font-body);
+  font-size:.78rem;
+  font-weight:700;
+  color:var(--ox-blood);
+  text-decoration:none;
+}
+.ox-identity-nudge__link:hover{ text-decoration:underline; }
+.ox-identity-nudge__hint{ font-size:.72rem; color:var(--ox-muted); line-height:1.4; }
 .ox-identity-nudge__x{
   flex:0 0 auto;
   cursor:pointer;

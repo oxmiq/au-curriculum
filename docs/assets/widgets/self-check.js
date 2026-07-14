@@ -81,6 +81,12 @@
       return s.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: location.href } });
     });
   }
+  function signOut() {
+    return getSupa().then(function (s) {
+      if (!s) return;
+      return s.auth.signOut().catch(function () {});
+    });
+  }
   function serverSubmit(host, attempt) {
     var cfg = supaCfg();
     return getSupa().then(function (s) {
@@ -142,6 +148,9 @@
         var who = user.email || (user.user_metadata && user.user_metadata.user_name) || 'you';
         bar.appendChild(el('span', { class: 'ox-self-check__auth-status',
           text: '✓ Signed in as ' + who + '. Your attempts are recorded.' }));
+        var out = el('button', { class: 'ox-self-check__signout', type: 'button', text: 'Sign out' });
+        out.addEventListener('click', function () { signOut().then(function () { location.reload(); }); });
+        bar.appendChild(out);
       } else {
         bar.appendChild(el('span', { class: 'ox-self-check__auth-status',
           text: 'Sign in to record this attempt (kept in your progress history).' }));

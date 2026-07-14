@@ -49,12 +49,32 @@
   bar.className = "ox-identity-nudge";
   bar.setAttribute("role", "alert");
   bar.innerHTML =
-    '<span class="ox-identity-nudge__msg">Heads up: this fork belongs to GitHub user <b>' +
-    esc(gitUser) + '</b>, but you are signed in to record progress as <b>' + esc(supaUser) +
-    '</b>. Use the <b>same GitHub account</b> for your fork and for sign-in, so your ' +
-    'attempts stay attached to your fork.</span>' +
-    '<button class="ox-identity-nudge__x" type="button" aria-label="Dismiss">×</button>';
+    '<div class="ox-identity-nudge__body">' +
+      '<span class="ox-identity-nudge__msg">Heads up: this fork belongs to GitHub user <b>' +
+      esc(gitUser) + '</b>, but you are signed in to record progress as <b>' + esc(supaUser) +
+      '</b>. To keep your attempts attached to your fork, sign out and sign back in as <b>' +
+      esc(gitUser) + '</b>.</span>' +
+      '<div class="ox-identity-nudge__actions">' +
+        '<button class="ox-identity-nudge__btn" type="button" data-act="signout">Sign out</button>' +
+        '<a class="ox-identity-nudge__link" href="https://github.com/settings/applications" ' +
+          'target="_blank" rel="noopener">Switch GitHub account &#8599;</a>' +
+      '</div>' +
+      '<span class="ox-identity-nudge__hint">After signing out, also sign out of GitHub (or revoke ' +
+      'access there) first &mdash; otherwise GitHub will just sign you back in as <b>' + esc(supaUser) +
+      '</b>.</span>' +
+    '</div>' +
+    '<button class="ox-identity-nudge__x" type="button" aria-label="Dismiss">&times;</button>';
 
+  // Sign out = clear the Supabase session persisted for this project, then reload.
+  // (Works on any page, offline; the GitHub-side switch is what actually changes account.)
+  bar.querySelector('[data-act="signout"]').addEventListener("click", function () {
+    try {
+      Object.keys(localStorage).forEach(function (k) {
+        if (k.indexOf("sb-" + ref + "-") === 0) localStorage.removeItem(k);
+      });
+    } catch (e) { /* ignore */ }
+    location.reload();
+  });
   bar.querySelector(".ox-identity-nudge__x").addEventListener("click", function () {
     bar.remove();
     try { localStorage.setItem(key, "1"); } catch (e) { /* ignore */ }

@@ -600,6 +600,20 @@
   cursor: pointer;
 }
 .ox-self-check__signin:hover{ filter: brightness(1.1); }
+.ox-self-check__signout{
+  font-family: var(--ox-font-mono);
+  font-size: .58rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: transparent;
+  color: var(--ox-muted);
+  border: 1px solid var(--ox-line-strong);
+  border-radius: 999px;
+  padding: .35rem .8rem;
+  cursor: pointer;
+}
+.ox-self-check__signout:hover{ color: var(--ox-ink); border-color: var(--ox-ink); }
 .ox-self-check__error{
   font-family: var(--ox-font-mono);
   font-size: .58rem;
