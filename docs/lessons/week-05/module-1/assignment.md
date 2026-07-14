@@ -1,11 +1,11 @@
-# Week 5 — Phase 1 Wrap · Module Assignment
+# Week 5 - Phase 1 Wrap · Module Assignment
 
 
 ## What you submit
 
 **Two short artifacts** + **completion of the Phase 2 pre-read.**
 
-### Artifact 1 — Phase 1 reflection (≤ 300 words)
+### Artifact 1 - Phase 1 reflection (≤ 300 words)
 
 Title: **"The most important thing I learned in Weeks 2–5."**
 
@@ -16,7 +16,7 @@ Required structure:
 3. **An example from your own practice this phase** (a calculation you redid, a wrong intuition you fixed, a quiz question you missed and what corrected it).
 4. **One thing you'd teach a new joiner first.**
 
-### Artifact 2 — Cost model deck (1 slide / 1 page)
+### Artifact 2 - Cost model deck (1 slide / 1 page)
 
 A one-page **cost model** for your Week 4 serving system design. Include:
 
@@ -41,4 +41,4 @@ Bring **one written question** to Week 6 Day 26.
 
 ## Why this assignment exists
 
-Phase 1 was dense. Articulating *what changed in your head* is the test that the engineering actually became intuition. The cost model is the **single deliverable** an inference engineer is most often asked for — practice it once, here.
+Phase 1 was dense. Articulating *what changed in your head* is the test that the engineering actually became intuition. The cost model is the **single deliverable** an inference engineer is most often asked for; practice it once, here.

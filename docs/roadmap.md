@@ -1,235 +1,247 @@
 # Roadmap
 
-The full 50-day path through the curriculum. Each box is a session — click to open the lesson. Colour marks the phase. Solid arrows are the day-to-day sequence; dotted arrows are cross-phase prereqs (a later session that builds on an earlier one outside the immediate week).
+The full 50-day path through the curriculum, grouped by phase and then by week. Each tile is a session; click to open the lesson. The last tile in every week (before the capstone) is the Friday consolidation, shown as a dashed node.
 
-If you want the narrative version with rationale, see [Curriculum](curriculum.md) and [Why this curriculum](rationale.md). For the interactive explorable graph, see [Interactive Graph](kb/interactive-graph.md).
+If you want the narrative version with rationale, see [Curriculum](curriculum.md) and [Why this curriculum](rationale.md). To explore cross-phase prerequisites, how a later session builds on earlier ones outside its week, see the [Interactive Graph](kb/interactive-graph.md).
 
-```mermaid
-flowchart TD
-  subgraph W01["Week 01 · Orientation & Foundations"]
-    direction TB
-    W01M1["Day 01 · Welcome & Context"]
-    W01M2["Day 02 · Shell & Linux"]
-    W01M1 --> W01M2
-    W01M3["Day 03 · Git Workflow"]
-    W01M2 --> W01M3
-    W01M4["Day 04 · How Computers Run AI"]
-    W01M3 --> W01M4
-    W01M5["Day 05 · Consolidation"]
-    W01M4 --> W01M5
-  end
-  subgraph W02["Week 02 · The GPU & Memory"]
-    direction TB
-    W02M1["Day 06 · What Happens When You Send a Prompt"]
-    W02M2["Day 07 · Meet the GPU"]
-    W02M1 --> W02M2
-    W02M3["Day 08 · Memory Is the Bottleneck"]
-    W02M2 --> W02M3
-    W02M4["Day 09 · Compute-Bound vs Memory-Bound"]
-    W02M3 --> W02M4
-    W02M5["Day 10 · Consolidation"]
-    W02M4 --> W02M5
-  end
-  subgraph W03["Week 03 · Attention & KV Cache"]
-    direction TB
-    W03M1["Day 11 · Prefill vs Decode"]
-    W03M2["Day 12 · KV Cache"]
-    W03M1 --> W03M2
-    W03M3["Day 13 · FlashAttention"]
-    W03M2 --> W03M3
-    W03M4["Day 14 · Quantization"]
-    W03M3 --> W03M4
-    W03M5["Day 15 · Consolidation"]
-    W03M4 --> W03M5
-  end
-  subgraph W04["Week 04 · Scaling & Stacks"]
-    direction TB
-    W04M1["Day 16 · Multi-GPU Parallelism"]
-    W04M2["Day 17 · Pipeline Parallelism + MoE"]
-    W04M1 --> W04M2
-    W04M3["Day 18 · Speculative Decoding"]
-    W04M2 --> W04M3
-    W04M4["Day 19 · vLLM Introduction"]
-    W04M3 --> W04M4
-    W04M5["Day 20 · Consolidation"]
-    W04M4 --> W04M5
-  end
-  subgraph W05["Week 05 · Metrics & Production"]
-    direction TB
-    W05M1["Day 21 · Latency vs Throughput"]
-    W05M2["Day 22 · Production Deployment"]
-    W05M1 --> W05M2
-    W05M3["Day 23 · LLM Evaluation"]
-    W05M2 --> W05M3
-    W05M4["Day 24 · Inference Economics"]
-    W05M3 --> W05M4
-    W05M5["Day 25 · Consolidation + Phase 1 Problem Set"]
-    W05M4 --> W05M5
-  end
-  subgraph W06["Week 06 · Prompt Engineering + AI Agents"]
-    direction TB
-    W06M1["Day 26 · Prompt Engineering"]
-    W06M2["Day 27 · Agent Fundamentals"]
-    W06M1 --> W06M2
-    W06M3["Day 28 · Tools & Action Layer"]
-    W06M2 --> W06M3
-    W06M4["Day 29 · Governance"]
-    W06M3 --> W06M4
-    W06M5["Day 30 · Orchestration + Consolidation + Phase 2 Assessment"]
-    W06M4 --> W06M5
-  end
-  subgraph W07["Week 07 · Bridge: Theory Meets Tooling"]
-    direction TB
-    W07M1["Day 31 · Agent Case Studies"]
-    W07M2["Day 32 · Capsule Foundations"]
-    W07M1 --> W07M2
-    W07M3["Day 33 · Installation"]
-    W07M2 --> W07M3
-    W07M4["Day 34 · Environments"]
-    W07M3 --> W07M4
-    W07M5["Day 35 · Consolidation"]
-    W07M4 --> W07M5
-  end
-  subgraph W08["Week 08 · Capsule: Connections & Operations"]
-    direction TB
-    W08M1["Day 36 · Connecting"]
-    W08M2["Day 37 · Files & Storage"]
-    W08M1 --> W08M2
-    W08M3["Day 38 · Streaming"]
-    W08M2 --> W08M3
-    W08M4["Day 39 · Known Quirks"]
-    W08M3 --> W08M4
-    W08M5["Day 40 · Consolidation"]
-    W08M4 --> W08M5
-  end
-  subgraph W09["Week 09 · Capsule: Benchmarking & Eval"]
-    direction TB
-    W09M1["Day 41 · Benchmarking"]
-    W09M2["Day 42 · Model Evaluation"]
-    W09M1 --> W09M2
-    W09M3["Day 43 · Interactive Chat"]
-    W09M2 --> W09M3
-    W09M4["Day 44 · Scheduling & MCP"]
-    W09M3 --> W09M4
-    W09M5["Day 45 · Consolidation"]
-    W09M4 --> W09M5
-  end
-  subgraph W10["Week 10 · Capstone Project"]
-    direction TB
-    W10M1["Day 46 · Kickoff & Planning"]
-    W10M2["Day 47 · Execute"]
-    W10M1 --> W10M2
-    W10M3["Day 48 · Analyze & Recommend"]
-    W10M2 --> W10M3
-    W10M4["Day 49 · Present"]
-    W10M3 --> W10M4
-    W10M5["Day 50 · Close"]
-    W10M4 --> W10M5
-  end
-  W01M5 --> W02M1
-  W02M5 --> W03M1
-  W03M5 --> W04M1
-  W04M5 --> W05M1
-  W05M5 --> W06M1
-  W06M5 --> W07M1
-  W07M5 --> W08M1
-  W08M5 --> W09M1
-  W09M5 --> W10M1
-  %% cross-phase shortcuts
-  W01M4 -.-> W02M1
-  W02M4 -.-> W03M1
-  W02M3 -.-> W03M3
-  W02M3 -.-> W03M4
-  W02M2 -.-> W04M1
-  W03M1 -.-> W04M3
-  W03M2 -.-> W04M4
-  W05M1 -.-> W05M4
-  W07M3 -.-> W08M1
-  W08M1 -.-> W09M1
-  W07M3 -.-> W09M1
-  W05M3 -.-> W09M2
-  W09M1 -.-> W09M3
-  W09M1 -.-> W10M1
-  W05M3 -.-> W10M1
-  W09M2 -.-> W10M1
+<div class="ox-rmap-overall" hidden>
+  <div class="ox-rmap-overall__pct">0%</div>
+  <div class="ox-rmap-overall__meta">
+    <span class="ox-rmap-overall__label">Overall progress · <span data-done>0</span>/<span data-total>50</span> sessions cleared</span>
+    <span class="ox-rmap-track"><i></i></span>
+  </div>
+</div>
 
-  %% Light, on-brand phase fills (cream page): coloured left/border + dark ink
-  %% label. Fills are pale tints so the default dark label text stays legible.
-  classDef orientation fill:#EDF0F4,stroke:#5A6577,color:#26303F,stroke-width:1.5px;
-  classDef inference fill:#E4F3F5,stroke:#0E7C8A,color:#06363D,stroke-width:1.5px;
-  classDef prompting fill:#EEE9F9,stroke:#6A4EC9,color:#291C54,stroke-width:1.5px;
-  classDef agents fill:#F7EFDD,stroke:#B8761E,color:#4A3208,stroke-width:1.5px;
-  classDef bridge fill:#E9ECF7,stroke:#5B6BA8,color:#232C4D,stroke-width:1.5px;
-  classDef capsule fill:#E3F2E7,stroke:#2E7D32,color:#123D18,stroke-width:1.5px;
-  classDef capstone fill:#F8E5E9,stroke:#C43E54,color:#4A1420,stroke-width:1.5px;
-  class W01M1,W01M2,W01M3,W01M4,W01M5 orientation;
-  class W02M1,W02M2,W02M3,W02M4,W02M5,W03M1,W03M2,W03M3,W03M4,W03M5,W04M1,W04M2,W04M3,W04M4,W04M5,W05M1,W05M2,W05M3,W05M4,W05M5 inference;
-  class W06M1,W06M2,W06M3,W06M4,W06M5 agents;
-  class W07M1,W07M2,W07M3,W07M4,W07M5 bridge;
-  class W08M1,W08M2,W08M3,W08M4,W08M5,W09M1,W09M2,W09M3,W09M4,W09M5 capsule;
-  class W10M1,W10M2,W10M3,W10M4,W10M5 capstone;
+<div class="ox-rmap-legend" hidden>
+  <span><i style="background:var(--ox-green)"></i>Passed</span>
+  <span><i style="background:var(--ox-gold)"></i>In progress</span>
+  <span><i style="background:var(--ox-surface);border-color:var(--ox-line-strong)"></i>Not started</span>
+  <span><i style="background:var(--ox-surface);box-shadow:0 0 0 2px color-mix(in srgb,var(--ox-blood) 35%,transparent)"></i>Next up</span>
+</div>
 
-  click W01M1 "../lessons/week-01/module-1/index/" "Welcome & Context"
-  click W01M2 "../lessons/week-01/module-2/index/" "Shell & Linux"
-  click W01M3 "../lessons/week-01/module-3/index/" "Git Workflow"
-  click W01M4 "../lessons/week-01/module-4/index/" "How Computers Run AI"
-  click W01M5 "../lessons/week-01/module-5/index/" "Consolidation"
-  click W02M1 "../lessons/week-02/module-1/index/" "What Happens When You Send a Prompt"
-  click W02M2 "../lessons/week-02/module-2/index/" "Meet the GPU"
-  click W02M3 "../lessons/week-02/module-3/index/" "Memory Is the Bottleneck"
-  click W02M4 "../lessons/week-02/module-4/index/" "Compute-Bound vs Memory-Bound"
-  click W02M5 "../lessons/week-02/module-5/index/" "Consolidation"
-  click W03M1 "../lessons/week-03/module-1/index/" "Prefill vs Decode"
-  click W03M2 "../lessons/week-03/module-2/index/" "KV Cache"
-  click W03M3 "../lessons/week-03/module-3/index/" "FlashAttention"
-  click W03M4 "../lessons/week-03/module-4/index/" "Quantization"
-  click W03M5 "../lessons/week-03/module-5/index/" "Consolidation"
-  click W04M1 "../lessons/week-04/module-1/index/" "Multi-GPU Parallelism"
-  click W04M2 "../lessons/week-04/module-2/index/" "Pipeline Parallelism + MoE"
-  click W04M3 "../lessons/week-04/module-3/index/" "Speculative Decoding"
-  click W04M4 "../lessons/week-04/module-4/index/" "vLLM Introduction"
-  click W04M5 "../lessons/week-04/module-5/index/" "Consolidation"
-  click W05M1 "../lessons/week-05/module-1/index/" "Latency vs Throughput"
-  click W05M2 "../lessons/week-05/module-2/index/" "Production Deployment"
-  click W05M3 "../lessons/week-05/module-3/index/" "LLM Evaluation"
-  click W05M4 "../lessons/week-05/module-4/index/" "Inference Economics"
-  click W05M5 "../lessons/week-05/module-5/index/" "Consolidation + Phase 1 Problem Set"
-  click W06M1 "../lessons/week-06/module-1/index/" "Prompt Engineering"
-  click W06M2 "../lessons/week-06/module-2/index/" "Agent Fundamentals"
-  click W06M3 "../lessons/week-06/module-3/index/" "Tools & Action Layer"
-  click W06M4 "../lessons/week-06/module-4/index/" "Governance"
-  click W06M5 "../lessons/week-06/module-5/index/" "Orchestration + Consolidation + Phase 2 Assessment"
-  click W07M1 "../lessons/week-07/module-1/index/" "Agent Case Studies"
-  click W07M2 "../lessons/week-07/module-2/index/" "Capsule Foundations"
-  click W07M3 "../lessons/week-07/module-3/index/" "Installation"
-  click W07M4 "../lessons/week-07/module-4/index/" "Environments"
-  click W07M5 "../lessons/week-07/module-5/index/" "Consolidation"
-  click W08M1 "../lessons/week-08/module-1/index/" "Connecting"
-  click W08M2 "../lessons/week-08/module-2/index/" "Files & Storage"
-  click W08M3 "../lessons/week-08/module-3/index/" "Streaming"
-  click W08M4 "../lessons/week-08/module-4/index/" "Known Quirks"
-  click W08M5 "../lessons/week-08/module-5/index/" "Consolidation"
-  click W09M1 "../lessons/week-09/module-1/index/" "Benchmarking"
-  click W09M2 "../lessons/week-09/module-2/index/" "Model Evaluation"
-  click W09M3 "../lessons/week-09/module-3/index/" "Interactive Chat"
-  click W09M4 "../lessons/week-09/module-4/index/" "Scheduling & MCP"
-  click W09M5 "../lessons/week-09/module-5/index/" "Consolidation"
-  click W10M1 "../lessons/week-10/module-1/index/" "Kickoff & Planning"
-  click W10M2 "../lessons/week-10/module-2/index/" "Execute"
-  click W10M3 "../lessons/week-10/module-3/index/" "Analyze & Recommend"
-  click W10M4 "../lessons/week-10/module-4/index/" "Present"
-  click W10M5 "../lessons/week-10/module-5/index/" "Close"
-```
-
-## Legend
-
-| Colour | Phase | Weeks |
-|--------|-------|-------|
-| <span class="ox-legend-swatch" style="background:#EDF0F4;border-color:#5A6577"></span> | Orientation | Week 1 |
-| <span class="ox-legend-swatch" style="background:#E4F3F5;border-color:#0E7C8A"></span> | Inference Engineering | Week 2, 3, 4, 5 |
-| <span class="ox-legend-swatch" style="background:#F7EFDD;border-color:#B8761E"></span> | AI Agents | Week 6 |
-| <span class="ox-legend-swatch" style="background:#E9ECF7;border-color:#5B6BA8"></span> | Bridge | Week 7 |
-| <span class="ox-legend-swatch" style="background:#E3F2E7;border-color:#2E7D32"></span> | Capsule Hands-On | Week 8, 9 |
-| <span class="ox-legend-swatch" style="background:#F8E5E9;border-color:#C43E54"></span> | Capstone | Week 10 |
-
-Day 05 of weeks 1–9 is the Friday quiz (`quiz.html` in each module folder). Day 50 closes the program.
+<div class="ox-roadmap" markdown="0">
+  <section class="ox-rmap-phase" style="--phase-fill:#EDF0F4;--phase-line:#5A6577;--phase-ink:#26303F">
+    <header class="ox-rmap-phase__head">
+      <span class="ox-rmap-phase__swatch" aria-hidden="true"></span>
+      <h2 class="ox-rmap-phase__name">Orientation</h2>
+      <span class="ox-rmap-phase__weeks">Week 1</span>
+    </header>
+    <div class="ox-rmap-weeks" style="--cols:1">
+      <section class="ox-rmap-week">
+        <header class="ox-rmap-week__head">
+          <span class="ox-rmap-week__num">Week 01</span>
+          <h3 class="ox-rmap-week__title">Orientation &amp; Foundations</h3>
+          <div class="ox-rmap-week__prog" hidden>
+            <span class="ox-rmap-track"><i></i></span>
+            <span class="ox-rmap-week__pct"></span>
+          </div>
+        </header>
+        <ol class="ox-rmap-days">
+          <li><a class="ox-rmap-day" href="../lessons/week-01/module-1/" data-module="week-01/module-1"><span class="ox-rmap-day__n">01</span><span class="ox-rmap-day__t">Welcome &amp; Context</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-01/module-2/" data-module="week-01/module-2"><span class="ox-rmap-day__n">02</span><span class="ox-rmap-day__t">Shell &amp; Linux</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-01/module-3/" data-module="week-01/module-3"><span class="ox-rmap-day__n">03</span><span class="ox-rmap-day__t">Git Workflow</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-01/module-4/" data-module="week-01/module-4"><span class="ox-rmap-day__n">04</span><span class="ox-rmap-day__t">How Computers Run AI</span></a></li>
+          <li><a class="ox-rmap-day is-consolidation" href="../lessons/week-01/module-5/" data-module="week-01/module-5"><span class="ox-rmap-day__n">05</span><span class="ox-rmap-day__t">Consolidation</span></a></li>
+        </ol>
+      </section>
+    </div>
+  </section>
+  <section class="ox-rmap-phase" style="--phase-fill:#E4F3F5;--phase-line:#0E7C8A;--phase-ink:#06363D">
+    <header class="ox-rmap-phase__head">
+      <span class="ox-rmap-phase__swatch" aria-hidden="true"></span>
+      <h2 class="ox-rmap-phase__name">Inference Engineering</h2>
+      <span class="ox-rmap-phase__weeks">Weeks 2–5</span>
+    </header>
+    <div class="ox-rmap-weeks" style="--cols:4">
+      <section class="ox-rmap-week">
+        <header class="ox-rmap-week__head">
+          <span class="ox-rmap-week__num">Week 02</span>
+          <h3 class="ox-rmap-week__title">The GPU &amp; Memory</h3>
+          <div class="ox-rmap-week__prog" hidden>
+            <span class="ox-rmap-track"><i></i></span>
+            <span class="ox-rmap-week__pct"></span>
+          </div>
+        </header>
+        <ol class="ox-rmap-days">
+          <li><a class="ox-rmap-day" href="../lessons/week-02/module-1/" data-module="week-02/module-1"><span class="ox-rmap-day__n">06</span><span class="ox-rmap-day__t">What Happens When You Send a Prompt</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-02/module-2/" data-module="week-02/module-2"><span class="ox-rmap-day__n">07</span><span class="ox-rmap-day__t">Meet the GPU</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-02/module-3/" data-module="week-02/module-3"><span class="ox-rmap-day__n">08</span><span class="ox-rmap-day__t">Memory Is the Bottleneck</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-02/module-4/" data-module="week-02/module-4"><span class="ox-rmap-day__n">09</span><span class="ox-rmap-day__t">Compute-Bound vs Memory-Bound</span></a></li>
+          <li><a class="ox-rmap-day is-consolidation" href="../lessons/week-02/module-5/" data-module="week-02/module-5"><span class="ox-rmap-day__n">10</span><span class="ox-rmap-day__t">Consolidation</span></a></li>
+        </ol>
+      </section>
+      <section class="ox-rmap-week">
+        <header class="ox-rmap-week__head">
+          <span class="ox-rmap-week__num">Week 03</span>
+          <h3 class="ox-rmap-week__title">Attention &amp; KV Cache</h3>
+          <div class="ox-rmap-week__prog" hidden>
+            <span class="ox-rmap-track"><i></i></span>
+            <span class="ox-rmap-week__pct"></span>
+          </div>
+        </header>
+        <ol class="ox-rmap-days">
+          <li><a class="ox-rmap-day" href="../lessons/week-03/module-1/" data-module="week-03/module-1"><span class="ox-rmap-day__n">11</span><span class="ox-rmap-day__t">Prefill vs Decode</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-03/module-2/" data-module="week-03/module-2"><span class="ox-rmap-day__n">12</span><span class="ox-rmap-day__t">KV Cache</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-03/module-3/" data-module="week-03/module-3"><span class="ox-rmap-day__n">13</span><span class="ox-rmap-day__t">FlashAttention</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-03/module-4/" data-module="week-03/module-4"><span class="ox-rmap-day__n">14</span><span class="ox-rmap-day__t">Quantization</span></a></li>
+          <li><a class="ox-rmap-day is-consolidation" href="../lessons/week-03/module-5/" data-module="week-03/module-5"><span class="ox-rmap-day__n">15</span><span class="ox-rmap-day__t">Consolidation</span></a></li>
+        </ol>
+      </section>
+      <section class="ox-rmap-week">
+        <header class="ox-rmap-week__head">
+          <span class="ox-rmap-week__num">Week 04</span>
+          <h3 class="ox-rmap-week__title">Scaling &amp; Stacks</h3>
+          <div class="ox-rmap-week__prog" hidden>
+            <span class="ox-rmap-track"><i></i></span>
+            <span class="ox-rmap-week__pct"></span>
+          </div>
+        </header>
+        <ol class="ox-rmap-days">
+          <li><a class="ox-rmap-day" href="../lessons/week-04/module-1/" data-module="week-04/module-1"><span class="ox-rmap-day__n">16</span><span class="ox-rmap-day__t">Multi-GPU Parallelism</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-04/module-2/" data-module="week-04/module-2"><span class="ox-rmap-day__n">17</span><span class="ox-rmap-day__t">Pipeline Parallelism + MoE</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-04/module-3/" data-module="week-04/module-3"><span class="ox-rmap-day__n">18</span><span class="ox-rmap-day__t">Speculative Decoding</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-04/module-4/" data-module="week-04/module-4"><span class="ox-rmap-day__n">19</span><span class="ox-rmap-day__t">vLLM Introduction</span></a></li>
+          <li><a class="ox-rmap-day is-consolidation" href="../lessons/week-04/module-5/" data-module="week-04/module-5"><span class="ox-rmap-day__n">20</span><span class="ox-rmap-day__t">Consolidation</span></a></li>
+        </ol>
+      </section>
+      <section class="ox-rmap-week">
+        <header class="ox-rmap-week__head">
+          <span class="ox-rmap-week__num">Week 05</span>
+          <h3 class="ox-rmap-week__title">Metrics &amp; Production</h3>
+          <div class="ox-rmap-week__prog" hidden>
+            <span class="ox-rmap-track"><i></i></span>
+            <span class="ox-rmap-week__pct"></span>
+          </div>
+        </header>
+        <ol class="ox-rmap-days">
+          <li><a class="ox-rmap-day" href="../lessons/week-05/module-1/" data-module="week-05/module-1"><span class="ox-rmap-day__n">21</span><span class="ox-rmap-day__t">Latency vs Throughput</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-05/module-2/" data-module="week-05/module-2"><span class="ox-rmap-day__n">22</span><span class="ox-rmap-day__t">Production Deployment</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-05/module-3/" data-module="week-05/module-3"><span class="ox-rmap-day__n">23</span><span class="ox-rmap-day__t">LLM Evaluation</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-05/module-4/" data-module="week-05/module-4"><span class="ox-rmap-day__n">24</span><span class="ox-rmap-day__t">Inference Economics</span></a></li>
+          <li><a class="ox-rmap-day is-consolidation" href="../lessons/week-05/module-5/" data-module="week-05/module-5"><span class="ox-rmap-day__n">25</span><span class="ox-rmap-day__t">Consolidation + Phase 1 Problem Set</span></a></li>
+        </ol>
+      </section>
+    </div>
+  </section>
+  <section class="ox-rmap-phase" style="--phase-fill:#F7EFDD;--phase-line:#B8761E;--phase-ink:#4A3208">
+    <header class="ox-rmap-phase__head">
+      <span class="ox-rmap-phase__swatch" aria-hidden="true"></span>
+      <h2 class="ox-rmap-phase__name">AI Agents</h2>
+      <span class="ox-rmap-phase__weeks">Week 6</span>
+    </header>
+    <div class="ox-rmap-weeks" style="--cols:1">
+      <section class="ox-rmap-week">
+        <header class="ox-rmap-week__head">
+          <span class="ox-rmap-week__num">Week 06</span>
+          <h3 class="ox-rmap-week__title">Prompt Engineering + AI Agents</h3>
+          <div class="ox-rmap-week__prog" hidden>
+            <span class="ox-rmap-track"><i></i></span>
+            <span class="ox-rmap-week__pct"></span>
+          </div>
+        </header>
+        <ol class="ox-rmap-days">
+          <li><a class="ox-rmap-day" href="../lessons/week-06/module-1/" data-module="week-06/module-1"><span class="ox-rmap-day__n">26</span><span class="ox-rmap-day__t">Prompt Engineering</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-06/module-2/" data-module="week-06/module-2"><span class="ox-rmap-day__n">27</span><span class="ox-rmap-day__t">Agent Fundamentals</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-06/module-3/" data-module="week-06/module-3"><span class="ox-rmap-day__n">28</span><span class="ox-rmap-day__t">Tools &amp; Action Layer</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-06/module-4/" data-module="week-06/module-4"><span class="ox-rmap-day__n">29</span><span class="ox-rmap-day__t">Governance</span></a></li>
+          <li><a class="ox-rmap-day is-consolidation" href="../lessons/week-06/module-5/" data-module="week-06/module-5"><span class="ox-rmap-day__n">30</span><span class="ox-rmap-day__t">Orchestration + Consolidation + Phase 2 Assessment</span></a></li>
+        </ol>
+      </section>
+    </div>
+  </section>
+  <section class="ox-rmap-phase" style="--phase-fill:#E9ECF7;--phase-line:#5B6BA8;--phase-ink:#232C4D">
+    <header class="ox-rmap-phase__head">
+      <span class="ox-rmap-phase__swatch" aria-hidden="true"></span>
+      <h2 class="ox-rmap-phase__name">Bridge</h2>
+      <span class="ox-rmap-phase__weeks">Week 7</span>
+    </header>
+    <div class="ox-rmap-weeks" style="--cols:1">
+      <section class="ox-rmap-week">
+        <header class="ox-rmap-week__head">
+          <span class="ox-rmap-week__num">Week 07</span>
+          <h3 class="ox-rmap-week__title">Bridge: Theory Meets Tooling</h3>
+          <div class="ox-rmap-week__prog" hidden>
+            <span class="ox-rmap-track"><i></i></span>
+            <span class="ox-rmap-week__pct"></span>
+          </div>
+        </header>
+        <ol class="ox-rmap-days">
+          <li><a class="ox-rmap-day" href="../lessons/week-07/module-1/" data-module="week-07/module-1"><span class="ox-rmap-day__n">31</span><span class="ox-rmap-day__t">Agent Case Studies</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-07/module-2/" data-module="week-07/module-2"><span class="ox-rmap-day__n">32</span><span class="ox-rmap-day__t">Capsule Foundations</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-07/module-3/" data-module="week-07/module-3"><span class="ox-rmap-day__n">33</span><span class="ox-rmap-day__t">Installation</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-07/module-4/" data-module="week-07/module-4"><span class="ox-rmap-day__n">34</span><span class="ox-rmap-day__t">Environments</span></a></li>
+          <li><a class="ox-rmap-day is-consolidation" href="../lessons/week-07/module-5/" data-module="week-07/module-5"><span class="ox-rmap-day__n">35</span><span class="ox-rmap-day__t">Consolidation</span></a></li>
+        </ol>
+      </section>
+    </div>
+  </section>
+  <section class="ox-rmap-phase" style="--phase-fill:#E3F2E7;--phase-line:#2E7D32;--phase-ink:#123D18">
+    <header class="ox-rmap-phase__head">
+      <span class="ox-rmap-phase__swatch" aria-hidden="true"></span>
+      <h2 class="ox-rmap-phase__name">Capsule Hands-On</h2>
+      <span class="ox-rmap-phase__weeks">Weeks 8–9</span>
+    </header>
+    <div class="ox-rmap-weeks" style="--cols:2">
+      <section class="ox-rmap-week">
+        <header class="ox-rmap-week__head">
+          <span class="ox-rmap-week__num">Week 08</span>
+          <h3 class="ox-rmap-week__title">Capsule: Connections &amp; Operations</h3>
+          <div class="ox-rmap-week__prog" hidden>
+            <span class="ox-rmap-track"><i></i></span>
+            <span class="ox-rmap-week__pct"></span>
+          </div>
+        </header>
+        <ol class="ox-rmap-days">
+          <li><a class="ox-rmap-day" href="../lessons/week-08/module-1/" data-module="week-08/module-1"><span class="ox-rmap-day__n">36</span><span class="ox-rmap-day__t">Connecting</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-08/module-2/" data-module="week-08/module-2"><span class="ox-rmap-day__n">37</span><span class="ox-rmap-day__t">Files &amp; Storage</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-08/module-3/" data-module="week-08/module-3"><span class="ox-rmap-day__n">38</span><span class="ox-rmap-day__t">Streaming</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-08/module-4/" data-module="week-08/module-4"><span class="ox-rmap-day__n">39</span><span class="ox-rmap-day__t">Known Quirks</span></a></li>
+          <li><a class="ox-rmap-day is-consolidation" href="../lessons/week-08/module-5/" data-module="week-08/module-5"><span class="ox-rmap-day__n">40</span><span class="ox-rmap-day__t">Consolidation</span></a></li>
+        </ol>
+      </section>
+      <section class="ox-rmap-week">
+        <header class="ox-rmap-week__head">
+          <span class="ox-rmap-week__num">Week 09</span>
+          <h3 class="ox-rmap-week__title">Capsule: Benchmarking &amp; Eval</h3>
+          <div class="ox-rmap-week__prog" hidden>
+            <span class="ox-rmap-track"><i></i></span>
+            <span class="ox-rmap-week__pct"></span>
+          </div>
+        </header>
+        <ol class="ox-rmap-days">
+          <li><a class="ox-rmap-day" href="../lessons/week-09/module-1/" data-module="week-09/module-1"><span class="ox-rmap-day__n">41</span><span class="ox-rmap-day__t">Benchmarking</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-09/module-2/" data-module="week-09/module-2"><span class="ox-rmap-day__n">42</span><span class="ox-rmap-day__t">Model Evaluation</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-09/module-3/" data-module="week-09/module-3"><span class="ox-rmap-day__n">43</span><span class="ox-rmap-day__t">Interactive Chat</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-09/module-4/" data-module="week-09/module-4"><span class="ox-rmap-day__n">44</span><span class="ox-rmap-day__t">Scheduling &amp; MCP</span></a></li>
+          <li><a class="ox-rmap-day is-consolidation" href="../lessons/week-09/module-5/" data-module="week-09/module-5"><span class="ox-rmap-day__n">45</span><span class="ox-rmap-day__t">Consolidation</span></a></li>
+        </ol>
+      </section>
+    </div>
+  </section>
+  <section class="ox-rmap-phase" style="--phase-fill:#F8E5E9;--phase-line:#C43E54;--phase-ink:#4A1420">
+    <header class="ox-rmap-phase__head">
+      <span class="ox-rmap-phase__swatch" aria-hidden="true"></span>
+      <h2 class="ox-rmap-phase__name">Capstone</h2>
+      <span class="ox-rmap-phase__weeks">Week 10</span>
+    </header>
+    <div class="ox-rmap-weeks" style="--cols:1">
+      <section class="ox-rmap-week">
+        <header class="ox-rmap-week__head">
+          <span class="ox-rmap-week__num">Week 10</span>
+          <h3 class="ox-rmap-week__title">Capstone Project</h3>
+          <div class="ox-rmap-week__prog" hidden>
+            <span class="ox-rmap-track"><i></i></span>
+            <span class="ox-rmap-week__pct"></span>
+          </div>
+        </header>
+        <ol class="ox-rmap-days">
+          <li><a class="ox-rmap-day" href="../lessons/week-10/module-1/" data-module="week-10/module-1"><span class="ox-rmap-day__n">46</span><span class="ox-rmap-day__t">Kickoff &amp; Planning</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-10/module-2/" data-module="week-10/module-2"><span class="ox-rmap-day__n">47</span><span class="ox-rmap-day__t">Execute</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-10/module-3/" data-module="week-10/module-3"><span class="ox-rmap-day__n">48</span><span class="ox-rmap-day__t">Analyze &amp; Recommend</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-10/module-4/" data-module="week-10/module-4"><span class="ox-rmap-day__n">49</span><span class="ox-rmap-day__t">Present</span></a></li>
+          <li><a class="ox-rmap-day" href="../lessons/week-10/module-5/" data-module="week-10/module-5"><span class="ox-rmap-day__n">50</span><span class="ox-rmap-day__t">Close</span></a></li>
+        </ol>
+      </section>
+    </div>
+  </section>
+</div>

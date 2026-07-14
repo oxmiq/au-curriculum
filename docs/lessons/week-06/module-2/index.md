@@ -1,7 +1,7 @@
 # Day 27 · Agent Fundamentals (The Agent Loop)
 
 > **Concept of the day:** an **agent** is an LLM in a loop that **Perceives → Plans → Acts → Observes → Repeats** until a goal is met. **ReAct** = Reason + Act, the simplest viable pattern. Phase 1's faster decode + Week 6's reliable prompts are *what makes this work at all*.<br>
-> **Pre-reading:** <a href="../../../readings/prompt-engineering/#day-27-primer-roles-walls-and-shapes">Prompt Engineering Pre-Lecture Reading — Day 27 primer (Roles, walls, and shapes)</a>. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic tutorial</a> Ch 3–5.
+> **Pre-reading:** <a href="../../../readings/prompt-engineering/#day-27-primer-roles-walls-and-shapes">Prompt Engineering Pre-Lecture Reading - Day 27 primer (Roles, walls, and shapes)</a>. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic tutorial</a> Ch 3–5.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 6 — Prompt Engineering + AI Agents</a>
+    <a href="../">Week 6 - Prompt Engineering + AI Agents</a>
     <span class="sep">/</span>
     <span>Day 27 · Agent Fundamentals</span>
     {status:week-06/module-2}
@@ -36,10 +36,10 @@ This lesson is designed for guided self-study. Here's how your ~3 hours are orga
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 ### Before You Start
 
-You should have already read: AI Agents Student Guide **Module 0 — Why Now?**.
+You should have already read: AI Agents Student Guide **Module 0 - Why Now?**.
 
 ### Quick Self-Check
 
@@ -58,7 +58,7 @@ If you couldn't answer all three, review the Student Guide again before proceedi
     "stem": "What is the ReAct pattern in AI agents?",
     "options": [
       "A way to react to user inputs faster",
-      "Reason + Act — the agent reasons about the situation and then takes action",
+      "Reason + Act: the agent reasons about the situation and then takes action",
       "A method for reducing response latency",
       "A technique for training models"
     ],
@@ -85,7 +85,7 @@ If you couldn't answer all three, review the Student Guide again before proceedi
       "There is no difference"
     ],
     "answer": 1,
-    "explain": "A chatbot is single-shot: one prompt in, one response out. An agent is in a loop — it can take multiple actions, observe results, and iterate until a goal is met. Agents have 'agency' — they can act on the world, not just respond."
+    "explain": "A chatbot is single-shot: one prompt in, one response out. An agent is in a loop; it can take multiple actions, observe results, and iterate until a goal is met. Agents have 'agency'; they can act on the world, not just respond."
   },
   {
     "stem": "What does 'giving an agent a role' mean in prompting?",
@@ -102,12 +102,12 @@ If you couldn't answer all three, review the Student Guide again before proceedi
     "stem": "What is 'chain reliability' in the context of agent systems?",
     "options": [
       "The reliability of the model itself",
-      "The probability that a multi-step agent task succeeds — drops exponentially with each step",
+      "The probability that a multi-step agent task succeeds: drops exponentially with each step",
       "How fast the agent can process requests",
       "The number of agents working together"
     ],
     "answer": 1,
-    "explain": "Chain reliability is the probability that a multi-step agent task succeeds. If each step has 90% reliability, a 5-step chain has only 0.9^5 = 59% reliability. This is a fundamental challenge in agent systems — adding more steps makes failures more likely."
+    "explain": "Chain reliability is the probability that a multi-step agent task succeeds. If each step has 90% reliability, a 5-step chain has only 0.9^5 = 59% reliability. This is a fundamental challenge in agent systems; adding more steps makes failures more likely."
   },
   {
     "stem": "What does 'shaping' mean in prompt engineering for agents?",
@@ -118,7 +118,7 @@ If you couldn't answer all three, review the Student Guide again before proceedi
       "Formatting the response as JSON"
     ],
     "answer": 1,
-    "explain": "'Shaping' is structuring prompts to guide the agent toward desired behaviors. It's like 'herding' — you set up the right context, role, and examples so the agent naturally goes in the right direction, rather than using overly restrictive rules that might backfire."
+    "explain": "'Shaping' is structuring prompts to guide the agent toward desired behaviors. It's like 'herding'; you set up the right context, role, and examples so the agent naturally goes in the right direction, rather than using overly restrictive rules that might backfire."
   },
   {
     "stem": "What is a 'wall' in the context of agent prompting?",
@@ -129,7 +129,7 @@ If you couldn't answer all three, review the Student Guide again before proceedi
       "A connection between two agents"
     ],
     "answer": 1,
-    "explain": "A 'wall' is a hard constraint that the agent must not violate — like 'never reveal API keys' or 'never provide medical advice'. These are placed in the system prompt to ensure the agent has clear boundaries on what it can and cannot do."
+    "explain": "A 'wall' is a hard constraint that the agent must not violate: like 'never reveal API keys' or 'never provide medical advice'. These are placed in the system prompt to ensure the agent has clear boundaries on what it can and cannot do."
   },
   {
     "stem": "Why does Phase 1's faster decode matter for agents?",
@@ -148,10 +148,10 @@ If you couldn't answer all three, review the Student Guide again before proceedi
 
 ---
 
-## Part 2 — Core Concepts: The Agent Loop
-### Reading — From Calculator to Strategist
+## Part 2 - Core Concepts: The Agent Loop
+### Reading - From Calculator to Strategist
 
-Until roughly 2022, working with a language model meant one prompt in, one response out. The interaction was probabilistic, single-shot, and bounded by design: every request started fresh, and the model never acted on anything. Useful, but limited — a kind of fast, articulate calculator.
+Until roughly 2022, working with a language model meant one prompt in, one response out. The interaction was probabilistic, single-shot, and bounded by design: every request started fresh, and the model never acted on anything. Useful, but limited: a kind of fast, articulate calculator.
 
 An AI agent is different in one crucial way: **it runs in a loop.**
 
@@ -163,11 +163,11 @@ An AI agent is different in one crucial way: **it runs in a loop.**
 └───┬────┘
     ▼
 ┌────────────────────────────────────┐
-│ 1. Perceive   — read inputs + state │
-│ 2. Plan       — decide next action  │
-│ 3. Act        — call a tool         │
-│ 4. Observe    — read the result     │
-│ 5. Reflect    — update state, check │
+│ 1. Perceive   - read inputs + state │
+│ 2. Plan       - decide next action  │
+│ 3. Act        - call a tool         │
+│ 4. Observe    - read the result     │
+│ 5. Reflect    - update state, check │
 │                if goal achieved     │
 └───┬────────────────────────────────┘
     │  loop until done or max steps
@@ -191,8 +191,8 @@ A bare LLM is **single-shot**: one input → one output. An agent is the loop.
 
 ---
 
-## Part 3 — Deep Dive: ReAct Pattern
-### Reading — Reason + Act
+## Part 3 - Deep Dive: ReAct Pattern
+### Reading - Reason + Act
 
 The most common agent pattern is **ReAct** (Reason + Act). Each step the agent produces:
 
@@ -208,7 +208,7 @@ This continues until the agent emits `Final Answer:` (or hits a step limit).
 
 The **explicit reasoning** (`Thought:`) is just Chain-of-Thought (Day 28) applied between actions. The model writes its rationale, which becomes context for the next step.
 
-> **Key insight:** The model doesn't just act — it thinks out loud about what it's going to do, then does it, then observes the result. That observation feeds back into the next round of thinking.
+> **Key insight:** The model doesn't just act; it thinks out loud about what it's going to do, then does it, then observes the result. That observation feeds back into the next round of thinking.
 
 ### ReAct Loop Pseudocode
 
@@ -229,31 +229,31 @@ That's it. Everything else in this module is decoration on this skeleton.
 
 ---
 
-## Part 4 — The Phase-1 Connection
-### Reading — Why Agents Work NOW
+## Part 4 - The Phase-1 Connection
+### Reading - Why Agents Work NOW
 
 The Social Capital primer identifies four capabilities that converged to make agents viable:
 
-1. **Foundational models** — GPT-class, Claude, Gemini, open-weight Mixtral, DeepSeek — that can reason about complex problems.
-2. **New architectures** — Sparse MoE, Multi-head Latent Attention (MLA) — that make models cheaper and faster.
-3. **Reasoning** — Chain-of-thought, inference-time reasoning models — that let models think before answering.
-4. **Tool use** — ReAct, MCP, and other protocols — that let models act and observe.
+1. **Foundational models**, GPT-class, Claude, Gemini, open-weight Mixtral, DeepSeek, that can reason about complex problems.
+2. **New architectures**, Sparse MoE, Multi-head Latent Attention (MLA), that make models cheaper and faster.
+3. **Reasoning**, Chain-of-thought, inference-time reasoning models, that let models think before answering.
+4. **Tool use**, ReAct, MCP, and other protocols, that let models act and observe.
 
 ### The Inference Engineering Connection
 
 | Phase 1 Insight | Why it Enables Agents |
 |-----------------|----------------------|
-| Decode is memory-bound | Per-step latency must be low — drives FP8 + speculative + small models |
+| Decode is memory-bound | Per-step latency must be low: drives FP8 + speculative + small models |
 | Continuous batching | Multi-step agents = bursty traffic; static batching would queue forever |
-| KV-cache prefix sharing | Agent loops repeat 90% of the same system prompt — prefix caching is huge |
+| KV-cache prefix sharing | Agent loops repeat 90% of the same system prompt; prefix caching is huge |
 | Cost/token | Agents make 10–50 LLM calls per task; cost scales linearly with depth |
 | MoE/smaller models | Cheaper per-step cost makes deeper loops affordable |
 
-> *"MoE = cheaper, FlashAttention = faster — that's why agents work now."*
+> *"MoE = cheaper, FlashAttention = faster; that's why agents work now."*
 
 ---
 
-## Part 5 — Hands-On: Trace a ReAct Loop
+## Part 5 - Hands-On: Trace a ReAct Loop
 ### Exercise: Trace a 3-Step ReAct Loop
 
 On paper (or a whiteboard), trace a 3-step ReAct loop for:
@@ -291,8 +291,8 @@ List 3 real tasks that **need** an agent (vs. an assistant). For each, sketch th
 
 ---
 
-## Part 6 — Hands-On: Chain-Reliability Math
-### Reading — Long-Horizon Drift
+## Part 6 - Hands-On: Chain-Reliability Math
+### Reading - Long-Horizon Drift
 
 Every prompt in an agent loop must be **≥95% reliable**. At 5 steps × 0.90 = 59% success; at 5 steps × 0.95 = 77%; at 5 steps × 0.99 = 95%.
 
@@ -323,7 +323,7 @@ If each LLM call costs $0.005 and a task averages 15 steps:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -368,7 +368,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "Why does MoE + FlashAttention enable economically viable agents?",
     "options": [
       "MoE reduces model size; FlashAttention reduces GPU count",
-      "MoE lowers cost per token (sparse activation = less compute per call); FlashAttention enables long-context processing (agents need large context for tool history) — together they make multi-step agent loops affordable",
+      "MoE lowers cost per token (sparse activation = less compute per call); FlashAttention enables long-context processing (agents need large context for tool history); together they make multi-step agent loops affordable",
       "MoE allows agents to run without GPUs; FlashAttention eliminates KV cache overhead",
       "MoE handles multiple agent instances in parallel; FlashAttention handles single-agent tasks"
     ],
@@ -395,7 +395,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "~40%"
     ],
     "answer": 2,
-    "explain": "0.95^10 ≈ 0.60. A 10-step chain that's 95% reliable per step has only ~60% end-to-end reliability. This is why production agents must have retry logic, error handling, and fallback paths — and why keeping chains short where possible matters."
+    "explain": "0.95^10 ≈ 0.60. A 10-step chain that's 95% reliable per step has only ~60% end-to-end reliability. This is why production agents must have retry logic, error handling, and fallback paths; and why keeping chains short where possible matters."
   },
   {
     "stem": "According to the Assistant vs Agent table, how many LLM calls does a typical agent make per task versus an assistant?",
@@ -417,7 +417,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "~99.9%"
     ],
     "answer": 2,
-    "explain": "0.80^(1/20) ≈ 0.989, so about 98.9% per step. Because reliability compounds multiplicatively (r^N), long chains demand very high per-step reliability — the lesson's core 'long-horizon drift' point."
+    "explain": "0.80^(1/20) ≈ 0.989, so about 98.9% per step. Because reliability compounds multiplicatively (r^N), long chains demand very high per-step reliability: the lesson's core 'long-horizon drift' point."
   }
 ]
 </script>
@@ -425,11 +425,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Tomorrow: **tools and MCP** — how the `Action:` step actually executes, and the protocol that's standardizing it across the industry.
+Tomorrow: **tools and MCP**: how the `Action:` step actually executes, and the protocol that's standardizing it across the industry.
 
 ### Pre-read for tomorrow (Day 28 · Tools & MCP)
 
-- **Resource:** <a href="../../../readings/ai-agents/#day-28-tools-mcp">AI Agents Pre-Lecture Reading — Tools & MCP section</a>. Supplement: <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener">Anthropic — Introducing the Model Context Protocol</a>.
+- **Resource:** <a href="../../../readings/ai-agents/#day-28-tools-mcp">AI Agents Pre-Lecture Reading - Tools & MCP section</a>. Supplement: <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener">Anthropic - Introducing the Model Context Protocol</a>.
 - **Reflection questions:**
   1. What problem do **tools** solve that prompts alone can't?
   2. What is **MCP** (Model Context Protocol)? Why does it matter for interoperability?

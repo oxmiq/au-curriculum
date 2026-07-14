@@ -1,7 +1,7 @@
 # Day 3 · Git Workflow
 
 > **Concept of the day:** Branch, commit (conventional format), push, PR. Why commit messages matter.<br>
-> **Pre-reading:** <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian — Saving Changes</a>, <a href="https://www.atlassian.com/git/tutorials/using-branches" target="_blank" rel="noopener">Using Branches</a>, and <a href="https://www.atlassian.com/git/tutorials/syncing" target="_blank" rel="noopener">Syncing</a>.
+> **Pre-reading:** <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian - Saving Changes</a>, <a href="https://www.atlassian.com/git/tutorials/using-branches" target="_blank" rel="noopener">Using Branches</a>, and <a href="https://www.atlassian.com/git/tutorials/syncing" target="_blank" rel="noopener">Syncing</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 1 — Orientation &amp; Foundations</a>
+    <a href="../">Week 1 - Orientation &amp; Foundations</a>
     <span class="sep">/</span>
     <span>Day 3 · Git Workflow</span>
     {status:week-01/module-3}
@@ -35,14 +35,14 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 ### Before You Start
 
-You should have already read: <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian — Saving Changes</a>, <a href="https://www.atlassian.com/git/tutorials/using-branches" target="_blank" rel="noopener">Using Branches</a>, and <a href="https://www.atlassian.com/git/tutorials/syncing" target="_blank" rel="noopener">Syncing</a>.
+You should have already read: <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian - Saving Changes</a>, <a href="https://www.atlassian.com/git/tutorials/using-branches" target="_blank" rel="noopener">Using Branches</a>, and <a href="https://www.atlassian.com/git/tutorials/syncing" target="_blank" rel="noopener">Syncing</a>.
 
 ### Quick Self-Check
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-01-m3-readiness" data-kind="readiness" data-draw="5" data-source="Atlassian Git Tutorials — Saving Changes, Branches & Syncing">
+<div class="ox-self-check" data-widget="self-check" data-id="week-01-m3-readiness" data-kind="readiness" data-draw="5" data-source="Atlassian Git Tutorials - Saving Changes, Branches & Syncing">
 
 <script type="application/json" class="ox-self-check__pool">
 [
@@ -72,8 +72,8 @@ You should have already read: <a href="https://www.atlassian.com/git/tutorials/s
 
 ---
 
-## Part 2 — Core Concepts Deep Dive
-### Reading — Why Git Matters
+## Part 2 - Core Concepts Deep Dive
+### Reading - Why Git Matters
 
 Every line of code you touch in this program lives in a git repository. Every PR, every benchmark commit, every capstone deliverable. Git is the difference between "I lost two days of work" and "I rolled back in 30 seconds."
 
@@ -81,11 +81,11 @@ Every line of code you touch in this program lives in a git repository. Every PR
 
 | Concept | Why it matters | Command |
 |---------|----------------|---------|
-| **Clone** | Copy a repo locally — your starting point. | `git clone <url>` |
+| **Clone** | Copy a repo locally: your starting point. | `git clone <url>` |
 | **Branch** | Isolate work-in-progress; never commit straight to `main`. | `git checkout -b <branch>` |
-| **Commit** | A unit of change with a message — the building block of history. | `git add . && git commit -m "..."` |
+| **Commit** | A unit of change with a message: the building block of history. | `git add . && git commit -m "..."` |
 | **Push** | Upload your branch to the remote (GitHub). | `git push origin <branch>` |
-| **PR** (Pull Request) | Propose merging your branch back to `main` — invites review. | GitHub UI |
+| **PR** (Pull Request) | Propose merging your branch back to `main`: invites review. | GitHub UI |
 
 ### Visual Workflow
 
@@ -102,8 +102,8 @@ Every line of code you touch in this program lives in a git repository. Every PR
 
 ---
 
-## Part 3 — Conventional Commits
-### Reading — Why Commit Messages Matter
+## Part 3 - Conventional Commits
+### Reading - Why Commit Messages Matter
 
 Bad commit messages like `wip`, `temp`, `update`, `fix stuff` make git history unreadable. Conventional commits add structure:
 
@@ -135,7 +135,7 @@ Bad commit messages like `wip`, `temp`, `update`, `fix stuff` make git history u
 
 ---
 
-## Part 4 — Hands-On — Git Workflow
+## Part 4 - Hands-On - Git Workflow
 ### Prerequisites
 
 You need a GitHub account. If you don't have one, create one at github.com.
@@ -170,7 +170,7 @@ git push origin feat/my-greeting
 
 ---
 
-## Part 5 — Hands-On — PR & Review
+## Part 5 - Hands-On - PR & Review
 ### Exercise: Create a Pull Request
 
 1. Go to your forked repo on GitHub
@@ -192,8 +192,8 @@ If you have access to a peer's PR:
 
 ---
 
-## Part 7 — Wrap-up & Connection
-### Reading — Common Mistakes to Avoid
+## Part 7 - Wrap-up & Connection
+### Reading - Common Mistakes to Avoid
 
 | Mistake | Why it's bad | Correct approach |
 |---------|--------------|------------------|
@@ -248,5 +248,5 @@ Tomorrow: GPUs. We move from tooling to the hardware that will dominate the next
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**; share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

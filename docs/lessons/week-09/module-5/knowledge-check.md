@@ -4,7 +4,7 @@
     <span class="sep">/</span>
     <a href="../../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../../">Week 9 — Capsule: Benchmarking &amp; Eval</a>
+    <a href="../../">Week 9 - Capsule: Benchmarking &amp; Eval</a>
     <span class="sep">/</span>
     <a href="../">Day 45 · Consolidation</a>
     <span class="sep">/</span>
@@ -16,7 +16,7 @@
 # Week 9 Knowledge Check
 
 **Week 9 · Capsule Benchmarking & Evaluation.** 26-question bank · **15 drawn per attempt** · aim for **strong (≥ 80%)**. This check is
-formative — it never blocks you — but it's the week's bar. Answer the drawn questions,
+formative, it never blocks you, but it's the week's bar. Answer the drawn questions,
 then submit to reveal explanations and your score band.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-09-m5-canonical" data-kind="wrap-up" data-draw="15" data-lesson="Week 9 · Capsule Benchmarking &amp; Evaluation" data-source="Canonical knowledge check">
@@ -39,7 +39,7 @@ then submit to reveal explanations and your score band.
       "This config beats every other config",
       "This model is good",
       "This serving engine is bad",
-      "This config, under this load, at this moment produced these numbers — nothing more"
+      "This config, under this load, at this moment produced these numbers: nothing more"
     ],
     "answer": 3,
     "explain": "Day 42: a single data point is not a comparison, a scaling law, or a saturation test. To claim one engine is faster you need a comparison run; to claim it scales you must vary the load; to judge quality you need the Day 44 eval. One run only pins down this exact config at this moment."
@@ -53,7 +53,7 @@ then submit to reveal explanations and your score band.
       "Time-to-first-token only"
     ],
     "answer": 0,
-    "explain": "capsule benchmark drives the inference server with InferenceMAX and reports throughput (tokens/sec), latency percentiles (TTFT/ITL p50/p99), and cost-per-token — exactly the Phase-1 vocabulary built up over prior weeks. Training metrics are a distractor: a benchmark drives inference, it does not train."
+    "explain": "capsule benchmark drives the inference server with InferenceMAX and reports throughput (tokens/sec), latency percentiles (TTFT/ITL p50/p99), and cost-per-token: exactly the Phase-1 vocabulary built up over prior weeks. Training metrics are a distractor: a benchmark drives inference, it does not train."
   },
   {
     "stem": "Which four serving backends does `capsule benchmark` support?",
@@ -86,7 +86,7 @@ then submit to reveal explanations and your score band.
       "The number of simultaneous in-flight requests"
     ],
     "answer": 2,
-    "explain": "`--num-prompts` (`-n`) is the total number of requests sent; `--concurrency` is how many are in flight at once. Run size is set by `--num-prompts` (default: concurrency × 10), not by any duration flag — there is no `--duration` in capsule benchmark."
+    "explain": "`--num-prompts` (`-n`) is the total number of requests sent; `--concurrency` is how many are in flight at once. Run size is set by `--num-prompts` (default: concurrency × 10), not by any duration flag; there is no `--duration` in capsule benchmark."
   },
   {
     "stem": "By default, where do the results of a `capsule benchmark` run go?",
@@ -97,7 +97,7 @@ then submit to reveal explanations and your score band.
       "They print to stdout and are then discarded"
     ],
     "answer": 1,
-    "explain": "Every run uploads to the benchmark dashboard by default, keyed to the model + config — the durable, shareable home for throughput, latency, and cost-per-token. Pass `--no-upload` while iterating to keep noisy in-progress runs off the shared dashboard. There is no `/shared/runs/` directory convention."
+    "explain": "Every run uploads to the benchmark dashboard by default, keyed to the model + config: the durable, shareable home for throughput, latency, and cost-per-token. Pass `--no-upload` while iterating to keep noisy in-progress runs off the shared dashboard. There is no `/shared/runs/` directory convention."
   },
   {
     "stem": "What is the minimum-viable command to benchmark a model on a leased node?",
@@ -163,7 +163,7 @@ then submit to reveal explanations and your score band.
       "Doubles per-request latency"
     ],
     "answer": 2,
-    "explain": "FP8 doubles memory bandwidth and compute density, so throughput rises ~1.5–2× and smaller weights load faster (TTFT may drop). Precision loss can shave quality a little — which is exactly why you run the Day 44 eval suite alongside the speed numbers instead of trusting throughput alone."
+    "explain": "FP8 doubles memory bandwidth and compute density, so throughput rises ~1.5–2× and smaller weights load faster (TTFT may drop). Precision loss can shave quality a little: which is exactly why you run the Day 44 eval suite alongside the speed numbers instead of trusting throughput alone."
   },
   {
     "stem": "Running benchmarks back-to-back on one node, which is a real confounding variable and its mitigation?",
@@ -179,13 +179,13 @@ then submit to reveal explanations and your score band.
   {
     "stem": "An 8B model at TP=4 shows throughput barely above TP=2 and GPU compute util of only 0.35. Which regime is this?",
     "options": [
-      "Memory bandwidth-bound — quantization helps most",
-      "Compute-bound — a faster GPU helps most",
-      "I/O-bound — weight loading from disk dominates",
-      "Communication-bound — drop TP or move to a larger model"
+      "Memory bandwidth-bound: quantization helps most",
+      "Compute-bound: a faster GPU helps most",
+      "I/O-bound: weight loading from disk dominates",
+      "Communication-bound: drop TP or move to a larger model"
     ],
     "answer": 3,
-    "explain": "Day 43's third regime: high TP on a small model. Adding GPUs barely improves per-step time because all-reduce overhead dominates, and compute util stays low because each GPU has too little work. The fix is fewer GPUs (lower TP) or a bigger model — not more quant or a faster GPU."
+    "explain": "Day 43's third regime: high TP on a small model. Adding GPUs barely improves per-step time because all-reduce overhead dominates, and compute util stays low because each GPU has too little work. The fix is fewer GPUs (lower TP) or a bigger model: not more quant or a faster GPU."
   },
   {
     "stem": "The sweep template varies one axis at a time and holds everything else fixed. Why?",
@@ -196,12 +196,12 @@ then submit to reveal explanations and your score band.
       "Because the dashboard can only plot one run at a time"
     ],
     "answer": 0,
-    "explain": "If you change concurrency AND quantization together, a throughput shift can't be pinned on either — the experiment is confounded. Isolating one variable is what lets each observed change map back to a single Phase-1 concept you can name."
+    "explain": "If you change concurrency AND quantization together, a throughput shift can't be pinned on either; the experiment is confounded. Isolating one variable is what lets each observed change map back to a single Phase-1 concept you can name."
   },
   {
     "stem": "A new config is 30% faster but fails your eval suite on medical prompts. The right conclusion is:",
     "options": [
-      "Ship it — throughput is the SLA metric",
+      "Ship it; throughput is the SLA metric",
       "A fast config that gives worse answers is a worse config; throughput is not quality",
       "The eval suite must be wrong",
       "Add more GPU memory and re-run"
@@ -218,7 +218,7 @@ then submit to reveal explanations and your score band.
       "100+ prompts, always required for statistical significance"
     ],
     "answer": 2,
-    "explain": "Day 44 frames 5–10 curated prompts as a smoke test — enough to flag when a config change breaks a capability you care about. It is NOT production certification; validating general quality needs the far broader eval setup from Week 5 Day 23."
+    "explain": "Day 44 frames 5–10 curated prompts as a smoke test: enough to flag when a config change breaks a capability you care about. It is NOT production certification; validating general quality needs the far broader eval setup from Week 5 Day 23."
   },
   {
     "stem": "In the eval suite, how do a 'refusal probe' and a 'safety probe' differ?",
@@ -240,7 +240,7 @@ then submit to reveal explanations and your score band.
       "Match a database query at < 1 ms"
     ],
     "answer": 1,
-    "explain": "Day 44's felt-latency table: below ~600 ms TTFT feels snappy, and ~30–60 tok/s matches reading pace. For agent/tool calls with no human reading the stream you instead push throughput as high as possible — felt latency stops mattering."
+    "explain": "Day 44's felt-latency table: below ~600 ms TTFT feels snappy, and ~30–60 tok/s matches reading pace. For agent/tool calls with no human reading the stream you instead push throughput as high as possible; felt latency stops mattering."
   },
   {
     "stem": "What does 'streaming smoothness' in the chat UI reveal that a benchmark percentile can hide?",
@@ -251,7 +251,7 @@ then submit to reveal explanations and your score band.
       "Network bandwidth to your laptop"
     ],
     "answer": 0,
-    "explain": "ITL p50 might be 18 ms while p99 is 200 ms — an occasional jarring pause you only notice by watching the stream. Percentiles give you the numbers; the chat UI shows whether those numbers translate into a smooth felt experience."
+    "explain": "ITL p50 might be 18 ms while p99 is 200 ms: an occasional jarring pause you only notice by watching the stream. Percentiles give you the numbers; the chat UI shows whether those numbers translate into a smooth felt experience."
   },
   {
     "stem": "What kind of tool is `capsule schedule`?",
@@ -262,7 +262,7 @@ then submit to reveal explanations and your score band.
       "A wrapper that reruns `capsule benchmark` in a loop until cancelled"
     ],
     "answer": 2,
-    "explain": "`capsule schedule` queues a script, dispatches it to an available node, and runs it once as a detached daemon that survives SSH/session teardown. It is NOT cron — there is no `--cron` and no recurrence. A real nightly cadence comes from an external cron/CI trigger that calls `capsule schedule start`."
+    "explain": "`capsule schedule` queues a script, dispatches it to an available node, and runs it once as a detached daemon that survives SSH/session teardown. It is NOT cron; there is no `--cron` and no recurrence. A real nightly cadence comes from an external cron/CI trigger that calls `capsule schedule start`."
   },
   {
     "stem": "Which command submits a benchmark script to a node pool as a one-shot detached job?",
@@ -291,16 +291,16 @@ then submit to reveal explanations and your score band.
     "options": [
       "Access to faster GPU hardware",
       "Encrypted communication with the control plane",
-      "An MCP-capable assistant can call Capsule actions as tools — list/filter machines, run a benchmark via capsule_exec, move files",
+      "An MCP-capable assistant can call Capsule actions as tools: list/filter machines, run a benchmark via capsule_exec, move files",
       "Support for more concurrency levels than the CLI"
     ],
     "answer": 2,
-    "explain": "`capsule mcp` installs a Model Context Protocol config so an assistant (Claude Desktop / Claude Code) can drive Capsule as tools — the same set `capsule agent` uses: capsule_list, capsule_filter, capsule_exec, capsule_scp_upload/download. The Week 6 agent you designed can now discover a machine, kick a benchmark, and pull results back."
+    "explain": "`capsule mcp` installs a Model Context Protocol config so an assistant (Claude Desktop / Claude Code) can drive Capsule as tools: the same set `capsule agent` uses: capsule_list, capsule_filter, capsule_exec, capsule_scp_upload/download. The Week 6 agent you designed can now discover a machine, kick a benchmark, and pull results back."
   },
   {
     "stem": "A benchmark-running agent calls write tools like `capsule_exec`. Which governance controls matter most?",
     "options": [
-      "None — benchmark agents are read-only",
+      "None: benchmark agents are read-only",
       "Runtime/session cap, cost budget, scoped least-privilege credentials, and an audit trail",
       "A bigger model for the agent",
       "More GPUs in the pool"
@@ -316,17 +316,13 @@ then submit to reveal explanations and your score band.
 
 <div class="grid cards" markdown>
 
--   __Record your result__
-
-    Use **Retake** and **Copy progress JSON** in the check above to log the attempt in `docs/progress/`.
-
 -   __Back to today's lesson__
 
     [Day 45 · Consolidation](index.md)
 
 -   __Back to the week__
 
-    [Week 9 — Capsule: Benchmarking &amp; Eval overview](../index.md)
+    [Week 9 - Capsule: Benchmarking &amp; Eval overview](../index.md)
 
 -   __Continue the curriculum__
 

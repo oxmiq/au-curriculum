@@ -1,7 +1,7 @@
 # Day 11 · Prefill and Decode
 
 > **Concept of the day:** the two phases of inference. **Prefill** = parallel, compute-bound, drives TTFT. **Decode** = sequential, memory-bound, drives TPS.<br>
-> **Pre-reading:** "Prefill vs decode" explainer — <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering Best Practices</a> (read the prefill/decode section).
+> **Pre-reading:** "Prefill vs decode" explainer: <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks - LLM Inference Performance Engineering Best Practices</a> (read the prefill/decode section).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 3 — Attention &amp; KV Cache</a>
+    <a href="../">Week 3 - Attention &amp; KV Cache</a>
     <span class="sep">/</span>
     <span>Day 11 · Prefill vs Decode</span>
     {status:week-03/module-1}
@@ -35,10 +35,10 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 ### Before You Start
 
-You should have already read: "Prefill vs decode" explainer — Pre-Lecture Reading **Reader 4 (attention math)** and Reader 6 sections on serving.
+You should have already read: "Prefill vs decode" explainer: Pre-Lecture Reading **Reader 4 (attention math)** and Reader 6 sections on serving.
 
 ### Quick Self-Check
 
@@ -52,7 +52,7 @@ Answer these questions from memory:
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-03-m1-readiness" data-kind="readiness" data-draw="5" data-source="Databricks — LLM Inference Performance Engineering Best Practices">
+<div class="ox-self-check" data-widget="self-check" data-id="week-03-m1-readiness" data-kind="readiness" data-draw="5" data-source="Databricks - LLM Inference Performance Engineering Best Practices">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -61,10 +61,10 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Prefill processes one token at a time; decode processes all tokens in parallel",
       "Prefill processes all input tokens in parallel; decode generates one token at a time sequentially",
       "Prefill is for loading the model; decode is for running inference",
-      "There is no difference — they are the same thing"
+      "There is no difference; they are the same thing"
     ],
     "answer": 1,
-    "explain": "Prefill processes the entire input prompt at once — parallel computation over all tokens. Decode generates output token-by-token — sequential because each token depends on all previous tokens."
+    "explain": "Prefill processes the entire input prompt at once: parallel computation over all tokens. Decode generates output token-by-token: sequential because each token depends on all previous tokens."
   },
   {
     "stem": "Which phase is typically compute-bound?",
@@ -72,7 +72,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Decode",
       "Prefill",
       "Both are memory-bound",
-      "Neither — both are compute-bound"
+      "Neither: both are compute-bound"
     ],
     "answer": 1,
     "explain": "Prefill is compute-bound because it processes many tokens in parallel, doing massive matrix multiplications. There's lots of compute per byte of memory read, so it hits the compute ceiling."
@@ -83,7 +83,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Prefill",
       "Decode",
       "Both are compute-bound",
-      "Neither — both are memory-bound"
+      "Neither: both are memory-bound"
     ],
     "answer": 1,
     "explain": "Decode is memory-bound because it generates one token at a time. The compute per new token is small, but you still need to read the full KV cache from HBM, resulting in low arithmetic intensity."
@@ -91,10 +91,10 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
   {
     "stem": "What does TTFT stand for, and what does it primarily depend on?",
     "options": [
-      "Time To First Token — primarily depends on decode phase speed",
-      "Time To First Token — primarily depends on prefill phase speed",
-      "Total Time For Training — depends on compute capacity",
-      "Token Transfer Fine Time — depends on network speed"
+      "Time To First Token: primarily depends on decode phase speed",
+      "Time To First Token: primarily depends on prefill phase speed",
+      "Total Time For Training: depends on compute capacity",
+      "Token Transfer Fine Time: depends on network speed"
     ],
     "answer": 1,
     "explain": "TTFT = Time To First Token. This is the latency from when a user sends a prompt to when they get the first token. It's dominated by the prefill phase since all input tokens must be processed before any output can begin."
@@ -102,10 +102,10 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
   {
     "stem": "What does TPS stand for, and what does it primarily depend on?",
     "options": [
-      "Tokens Per Second — primarily depends on prefill speed",
-      "Tokens Per Second — primarily depends on decode speed",
-      "Throughput Per Sequence — depends on batch size",
-      "Time Per Sequence — depends on model size"
+      "Tokens Per Second: primarily depends on prefill speed",
+      "Tokens Per Second: primarily depends on decode speed",
+      "Throughput Per Sequence: depends on batch size",
+      "Time Per Sequence: depends on model size"
     ],
     "answer": 1,
     "explain": "TPS = Tokens Per Second (or Inter-Token Latency). This measures how fast tokens are generated after the first one. It's dominated by the decode phase since each token requires reading the full KV cache."
@@ -127,16 +127,16 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Decode doesn't benefit from batching",
       "Decode is limited by compute, so faster GPUs help more",
       "Batching amortizes the memory read across multiple sequences, increasing effective compute per memory access",
-      "Batching doesn't help decode — only prefill"
+      "Batching doesn't help decode: only prefill"
     ],
     "answer": 2,
-    "explain": "Decode is memory-bound because one token has low compute. Batching multiple decodes together amortizes the HBM read — you do more compute per byte read. This increases arithmetic intensity, making batching the key to decode throughput."
+    "explain": "Decode is memory-bound because one token has low compute. Batching multiple decodes together amortizes the HBM read; you do more compute per byte read. This increases arithmetic intensity, making batching the key to decode throughput."
   },
   {
     "stem": "In the two-phase inference model, what is the 'memory-bound wall' that decode hits?",
     "options": [
       "The model runs out of VRAM",
-      "The GPU is waiting on data from HBM more than it's computing — limited by memory bandwidth",
+      "The GPU is waiting on data from HBM more than it's computing: limited by memory bandwidth",
       "The model is too large to fit in memory",
       "The GPU overheats"
     ],
@@ -149,12 +149,12 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — Prefill
-### Reading — The Two Phases
+## Part 2 - Core Concepts - Prefill
+### Reading - The Two Phases
 
 This is the conceptual hinge of the entire serving stack. Every metric, every engine, every parallelism choice in Weeks 4–5 is about *which phase* it optimizes. Confuse them and your latency/throughput trade-offs make no sense.
 
-### Prefill — Process All Input Tokens in Parallel
+### Prefill - Process All Input Tokens in Parallel
 
 > **Analogy: reading a whole book to build context.**
 
@@ -163,7 +163,7 @@ Given N input tokens, prefill runs them through the transformer as a single larg
 | Property | Prefill |
 |----------|---------|
 | **Processing** | Parallel across all N tokens |
-| **Bottleneck** | Compute-bound — high arithmetic intensity |
+| **Bottleneck** | Compute-bound: high arithmetic intensity |
 | **Time scales** | Linearly with N (short context), quadratically (attention layer, long context) |
 | **Produces** | First output token + initial KV cache |
 | **Metric** | **TTFT** (Time To First Token) |
@@ -177,8 +177,8 @@ Given N input tokens, prefill runs them through the transformer as a single larg
 
 ---
 
-## Part 3 — Core Concepts — Decode
-### Decode — One Token at a Time
+## Part 3 - Core Concepts - Decode
+### Decode - One Token at a Time
 
 > **Analogy: writing one word at a time.**
 
@@ -193,7 +193,7 @@ until stop
 
 | Property | Decode |
 |----------|--------|
-| **Processing** | Sequential — each token depends on previous |
+| **Processing** | Sequential: each token depends on previous |
 | **Bottleneck** | Memory-bound for single user |
 | **Time per token** | Scales with model size and HBM bandwidth |
 | **Metrics** | **ITL** (Inter-Token Latency), **TPS** (Tokens Per Second) |
@@ -207,13 +207,13 @@ until stop
 
 ### The Metrics
 
-- **ITL** — gap between consecutive output tokens
-- **TPS** = 1000 / ITL_ms — tokens per second per stream
+- **ITL** - gap between consecutive output tokens
+- **TPS** = 1000 / ITL_ms: tokens per second per stream
 
 ---
 
-## Part 4 — Visual Timeline
-### Reading — One Picture, Both Phases
+## Part 4 - Visual Timeline
+### Reading - One Picture, Both Phases
 
 ```
 time →
@@ -225,14 +225,14 @@ time →
 
 ### Annotate the Timeline
 
-1. **Prefill bar** — represents compute-bound phase
-2. **Decode train** — represents sequential memory-bound phase
-3. **TTFT** — time from request to first token (driven by prefill)
-4. **End-to-end latency** — TTFT + (tokens × ITL)
+1. **Prefill bar** - represents compute-bound phase
+2. **Decode train** - represents sequential memory-bound phase
+3. **TTFT** - time from request to first token (driven by prefill)
+4. **End-to-end latency** - TTFT + (tokens × ITL)
 
 ---
 
-## Part 5 — Hands-On — Calculate
+## Part 5 - Hands-On - Calculate
 ### Exercise 1: Sketch the Timeline
 
 Given a request with 1000 input + 500 output tokens:
@@ -257,7 +257,7 @@ Given a request with 1000 input + 500 output tokens:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -274,7 +274,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Prefill is limited by the network bandwidth between the user and the server"
     ],
     "answer": 1,
-    "explain": "During prefill, all input tokens are processed simultaneously in a single large matrix operation. This achieves high arithmetic intensity (operations per byte), saturating the Tensor Cores. The bottleneck is compute throughput — measured in TFLOPs."
+    "explain": "During prefill, all input tokens are processed simultaneously in a single large matrix operation. This achieves high arithmetic intensity (operations per byte), saturating the Tensor Cores. The bottleneck is compute throughput: measured in TFLOPs."
   },
   {
     "stem": "What makes decode memory-bound?",
@@ -285,7 +285,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Decode is limited by the PCIe bus connecting the GPU to the CPU"
     ],
     "answer": 1,
-    "explain": "Decode reads all model weights (~W bytes) to perform only ~2W operations per parameter — roughly 2 ops/byte vs H100's ridge of ~295 ops/byte. The GPU is starved: 99%+ of Tensor Cores idle while waiting for HBM reads. The bottleneck is memory bandwidth."
+    "explain": "Decode reads all model weights (~W bytes) to perform only ~2W operations per parameter: roughly 2 ops/byte vs H100's ridge of ~295 ops/byte. The GPU is starved: 99%+ of Tensor Cores idle while waiting for HBM reads. The bottleneck is memory bandwidth."
   },
   {
     "stem": "What metric does TTFT (Time To First Token) measure, and which inference phase drives it?",
@@ -296,7 +296,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Time to load model weights into GPU memory; driven by the embedding phase"
     ],
     "answer": 1,
-    "explain": "TTFT = time from request receipt to the first output token. The prefill phase must complete before the first token can be generated. Prefill processes all input tokens in parallel — so longer prompts have higher TTFT."
+    "explain": "TTFT = time from request receipt to the first output token. The prefill phase must complete before the first token can be generated. Prefill processes all input tokens in parallel; so longer prompts have higher TTFT."
   },
   {
     "stem": "What metric does TPS (Tokens Per Second) measure, and which phase drives it?",
@@ -307,13 +307,13 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "The total token throughput across all requests on a server; driven by batching"
     ],
     "answer": 1,
-    "explain": "TPS = output tokens generated per second per request during decode. Each decode step reads model weights from HBM to produce one token. The bottleneck is memory bandwidth — the faster HBM is read, the higher TPS."
+    "explain": "TPS = output tokens generated per second per request during decode. Each decode step reads model weights from HBM to produce one token. The bottleneck is memory bandwidth; the faster HBM is read, the higher TPS."
   },
   {
     "stem": "Why does decode take longer per token than prefill, despite each decode step processing only one token?",
     "options": [
       "Decode uses a larger model than prefill",
-      "Decode reads the entire KV cache and model weights for every single token — a memory-bound serial operation with no parallelism",
+      "Decode reads the entire KV cache and model weights for every single token: a memory-bound serial operation with no parallelism",
       "Decode must re-tokenize the output after each step",
       "Decode performs backpropagation to verify each generated token"
     ],
@@ -329,7 +329,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "GPU utilization, because higher utilization always means better performance"
     ],
     "answer": 1,
-    "explain": "Perceived responsiveness in chat is dominated by TTFT — users feel the response is 'instant' once streaming begins, even if the full response takes several more seconds. A low TTFT with moderate TPS feels fast; a high TTFT with fast TPS still feels slow."
+    "explain": "Perceived responsiveness in chat is dominated by TTFT; users feel the response is 'instant' once streaming begins, even if the full response takes several more seconds. A low TTFT with moderate TPS feels fast; a high TTFT with fast TPS still feels slow."
   },
   {
     "stem": "When the prefill phase finishes, what has it produced besides beginning the response?",
@@ -362,7 +362,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Arithmetic intensity is identical in both phases"
     ],
     "answer": 2,
-    "explain": "Part 2 states prefill reaches high arithmetic intensity — hundreds of ops per byte — so it saturates Tensor Cores (compute-bound). Part 3 states decode has low arithmetic intensity of ~2 ops/byte, so the GPU idles waiting on HBM (memory-bound)."
+    "explain": "Part 2 states prefill reaches high arithmetic intensity, hundreds of ops per byte, so it saturates Tensor Cores (compute-bound). Part 3 states decode has low arithmetic intensity of ~2 ops/byte, so the GPU idles waiting on HBM (memory-bound)."
   },
   {
     "stem": "The lesson relates TPS to Inter-Token Latency (ITL). What is the relationship?",
@@ -373,7 +373,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "TPS = ITL_ms / 1000"
     ],
     "answer": 1,
-    "explain": "Part 3 defines TPS = 1000 / ITL_ms — tokens per second per stream. ITL is the gap between consecutive output tokens; the smaller that gap, the higher the tokens-per-second rate. Both are decode-phase metrics."
+    "explain": "Part 3 defines TPS = 1000 / ITL_ms: tokens per second per stream. ITL is the gap between consecutive output tokens; the smaller that gap, the higher the tokens-per-second rate. Both are decode-phase metrics."
   }
 ]
 </script>
@@ -385,11 +385,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Tomorrow: the **KV cache** — the structure that makes decode possible at all, and the resource you spend the next three weeks trying to fit, share, and prune.
+Tomorrow: the **KV cache** - the structure that makes decode possible at all, and the resource you spend the next three weeks trying to fit, share, and prune.
 
 ### Pre-read for tomorrow (Day 12 · The KV Cache)
 
-- **Resource:** <a href="https://medium.com/@joaolages/kv-caching-explained-276520203249" target="_blank" rel="noopener">João Lages — KV Caching Explained</a>. Alternative: <a href="https://huggingface.co/docs/transformers/main/en/kv_cache" target="_blank" rel="noopener">Hugging Face — KV Cache in Transformers</a>.
+- **Resource:** <a href="https://medium.com/@joaolages/kv-caching-explained-276520203249" target="_blank" rel="noopener">João Lages - KV Caching Explained</a>. Alternative: <a href="https://huggingface.co/docs/transformers/main/en/kv_cache" target="_blank" rel="noopener">Hugging Face - KV Cache in Transformers</a>.
 - **Reflection questions:**
   1. What grows every time the model generates a token?
   2. Where in the transformer is the KV cache used?
@@ -399,5 +399,5 @@ Tomorrow: the **KV cache** — the structure that makes decode possible at all, 
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**: share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

@@ -1,7 +1,7 @@
 # Day 2 · Shell & Linux
 
 > **Concept of the day:** The shell as your primary tool. Pipes, redirects, grep, awk, basic scripting.<br>
-> **Pre-reading:** <a href="https://missing.csail.mit.edu/2020/course-shell/" target="_blank" rel="noopener">MIT Missing Semester — Shell chapter</a>.
+> **Pre-reading:** <a href="https://missing.csail.mit.edu/2020/course-shell/" target="_blank" rel="noopener">MIT Missing Semester - Shell chapter</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 1 — Orientation &amp; Foundations</a>
+    <a href="../">Week 1 - Orientation &amp; Foundations</a>
     <span class="sep">/</span>
     <span>Day 2 · Shell & Linux</span>
     {status:week-01/module-2}
@@ -35,16 +35,16 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 ### Before You Start
 
-You should have already read: <a href="https://missing.csail.mit.edu/2020/course-shell/" target="_blank" rel="noopener">MIT Missing Semester — Shell chapter</a>.
+You should have already read: <a href="https://missing.csail.mit.edu/2020/course-shell/" target="_blank" rel="noopener">MIT Missing Semester - Shell chapter</a>.
 
 ### Readiness Check
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-01-m2-readiness" data-kind="readiness" data-draw="5" data-source="MIT Missing Semester — Shell chapter">
+<div class="ox-self-check" data-widget="self-check" data-id="week-01-m2-readiness" data-kind="readiness" data-draw="5" data-source="MIT Missing Semester - Shell chapter">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -273,8 +273,8 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts Deep Dive
-### Reading — Shell Building Blocks
+## Part 2 - Core Concepts Deep Dive
+### Reading - Shell Building Blocks
 
 The shell is the interface between you and every system you'll touch this program: your laptop, the Capsule machines you connect to, the CI pipelines you'll trigger, the benchmarks you'll run. If you're slow in the shell, you're slow at everything.
 
@@ -293,7 +293,7 @@ The shell is the interface between you and every system you'll touch this progra
 | Loops | Repeat over a list | `for f in *.csv; do wc -l "$f"; done` |
 | Permissions `chmod` | Make a script executable | `chmod +x my_script.sh` |
 
-### Worked Example — Extract GPU 0 Utilization
+### Worked Example - Extract GPU 0 Utilization
 
 This is a real-world example you'll use in Week 9 when benchmarking:
 
@@ -305,15 +305,15 @@ nvidia-smi --query-gpu=index,utilization.gpu --format=csv,noheader,nounits \
 
 **Breakdown:**
 
-1. `nvidia-smi --query-gpu=index,utilization.gpu --format=csv,noheader,nounits` — queries GPU info in CSV format
-2. `grep "^0,"` — filters to only lines starting with "0," (GPU 0)
-3. `awk -F',' '{print $2}'` — splits by comma and prints the second field (utilization)
+1. `nvidia-smi --query-gpu=index,utilization.gpu --format=csv,noheader,nounits`: queries GPU info in CSV format
+2. `grep "^0,"`: filters to only lines starting with "0," (GPU 0)
+3. `awk -F',' '{print $2}'`: splits by comma and prints the second field (utilization)
 
 Each piece does one thing. Combined: a one-liner you'll use repeatedly in Week 9.
 
 ---
 
-## Part 3 — Hands-On — Navigation Exercises
+## Part 3 - Hands-On - Navigation Exercises
 ### Exercise 1: Basic Navigation
 
 Practice these commands in order:
@@ -354,7 +354,7 @@ ls -R ~/practice/shell
 
 ---
 
-## Part 4 — Hands-On — Data Processing
+## Part 4 - Hands-On - Data Processing
 ### Exercise 1: Pipes and Filters
 
 ```bash
@@ -397,7 +397,7 @@ Parse it to extract just the GPU index and utilization.
 
 ---
 
-## Part 5 — Hands-On — Scripting
+## Part 5 - Hands-On - Scripting
 ### Exercise: Write disk_watch.sh
 
 Write a bash script `disk_watch.sh` that:
@@ -430,7 +430,7 @@ chmod +x disk_watch.sh
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -668,7 +668,7 @@ Tomorrow: git. Version control is how multiple humans collaborate on the same sh
 
 ### Pre-read for tomorrow (Day 3 · Git Workflow)
 
-- **Resource:** <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian — Saving Changes</a> + <a href="https://www.atlassian.com/git/tutorials/using-branches" target="_blank" rel="noopener">Using Branches</a> + <a href="https://www.atlassian.com/git/tutorials/syncing" target="_blank" rel="noopener">Syncing</a>.
+- **Resource:** <a href="https://www.atlassian.com/git/tutorials/saving-changes" target="_blank" rel="noopener">Atlassian - Saving Changes</a> + <a href="https://www.atlassian.com/git/tutorials/using-branches" target="_blank" rel="noopener">Using Branches</a> + <a href="https://www.atlassian.com/git/tutorials/syncing" target="_blank" rel="noopener">Syncing</a>.
 - **Reflection questions:**
   1. What's the difference between `git commit` and `git push`?
   2. Why is "always work on a branch, never directly on main" a near-universal convention?
@@ -678,5 +678,5 @@ Tomorrow: git. Version control is how multiple humans collaborate on the same sh
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**: share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

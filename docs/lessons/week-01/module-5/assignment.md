@@ -2,7 +2,7 @@
 
 > **No standalone assignment for this day.**
 >
-> The week's main assignment is on the day where the substantive deliverable lands —
+> The week's main assignment is on the day where the substantive deliverable lands;
 > see [module-1/assignment.md](../module-1/assignment.md).
 >
 > Days without their own assignment still carry the lesson + knowledge check; the

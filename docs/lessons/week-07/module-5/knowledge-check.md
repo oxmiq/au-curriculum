@@ -4,7 +4,7 @@
     <span class="sep">/</span>
     <a href="../../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../../">Week 7 — Bridge: Theory Meets Tooling</a>
+    <a href="../../">Week 7 - Bridge: Theory Meets Tooling</a>
     <span class="sep">/</span>
     <a href="../">Day 35 · Consolidation</a>
     <span class="sep">/</span>
@@ -16,7 +16,7 @@
 # Week 7 Knowledge Check
 
 **Week 7 · Bridge: Theory Meets Tooling.** 30-question bank · **16 drawn per attempt** · aim for **strong (≥ 80%)**. This check is
-formative — it never blocks you — but it's the week's bar. Answer the drawn questions,
+formative, it never blocks you, but it's the week's bar. Answer the drawn questions,
 then submit to reveal explanations and your score band.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-07-m5-canonical" data-kind="wrap-up" data-draw="16" data-lesson="Week 7 · Bridge: Theory Meets Tooling" data-source="Canonical knowledge check">
@@ -39,10 +39,10 @@ then submit to reveal explanations and your score band.
       "Unrestricted tool access",
       "Human review of every single response before sending",
       "Read-only payment access plus hard human-escalation thresholds (refunds above a limit, disputes, complaint threads)",
-      "No governance — fully autonomous"
+      "No governance: fully autonomous"
     ],
     "answer": 2,
-    "explain": "Klarna's agent has read access to payment data but no direct payment-mutation access. Hard escalation rules route refunds above a threshold, disputed transactions, and complaint threads to a human — 'human-in-the-loop on the critical path' — rather than reviewing every response."
+    "explain": "Klarna's agent has read access to payment data but no direct payment-mutation access. Hard escalation rules route refunds above a threshold, disputed transactions, and complaint threads to a human, 'human-in-the-loop on the critical path', rather than reviewing every response."
   },
   {
     "stem": "Claude Code / Cursor represent what orchestration pattern?",
@@ -53,7 +53,7 @@ then submit to reveal explanations and your score band.
       "Hierarchical with sub-planners"
     ],
     "answer": 2,
-    "explain": "Claude Code and Cursor are single-agent harnesses: one model with a defined toolset (read_file, write_file, run_command, git_*) runs the loop. Orchestration is minimal — the work is in the prompt and tool design."
+    "explain": "Claude Code and Cursor are single-agent harnesses: one model with a defined toolset (read_file, write_file, run_command, git_*) runs the loop. Orchestration is minimal; the work is in the prompt and tool design."
   },
   {
     "stem": "For coding agents like Claude Code / Cursor, what makes their environment different from customer-service agents?",
@@ -86,7 +86,7 @@ then submit to reveal explanations and your score band.
       "Research agents run so few steps that model quality is irrelevant"
     ],
     "answer": 1,
-    "explain": "Day 32 concludes that for research agents tool quality is the bottleneck. Failures like misread financial tables, fabricated metrics, and HTML parsing errors are fixed with better tooling (convert tables to JSON, require citations, run specialized parsers before the LLM) — 'better tooling outperforms a better model on messy data.'"
+    "explain": "Day 32 concludes that for research agents tool quality is the bottleneck. Failures like misread financial tables, fabricated metrics, and HTML parsing errors are fixed with better tooling (convert tables to JSON, require citations, run specialized parsers before the LLM): 'better tooling outperforms a better model on messy data.'"
   },
   {
     "stem": "The five agent layers, from bottom to top, are:",
@@ -108,14 +108,14 @@ then submit to reveal explanations and your score band.
       "Orchestration"
     ],
     "answer": 3,
-    "explain": "Orchestration is the pattern that sequences intelligence + action — single-agent loops, planner-worker, supervisor-worker — deciding execution order, retries, and escalation. Governance instead bounds what the agent is allowed to do."
+    "explain": "Orchestration is the pattern that sequences intelligence + action, single-agent loops, planner-worker, supervisor-worker, deciding execution order, retries, and escalation. Governance instead bounds what the agent is allowed to do."
   },
   {
     "stem": "The Economics layer of the agent stack primarily deals with:",
     "options": [
       "Security and compliance",
       "Tool selection and execution",
-      "The cost model — per-task cost vs a human baseline, and latency/throughput/cost tradeoffs",
+      "The cost model: per-task cost vs a human baseline, and latency/throughput/cost tradeoffs",
       "Multi-agent communication protocols"
     ],
     "answer": 2,
@@ -125,7 +125,7 @@ then submit to reveal explanations and your score band.
     "stem": "Klarna's early agent apologized for problems that weren't Klarna's fault after several turns. Which layer did this failure originate in, and where was it fixed?",
     "options": [
       "It originated in Action and was fixed by adding a new API",
-      "It originated in the Intelligence layer (model output/tone) but was fixed at the Governance layer — a human-review step for threads with more than three complaint signals",
+      "It originated in the Intelligence layer (model output/tone) but was fixed at the Governance layer: a human-review step for threads with more than three complaint signals",
       "It originated in Orchestration and was fixed by adding more sub-agents",
       "It originated in Economics and was fixed by switching to a cheaper model"
     ],
@@ -137,7 +137,7 @@ then submit to reveal explanations and your score band.
     "options": [
       "A managed cloud GPU rental marketplace",
       "A Python library for quantizing model weights",
-      "A remote development and application streaming platform — you stay on your laptop while terminals, editors, and desktops run on remote hardware and stream back",
+      "A remote development and application streaming platform: you stay on your laptop while terminals, editors, and desktops run on remote hardware and stream back",
       "A Kubernetes distribution you install on your own cluster"
     ],
     "answer": 2,
@@ -174,7 +174,7 @@ then submit to reveal explanations and your score band.
       "There is no fallback; SshRTC is mandatory"
     ],
     "answer": 2,
-    "explain": "Adding --direct bypasses the SshRTC (WebRTC) data channel for a direct TCP SSH connection — the documented fallback when WebRTC fails or for clean port-forwarding. First run capsule session endall to reset connection state, then retry."
+    "explain": "Adding --direct bypasses the SshRTC (WebRTC) data channel for a direct TCP SSH connection: the documented fallback when WebRTC fails or for clean port-forwarding. First run capsule session endall to reset connection state, then retry."
   },
   {
     "stem": "Where does the Capsule CLI store its config, cached token, and SSH keys?",
@@ -185,7 +185,7 @@ then submit to reveal explanations and your score band.
       "In the current working directory"
     ],
     "answer": 2,
-    "explain": "There is no ~/.capsule/. Capsule uses the OS config directory — $HOME/Library/Application Support/Capsule/ on macOS, %APPDATA%\\capsule on Windows — holding capsule.conf, the auto-generated capsule_rsa/capsule_rsa.pub keypair, and rclone.conf. The Azure B2C token is cached alongside (in the macOS Keychain where available)."
+    "explain": "There is no ~/.capsule/. Capsule uses the OS config directory, $HOME/Library/Application Support/Capsule/ on macOS, %APPDATA%\\capsule on Windows, holding capsule.conf, the auto-generated capsule_rsa/capsule_rsa.pub keypair, and rclone.conf. The Azure B2C token is cached alongside (in the macOS Keychain where available)."
   },
   {
     "stem": "How does capsule auth login authenticate you?",
@@ -201,13 +201,13 @@ then submit to reveal explanations and your score band.
   {
     "stem": "What is the difference between an 'environment' and a 'customer' in Capsule?",
     "options": [
-      "The environment is a backend deployment (prod/public/dev/demo — endpoint + B2C tenant); the customer is the fleet selector inside it that scopes which machines capsule list shows",
+      "The environment is a backend deployment (prod/public/dev/demo: endpoint + B2C tenant); the customer is the fleet selector inside it that scopes which machines capsule list shows",
       "The environment is a cluster of GPU machines; the customer is the billing account",
       "They are two names for the same setting",
       "The environment picks a GPU vendor; the customer picks a region"
     ],
     "answer": 0,
-    "explain": "An environment is a backend deployment set with capsule env set — it selects the API endpoint and Azure B2C tenant, NOT a cluster of machines. The customer selector (capsule config customer set; micc default, plus modelhosting/oneplay/cree8) scopes which fleet appears in capsule list."
+    "explain": "An environment is a backend deployment set with capsule env set; it selects the API endpoint and Azure B2C tenant, NOT a cluster of machines. The customer selector (capsule config customer set; micc default, plus modelhosting/oneplay/cree8) scopes which fleet appears in capsule list."
   },
   {
     "stem": "Why does switching environments with capsule env set force a fresh capsule auth login?",
@@ -218,7 +218,7 @@ then submit to reveal explanations and your score band.
       "Switching environments re-installs the CLI binary"
     ],
     "answer": 1,
-    "explain": "The token is scoped to an environment, and environments (e.g. public vs prod) use different B2C tenants — your prod account is not your public account. So capsule env set must be followed by a fresh capsule auth login."
+    "explain": "The token is scoped to an environment, and environments (e.g. public vs prod) use different B2C tenants; your prod account is not your public account. So capsule env set must be followed by a fresh capsule auth login."
   },
   {
     "stem": "capsule list is empty or shows the wrong machines. What should you check FIRST?",
@@ -240,7 +240,7 @@ then submit to reveal explanations and your score band.
       "A config-tag names a machine pool/class (any available member); a unique ID targets one specific physical machine; a machine is the box the scheduler hands you"
     ],
     "answer": 3,
-    "explain": "A config-tag is a pool/class name — the scheduler hands you any available member. A unique ID (e.g. boostergold461), used with -u/--unique, pins one specific physical machine. Run capsule list to see pools and capsule list --all to reveal unique IDs."
+    "explain": "A config-tag is a pool/class name; the scheduler hands you any available member. A unique ID (e.g. boostergold461), used with -u/--unique, pins one specific physical machine. Run capsule list to see pools and capsule list --all to reveal unique IDs."
   },
   {
     "stem": "How do you list every NVIDIA machine with at least 24 GB of VRAM?",
@@ -273,7 +273,7 @@ then submit to reveal explanations and your score band.
       "To display the billing owner of each machine"
     ],
     "answer": 2,
-    "explain": "Capsule has no lease/reservation system — you just connect and use a machine. capsule list --users is the sniff test showing which machines have active users, so you can pick a free one instead of blowing away a colleague's session."
+    "explain": "Capsule has no lease/reservation system; you just connect and use a machine. capsule list --users is the sniff test showing which machines have active users, so you can pick a free one instead of blowing away a colleague's session."
   },
   {
     "stem": "Capsule has no lease/reservation system. How do you manage and clean up your connections when done?",
@@ -281,10 +281,10 @@ then submit to reveal explanations and your score band.
       "capsule session list shows your active SshRTC tunnels; capsule session end closes one (by unique id, port, or session id) and capsule session endall closes them all",
       "capsule lease release returns the machine to the pool",
       "capsule disconnect --all ends every reservation",
-      "Nothing to clean up — sessions expire on a timer"
+      "Nothing to clean up: sessions expire on a timer"
     ],
     "answer": 0,
-    "explain": "You don't reserve machines — you connect and the machine is yours while the session is open, so cleanup is your responsibility. capsule session list enumerates your SshRTC data-channel tunnels; session end closes a specific one and session endall closes them all without disturbing others."
+    "explain": "You don't reserve machines; you connect and the machine is yours while the session is open, so cleanup is your responsibility. capsule session list enumerates your SshRTC data-channel tunnels; session end closes a specific one and session endall closes them all without disturbing others."
   },
   {
     "stem": "What are the exact four GH_TOKEN scopes required to install Capsule?",
@@ -295,7 +295,7 @@ then submit to reveal explanations and your score band.
       "repo, read:org, workflow, write:discussion"
     ],
     "answer": 0,
-    "explain": "The four scopes are repo (read the private tap and release downloads), read:org (verify org membership), workflow (workflow-triggered releases), and user (read the profile for identity). GH_TOKEN is used only at install/update time — runtime auth is Azure B2C."
+    "explain": "The four scopes are repo (read the private tap and release downloads), read:org (verify org membership), workflow (workflow-triggered releases), and user (read the profile for identity). GH_TOKEN is used only at install/update time; runtime auth is Azure B2C."
   },
   {
     "stem": "Why does the Capsule install include rclone?",
@@ -306,13 +306,13 @@ then submit to reveal explanations and your score band.
       "Capsule uses it under the hood for cloud storage mounts (OneDrive); you never call it directly but it must be on PATH"
     ],
     "answer": 3,
-    "explain": "rclone is a file-transfer tool Capsule uses for OneDrive cloud-storage mounts. capsule auth storage and the automatic OneDrive mount drive it — you never invoke it directly — but it must be on PATH. The brew formula installs it automatically on macOS."
+    "explain": "rclone is a file-transfer tool Capsule uses for OneDrive cloud-storage mounts. capsule auth storage and the automatic OneDrive mount drive it, you never invoke it directly, but it must be on PATH. The brew formula installs it automatically on macOS."
   },
   {
     "stem": "What is cap in the Capsule CLI?",
     "options": [
       "A separate, lighter client that supports only a subset of commands",
-      "A shortcut for capsule, created during install as a symlink (Unix/macOS) or batch wrapper (Windows) — cap list == capsule list",
+      "A shortcut for capsule, created during install as a symlink (Unix/macOS) or batch wrapper (Windows): cap list == capsule list",
       "A command that only exists on Windows",
       "There is no shortcut; you must always type capsule"
     ],
@@ -360,17 +360,13 @@ then submit to reveal explanations and your score band.
 
 <div class="grid cards" markdown>
 
--   __Record your result__
-
-    Use **Retake** and **Copy progress JSON** in the check above to log the attempt in `docs/progress/`.
-
 -   __Back to today's lesson__
 
     [Day 35 · Consolidation](index.md)
 
 -   __Back to the week__
 
-    [Week 7 — Bridge: Theory Meets Tooling overview](../index.md)
+    [Week 7 - Bridge: Theory Meets Tooling overview](../index.md)
 
 -   __Continue the curriculum__
 

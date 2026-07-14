@@ -1,13 +1,13 @@
 ---
 drift: |
-  Originally Day 38 of the former Capsule wk8. Now Day 37 of the new Ops week
+  Originally Day 38 of the former Capsule wk8. Now Day 36 of the new Ops week
   (week-08/module-1), unchanged in scope. Source-material link paths bumped one level deeper.
 ---
 
-# Day 37 · Connecting to Machines
+# Day 36 · Connecting to Machines
 
-> **Concept of the day:** `capsule term <config-tag>` opens a shell over the SshRTC data channel — no public-facing port needed, and Capsule auto-generates and manages the SSH keys for you. Session state lives in your home dir on the node and persists across reconnects. **Detach early, detach often** with `tmux` / `screen` — don't lose work to network blips.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-38-connecting-to-machines">Capsule Power-User Pre-Lecture Reading — Day 38 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5.
+> **Concept of the day:** `capsule term <config-tag>` opens a shell over the SshRTC data channel: no public-facing port needed, and Capsule auto-generates and manages the SSH keys for you. Session state lives in your home dir on the node and persists across reconnects. **Detach early, detach often** with `tmux` / `screen`; don't lose work to network blips.<br>
+> **Pre-reading:** <a href="../../../readings/capsule/#day-38-connecting-to-machines">Capsule Power-User Pre-Lecture Reading - Day 38 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -16,9 +16,9 @@ drift: |
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 8 — Capsule: Connections &amp; Operations</a>
+    <a href="../">Week 8 - Capsule: Connections &amp; Operations</a>
     <span class="sep">/</span>
-    <span>Day 37 · Connecting</span>
+    <span>Day 36 · Connecting</span>
     {status:week-08/module-1}
   </div>
 </div>
@@ -42,11 +42,11 @@ drift: |
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 
-### Reading — Why this matters
+### Reading - Why this matters
 
-This is the moment you're actually *on* a GPU machine. Everything else — env, lease, install — was setup. Get the connection workflow right and you save hours per week; get it wrong and you'll lose 4-hour benchmark runs to network hiccups.
+This is the moment you're actually *on* a GPU machine. Everything else, env, lease, install, was setup. Get the connection workflow right and you save hours per week; get it wrong and you'll lose 4-hour benchmark runs to network hiccups.
 
 ### Exercise: Self-Check
 
@@ -56,9 +56,9 @@ Before reading on, answer from memory:
 2. How does `capsule term` differ from raw `ssh`?
 3. What persists on the node between sessions? What doesn't?
 4. Why does every long-running command belong in `tmux`?
-5. How do you copy a file *out* of a node? (Preview of Day 38.)
+5. How do you copy a file *out* of a node? (Preview of Day 37.)
 
-If you can answer all five without scrolling down — skip to Part 5.
+If you can answer all five without scrolling down: skip to Part 5.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-08-m1-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Module 5">
 <script type="application/json" class="ox-self-check__pool">
@@ -105,7 +105,7 @@ If you can answer all five without scrolling down — skip to Part 5.
       "capsule stream <config-tag>"
     ],
     "answer": 0,
-    "explain": "`capsule exec <config-tag> \"<command>\"` runs one command on the remote and exits — ideal for scripted checks like `capsule exec gpu-server \"nvidia-smi\"`. `capsule term` opens a full interactive shell instead."
+    "explain": "`capsule exec <config-tag> \"<command>\"` runs one command on the remote and exits: ideal for scripted checks like `capsule exec gpu-server \"nvidia-smi\"`. `capsule term` opens a full interactive shell instead."
   },
   {
     "stem": "Which two commands open a remote IDE attached to the machine over Remote-SSH?",
@@ -145,11 +145,11 @@ If you can answer all five without scrolling down — skip to Part 5.
     "options": [
       "/tmp persists; your $HOME directory is wiped each session",
       "Files in your $HOME directory persist; files written to /tmp do not survive a reconnect",
-      "Neither persists — every session starts empty",
+      "Neither persists; every session starts empty",
       "Both persist permanently, so cleanup is never needed"
     ],
     "answer": 1,
-    "explain": "Files in your $HOME survive a reconnect (or container restart), while /tmp is ephemeral and disappears. If you write benchmark output to /tmp it will be gone after cleanup — use $HOME (or the OneDrive mount) for anything you want to keep."
+    "explain": "Files in your $HOME survive a reconnect (or container restart), while /tmp is ephemeral and disappears. If you write benchmark output to /tmp it will be gone after cleanup; use $HOME (or the OneDrive mount) for anything you want to keep."
   }
 ]
 </script>
@@ -157,9 +157,9 @@ If you can answer all five without scrolling down — skip to Part 5.
 
 ---
 
-## Part 2 — Core Concepts: The Connect Command
+## Part 2 - Core Concepts: The Connect Command
 
-### Reading — The connect command
+### Reading - The connect command
 
 ```
 capsule term <config-tag>                         # opens an interactive shell (SshRTC)
@@ -169,12 +169,12 @@ capsule ssh <config-tag> --options "-L 8080:localhost:8080"   # direct SSH + por
 
 Internally: the CLI asks the control plane to broker; control plane verifies your lease; node agent opens a session bound to your identity. No SSH keys exchanged, no `known_hosts` to manage.
 
-### Reading — Why not raw SSH?
+### Reading - Why not raw SSH?
 
 | Raw SSH | `capsule term` |
 |---|---|
 | Manage keys per user per node | Keys auto-generated and managed by Capsule |
-| Public SSH port must be reachable | SshRTC data channel — no public-facing port needed |
+| Public SSH port must be reachable | SshRTC data channel: no public-facing port needed |
 | Per-host port forwards by hand | `capsule ssh --options "-L …"` for clean forwarding |
 | Per-host `known_hosts` churn | None |
 | Multi-user etiquette: ad-hoc | Per-lease boundaries |
@@ -189,14 +189,14 @@ Look at `capsule exec <config-tag> "nvidia-smi"`:
 
 ---
 
-## Part 3 — Core Concepts: Session State & What Persists
+## Part 3 - Core Concepts: Session State & What Persists
 
-### Reading — What persists across reconnects
+### Reading - What persists across reconnects
 
 | Persists across reconnects | Lost on disconnect |
 |---|---|
 | Files in your `$HOME` | Foreground processes |
-| Files in the OneDrive mount (Day 38) | Shell history per-pane (unless saved) |
+| Files in the OneDrive mount (Day 37) | Shell history per-pane (unless saved) |
 | `tmux` sessions | Untracked shell jobs |
 | Installed packages (within your home dir / conda env) | Background jobs not in tmux/nohup |
 | Container images cached on node | Running containers (unless detached) |
@@ -215,9 +215,9 @@ For each item, answer "persists" or "lost on disconnect":
 
 ---
 
-## Part 4 — Deep Dive: tmux for Reliable Sessions
+## Part 4 - Deep Dive: tmux for Reliable Sessions
 
-### Reading — tmux quick survival
+### Reading - tmux quick survival
 
 ```
 tmux new -s work          # start a named session
@@ -233,7 +233,7 @@ tmux attach -t work       # attach to it (after reconnect)
 
 Every Capsule shell session: **first command is `tmux a || tmux new -s work`**.
 
-### Reading — The daily session pattern
+### Reading - The daily session pattern
 
 ```
 capsule term nv-h100-04-1
@@ -243,7 +243,7 @@ $ cd ~/myproject && ./run.sh     ← start work
 # Ctrl-b d                       ← detach when done or if network flakes
 ```
 
-The benchmark job keeps running. You can disconnect, commute, sleep — reconnect later and it's still there.
+The benchmark job keeps running. You can disconnect, commute, sleep; reconnect later and it's still there.
 
 ### Exercise: tmux Sequence
 
@@ -255,7 +255,7 @@ Without looking at reference material:
 
 ---
 
-## Part 5 — Hands-On: Connect, Detach, Reconnect
+## Part 5 - Hands-On: Connect, Detach, Reconnect
 
 ### Exercise: The Full Detach Test
 
@@ -268,13 +268,13 @@ Without looking at reference material:
 5. Start a *second* window in the same tmux session (`Ctrl-b c`). Verify both windows are visible with `tmux ls` showing 1 session, 2 windows.
 6. Stop the loop (`Ctrl-c`). Note the behaviour. Clean up.
 
-**Success criterion:** you completed steps 1–4 without any work loss — the loop was still running when you reattached.
+**Success criterion:** you completed steps 1–4 without any work loss; the loop was still running when you reattached.
 
 ---
 
-## Part 6 — Hands-On: Tunneling & Multi-User Etiquette
+## Part 6 - Hands-On: Tunneling & Multi-User Etiquette
 
-### Reading — Tunneling for local UIs
+### Reading - Tunneling for local UIs
 
 If you launch a vLLM server on the node listening on `:8000`:
 
@@ -286,7 +286,7 @@ curl localhost:8000/v1/models
 
 Same pattern for Jupyter, Grafana, any HTTP UI. The tunnel terminates when you disconnect.
 
-### Reading — Multi-user etiquette
+### Reading - Multi-user etiquette
 
 Even on a leased node, you're sharing with the platform:
 
@@ -295,7 +295,7 @@ Even on a leased node, you're sharing with the platform:
 - Clean up large temp files in `/tmp` before releasing.
 - Leave the node "no worse than you found it."
 
-### Reading — Connection failure modes
+### Reading - Connection failure modes
 
 | Symptom | Fix |
 |---|---|
@@ -308,31 +308,31 @@ Even on a leased node, you're sharing with the platform:
 
 1. Start `python -m http.server 8001` on the node (in a tmux window).
 2. In a *separate* local terminal, run `capsule ssh <config-tag> --options "-L 8001:localhost:8001"`.
-3. From your laptop: `curl http://localhost:8001/` — you should see a directory listing.
+3. From your laptop: `curl http://localhost:8001/`; you should see a directory listing.
 4. Disconnect the tunnel shell. Verify the tunnel drops (curl fails).
-5. Write your personal "connect checklist" — what do you do every time you connect? (3–5 steps.)
+5. Write your personal "connect checklist"; what do you do every time you connect? (3–5 steps.)
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 ### Self-check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-08-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 38 · Connecting to Machines">
+<div class="ox-self-check" data-widget="self-check" data-id="week-08-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 37 · Connecting to Machines">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
     "stem": "Why should you always start tmux before running any long job on a Capsule node?",
     "options": [
       "tmux provides GPU monitoring built-in",
-      "If your connection drops, tmux keeps the session running on the server — you can reconnect and reattach without losing work",
+      "If your connection drops, tmux keeps the session running on the server; you can reconnect and reattach without losing work",
       "tmux is required by Capsule for logging purposes",
       "tmux enables multiple users to share the same GPU"
     ],
     "answer": 1,
-    "explain": "Network connections can drop — VPN timeout, laptop sleep, ISP hiccup. Without tmux, a dropped connection kills your running process. With tmux, the session lives on the server. You reconnect with `capsule term` and reattach with `tmux attach`. Your benchmark keeps running."
+    "explain": "Network connections can drop: VPN timeout, laptop sleep, ISP hiccup. Without tmux, a dropped connection kills your running process. With tmux, the session lives on the server. You reconnect with `capsule term` and reattach with `tmux attach`. Your benchmark keeps running."
   },
   {
     "stem": "What is the correct tmux sequence to detach from a session without stopping it?",
@@ -343,7 +343,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Close the terminal window"
     ],
     "answer": 1,
-    "explain": "tmux prefix is Ctrl+B. Ctrl+B then D detaches from the session — the session keeps running on the server. To reattach: `tmux attach` or `tmux attach -t <session_name>`. Ctrl+C would send interrupt to the running process; Ctrl+Z suspends it; closing the terminal would kill a non-tmux session."
+    "explain": "tmux prefix is Ctrl+B. Ctrl+B then D detaches from the session; the session keeps running on the server. To reattach: `tmux attach` or `tmux attach -t <session_name>`. Ctrl+C would send interrupt to the running process; Ctrl+Z suspends it; closing the terminal would kill a non-tmux session."
   },
   {
     "stem": "What is the command to open a port tunnel from a node to your local machine?",
@@ -354,15 +354,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "`capsule tunnel open --from <node>:<port> --to localhost:<port>`"
     ],
     "answer": 0,
-    "explain": "Port-forwarding rides on a direct SSH connection: `capsule ssh <config-tag> --options \"-L <local_port>:localhost:<remote_port>\"`. Example: `--options \"-L 8080:localhost:8080\"` makes the node's port 8080 reachable at your local port 8080 — used for Jupyter notebooks, web UIs, and API servers on the GPU node. There is no `capsule port-forward`, `capsule tunnel`, or `--tunnel` flag."
+    "explain": "Port-forwarding rides on a direct SSH connection: `capsule ssh <config-tag> --options \"-L <local_port>:localhost:<remote_port>\"`. Example: `--options \"-L 8080:localhost:8080\"` makes the node's port 8080 reachable at your local port 8080: used for Jupyter notebooks, web UIs, and API servers on the GPU node. There is no `capsule port-forward`, `capsule tunnel`, or `--tunnel` flag."
   },
   {
     "stem": "This lesson's connection-failure-modes table lists four symptoms. Which option pairs each symptom with the correct fix?",
     "options": [
-      "Hardware failure, software crash, network outage, auth expiry — restart the machine for all four",
-      "DNS failure, TLS error, firewall block, rate limit — contact support for all four",
+      "Hardware failure, software crash, network outage, auth expiry: restart the machine for all four",
+      "DNS failure, TLS error, firewall block, rate limit: contact support for all four",
       "`capsule term` hangs → corporate proxy, set `HTTPS_PROXY` and `WSS_PROXY`; `permission denied` after lease → lease expired between list & connect, re-lease; `unhealthy node` mid-session → network/agent crash, reconnect after the agent recovers (your tmux survives); tunnel refuses port → port already in use, pick another port",
-      "GPU driver error, CUDA mismatch, out-of-memory, thermal throttle — reboot for all four"
+      "GPU driver error, CUDA mismatch, out-of-memory, thermal throttle: reboot for all four"
     ],
     "answer": 2,
     "explain": "Straight from the Part 6 table: (1) `capsule term` hangs → corporate proxy, set `HTTPS_PROXY` and `WSS_PROXY`; (2) `permission denied` after lease → the lease expired between listing and connecting, so re-lease; (3) `unhealthy node` mid-session → a network or agent crash, reconnect once the agent recovers (a tmux session that was already running survives); (4) tunnel refuses the port → it's already in use locally or remotely, pick another port. These are connection-workflow symptoms, not hardware failures."
@@ -387,18 +387,18 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "capsule ssh nv-h100-04-1 --options \"-L 8080:localhost:8080\""
     ],
     "answer": 1,
-    "explain": "`capsule exec <config-tag> \"<command>\"` runs a single command on the remote and exits, returning its output — ideal for scripted checks. `capsule term` opens a full interactive shell (more than you need), `capsule stream` opens a WebRTC desktop, and the `capsule ssh --options \"-L …\"` form is for port-forwarding, not a one-off command."
+    "explain": "`capsule exec <config-tag> \"<command>\"` runs a single command on the remote and exits, returning its output: ideal for scripted checks. `capsule term` opens a full interactive shell (more than you need), `capsule stream` opens a WebRTC desktop, and the `capsule ssh --options \"-L …\"` form is for port-forwarding, not a one-off command."
   },
   {
     "stem": "Your connection drops mid-session. Per the session-state table, which items survive on the node and which are lost?",
     "options": [
       "A foreground benchmark survives; your tmux session is lost",
       "Files in `$HOME` and a running tmux session survive; a foreground process not in tmux, and anything written to `/tmp`, are lost",
-      "Everything is wiped — the node restarts empty on every reconnect",
+      "Everything is wiped; the node restarts empty on every reconnect",
       "Only `/tmp` survives; `$HOME` is cleared each session"
     ],
     "answer": 1,
-    "explain": "Files in `$HOME` and detached tmux sessions persist across reconnects, so you reattach and your work is still there. Foreground processes (not inside tmux) die with the connection, and `/tmp` is ephemeral — gone after cleanup. That's why the rule is: anything you can't afford to lose runs inside tmux, and anything you want to keep goes in `$HOME` (or the OneDrive mount)."
+    "explain": "Files in `$HOME` and detached tmux sessions persist across reconnects, so you reattach and your work is still there. Foreground processes (not inside tmux) die with the connection, and `/tmp` is ephemeral: gone after cleanup. That's why the rule is: anything you can't afford to lose runs inside tmux, and anything you want to keep goes in `$HOME` (or the OneDrive mount)."
   },
   {
     "stem": "SshRTC connections are stalling. What's the documented first step to reset tunnel state before retrying?",
@@ -409,12 +409,12 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Reboot the remote node"
     ],
     "answer": 0,
-    "explain": "`capsule session endall` closes every active SshRTC data-channel tunnel on your machine at once, clearing stale connection state — the recommended first step when SshRTC misbehaves. Then retry; if it still fails, fall back to `--direct`. It does not touch your remote processes or other users' sessions."
+    "explain": "`capsule session endall` closes every active SshRTC data-channel tunnel on your machine at once, clearing stale connection state: the recommended first step when SshRTC misbehaves. Then retry; if it still fails, fall back to `--direct`. It does not touch your remote processes or other users' sessions."
   },
   {
     "stem": "You're working on a leased node that the platform still shares. Which practice matches the lesson's multi-user etiquette?",
     "options": [
-      "`sudo apt install` whatever you need — leases grant root by default",
+      "`sudo apt install` whatever you need; leases grant root by default",
       "Install project Python deps into a user-space conda/venv, avoid `sudo` system installs unless your lease allows it, and clean up large `/tmp` files before releasing",
       "Write all output to `/tmp` so the next user inherits your results",
       "Leave background jobs running after you release so others can reuse them"
@@ -428,11 +428,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect forward
 
-Tomorrow: **files, storage** — getting code in, getting results out, the auto-mounted OneDrive folder, when to use what.
+Tomorrow: **files, storage**: getting code in, getting results out, the auto-mounted OneDrive folder, when to use what.
 
-### Pre-read for tomorrow (Day 38 · Files & Storage)
+### Pre-read for tomorrow (Day 37 · Files & Storage)
 
-- **Resource:** <a href="../../../readings/capsule/#day-39-files-storage-streaming">Capsule Power-User Pre-Lecture Reading — Day 39 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-6-files-storage-and-the-onedrive-mount">Capsule Lab Guide</a> Modules 6 + 7.
+- **Resource:** <a href="../../../readings/capsule/#day-39-files-storage-streaming">Capsule Power-User Pre-Lecture Reading - Day 39 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-6-files-storage-and-the-onedrive-mount">Capsule Lab Guide</a> Modules 6 + 7.
 - **Reflection questions:**
   1. How do you copy a small file to / from a node? A 50 GB model checkpoint?
   2. What's the difference between the per-user home dir and the auto-mounted OneDrive folder?
@@ -442,4 +442,4 @@ Tomorrow: **files, storage** — getting code in, getting results out, the auto-
 
 ## Stuck?
 
-Ask **oxtutor** — describe the exact symptom (what command you ran, what output you got) and it will walk you through the failure-modes table.
+Ask **oxtutor**; describe the exact symptom (what command you ran, what output you got) and it will walk you through the failure-modes table.

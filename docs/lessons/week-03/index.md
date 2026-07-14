@@ -1,4 +1,4 @@
-# Week 3 · Inference Engineering — Attention & KV Cache
+# Week 3 · Inference Engineering - Attention & KV Cache
 
 > **Goal of the week:** understand the central resource management problem of serving LLMs.
 
@@ -44,13 +44,13 @@
 | 11 (Mon) | Prefill and Decode | Reader 4 + Study Guide §A.2 | [Day 1 · Prefill And Decode](module-1/index.md) |
 | 12 (Tue) | The KV Cache | Reader 4 + Study Guide §A.2 KV subsection | [Day 2 · Kv Cache](module-2/index.md) |
 | 13 (Wed) | FlashAttention & PagedAttention | Reader 4 FlashAttention section | [Day 3 · Flash And Paged Attention](module-3/index.md) |
-| 14 (Thu) | Quantization | Reader 7 — numerical precision | [Day 4 · Quantization](module-4/index.md) |
-| 15 (Fri) | **Consolidation** — memory-budget calculator | — | [module-5/index.md](module-5/index.md) |
+| 14 (Thu) | Quantization | Reader 7 - numerical precision | [Day 4 · Quantization](module-4/index.md) |
+| 15 (Fri) | **Consolidation** - memory-budget calculator | - | [module-5/index.md](module-5/index.md) |
 
-## Friday — the bar
+## Friday - the bar
 
 - **Canonical quiz:** prefill/decode, KV cache math, FP8/INT4 sizing. Item bank: Flashcards Days 11–14.
-- **[Assignment](module-1/assignment.md)** — **Memory budget calculator.** Given GPU (80 GB), model, context length, batch size → does it fit? What if you quantize to FP8? Worked example in Inference Engineering Worksheets.
+- **[Assignment](module-1/assignment.md)** - **Memory budget calculator.** Given GPU (80 GB), model, context length, batch size → does it fit? What if you quantize to FP8? Worked example in Inference Engineering Worksheets.
 
 ## Big-picture connect
 
@@ -58,4 +58,4 @@ Prefill = compute-bound. Decode = memory-bound. The KV cache is the resource you
 
 ## Stuck?
 
-Ask **oxtutor** to re-explain — the KV cache and quantization sensitivity ladder (weights → KV → activations → attention) are the highest-leverage concepts of the entire phase.
+Ask **oxtutor** to re-explain; the KV cache and quantization sensitivity ladder (weights → KV → activations → attention) are the highest-leverage concepts of the entire phase.

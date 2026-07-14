@@ -1,7 +1,7 @@
 # Day 6 · What Happens When You Send a Prompt
 
 > **Concept of the day:** the inference pipeline. Tokenize → embed → layers → logits → sample. One forward pass = one token out.<br>
-> **Pre-reading:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering</a> (read the inference-pipeline overview: prefill/decode, KV cache, batching).
+> **Pre-reading:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks - LLM Inference Performance Engineering</a> (read the inference-pipeline overview: prefill/decode, KV cache, batching).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 2 — The GPU &amp; Memory</a>
+    <a href="../">Week 2 - The GPU &amp; Memory</a>
     <span class="sep">/</span>
     <span>Day 6 · What Happens When You Send a Prompt</span>
     {status:week-02/module-1}
@@ -35,10 +35,10 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 ### Before You Start
 
-You should have already read: Inference Engineering Pre-Lecture Reading — **Reader 1 (AI in production)**.
+You should have already read: Inference Engineering Pre-Lecture Reading - **Reader 1 (AI in production)**.
 
 ### Quick Self-Check
 
@@ -54,7 +54,7 @@ If you couldn't answer all three, review the Pre-Lecture Reading again before pr
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-02-m1-readiness" data-kind="readiness" data-draw="5" data-source="Databricks — LLM Inference Performance Engineering">
+<div class="ox-self-check" data-widget="self-check" data-id="week-02-m1-readiness" data-kind="readiness" data-draw="5" data-source="Databricks - LLM Inference Performance Engineering">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -66,7 +66,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Training is done by researchers; inference is done by users"
     ],
     "answer": 1,
-    "explain": "Training modifies the model's weights through backpropagation. Inference is a forward pass only — the model reads its weights to generate predictions. This is the foundational difference that drives all inference optimization."
+    "explain": "Training modifies the model's weights through backpropagation. Inference is a forward pass only; the model reads its weights to generate predictions. This is the foundational difference that drives all inference optimization."
   },
   {
     "stem": "Why is inference often more expensive than training in the long run?",
@@ -77,7 +77,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Inference models are always larger than training models"
     ],
     "answer": 1,
-    "explain": "Training is a one-time cost (or periodic fine-tuning). Inference costs accumulate with every user query — millions of inferences over a model's lifetime often exceed the one-time training cost. This is why inference optimization matters."
+    "explain": "Training is a one-time cost (or periodic fine-tuning). Inference costs accumulate with every user query; millions of inferences over a model's lifetime often exceed the one-time training cost. This is why inference optimization matters."
   },
   {
     "stem": "What is the tokenization step in the inference pipeline?",
@@ -88,7 +88,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Encrypting the prompt for security"
     ],
     "answer": 1,
-    "explain": "Tokenization converts raw text into tokens — typically subword units (like 'un+likely' from 'unlikely'). The model operates on tokens, not raw characters. This is the first step in the pipeline."
+    "explain": "Tokenization converts raw text into tokens: typically subword units (like 'un+likely' from 'unlikely'). The model operates on tokens, not raw characters. This is the first step in the pipeline."
   },
   {
     "stem": "In the inference pipeline (tokenize → embed → layers → logits → sample), what do the 'layers' component do?",
@@ -121,7 +121,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "It stores user sessions"
     ],
     "answer": 1,
-    "explain": "KV caching stores the key and value matrices from attention computations. When generating token-by-token, the KVs for previous tokens are cached so they don't need to be recomputed — this is critical for decode-stage efficiency."
+    "explain": "KV caching stores the key and value matrices from attention computations. When generating token-by-token, the KVs for previous tokens are cached so they don't need to be recomputed; this is critical for decode-stage efficiency."
   },
   {
     "stem": "Why is batching important for inference cost?",
@@ -151,8 +151,8 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — Inference Pipeline
-### Reading — Why This Matters
+## Part 2 - Core Concepts: Inference Pipeline
+### Reading - Why This Matters
 
 Phase 1 (Weeks 2–5) is a four-week zoom-in on the **inference loop**. Before we open up the GPU (Day 7), the cache (Week 3), or the cluster (Week 4), you need a working mental model of what *actually happens* when a user hits send.
 
@@ -178,13 +178,13 @@ Then **loop** the layers→logits→sample steps. Each loop = one output token.
 
 ---
 
-## Part 3 — Deep Dive — Prefill vs Decode
-### Reading — Two Phases of Inference
+## Part 3 - Deep Dive: Prefill vs Decode
+### Reading - Two Phases of Inference
 
 ### Prefill
 
 - **What:** Run all your *input* tokens through the layers in one shot
-- **How:** Parallel — all tokens processed simultaneously
+- **How:** Parallel - all tokens processed simultaneously
 - **What it does:** Computes the initial hidden states for each input token
 - **Bottleneck:** Compute-bound (GPU is fully busy)
 - **Drives:** **TTFT** (Time To First Token)
@@ -192,7 +192,7 @@ Then **loop** the layers→logits→sample steps. Each loop = one output token.
 ### Decode
 
 - **What:** Generate output tokens one at a time
-- **How:** Sequential — each token depends on all previous tokens
+- **How:** Sequential - each token depends on all previous tokens
 - **What it does:** Uses KV cache from prefill to predict the next token
 - **Bottleneck:** Memory-bound (waiting for KV cache reads)
 - **Drives:** **TPS** (Tokens Per Second)
@@ -206,8 +206,8 @@ This distinction drives everything in Weeks 2-4.
 
 ---
 
-## Part 4 — Worked Example Analysis
-### Reading — Timeline of a Chat Request
+## Part 4 - Worked Example Analysis
+### Reading - Timeline of a Chat Request
 
 From the Pre-Lecture Reading:
 
@@ -219,21 +219,21 @@ From the Pre-Lecture Reading:
 | 30 ms | Request reaches load balancer, routed to data center |
 | 40 ms | Backend assembles prompt (system + history + question) |
 | 45 ms | Backend forwards input to inference server |
-| **45-200 ms** | **Prefill** — process all input tokens at once |
-| **200 ms** | **First token** ("Paris") is generated — TTFT |
-| 200-300 ms | **Decode** — generate remaining tokens one at a time |
+| **45-200 ms** | **Prefill** - process all input tokens at once |
+| **200 ms** | **First token** ("Paris") is generated - TTFT |
+| 200-300 ms | **Decode** - generate remaining tokens one at a time |
 | 300 ms | Stop token emitted, response complete |
 
 ### Annotate the Timeline
 
 1. **Where does TTFT live?** (Answer: 45-200 ms)
 2. **Where does end-to-end latency live?** (Answer: 45-300 ms)
-3. **What's happening in the 45-200 ms window?** (Answer: Prefill — compute-intensive)
-4. **What's happening in the 200-300 ms window?** (Answer: Decode — memory-intensive)
+3. **What's happening in the 45-200 ms window?** (Answer: Prefill - compute-intensive)
+4. **What's happening in the 200-300 ms window?** (Answer: Decode - memory-intensive)
 
 ---
 
-## Part 5 — Hands-On — Trace the Pipeline
+## Part 5 - Hands-On: Trace the Pipeline
 ### Exercise 1: Trace a Prompt
 
 On paper, trace a 5-word prompt through the pipeline. For each stage, annotate:
@@ -267,7 +267,7 @@ Given:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -300,10 +300,10 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "What drives TTFT (Time To First Token)?",
     "options": [
-      "The decode phase — how fast individual output tokens are generated",
-      "The prefill phase — how fast all input tokens are processed",
-      "The sampling step — how quickly the logits are converted to a token",
-      "The embedding step — how fast token IDs become vectors"
+      "The decode phase - how fast individual output tokens are generated",
+      "The prefill phase - how fast all input tokens are processed",
+      "The sampling step - how quickly the logits are converted to a token",
+      "The embedding step - how fast token IDs become vectors"
     ],
     "answer": 1,
     "explain": "TTFT is determined by the prefill phase. The first token can only be produced after all input tokens have been processed. Part 3 shows: TTFT occurs at the end of prefill (~200 ms in the worked example)."
@@ -322,10 +322,10 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "In the worked example timeline (Part 4), what is happening during the 45–200 ms window?",
     "options": [
-      "Decode — generating output tokens one at a time",
-      "Prefill — processing all input tokens in parallel",
+      "Decode - generating output tokens one at a time",
+      "Prefill - processing all input tokens in parallel",
       "Network transit from the user's browser to the data center",
-      "Sampling — selecting the final token from logits"
+      "Sampling - selecting the final token from logits"
     ],
     "answer": 1,
     "explain": "Part 4's timeline shows: 45–200 ms is the prefill window where all input tokens are processed simultaneously. This is compute-intensive. The first token ('Paris') is generated at 200 ms, which is the TTFT."
@@ -339,7 +339,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "It stores the final output to avoid re-running inference for repeated queries"
     ],
     "answer": 1,
-    "explain": "Without KV caching, each decode step would require recomputing attention over all previous tokens — O(N) work per token. KV caching stores those results so each decode step only processes the new token. This is why decode latency scales with sequence length, not re-computation."
+    "explain": "Without KV caching, each decode step would require recomputing attention over all previous tokens: O(N) work per token. KV caching stores those results so each decode step only processes the new token. This is why decode latency scales with sequence length, not re-computation."
   },
   {
     "stem": "Which phase of inference is compute-bound and which is memory-bound?",
@@ -355,13 +355,13 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "In the Part 5 exercise (1000 input tokens, 500 output tokens), how many decode forward passes are required?",
     "options": [
-      "500 — one decode pass per output token",
-      "1000 — one per input token",
-      "1500 — one per input and output token combined",
-      "1 — decode processes all output tokens in parallel"
+      "500 - one decode pass per output token",
+      "1000 - one per input token",
+      "1500 - one per input and output token combined",
+      "1 - decode processes all output tokens in parallel"
     ],
     "answer": 0,
-    "explain": "Part 5 works this out: prefill processes the 1000 input tokens (in parallel), then decode generates the 500 output tokens one at a time — so 500 decode passes. Total forward passes = 1000 + 500 = 1500, but only 500 of those are decode."
+    "explain": "Part 5 works this out: prefill processes the 1000 input tokens (in parallel), then decode generates the 500 output tokens one at a time: so 500 decode passes. Total forward passes = 1000 + 500 = 1500, but only 500 of those are decode."
   },
   {
     "stem": "Which throughput metric does the decode phase drive?",
@@ -372,7 +372,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "The embedding dimension"
     ],
     "answer": 2,
-    "explain": "Part 3 states decode 'Drives: TPS (Tokens Per Second)' because decode generates output tokens one at a time. Prefill, by contrast, drives TTFT — the time until the first token appears."
+    "explain": "Part 3 states decode 'Drives: TPS (Tokens Per Second)' because decode generates output tokens one at a time. Prefill, by contrast, drives TTFT: the time until the first token appears."
   }
 ]
 </script>
@@ -380,7 +380,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Tomorrow: we crack open the GPU itself — SMs, Tensor Cores, HBM. Today's "layers spend GPU time" becomes tomorrow's "*here's exactly where in the chip that time goes*."
+Tomorrow: we crack open the GPU itself: SMs, Tensor Cores, HBM. Today's "layers spend GPU time" becomes tomorrow's "*here's exactly where in the chip that time goes*."
 
 ### Pre-read for tomorrow (Day 7 · Meet the GPU)
 
@@ -394,5 +394,5 @@ Tomorrow: we crack open the GPU itself — SMs, Tensor Cores, HBM. Today's "laye
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**; share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

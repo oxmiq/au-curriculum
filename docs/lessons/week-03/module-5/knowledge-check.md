@@ -4,7 +4,7 @@
     <span class="sep">/</span>
     <a href="../../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../../">Week 3 — Attention &amp; KV Cache</a>
+    <a href="../../">Week 3 - Attention &amp; KV Cache</a>
     <span class="sep">/</span>
     <a href="../">Day 15 · Consolidation</a>
     <span class="sep">/</span>
@@ -16,7 +16,7 @@
 # Week 3 Knowledge Check
 
 **Week 3 · KV Cache, Attention, Quantization.** 29-question bank · **15 drawn per attempt** · aim for **strong (≥ 80%)**. This check is
-formative — it never blocks you — but it's the week's bar. Answer the drawn questions,
+formative, it never blocks you, but it's the week's bar. Answer the drawn questions,
 then submit to reveal explanations and your score band.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-03-m5-canonical" data-kind="wrap-up" data-draw="15" data-lesson="Week 3 · KV Cache, Attention, Quantization" data-source="Canonical knowledge check">
@@ -42,7 +42,7 @@ then submit to reveal explanations and your score band.
       "Network"
     ],
     "answer": 1,
-    "explain": "Memory-bound — each token re-reads all model weights from HBM."
+    "explain": "Memory-bound: each token re-reads all model weights from HBM."
   },
   {
     "stem": "The KV cache stores:",
@@ -75,7 +75,7 @@ then submit to reveal explanations and your score band.
       "1M"
     ],
     "answer": 2,
-    "explain": "128 KB/token × 131072 tokens = 16 GB — matches model size."
+    "explain": "128 KB/token × 131072 tokens = 16 GB: matches model size."
   },
   {
     "stem": "FlashAttention's speedup comes from:",
@@ -92,7 +92,7 @@ then submit to reveal explanations and your score band.
     "stem": "Is FlashAttention lossy?",
     "options": [
       "Yes, slightly",
-      "No — bit-identical output",
+      "No - bit-identical output",
       "Only for long context",
       "Only with FP8"
     ],
@@ -168,13 +168,13 @@ then submit to reveal explanations and your score band.
   {
     "stem": "How many output tokens does the prefill phase itself produce for a 1000-token prompt?",
     "options": [
-      "1000 — one per input token",
+      "1000 - one per input token",
       "Just the first output token; decode then generates the rest",
-      "Zero — prefill only builds the KV cache",
-      "500 — half the prompt length"
+      "Zero - prefill only builds the KV cache",
+      "500 - half the prompt length"
     ],
     "answer": 1,
-    "explain": "Prefill is a single parallel forward pass over the whole prompt that produces the first output token plus the initial KV cache. Decode loops one token at a time thereafter — prompt length does not equal output length."
+    "explain": "Prefill is a single parallel forward pass over the whole prompt that produces the first output token plus the initial KV cache. Decode loops one token at a time thereafter; prompt length does not equal output length."
   },
   {
     "stem": "Why is the KV cache the resource that defines a modern serving stack?",
@@ -185,7 +185,7 @@ then submit to reveal explanations and your score band.
       "It is required only at training time"
     ],
     "answer": 1,
-    "explain": "Every modern trick — paging, prefix sharing, FP8 KV, disaggregation — is about KV-cache management."
+    "explain": "Every modern trick, paging, prefix sharing, FP8 KV, disaggregation, is about KV-cache management."
   },
   {
     "stem": "Decode throughput improves far more from batching than from a faster single-stream GPU because:",
@@ -196,7 +196,7 @@ then submit to reveal explanations and your score band.
       "Batching converts decode into a compute-bound prefill"
     ],
     "answer": 2,
-    "explain": "Decode is memory-bound: one token does little compute but still reads all weights from HBM. Running many sequences together reuses each weight read across the batch, so effective ops/byte climbs and the GPU stops idling — the key to decode throughput."
+    "explain": "Decode is memory-bound: one token does little compute but still reads all weights from HBM. Running many sequences together reuses each weight read across the batch, so effective ops/byte climbs and the GPU stops idling: the key to decode throughput."
   },
   {
     "stem": "End-to-end latency for a request is computed as:",
@@ -218,7 +218,7 @@ then submit to reveal explanations and your score band.
       "Both run at ~2 ops/byte"
     ],
     "answer": 1,
-    "explain": "Prefill processes all tokens in parallel with high arithmetic intensity (hundreds of ops/byte), saturating Tensor Cores — compute-bound. Decode does ~2 ops/byte, far below the H100 ridge (~295), so the GPU idles on HBM reads — memory-bound."
+    "explain": "Prefill processes all tokens in parallel with high arithmetic intensity (hundreds of ops/byte), saturating Tensor Cores: compute-bound. Decode does ~2 ops/byte, far below the H100 ridge (~295), so the GPU idles on HBM reads: memory-bound."
   },
   {
     "stem": "The KV-cache size formula uses num_kv_heads × head_dim rather than hidden_size because:",
@@ -229,18 +229,18 @@ then submit to reveal explanations and your score band.
       "GQA/MQA share K and V across query heads, so the cache scales with the number of KV heads, not the full hidden width"
     ],
     "answer": 3,
-    "explain": "KV bytes = 2 × L × num_kv_heads × head_dim × seq_len × bytes_per_element. Using num_kv_heads (not hidden_size) is exactly what lets GQA/MQA shrink the cache — Llama-3.1-8B has 8 KV heads vs 32 query heads, a 4× reduction versus full multi-head attention."
+    "explain": "KV bytes = 2 × L × num_kv_heads × head_dim × seq_len × bytes_per_element. Using num_kv_heads (not hidden_size) is exactly what lets GQA/MQA shrink the cache: Llama-3.1-8B has 8 KV heads vs 32 query heads, a 4× reduction versus full multi-head attention."
   },
   {
     "stem": "Llama-3 uses 8 KV heads with 32 query heads. Versus full multi-head attention, this makes its KV cache:",
     "options": [
       "4× smaller",
       "4× larger",
-      "unchanged — GQA only affects query heads",
+      "unchanged - GQA only affects query heads",
       "32× smaller"
     ],
     "answer": 0,
-    "explain": "GQA groups the 32 query heads to share 8 KV heads, so num_kv_heads drops from 32 to 8 in the size formula — a 4× smaller KV cache than full MHA while keeping all 32 query heads."
+    "explain": "GQA groups the 32 query heads to share 8 KV heads, so num_kv_heads drops from 32 to 8 in the size formula: a 4× smaller KV cache than full MHA while keeping all 32 query heads."
   },
   {
     "stem": "Storing the KV cache in FP8 instead of FP16 for Llama-3.1-8B at 128K context changes its size from:",
@@ -248,7 +248,7 @@ then submit to reveal explanations and your score band.
       "16 GB to 32 GB",
       "16 GB to 8 GB",
       "8 GB to 16 GB",
-      "no change — precision does not affect cache size"
+      "no change - precision does not affect cache size"
     ],
     "answer": 1,
     "explain": "FP8 halves bytes_per_element (2 → 1), so the 128K KV cache drops from 16 GB to 8 GB. Then 8 GB KV + 16 GB weights = 24 GB, leaving 56 GB of an 80 GB H100 free for batching."
@@ -262,7 +262,7 @@ then submit to reveal explanations and your score band.
       "stores the KV cache in FP32"
     ],
     "answer": 0,
-    "explain": "Naive attention writes and re-reads the full N×N score matrix (QKᵀ, softmax, ×V) to and from HBM — O(N²) traffic. At N=32K with 32 heads that is tens of billions of elements, so the GPU sits far below its roofline waiting on memory."
+    "explain": "Naive attention writes and re-reads the full N×N score matrix (QKᵀ, softmax, ×V) to and from HBM: O(N²) traffic. At N=32K with 32 heads that is tens of billions of elements, so the GPU sits far below its roofline waiting on memory."
   },
   {
     "stem": "FlashAttention avoids writing the N×N matrix to HBM by:",
@@ -273,7 +273,7 @@ then submit to reveal explanations and your score band.
       "shortening the sequence with token merging before attention"
     ],
     "answer": 1,
-    "explain": "FlashAttention loads Q/K/V tiles into fast on-chip SRAM and accumulates a numerically stable online softmax (running max + denominator) block by block. Only the O(N)-sized output touches HBM, so the full N×N matrix is never materialized — and the result is bit-identical to naive attention."
+    "explain": "FlashAttention loads Q/K/V tiles into fast on-chip SRAM and accumulates a numerically stable online softmax (running max + denominator) block by block. Only the O(N)-sized output touches HBM, so the full N×N matrix is never materialized; and the result is bit-identical to naive attention."
   },
   {
     "stem": "In PagedAttention, KV cache is split into fixed-size blocks (typically ~16 tokens) that are located via:",
@@ -295,7 +295,7 @@ then submit to reveal explanations and your score band.
       "it has no effect on utilization"
     ],
     "answer": 1,
-    "explain": "By eliminating worst-case contiguous reservations, paging lifts KV-cache HBM utilization from ~20% to ~90%+ (2–4× more long-context throughput). Because blocks are referenced through block tables, a shared system prompt's blocks can be pointed to by many requests — so prefix caching costs nothing extra."
+    "explain": "By eliminating worst-case contiguous reservations, paging lifts KV-cache HBM utilization from ~20% to ~90%+ (2–4× more long-context throughput). Because blocks are referenced through block tables, a shared system prompt's blocks can be pointed to by many requests; so prefix caching costs nothing extra."
   },
   {
     "stem": "Per the precision ladder, how many bytes per parameter do INT4 and FP4/NF4 use, and how does that compare with FP16?",
@@ -306,7 +306,7 @@ then submit to reveal explanations and your score band.
       "0.25 bytes each; 8× smaller than FP16"
     ],
     "answer": 0,
-    "explain": "The precision table lists INT4 and FP4/NF4 at 0.5 bytes/param versus FP16's 2 bytes — a 4× reduction. Llama-3-8B is 16 GB at FP16 but only 4 GB at INT4."
+    "explain": "The precision table lists INT4 and FP4/NF4 at 0.5 bytes/param versus FP16's 2 bytes: a 4× reduction. Llama-3-8B is 16 GB at FP16 but only 4 GB at INT4."
   },
   {
     "stem": "The lesson's recommended 'modern Hopper sweet spot' starter quantization config is:",
@@ -322,13 +322,13 @@ then submit to reveal explanations and your score band.
   {
     "stem": "Well-calibrated FP8 quantization typically costs about how much on MMLU versus FP16?",
     "options": [
-      "greater than 10 points — noticeable degradation",
+      "greater than 10 points - noticeable degradation",
       "around 5 points",
-      "about 0.1–0.3 points — negligible for roughly 2× throughput",
-      "exactly zero — perfectly lossless for every model"
+      "about 0.1–0.3 points - negligible for roughly 2× throughput",
+      "exactly zero - perfectly lossless for every model"
     ],
     "answer": 2,
-    "explain": "Modern LLMs lose only ~0.1–0.3 MMLU points at FP8 for roughly 2× (memory) throughput — a strong trade. It is not truly lossless, and some architectures are more sensitive, so you always measure quality before deploying."
+    "explain": "Modern LLMs lose only ~0.1–0.3 MMLU points at FP8 for roughly 2× (memory) throughput: a strong trade. It is not truly lossless, and some architectures are more sensitive, so you always measure quality before deploying."
   },
   {
     "stem": "In the quantization sensitivity ladder, ordering components from LEAST to MOST sensitive gives:",
@@ -349,17 +349,13 @@ then submit to reveal explanations and your score band.
 
 <div class="grid cards" markdown>
 
--   __Record your result__
-
-    Use **Retake** and **Copy progress JSON** in the check above to log the attempt in `docs/progress/`.
-
 -   __Back to today's lesson__
 
     [Day 15 · Consolidation](index.md)
 
 -   __Back to the week__
 
-    [Week 3 — Attention &amp; KV Cache overview](../index.md)
+    [Week 3 - Attention &amp; KV Cache overview](../index.md)
 
 -   __Continue the curriculum__
 

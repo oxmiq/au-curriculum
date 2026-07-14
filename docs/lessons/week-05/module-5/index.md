@@ -1,4 +1,4 @@
-# Day 25 (Fri) · Week 5 — Phase 1 Wrap (Assessment)
+# Day 25 (Fri) · Week 5 - Phase 1 Wrap (Assessment)
 
 > **Phase 1 assessment.** This is the gate for Phase 2 (Prompt Engineering + Agents). Open-book, reasoning-focused.
 
@@ -9,7 +9,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 5 — Metrics &amp; Production</a>
+    <a href="../">Week 5 - Metrics &amp; Production</a>
     <span class="sep">/</span>
     <span>Day 25 · Phase 1 Wrap</span>
     {status:week-05/module-5}
@@ -27,7 +27,7 @@
 
 ## Self-Study Time Buckets
 
-This consolidation day is different from other days — it's for practice, review, and assessment. Here's how your ~3 hours are organized:
+This consolidation day is different from other days; it's for practice, review, and assessment. Here's how your ~3 hours are organized:
 
 | Time Bucket | Activity Type |
 |-------------|---------------|
@@ -44,11 +44,11 @@ This consolidation day is different from other days — it's for practice, revie
 
 ### Exercise: Take the Knowledge Check
 
-[Take the Phase 1 assessment](knowledge-check.md) — 15 questions covering Weeks 2-5.
+[Take the Phase 1 assessment](knowledge-check.md): 15 questions covering Weeks 2-5.
 
 **Passing score:** 10/15 (67%)
 
-This is **15% of the program grade**. The quiz is open-book — reasoning-focused.
+This is **15% of the program grade**. The quiz is open-book: reasoning-focused.
 
 ### If You Score Below Passing
 
@@ -65,22 +65,22 @@ This is **15% of the program grade**. The quiz is open-book — reasoning-focuse
 
 Go through each item and mark whether you can do it **without notes**:
 
-**Week 2 — GPU Hardware**
+**Week 2 - GPU Hardware**
 - [ ] Explain why decode dominates cost in chat workloads
 - [ ] Name three differences between H100 and A100
 - [ ] Draw the memory hierarchy (HBM → L2 → registers)
 
-**Week 3 — Attention & Quantization**
+**Week 3 - Attention & Quantization**
 - [ ] Explain what KV cache is and why it matters
 - [ ] Describe the difference between FP16 and FP8 quantization
 - [ ] Calculate memory requirements for a 70B model at TP=8
 
-**Week 4 — Serving Engines**
+**Week 4 - Serving Engines**
 - [ ] Name two serving engines and their key features
 - [ ] Explain continuous batching vs static batching
 - [ ] Describe speculative decoding
 
-**Week 5 — Metrics & Production**
+**Week 5 - Metrics & Production**
 - [ ] Define TTFT, ITL, TPS, P50, P95, P99
 - [ ] Explain the latency-throughput tradeoff
 - [ ] Build a cost model for a deployment
@@ -96,7 +96,7 @@ For any item you can't do:
 
 ---
 
-## 🟡 Bucket 3: Practice — Metric Review
+## 🟡 Bucket 3: Practice - Metric Review
 
 ### Hands-On: Metric Drills
 
@@ -122,7 +122,7 @@ Always report a ___ of metrics with ___, not a single ___.
 
 ---
 
-## 🟠 Bucket 4: Practice — Production Review
+## 🟠 Bucket 4: Practice - Production Review
 
 ### Hands-On: Production Drills
 
@@ -149,7 +149,7 @@ Draw the failure chain for "cold start during traffic spike":
 
 ---
 
-## 🔴 Bucket 5: Practice — Cost Model Review
+## 🔴 Bucket 5: Practice - Cost Model Review
 
 ### Hands-On: Cost Model Drills
 
@@ -187,9 +187,9 @@ Answer: ___, ___, ___, ___, ___
 This is open time. Choose what you need:
 
 1. **Catch up** on any assignments from Mon–Thu
-2. **Ask questions** — use oxtutor or review the relevant day
-3. **Extra practice** — generate more exercises on any concept
-4. **Complete your reflection assignment** — "The most important thing I learned in Weeks 2–5"
+2. **Ask questions** - use oxtutor or review the relevant day
+3. **Extra practice** - generate more exercises on any concept
+4. **Complete your reflection assignment** - "The most important thing I learned in Weeks 2–5"
 
 ### Phase 2 Pre-Reading
 
@@ -219,13 +219,13 @@ By Friday, you can defend a cost model.
 
 ## Stuck?
 
-Ask **oxtutor** to re-explain — Goodhart's Law and the percentile (P50/P95/P99) tension show up in every Friday discussion for the rest of the program.
+Ask **oxtutor** to re-explain; Goodhart's Law and the percentile (P50/P95/P99) tension show up in every Friday discussion for the rest of the program.
 
 ---
 
 ## Pre-read for Monday (Week 6 · Day 26 · Prompt Engineering)
 
-- **Resource:** <a href="../../../readings/prompt-engineering/#day-26-primer-why-the-same-question-gives-different-answers">Prompt Engineering Pre-Lecture Reading</a> — work through the Day 26 and Day 27 primers before Monday. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic Prompt Engineering Interactive Tutorial</a>.
+- **Resource:** <a href="../../../readings/prompt-engineering/#day-26-primer-why-the-same-question-gives-different-answers">Prompt Engineering Pre-Lecture Reading</a> - work through the Day 26 and Day 27 primers before Monday. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic Prompt Engineering Interactive Tutorial</a>.
 - **Reflection questions:**
   1. What's the difference between "prompting" and "prompt engineering"?
   2. Why does chain-of-thought work? What's happening inside the model?

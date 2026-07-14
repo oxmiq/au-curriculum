@@ -1,4 +1,4 @@
-# Day 46 (Fri) · Week 9 Consolidation
+# Day 45 (Fri) · Week 9 Consolidation
 
 > **Goal of the day:** consolidate Capsule benchmarking + evaluation. Timed end-to-end sprint, then seed your capstone charter.
 
@@ -9,9 +9,9 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 9 — Capsule: Benchmarking &amp; Eval</a>
+    <a href="../">Week 9 - Capsule: Benchmarking &amp; Eval</a>
     <span class="sep">/</span>
-    <span>Day 46 · Consolidation</span>
+    <span>Day 45 · Consolidation</span>
     {status:week-09/module-5}
   </div>
 </div>
@@ -25,7 +25,7 @@
 | 🟢 Bucket 2 | Self-Assessment: Full Bench-to-Dashboard Sprint |
 | 🟡 Bucket 3 | Benchmark Drills |
 | 🟠 Bucket 4 | Eval & Quality Drills |
-| 🔴 Bucket 5 | Capstone Seed — Draft Your Charter |
+| 🔴 Bucket 5 | Capstone Seed - Draft Your Charter |
 | 🟣 Bucket 6 | Open Lab & Week 10 Preview |
 
 ---
@@ -36,9 +36,9 @@
 
 ---
 
-## 🟢 Bucket 2: Self-Assessment — Full Bench-to-Dashboard Sprint
+## 🟢 Bucket 2: Self-Assessment - Full Bench-to-Dashboard Sprint
 
-**Timed — 20 min target.** Execute from scratch without notes:
+**Timed - 20 min target.** Execute from scratch without notes:
 
 1. Find an NVIDIA machine with ≥24 GB VRAM that has no active user
 2. Connect via VS Code
@@ -70,7 +70,7 @@ If you can do this in <20 minutes, you're ready for the Capstone.
 
 ---
 
-## 🔴 Bucket 5: Capstone Seed — Draft Your Charter
+## 🔴 Bucket 5: Capstone Seed - Draft Your Charter
 
 The capstone starts Monday. Today you draft your charter. Template fields to fill:
 
@@ -100,7 +100,7 @@ Can you fill in the brackets now (as a hypothesis)? If not, the charter is incom
 - Ask oxtutor to peer-review your charter draft
 - Catch up on any incomplete Week 9 assignments
 
-## Pre-read for Monday (Week 10 · Day 47 · Kickoff & Planning)
+## Pre-read for Monday (Week 10 · Day 46 · Kickoff & Planning)
 
 Resource: Capstone Guide + Day-46-Charter-Template. Questions to carry in:
 
@@ -112,4 +112,4 @@ Resource: Capstone Guide + Day-46-Charter-Template. Questions to carry in:
 
 ## Stuck?
 
-Ask **oxtutor** — the Week 9 → Week 10 bridge is the [Day-46 Charter Template](../../../../planning/source-material/Capstone/Day-46-Charter-Template.md), which assumes you can run all four Day 42–45 skills cold.
+Ask **oxtutor**; the Week 9 → Week 10 bridge is the [Day-46 Charter Template](../../../../planning/source-material/Capstone/Day-46-Charter-Template.md), which assumes you can run all four Day 41–44 skills cold.

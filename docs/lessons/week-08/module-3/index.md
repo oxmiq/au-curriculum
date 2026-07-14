@@ -1,6 +1,6 @@
-# Day 39 · Streaming
+# Day 38 · Streaming
 
-> **Concept of the day:** `capsule stream` gives you a live hardware-encoded desktop or single-app view of a remote machine. Know when to use it vs `capsule term`, how GPU hardware encoding works, and what backpressure / network sensitivity looks like.<br> **Pre-reading:** <a href="../../../readings/capsule/#day-39-files-storage-streaming">Capsule Power-User Pre-Lecture Reading — Day 39 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-7-streaming-containers">Capsule Lab Guide</a> Module 7.
+> **Concept of the day:** `capsule stream` gives you a live hardware-encoded desktop or single-app view of a remote machine. Know when to use it vs `capsule term`, how GPU hardware encoding works, and what backpressure / network sensitivity looks like.<br> **Pre-reading:** <a href="../../../readings/capsule/#day-39-files-storage-streaming">Capsule Power-User Pre-Lecture Reading - Day 39 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-7-streaming-containers">Capsule Lab Guide</a> Module 7.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -9,9 +9,9 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 8 — Capsule: Connections &amp; Operations</a>
+    <a href="../">Week 8 - Capsule: Connections &amp; Operations</a>
     <span class="sep">/</span>
-    <span>Day 39 · Streaming</span>
+    <span>Day 38 · Streaming</span>
     {status:week-08/module-3}
   </div>
 </div>
@@ -32,9 +32,9 @@
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 
-### Reading —
+### Reading -
 
 Before continuing, you should have read **Lab Guide Module 7** (Streaming). It covers:
 
@@ -110,7 +110,7 @@ Answer from memory:
       "For file transfers"
     ],
     "answer": 1,
-    "explain": "Streaming is better when you need to see visual output — GPU utilization graphs, desktop applications, TensorBoard, etc. Term is for quick command execution. Use streaming for visual/GUI tasks, term for shell commands."
+    "explain": "Streaming is better when you need to see visual output: GPU utilization graphs, desktop applications, TensorBoard, etc. Term is for quick command execution. Use streaming for visual/GUI tasks, term for shell commands."
   },
   {
     "stem": "When is `capsule term` clearly better than streaming?",
@@ -151,9 +151,9 @@ Answer from memory:
 
 ---
 
-## Part 2 — Core Concepts: Streaming Architecture
+## Part 2 - Core Concepts: Streaming Architecture
 
-### Reading —
+### Reading -
 
 **`capsule stream <config-tag>`** opens a hardware-encoded WebRTC stream of the remote machine's desktop (full desktop by default; single app with `--app <name>`).
 
@@ -177,13 +177,13 @@ Hardware encoders:
 | VAAPI | Intel or AMD GPU | Linux only |
 | VideoToolbox | Apple Silicon (M1+) | macOS only |
 
-The GPU does all encoding work — **negligible performance impact** on running workloads. Even with a stream open at 1080p/60fps, a training job on the same GPU loses < 1% throughput (encoder uses dedicated silicon, separate from compute cores).
+The GPU does all encoding work: **negligible performance impact** on running workloads. Even with a stream open at 1080p/60fps, a training job on the same GPU loses < 1% throughput (encoder uses dedicated silicon, separate from compute cores).
 
 **WebRTC transport:**
 
 Same channel as SshRTC but for video frames. Peer-to-peer by default (best latency). Falls back to TURN relay if direct peer-to-peer is blocked (corporate firewall, symmetric NAT). You can force TURN with `--turn` for testing.
 
-**`capsule docker <config-tag>` — companion command:**
+**`capsule docker <config-tag>` - companion command:**
 
 Launches an Ubuntu container on the remote machine, drops you into a shell. By default, the container has no GPU access:
 
@@ -206,9 +206,9 @@ The `-- --gpus all` passes Docker flags through the Capsule CLI to the container
 
 ---
 
-## Part 3 — Core Concepts: When to Stream vs Term/Exec
+## Part 3 - Core Concepts: When to Stream vs Term/Exec
 
-### Reading —
+### Reading -
 
 **Decision table:**
 
@@ -233,7 +233,7 @@ Streaming keeps a persistent video channel open. This costs:
 
 **Clipboard sync:**
 
-`capsule stream` includes bidirectional clipboard sync by default. Text copied in a local terminal is pasteable on the remote desktop, and vice versa. This is often the main reason to use streaming even for apps that could run headless — the clipboard workflow is faster than `capsule scp` for small snippets.
+`capsule stream` includes bidirectional clipboard sync by default. Text copied in a local terminal is pasteable on the remote desktop, and vice versa. This is often the main reason to use streaming even for apps that could run headless; the clipboard workflow is faster than `capsule scp` for small snippets.
 
 ### Exercise:
 
@@ -247,13 +247,13 @@ For each task, choose `stream` or `term/exec` and write one-sentence justificati
 
 ---
 
-## Part 4 — Hands-On: Launch Desktop Stream
+## Part 4 - Hands-On: Launch Desktop Stream
 
 ### Exercise:
 
 Work through the desktop streaming flow end-to-end.
 
-**Step 1 — Open a full desktop stream:**
+**Step 1 - Open a full desktop stream:**
 
 ```bash
 capsule stream <your-config-tag>
@@ -261,20 +261,20 @@ capsule stream <your-config-tag>
 
 Verify the desktop loads. Note the GPU listed in the stream quality overlay (if shown).
 
-**Step 2 — Test clipboard sync:**
+**Step 2 - Test clipboard sync:**
 
 1. In a local terminal, copy a short text string.
 2. Paste it on the remote desktop (right-click → paste, or Ctrl+V).
 3. On the remote desktop, copy a different string.
 4. Paste it in your local terminal. Confirm bidirectional sync works.
 
-**Step 3 — Single-app stream:**
+**Step 3 - Single-app stream:**
 
 1. Stop the full desktop stream.
 2. Launch with an installed application: `capsule stream <config-tag> --app firefox` (or another installed app on your machine).
 3. Verify the app opens in the stream window.
 
-**Step 4 — Comparison test:**
+**Step 4 - Comparison test:**
 
 1. Stop the stream.
 2. Open the same application via `capsule term`: SSH in, launch the app from the command line.
@@ -282,13 +282,13 @@ Verify the desktop loads. Note the GPU listed in the stream quality overlay (if 
 
 ---
 
-## Part 5 — Hands-On: App Streaming & Containers
+## Part 5 - Hands-On: App Streaming & Containers
 
 ### Exercise:
 
-**Part A — Container GPU access:**
+**Part A - Container GPU access:**
 
-1. `capsule docker <config-tag>` — enter an Ubuntu container. Run `nvidia-smi`. Record the output (should fail or show no devices).
+1. `capsule docker <config-tag>` - enter an Ubuntu container. Run `nvidia-smi`. Record the output (should fail or show no devices).
 2. Exit. Re-launch with `-- --gpus all`. Run `nvidia-smi` again. Record the output (should show GPU).
 3. Confirm GPU access with a minimal PyTorch check:
 
@@ -298,7 +298,7 @@ python3 -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device
 
 4. What would you change if you needed a specific Docker image instead of the default Ubuntu? (Hint: `--image` flag.)
 
-**Part B — Port forwarding alternative to streaming:**
+**Part B - Port forwarding alternative to streaming:**
 
 For web-based tools (JupyterLab, ComfyUI, Gradio), you can often use a direct SSH port-forward instead of full streaming:
 
@@ -306,20 +306,20 @@ For web-based tools (JupyterLab, ComfyUI, Gradio), you can often use a direct SS
 2. In a second local terminal, set up port forwarding: `capsule ssh <config-tag> --options "-L 8080:localhost:8080"`
 3. Open `http://localhost:8080` in your local browser. Confirm it shows the remote machine's directory listing.
 4. Stop the port forward and the server.
-5. For this use case (a web UI), which is better — `capsule stream` or port forwarding? Why?
+5. For this use case (a web UI), which is better: `capsule stream` or port forwarding? Why?
 
 ---
 
-## Part 6 — Core Concepts: Network Sensitivity & Failure Modes
+## Part 6 - Core Concepts: Network Sensitivity & Failure Modes
 
-### Reading —
+### Reading -
 
 WebRTC streaming is bandwidth-sensitive. Know the failure modes before users report them.
 
 | Symptom | Most likely cause | Diagnostic step | Fix |
 |---|---|---|---|
 | Video stutters / drops frames | Insufficient downlink bandwidth | Run a local speed test | Reduce stream quality or move to wired network |
-| Input lag > 200ms | TURN relay is active (latency to relay) | `capsule stream --no-turn` — does lag drop? | Check if direct P2P is possible; contact IT to unblock |
+| Input lag > 200ms | TURN relay is active (latency to relay) | `capsule stream --no-turn` - does lag drop? | Check if direct P2P is possible; contact IT to unblock |
 | Stream freezes, requires reconnect | Idle timeout or network hiccup | Check `--idle-timeout` setting | Add `--idle-timeout 30m`; reconnect manually |
 | GPU shows 90%+ in `nvidia-smi` during what should be idle | Normal for active stream + no workload | Confirm with `nvidia-smi dmon -s u` | This is expected; launch a real workload |
 | Stream opens but shows black screen | Display compositor not running on remote | SSH in; check if X server / Wayland is running | `systemctl status display-manager` on remote |
@@ -343,13 +343,13 @@ WebRTC streaming is bandwidth-sensitive. Know the failure modes before users rep
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 ### Self-check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-08-m3-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 39 · Capsule Streaming">
+<div class="ox-self-check" data-widget="self-check" data-id="week-08-m3-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 38 · Capsule Streaming">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -361,7 +361,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "The CPU handles all encoding to avoid impacting GPU compute workloads"
     ],
     "answer": 1,
-    "explain": "The Capsule streaming pipeline: GPU renders the frame (display output), the GPU's dedicated NVENC hardware encoder compresses it (separate silicon — doesn't impact compute), the H.264/H.265 stream is delivered over WebRTC to the client browser. This is why GPU utilization during streaming shows encoder activity separate from compute."
+    "explain": "The Capsule streaming pipeline: GPU renders the frame (display output), the GPU's dedicated NVENC hardware encoder compresses it (separate silicon: doesn't impact compute), the H.264/H.265 stream is delivered over WebRTC to the client browser. This is why GPU utilization during streaming shows encoder activity separate from compute."
   },
   {
     "stem": "When would you use `capsule stream` instead of `capsule term`?",
@@ -372,7 +372,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "stream for large files; term for small commands"
     ],
     "answer": 1,
-    "explain": "The stream vs term decision: use `capsule stream` when you need to see graphical output (running a GUI application, visual debugging, interactive demos). Use `capsule term` for pure CLI work — it's lower overhead and more suitable for scripted commands, benchmarks, and file operations."
+    "explain": "The stream vs term decision: use `capsule stream` when you need to see graphical output (running a GUI application, visual debugging, interactive demos). Use `capsule term` for pure CLI work; it's lower overhead and more suitable for scripted commands, benchmarks, and file operations."
   },
   {
     "stem": "What does the `--turn` flag enable in `capsule stream`?",
@@ -389,7 +389,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "Why does `nvidia-smi` showing high GPU utilization during an 'idle' stream not necessarily mean encoding is hurting your compute workload?",
     "options": [
       "nvidia-smi reports incorrect utilization for streaming workloads",
-      "The GPU's NVENC hardware encoder is separate silicon from the compute units (CUDA/Tensor Cores) — encoder utilization does not reduce compute throughput",
+      "The GPU's NVENC hardware encoder is separate silicon from the compute units (CUDA/Tensor Cores); encoder utilization does not reduce compute throughput",
       "Streaming automatically throttles when GPU compute is high",
       "GPU utilization during streaming is always below 10% regardless of activity"
     ],
@@ -400,19 +400,19 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "A user reports 'input lag makes streaming unusable.' Per the lesson's reliability rule, what is your FIRST diagnostic step?",
     "options": [
       "Restart the GPU and reconnect",
-      "Run a local speed test first — ~80% of 'streaming is slow' reports are a local network problem, not Capsule; only after that do you check whether a TURN relay is adding latency",
+      "Run a local speed test first; ~80% of 'streaming is slow' reports are a local network problem, not Capsule; only after that do you check whether a TURN relay is adding latency",
       "Immediately disable hardware encoding and fall back to software encoding",
       "Force the resolution down to 720p without checking anything else"
     ],
     "answer": 1,
-    "explain": "The Part 6 reliability rule: when users report input lag, always run a local speed test first before blaming the encoder or relay — 80% of 'streaming is slow' reports are a local network problem. Only after that do you test the transport: the failure-mode table maps 'input lag > 200ms' to an active TURN relay, diagnosed by forcing direct P2P with `capsule stream --no-turn` (does the lag drop?)."
+    "explain": "The Part 6 reliability rule: when users report input lag, always run a local speed test first before blaming the encoder or relay; 80% of 'streaming is slow' reports are a local network problem. Only after that do you test the transport: the failure-mode table maps 'input lag > 200ms' to an active TURN relay, diagnosed by forcing direct P2P with `capsule stream --no-turn` (does the lag drop?)."
   },
   {
     "stem": "You run `capsule docker <config-tag>` and `nvidia-smi` inside the container reports no NVIDIA devices. How do you get GPU access in the container?",
     "options": [
       "GPU access is impossible from a Capsule container",
       "Re-run `capsule auth login` first",
-      "Relaunch with `capsule docker <config-tag> -- --gpus all` — the `-- --gpus all` passes the Docker flag through to the container runtime",
+      "Relaunch with `capsule docker <config-tag> -- --gpus all`; the `-- --gpus all` passes the Docker flag through to the container runtime",
       "Add `--turn` to the command"
     ],
     "answer": 2,
@@ -432,8 +432,8 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "Capsule streaming connects peer-to-peer by default. When does it fall back to a TURN relay, and what's the tradeoff?",
     "options": [
-      "When direct P2P is blocked (corporate firewall, symmetric NAT), traffic relays through a TURN server — it guarantees connectivity but adds latency (~100–200ms via relay vs ~20–50ms local)",
-      "Never — Capsule streaming is always peer-to-peer",
+      "When direct P2P is blocked (corporate firewall, symmetric NAT), traffic relays through a TURN server; it guarantees connectivity but adds latency (~100–200ms via relay vs ~20–50ms local)",
+      "Never: Capsule streaming is always peer-to-peer",
       "When the GPU is busy, it relays to save compute",
       "On every connection, purely to encrypt the stream"
     ],
@@ -449,7 +449,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "The NVENC encoder is disabled; re-enable hardware encoding"
     ],
     "answer": 2,
-    "explain": "The failure-mode table maps 'stream opens but shows a black screen' to the display compositor not running on the remote. The diagnostic is to SSH in and check whether the X server / Wayland session is up (`systemctl status display-manager`). Bandwidth issues cause stutter/dropped frames, and relay latency causes input lag — different rows."
+    "explain": "The failure-mode table maps 'stream opens but shows a black screen' to the display compositor not running on the remote. The diagnostic is to SSH in and check whether the X server / Wayland session is up (`systemctl status display-manager`). Bandwidth issues cause stutter/dropped frames, and relay latency causes input lag: different rows."
   }
 ]
 </script>
@@ -457,11 +457,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Streaming is the gateway to interactive GPU workloads. When you run benchmarks next week (Day 42) or monitor training runs, you'll often have a stream open alongside a terminal — the combination of visual feedback + CLI control is the daily workflow.
+Streaming is the gateway to interactive GPU workloads. When you run benchmarks next week (Day 41) or monitor training runs, you'll often have a stream open alongside a terminal; the combination of visual feedback + CLI control is the daily workflow.
 
-### Pre-read for tomorrow (Day 40 · Known Quirks)
+### Pre-read for tomorrow (Day 39 · Known Quirks)
 
-- **Resource:** <a href="../../../readings/capsule/#day-40-consolidation-reliability-diagnostics">Capsule Power-User Pre-Lecture Reading — Day 40 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10 (Known Quirks).
+- **Resource:** <a href="../../../readings/capsule/#day-40-consolidation-reliability-diagnostics">Capsule Power-User Pre-Lecture Reading - Day 40 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10 (Known Quirks).
 - **Reflection questions:**
   1. What is `capsule session endall` and when do you run it?
   2. Name two symptoms whose first diagnostic step is `capsule config customer show`.

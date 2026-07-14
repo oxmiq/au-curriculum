@@ -1,7 +1,7 @@
-# Day 51 · Close
+# Day 50 · Close
 
 > **Concept of the day:** the program ends with **reflection, career mapping, and your story.** What did you learn? Where are you going? How does this become a portfolio piece an employer can read? Today is soft in structure and high in stakes for what happens next.<br>
-> **Source template:** [Day-50 Retrospective Form](../../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md) (source filename is `Day-50-...` from upstream capstone-relative naming; this is program Day 51).
+> **Source template:** [Day-50 Retrospective Form](../../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md) (source filename is `Day-50-...` from upstream capstone-relative naming; this is program Day 50).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,9 +10,9 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 10 — Capstone Project</a>
+    <a href="../">Week 10 - Capstone Project</a>
     <span class="sep">/</span>
-    <span>Day 51 · Close</span>
+    <span>Day 50 · Close</span>
     {status:week-10/module-5}
   </div>
 </div>
@@ -32,19 +32,19 @@
 
 ## Why this matters
 
-A capstone you can't talk about isn't a capstone. Day 51 turns Week 10 into a story you can tell in 60 seconds to a hiring manager — and a written artifact (your fork) they can read in 5 minutes.
+A capstone you can't talk about isn't a capstone. Day 50 turns Week 10 into a story you can tell in 60 seconds to a hiring manager: and a written artifact (your fork) they can read in 5 minutes.
 
 ## Today's milestones
 
-1. **Fill the retrospective form** ([template](../../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md)) — honestly.
-2. **1:1 individual feedback** from instructor — specific to your contribution, your strengths, your growth edges.
-3. **Career mapping session** — paths from here:
-   - **Hiring path** — Oxmiq + partner companies — what roles fit, what's the bar.
-   - **Portfolio path** — open-source contribution, blog posts, agent project on your fork.
-   - **Advanced study path** — specific resources for going deeper (research papers, courses).
-4. **Polish your fork as a portfolio piece** — the 60-second walkthrough.
+1. **Fill the retrospective form** ([template](../../../../planning/source-material/Capstone/Day-50-Retrospective-Form.md)) - honestly.
+2. **1:1 individual feedback** from instructor - specific to your contribution, your strengths, your growth edges.
+3. **Career mapping session** - paths from here:
+   - **Hiring path** - Oxmiq + partner companies: what roles fit, what's the bar.
+   - **Portfolio path** - open-source contribution, blog posts, agent project on your fork.
+   - **Advanced study path** - specific resources for going deeper (research papers, courses).
+4. **Polish your fork as a portfolio piece** - the 60-second walkthrough.
 
-## The retrospective — questions worth answering well
+## The retrospective - questions worth answering well
 
 (In addition to the form's specific questions.)
 
@@ -60,37 +60,37 @@ These become the substrate for your portfolio narrative.
 
 Your `docs/practice/` and capstone artifacts are public (within your fork). A hiring manager visiting your GitHub should see, in order:
 
-1. **README** at the fork root — 1 paragraph: what this is, what you did, link to capstone.
-2. **Capstone deck + report** — the slides + a 2-page write-up.
-3. **Practice quizzes** — evidence of weekly engagement.
-4. **Saturation curves + benchmark reports** (Week 9 artifacts) — evidence of technical depth.
-5. **Agent design** (Week 7 assignment) — evidence of systems thinking.
+1. **README** at the fork root - 1 paragraph: what this is, what you did, link to capstone.
+2. **Capstone deck + report** - the slides + a 2-page write-up.
+3. **Practice quizzes** - evidence of weekly engagement.
+4. **Saturation curves + benchmark reports** (Week 9 artifacts) - evidence of technical depth.
+5. **Agent design** (Week 7 assignment) - evidence of systems thinking.
 
 Spend ~60 min today writing the README and tidying. This is the single highest-ROI hour of the program *if you want a job*.
 
-## Career conversation — what to walk in with
+## Career conversation - what to walk in with
 
 - 60-second self-introduction. *"I'm \_\_\_\_, I spent 10 weeks at Oxmiq learning to deploy and benchmark LLMs on real GPU fleets. My capstone was \_\_\_\_, and the surprising result was \_\_\_\_."*
 - 3 things you want to be doing 6 months from now.
 - 1 question for the instructor / Oxmiq team.
 
-## Hiring path — what gets you in
+## Hiring path - what gets you in
 
 | Bar | Evidence |
 |---|---|
 | Fluent in Phase 1 vocabulary | Capstone Q&A, fork artifacts |
-| Can operate Capsule cold | Day 45 sprint + Day 48 execution log |
+| Can operate Capsule cold | Day 44 sprint + Day 47 execution log |
 | Designed an agent | Week 7 5-layer map (and ideally a stub MCP server in fork) |
-| Made a defensible recommendation | Capstone claim sentence + Day 50 grade |
+| Made a defensible recommendation | Capstone claim sentence + Day 49 grade |
 | Can teach a peer | Practice quizzes + Feynman teach-back artifacts |
 
 Bring all 5 to your conversation.
 
-## Self-check — Close
+## Self-check - Close
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-10-m5-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 51 · Close">
+<div class="ox-self-check" data-widget="self-check" data-id="week-10-m5-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 50 · Close">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -102,7 +102,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Did you meet your success criteria, did you finish on time, was the team effective, was the material clear, was the support adequate?"
     ],
     "answer": 1,
-    "explain": "The lesson's 5 retrospective questions: (1) most proud of, (2) most misunderstood at start of Week 1, (3) which week unlocked the most for you, (4) advice you'd give a Week 1 student, (5) one concept to go deeper on. Honest answers create a learning artifact that compounds — yours and the program's."
+    "explain": "The lesson's 5 retrospective questions: (1) most proud of, (2) most misunderstood at start of Week 1, (3) which week unlocked the most for you, (4) advice you'd give a Week 1 student, (5) one concept to go deeper on. Honest answers create a learning artifact that compounds: yours and the program's."
   },
   {
     "stem": "What 5 elements should your fork README cover to make it portfolio-grade?",
@@ -119,18 +119,18 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "What is the recommended format for a 60-second self-introduction for a technical role?",
     "options": [
       "Summarize your resume in reverse chronological order",
-      "One sentence on background, one on what you built in the program, one on what you proved (specific data), one on what you want to build next — all grounded in specifics, not adjectives",
+      "One sentence on background, one on what you built in the program, one on what you proved (specific data), one on what you want to build next: all grounded in specifics, not adjectives",
       "Name, school, GPA, internships, and technical skills",
       "Start with a question to engage the interviewer, then describe your experience"
     ],
     "answer": 1,
-    "explain": "The lesson's 60-second introduction pattern: '[Background sentence]. At Oxmiq × AU, I benchmarked [model] on [GPU] and achieved [specific TTFT/throughput] for [specific use case]. I deployed a [Week 7 agent] using Capsule MCP. I want to join [team] to [specific goal].' Every sentence has a number or system name — no adjectives like 'passionate' or 'hardworking.'"
+    "explain": "The lesson's 60-second introduction pattern: '[Background sentence]. At Oxmiq × AU, I benchmarked [model] on [GPU] and achieved [specific TTFT/throughput] for [specific use case]. I deployed a [Week 7 agent] using Capsule MCP. I want to join [team] to [specific goal].' Every sentence has a number or system name: no adjectives like 'passionate' or 'hardworking.'"
   },
   {
     "stem": "Why does the lesson say writing the portfolio README is the 'highest-ROI hour if you want a job'?",
     "options": [
       "Because the README is submitted as part of your final grade",
-      "Because hiring managers can read it in 3 minutes and see: real GPU work, benchmark data, system design, operational skills — everything that separates you from candidates who studied the same material but never ran it",
+      "Because hiring managers can read it in 3 minutes and see: real GPU work, benchmark data, system design, operational skills: everything that separates you from candidates who studied the same material but never ran it",
       "Because GitHub profile views increase resume visibility in job search algorithms",
       "Because writing improves retention of the technical material"
     ],
@@ -149,7 +149,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "explain": "The lesson's hiring path table maps deliverables to claims: benchmark saturation curves → 'I can find the elbow and explain it with Phase-1 concepts'; capstone deck → 'I can go from benchmark data to a defensible recommendation'; Week 7 agent design → 'I can design multi-step agent systems on real infrastructure.' Concrete artifacts beat claimed skills."
   },
   {
-    "stem": "The Day 51 career-mapping session lays out which paths from here?",
+    "stem": "The Day 50 career-mapping session lays out which paths from here?",
     "options": [
       "Research scientist, MLOps engineer, and data analyst",
       "Internship, apprenticeship, and full-time employment",
@@ -157,18 +157,18 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Frontend, backend, and infrastructure engineering"
     ],
     "answer": 2,
-    "explain": "The career-mapping session names three paths: (1) Hiring path — Oxmiq + partner companies, what roles fit and what the bar is; (2) Portfolio path — open-source contribution, blog posts, an agent project on your fork; (3) Advanced study path — specific resources for going deeper (research papers, courses)."
+    "explain": "The career-mapping session names three paths: (1) Hiring path - Oxmiq + partner companies, what roles fit and what the bar is; (2) Portfolio path - open-source contribution, blog posts, an agent project on your fork; (3) Advanced study path - specific resources for going deeper (research papers, courses)."
   },
   {
     "stem": "What does 'fluent in Phase 1 vocabulary' mean as a hiring signal, per the evidence table?",
     "options": [
       "You can define terms like TTFT and throughput when asked",
-      "You can apply Phase 1 concepts to explain real benchmark data — e.g., 'TTFT_p99 spiked at concurrency 16 because the GPU saturated and requests queued, adding prefill wait time' — during a capstone Q&A or interview",
+      "You can apply Phase 1 concepts to explain real benchmark data, e.g., 'TTFT_p99 spiked at concurrency 16 because the GPU saturated and requests queued, adding prefill wait time', during a capstone Q&A or interview",
       "You memorized all Phase 1 lecture slides",
       "You scored > 80% on the Phase 1 knowledge checks"
     ],
     "answer": 1,
-    "explain": "The hiring path table maps 'fluent in Phase 1 vocabulary' to 'Capstone Q&A, fork artifacts.' Fluency means applying vocabulary to explain data under questioning — not just defining terms. The capstone Q&A (Day 50) is the proof: panel asks 'why is your TTFT P99 3× your P50?' and you answer with arithmetic intensity, memory bandwidth, and queue dynamics — from your own data."
+    "explain": "The hiring path table maps 'fluent in Phase 1 vocabulary' to 'Capstone Q&A, fork artifacts.' Fluency means applying vocabulary to explain data under questioning: not just defining terms. The capstone Q&A (Day 49) is the proof: panel asks 'why is your TTFT P99 3× your P50?' and you answer with arithmetic intensity, memory bandwidth, and queue dynamics: from your own data."
   },
   {
     "stem": "The hiring-path table lists five things to bring to your career conversation. Which set matches the lesson?",
@@ -179,7 +179,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Fluent in Phase 1 vocabulary, can operate Capsule cold, designed an agent, made a defensible recommendation, and can teach a peer"
     ],
     "answer": 3,
-    "explain": "The hiring-path table maps five bars to their evidence: fluent in Phase 1 vocabulary (capstone Q&A, fork artifacts), can operate Capsule cold (Day 45 sprint + Day 48 execution log), designed an agent (Week 7 5-layer map, ideally a stub MCP server in the fork), made a defensible recommendation (capstone claim sentence + Day 50 grade), and can teach a peer (practice quizzes + Feynman teach-back). The lesson says bring all five."
+    "explain": "The hiring-path table maps five bars to their evidence: fluent in Phase 1 vocabulary (capstone Q&A, fork artifacts), can operate Capsule cold (Day 44 sprint + Day 47 execution log), designed an agent (Week 7 5-layer map, ideally a stub MCP server in the fork), made a defensible recommendation (capstone claim sentence + Day 49 grade), and can teach a peer (practice quizzes + Feynman teach-back). The lesson says bring all five."
   },
   {
     "stem": "A hiring manager visiting your fork should see the artifacts in what order?",
@@ -190,13 +190,13 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Raw benchmark logs, then the model files, then a conclusion"
     ],
     "answer": 0,
-    "explain": "The 'Your fork as a portfolio piece' list, in order: (1) README at the fork root — one paragraph on what it is, what you did, link to capstone; (2) capstone deck + a 2-page write-up; (3) practice quizzes (weekly engagement); (4) saturation curves + benchmark reports from Week 9 (technical depth); (5) Week 7 agent design (systems thinking). Order matters because a hiring manager reads top-down."
+    "explain": "The 'Your fork as a portfolio piece' list, in order: (1) README at the fork root - one paragraph on what it is, what you did, link to capstone; (2) capstone deck + a 2-page write-up; (3) practice quizzes (weekly engagement); (4) saturation curves + benchmark reports from Week 9 (technical depth); (5) Week 7 agent design (systems thinking). Order matters because a hiring manager reads top-down."
   }
 ]
 </script>
 </div>
 
-- [ ] Retrospective form filled honestly — every question answered
+- [ ] Retrospective form filled honestly: every question answered
 - [ ] 60-second self-introduction practiced and can be delivered without notes
 - [ ] Fork README written and pushed
 - [ ] You can answer: "What would you do differently?" with at least two specific changes

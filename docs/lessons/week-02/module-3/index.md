@@ -1,7 +1,7 @@
 # Day 8 · Memory Is the Bottleneck
 
 > **Concept of the day:** the memory hierarchy. Data movement is the real cost. Most inference time = moving data, not computing.<br>
-> **Pre-reading:** "Why bandwidth matters more than compute" — <a href="https://horace.io/brrr_intro.html#bandwidth" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Bandwidth section)</a>. 
+> **Pre-reading:** "Why bandwidth matters more than compute" - <a href="https://horace.io/brrr_intro.html#bandwidth" target="_blank" rel="noopener">Horace He - Making Deep Learning Go Brrr (Bandwidth section)</a>. 
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 2 — The GPU &amp; Memory</a>
+    <a href="../">Week 2 - The GPU &amp; Memory</a>
     <span class="sep">/</span>
     <span>Day 8 · Memory Is the Bottleneck</span>
     {status:week-02/module-3}
@@ -35,7 +35,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 ### Before You Start
 
 You should have already read: Pre-Lecture Reading **Reader 5 (memory section)** + Study Guide §A.3.
@@ -52,19 +52,19 @@ Answer these questions from memory:
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-02-m3-readiness" data-kind="readiness" data-draw="5" data-source="Horace He — Making Deep Learning Go Brrr (Bandwidth section)">
+<div class="ox-self-check" data-widget="self-check" data-id="week-02-m3-readiness" data-kind="readiness" data-draw="5" data-source="Horace He - Making Deep Learning Go Brrr (Bandwidth section)">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
     "stem": "According to Horace He, why does bandwidth matter more than compute for deep learning?",
     "options": [
       "Compute is free; bandwidth is expensive",
-      "Most operations are memory-bound, not compute-bound — the GPU spends most time moving data, not computing",
+      "Most operations are memory-bound, not compute-bound; the GPU spends most time moving data, not computing",
       "Bandwidth is measured in FLOPS, which is more important",
       "Compute cannot be parallelized effectively"
     ],
     "answer": 1,
-    "explain": "Most deep learning operations (especially inference) are memory-bound. The GPU waits for data from HBM far more than it waits for compute units. This is why bandwidth — the rate at which data can be moved — often matters more than raw compute capacity."
+    "explain": "Most deep learning operations (especially inference) are memory-bound. The GPU waits for data from HBM far more than it waits for compute units. This is why bandwidth, the rate at which data can be moved, often matters more than raw compute capacity."
   },
   {
     "stem": "In the GPU memory hierarchy, which is fastest and which is slowest?",
@@ -75,7 +75,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "All are roughly the same speed"
     ],
     "answer": 0,
-    "explain": "Registers are the fastest (sub-nanosecond), followed by L1/shared memory (~1ns), L2 cache (~5ns), and HBM (~80ns). Each level up is larger but slower — this is the memory hierarchy."
+    "explain": "Registers are the fastest (sub-nanosecond), followed by L1/shared memory (~1ns), L2 cache (~5ns), and HBM (~80ns). Each level up is larger but slower; this is the memory hierarchy."
   },
   {
     "stem": "What is temporal locality?",
@@ -86,7 +86,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Sequential memory access patterns"
     ],
     "answer": 1,
-    "explain": "Temporal locality means if you accessed data recently, you're likely to access it again soon. Caches exploit this — keep recently-used data close to the compute units. This is why KV cache matters for inference."
+    "explain": "Temporal locality means if you accessed data recently, you're likely to access it again soon. Caches exploit this: keep recently-used data close to the compute units. This is why KV cache matters for inference."
   },
   {
     "stem": "What is spatial locality?",
@@ -108,7 +108,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "It increases the clock speed"
     ],
     "answer": 1,
-    "explain": "Kernel fusion combines multiple operations (e.g., add + relu) into a single kernel. This eliminates intermediate reads/writes to HBM — data stays in registers/L1 between operations. Less data movement = faster."
+    "explain": "Kernel fusion combines multiple operations (e.g., add + relu) into a single kernel. This eliminates intermediate reads/writes to HBM; data stays in registers/L1 between operations. Less data movement = faster."
   },
   {
     "stem": "What is arithmetic intensity?",
@@ -130,7 +130,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "1000x faster"
     ],
     "answer": 1,
-    "explain": "L2 cache access is ~5ns vs HBM at ~80ns — roughly 10-20x faster. This is why caching strategies (KV cache, FlashAttention) are so impactful: keeping data in cache avoids the slow HBM access."
+    "explain": "L2 cache access is ~5ns vs HBM at ~80ns: roughly 10-20x faster. This is why caching strategies (KV cache, FlashAttention) are so impactful: keeping data in cache avoids the slow HBM access."
   },
   {
     "stem": "What does it mean for a workload to be 'memory-bound'?",
@@ -149,10 +149,10 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — Memory Hierarchy
-### Reading — The Single Most Important Insight
+## Part 2 - Core Concepts - Memory Hierarchy
+### Reading - The Single Most Important Insight
 
-This is the single most important insight in the entire phase: **for LLM decode, the GPU is almost always waiting on HBM, not computing.** Once you see it, every Week 3–5 trick (KV cache, FlashAttention, quantization, paged attention) becomes "obvious" — they're all about moving less data.
+This is the single most important insight in the entire phase: **for LLM decode, the GPU is almost always waiting on HBM, not computing.** Once you see it, every Week 3–5 trick (KV cache, FlashAttention, quantization, paged attention) becomes "obvious"; they're all about moving less data.
 
 ### The Memory Hierarchy
 
@@ -181,8 +181,8 @@ slow ▼   PCIe / Net     µs–ms       unlimited
 
 ---
 
-## Part 3 — Deep Dive — Arithmetic Intensity
-### Reading — Compute-Bound vs Memory-Bound
+## Part 3 - Deep Dive - Arithmetic Intensity
+### Reading - Compute-Bound vs Memory-Bound
 
 For a kernel that does `B` bytes of memory traffic and `F` FLOPs:
 
@@ -194,7 +194,7 @@ For a kernel that does `B` bytes of memory traffic and `F` FLOPs:
 | Condition | You Are... | GPU Status |
 |-----------|-----------|------------|
 | Intensity **above** ridge (~295) | Compute-bound | Limited by Tensor Cores |
-| Intensity **below** ridge (~295) | Memory-bound | Limited by HBM bandwidth — Tensor Cores sitting idle |
+| Intensity **below** ridge (~295) | Memory-bound | Limited by HBM bandwidth: Tensor Cores sitting idle |
 
 ### The Shocking Fact
 
@@ -204,14 +204,14 @@ This single fact explains why batching, KV cache, quantization, and continuous b
 
 ---
 
-## Part 4 — Worked Example Analysis
-### Reading — Read Time Calculation
+## Part 4 - Worked Example Analysis
+### Reading - Read Time Calculation
 
 > **Worked example:** Time to read 16 GB from HBM at 3.35 TB/s
 >
 > 16 GB ÷ 3.35 TB/s = 16 ÷ 3350 s ≈ **4.8 ms** just to *read* the data once.
 
-If you had to do this for every output token of a 70B model loaded across 8 GPUs (so each GPU reads ~17 GB of weights per token), decode latency floor ≈ 4–5 ms/token — and that's *before* doing any actual math.
+If you had to do this for every output token of a 70B model loaded across 8 GPUs (so each GPU reads ~17 GB of weights per token), decode latency floor ≈ 4–5 ms/token; and that's *before* doing any actual math.
 
 ### Why Kernel Fusion Matters
 
@@ -223,7 +223,7 @@ If you had to do this for every output token of a 70B model loaded across 8 GPUs
 
 ---
 
-## Part 5 — Hands-On — Calculate
+## Part 5 - Hands-On - Calculate
 ### Exercise 1: Read Time
 
 Calculate: time to read 16 GB from H100 HBM at 3.35 TB/s.
@@ -258,7 +258,7 @@ Calculate arithmetic intensity for:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -292,12 +292,12 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "Why is LLM decode roughly 150× below the H100 ridge point?",
     "options": [
       "Decode uses low-precision integers which reduce arithmetic intensity",
-      "Decode processes one token at a time, requiring a full model weight read for very little compute — roughly 2 ops/byte",
+      "Decode processes one token at a time, requiring a full model weight read for very little compute: roughly 2 ops/byte",
       "Decode is pipelined across 150 GPU layers, spreading the compute too thin",
       "Decode requires double-precision arithmetic which is 150× slower than FP16"
     ],
     "answer": 1,
-    "explain": "During decode, each step reads all model weights (~2 bytes/param for FP16) to perform ~2 multiply-add operations per parameter. That's ~2 ops/byte vs the ridge point of ~295 ops/byte — roughly 150× below the compute-optimal ratio. The GPU is almost entirely idle waiting for memory."
+    "explain": "During decode, each step reads all model weights (~2 bytes/param for FP16) to perform ~2 multiply-add operations per parameter. That's ~2 ops/byte vs the ridge point of ~295 ops/byte: roughly 150× below the compute-optimal ratio. The GPU is almost entirely idle waiting for memory."
   },
   {
     "stem": "What does kernel fusion do to improve performance?",
@@ -313,24 +313,24 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "What is temporal locality, and how is it relevant to GPU memory performance?",
     "options": [
-      "Data accessed at time T is also likely to be accessed soon after — this allows L2 caching to reduce HBM pressure",
+      "Data accessed at time T is also likely to be accessed soon after; this allows L2 caching to reduce HBM pressure",
       "Data stored at low addresses is faster to access than data at high addresses",
       "GPU operations that happen in the same clock cycle can share registers",
       "HBM pages recently evicted can be immediately re-used without penalty"
     ],
     "answer": 0,
-    "explain": "Temporal locality means recently used data is likely to be used again soon. GPUs exploit this via L2 and L1 caches — if weights or KV cache entries are reused within a short window, they may be served from cache rather than from HBM, significantly reducing bandwidth pressure."
+    "explain": "Temporal locality means recently used data is likely to be used again soon. GPUs exploit this via L2 and L1 caches: if weights or KV cache entries are reused within a short window, they may be served from cache rather than from HBM, significantly reducing bandwidth pressure."
   },
   {
     "stem": "If a kernel does 600 GFLOP and transfers 4 GB of data, and the H100 ridge point is 295 ops/byte, is this kernel compute-bound or memory-bound?",
     "options": [
-      "Compute-bound — it does more than the ridge point",
-      "Memory-bound — it does fewer than the ridge point",
+      "Compute-bound - it does more than the ridge point",
+      "Memory-bound - it does fewer than the ridge point",
       "Cannot be determined without knowing the clock speed",
-      "Balanced — it is exactly at the ridge point"
+      "Balanced - it is exactly at the ridge point"
     ],
     "answer": 1,
-    "explain": "Arithmetic intensity = 600 GFLOP ÷ 4 GB = 600×10^9 ÷ 4×10^9 = 150 ops/byte. Since 150 < 295 (the H100 ridge point), the kernel is memory-bound — it does too little compute per byte fetched, so the Tensor Cores sit idle waiting on HBM. A kernel is compute-bound only when its intensity exceeds the ridge point."
+    "explain": "Arithmetic intensity = 600 GFLOP ÷ 4 GB = 600×10^9 ÷ 4×10^9 = 150 ops/byte. Since 150 < 295 (the H100 ridge point), the kernel is memory-bound; it does too little compute per byte fetched, so the Tensor Cores sit idle waiting on HBM. A kernel is compute-bound only when its intensity exceeds the ridge point."
   },
   {
     "stem": "In the Part 4 worked example, roughly how long does it take to read 16 GB from H100 HBM at 3.35 TB/s?",
@@ -341,18 +341,18 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "~480 ms"
     ],
     "answer": 2,
-    "explain": "Part 4 computes Time = Size / Bandwidth = 16 GB ÷ 3.35 TB/s = 16 ÷ 3,350 s ≈ 4.8 ms — just to read the data once, before doing any math. This read-time floor is why decode latency is dominated by memory traffic."
+    "explain": "Part 4 computes Time = Size / Bandwidth = 16 GB ÷ 3.35 TB/s = 16 ÷ 3,350 s ≈ 4.8 ms: just to read the data once, before doing any math. This read-time floor is why decode latency is dominated by memory traffic."
   },
   {
     "stem": "According to Part 2, why can't you simply keep an entire model in L2 cache?",
     "options": [
       "L2 cache cannot store floating-point numbers",
-      "Fast memory is small — L2 is only ~50 MB chip-wide, while models are many gigabytes",
+      "Fast memory is small; L2 is only ~50 MB chip-wide, while models are many gigabytes",
       "L2 is reserved for the operating system",
       "L2 is actually slower than HBM"
     ],
     "answer": 1,
-    "explain": "Part 2's first rule: 'Fast memory is small.' L2 is ~50 MB and HBM is 80 GB — a multi-gigabyte model can't fit in L2, so weights must be streamed from HBM. That is the root cause of the memory bottleneck."
+    "explain": "Part 2's first rule: 'Fast memory is small.' L2 is ~50 MB and HBM is 80 GB; a multi-gigabyte model can't fit in L2, so weights must be streamed from HBM. That is the root cause of the memory bottleneck."
   },
   {
     "stem": "Part 4 notes that FlashAttention (covered the next day) is essentially an application of which idea from this lesson?",
@@ -360,7 +360,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Adding more HBM capacity to the GPU",
       "Increasing the GPU clock speed",
       "Quantizing the KV cache to INT8",
-      "Kernel fusion — fusing operations so intermediates stay on-chip instead of round-tripping to HBM"
+      "Kernel fusion - fusing operations so intermediates stay on-chip instead of round-tripping to HBM"
     ],
     "answer": 3,
     "explain": "Part 4 states 'FlashAttention is exactly this idea' immediately after explaining kernel fusion: fusing operations into one kernel keeps intermediates in registers (sub-ns) instead of writing them to and re-reading them from HBM. Same math, far less data movement."
@@ -375,7 +375,7 @@ Tomorrow: arithmetic intensity gets formalized into the **roofline model**, and 
 
 ### Pre-read for tomorrow (Day 9 · Compute-Bound vs Memory-Bound)
 
-- **Resource:** <a href="https://horace.io/brrr_intro.html#compute" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Compute section)</a> (read the arithmetic intensity section).
+- **Resource:** <a href="https://horace.io/brrr_intro.html#compute" target="_blank" rel="noopener">Horace He - Making Deep Learning Go Brrr (Compute section)</a> (read the arithmetic intensity section).
 - **Reflection questions:**
   1. If a kernel does 100 ops and reads 50 bytes, what's its intensity?
   2. Why is prefill compute-bound and decode memory-bound? (One sentence.)
@@ -385,5 +385,5 @@ Tomorrow: arithmetic intensity gets formalized into the **roofline model**, and 
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**: share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

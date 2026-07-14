@@ -1,6 +1,6 @@
 # Day 5 (Fri) · Week 1 Consolidation
 
-> **Goal of the day:** consolidate Mon–Thu. No new content — practice, ask, catch up.
+> **Goal of the day:** consolidate Mon–Thu. No new content: practice, ask, catch up.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -9,7 +9,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 1 — Orientation &amp; Foundations</a>
+    <a href="../">Week 1 - Orientation &amp; Foundations</a>
     <span class="sep">/</span>
     <span>Day 5 · Consolidation</span>
     {status:week-01/module-5}
@@ -21,7 +21,7 @@
 
 ## Lesson plan
 
-This consolidation day is different from other days — it's for practice and review. Here's how your ~3 hours is organized:
+This consolidation day is different from other days; it's for practice and review. Here's how your ~3 hours is organized:
 
 | Part | What you do |
 |-------------|---------------|
@@ -34,10 +34,10 @@ This consolidation day is different from other days — it's for practice and re
 
 ---
 
-## Part 1 — Week 1 Knowledge Check
+## Part 1 - Week 1 Knowledge Check
 ### Exercise: Take the Knowledge Check
 
-[Take the Week 1 knowledge check](knowledge-check.md) — 15 questions across shell, git, and GPU primer.
+[Take the Week 1 knowledge check](knowledge-check.md): 15 questions across shell, git, and GPU primer.
 
 **Passing score:** 10/15 (67%)
 
@@ -49,7 +49,7 @@ If you score below 10/15:
 
 ---
 
-## Part 2 — Self-Assessment
+## Part 2 - Self-Assessment
 ### Self-Check List
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-01-m5-wrapup" data-kind="wrap-up" data-draw="5" data-source="Week 1 consolidation (shell, git, GPU)">
@@ -62,11 +62,11 @@ If you score below 10/15:
   {"stem": "Why are GPUs faster than CPUs for neural networks?", "options": ["They have fewer cores", "Thousands of cores run matrix multiplication in parallel", "They use less power", "They are cheaper"], "answer": 1, "explain": "GPUs have thousands of small cores that can all run the same operation (matrix multiplication) simultaneously."},
   {"stem": "What are three differences between training and serving?", "options": ["Same thing", "Training is batch (throughput); serving is real-time (latency); training happens once, serving is continuous", "Training uses CPU; serving uses GPU", "No differences"], "answer": 1, "explain": "Training: batch, high throughput, one-time. Serving: single requests, low latency, continuous."},
   {"stem": "What are the two most-used H100 specs to remember?", "options": ["Core count and price", "80GB memory and 3.35 TB/s bandwidth", "TDP and color", "Weight and size"], "answer": 1, "explain": "Memory (80GB) and bandwidth (3.35 TB/s) are the most-referenced specs in practice."},
-  {"stem": "What is the journey of a prompt? (Select the correct first step)", "options": ["Matrix multiplication", "Tokenization", "Embedding", "Sampling"], "answer": 1, "explain": "Step 1: Tokenization — convert text to token IDs on CPU."},
+  {"stem": "What is the journey of a prompt? (Select the correct first step)", "options": ["Matrix multiplication", "Tokenization", "Embedding", "Sampling"], "answer": 1, "explain": "Step 1: Tokenization - convert text to token IDs on CPU."},
   {"stem": "What command creates a new branch with a commit?", "options": ["git new branch", "git checkout -b && git commit", "git branch create", "git init branch"], "answer": 1, "explain": "`git checkout -b` creates a branch, then you add and commit files."},
   {"stem": "What is the correct commit type for documentation?", "options": ["feat:", "fix:", "docs:", "chore:"], "answer": 2, "explain": "Use `docs:` for documentation-only changes."},
   {"stem": "What does `git push origin <branch>` do?", "options": ["Creates a new repo", "Uploads branch to remote", "Deletes branch", "Merges to main"], "answer": 1, "explain": "This uploads your local branch to the remote repository."},
-  {"stem": "What is 'embarrassingly parallel'?", "options": ["A problem that's embarrassing", "Operations that can all run independently at the same time", "A GPU error", "A commit type"], "answer": 1, "explain": "Matrix multiplication is embarrassingly parallel — each calculation is independent."},
+  {"stem": "What is 'embarrassingly parallel'?", "options": ["A problem that's embarrassing", "Operations that can all run independently at the same time", "A GPU error", "A commit type"], "answer": 1, "explain": "Matrix multiplication is embarrassingly parallel; each calculation is independent."},
   {"stem": "What is the H100's memory capacity?", "options": ["16 GB", "80 GB", "32 GB", "8 GB"], "answer": 1, "explain": "H100 has 80 GB of HBM3 memory."},
   {"stem": "What is the H100's memory bandwidth?", "options": ["500 GB/s", "3.35 TB/s", "1 TB/s", "100 GB/s"], "answer": 1, "explain": "H100 has 3.35 TB/s memory bandwidth."},
   {"stem": "What does `git add . && git commit -m` do?", "options": ["Only stages", "Stages all changes and commits with message", "Pushes to remote", "Creates branch"], "answer": 1, "explain": "This stages all changes and commits them in one command chain."},
@@ -90,7 +90,7 @@ For any item you can't do:
 
 ---
 
-## Part 3 — Practice — Shell Review
+## Part 3 - Practice - Shell Review
 ### Hands-On: Shell Drills
 
 Practice these until they're automatic:
@@ -128,7 +128,7 @@ echo "Found $count files in /tmp"
 
 ---
 
-## Part 4 — Practice — Git Review
+## Part 4 - Practice - Git Review
 ### Hands-On: Git Drills
 
 If you have a GitHub account, practice these:
@@ -172,7 +172,7 @@ git branch -d practice-branch
 
 ---
 
-## Part 5 — Practice — GPU Review
+## Part 5 - Practice - GPU Review
 ### Hands-On: GPU Knowledge Check
 
 Write your answers to these from memory (no notes!):
@@ -187,15 +187,15 @@ Compare your answers to what you wrote on Day 4. Have you improved?
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### What to Do
 
 This is open time. Choose what you need:
 
 1. **Catch up** on any assignments from Mon–Thu
-2. **Ask questions** — use oxtutor or review the relevant day
-3. **Extra practice** — generate more exercises on any concept
-4. **Preview Week 2** — start the pre-reading for Day 6
+2. **Ask questions** - use oxtutor or review the relevant day
+3. **Extra practice** - generate more exercises on any concept
+4. **Preview Week 2** - start the pre-reading for Day 6
 
 ### Connect Forward
 
@@ -206,7 +206,7 @@ Week 2 begins on Monday. You'll learn about:
 
 ### Pre-read for Monday (Week 2, Day 6)
 
-**Resource:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering</a> (read the inference-pipeline overview: prefill/decode, KV cache, batching).
+**Resource:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks - LLM Inference Performance Engineering</a> (read the inference-pipeline overview: prefill/decode, KV cache, batching).
 
 **Reflection questions:**
 

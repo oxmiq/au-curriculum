@@ -1,4 +1,4 @@
-# Day 36 (Fri) · Week 7 Consolidation
+# Day 35 (Fri) · Week 7 Consolidation
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -7,9 +7,9 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 7 — Bridge: Theory Meets Tooling</a>
+    <a href="../">Week 7 - Bridge: Theory Meets Tooling</a>
     <span class="sep">/</span>
-    <span>Day 36 · Consolidation</span>
+    <span>Day 35 · Consolidation</span>
     {status:week-07/module-5}
   </div>
 </div>
@@ -39,7 +39,7 @@ Aim for 80% before moving on. If you score below 70%, revisit the specific day's
 
 ---
 
-## 🟢 Bucket 2: Self-Assessment — 5-Layer Map
+## 🟢 Bucket 2: Self-Assessment - 5-Layer Map
 
 Without notes, answer each question. Score yourself honestly.
 
@@ -49,15 +49,15 @@ Without notes, answer each question. Score yourself honestly.
 - [ ] Give a concrete example of each layer from one of the three case studies?
 - [ ] Draw Capsule's 3-layer architecture (CLI → control plane → node agents) and label what each layer stores and what protocol connects adjacent layers?
 - [ ] State the correct routing for your internship fleet: what environment name and customer value do you use?
-- [ ] Name the 4 most common install failure modes and their fixes — recited from memory without looking at notes?
+- [ ] Name the 4 most common install failure modes and their fixes: recited from memory without looking at notes?
 
-For any item you couldn't answer: write the answer out longhand (not just look it up — write it). Writing activates recall more than reading.
+For any item you couldn't answer: write the answer out longhand (not just look it up; write it). Writing activates recall more than reading.
 
 ---
 
 ## 🟡 Bucket 3: Case Studies Review
 
-For each of the three case studies from Day 32 (Klarna / Claude Code + Cursor / SemiAnalysis research), answer from memory:
+For each of the three case studies from Day 31 (Klarna / Claude Code + Cursor / SemiAnalysis research), answer from memory:
 
 **Klarna:**
 
@@ -78,7 +78,7 @@ For each of the three case studies from Day 32 (Klarna / Claude Code + Cursor / 
 2. What was the throughput improvement (companies screened per month)?
 3. Why is the Action layer often the bottleneck for research agents, not the Intelligence layer?
 
-Write your answers, then check against the [Day 32 lesson](../module-1/index.md).
+Write your answers, then check against the [Day 31 lesson](../module-1/index.md).
 
 ---
 
@@ -125,9 +125,9 @@ Answer each question precisely. No notes.
 **Live drill:**
 
 1. Run `capsule status` right now. Is your token still valid?
-2. Run `capsule list` — how many machines are visible?
-3. Run `capsule env show` — confirm you're in the right environment.
-4. Run `capsule config customer show` — confirm the correct customer value.
+2. Run `capsule list`; how many machines are visible?
+3. Run `capsule env show`; confirm you're in the right environment.
+4. Run `capsule config customer show`; confirm the correct customer value.
 
 If any of the above fails, treat it as a gotcha reproduction exercise and fix it using only your memory of the gotcha table.
 
@@ -137,7 +137,7 @@ If any of the above fails, treat it as a gotcha reproduction exercise and fix it
 
 **Catch up (if needed):**
 
-- Complete any incomplete assignments from Days 32–35
+- Complete any incomplete assignments from Days 31–34
 - Revisit any case study you couldn't answer fully in Bucket 3
 - Ask **oxtutor** to quiz you on anything from this week
 
@@ -145,19 +145,19 @@ If any of the above fails, treat it as a gotcha reproduction exercise and fix it
 
 Week 8 covers the **operational** Capsule skills:
 
-- Day 37: Connecting to machines (`capsule term`, `capsule code`, tmux discipline)
-- Day 38: Files & storage (`capsule scp`, OneDrive mounts, storage patterns)
-- Day 39: Streaming (`capsule stream`, hardware encoding, when to stream vs terminal)
-- Day 40: Known quirks (the full triage decision tree, the known-quirks table, bug reports)
-- Day 41 (Fri): Week 8 consolidation
+- Day 36: Connecting to machines (`capsule term`, `capsule code`, tmux discipline)
+- Day 37: Files & storage (`capsule scp`, OneDrive mounts, storage patterns)
+- Day 38: Streaming (`capsule stream`, hardware encoding, when to stream vs terminal)
+- Day 39: Known quirks (the full triage decision tree, the known-quirks table, bug reports)
+- Day 40 (Fri): Week 8 consolidation
 
 These are the skills you will use every single day of the internship.
 
 ---
 
-## Pre-read for Monday (Week 8 · Day 37 · Connecting to Machines)
+## Pre-read for Monday (Week 8 · Day 36 · Connecting to Machines)
 
-- **Resource:** <a href="../../../readings/capsule/#day-38-connecting-to-machines">Capsule Power-User Pre-Lecture Reading — Day 38 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5 (Connecting to Machines).
+- **Resource:** <a href="../../../readings/capsule/#day-38-connecting-to-machines">Capsule Power-User Pre-Lecture Reading - Day 38 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5 (Connecting to Machines).
 - **Reflection questions:**
   1. What is the difference between `capsule term`, `capsule code`, and `capsule exec`?
   2. What does `--idle-timeout` do and when would you set it?
@@ -167,4 +167,4 @@ These are the skills you will use every single day of the internship.
 
 ## Stuck?
 
-Ask **oxtutor** — the [Day 32 case studies lesson](../module-1/index.md) and the [Day 33 architecture lesson](../module-2/index.md) are the two highest-leverage pages of this week.
+Ask **oxtutor**; the [Day 31 case studies lesson](../module-1/index.md) and the [Day 32 architecture lesson](../module-2/index.md) are the two highest-leverage pages of this week.

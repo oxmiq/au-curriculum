@@ -9,7 +9,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 3 — Attention &amp; KV Cache</a>
+    <a href="../">Week 3 - Attention &amp; KV Cache</a>
     <span class="sep">/</span>
     <span>Day 15 · Consolidation</span>
     {status:week-03/module-5}
@@ -35,10 +35,10 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Week 3 Concept Review
+## Part 1 - Week 3 Concept Review
 ### Before You Start
 
-Today consolidates everything from Days 11-14. No new content — just mastery.
+Today consolidates everything from Days 11-14. No new content: just mastery.
 
 ### Quick Concept Map
 
@@ -59,10 +59,10 @@ Fill in this quick reference from memory:
 
 ---
 
-## Part 2 — Knowledge Check
+## Part 2 - Knowledge Check
 ### Take the Canonical Quiz
 
-[Take the knowledge check](knowledge-check.md) — this covers:
+[Take the knowledge check](knowledge-check.md); this covers:
 - Prefill vs decode distinction
 - KV cache math
 - FP8/INT4 sizing
@@ -78,7 +78,7 @@ Fill in this quick reference from memory:
 
 ---
 
-## Part 3 — Memory Budget Calculator Assignment
+## Part 3 - Memory Budget Calculator Assignment
 ### The Assignment
 
 **Memory budget calculator:** Given GPU (80 GB), model, context length, batch size → does it fit? What if you quantize to FP8?
@@ -123,11 +123,11 @@ From **Inference Engineering Study Guide §A.2**: "At 8K context per request: 12
 
 ---
 
-## Part 4 — Open Lab / Catch-up Time
+## Part 4 - Open Lab / Catch-up Time
 ### Use This Time For
 
 1. **Catch up** on any concepts still fuzzy
-2. **Extra practice** — recalculate memory budgets for different scenarios
+2. **Extra practice** - recalculate memory budgets for different scenarios
 3. **Ask oxtutor** to re-explain anything still unclear
 
 ### Recommended Practice Scenarios
@@ -147,7 +147,7 @@ The KV cache and quantization sensitivity ladder (weights → KV → activations
 
 ---
 
-## Part 5 — Self-Check Before Week 4
+## Part 5 - Self-Check Before Week 4
 ### Can You Explain These From Memory?
 
 - [ ] Why is prefill compute-bound and decode memory-bound?
@@ -169,15 +169,15 @@ The KV cache and quantization sensitivity ladder (weights → KV → activations
 
 ---
 
-## Part 6 — Wrap-up & Connection
+## Part 6 - Wrap-up & Connection
 ### Week 3 Summary
 
 You've now mastered:
-- **Prefill vs Decode** — the two phases of LLM inference with different bottlenecks
-- **KV Cache** — the central resource that grows with context
-- **FlashAttention** — lossless kernel optimization (5-20× speedup)
-- **PagedAttention** — virtual memory for KV cache (~90% utilization)
-- **Quantization** — lossy but massive (4× throughput at 0.1-0.3 MMLU cost)
+- **Prefill vs Decode** - the two phases of LLM inference with different bottlenecks
+- **KV Cache** - the central resource that grows with context
+- **FlashAttention** - lossless kernel optimization (5-20× speedup)
+- **PagedAttention** - virtual memory for KV cache (~90% utilization)
+- **Quantization** - lossy but massive (4× throughput at 0.1-0.3 MMLU cost)
 
 ### Connect Forward
 
@@ -190,14 +190,14 @@ Week 4 builds on this foundation:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Pre-read for Monday (Week 4, Day 16 · Tensor & Pipeline Parallelism)
 
-**Resource:** <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a> (read the Tensor Parallel section). Alternative: <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Transformer Inference Optimization</a>.
+**Resource:** <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face - Model Parallelism</a> (read the Tensor Parallel section). Alternative: <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng - Transformer Inference Optimization</a>.
 
 **Reflection questions:**
 
-1. Of {KV cache, FlashAttention, quantization} — which one would you teach a peer first? Why?
+1. Of {KV cache, FlashAttention, quantization}: which one would you teach a peer first? Why?
 2. What's still confusing about prefill vs decode?
 3. What's the *one* number you'd put on a wall-poster for Week 3?
 
@@ -207,13 +207,13 @@ Week 4 builds on this foundation:
 
 You've covered prefill/decode, KV cache math, FlashAttention/PagedAttention, and quantization. Friday is the day to:
 
-1. **Pass the knowledge check.** [Take the canonical knowledge check](knowledge-check.md) — prefill/decode, KV cache math, FP8/INT4 sizing.
-2. **Submit the memory budget calculator assignment** — given GPU (80 GB), model, context length, batch size → does it fit?
+1. **Pass the knowledge check.** [Take the canonical knowledge check](knowledge-check.md): prefill/decode, KV cache math, FP8/INT4 sizing.
+2. **Submit the memory budget calculator assignment**: given GPU (80 GB), model, context length, batch size → does it fit?
 3. **Open-ended lab time.** Catch up; ask oxtutor to re-explain anything still fuzzy.
 
 ---
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**: share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

@@ -1,7 +1,7 @@
 # Day 23 · Evaluation & Quality
 
 > **Concept of the day:** **perplexity** for sanity, **benchmarks** for comparison, **task evals** for production decisions. Public benchmarks are gameable; your own eval suite is the only one that matters. **Quantization quality must be measured, not assumed.**
-> **Pre-reading:** "Evaluating LLMs" overview — <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/evals/" target="_blank" rel="noopener">Eugene Yan — Task-Specific LLM Evals that Do & Don't Work</a>.
+> **Pre-reading:** "Evaluating LLMs" overview: <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face - Evaluate</a> + <a href="https://eugeneyan.com/writing/evals/" target="_blank" rel="noopener">Eugene Yan - Task-Specific LLM Evals that Do & Don't Work</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 5 — Metrics &amp; Production</a>
+    <a href="../">Week 5 - Metrics &amp; Production</a>
     <span class="sep">/</span>
     <span>Day 23 · Evaluation & Quality</span>
     {status:week-05/module-3}
@@ -40,17 +40,17 @@
 
 ---
 
-## Part 1 — Why Evaluation Matters
+## Part 1 - Why Evaluation Matters
 
 ### Before You Start
 
-You should have already read: <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/evals/" target="_blank" rel="noopener">Eugene Yan — Task-Specific LLM Evals that Do & Don't Work</a>.
+You should have already read: <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face - Evaluate</a> + <a href="https://eugeneyan.com/writing/evals/" target="_blank" rel="noopener">Eugene Yan - Task-Specific LLM Evals that Do & Don't Work</a>.
 
 ### Readiness Check
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-05-m3-readiness" data-kind="readiness" data-draw="5" data-source="Hugging Face — Evaluate + Eugene Yan — Task-Specific LLM Evals">
+<div class="ox-self-check" data-widget="self-check" data-id="week-05-m3-readiness" data-kind="readiness" data-draw="5" data-source="Hugging Face - Evaluate + Eugene Yan - Task-Specific LLM Evals">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -62,7 +62,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "The number of parameters in the model"
     ],
     "answer": 1,
-    "explain": "Perplexity is the exponential of cross-entropy loss. It measures how well the model predicts the next token — lower perplexity means the model is more certain (less confused) about its predictions. It's primarily used as a sanity check, not a final measure of quality."
+    "explain": "Perplexity is the exponential of cross-entropy loss. It measures how well the model predicts the next token; lower perplexity means the model is more certain (less confused) about its predictions. It's primarily used as a sanity check, not a final measure of quality."
   },
   {
     "stem": "Why are public benchmarks like MMLU sometimes insufficient for evaluating LLMs in production?",
@@ -73,7 +73,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "They are only available for English"
     ],
     "answer": 1,
-    "explain": "Public benchmarks (MMLU, HumanEval, etc.) can be 'gamed' — models can be trained specifically to perform well on these benchmarks without having genuine capability. For production, you need task-specific evals that measure actual performance on your use case."
+    "explain": "Public benchmarks (MMLU, HumanEval, etc.) can be 'gamed'; models can be trained specifically to perform well on these benchmarks without having genuine capability. For production, you need task-specific evals that measure actual performance on your use case."
   },
   {
     "stem": "What is 'LLM-as-a-Judge' in evaluation?",
@@ -95,7 +95,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Higher quantization always causes more quality loss"
     ],
     "answer": 1,
-    "explain": "Quantization quality must be measured, not assumed. Different models and quantization methods affect quality differently. A 5% quality regression on your specific task might be acceptable, but it must be measured — you can't assume FP16→INT8 is lossless."
+    "explain": "Quantization quality must be measured, not assumed. Different models and quantization methods affect quality differently. A 5% quality regression on your specific task might be acceptable, but it must be measured; you can't assume FP16→INT8 is lossless."
   },
   {
     "stem": "What is a task-specific eval suite?",
@@ -117,7 +117,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Pre-training, fine-tuning, deployment"
     ],
     "answer": 1,
-    "explain": "The three evaluation layers are: (1) Perplexity — for sanity checking during training, (2) Benchmarks — for comparing models on standard tasks, (3) Task evals — for measuring actual performance on your specific use case."
+    "explain": "The three evaluation layers are: (1) Perplexity - for sanity checking during training, (2) Benchmarks - for comparing models on standard tasks, (3) Task evals - for measuring actual performance on your specific use case."
   },
   {
     "stem": "Why might a model that scores well on MMLU still be unsuitable for your production use case?",
@@ -156,7 +156,7 @@ Take 2 minutes to write down:
 
 ---
 
-## Part 2 — Three Evaluation Layers
+## Part 2 - Three Evaluation Layers
 
 ### Layer 1: Sanity (Perplexity)
 
@@ -180,7 +180,7 @@ Take 2 minutes to write down:
 
 > **Goodhart again:** Model trainers know which benchmarks matter. They optimize for those. MMLU saturation has more to do with training data leakage than capability gains.
 
-**Benchmarks are for comparing — never for declaring production ready.**
+**Benchmarks are for comparing: never for declaring production ready.**
 
 ### Layer 3: Task Evals (Your Own Suite)
 
@@ -196,11 +196,11 @@ For each prompt:
 - Safety / refusal behavior
 - Side-by-side win rate vs previous deployment
 
-> **Task evals are for shipping decisions — benchmarks are tiebreakers.**
+> **Task evals are for shipping decisions; benchmarks are tiebreakers.**
 
 ---
 
-## Part 3 — Build a Task Eval Suite
+## Part 3 - Build a Task Eval Suite
 
 ### Exercise: Create a 10-Prompt Eval Suite
 
@@ -228,21 +228,21 @@ For each prompt, define:
 
 ---
 
-## Part 4 — Quantization Quality Check
+## Part 4 - Quantization Quality Check
 
 ### Scenario
 
-A teammate proposes: "Let's quantize to INT4 — only 1% perplexity loss."
+A teammate proposes: "Let's quantize to INT4: only 1% perplexity loss."
 
 ### Exercise: Your Counter-Checklist
 
 Before approving any quantization change, you must verify:
 
-1. **Perplexity check** — Run on a held-out set. Reject if Δ > ___%
-2. **Task eval check** — Run your task eval suite. Reject if regression > ___ percentage points
-3. **Side-by-side human eval** — Compare 50 outputs. Reject if win rate < ___%
-4. **Refusal-rate sanity** — Did we break safety tuning?
-5. **Format compliance** — Did we break JSON output?
+1. **Perplexity check** - Run on a held-out set. Reject if Δ > ___%
+2. **Task eval check** - Run your task eval suite. Reject if regression > ___ percentage points
+3. **Side-by-side human eval** - Compare 50 outputs. Reject if win rate < ___%
+4. **Refusal-rate sanity** - Did we break safety tuning?
+5. **Format compliance** - Did we break JSON output?
 
 **Fill in the thresholds** from Day 23's content.
 
@@ -259,9 +259,9 @@ Even with only 1% perplexity loss, the model could:
 
 ---
 
-## Part 5 — LLM-as-a-Judge
+## Part 5 - LLM-as-a-Judge
 
-### Reading — When It Works, When It Deceives
+### Reading - When It Works, When It Deceives
 
 A bigger model (often GPT-4 or Claude) grades the smaller model's outputs. **Cheap to run, dangerous to trust.**
 
@@ -288,7 +288,7 @@ Design an LLM-as-a-judge prompt for grading:
 
 ---
 
-## Part 6 — Design Your Eval Pipeline
+## Part 6 - Design Your Eval Pipeline
 
 ### The Quantization-Quality Contract
 
@@ -308,11 +308,11 @@ Write one sentence:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 ### Synthesis
 
-Today's three layers — perplexity, benchmarks, task evals — form the quality axis of the SLO tripod. Tomorrow you tackle the third axis: **cost**. Every decision you make about quantization and serving has a dollar sign attached. The quality contract you built today is what protects you from optimizing cost at the expense of your users.
+Today's three layers, perplexity, benchmarks, task evals, form the quality axis of the SLO tripod. Tomorrow you tackle the third axis: **cost**. Every decision you make about quantization and serving has a dollar sign attached. The quality contract you built today is what protects you from optimizing cost at the expense of your users.
 
 ### Self-Check
 
@@ -341,7 +341,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "MMLU is not publicly reproducible"
     ],
     "answer": 1,
-    "explain": "Goodhart's Law: when a measure becomes a target, it ceases to be a good measure. Models fine-tuned to maximize MMLU may regress on your specific use case. MMLU tests academic knowledge domains — your production task may be code generation, customer service, or medical Q&A, all requiring different capabilities."
+    "explain": "Goodhart's Law: when a measure becomes a target, it ceases to be a good measure. Models fine-tuned to maximize MMLU may regress on your specific use case. MMLU tests academic knowledge domains; your production task may be code generation, customer service, or medical Q&A, all requiring different capabilities."
   },
   {
     "stem": "What is a task eval and how does it differ from a benchmark like MMLU?",
@@ -357,13 +357,13 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "What is Goodhart's Law and why is it relevant to LLM evaluation?",
     "options": [
-      "Models improve exponentially with scale — relevant because larger models don't always score better on benchmarks",
-      "When a metric becomes a target, it ceases to be a good measure — relevant because optimizing for MMLU or other benchmarks doesn't guarantee production quality",
-      "GPU compute doubles every 18 months — relevant because evaluation methods must keep pace with hardware",
-      "A model's quality is bounded by its training data quality — relevant because evaluation must consider data provenance"
+      "Models improve exponentially with scale: relevant because larger models don't always score better on benchmarks",
+      "When a metric becomes a target, it ceases to be a good measure: relevant because optimizing for MMLU or other benchmarks doesn't guarantee production quality",
+      "GPU compute doubles every 18 months: relevant because evaluation methods must keep pace with hardware",
+      "A model's quality is bounded by its training data quality: relevant because evaluation must consider data provenance"
     ],
     "answer": 1,
-    "explain": "Goodhart's Law states: 'When a measure becomes a target, it ceases to be a good measure.' In LLM evaluation, the lesson warns about 'MMLU saturating not actually being progress' — models fine-tuned to pass benchmarks may not improve on real tasks. This is why task evals > benchmarks for production decisions."
+    "explain": "Goodhart's Law states: 'When a measure becomes a target, it ceases to be a good measure.' In LLM evaluation, the lesson warns about 'MMLU saturating not actually being progress'; models fine-tuned to pass benchmarks may not improve on real tasks. This is why task evals > benchmarks for production decisions."
   },
   {
     "stem": "What are the three layers of the quality evaluation stack described in this lesson?",
@@ -374,7 +374,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Offline eval, online eval, and human eval"
     ],
     "answer": 1,
-    "explain": "The lesson's synthesis describes 'three layers — perplexity, benchmarks, task evals — form the quality axis of the SLO tripod.' Each layer has a different role: perplexity for relative comparison, benchmarks for cross-model comparison, task evals for production go/no-go decisions."
+    "explain": "The lesson's synthesis describes 'three layers, perplexity, benchmarks, task evals, form the quality axis of the SLO tripod.' Each layer has a different role: perplexity for relative comparison, benchmarks for cross-model comparison, task evals for production go/no-go decisions."
   },
   {
     "stem": "What is a quality contract in the context of LLM deployment?",
@@ -385,7 +385,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "A document specifying the model's training data sources"
     ],
     "answer": 1,
-    "explain": "A quality contract specifies: which task eval suite runs, what pass criteria are (e.g., 8/10 prompts pass all criteria), and that the gate must clear before shipping. It protects against regressing quality while optimizing cost or latency — the lesson says it 'ensures that nothing ships without measuring quality.'"
+    "explain": "A quality contract specifies: which task eval suite runs, what pass criteria are (e.g., 8/10 prompts pass all criteria), and that the gate must clear before shipping. It protects against regressing quality while optimizing cost or latency; the lesson says it 'ensures that nothing ships without measuring quality.'"
   },
   {
     "stem": "In the lesson's quantization-quality contract, what perplexity delta on a held-out set triggers rejection?",
@@ -418,18 +418,18 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Judging output length and writing style"
     ],
     "answer": 2,
-    "explain": "The Part 5 table shows LLM-as-a-judge works well for format/structural checks, factuality with a reference, and pairwise win-rate — but poorly for subjective quality, math without a reference, and absolute scoring (judges are biased toward positive scores). Always pair it with human spot-checks on ~10% of items."
+    "explain": "The Part 5 table shows LLM-as-a-judge works well for format/structural checks, factuality with a reference, and pairwise win-rate: but poorly for subjective quality, math without a reference, and absolute scoring (judges are biased toward positive scores). Always pair it with human spot-checks on ~10% of items."
   },
   {
     "stem": "According to the lesson, what are public benchmarks like MMLU best used for?",
     "options": [
       "Declaring a model production-ready on their own",
-      "Comparing models — never for declaring production ready; task evals are for shipping decisions",
+      "Comparing models: never for declaring production ready; task evals are for shipping decisions",
       "Replacing a task-specific eval suite entirely",
       "Measuring inference latency and throughput"
     ],
     "answer": 1,
-    "explain": "Layer 2 of the eval stack states 'Benchmarks are for comparing — never for declaring production ready,' and the lesson adds 'Task evals are for shipping decisions — benchmarks are tiebreakers.' Benchmarks also suffer from Goodhart effects and training-data leakage (MMLU saturation)."
+    "explain": "Layer 2 of the eval stack states 'Benchmarks are for comparing: never for declaring production ready,' and the lesson adds 'Task evals are for shipping decisions; benchmarks are tiebreakers.' Benchmarks also suffer from Goodhart effects and training-data leakage (MMLU saturation)."
   }
 ]
 </script>
@@ -437,15 +437,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Pre-read for tomorrow (Day 24 · Cost & Economics)
 
-- **Resource:** <a href="https://a16z.com/navigating-the-high-cost-of-ai-compute/" target="_blank" rel="noopener">a16z — Navigating the High Cost of AI Compute</a>.
+- **Resource:** <a href="https://a16z.com/navigating-the-high-cost-of-ai-compute/" target="_blank" rel="noopener">a16z - Navigating the High Cost of AI Compute</a>.
 - **Reflection questions:**
   1. What dominates cost: prefill tokens or decode tokens? Why?
-  2. **Dedicated GPU** vs **token-priced API** — at what utilization does dedicated break even?
+  2. **Dedicated GPU** vs **token-priced API**: at what utilization does dedicated break even?
   3. Why does **GPU utilization** translate directly to cost-per-million-tokens?
 
 ---
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**; share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

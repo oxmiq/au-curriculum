@@ -4,7 +4,7 @@
     <span class="sep">/</span>
     <a href="../../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../../">Week 4 — Scaling &amp; Stacks</a>
+    <a href="../../">Week 4 - Scaling &amp; Stacks</a>
     <span class="sep">/</span>
     <a href="../">Day 20 · Consolidation</a>
     <span class="sep">/</span>
@@ -16,7 +16,7 @@
 # Week 4 Knowledge Check
 
 **Week 4 · Scaling & Stacks.** 27-question bank · **15 drawn per attempt** · aim for **strong (≥ 80%)**. This check is
-formative — it never blocks you — but it's the week's bar. Answer the drawn questions,
+formative, it never blocks you, but it's the week's bar. Answer the drawn questions,
 then submit to reveal explanations and your score band.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-04-m5-canonical" data-kind="wrap-up" data-draw="15" data-lesson="Week 4 · Scaling &amp; Stacks" data-source="Canonical knowledge check">
@@ -125,7 +125,7 @@ then submit to reveal explanations and your score band.
     "stem": "Compared with TP, pipeline parallelism between stages needs:",
     "options": [
       "Much higher bandwidth than TP",
-      "Much lower bandwidth — it passes activations, not weights, at stage boundaries",
+      "Much lower bandwidth: it passes activations, not weights, at stage boundaries",
       "Exactly the same bandwidth as TP",
       "No inter-GPU communication at all"
     ],
@@ -141,12 +141,12 @@ then submit to reveal explanations and your score band.
       "1 expert"
     ],
     "answer": 2,
-    "explain": "The router selects the top-K (here 2) experts per token — the 'active parameters'. Total params stay huge but per-token compute stays small (e.g. Mixtral: ~13B active of ~47B total)."
+    "explain": "The router selects the top-K (here 2) experts per token: the 'active parameters'. Total params stay huge but per-token compute stays small (e.g. Mixtral: ~13B active of ~47B total)."
   },
   {
     "stem": "The operational risk unique to expert parallelism is:",
     "options": [
-      "Hot experts — uneven routing overloads some GPUs while others idle",
+      "Hot experts: uneven routing overloads some GPUs while others idle",
       "The KV cache growing too large for HBM",
       "Quantization rounding error",
       "Weights loading slowly from disk"
@@ -160,7 +160,7 @@ then submit to reveal explanations and your score band.
       "All-reduce, exactly like tensor parallelism",
       "Point-to-point activation passing, exactly like pipeline parallelism",
       "A single broadcast from a central parameter server",
-      "All-to-all — activations are dispatched to the chosen experts and results returned"
+      "All-to-all: activations are dispatched to the chosen experts and results returned"
     ],
     "answer": 3,
     "explain": "Each expert lives on a different GPU. Per token the router picks top-K experts, the activation is all-to-all'd out to them, each computes locally, and results are all-to-all'd back. Every token touches the network, which is why EP is expensive."
@@ -190,24 +190,24 @@ then submit to reveal explanations and your score band.
   {
     "stem": "Under proper speculative sampling, output quality versus vanilla decoding is:",
     "options": [
-      "Lower — it is an approximation",
+      "Lower: it is an approximation",
       "Higher than the target alone",
       "Provably identical to sampling from the target alone",
       "Random and workload-dependent"
     ],
     "answer": 2,
-    "explain": "The rejection-sampling correction preserves the target model's exact output distribution, so speculative decoding is lossless (bit-exact) — a pure systems win, not a quality tradeoff."
+    "explain": "The rejection-sampling correction preserves the target model's exact output distribution, so speculative decoding is lossless (bit-exact): a pure systems win, not a quality tradeoff."
   },
   {
     "stem": "How does the target model decide whether to accept a draft token?",
     "options": [
       "It accepts any token whose probability clears a fixed threshold the user sets",
-      "It applies a rejection-sampling test — accept with probability min(1, p_target/p_draft), and resample on rejection",
+      "It applies a rejection-sampling test: accept with probability min(1, p_target/p_draft), and resample on rejection",
       "It compares token embeddings for cosine similarity",
       "It takes a majority vote across several draft models"
     ],
     "answer": 1,
-    "explain": "Acceptance is stochastic rejection sampling: each draft token is kept with probability min(1, p_target/p_draft), and on rejection the target resamples from the corrected distribution. This — not a fixed probability threshold — is what makes the output bit-exact."
+    "explain": "Acceptance is stochastic rejection sampling: each draft token is kept with probability min(1, p_target/p_draft), and on rejection the target resamples from the corrected distribution. This, not a fixed probability threshold, is what makes the output bit-exact."
   },
   {
     "stem": "If the draft is wrong on token 3 of a 5-token proposal, what happens to tokens 1-2?",
@@ -225,7 +225,7 @@ then submit to reveal explanations and your score band.
     "options": [
       "High GPU temperature causing throttling",
       "The draft model using more memory than the target",
-      "A low acceptance rate — the draft mismatches the target too often (e.g. creative / high-temperature text)",
+      "A low acceptance rate: the draft mismatches the target too often (e.g. creative / high-temperature text)",
       "Large batch sizes reducing output accuracy"
     ],
     "answer": 2,
@@ -234,13 +234,13 @@ then submit to reveal explanations and your score band.
   {
     "stem": "Why is decode specifically the phase that benefits from speculative decoding?",
     "options": [
-      "Decode is memory-bound and serial, so Tensor Cores sit idle — verification turns wasted compute into extra tokens",
+      "Decode is memory-bound and serial, so Tensor Cores sit idle; verification turns wasted compute into extra tokens",
       "Decode is compute-bound and needs additional FLOPs the draft supplies",
       "The draft model runs on the CPU, freeing GPU memory",
       "It shrinks the KV cache during generation"
     ],
     "answer": 0,
-    "explain": "Single-stream decode reads all the weights from HBM to make one token, leaving the Tensor Cores ~99.99% idle. Verifying K draft tokens in one pass uses that otherwise-wasted compute — 'free latency' if the workload is predictable."
+    "explain": "Single-stream decode reads all the weights from HBM to make one token, leaving the Tensor Cores ~99.99% idle. Verifying K draft tokens in one pass uses that otherwise-wasted compute: 'free latency' if the workload is predictable."
   },
   {
     "stem": "Static batching is wasteful primarily because:",
@@ -256,7 +256,7 @@ then submit to reveal explanations and your score band.
   {
     "stem": "Continuous batching (iteration-level scheduling) means:",
     "options": [
-      "The batch composition changes after every decode step — finished requests are evicted and new ones admitted",
+      "The batch composition changes after every decode step; finished requests are evicted and new ones admitted",
       "Requests are sorted by length before one fixed batch runs to completion",
       "All requests must finish before any new one can start",
       "Each request is given its own dedicated GPU"
@@ -273,7 +273,7 @@ then submit to reveal explanations and your score band.
       "Block-based KV-cache allocation (PagedAttention)"
     ],
     "answer": 3,
-    "explain": "Admitting and evicting requests every step means KV slots are constantly allocated and freed at variable sizes. PagedAttention's block allocator prevents fragmentation — that's why vLLM ships both together."
+    "explain": "Admitting and evicting requests every step means KV slots are constantly allocated and freed at variable sizes. PagedAttention's block allocator prevents fragmentation; that's why vLLM ships both together."
   },
   {
     "stem": "PagedAttention reduces KV-cache waste by:",
@@ -295,7 +295,7 @@ then submit to reveal explanations and your score band.
       "It is actually faster than vLLM"
     ],
     "answer": 1,
-    "explain": "Bare PyTorch lacks continuous batching, PagedAttention, FlashAttention kernels, hot-path quantization, and fused kernels — so throughput is roughly 5-10x lower and it collapses under real concurrency."
+    "explain": "Bare PyTorch lacks continuous batching, PagedAttention, FlashAttention kernels, hot-path quantization, and fused kernels; so throughput is roughly 5-10x lower and it collapses under real concurrency."
   },
   {
     "stem": "Best default engine for an OSS deployment on NVIDIA with broad model support:",
@@ -327,17 +327,13 @@ then submit to reveal explanations and your score band.
 
 <div class="grid cards" markdown>
 
--   __Record your result__
-
-    Use **Retake** and **Copy progress JSON** in the check above to log the attempt in `docs/progress/`.
-
 -   __Back to today's lesson__
 
     [Day 20 · Consolidation](index.md)
 
 -   __Back to the week__
 
-    [Week 4 — Scaling &amp; Stacks overview](../index.md)
+    [Week 4 - Scaling &amp; Stacks overview](../index.md)
 
 -   __Continue the curriculum__
 

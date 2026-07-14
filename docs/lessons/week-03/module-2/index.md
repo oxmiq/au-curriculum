@@ -1,7 +1,7 @@
 # Day 12 · The KV Cache
 
 > **Concept of the day:** KV cache = stored keys and values from all prior tokens. Grows linearly with context. **Can exceed model weight memory** at long contexts.<br>
-> **Pre-reading:** "KV cache explained" blog with diagrams — <a href="https://medium.com/@joaolages/kv-caching-explained-276520203249" target="_blank" rel="noopener">João Lages — KV Caching Explained</a>.
+> **Pre-reading:** "KV cache explained" blog with diagrams: <a href="https://medium.com/@joaolages/kv-caching-explained-276520203249" target="_blank" rel="noopener">João Lages - KV Caching Explained</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 3 — Attention &amp; KV Cache</a>
+    <a href="../">Week 3 - Attention &amp; KV Cache</a>
     <span class="sep">/</span>
     <span>Day 12 · KV Cache</span>
     {status:week-03/module-2}
@@ -35,10 +35,10 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 ### Before You Start
 
-You should have already read: "KV cache explained" blog with diagrams — Pre-Lecture Reading **Reader 4** + Study Guide §A.2.
+You should have already read: "KV cache explained" blog with diagrams: Pre-Lecture Reading **Reader 4** + Study Guide §A.2.
 
 ### Quick Self-Check
 
@@ -52,7 +52,7 @@ Answer these questions from memory:
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-03-m2-readiness" data-kind="readiness" data-draw="5" data-source="João Lages — KV Caching Explained">
+<div class="ox-self-check" data-widget="self-check" data-id="week-03-m2-readiness" data-kind="readiness" data-draw="5" data-source="João Lages - KV Caching Explained">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -75,7 +75,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Because of compression algorithms"
     ],
     "answer": 1,
-    "explain": "Each new token needs to attend to all previous tokens. The K and V for each previous token must be stored. With N tokens of context, you need N token's worth of KV data — hence linear growth."
+    "explain": "Each new token needs to attend to all previous tokens. The K and V for each previous token must be stored. With N tokens of context, you need N token's worth of KV data: hence linear growth."
   },
   {
     "stem": "In the transformer architecture, where does the KV cache get used?",
@@ -91,13 +91,13 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
   {
     "stem": "For a 70B model at 128K context, can the KV cache exceed the size of the model weights?",
     "options": [
-      "No — KV cache is always smaller than model weights",
-      "Yes — at long contexts, KV cache can exceed model weight memory",
+      "No: KV cache is always smaller than model weights",
+      "Yes: at long contexts, KV cache can exceed model weight memory",
       "Only for small models",
       "Only with quantization"
     ],
     "answer": 1,
-    "explain": "Yes! A 70B model (FP16) is ~140GB. At 128K context with GQA, the KV cache can be hundreds of GB. This is why long-context inference is memory-constrained — KV cache, not weights, becomes the bottleneck."
+    "explain": "Yes! A 70B model (FP16) is ~140GB. At 128K context with GQA, the KV cache can be hundreds of GB. This is why long-context inference is memory-constrained: KV cache, not weights, becomes the bottleneck."
   },
   {
     "stem": "What is the primary benefit of KV caching?",
@@ -108,7 +108,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Enables model parallelism"
     ],
     "answer": 1,
-    "explain": "Without KV cache, every decode step would recompute K and V for ALL previous tokens — O(n²) per token. With KV cache, you only compute K and V for the new token, then cache it. This is the key to efficient autoregressive generation."
+    "explain": "Without KV cache, every decode step would recompute K and V for ALL previous tokens: O(n²) per token. With KV cache, you only compute K and V for the new token, then cache it. This is the key to efficient autoregressive generation."
   },
   {
     "stem": "What would happen if you didn't use KV caching during inference?",
@@ -119,7 +119,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Nothing would change"
     ],
     "answer": 1,
-    "explain": "Without KV caching, each decode step recomputes K and V for all previous tokens. For 1000 output tokens, this means computing attention over 1+2+3+...+1000 tokens — O(n²) total. KV caching turns this into O(n)."
+    "explain": "Without KV caching, each decode step recomputes K and V for all previous tokens. For 1000 output tokens, this means computing attention over 1+2+3+...+1000 tokens: O(n²) total. KV caching turns this into O(n)."
   },
   {
     "stem": "What is GQA (Grouped-Query Attention) and how does it affect KV cache size?",
@@ -149,8 +149,8 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — Why KV Cache Exists
-### Reading — The Problem Without Cache
+## Part 2 - Core Concepts - Why KV Cache Exists
+### Reading - The Problem Without Cache
 
 Without a cache, generating output token *t* would require re-running attention over *all t–1* previously seen tokens. That's O(t²) cumulative work for *t* output tokens.
 
@@ -161,7 +161,7 @@ The KV cache stores the **K** (keys) and **V** (values) tensors that each layer 
 1. **Compute** new K, V for the *one* new token
 2. **Attend** over the *cached* K, V for all previous tokens
 
-> **That turns decode into O(t) per token — and is the only reason single-user generation is feasible.**
+> **That turns decode into O(t) per token: and is the only reason single-user generation is feasible.**
 
 ### Why This Matters
 
@@ -171,8 +171,8 @@ Without KV cache:
 
 ---
 
-## Part 3 — Deep Dive — KV Cache Size Formula
-### Reading — The Math
+## Part 3 - Deep Dive - KV Cache Size Formula
+### Reading - The Math
 
 For one token, one layer:
 
@@ -187,7 +187,7 @@ Where:
 - 2 = for K and V
 - seq_len = context length
 
-### Worked Example — Llama-3.1-8B (FP16)
+### Worked Example - Llama-3.1-8B (FP16)
 
 Llama-3.1-8B uses **GQA** with 8 KV heads, head_dim 128, 32 layers, 2 bytes (FP16):
 
@@ -208,7 +208,7 @@ Llama-3.1-8B uses **GQA** with 8 KV heads, head_dim 128, 32 layers, 2 bytes (FP1
 
 ---
 
-## Part 4 — Hands-On — Calculate KV Cache Size
+## Part 4 - Hands-On - Calculate KV Cache Size
 ### Exercise 1: Llama-3.1-8B at Different Contexts
 
 Calculate KV cache size for Llama-3.1-8B at:
@@ -235,8 +235,8 @@ At 80 GB H100, what context length saturates a single H100?
 
 ---
 
-## Part 5 — Hands-On — GQA Impact
-### Reading — Why MQA / GQA Exist
+## Part 5 - Hands-On - GQA Impact
+### Reading - Why MQA / GQA Exist
 
 Multi-Query Attention and Grouped-Query Attention shrink the KV cache by reducing `num_kv_heads`.
 
@@ -256,7 +256,7 @@ If K and V are stored in FP8 (1 byte) instead of FP16 (2 bytes), redo the 128K c
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -273,13 +273,13 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "To prefetch the next batch of requests"
     ],
     "answer": 1,
-    "explain": "Without KV caching, every decode step would recompute attention over all previous tokens — O(N) work per step, growing to O(N²) total. KV caching stores the key-value pairs computed in earlier steps, so each new decode step only processes the new token and reads from cache."
+    "explain": "Without KV caching, every decode step would recompute attention over all previous tokens: O(N) work per step, growing to O(N²) total. KV caching stores the key-value pairs computed in earlier steps, so each new decode step only processes the new token and reads from cache."
   },
   {
     "stem": "What grows with every new token generated during decode?",
     "options": [
       "The model weights",
-      "The KV cache — one new key and one new value vector is added per attention layer per token",
+      "The KV cache: one new key and one new value vector is added per attention layer per token",
       "The embedding matrix",
       "The logit vocabulary distribution"
     ],
@@ -295,29 +295,29 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "2 × hidden_size × batch_size × bytes_per_element"
     ],
     "answer": 0,
-    "explain": "Per Part 3: KV bytes = 2 (K + V) × num_layers × num_kv_heads × head_dim × seq_len × bytes_per_element. Using num_kv_heads (not the full hidden_size) is exactly what lets GQA/MQA shrink the cache — Llama-3.1-8B uses 8 KV heads vs 32 query heads, a 4× reduction versus full multi-head attention."
+    "explain": "Per Part 3: KV bytes = 2 (K + V) × num_layers × num_kv_heads × head_dim × seq_len × bytes_per_element. Using num_kv_heads (not the full hidden_size) is exactly what lets GQA/MQA shrink the cache: Llama-3.1-8B uses 8 KV heads vs 32 query heads, a 4× reduction versus full multi-head attention."
   },
   {
     "stem": "Why does serving long-context requests push against HBM limits?",
     "options": [
       "Long contexts increase the model weight size proportionally",
-      "KV cache size scales linearly with sequence length — at 128K it equals the weights at batch=1 and exceeds them at batch>1, consuming most of HBM",
+      "KV cache size scales linearly with sequence length: at 128K it equals the weights at batch=1 and exceeds them at batch>1, consuming most of HBM",
       "Long contexts require FP32 precision instead of FP16",
       "HBM bandwidth decreases as more data is stored in it"
     ],
     "answer": 1,
-    "explain": "Per the Part 3 table, an 8B model at 128K context has a ~16 GB KV cache at batch=1 — equal to the 16 GB weights, not larger; it exceeds them at batch>1. Either way it consumes a large share of the H100's 80 GB HBM, leaving less room for batching and cutting throughput."
+    "explain": "Per the Part 3 table, an 8B model at 128K context has a ~16 GB KV cache at batch=1: equal to the 16 GB weights, not larger; it exceeds them at batch>1. Either way it consumes a large share of the H100's 80 GB HBM, leaving less room for batching and cutting throughput."
   },
   {
     "stem": "What is the direct impact of a large KV cache on serving throughput?",
     "options": [
       "It increases TTFT because prefill must be redone for each new request",
-      "It reduces the HBM available for batching — fewer concurrent requests fit in memory, reducing throughput",
+      "It reduces the HBM available for batching: fewer concurrent requests fit in memory, reducing throughput",
       "It forces the model to use lower precision to compensate",
       "It reduces decode speed by increasing the L2 cache miss rate"
     ],
     "answer": 1,
-    "explain": "HBM is finite (80 GB on H100). Large KV caches per request leave less room for additional concurrent requests (smaller batch size). Smaller batches mean lower GPU utilization and lower throughput. This is why KV cache management — PagedAttention, quantization, sliding windows — is critical."
+    "explain": "HBM is finite (80 GB on H100). Large KV caches per request leave less room for additional concurrent requests (smaller batch size). Smaller batches mean lower GPU utilization and lower throughput. This is why KV cache management, PagedAttention, quantization, sliding windows, is critical."
   },
   {
     "stem": "What is the 'Key Insight' about KV cache growth stated at the end of Part 7?",
@@ -328,7 +328,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "KV cache growth is eliminated by using FlashAttention"
     ],
     "answer": 1,
-    "explain": "The lesson states: 'KV cache scales linearly with context, blows past model weights, eats HBM that batching needs.' This triple impact — linear growth, overtaking weights, consuming batch budget — is why KV cache management is a central concern in Weeks 3-4."
+    "explain": "The lesson states: 'KV cache scales linearly with context, blows past model weights, eats HBM that batching needs.' This triple impact, linear growth, overtaking weights, consuming batch budget, is why KV cache management is a central concern in Weeks 3-4."
   },
   {
     "stem": "In the Part 3 worked example (Llama-3.1-8B, FP16, 8 KV heads, head_dim 128, 32 layers), how large is the KV cache per token for the whole model?",
@@ -344,7 +344,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "By how much does Llama-3's GQA shrink the KV cache relative to full multi-head attention, and why?",
     "options": [
-      "No change — GQA only affects the query heads",
+      "No change: GQA only affects the query heads",
       "2× smaller, by halving head_dim",
       "4× smaller, because 8 KV heads are shared across 32 query heads instead of one KV head per query head",
       "32× smaller, by collapsing to a single KV head"
@@ -357,7 +357,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "options": [
       "It doubles the cache to 32 GB",
       "It halves the cache from 16 GB to 8 GB, so it fits alongside the 16 GB weights",
-      "It has no effect — precision does not change cache size",
+      "It has no effect: precision does not change cache size",
       "It quadruples throughput but leaves cache size unchanged"
     ],
     "answer": 1,
@@ -373,11 +373,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Tomorrow: how **FlashAttention** rearranges the attention math to use HBM less, and how **PagedAttention** treats KV cache like an OS paging system — both are direct attacks on today's problem.
+Tomorrow: how **FlashAttention** rearranges the attention math to use HBM less, and how **PagedAttention** treats KV cache like an OS paging system: both are direct attacks on today's problem.
 
 ### Pre-read for tomorrow (Day 13 · FlashAttention & PagedAttention)
 
-- **Resource:** <a href="https://gordicaleksa.medium.com/eli5-flash-attention-5c44017022ad" target="_blank" rel="noopener">Aleksa Gordić — ELI5 FlashAttention</a> + <a href="https://blog.vllm.ai/2023/06/20/vllm.html" target="_blank" rel="noopener">vLLM — PagedAttention blog</a>.
+- **Resource:** <a href="https://gordicaleksa.medium.com/eli5-flash-attention-5c44017022ad" target="_blank" rel="noopener">Aleksa Gordić - ELI5 FlashAttention</a> + <a href="https://blog.vllm.ai/2023/06/20/vllm.html" target="_blank" rel="noopener">vLLM - PagedAttention blog</a>.
 - **Reflection questions:**
   1. Why is naive attention slow? Think about memory reads.
   2. What does "lossless" mean about FlashAttention?
@@ -387,5 +387,5 @@ Tomorrow: how **FlashAttention** rearranges the attention math to use HBM less, 
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**: share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

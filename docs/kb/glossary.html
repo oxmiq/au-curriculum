@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Glossary — Oxmiq × AU Internship</title>
+<title>Glossary - Oxmiq × AU Internship</title>
 <!--
   Glossary as a real (page-based) flipbook.
 
@@ -25,11 +25,11 @@
 -->
 <style>
   :root {
-    /* OxBlood — OXMIQ brand (light / cream). The book is an oxblood
+    /* OxBlood - OXMIQ brand (light / cream). The book is an oxblood
        clothbound volume sitting on a cream reading surface. */
     --bg: #F5F0E4;             /* cream page surface (was cosmic dark) */
     --bg-2: #EDE8DC;
-    --book-bg: #FBF9F3;        /* paper — lifts off the cream backdrop */
+    --book-bg: #FBF9F3;        /* paper - lifts off the cream backdrop */
     --book-bg-2: #F1ECDE;
     --book-edge: #D8CFBC;
     --book-edge-dark: #B7AC94;
@@ -66,6 +66,8 @@
   }
 
   /* self-hosted brand serif (offline-safe, SIL OFL) for the book body */
+  @font-face{font-family:"Oxygen";src:url("../stylesheets/fonts/Oxygen-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:"Oxygen";src:url("../stylesheets/fonts/Oxygen-Bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
   @font-face{
     font-family:"Source Serif 4";
     src:url("../stylesheets/fonts/source-serif-4/SourceSerif4-VariableFont.woff2") format("woff2");
@@ -103,16 +105,11 @@
 
   header {
     position: relative; z-index: 5;
-    padding: 16px 28px 0;
-    text-align: center;
-  }
-  .eyebrow {
-    font-family: var(--mono);
-    font-size: 10px; text-transform: uppercase; letter-spacing: .14em;
-    color: var(--accent); margin-bottom: 4px;
+    padding: 16px 28px 0 0;
+    text-align: left;            /* left-align the page heading with native pages */
   }
   h1.page-title {
-    font-family: var(--serif); font-weight: 600; font-size: 22px;
+    font-family: var(--sans); font-weight: 700; font-size: 22px; letter-spacing: -.01em;
     margin: 0 0 4px; color: var(--book-ink);
   }
   .sub { color: var(--book-ink-soft); font-size: 13px; margin: 0; }
@@ -227,12 +224,12 @@
 
   /* ============================================================
      PAGE INNER WRAPPERS
-       .drop-cap-page  — left page of a letter's first spread
-       .term-page      — any page filled with term cards
-       .blank-page     — end-of-section padding page
-       .cover-page     — front cover artwork
-       .back-page      — back cover artwork
-       .search-list-page — left page in search-results mode (links)
+       .drop-cap-page  - left page of a letter's first spread
+       .term-page      - any page filled with term cards
+       .blank-page     - end-of-section padding page
+       .cover-page     - front cover artwork
+       .back-page      - back cover artwork
+       .search-list-page - left page in search-results mode (links)
      ============================================================ */
   .drop-cap-page, .term-page, .blank-page, .search-list-page {
     height: 100%;
@@ -727,9 +724,8 @@
 </head>
 <body>
 <header>
-  <p class="eyebrow">Oxmiq × AU Internship</p>
   <h1 class="page-title">Glossary</h1>
-  <p class="sub">A book of terms — click the cover to open, then turn pages.</p>
+  <p class="sub">A book of terms: click the cover to open, then turn pages.</p>
   <div class="search-wrap">
     <input type="text" class="search-input" id="search" placeholder="Search terms…  (Esc to clear)">
   </div>
@@ -772,8 +768,8 @@
 
   const FALLBACK_FACTS = [
     { text: 'GPT-3 was 175B parameters; LLaMA 3 8B punches well above that weight class thanks to better data and training recipes.', tag: 'LLM history' },
-    { text: 'NVIDIA H100 ships with 80GB of HBM3 and ~3.35 TB/s of memory bandwidth — the bottleneck most inference workloads run into.', tag: 'GPU' },
-    { text: 'FlashAttention turned attention from O(N²) memory to O(N) IO without changing the math — a rare free lunch.', tag: 'Inference' }
+    { text: 'NVIDIA H100 ships with 80GB of HBM3 and ~3.35 TB/s of memory bandwidth: the bottleneck most inference workloads run into.', tag: 'GPU' },
+    { text: 'FlashAttention turned attention from O(N²) memory to O(N) IO without changing the math: a rare free lunch.', tag: 'Inference' }
   ];
 
   // ---------- state ----------
@@ -840,11 +836,11 @@
     return `<div class="cover-page">
       <div class="cover-eyebrow">Oxmiq × AU Internship</div>
       <h1 class="cover-title">Glossary</h1>
-      <p class="cover-sub">A book of terms — across foundations, inference, prompting, agents, and Capsule.</p>
+      <p class="cover-sub">A book of terms: across foundations, inference, prompting, agents, and Capsule.</p>
       <div class="cover-stats">
         ${total} terms<br>
         ${letters} of 26 letters<br>
-        — A telephone directory of ideas —
+        - A telephone directory of ideas -
       </div>
       <div class="cover-cta">▸ Click cover to open</div>
     </div>`;
@@ -858,7 +854,7 @@
       return n;
     }, 0);
     return `<div class="back-page">
-      <div class="cover-eyebrow">— Fin —</div>
+      <div class="cover-eyebrow">- Fin -</div>
       <h1 class="cover-title">The End</h1>
       <p class="cover-sub">You've reached the back of the book.</p>
       <div class="cover-stats">
@@ -880,7 +876,7 @@
       <div class="divider"></div>
       <p class="fact">${escapeHTML(fact.text)}</p>
       <div><span class="fact-tag">${escapeHTML(fact.tag)}</span></div>
-      <div class="foot">— Glossary —</div>
+      <div class="foot">- Glossary -</div>
     </div>`;
   }
 
@@ -899,7 +895,7 @@
     return `<div class="term-page">
       ${header}
       ${page.terms.map(renderTermCard).join('')}
-      <div class="foot">— ${page.letter} —</div>
+      <div class="foot">- ${page.letter} -</div>
     </div>`;
   }
 
@@ -1122,7 +1118,7 @@
         ? `Search · ${spread.part}/${spread.totalParts}`
         : `Search · ${spread.totalCount || 0} match${spread.totalCount === 1 ? '' : 'es'}`;
     } else {
-      // content spread — compute letter + spread index within that letter
+      // content spread - compute letter + spread index within that letter
       const L = currentLetter(spread);
       if (L) {
         // count how many spreads belong to this letter and which index we're at
@@ -1182,9 +1178,9 @@
       // settles; at cleanup we update it to nextSpread.left.
       if (wasClosedCover) {
         // We were at cover (left was hidden). Reveal a blank parchment now
-        // so the flipper has something to rotate against — actually we
+        // so the flipper has something to rotate against; actually we
         // want the cover's "inside" face. Just show the current left content
-        // (which was empty) — that's fine; the flipper covers the right half.
+        // (which was empty); that's fine; the flipper covers the right half.
         left.innerHTML = '';
       }
     } else {
@@ -1319,7 +1315,7 @@
     // Paginate the TERM CARDS first (right side, density-bound).
     const cardChunks = paginateTerms(matches, measureWidth);
     // The LINK LIST on the left mirrors the card chunks 1:1 so every spread
-    // shows the same slice of hits on both sides — left page always lists
+    // shows the same slice of hits on both sides; left page always lists
     // exactly the terms whose cards appear on the facing right page.
     const total = cardChunks.length;
     let startIndex = 0;

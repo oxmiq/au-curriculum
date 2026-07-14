@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Interactive Concept Graph — Oxmiq × AU Internship</title>
+<title>Interactive Concept Graph - Oxmiq × AU Internship</title>
 <!--
   Force-directed concept graph for docs/kb/concepts.json.
 
@@ -11,14 +11,14 @@
   Edges  = prereq relationships between concepts (the real graph; not the
            near-linear day-by-day teaching order)
   Colour = phase (foundations, inference, prompting, agents, capsule, capstone)
-  Size   = scaled by total degree — concepts that connect to a lot of other
+  Size   = scaled by total degree: concepts that connect to a lot of other
            concepts (either as prereqs or dependents) become visual hubs.
   Look   = radial gradient fill gives nodes a 3D sphere feel against the dark
            background; labels render BELOW the node with a halo outline so they
            stay readable even on small nodes.
 
   Glossary terms (definitions of individual words like "latency", "FFN", etc.)
-  intentionally do NOT appear here — they live on the separate Glossary page.
+  intentionally do NOT appear here; they live on the separate Glossary page.
   This page is the conceptual map, not a dictionary.
 
   Click a concept to spotlight: itself, all ancestors (its prereq chain back
@@ -32,11 +32,15 @@
   numerical_anchors (if any), and sources.
 
   Loaded from CDN. If the CDN is blocked, the page degrades to an error.
-  Editing: data lives in concepts.json — do not duplicate it here.
+  Editing: data lives in concepts.json; do not duplicate it here.
 -->
 <style>
+  /* self-host Oxygen so the heading matches native site headings (iframes
+     don't inherit the parent page's @font-face) */
+  @font-face{font-family:"Oxygen";src:url("../stylesheets/fonts/Oxygen-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:"Oxygen";src:url("../stylesheets/fonts/Oxygen-Bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
   :root {
-    /* OxBlood — OXMIQ brand tokens (light / cream). Mirrors graph.html so the
+    /* OxBlood - OXMIQ brand tokens (light / cream). Mirrors graph.html so the
        whole kb section reads as one product. */
     --bg: #F5F0E4;
     --surface: #EFEADD;
@@ -49,10 +53,10 @@
     --mono: "Oxygen Mono", ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
     --sans: "Oxygen", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
-    /* Oxmiq brand accent — reads directly on cream, no lift needed. */
+    /* Oxmiq brand accent - reads directly on cream, no lift needed. */
     --ox-blood-accent: #8B0000;
 
-    /* Phase palette — mid-tone, distinguishable, legible as solid orbs on cream
+    /* Phase palette - mid-tone, distinguishable, legible as solid orbs on cream
        (the neon cosmos palette washed out on a light background). */
     --p-foundations: #5A6577;
     --p-inference:   #0E7C8A;
@@ -76,15 +80,11 @@
   }
   header {
     position: fixed; top: 0; left: 0; right: 0;
-    padding: 14px 20px;
+    padding: 6px 20px 14px 0;    /* flush left + tight top, to match native page headings */
     background: linear-gradient(180deg, rgba(245,240,228,.96), rgba(245,240,228,.75) 80%, transparent);
     z-index: 10;
   }
-  .eyebrow {
-    font-family: var(--mono); font-size: 11px; letter-spacing: .18em;
-    text-transform: uppercase; color: var(--ox-blood-accent); margin: 0 0 4px;
-  }
-  h1 { font-family: var(--mono); font-weight: 600; font-size: 18px; margin: 0 0 4px; letter-spacing: -.01em; }
+  h1 { font-family: var(--sans); font-weight: 700; font-size: 24px; margin: 0 0 4px; letter-spacing: -.01em; }
   .sub { color: var(--muted); font-size: 12.5px; margin: 0; }
   .sub b { color: var(--text); font-weight: 600; }
 
@@ -97,7 +97,7 @@
       radial-gradient(ellipse at 50% 50%, #F7F2E7 0%, #ECE6D8 92%),
       var(--bg);
   }
-  /* Starfield/vignette belonged to the dark cosmos theme — hidden on cream. */
+  /* Starfield/vignette belonged to the dark cosmos theme: hidden on cream. */
   #cosmos {
     display: none;
     position: fixed; inset: 0; pointer-events: none; z-index: 1;
@@ -187,6 +187,8 @@
   #panel section li:hover { color: var(--p-inference); }
   #panel section li.static { cursor: default; }
   #panel section li.static:hover { color: var(--text); }
+  #panel section li a { color: var(--p-inference); text-decoration: none; }
+  #panel section li a:hover { text-decoration: underline; }
   #panel .none { color: var(--faint); font-size: 12.5px; font-style: italic; }
   #panel .num-anchor {
     background: var(--surface-2); border: 1px solid var(--line);
@@ -219,14 +221,15 @@
 
   /* Help hint */
   #hint {
-    position: fixed; bottom: 14px; right: 14px;
+    position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 8px;
-    padding: 10px 12px;
+    padding: 10px 18px;
     font-size: 11.5px; color: var(--muted);
     z-index: 9;
-    max-width: 300px;
+    max-width: min(760px, 92vw);
+    text-align: center;
   }
 
   /* Error fallback */
@@ -243,7 +246,6 @@
 <body>
 
 <header>
-  <p class="eyebrow">Oxmiq × AU Internship</p>
   <h1>Interactive Concept Graph</h1>
   <p class="sub"><b id="stat-nodes">…</b> concepts · <b id="stat-edges">…</b> prereq edges. Click a concept to centre it and highlight its direct prereqs and dependents.</p>
 </header>
@@ -281,10 +283,6 @@
     <h3>Numerical anchors</h3>
     <div id="p-anchors"></div>
   </section>
-  <section id="sec-sources" style="display:none">
-    <h3>Sources</h3>
-    <ul id="p-sources"></ul>
-  </section>
 </aside>
 
 <div id="legend">
@@ -299,7 +297,7 @@
 </div>
 
 <div id="hint">
-  Click a concept to centre it and highlight its 1-hop neighbours — direct prereqs (cyan) and direct dependents (red).
+  Click a concept to centre it and highlight its 1-hop neighbours: direct prereqs (cyan) and direct dependents (red).
   Click empty space (or Reset) to restore. Scroll to zoom, drag to pan.
   Concept names in the side panel are also clickable.
 </div>
@@ -336,25 +334,37 @@
     capstone:    '#C43E54'
   };
 
-  fetch('concepts.json')
-    .then(r => {
+  // Lesson index (module id -> {title, url}) built from graph.json, so the panel
+  // can show real lesson names and working links instead of raw week-XX/module-Y ids.
+  let LESSON = {};
+  function buildLessonIndex(graph) {
+    if (!graph || !graph.weeks) return;
+    graph.weeks.forEach(w => (w.modules || []).forEach(m => {
+      LESSON[m.id] = { title: m.title, url: '../lessons/' + m.id + '/' };
+    }));
+  }
+  function lessonName(modId) { return (LESSON[modId] && LESSON[modId].title) || modId; }
+  function lessonUrl(modId) { return (LESSON[modId] && LESSON[modId].url) || moduleToLessonUrl(modId); }
+
+  Promise.all([
+    fetch('concepts.json').then(r => {
       if (!r.ok) throw new Error('concepts.json HTTP ' + r.status);
       return r.json();
-    })
-    .then(initGraph)
+    }),
+    fetch('graph.json').then(r => r.ok ? r.json() : null).catch(() => null)
+  ])
+    .then(([data, graph]) => { buildLessonIndex(graph); initGraph(data); })
     .catch(err => {
       console.error(err);
       document.getElementById('err').classList.add('show');
     });
 
   function moduleToLessonUrl(modId) {
-    // graph.json module ids are like "week-02/module-3" or new flat "module-02".
-    // The lesson pages live at /lessons/module-NN/. We use the week number from
-    // the prefix to derive the module-NN slug.
+    // Lesson pages live at /lessons/week-XX/module-Y/. (Fallback only: the
+    // graph.json-derived LESSON index is preferred.)
     if (!modId) return null;
-    let m = modId.match(/^week-(\d{2})\/module-\d+$/);
-    if (m) return '../lessons/module-' + m[1] + '/';
-    m = modId.match(/^module-(\d{2})$/);
+    if (/^week-\d{2}\/module-\d+$/.test(modId)) return '../lessons/' + modId + '/';
+    const m = modId.match(/^module-(\d{2})$/);
     if (m) return '../lessons/module-' + m[1] + '/';
     return null;
   }
@@ -465,7 +475,7 @@
             'background-gradient-stop-positions': '0 60 100',
             'background-gradient-direction': 'to-bottom-right',
             'background-color': 'data(color)',  // fallback for renderers that ignore gradient
-            // Soft glowing aura around every node — the GraphXR "luminous orb"
+            // Soft glowing aura around every node: the GraphXR "luminous orb"
             // effect. underlay sits BELOW the node and bleeds outward, so a
             // larger padding gives a softer halo.
             'underlay-color': 'data(color)',
@@ -504,7 +514,7 @@
           selector: 'edge',
           style: {
             // Default edges need to be clearly visible against the dark canvas
-            // even when nothing is selected — hence the higher opacity and a
+            // even when nothing is selected: hence the higher opacity and a
             // slightly cooler grey than the surface chrome.
             'width': 1.5,
             'line-color': '#9A9182',
@@ -529,7 +539,7 @@
             'border-opacity': 1,
             'font-size': '13px',
             'text-outline-width': 3,
-            // Oxblood aura on the focused node — reads as "selected" on cream.
+            // Oxblood aura on the focused node: reads as "selected" on cream.
             'underlay-color': '#8B0000',
             'underlay-padding': 22,
             'underlay-opacity': 0.28,
@@ -610,7 +620,7 @@
     document.getElementById('reset').addEventListener('click', clearFocus);
 
     function focusNode(node) {
-      // 1-hop only — direct prereqs (incomers) and direct dependents
+      // 1-hop only - direct prereqs (incomers) and direct dependents
       // (outgoers). We deliberately do NOT walk the full chain anymore;
       // showing only the immediate neighbourhood keeps the spotlight legible
       // and matches how the side panel reads ("depends on" / "enables").
@@ -621,7 +631,7 @@
       const keep     = node.union(prereqs).union(deps).union(inEdges).union(outEdges);
 
       // Mute everything outside the 1-hop neighbourhood (not dimmed to
-      // invisibility — the rest of the graph stays legible underneath).
+      // invisibility: the rest of the graph stays legible underneath).
       cy.elements().addClass('muted');
       keep.removeClass('muted');
 
@@ -638,7 +648,7 @@
       document.getElementById('reset').classList.add('show');
 
       // Center the focused node in the viewport and zoom-fit the 1-hop
-      // neighbourhood. We do NOT re-run the force layout — keeping the
+      // neighbourhood. We do NOT re-run the force layout; keeping the
       // node positions stable on click is more orientating than
       // re-shuffling them every time.
       cy.stop(true);
@@ -668,13 +678,14 @@
       document.getElementById('p-id').textContent = d.id;
       document.getElementById('p-desc').textContent = d.desc || '(no description)';
 
-      // Lesson link — use the first introduced_in module if any
+      // Lesson link - use the first introduced_in module if any
       const a = document.getElementById('p-link');
-      const lessonHref = d.introduced_in.length ? moduleToLessonUrl(d.introduced_in[0]) : null;
+      const introMod = d.introduced_in.length ? d.introduced_in[0] : null;
+      const lessonHref = introMod ? lessonUrl(introMod) : null;
       if (lessonHref) {
         a.href = lessonHref;
         a.style.display = 'inline-block';
-        a.textContent = 'Open lesson (' + d.introduced_in[0] + ') →';
+        a.textContent = 'Open lesson: ' + lessonName(introMod) + ' →';
       } else {
         a.style.display = 'none';
       }
@@ -687,7 +698,7 @@
       fillNodeList('p-prereqs', prereqNodes.sort(sortByPhaseThenTitle));
       fillNodeList('p-deps', depNodes.sort(sortByPhaseThenTitle));
 
-      // Also-used-in (static text, no nav)
+      // Also-used-in - link to the actual lesson, shown by name
       const alsoSec = document.getElementById('sec-also');
       const alsoUl = document.getElementById('p-also');
       alsoUl.innerHTML = '';
@@ -695,8 +706,18 @@
         alsoSec.style.display = 'block';
         d.also_used_in.forEach(m => {
           const li = document.createElement('li');
-          li.className = 'static';
-          li.textContent = m;
+          const url = lessonUrl(m);
+          if (url) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank';
+            link.rel = 'noopener';
+            link.textContent = lessonName(m);
+            li.appendChild(link);
+          } else {
+            li.className = 'static';
+            li.textContent = lessonName(m);
+          }
           alsoUl.appendChild(li);
         });
       } else {
@@ -713,27 +734,11 @@
           const div = document.createElement('div');
           div.className = 'num-anchor';
           div.innerHTML = (na.value ? na.value : '') +
-            (na.label ? ' <span class="lbl">— ' + na.label + '</span>' : '');
+            (na.label ? ' <span class="lbl">- ' + na.label + '</span>' : '');
           ancEl.appendChild(div);
         });
       } else {
         ancSec.style.display = 'none';
-      }
-
-      // Sources
-      const srcSec = document.getElementById('sec-sources');
-      const srcUl = document.getElementById('p-sources');
-      srcUl.innerHTML = '';
-      if (d.sources.length) {
-        srcSec.style.display = 'block';
-        d.sources.forEach(s => {
-          const li = document.createElement('li');
-          li.className = 'static';
-          li.textContent = s;
-          srcUl.appendChild(li);
-        });
-      } else {
-        srcSec.style.display = 'none';
       }
 
       panel.classList.add('open');

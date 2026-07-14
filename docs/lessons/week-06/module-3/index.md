@@ -1,7 +1,7 @@
 # Day 28 · Tools & MCP
 
-> **Concept of the day:** **tools** = functions the agent can call to act on the world. Each call has a **schema** the model must respect. **MCP (Model Context Protocol)** is the emerging standard for exposing tools across model providers — write once, plug into any compatible agent.<br>
-> **Pre-reading:** <a href="../../../readings/ai-agents/#day-28-tools-mcp">AI Agents Pre-Lecture Reading — Tools & MCP section</a>. Supplement: <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener">Anthropic — Introducing the Model Context Protocol</a>.
+> **Concept of the day:** **tools** = functions the agent can call to act on the world. Each call has a **schema** the model must respect. **MCP (Model Context Protocol)** is the emerging standard for exposing tools across model providers: write once, plug into any compatible agent.<br>
+> **Pre-reading:** <a href="../../../readings/ai-agents/#day-28-tools-mcp">AI Agents Pre-Lecture Reading - Tools & MCP section</a>. Supplement: <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener">Anthropic - Introducing the Model Context Protocol</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 6 — Prompt Engineering + AI Agents</a>
+    <a href="../">Week 6 - Prompt Engineering + AI Agents</a>
     <span class="sep">/</span>
     <span>Day 28 · Tools & Action Layer</span>
     {status:week-06/module-3}
@@ -36,11 +36,11 @@ This lesson is designed for guided self-study. Here's how your ~3 hours are orga
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 
 ### Before You Start
 
-You should have already read: AI Agents Student Guide **Module 2 — Action Layer** and the Anthropic MCP overview.
+You should have already read: AI Agents Student Guide **Module 2 - Action Layer** and the Anthropic MCP overview.
 
 ### Quick Self-Check
 
@@ -53,7 +53,7 @@ Answer these questions from memory before continuing:
 
 If you couldn't answer all four, re-read the Student Guide Module 2 before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-06-m3-readiness" data-kind="readiness" data-draw="5" data-source="AI Agents Pre-Lecture Reading — Tools & MCP + Anthropic MCP">
+<div class="ox-self-check" data-widget="self-check" data-id="week-06-m3-readiness" data-kind="readiness" data-draw="5" data-source="AI Agents Pre-Lecture Reading - Tools & MCP + Anthropic MCP">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -65,7 +65,7 @@ If you couldn't answer all four, re-read the Student Guide Module 2 before conti
       "A model configuration"
     ],
     "answer": 1,
-    "explain": "A tool is a function the agent can call to act on the world — like search, calculate, make an API call, read a file, or send an email. Tools extend what the agent can do beyond just generating text."
+    "explain": "A tool is a function the agent can call to act on the world: like search, calculate, make an API call, read a file, or send an email. Tools extend what the agent can do beyond just generating text."
   },
   {
     "stem": "Why does a tool need a schema?",
@@ -76,18 +76,18 @@ If you couldn't answer all four, re-read the Student Guide Module 2 before conti
       "Schemas are optional"
     ],
     "answer": 1,
-    "explain": "A tool schema tells the model: (1) what the tool does, (2) what arguments are required, (3) what each argument means. Without a schema, the model can't correctly invoke the tool — it doesn't know what to pass or how."
+    "explain": "A tool schema tells the model: (1) what the tool does, (2) what arguments are required, (3) what each argument means. Without a schema, the model can't correctly invoke the tool; it doesn't know what to pass or how."
   },
   {
     "stem": "What does MCP stand for and what problem does it solve?",
     "options": [
-      "Model Call Protocol — standardizes how models make API calls",
-      "Model Context Protocol — standardizes how agents connect to tools and data sources",
-      "Multi-Channel Processing — improves response speed",
-      "Main Control Panel — a UI component"
+      "Model Call Protocol: standardizes how models make API calls",
+      "Model Context Protocol: standardizes how agents connect to tools and data sources",
+      "Multi-Channel Processing: improves response speed",
+      "Main Control Panel: a UI component"
     ],
     "answer": 1,
-    "explain": "MCP (Model Context Protocol) standardizes how agents connect to tools and data sources. Before MCP, every agent had custom integrations for each tool. With MCP, you write the tool once and it works with any compatible agent — like USB-C for AI."
+    "explain": "MCP (Model Context Protocol) standardizes how agents connect to tools and data sources. Before MCP, every agent had custom integrations for each tool. With MCP, you write the tool once and it works with any compatible agent: like USB-C for AI."
   },
   {
     "stem": "What is the difference between a read tool and a write tool?",
@@ -109,7 +109,7 @@ If you couldn't answer all four, re-read the Student Guide Module 2 before conti
       "It's against the MCP specification"
     ],
     "answer": 1,
-    "explain": "Write tools must have a reasoned justification traceable to user intent. The agent saying 'I decided to send this email' is not acceptable — it must say 'I'm sending this because the user asked to...'. This ensures human oversight and auditability."
+    "explain": "Write tools must have a reasoned justification traceable to user intent. The agent saying 'I decided to send this email' is not acceptable; it must say 'I'm sending this because the user asked to...'. This ensures human oversight and auditability."
   },
   {
     "stem": "What is tool selection in the context of agents?",
@@ -142,7 +142,7 @@ If you couldn't answer all four, re-read the Student Guide Module 2 before conti
       "Write tools don't need any special handling"
     ],
     "answer": 1,
-    "explain": "Write tools must require explicit user authorization. The agent can't just decide to write/change something — the user's intent must be clear and traceable. This is why write tools have stricter requirements than read tools."
+    "explain": "Write tools must require explicit user authorization. The agent can't just decide to write/change something; the user's intent must be clear and traceable. This is why write tools have stricter requirements than read tools."
   }
 ]
 </script>
@@ -150,13 +150,13 @@ If you couldn't answer all four, re-read the Student Guide Module 2 before conti
 
 ---
 
-## Part 2 — Core Concepts: Tool Anatomy
+## Part 2 - Core Concepts: Tool Anatomy
 
-### Reading — From ReAct Skeleton to Real Action
+### Reading - From ReAct Skeleton to Real Action
 
 Yesterday's ReAct loop had a placeholder: `run_tool(action)`. Today you fill that in.
 
-A **tool** is a function the agent runtime exposes to the model. The model does not run code directly — it **emits a structured tool-call**, the runtime validates it, runs the actual function, and feeds the result back as an `Observation`.
+A **tool** is a function the agent runtime exposes to the model. The model does not run code directly; it **emits a structured tool-call**, the runtime validates it, runs the actual function, and feeds the result back as an `Observation`.
 
 ### Tool Anatomy
 
@@ -164,11 +164,11 @@ Every tool exposed to an agent carries six fields:
 
 | Field | Purpose |
 |---|---|
-| `name` | Unique identifier — this is the exact string the model writes in `Action:` |
+| `name` | Unique identifier: this is the exact string the model writes in `Action:` |
 | `description` | One-paragraph explanation the model uses to *choose* this tool over alternatives |
 | `parameters` | JSON Schema defining argument names, types, constraints |
 | `returns` | Schema of the result fed back as `Observation:` |
-| `side_effects` | `none` (read-only) vs `write` — gates safety policies |
+| `side_effects` | `none` (read-only) vs `write`: gates safety policies |
 | `cost` | (optional) token/dollar cost hint so the agent can prefer cheaper tools |
 
 ### Example Tool Schema
@@ -203,7 +203,7 @@ Every tool exposed to an agent carries six fields:
 
 ### The Tool Dispatch Loop
 
-The runtime — not the model — executes tools. The model only emits a structured request:
+The runtime, not the model, executes tools. The model only emits a structured request:
 
 ```python
 while not done:
@@ -220,13 +220,13 @@ Three critical steps before any execution: **validate → check policy → run**
 
 ### Why the Description Field Dominates
 
-The model uses `description` — not `name` — to decide which tool to call. A vague or misleading description is the most common source of tool-selection errors. Rule of thumb: the description should answer "when would I pick this tool over the others?"
+The model uses `description`, not `name`, to decide which tool to call. A vague or misleading description is the most common source of tool-selection errors. Rule of thumb: the description should answer "when would I pick this tool over the others?"
 
 ---
 
-## Part 3 — Deep Dive: Read vs Write & Safety
+## Part 3 - Deep Dive: Read vs Write & Safety
 
-### Reading — The Most Important Distinction
+### Reading - The Most Important Distinction
 
 Tools fall into two classes. This distinction controls almost every safety decision in agent design:
 
@@ -234,11 +234,11 @@ Tools fall into two classes. This distinction controls almost every safety decis
 |---|---|
 | `search_docs`, `get_weather`, `read_file`, `query_database` | `send_email`, `create_ticket`, `write_file`, `transfer_money`, `delete_record` |
 | Safe to call freely | Need approval / dry-run / audit log / rate-limiting |
-| Reversible — world is unchanged | Often irreversible — real effects in the real world |
+| Reversible: world is unchanged | Often irreversible: real effects in the real world |
 | Pre-deployment testing easy | Must test in a sandbox first |
 | Failure = bad observation | Failure = real-world harm |
 
-> **Rule:** Write tools require a **human-in-the-loop confirmation** step, OR a **pre-validated allowlist**, OR a **sandboxed dry-run** — never "the agent decided to."
+> **Rule:** Write tools require a **human-in-the-loop confirmation** step, OR a **pre-validated allowlist**, OR a **sandboxed dry-run**: never "the agent decided to."
 
 ### Tool-Call Success Rate Compounds
 
@@ -261,9 +261,9 @@ Solutions:
 
 ---
 
-## Part 4 — Core Concepts: MCP & A2A
+## Part 4 - Core Concepts: MCP & A2A
 
-### Reading — Why MCP Exists
+### Reading - Why MCP Exists
 
 Pre-MCP, every model provider had its own tool-calling format:
 - OpenAI: `functions` / `tools` JSON
@@ -276,9 +276,9 @@ Build your tools for OpenAI agents, and porting to Claude meant rewriting the en
 
 **Model Context Protocol** (Anthropic-originated, November 2024, "the USB-C for AI") defines a server-client protocol:
 
-- **MCP server** — exposes tools (and resources) via **stdio** or **HTTP/SSE**.
-- **MCP client** — embedded in the agent runtime; discovers and calls server tools.
-- **Transport** — **JSON-RPC** over the chosen channel.
+- **MCP server** - exposes tools (and resources) via **stdio** or **HTTP/SSE**.
+- **MCP client** - embedded in the agent runtime; discovers and calls server tools.
+- **Transport** - **JSON-RPC** over the chosen channel.
 
 A tool implemented as an MCP server is consumable by any MCP-aware host: Claude Desktop, Cursor, OxCode, Capsule deployments, and any future compatible agent.
 
@@ -286,14 +286,14 @@ A tool implemented as an MCP server is consumable by any MCP-aware host: Claude 
 
 | Block | What It Is |
 |---|---|
-| **Tools** | Function calls with schemas — the most common block |
+| **Tools** | Function calls with schemas: the most common block |
 | **Resources** | Document-like objects the agent can read (e.g., files, DB rows) |
 | **Prompts** | Server-provided prompt templates the agent can use |
-| **Sampling** | Servers can request LLM completions from the host — the multi-agent enabler |
+| **Sampling** | Servers can request LLM completions from the host: the multi-agent enabler |
 
-### A2A — Agent-to-Agent Protocol
+### A2A - Agent-to-Agent Protocol
 
-**A2A** sits above MCP. Where MCP handles model ↔ tool communication, A2A handles **agent ↔ agent** communication — coordinating goals, passing sub-tasks, and receiving results between agents that may run on different runtimes.
+**A2A** sits above MCP. Where MCP handles model ↔ tool communication, A2A handles **agent ↔ agent** communication: coordinating goals, passing sub-tasks, and receiving results between agents that may run on different runtimes.
 
 ```
 User
@@ -307,7 +307,7 @@ By Week 9, your benchmark runner will use this pattern.
 
 ---
 
-## Part 5 — Hands-On: Design Tool Schemas
+## Part 5 - Hands-On: Design Tool Schemas
 
 ### Exercise: Write Three Tool Schemas
 
@@ -318,7 +318,7 @@ Requirements for each schema:
 - `description` (1–2 sentences that answer "when would I pick this over the others?")
 - `parameters` with at least 2 fields, one of which has a constraint (min/max, enum, or pattern)
 - `side_effects` classified as `none` or `write`
-- If `write`: write out the safety wrapper — what confirmation or policy check is required?
+- If `write`: write out the safety wrapper: what confirmation or policy check is required?
 
 Use this template:
 
@@ -368,9 +368,9 @@ This tool schema has at least two problems. Find and fix them:
 
 ---
 
-## Part 6 — Hands-On: Reliability Math
+## Part 6 - Hands-On: Reliability Math
 
-### Reading — Compounding Over a Chain
+### Reading - Compounding Over a Chain
 
 Every tool call in a task chain multiplies the per-call reliability:
 
@@ -399,8 +399,8 @@ Complete this table (compute to one decimal place):
 
 Your team needs to connect your agent to 5 external services (GitHub, Slack, Confluence, Jira, Google Calendar).
 
-**Scenario A — Bespoke:** each integration takes 2 engineer-weeks.  
-**Scenario B — MCP:** existing MCP servers exist for all 5; integration takes ~0.4 weeks each.
+**Scenario A - Bespoke:** each integration takes 2 engineer-weeks.  
+**Scenario B - MCP:** existing MCP servers exist for all 5; integration takes ~0.4 weeks each.
 
 1. Total engineer-weeks for Scenario A: ___
 2. Total engineer-weeks for Scenario B: ___
@@ -417,7 +417,7 @@ You're designing an agent with 40 potential tools.
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 ### Self-Check
 
@@ -435,7 +435,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "action, object, arguments, result, error, log"
     ],
     "answer": 1,
-    "explain": "The six fields from the lesson: name (unique identifier), description (what it does — the model reads this to decide when to call it), parameters (inputs with types/descriptions), returns (what comes back), side_effects (what it changes in the world), cost (tokens or money per call). Missing description is the most common mistake."
+    "explain": "The six fields from the lesson: name (unique identifier), description (what it does: the model reads this to decide when to call it), parameters (inputs with types/descriptions), returns (what comes back), side_effects (what it changes in the world), cost (tokens or money per call). Missing description is the most common mistake."
   },
   {
     "stem": "What is the safety rule for write tools (tools with side effects)?",
@@ -451,13 +451,13 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "What does MCP stand for and what problem does it solve?",
     "options": [
-      "Multi-Call Protocol — it batches multiple tool calls into one network request",
-      "Model Context Protocol — it provides a standard interface for connecting AI models to tools and resources, so tools built once work with any MCP-compatible model",
-      "Managed Compute Pipeline — it optimizes GPU allocation for agent workloads",
-      "Memory Cache Protocol — it caches tool outputs to reduce redundant calls"
+      "Multi-Call Protocol: it batches multiple tool calls into one network request",
+      "Model Context Protocol: it provides a standard interface for connecting AI models to tools and resources, so tools built once work with any MCP-compatible model",
+      "Managed Compute Pipeline: it optimizes GPU allocation for agent workloads",
+      "Memory Cache Protocol: it caches tool outputs to reduce redundant calls"
     ],
     "answer": 1,
-    "explain": "MCP = Model Context Protocol (Anthropic, Nov 2024). The problem: each model and each tool had custom integrations. MCP is the 'USB-C for AI' — a standard protocol where any MCP server exposes tools/resources/prompts that any MCP-compatible client can consume without custom code."
+    "explain": "MCP = Model Context Protocol (Anthropic, Nov 2024). The problem: each model and each tool had custom integrations. MCP is the 'USB-C for AI': a standard protocol where any MCP server exposes tools/resources/prompts that any MCP-compatible client can consume without custom code."
   },
   {
     "stem": "What are the four MCP building blocks?",
@@ -485,7 +485,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "What happens to model accuracy when too many tools are provided simultaneously?",
     "options": [
       "Model accuracy improves because it has more options to choose from",
-      "Model accuracy degrades — studies show providing more than ~30 tools hurts the model's ability to select the right tool",
+      "Model accuracy degrades; studies show providing more than ~30 tools hurts the model's ability to select the right tool",
       "Model accuracy is unaffected by tool count",
       "Model accuracy degrades only when tools have overlapping descriptions"
     ],
@@ -501,7 +501,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "read_file"
     ],
     "answer": 2,
-    "explain": "The lesson classifies send_email (along with create_ticket, write_file, transfer_money, delete_record) as write tools — they modify state and are often irreversible, so they need approval / dry-run / audit / rate-limiting. search_docs, get_weather, and read_file are read tools: they only retrieve information and are safe to call freely."
+    "explain": "The lesson classifies send_email (along with create_ticket, write_file, transfer_money, delete_record) as write tools; they modify state and are often irreversible, so they need approval / dry-run / audit / rate-limiting. search_docs, get_weather, and read_file are read tools: they only retrieve information and are safe to call freely."
   },
   {
     "stem": "Which tool-schema field does the model primarily use to decide which tool to call?",
@@ -512,7 +512,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "description"
     ],
     "answer": 3,
-    "explain": "The lesson's 'Why the Description Field Dominates' section: the model uses description — not name — to choose a tool. A vague or misleading description is the most common source of tool-selection errors. Rule of thumb: the description should answer 'when would I pick this tool over the others?'"
+    "explain": "The lesson's 'Why the Description Field Dominates' section: the model uses description, not name, to choose a tool. A vague or misleading description is the most common source of tool-selection errors. Rule of thumb: the description should answer 'when would I pick this tool over the others?'"
   }
 ]
 </script>
@@ -520,11 +520,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Tomorrow: **governance & security** — prompt injection at the tool boundary, output filtering, audit trails, and the EchoLeak case study (a real-world agent exploit, June 2025).
+Tomorrow: **governance & security**: prompt injection at the tool boundary, output filtering, audit trails, and the EchoLeak case study (a real-world agent exploit, June 2025).
 
 ### Pre-read for tomorrow (Day 29 · Governance & Security)
 
-- **Resource:** <a href="../../../readings/ai-agents/#day-29-governance-security">AI Agents Pre-Lecture Reading — Governance & Security section</a>. Supplement: <a href="https://www.cve.org/CVERecord?id=CVE-2025-32711" target="_blank" rel="noopener">MITRE — CVE-2025-32711 (EchoLeak)</a> + <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank" rel="noopener">OWASP Top 10 for LLM Applications</a> (scan LLM01 + LLM02).
+- **Resource:** <a href="../../../readings/ai-agents/#day-29-governance-security">AI Agents Pre-Lecture Reading - Governance & Security section</a>. Supplement: <a href="https://www.cve.org/CVERecord?id=CVE-2025-32711" target="_blank" rel="noopener">MITRE - CVE-2025-32711 (EchoLeak)</a> + <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank" rel="noopener">OWASP Top 10 for LLM Applications</a> (scan LLM01 + LLM02).
 - **Reflection questions:**
   1. What does "tool output is untrusted input" mean concretely? Give an example.
   2. How does indirect prompt injection differ from direct injection?
@@ -534,4 +534,4 @@ Tomorrow: **governance & security** — prompt injection at the tool boundary, o
 
 ## Stuck?
 
-Ask **oxtutor** — describe the tool schema problem you're working on, including the `name`, `description`, and `parameters` you've drafted, and ask for a review.
+Ask **oxtutor**; describe the tool schema problem you're working on, including the `name`, `description`, and `parameters` you've drafted, and ask for a review.

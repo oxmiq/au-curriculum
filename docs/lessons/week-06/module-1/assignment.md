@@ -1,4 +1,4 @@
-# Week 6 — Prompt Engineering · Module Assignment (5% PE Assessment)
+# Week 6 - Prompt Engineering · Module Assignment (5% PE Assessment)
 
 > **Weight:** 5% of overall grade.
 
@@ -6,7 +6,7 @@
 
 **Two artifacts**, both in a single ZIP or PR:
 
-### Artifact 1 — A 2-step chained prompt
+### Artifact 1 - A 2-step chained prompt
 
 A small task that requires two LLM calls in sequence. Examples:
 
@@ -17,11 +17,11 @@ A small task that requires two LLM calls in sequence. Examples:
 **Required:**
 
 1. Both prompts in version-controlled files (markdown or plain text), with explicit role + context + delimiters + schema + guardrails.
-2. The "glue" — a 30-line script (Python, Node, or even a shell + curl) that runs prompt 1, parses, feeds into prompt 2, and prints the final result.
+2. The "glue": a 30-line script (Python, Node, or even a shell + curl) that runs prompt 1, parses, feeds into prompt 2, and prints the final result.
 3. A **README** explaining the chain's purpose and what each step contributes.
 4. A reliability note: each prompt's expected per-step reliability (your honest estimate) and the resulting end-to-end success rate (multiplicative).
 
-### Artifact 2 — A 5-prompt eval suite
+### Artifact 2 - A 5-prompt eval suite
 
 For **prompt 2** of your chain (the one whose output is user-visible), build a small eval suite:
 
@@ -37,7 +37,7 @@ For **prompt 2** of your chain (the one whose output is user-visible), build a s
 - Each prompt has all the Day 26–27 components.
 - Output of prompt 1 is **structured** (JSON or XML-tagged) so prompt 2 can consume it deterministically.
 - At least one **guardrail** present: "I don't know" clause OR self-check pass OR schema validation OR citation requirement.
-- Your eval suite **catches** something — at least one of the 5 inputs initially fails, and you iterate to fix.
+- Your eval suite **catches** something; at least one of the 5 inputs initially fails, and you iterate to fix.
 - Reliability math is honest (no claiming 99% without measurement).
 
 ## Grading rubric
@@ -54,4 +54,4 @@ Pass 4/5 criteria to pass the assignment. **Pass the assignment to earn the 5% w
 
 ## Why this assignment exists
 
-This is the **smallest possible production prompt system** — chain + eval. Every agent in Week 7 is structurally this same thing with tools added. If you can't do this cleanly here, the agent assignment in Week 7 will collapse.
+This is the **smallest possible production prompt system**: chain + eval. Every agent in Week 7 is structurally this same thing with tools added. If you can't do this cleanly here, the agent assignment in Week 7 will collapse.

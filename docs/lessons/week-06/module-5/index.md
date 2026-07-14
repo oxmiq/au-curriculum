@@ -1,7 +1,7 @@
 # Day 30 (Fri) · Orchestration + Consolidation + Phase 2 Assessment
 
 > **Concept of the day:** **multi-agent** systems split work across specialized agents communicating through a structured protocol. **Planner-worker** (decomposer + executors) and **supervisor-worker** (delegating manager) are the two dominant patterns. The cost: more LLM calls, more failure modes. The benefit: parallelism, specialization, and the ability to scale beyond a single context window. **Friday:** Phase 2 assessment + consolidation.<br>
-> **Pre-reading:** <a href="../../../readings/ai-agents/#day-30-orchestration-multi-agent">AI Agents Pre-Lecture Reading — Orchestration & Multi-Agent section</a>. Supplement: <a href="https://huggingface.co/learn/agents-course/unit2/introduction" target="_blank" rel="noopener">HuggingFace Agents Course — Unit 2 intro</a>.
+> **Pre-reading:** <a href="../../../readings/ai-agents/#day-30-orchestration-multi-agent">AI Agents Pre-Lecture Reading - Orchestration & Multi-Agent section</a>. Supplement: <a href="https://huggingface.co/learn/agents-course/unit2/introduction" target="_blank" rel="noopener">HuggingFace Agents Course - Unit 2 intro</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 6 — Prompt Engineering + AI Agents</a>
+    <a href="../">Week 6 - Prompt Engineering + AI Agents</a>
     <span class="sep">/</span>
     <span>Day 30 · Orchestration</span>
     {status:week-06/module-5}
@@ -36,11 +36,11 @@ This lesson is designed for guided self-study. Here's how your ~3 hours are orga
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 
 ### Before You Start
 
-You should have already read: Student Guide **Module 4 — Orchestration Layer**.
+You should have already read: Student Guide **Module 4 - Orchestration Layer**.
 
 ### Quick Self-Check
 
@@ -99,7 +99,7 @@ If you couldn't answer all five, re-read the Student Guide Module 4 before conti
       "To save API costs"
     ],
     "answer": 1,
-    "explain": "Multi-agent systems provide: (1) Parallelism — multiple workers can execute subtasks simultaneously, (2) Specialization — each worker can be optimized for a specific task type, (3) Scale beyond context window — the combined input might exceed what one model can handle."
+    "explain": "Multi-agent systems provide: (1) Parallelism - multiple workers can execute subtasks simultaneously, (2) Specialization - each worker can be optimized for a specific task type, (3) Scale beyond context window - the combined input might exceed what one model can handle."
   },
   {
     "stem": "What is the approximate LLM call overhead of adding a planner + 3 workers vs a single agent?",
@@ -121,7 +121,7 @@ If you couldn't answer all five, re-read the Student Guide Module 4 before conti
       "When cost is not a concern"
     ],
     "answer": 1,
-    "explain": "Single-agent is right when: (1) the task fits in one context window, (2) doesn't need parallelism (tasks are sequential), (3) doesn't require specialized skills. Multi-agent adds complexity (more failure modes, harder debugging) — only use it when the benefits (parallelism, specialization) outweigh the costs."
+    "explain": "Single-agent is right when: (1) the task fits in one context window, (2) doesn't need parallelism (tasks are sequential), (3) doesn't require specialized skills. Multi-agent adds complexity (more failure modes, harder debugging); only use it when the benefits (parallelism, specialization) outweigh the costs."
   },
   {
     "stem": "What is the main benefit of multi-agent systems despite the cost?",
@@ -132,7 +132,7 @@ If you couldn't answer all five, re-read the Student Guide Module 4 before conti
       "They require less code"
     ],
     "answer": 1,
-    "explain": "The main benefits of multi-agent systems are: (1) Parallelism — multiple agents can work simultaneously, (2) Specialization — each agent can be optimized for a specific task, (3) Scale beyond context window — the combined input might exceed what one model can handle. These benefits can justify the extra cost and complexity for the right use case."
+    "explain": "The main benefits of multi-agent systems are: (1) Parallelism - multiple agents can work simultaneously, (2) Specialization - each agent can be optimized for a specific task, (3) Scale beyond context window - the combined input might exceed what one model can handle. These benefits can justify the extra cost and complexity for the right use case."
   },
   {
     "stem": "What is communication protocol in multi-agent systems?",
@@ -143,7 +143,7 @@ If you couldn't answer all five, re-read the Student Guide Module 4 before conti
       "A security standard"
     ],
     "answer": 1,
-    "explain": "Communication protocol defines how agents communicate with each other — message formats, coordination patterns, how to handle failures across agents. Without structured protocols, multi-agent systems become chaotic. Common patterns include message passing, shared state, and hierarchical reporting."
+    "explain": "Communication protocol defines how agents communicate with each other: message formats, coordination patterns, how to handle failures across agents. Without structured protocols, multi-agent systems become chaotic. Common patterns include message passing, shared state, and hierarchical reporting."
   }
 ]
 </script>
@@ -151,18 +151,18 @@ If you couldn't answer all five, re-read the Student Guide Module 4 before conti
 
 ---
 
-## Part 2 — Core Concepts: Why Orchestration
+## Part 2 - Core Concepts: Why Orchestration
 
-### Reading — The Control Plane for Agents
+### Reading - The Control Plane for Agents
 
 **Orchestration** is the control plane that answers: which model runs, which tools are available, in what order, when to retry, when to escalate, and when to bring a human in.
 
-As agent systems grow, orchestration becomes the dominant engineering problem — not prompting, not tool design, but the plumbing that holds it all together.
+As agent systems grow, orchestration becomes the dominant engineering problem: not prompting, not tool design, but the plumbing that holds it all together.
 
 ### The "Agents Are the New Programmable Computer" Analogy
 
 > *"The model is the processor. Prompts are the programming. The harness is the OS. Orchestration is the applications layer."*
-> — paraphrased from Sequoia / Karpathy
+> - paraphrased from Sequoia / Karpathy
 
 | Old World | Agent World |
 |---|---|
@@ -186,9 +186,9 @@ Understanding orchestration = understanding how to build applications on top of 
 
 ---
 
-## Part 3 — Deep Dive: Planner-Worker & Supervisor-Worker
+## Part 3 - Deep Dive: Planner-Worker & Supervisor-Worker
 
-### Reading — The Two Dominant Patterns
+### Reading - The Two Dominant Patterns
 
 **Planner-Worker** (a.k.a. plan-and-execute):
 
@@ -202,7 +202,7 @@ Planner: aggregates results, decides if more work needed
 
 Key properties:
 - Planner has the **strategic view**; workers have **tactical execution**.
-- Workers are usually **stateless** between subtasks — fresh context each time.
+- Workers are usually **stateless** between subtasks: fresh context each time.
 - Workers can run **in parallel** if subtasks are independent.
 - Communication: JSON task spec → JSON result.
 
@@ -234,33 +234,33 @@ Key properties:
 
 | Pattern | When to Use |
 |---|---|
-| **Debate / Critic** | One agent proposes, another critiques, third arbitrates — quality lift on subjective tasks |
+| **Debate / Critic** | One agent proposes, another critiques, third arbitrates: quality lift on subjective tasks |
 | **Pipeline** | Fixed sequence: scrape → extract → classify → write. No dynamic planning. |
 | **Swarm / parallel sampling** | N agents solve in parallel; pick best by judge or majority vote |
 | **Hierarchical** | Planner → sub-planners → workers. Three levels rarely beats two. |
 
 ### Failure Modes Introduced by Multi-Agent
 
-- **Handoff drift** — Worker A misinterprets Planner's spec; output doesn't match what Planner expected.
-- **Coordination loops** — Supervisor and Worker ping-pong on an ambiguous request.
-- **Inconsistent assumptions** — Workers reach different conclusions on shared inputs.
+- **Handoff drift** - Worker A misinterprets Planner's spec; output doesn't match what Planner expected.
+- **Coordination loops** - Supervisor and Worker ping-pong on an ambiguous request.
+- **Inconsistent assumptions** - Workers reach different conclusions on shared inputs.
 
 Mitigations: typed message schemas, idempotent worker contracts, explicit success criteria per subtask, max-step bounds at every level.
 
 ---
 
-## Part 4 — Core Concepts: Communication Protocols
+## Part 4 - Core Concepts: Communication Protocols
 
-### Reading — How Agents Talk to Each Other
+### Reading - How Agents Talk to Each Other
 
 | Channel | Use Case |
 |---|---|
 | **Structured messages (JSON / XML)** | Default. Parseable, auditable, schema-validatable. |
 | **Shared scratchpad (file, DB row)** | When agents need to read each other's work asynchronously. |
-| **MCP Sampling primitive** | Agent A asks Agent B's host for a completion — the multi-agent enabler built into MCP. |
+| **MCP Sampling primitive** | Agent A asks Agent B's host for a completion: the multi-agent enabler built into MCP. |
 | **Pub/sub queue** | Loosely-coupled, scale-out workloads where workers pull from a job queue. |
 
-### A2A — Agent-to-Agent Protocol
+### A2A - Agent-to-Agent Protocol
 
 **A2A** is the protocol layer above MCP. Where MCP standardizes model ↔ tool communication, A2A standardizes **agent ↔ agent** communication:
 - Goal delegation (pass a sub-goal to another agent)
@@ -280,9 +280,9 @@ A2A enables the planner-worker and supervisor-worker patterns to operate across 
 
 ---
 
-## Part 5 — Hands-On: Architecture Decision & Cost Math
+## Part 5 - Hands-On: Architecture Decision & Cost Math
 
-### Exercise: Single vs Multi — Make the Call
+### Exercise: Single vs Multi - Make the Call
 
 For each scenario below, decide: **single-agent** or **multi-agent**? If multi-agent, choose **planner-worker** or **supervisor-worker** and sketch the topology.
 
@@ -332,13 +332,13 @@ Pick the "Write code → run tests → fix failures → re-run" scenario.
 2. For each, write the mitigation (schema validation? max-retry count? human escalation?).
 3. At what step count would you force a human-in-the-loop pause?
 
-### Multi-Agent Cost Math — Cost Compounds with Complexity
+### Multi-Agent Cost Math - Cost Compounds with Complexity
 
 Multi-agent systems multiply LLM calls. Every planner step costs tokens. Every worker loop costs tokens. Communication overhead costs tokens.
 
 Reference numbers:
 - Single-agent for a task: ~15 LLM calls.
-- Planner + 3 workers, each with ~10 calls: **45 LLM calls** — **3× cost**.
+- Planner + 3 workers, each with ~10 calls: **45 LLM calls** - **3× cost**.
 
 ### Exercise: Cost Model
 
@@ -391,13 +391,13 @@ Complete this decision rule:
 
 ---
 
-## Part 6 — Phase 2 Assessment & Week Consolidation
+## Part 6 - Phase 2 Assessment & Week Consolidation
 
 ### Exercise: Take the Knowledge Check
 
-[Take the Phase 2 assessment](knowledge-check.md) — questions covering Week 6 Days 26–30 (prompt engineering + the four agent layers).
+[Take the Phase 2 assessment](knowledge-check.md): questions covering Week 6 Days 26–30 (prompt engineering + the four agent layers).
 
-**Passing bar:** aim for **strong (≥ 80%)**. This is **10% of the program grade** — open-book, reasoning-focused, not recall.
+**Passing bar:** aim for **strong (≥ 80%)**. This is **10% of the program grade**: open-book, reasoning-focused, not recall.
 
 ### If You Score Below the Bar
 
@@ -408,9 +408,9 @@ Complete this decision rule:
 
 ### Practice Knowledge Check
 
-Not gated — draw 5 questions from the Week 6 pool to warm up before the assessed check above.
+Not gated; draw 5 questions from the Week 6 pool to warm up before the assessed check above.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-06-m5-wrapup" data-kind="wrap-up" data-draw="5" data-source="Week 6 consolidation — prompt engineering + AI agents">
+<div class="ox-self-check" data-widget="self-check" data-id="week-06-m5-wrapup" data-kind="wrap-up" data-draw="5" data-source="Week 6 consolidation - prompt engineering + AI agents">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -455,7 +455,7 @@ Not gated — draw 5 questions from the Week 6 pool to warm up before the assess
       "Limit write tools to a maximum of 3 calls per agent run"
     ],
     "answer": 1,
-    "explain": "Write tools — those that send emails, modify databases, delete files, or take other irreversible actions — must be wrapped in a human approval step. Without this gate, a hijacked agent can cause real-world damage. Read tools (query, fetch) are safe to call automatically (Day 28)."
+    "explain": "Write tools, those that send emails, modify databases, delete files, or take other irreversible actions, must be wrapped in a human approval step. Without this gate, a hijacked agent can cause real-world damage. Read tools (query, fetch) are safe to call automatically (Day 28)."
   },
   {
     "stem": "What is indirect prompt injection?",
@@ -473,7 +473,7 @@ Not gated — draw 5 questions from the Week 6 pool to warm up before the assess
     "options": [
       "Whenever the task requires more than 5 tool calls",
       "Only when the task involves external APIs",
-      "When a single agent's context window, expertise, or reliability cannot handle the full task — e.g., tasks with parallel subtasks, specialist sub-domains, or more steps than fit in one context",
+      "When a single agent's context window, expertise, or reliability cannot handle the full task: e.g., tasks with parallel subtasks, specialist sub-domains, or more steps than fit in one context",
       "Multi-agent is always preferred over single-agent for reliability"
     ],
     "answer": 2,
@@ -509,37 +509,37 @@ Not gated — draw 5 questions from the Week 6 pool to warm up before the assess
 
 Go through each item. Mark ✓ if you can do it **without notes**, ✗ if you need to review.
 
-**Day 26 — Prompt Engineering Fundamentals**
+**Day 26 - Prompt Engineering Fundamentals**
 - [ ] Name five prompting techniques (zero-shot, few-shot, chain-of-thought, role, structured output)
 - [ ] Explain what chain-of-thought does mechanically to model output
 - [ ] Write a well-structured prompt with role + context + task + constraints + format
 
-**Day 27 — Agent Fundamentals (The Agent Loop)**
+**Day 27 - Agent Fundamentals (The Agent Loop)**
 - [ ] Recite the five-step agent loop (Perceive → Plan → Act → Observe → Repeat)
 - [ ] Sketch a ReAct loop (Thought / Action / Observation structure)
 - [ ] Explain why MoE + FlashAttention = agents work economically
 
-**Day 28 — Tools & MCP**
+**Day 28 - Tools & MCP**
 - [ ] Name the six fields of a tool schema
 - [ ] Distinguish read tools from write tools and state the safety rule
 - [ ] Name the four MCP building blocks and explain what MCP solves
 - [ ] Calculate end-to-end reliability for a 10-call chain at 95% per-call
 
-**Day 29 — Governance & Security**
+**Day 29 - Governance & Security**
 - [ ] Explain indirect prompt injection with one concrete example
 - [ ] Describe EchoLeak: CVE, date, target, mechanism, remediation
 - [ ] List the three governance classes: Preventive, Detective, Corrective
 - [ ] Name four components of machine-checkable security
 
-**Day 30 — Orchestration & Multi-Agent**
+**Day 30 - Orchestration & Multi-Agent**
 - [ ] Compare planner-worker vs supervisor-worker with one scenario each
 - [ ] State the cost multiplier: planner + 3 workers vs single agent
 - [ ] List three multi-agent failure modes and their mitigations
 - [ ] State the rule: "go multi-agent only when..."
 
-### Review Drill — Prompt Engineering
+### Review Drill - Prompt Engineering
 
-**1. Fix the Prompt.** This prompt produces inconsistent results — identify at least three problems and rewrite it:
+**1. Fix the Prompt.** This prompt produces inconsistent results; identify at least three problems and rewrite it:
 
 ```
 Tell me about the system.
@@ -571,7 +571,7 @@ Look at this error log and tell me what's wrong.
 | Tool-count threshold before accuracy degrades | |
 | 95% per-call reliability × 10 calls = | |
 
-### Review Drill — Agent Architecture
+### Review Drill - Agent Architecture
 
 **1. Layer Identification.** For each design decision, name which of the four agent layers it belongs to (Loop / Action / Governance / Orchestration):
 
@@ -604,40 +604,40 @@ Look at this error log and tell me what's wrong.
 | Answer a simple factual question | | |
 | Research 5 vendors and synthesize a report | | |
 
-### Team Agent Design — Five Layers
+### Team Agent Design - Five Layers
 
 Design a complete agent system for **one** of the following (pick one):
 
-- **Option A** — an agent that monitors Capsule GPU metrics, detects anomalies, and pages on-call when thresholds are breached.
-- **Option B** — an agent that generates a weekly progress report per intern, pulling from progress JSON files and the curriculum graph.
-- **Option C** — an agent that answers intern questions about the curriculum, citing the relevant lesson, and updates a shared FAQ doc.
+- **Option A** - an agent that monitors Capsule GPU metrics, detects anomalies, and pages on-call when thresholds are breached.
+- **Option B** - an agent that generates a weekly progress report per intern, pulling from progress JSON files and the curriculum graph.
+- **Option C** - an agent that answers intern questions about the curriculum, citing the relevant lesson, and updates a shared FAQ doc.
 
 For your chosen task, complete all five layers:
 
-**Layer 1 — Loop design:** pattern (ReAct / plan-execute / other) · max steps · termination condition.
+**Layer 1 - Loop design:** pattern (ReAct / plan-execute / other) · max steps · termination condition.
 
-**Layer 2 — Action (Tools):**
+**Layer 2 - Action (Tools):**
 
 | Tool name | Read or Write? | Safety wrapper |
 |---|---|---|
 | | | |
 | | | |
 
-**Layer 3 — Governance:** preventive controls · detective controls · corrective controls · audit-record fields.
+**Layer 3 - Governance:** preventive controls · detective controls · corrective controls · audit-record fields.
 
-**Layer 4 — Orchestration:** single- or multi-agent? (if multi: pattern + topology) · LLM calls per task · cost per 1000 tasks/day at $0.005/call.
+**Layer 4 - Orchestration:** single- or multi-agent? (if multi: pattern + topology) · LLM calls per task · cost per 1000 tasks/day at $0.005/call.
 
-**Layer 5 — Inference choice:** model tier (small / mid / large) + why · latency requirement · the Phase 1 insight most relevant here.
+**Layer 5 - Inference choice:** model tier (small / mid / large) + why · latency requirement · the Phase 1 insight most relevant here.
 
-> This 5-layer design is the backbone of the **Phase 2 team assignment** — see [assignment.md](assignment.md).
+> This 5-layer design is the backbone of the **Phase 2 team assignment**; see [assignment.md](assignment.md).
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 ### Connect Forward
 
-Tomorrow (Day 31): **Bridge week begins** — Agent Case Studies, Capsule Foundations, Installation. The week's four agent layers (loop, tools, governance, orchestration) come together in a system design exercise.
+Tomorrow (Day 31): **Bridge week begins**: Agent Case Studies, Capsule Foundations, Installation. The week's four agent layers (loop, tools, governance, orchestration) come together in a system design exercise.
 
 ### Big-Picture Connect
 
@@ -650,7 +650,7 @@ Day 29: Governance    (injection, EchoLeak, least-privilege, audit)
 Day 30: Orchestration (planner-worker, supervisor-worker, cost)
 ```
 
-Phase 3 (starting Day 31) grounds this in real Capsule infrastructure — the benchmarks you run, the inference stack you tune, the agent that automates it.
+Phase 3 (starting Day 31) grounds this in real Capsule infrastructure: the benchmarks you run, the inference stack you tune, the agent that automates it.
 
 ### Pre-read for tomorrow (Day 31 · Bridge Week)
 
@@ -664,4 +664,4 @@ Phase 3 (starting Day 31) grounds this in real Capsule infrastructure — the be
 
 ## Stuck?
 
-Ask **oxtutor** — describe your multi-agent design (what the planner does, what each worker does, what tools they have) and ask for a review of the topology and cost model.
+Ask **oxtutor**; describe your multi-agent design (what the planner does, what each worker does, what tools they have) and ask for a review of the topology and cost model.

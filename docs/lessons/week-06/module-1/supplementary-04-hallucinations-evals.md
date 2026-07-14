@@ -1,6 +1,6 @@
 # Supplementary · Hallucinations, Complex Prompts & Evals
 
-> **Concept of the day:** LLMs hallucinate when they extrapolate beyond their training data or context — "I don't know" is a low-probability token unless explicitly invited. Guardrails, chain reliability math, and eval suites are the engineering tools that convert a fragile prompt into a production system. **Pre-reading:** Anthropic tutorial Ch 8 (Avoiding Hallucinations) + Ch 9 (Complex Prompts from Scratch).
+> **Concept of the day:** LLMs hallucinate when they extrapolate beyond their training data or context; "I don't know" is a low-probability token unless explicitly invited. Guardrails, chain reliability math, and eval suites are the engineering tools that convert a fragile prompt into a production system. **Pre-reading:** Anthropic tutorial Ch 8 (Avoiding Hallucinations) + Ch 9 (Complex Prompts from Scratch).
 
 ---
 
@@ -19,14 +19,14 @@
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 
-### Reading —
+### Reading:
 
 Before continuing, you should have read:
 
-- Anthropic tutorial **Ch 8 (Avoiding Hallucinations)** — causes, guardrails, grounding patterns
-- **Ch 9 (Complex Prompts from Scratch)** — the iterative process for building production prompts
+- Anthropic tutorial **Ch 8 (Avoiding Hallucinations)** - causes, guardrails, grounding patterns
+- **Ch 9 (Complex Prompts from Scratch)** - the iterative process for building production prompts
 
 If you haven't yet, stop and read them now.
 
@@ -42,23 +42,23 @@ Answer from memory:
 
 ---
 
-## Part 2 — Core Concepts: Why LLMs Hallucinate
+## Part 2 - Core Concepts: Why LLMs Hallucinate
 
-### Reading —
+### Reading:
 
 **Hallucination** = a model producing confident, fluent, wrong output. Two structural causes:
 
 **1. Out-of-distribution input**
 
-The model has no training data for your specific question. It produces the most plausible-sounding completion — which is not the same as the correct one. The model cannot distinguish between "I know this" and "I'm extrapolating."
+The model has no training data for your specific question. It produces the most plausible-sounding completion: which is not the same as the correct one. The model cannot distinguish between "I know this" and "I'm extrapolating."
 
 **2. No grounding source**
 
-Asked open-endedly ("What year did X happen?"), the model draws on **parametric memory** — facts compressed into weights during training. Parametric memory is lossy, outdated, and cannot be checked at inference time.
+Asked open-endedly ("What year did X happen?"), the model draws on **parametric memory**: facts compressed into weights during training. Parametric memory is lossy, outdated, and cannot be checked at inference time.
 
 **The core problem:**
 
-LLMs are next-token predictors. The token "I don't know" is a low-probability token in most training contexts — people writing on the internet rarely say they don't know something. Unless you explicitly invite "I don't know" as a valid output, the model avoids it.
+LLMs are next-token predictors. The token "I don't know" is a low-probability token in most training contexts; people writing on the internet rarely say they don't know something. Unless you explicitly invite "I don't know" as a valid output, the model avoids it.
 
 **Consequence:** Models hallucinate most on:
 
@@ -67,7 +67,7 @@ LLMs are next-token predictors. The token "I don't know" is a low-probability to
 - Questions that look like they have an answer but don't (questions about non-existent entities, events, papers)
 - Tasks requiring precise recall of numbers, dates, citations
 
-**Recognition heuristic:** If you yourself aren't sure of the exact answer, the model probably isn't either — and unlike you, it won't hedge.
+**Recognition heuristic:** If you yourself aren't sure of the exact answer, the model probably isn't either; and unlike you, it won't hedge.
 
 ### Exercise:
 
@@ -81,18 +81,18 @@ For each of the following prompts, assess hallucination risk (high/medium/low) a
 
 ---
 
-## Part 3 — Core Concepts: Six Guardrails
+## Part 3 - Core Concepts: Six Guardrails
 
-### Reading —
+### Reading:
 
 These six guardrails address hallucination at different cost/effectiveness tradeoffs:
 
 | Guardrail | What it does | Cost |
 |---|---|---|
 | **1. Ground on source** | Provide the document; instruct "only use content inside `<source>` tags" | Prefill cost grows with source length |
-| **2. Allow "I don't know"** | Add: "If the answer isn't in the source, reply exactly: *I don't know*" | Free — and very effective |
+| **2. Allow "I don't know"** | Add: "If the answer isn't in the source, reply exactly: *I don't know*" | Free: and very effective |
 | **3. Citation requirement** | "Cite the exact sentence from the source for every claim you make" | Output tokens ↑; quality ↑ |
-| **4. Constrain to known values** | Schema with enum: `"severity": "high \| medium \| low"` — no free-form string | Free |
+| **4. Constrain to known values** | Schema with enum: `"severity": "high \| medium \| low"`: no free-form string | Free |
 | **5. Self-check pass** | Second prompt: "Verify the answer above is supported by the source. List any claim not directly supported." | ~2× cost; catches ~60% of remaining errors |
 | **6. External validation** | Run the model's code through a real interpreter; run the SQL against a sandbox DB | Best for code / structured data tasks |
 
@@ -111,15 +111,15 @@ These six guardrails address hallucination at different cost/effectiveness trade
 You are building a RAG (retrieval-augmented generation) prompt that answers user questions from a company knowledge base.
 
 1. Write the base prompt with Guardrails 1 and 2 applied.
-2. Add Guardrail 3 (citation requirement). Run on 5 questions — 3 answerable from the source, 2 not answerable. Verify the "I don't know" guardrail fires correctly.
+2. Add Guardrail 3 (citation requirement). Run on 5 questions: 3 answerable from the source, 2 not answerable. Verify the "I don't know" guardrail fires correctly.
 3. Design the self-check pass (Guardrail 5). Write the second prompt that verifies the first prompt's answer. What fields does its output need?
 4. For a question with a factual answer that is NOT in the source, what does your 2-prompt chain produce? Is that the right behavior?
 
 ---
 
-## Part 4 — Deep Dive: Chain Reliability Math
+## Part 4 - Deep Dive: Chain Reliability Math
 
-### Reading —
+### Reading:
 
 If you chain $n$ steps, each with reliability $r$, end-to-end success is:
 
@@ -133,9 +133,9 @@ The multiplication table:
 | 0.95 | 85.7% | 77.4% | 59.9% |
 | 0.99 | 97.0% | 95.1% | 90.4% |
 
-> **Implication:** to achieve 80% end-to-end success on a 5-step agent, each step must be at least 96% reliable. Most production prompt steps are 90–95% reliable without tuning. This is why agents fail — not because the model is bad, but because reliability compounds.
+> **Implication:** to achieve 80% end-to-end success on a 5-step agent, each step must be at least 96% reliable. Most production prompt steps are 90–95% reliable without tuning. This is why agents fail: not because the model is bad, but because reliability compounds.
 
-**Building complex prompts from scratch — the iterative process (Ch 9):**
+**Building complex prompts from scratch - the iterative process (Ch 9):**
 
 1. **Define success first.** Write 5 examples of good output before writing the prompt.
 2. **Draft v1.** Role + context + task + format + constraints.
@@ -144,7 +144,7 @@ The multiplication table:
 5. **Re-run.** Measure delta.
 6. **Repeat until pass rate is ≥ 95%.**
 
-This is **prompt engineering as engineering** — iterative, measurable, version-controlled. Not artisanal text.
+This is **prompt engineering as engineering**: iterative, measurable, version-controlled. Not artisanal text.
 
 ### Exercise:
 
@@ -157,11 +157,11 @@ Design a 3-step classification chain: (1) extract entities → (2) classify inte
 
 ---
 
-## Part 5 — Core Concepts: Prompt Evals
+## Part 5 - Core Concepts: Prompt Evals
 
-### Reading —
+### Reading:
 
-A **prompt eval suite** is a set of `{input, expected output / rubric}` pairs that you run on every prompt change — like a unit-test suite for prompts.
+A **prompt eval suite** is a set of `{input, expected output / rubric}` pairs that you run on every prompt change: like a unit-test suite for prompts.
 
 **Building one:**
 
@@ -198,22 +198,22 @@ Build a 5-input eval suite for the RAG prompt from Part 3.
 
 ---
 
-## Part 6 — Hands-On: Hallucination Guardrail Lab
+## Part 6 - Hands-On: Hallucination Guardrail Lab
 
-### Exercise — Part A: Guardrail A/B Test
+### Exercise - Part A: Guardrail A/B Test
 
 **Setup:** Use a factual Q&A task. Your source document is a short Wikipedia paragraph about a technical topic (your choice).
 
-**Condition 1 — No guardrails:**
+**Condition 1 - No guardrails:**
 Ask a question whose answer is NOT in the paragraph. What does the model do? Does it say it doesn't know, or does it hallucinate?
 
-**Condition 2 — Guardrail 1 + 2:**
+**Condition 2 - Guardrail 1 + 2:**
 Add grounding (`<source>` tags) and "I don't know" permission. Run the same question. What happens?
 
-**Condition 3 — Full guardrail stack:**
+**Condition 3 - Full guardrail stack:**
 Add Guardrail 3 (citation) and write a 2-input eval suite. Does the model correctly cite the source for answerable questions and correctly return "I don't know" for unanswerable ones?
 
-### Exercise — Part B: Chain Reliability Experiment
+### Exercise - Part B: Chain Reliability Experiment
 
 Build a 2-step chain:
 - Step 1: Extract action items from a meeting transcript (5 items)
@@ -226,7 +226,7 @@ Build a 2-step chain:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 ### Self-check
 

@@ -1,9 +1,9 @@
-# Week 1 — Orientation: Module Assignment
+# Week 1 - Orientation: Module Assignment
 
 
 ## What you submit
 
-**Three sentences** answering: *"What does Capsule do, and why does it exist?"* — in your own words, no jargon.
+**Three sentences** answering: *"What does Capsule do, and why does it exist?"*: in your own words, no jargon.
 
 ## Steps
 

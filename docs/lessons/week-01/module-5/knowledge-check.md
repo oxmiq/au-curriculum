@@ -4,7 +4,7 @@
     <span class="sep">/</span>
     <a href="../../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../../">Week 1 — Orientation &amp; Foundations</a>
+    <a href="../../">Week 1 - Orientation &amp; Foundations</a>
     <span class="sep">/</span>
     <a href="../">Day 5 · Consolidation</a>
     <span class="sep">/</span>
@@ -16,7 +16,7 @@
 # Week 1 Knowledge Check
 
 **Week 1 · Orientation.** 32-question bank · **18 drawn per attempt** · aim for **strong (≥ 80%)**. This check is
-formative — it never blocks you — but it's the week's bar. Answer the drawn questions,
+formative, it never blocks you, but it's the week's bar. Answer the drawn questions,
 then submit to reveal explanations and your score band.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-01-m5-canonical" data-kind="wrap-up" data-draw="18" data-lesson="Week 1 · Orientation" data-source="Canonical knowledge check">
@@ -97,7 +97,7 @@ then submit to reveal explanations and your score band.
       "<code>git checkout main && git pull</code>"
     ],
     "answer": 1,
-    "explain": "<code>wip</code> is not a useful commit message — use conventional-commit format with a real description."
+    "explain": "<code>wip</code> is not a useful commit message; use conventional-commit format with a real description."
   },
   {
     "stem": "You committed to the wrong branch, haven't pushed yet. The cleanest recovery is:",
@@ -152,7 +152,7 @@ then submit to reveal explanations and your score band.
       "192 GB HBM3e, ~8 TB/s"
     ],
     "answer": 2,
-    "explain": "80 GB HBM3 and ~3.35 TB/s — numbers you'll re-use in Week 2."
+    "explain": "80 GB HBM3 and ~3.35 TB/s: numbers you'll re-use in Week 2."
   },
   {
     "stem": "Which statement correctly describes a structural difference between training and serving (inference)?",
@@ -179,10 +179,10 @@ then submit to reveal explanations and your score band.
   {
     "stem": "True or false: a CPU is always worse than a GPU for AI workloads.",
     "options": [
-      "True — GPUs always win",
-      "False — CPUs are better for sequential, branch-heavy, or small-batch work where parallelism doesn't amortize",
-      "True — except for training",
-      "False — only for training"
+      "True - GPUs always win",
+      "False - CPUs are better for sequential, branch-heavy, or small-batch work where parallelism doesn't amortize",
+      "True - except for training",
+      "False - only for training"
     ],
     "answer": 1,
     "explain": "GPUs win only when work is parallel and large enough to amortize memory transfer cost."
@@ -196,7 +196,7 @@ then submit to reveal explanations and your score band.
       "Replacing CPUs in laptops"
     ],
     "answer": 1,
-    "explain": "Capsule is about access to remote GPU compute on demand — not hardware manufacturing or model training."
+    "explain": "Capsule is about access to remote GPU compute on demand: not hardware manufacturing or model training."
   },
   {
     "stem": "In one forward pass, a language model produces:",
@@ -229,7 +229,7 @@ then submit to reveal explanations and your score band.
       "~$250/hour, ~$180K/month"
     ],
     "answer": 1,
-    "explain": "Day 1 gives ~$24/hour, ~$17K/month for an 8×H100 box — the number that explains why most teams can't justify owning GPUs and why Capsule's self-service model exists."
+    "explain": "Day 1 gives ~$24/hour, ~$17K/month for an 8×H100 box: the number that explains why most teams can't justify owning GPUs and why Capsule's self-service model exists."
   },
   {
     "stem": "In which week do you begin hands-on work with Capsule itself?",
@@ -284,15 +284,15 @@ then submit to reveal explanations and your score band.
       "They are identical in every respect"
     ],
     "answer": 0,
-    "explain": "<code>source</code> (or <code>.</code>) evaluates the script in the calling shell's environment, so assignments and <code>cd</code> take effect immediately. A subprocess from <code>./</code> discards its environment on exit — which is why setup scripts must be sourced."
+    "explain": "<code>source</code> (or <code>.</code>) evaluates the script in the calling shell's environment, so assignments and <code>cd</code> take effect immediately. A subprocess from <code>./</code> discards its environment on exit: which is why setup scripts must be sourced."
   },
   {
     "stem": "Which is generally preferred, and why: <code>cat file.txt | grep pattern</code> or <code>grep pattern file.txt</code>?",
     "options": [
-      "<code>cat file.txt | grep pattern</code> — the pipe form is more readable",
-      "<code>grep pattern file.txt</code> — it avoids a needless <code>cat</code> process",
+      "<code>cat file.txt | grep pattern</code> - the pipe form is more readable",
+      "<code>grep pattern file.txt</code> - it avoids a needless <code>cat</code> process",
       "They are identical in every respect",
-      "<code>cat file.txt | grep pattern</code> — <code>grep</code> cannot accept a filename"
+      "<code>cat file.txt | grep pattern</code> - <code>grep</code> cannot accept a filename"
     ],
     "answer": 1,
     "explain": "Using <code>cat</code> only to feed one file into another command is the 'useless use of cat.' <code>grep</code> takes a filename directly, avoiding an extra process fork."
@@ -372,7 +372,7 @@ then submit to reveal explanations and your score band.
       "The GPU's on-chip memory buffer"
     ],
     "answer": 2,
-    "explain": "Day 4's journey of a prompt: the layers produce logits — a probability distribution over the whole vocabulary — and the sample step then picks one token from that distribution."
+    "explain": "Day 4's journey of a prompt: the layers produce logits, a probability distribution over the whole vocabulary, and the sample step then picks one token from that distribution."
   }
 ]
 </script>
@@ -382,17 +382,13 @@ then submit to reveal explanations and your score band.
 
 <div class="grid cards" markdown>
 
--   __Record your result__
-
-    Use **Retake** and **Copy progress JSON** in the check above to log the attempt in `docs/progress/`.
-
 -   __Back to today's lesson__
 
     [Day 5 · Consolidation](index.md)
 
 -   __Back to the week__
 
-    [Week 1 — Orientation &amp; Foundations overview](../index.md)
+    [Week 1 - Orientation &amp; Foundations overview](../index.md)
 
 -   __Continue the curriculum__
 

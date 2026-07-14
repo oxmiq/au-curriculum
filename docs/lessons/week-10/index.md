@@ -42,11 +42,11 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 46 (Mon) | Kickoff & Planning | — | [Day 1 · Kickoff And Planning](module-1/index.md) |
-| 47 (Tue) | Execute | — | [Day 2 · Execute](module-2/index.md) |
-| 48 (Wed) | Analyze & Recommend | — | [Day 3 · Analyze Recommend](module-3/index.md) |
-| 49 (Thu) | Present | — | [Day 4 · Present](module-4/index.md) |
-| 50 (Fri) | Close | — | [Day 5 · Close](module-5/index.md) |
+| 46 (Mon) | Kickoff & Planning | - | [Day 1 · Kickoff And Planning](module-1/index.md) |
+| 47 (Tue) | Execute | - | [Day 2 · Execute](module-2/index.md) |
+| 48 (Wed) | Analyze & Recommend | - | [Day 3 · Analyze Recommend](module-3/index.md) |
+| 49 (Thu) | Present | - | [Day 4 · Present](module-4/index.md) |
+| 50 (Fri) | Close | - | [Day 5 · Close](module-5/index.md) |
 
 ## The bar
 
@@ -62,4 +62,4 @@ Week 10 does **not** follow the Mon–Thu lesson + Friday quiz shape. There is *
 
 ## Stuck?
 
-Ask **oxtutor** — Day 47's charter draws directly from your Week 9 Day 45 retrospective ("What surprised me about the benchmark results?"). Start there.
+Ask **oxtutor**; Day 47's charter draws directly from your Week 9 Day 45 retrospective ("What surprised me about the benchmark results?"). Start there.

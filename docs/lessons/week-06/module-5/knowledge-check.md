@@ -4,7 +4,7 @@
     <span class="sep">/</span>
     <a href="../../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../../">Week 6 — Prompt Engineering + AI Agents</a>
+    <a href="../../">Week 6 - Prompt Engineering + AI Agents</a>
     <span class="sep">/</span>
     <a href="../">Day 30 · Orchestration + Consolidation + Phase 2 Assessment</a>
     <span class="sep">/</span>
@@ -97,7 +97,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
       "They automatically generate optimal prompts"
     ],
     "answer": 1,
-    "explain": "MoE activates only a fraction of parameters per token; FlashAttention reduces attention computation — together they make long-running agent loops affordable."
+    "explain": "MoE activates only a fraction of parameters per token; FlashAttention reduces attention computation: together they make long-running agent loops affordable."
   },
   {
     "stem": "The minimum six fields of a tool schema are:",
@@ -108,7 +108,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
       "id, name, schema, handler, timeout, retries"
     ],
     "answer": 1,
-    "explain": "The lesson's six fields are: name (the identifier the model writes in Action), description (what it does — used for tool selection), parameters (JSON Schema of inputs), returns (schema of the observation), side_effects (none vs write — gates safety), and cost (optional hint)."
+    "explain": "The lesson's six fields are: name (the identifier the model writes in Action), description (what it does: used for tool selection), parameters (JSON Schema of inputs), returns (schema of the observation), side_effects (none vs write: gates safety), and cost (optional hint)."
   },
   {
     "stem": "The fundamental safety rule for read vs write tools is:",
@@ -152,7 +152,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
       "Exploiting a buffer overflow in the inference server"
     ],
     "answer": 1,
-    "explain": "Indirect injection hides instructions in retrieved documents, web pages, or system messages the agent processes — the agent 'sees' the attack as legitimate input."
+    "explain": "Indirect injection hides instructions in retrieved documents, web pages, or system messages the agent processes: the agent 'sees' the attack as legitimate input."
   },
   {
     "stem": "EchoLeak (CVE-2025-32711) was a real agent exploit that worked by:",
@@ -234,10 +234,10 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
   {
     "stem": "When should you choose single-agent over multi-agent? (Choose the most accurate)",
     "options": [
-      "Always — multi-agent is always better",
+      "Always: multi-agent is always better",
       "When the task is simple, sequential, and fits in one context window",
       "Only when you have unlimited budget",
-      "Never — agents should always be multi-agent for quality"
+      "Never: agents should always be multi-agent for quality"
     ],
     "answer": 1,
     "explain": "Single-agent is right when: task is simple/focused, no parallelism benefit, context fits comfortably, cost matters. Multi-agent adds overhead that must be justified by quality gains."
@@ -262,7 +262,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
       "React Native"
     ],
     "answer": 1,
-    "explain": "Reason (Thought:) + Act (Action:) interleaved each step — CoT between actions."
+    "explain": "Reason (Thought:) + Act (Action:) interleaved each step: CoT between actions."
   },
   {
     "stem": "Why does FP8 + speculative + continuous batching enable modern agents?",
@@ -328,7 +328,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
       "Network timeout"
     ],
     "answer": 1,
-    "explain": "Tool output is untrusted input — must be treated as data, not instructions."
+    "explain": "Tool output is untrusted input: must be treated as data, not instructions."
   },
   {
     "stem": "The single highest-leverage governance control for write-tool agents is:",
@@ -372,7 +372,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
       "Always"
     ],
     "answer": 1,
-    "explain": "3× cost — only worth it for clear architectural reasons."
+    "explain": "3× cost: only worth it for clear architectural reasons."
   },
   {
     "stem": "Which Phase-1 optimization is MOST critical to agent feasibility?",
@@ -405,7 +405,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
       "No defense possible"
     ],
     "answer": 1,
-    "explain": "Defense in depth — prompt structure + sanitization + least privilege."
+    "explain": "Defense in depth: prompt structure + sanitization + least privilege."
   },
   {
     "stem": "The five (or six) components every well-formed prompt should have are:",
@@ -427,7 +427,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
       "Required by the API"
     ],
     "answer": 1,
-    "explain": "Free quality lift — narrows the model's distribution toward the relevant subspace."
+    "explain": "Free quality lift: narrows the model's distribution toward the relevant subspace."
   },
   {
     "stem": "Wrapping untrusted user data in <code><document>...</document></code> tags primarily defends against:",
@@ -455,7 +455,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
     "stem": "The main cost of CoT is:",
     "options": [
       "Lower accuracy",
-      "More output tokens — more decode time and $ per request",
+      "More output tokens: more decode time and $ per request",
       "Worse safety",
       "Less context"
     ],
@@ -477,7 +477,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
     "stem": "Few-shot examples that all share an irrelevant feature (e.g. all positives mention rain):",
     "options": [
       "Help model focus",
-      "Teach the model the wrong rule — bias risk",
+      "Teach the model the wrong rule: bias risk",
       "Reduce cost",
       "Improve safety"
     ],
@@ -493,7 +493,7 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
       "100%"
     ],
     "answer": 2,
-    "explain": "0.9³ ≈ 0.729. Multiplicative — why agents need ≥95% per step."
+    "explain": "0.9³ ≈ 0.729. Multiplicative: why agents need ≥95% per step."
   },
   {
     "stem": "Most cost-effective hallucination guardrail is:",
@@ -580,17 +580,13 @@ reasoning-focused. Submit to reveal explanations and your score band; **Retake**
 
 <div class="grid cards" markdown>
 
--   __Record your result__
-
-    Use **Retake** and **Copy progress JSON** in the check above to log the attempt in `docs/progress/`.
-
 -   __Back to today's lesson__
 
     [Day 30 · Orchestration + Consolidation + Phase 2 Assessment](index.md)
 
 -   __Back to the week__
 
-    [Week 6 — Prompt Engineering + AI Agents overview](../index.md)
+    [Week 6 - Prompt Engineering + AI Agents overview](../index.md)
 
 -   __Continue the curriculum__
 

@@ -1,15 +1,15 @@
 ---
 drift: |
-  Originally Day 44 of the former Capsule wk9. Now Day 45 of the new week
+  Originally Day 44 of the former Capsule wk9. Now Day 44 of the new week
   (week-09/module-4), unchanged in scope. The Week-7 reference in the lesson body now
   points to Week 6 (agents) under the new architecture; copy edits welcome. Source-material
   link paths bumped one level deeper.
 ---
 
-# Day 45 · Scheduling & MCP
+# Day 44 · Scheduling & MCP
 
 > **Concept of the day:** stop babysitting benchmarks in an interactive terminal. Hand a long run to `capsule schedule` and it executes unattended on a remote node as a detached job; drive the *nightly* cadence from an external trigger (cron/CI). Expose Capsule's surface via **MCP** so the agents you designed in Week 6 can run, monitor, and report on benchmarks autonomously. This is where Phase 2 (agents) and Phase 3 (Capsule) compose.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-44-scheduling-mcp">Capsule Power-User Pre-Lecture Reading — Day 44 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10.
+> **Pre-reading:** <a href="../../../readings/capsule/#day-44-scheduling-mcp">Capsule Power-User Pre-Lecture Reading - Day 44 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -18,9 +18,9 @@ drift: |
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 9 — Capsule: Benchmarking &amp; Eval</a>
+    <a href="../">Week 9 - Capsule: Benchmarking &amp; Eval</a>
     <span class="sep">/</span>
-    <span>Day 45 · Scheduling & MCP</span>
+    <span>Day 44 · Scheduling & MCP</span>
     {status:week-09/module-4}
   </div>
 </div>
@@ -44,11 +44,11 @@ drift: |
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 
-### Reading — Why this matters
+### Reading - Why this matters
 
-Manual benchmarks don't catch regressions. A scheduled nightly sweep does. And once you've got scheduling, the next step is letting an agent *react* to the results — file an issue when a regression appears, re-run with new params, summarize the trend. This day knits together everything you've built.
+Manual benchmarks don't catch regressions. A scheduled nightly sweep does. And once you've got scheduling, the next step is letting an agent *react* to the results: file an issue when a regression appears, re-run with new params, summarize the trend. This day knits together everything you've built.
 
 ### Exercise: Self-Check
 
@@ -72,7 +72,7 @@ Answer before reading on:
       "A wrapper that reruns `capsule benchmark` in a loop until you cancel it."
     ],
     "answer": 1,
-    "explain": "`capsule schedule` is a batch job queue: jobs are queued, dispatched to an available node, and run as a detached (`setsid`) daemon that survives SSH/session teardown — the right tool for anything longer than a coffee break. It is NOT a cron/recurring scheduler; there is no `--cron` surface and jobs run once."
+    "explain": "`capsule schedule` is a batch job queue: jobs are queued, dispatched to an available node, and run as a detached (`setsid`) daemon that survives SSH/session teardown: the right tool for anything longer than a coffee break. It is NOT a cron/recurring scheduler; there is no `--cron` surface and jobs run once."
   },
   {
     "stem": "Which command submits a benchmark script to run on any machine in a pool?",
@@ -83,7 +83,7 @@ Answer before reading on:
       "`capsule schedule run --filter '--gpu h100' ./eval.sh`"
     ],
     "answer": 2,
-    "explain": "The real subcommand is `capsule schedule start <tag> --script <file>` (script is required, `-s` for short). With a config tag it does pool dispatch — the first available responder wins. There is no `create`/`submit`/`run` form, and no `--cron` or `--filter` on schedule."
+    "explain": "The real subcommand is `capsule schedule start <tag> --script <file>` (script is required, `-s` for short). With a config tag it does pool dispatch; the first available responder wins. There is no `create`/`submit`/`run` form, and no `--cron` or `--filter` on schedule."
   },
   {
     "stem": "A scheduled job has finished. How do you read its output?",
@@ -94,7 +94,7 @@ Answer before reading on:
       "It is committed to your repo automatically as `stdout.log`."
     ],
     "answer": 0,
-    "explain": "The node streams `output.log` to Azure Blob Storage during the run (re-uploaded periodically), and you retrieve it with `capsule schedule logs <job-id>`, optionally `--tail N`. There is no `--out` audit directory and no `report.json`/`config.yaml` artifact set — that surface was fabricated."
+    "explain": "The node streams `output.log` to Azure Blob Storage during the run (re-uploaded periodically), and you retrieve it with `capsule schedule logs <job-id>`, optionally `--tail N`. There is no `--out` audit directory and no `report.json`/`config.yaml` artifact set; that surface was fabricated."
   },
   {
     "stem": "Which flags does `capsule schedule start` accept to shape a job?",
@@ -157,11 +157,11 @@ Answer before reading on:
 
 ---
 
-## Part 2 — Core Concepts: capsule schedule
+## Part 2 - Core Concepts: capsule schedule
 
-### Reading — A job queue, not cron
+### Reading - A job queue, not cron
 
-`capsule schedule` is a **one-shot job queue**, not a cron daemon. You hand it a shell script; it queues the job, dispatches it to an available node, and runs it there as a detached daemon that survives SSH/session teardown. The job runs **once** and finishes — there is no `--cron`, no recurring calendar, no `create` subcommand.
+`capsule schedule` is a **one-shot job queue**, not a cron daemon. You hand it a shell script; it queues the job, dispatches it to an available node, and runs it there as a detached daemon that survives SSH/session teardown. The job runs **once** and finishes; there is no `--cron`, no recurring calendar, no `create` subcommand.
 
 Put your benchmark in a script, `nightly-bench.sh`:
 
@@ -183,13 +183,13 @@ capsule schedule start <config-tag> \
 What this does:
 
 1. Queues the job; the scheduler dispatches it to the first available node in the `<config-tag>` pool (use `--machine-name` to pin a specific box).
-2. Runs `nightly-bench.sh` on that node as a detached daemon — your laptop can close.
+2. Runs `nightly-bench.sh` on that node as a detached daemon; your laptop can close.
 3. Streams the job's `output.log` to storage as it runs; the benchmark itself uploads to the dashboard.
 4. Records the job's state (PENDING → RUNNING → COMPLETED/FAILED) and keeps its logs.
 
-**No SSH session required.** For a real *nightly* cadence, wrap `capsule schedule start` in your own cron entry or CI job — that external trigger is what recurs, not `capsule schedule`.
+**No SSH session required.** For a real *nightly* cadence, wrap `capsule schedule start` in your own cron entry or CI job; that external trigger is what recurs, not `capsule schedule`.
 
-### Reading — Tracking a job
+### Reading - Tracking a job
 
 ```
 capsule schedule status                            # list your jobs + state
@@ -208,7 +208,7 @@ capsule schedule cancel <job-id>                   # stop a job (or --all)
 | State | `PENDING` / `RUNNING` / `COMPLETED` / `FAILED` / `CANCELLED` |
 | Node | `nv-h100-04-1` (set at dispatch) |
 
-Output isn't written to a shared directory — the node streams `output.log` to storage during the run, and you read it back with `capsule schedule logs <job-id>`.
+Output isn't written to a shared directory; the node streams `output.log` to storage during the run, and you read it back with `capsule schedule logs <job-id>`.
 
 ### Exercise: Schedule Design
 
@@ -218,9 +218,9 @@ Output isn't written to a shared directory — the node streams `output.log` to 
 
 ---
 
-## Part 3 — Core Concepts: MCP for Capsule
+## Part 3 - Core Concepts: MCP for Capsule
 
-### Reading — Week 6 closing the loop
+### Reading - Week 6 closing the loop
 
 Recall Week 6 Day 28: **MCP** lets any compatible agent host (Claude Desktop, OxCode, Cursor) call your tool surface.
 
@@ -240,9 +240,9 @@ An agent designed in Week 6 (planner-worker, governance layer, audit) can now:
 
 That's a fully realized Phase 1 + 2 + 3 product.
 
-### Reading — What governance applies (Week 6 Day 29 recap)
+### Reading - What governance applies (Week 6 Day 29 recap)
 
-Because some of the Capsule tools are *write* (`capsule_exec` runs workloads, `capsule_scp_upload` writes files — both consume real resources), the agent needs:
+Because some of the Capsule tools are *write* (`capsule_exec` runs workloads, `capsule_scp_upload` writes files; both consume real resources), the agent needs:
 
 | Control | Why |
 |---|---|
@@ -262,9 +262,9 @@ For each MCP tool listed in the table above, classify it:
 
 ---
 
-## Part 4 — Deep Dive: Phase 1 + 2 + 3 Composition
+## Part 4 - Deep Dive: Phase 1 + 2 + 3 Composition
 
-### Reading — The full picture
+### Reading - The full picture
 
 ```
 Phase 1 (Weeks 1–5)    Phase 2 (Weeks 6–7)        Phase 3 (Weeks 8–10)
@@ -278,11 +278,11 @@ quant, TP, eval         tools + governance         benchmarks + MCP
             benchmark result"     benchmarks for me"
 ```
 
-Tomorrow's Friday consolidation is a **timed sprint** — find machine → benchmark → evaluate → record — in 20 minutes. Cold. The capstone follows on Monday.
+Tomorrow's Friday consolidation is a **timed sprint**, find machine → benchmark → evaluate → record, in 20 minutes. Cold. The capstone follows on Monday.
 
 ### Exercise: Map Your 5-Layer Agent
 
-Using the 5-layer map from Week 6 Day 31, design the "nightly regression-watching agent" (no code, just the map):
+Using the 5-layer map from Week 6 Day 30, design the "nightly regression-watching agent" (no code, just the map):
 
 | Layer | What goes here for the nightly agent? |
 |---|---|
@@ -294,7 +294,7 @@ Using the 5-layer map from Week 6 Day 31, design the "nightly regression-watchin
 
 ---
 
-## Part 5 — Hands-On: Create & Monitor a Schedule
+## Part 5 - Hands-On: Create & Monitor a Schedule
 
 ### Exercise: Test Job Lifecycle
 
@@ -306,7 +306,7 @@ Using the 5-layer map from Week 6 Day 31, design the "nightly regression-watchin
 
 ---
 
-## Part 6 — Hands-On: Sketch the Nightly Agent
+## Part 6 - Hands-On: Sketch the Nightly Agent
 
 ### Exercise: Nightly Agent Blueprint
 
@@ -320,47 +320,47 @@ Using the 5-layer map from Week 6 Day 31, design the "nightly regression-watchin
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 ### Self-check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-09-m4-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 45 · Scheduling &amp; MCP">
+<div class="ox-self-check" data-widget="self-check" data-id="week-09-m4-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 44 · Scheduling &amp; MCP">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
     "stem": "Why hand a long benchmark to `capsule schedule` instead of running it in an interactive terminal?",
     "options": [
       "Scheduled jobs always produce better results than manual ones",
-      "`capsule schedule` runs the job unattended on a remote node as a detached daemon — it survives SSH/session teardown, so a long run finishes without you holding a terminal open",
+      "`capsule schedule` runs the job unattended on a remote node as a detached daemon; it survives SSH/session teardown, so a long run finishes without you holding a terminal open",
       "`capsule schedule` is a cron daemon that reruns the benchmark on a fixed calendar by itself",
       "Manual benchmarks cannot measure TTFT accurately"
     ],
     "answer": 1,
-    "explain": "`capsule schedule` is a one-shot job queue: it dispatches your script to an available node and runs it as a detached (`setsid`) daemon that outlives your SSH session — ideal for anything longer than a coffee break. It does not recur on its own; a nightly cadence comes from an external trigger (cron/CI) that calls `capsule schedule start`. Automating the run is what lets a scheduled sweep catch a regression before a user does."
+    "explain": "`capsule schedule` is a one-shot job queue: it dispatches your script to an available node and runs it as a detached (`setsid`) daemon that outlives your SSH session: ideal for anything longer than a coffee break. It does not recur on its own; a nightly cadence comes from an external trigger (cron/CI) that calls `capsule schedule start`. Automating the run is what lets a scheduled sweep catch a regression before a user does."
   },
   {
     "stem": "What does an MCP surface for Capsule unlock that the CLI alone cannot?",
     "options": [
       "Access to faster GPU hardware",
-      "The ability for AI agents to call Capsule actions as tools — list and filter machines, run commands (e.g. kick off a benchmark job), move files, and act on results — automation that previously required a human at the CLI",
+      "The ability for AI agents to call Capsule actions as tools, list and filter machines, run commands (e.g. kick off a benchmark job), move files, and act on results, automation that previously required a human at the CLI",
       "Encrypted communication with the control plane",
       "Support for more concurrency levels than the standard CLI"
     ],
     "answer": 1,
-    "explain": "`capsule mcp` installs a Model Context Protocol config so an MCP-capable assistant (Claude Desktop / Claude Code) can call Capsule actions as tools — the same tool set `capsule agent` uses: `capsule_list`, `capsule_filter`, `capsule_exec`, `capsule_scp_upload`/`_download`. The Week 6 agent you designed can now discover machines, run a benchmark via `capsule_exec`, and pull results back — capabilities that required human CLI use before."
+    "explain": "`capsule mcp` installs a Model Context Protocol config so an MCP-capable assistant (Claude Desktop / Claude Code) can call Capsule actions as tools: the same tool set `capsule agent` uses: `capsule_list`, `capsule_filter`, `capsule_exec`, `capsule_scp_upload`/`_download`. The Week 6 agent you designed can now discover machines, run a benchmark via `capsule_exec`, and pull results back: capabilities that required human CLI use before."
   },
   {
     "stem": "Which Capsule tools are 'write' tools that warrant human-in-the-loop approval?",
     "options": [
       "All Capsule tools are read-only",
-      "The action tools with side effects: `capsule_exec` (runs a command / kicks off a workload on a machine) and `capsule_scp_upload` (writes files to a machine) — the agent should confirm intent before calling them",
+      "The action tools with side effects: `capsule_exec` (runs a command / kicks off a workload on a machine) and `capsule_scp_upload` (writes files to a machine); the agent should confirm intent before calling them",
       "Only tools that cost money require approval",
-      "Write tools are not available in the MCP surface — only the CLI supports writes"
+      "Write tools are not available in the MCP surface; only the CLI supports writes"
     ],
     "answer": 1,
-    "explain": "From Day 28's safety rule: action tools must be wrapped in confirmation. The Capsule agent even explains what it intends to do before calling `capsule_exec` or the `scp` tools. `capsule_exec` runs code on a machine and `capsule_scp_upload` writes files — both have real side effects — while read tools like `capsule_list` and `capsule_filter` are safe to call automatically."
+    "explain": "From Day 28's safety rule: action tools must be wrapped in confirmation. The Capsule agent even explains what it intends to do before calling `capsule_exec` or the `scp` tools. `capsule_exec` runs code on a machine and `capsule_scp_upload` writes files, both have real side effects, while read tools like `capsule_list` and `capsule_filter` are safe to call automatically."
   },
   {
     "stem": "In Part 4's '5-Layer Agent' map, which five layers do you fill in for the nightly regression-watching agent?",
@@ -371,15 +371,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Input, Processing, Output, Storage, Monitoring"
     ],
     "answer": 2,
-    "explain": "Part 4's map uses five layers: Goal / task definition (compare last night's run to the 7-day baseline), Planner (decide each morning whether a regression is significant), Tools — read + write (read tools like `capsule_list`/`capsule_filter` and `capsule_scp_download`; write tools like `capsule_exec`), Governance controls (session/cost caps, approval gate for new jobs, audit log, least-privilege creds), and the Orchestration pattern (an external nightly trigger driving the multi-step workflow). 'Intelligence/Observation/Action/Safety' is a different framing and is not this lesson's map."
+    "explain": "Part 4's map uses five layers: Goal / task definition (compare last night's run to the 7-day baseline), Planner (decide each morning whether a regression is significant), Tools: read + write (read tools like `capsule_list`/`capsule_filter` and `capsule_scp_download`; write tools like `capsule_exec`), Governance controls (session/cost caps, approval gate for new jobs, audit log, least-privilege creds), and the Orchestration pattern (an external nightly trigger driving the multi-step workflow). 'Intelligence/Observation/Action/Safety' is a different framing and is not this lesson's map."
   },
   {
     "stem": "How do Phase 1, Phase 2, and Phase 3 compose into a real product?",
     "options": [
-      "They are independent — each phase stands alone",
+      "They are independent; each phase stands alone",
       "Phase 1 (inference fundamentals) explains why the benchmark numbers are what they are; Phase 2 (agents) provides the architecture to automate benchmarks and respond to them; Phase 3 (Capsule operations) provides the infrastructure to run them",
       "Phase 1 is theory; Phases 2 and 3 are practice with no connection to theory",
-      "Phase 3 replaces Phases 1 and 2 — the operational knowledge supersedes the theoretical"
+      "Phase 3 replaces Phases 1 and 2; the operational knowledge supersedes the theoretical"
     ],
     "answer": 1,
     "explain": "The lesson synthesis: 'Phase 1 explains the numbers; Phase 2 provides the agent architecture; Phase 3 provides the infrastructure.' A nightly regression watcher uses: H100 bandwidth to explain TTFT (P1), a ReAct agent to interpret and respond to results (P2), and Capsule MCP tools to automate the execution (P3). All three phases are necessary."
@@ -393,15 +393,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "`capsule benchmark schedule ./bench.sh --nightly`"
     ],
     "answer": 2,
-    "explain": "The real form is `capsule schedule start <config-tag> --script <file>` (script required; `-n`/`--name`, `-t`/`--timeout` shape the job). With a config tag it dispatches to the first available node in the pool. `capsule schedule` is a one-shot job queue — there is no `create`, `submit`, or `--cron`; the recurring nightly cadence comes from an external cron/CI trigger that calls `schedule start`."
+    "explain": "The real form is `capsule schedule start <config-tag> --script <file>` (script required; `-n`/`--name`, `-t`/`--timeout` shape the job). With a config tag it dispatches to the first available node in the pool. `capsule schedule` is a one-shot job queue; there is no `create`, `submit`, or `--cron`; the recurring nightly cadence comes from an external cron/CI trigger that calls `schedule start`."
   },
   {
     "stem": "A scheduled job is still running and you no longer need it. How do you stop it?",
     "options": [
-      "`capsule schedule cancel <job-id>` (or `--all`) — a pending job is marked Cancelled; a running job is killed on its node",
+      "`capsule schedule cancel <job-id>` (or `--all`); a pending job is marked Cancelled; a running job is killed on its node",
       "`capsule schedule disable <name>` to pause the recurring schedule",
       "Delete the entry from `~/.capsule/crontab`",
-      "You can't interrupt it — wait for `--timeout` to expire"
+      "You can't interrupt it; wait for `--timeout` to expire"
     ],
     "answer": 0,
     "explain": "`capsule schedule cancel <job-id>` stops a job, and `--all` cancels every one; the orchestration solicits the node and kills the process for a running job. There is nothing to 'disable' and no crontab, because a scheduled job is a one-shot, not a recurring cron entry."
@@ -427,7 +427,7 @@ Friday: **timed sprint** + [the canonical quiz](knowledge-check.md). Cold-run th
 
 ---
 
-## Pre-read for Friday (Day 46 · Timed Sprint + Phase 3 wrap)
+## Pre-read for Friday (Day 45 · Timed Sprint + Phase 3 wrap)
 
 - **Resource:** Problem Sets § Set 45 (sprint protocol + phase-timing rubric) + Flashcards command-recall tier.
 - **Reflection questions:**
@@ -439,4 +439,4 @@ Friday: **timed sprint** + [the canonical quiz](knowledge-check.md). Cold-run th
 
 ## Stuck?
 
-Ask **oxtutor** — share your 5-layer agent blueprint and it can identify governance gaps before you encounter them in the capstone.
+Ask **oxtutor**; share your 5-layer agent blueprint and it can identify governance gaps before you encounter them in the capstone.

@@ -1,4 +1,4 @@
-# Week 2 · Inference Engineering — The GPU & Memory
+# Week 2 · Inference Engineering - The GPU & Memory
 
 > **Goal of the week:** build the hardware mental model. Understand *where* inference happens and *why* it's shaped the way it is.
 
@@ -41,16 +41,16 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 6 (Mon) | What Happens When You Send a Prompt | Reader 1 — AI in production | [Day 1 · Prompt Pipeline](module-1/index.md) |
-| 7 (Tue) | Meet the GPU | Reader 5 — Computer architecture | [Day 2 · Meet The Gpu](module-2/index.md) |
+| 6 (Mon) | What Happens When You Send a Prompt | Reader 1 - AI in production | [Day 1 · Prompt Pipeline](module-1/index.md) |
+| 7 (Tue) | Meet the GPU | Reader 5 - Computer architecture | [Day 2 · Meet The Gpu](module-2/index.md) |
 | 8 (Wed) | Memory Is the Bottleneck | Reader 5 memory subsection + Study Guide §A.3 | [Day 3 · Memory Bottleneck](module-3/index.md) |
 | 9 (Thu) | Compute-Bound vs Memory-Bound | Reader 4 + Study Guide §A.5 roofline | [Day 4 · Compute Vs Memory Bound](module-4/index.md) |
-| 10 (Fri) | **Consolidation** — Feynman teach-back + quiz | — | [module-5/index.md](module-5/index.md) |
+| 10 (Fri) | **Consolidation** - Feynman teach-back + quiz | - | [module-5/index.md](module-5/index.md) |
 
-## Friday — the bar
+## Friday - the bar
 
 - **Canonical [quiz](module-5/knowledge-check.md):** GPU anatomy + memory hierarchy + bottleneck classification. Drawn from Flashcards Days 6–9.
-- **[Assignment](module-1/assignment.md)** — Feynman teach-back: explain one of {bandwidth, FLOPs, roofline, memory hierarchy} as if to a peer who missed the week.
+- **[Assignment](module-1/assignment.md)** - Feynman teach-back: explain one of {bandwidth, FLOPs, roofline, memory hierarchy} as if to a peer who missed the week.
 
 ## Big-picture connect
 

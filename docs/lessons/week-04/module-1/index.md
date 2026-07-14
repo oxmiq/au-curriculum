@@ -1,7 +1,7 @@
 # Day 16 · Tensor Parallelism
 
-> **Concept of the day:** **TP** splits each layer's matrices across GPUs. Used for one model that's too big for one GPU, or to reduce per-token decode latency. **NVLink required** — TP is intra-node only.<br>
-> **Pre-reading:** "Tensor parallelism explained" — <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a> (read the Tensor Parallel section). Alternative: <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Transformer Inference Optimization</a>.
+> **Concept of the day:** **TP** splits each layer's matrices across GPUs. Used for one model that's too big for one GPU, or to reduce per-token decode latency. **NVLink required**: TP is intra-node only.<br>
+> **Pre-reading:** "Tensor parallelism explained" - <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face - Model Parallelism</a> (read the Tensor Parallel section). Alternative: <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng - Transformer Inference Optimization</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 4 — Scaling &amp; Stacks</a>
+    <a href="../">Week 4 - Scaling &amp; Stacks</a>
     <span class="sep">/</span>
     <span>Day 16 · Multi-GPU Parallelism</span>
     {status:week-04/module-1}
@@ -35,10 +35,10 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review + Readiness Check
+## Part 1 - Pre-Reading Review + Readiness Check
 ### Before You Start
 
-You should have already read: "Tensor parallelism explained" — Pre-Lecture Reading **Reader 8** (parallel computing primer).
+You should have already read: "Tensor parallelism explained" - Pre-Lecture Reading **Reader 8** (parallel computing primer).
 
 ### Readiness Check
 
@@ -78,7 +78,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Because the model file can't be opened by two processes at once"
     ],
     "answer": 1,
-    "explain": "Every transformer layer ends in an all-reduce that moves tens of GB/s of activation data between TP ranks. Only NVLink (~900 GB/s on H100) keeps up — PCIe and inter-node networks become the bottleneck and decode latency collapses."
+    "explain": "Every transformer layer ends in an all-reduce that moves tens of GB/s of activation data between TP ranks. Only NVLink (~900 GB/s on H100) keeps up; PCIe and inter-node networks become the bottleneck and decode latency collapses."
   },
   {
     "stem": "What communication primitive does TP rely on after every layer?",
@@ -273,19 +273,19 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concept — What TP Splits
-### Reading — Why This Matters
+## Part 2 - Core Concept - What TP Splits
+### Reading - Why This Matters
 
-The first scaling lever you reach for. Tensor Parallelism is what runs Llama-3-70B on 8×H100 — the bread-and-butter production config. Get this wrong and you either OOM or burn latency on PCIe round-trips.
+The first scaling lever you reach for. Tensor Parallelism is what runs Llama-3-70B on 8×H100: the bread-and-butter production config. Get this wrong and you either OOM or burn latency on PCIe round-trips.
 
 ### What TP Splits
 
 Inside a transformer layer:
 
-- **Attention projection matrices** (Q, K, V, output) — each split column-wise across TP GPUs.
-- **MLP up/down projections** — split similarly.
-- **Embedding and unembedding** — usually split.
-- **LayerNorm, residual stream** — **replicated** (small + needed by all shards).
+- **Attention projection matrices** (Q, K, V, output) - each split column-wise across TP GPUs.
+- **MLP up/down projections** - split similarly.
+- **Embedding and unembedding** - usually split.
+- **LayerNorm, residual stream** - **replicated** (small + needed by all shards).
 
 Each GPU holds its slice of the weights, computes its slice of the matmul, then participates in an **all-reduce** to combine partial results before the next layer.
 
@@ -293,15 +293,15 @@ Each GPU holds its slice of the weights, computes its slice of the matmul, then 
 
 | Term | Definition |
 |------|------------|
-| **Tensor Parallelism (TP)** | Splits each layer's weight matrices across GPUs — width-wise parallelism |
+| **Tensor Parallelism (TP)** | Splits each layer's weight matrices across GPUs: width-wise parallelism |
 | **All-reduce** | Communication primitive where every GPU sends data to every other GPU and receives the combined result |
 | **Replicated** | Weights/activations that exist identically on every GPU (not split) |
 | **NVLink** | NVIDIA's high-bandwidth GPU interconnect (~900 GB/s on H100) |
 
 ---
 
-## Part 3 — Worked Example — Llama-3-70B on 8×H100
-### Reading — The Numbers
+## Part 3 - Worked Example - Llama-3-70B on 8×H100
+### Reading - The Numbers
 
 Let's walk through the actual math for the canonical production config:
 
@@ -316,12 +316,12 @@ With `tp = 8`, each GPU only needs to hold 17.5 GB of weights. The remaining ~62
 - Activation tensors (batch × seq × hidden)
 - Working memory for batched requests
 
-This is why TP=8 is the default for 70B models — it fits comfortably while minimizing decode latency.
+This is why TP=8 is the default for 70B models; it fits comfortably while minimizing decode latency.
 
 ---
 
-## Part 4 — Deep Dive — NVLink & The Roofline
-### Reading — Why NVLink Matters
+## Part 4 - Deep Dive - NVLink & The Roofline
+### Reading - Why NVLink Matters
 
 The all-reduce after every layer moves **~per-token-batch × hidden-dim** bytes between all TP ranks. For 70B at hidden_dim = 8192, batch 32, that's:
 
@@ -333,7 +333,7 @@ At decode rates of 500–1000 tokens/s aggregate, you need massive bandwidth:
 |-------------|-----------|---------|
 | NVLink 4 (H100) | 900 GB/s | ✓ comfortable |
 | PCIe Gen 5 | ~64 GB/s | choking under load |
-| InfiniBand HDR | ~50 GB/s/NIC | not for TP — for cross-node |
+| InfiniBand HDR | ~50 GB/s/NIC | not for TP: for cross-node |
 
 **Rule:** TP within a node, never across nodes. Cross-node = Pipeline Parallelism (tomorrow).
 
@@ -348,13 +348,13 @@ This is why production LLM serving uses **the largest TP that NVLink supports** 
 
 ### Cost of TP
 
-- All-reduce comms per layer adds latency — typically 5–15% overhead at `tp = 8`
+- All-reduce comms per layer adds latency: typically 5–15% overhead at `tp = 8`
 - Diminishing returns past NVLink boundary
 - More GPUs = more failures to handle
 
 ---
 
-## Part 5 — Hands-On — Memory & Latency Calculations
+## Part 5 - Hands-On - Memory & Latency Calculations
 ### Exercise 1: Weight Shard Calculator
 
 For Llama-3-70B FP16:
@@ -379,7 +379,7 @@ Estimate decode latency per token at tp=4 and tp=8. What's the practical lower b
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -617,11 +617,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Tomorrow: when one node isn't enough — **Pipeline Parallelism** (cross-node) and **Expert Parallelism** (for MoE).
+Tomorrow: when one node isn't enough: **Pipeline Parallelism** (cross-node) and **Expert Parallelism** (for MoE).
 
 ### Pre-read for tomorrow (Day 17 · Pipeline & Expert Parallelism)
 
-- **Resource:** <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Large Transformer Model Inference Optimization</a> (Pipeline Parallelism + MoE sections). Alternative: <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face — Model Parallelism</a>.
+- **Resource:** <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng - Large Transformer Model Inference Optimization</a> (Pipeline Parallelism + MoE sections). Alternative: <a href="https://huggingface.co/docs/transformers/v4.15.0/parallelism" target="_blank" rel="noopener">Hugging Face - Model Parallelism</a>.
 - **Reflection questions:**
   1. PP splits a model how? (Hint: depth-wise.)
   2. What is a "pipeline bubble" and why is it bad?
@@ -631,5 +631,5 @@ Tomorrow: when one node isn't enough — **Pipeline Parallelism** (cross-node) a
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**; share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

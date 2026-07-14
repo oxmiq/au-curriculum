@@ -4,7 +4,7 @@
     <span class="sep">/</span>
     <a href="../../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../../">Week 6 — Prompt Engineering + AI Agents</a>
+    <a href="../../">Week 6 - Prompt Engineering + AI Agents</a>
     <span class="sep">/</span>
     <a href="../">Day 26 · Prompt Engineering</a>
     <span class="sep">/</span>
@@ -16,7 +16,7 @@
 # Day 26 Knowledge Check
 
 !!! info "This day rolls into the Friday check"
-    There isn't a separate knowledge check for **Day 26** — the week's
+    There isn't a separate knowledge check for **Day 26**; the week's
     canonical check covers this day's material alongside the rest of the week.
 
     [**Take the Week 6 Knowledge Check →**](../module-5/knowledge-check.md)
@@ -39,6 +39,6 @@ OxTutor to generate a practice knowledge check.
 
 -   __Back to the week__
 
-    [Week 6 — Prompt Engineering + AI Agents overview](../index.md)
+    [Week 6 - Prompt Engineering + AI Agents overview](../index.md)
 
 </div>

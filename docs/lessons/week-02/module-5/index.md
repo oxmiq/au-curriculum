@@ -9,7 +9,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 2 — The GPU &amp; Memory</a>
+    <a href="../">Week 2 - The GPU &amp; Memory</a>
     <span class="sep">/</span>
     <span>Day 10 · Consolidation</span>
     {status:week-02/module-5}
@@ -21,7 +21,7 @@
 
 ## Lesson plan
 
-This consolidation day is different from other days — it's for practice and review. Here's how your ~3 hours is organized:
+This consolidation day is different from other days; it's for practice and review. Here's how your ~3 hours is organized:
 
 | Part | What you do |
 |-------------|---------------|
@@ -34,10 +34,10 @@ This consolidation day is different from other days — it's for practice and re
 
 ---
 
-## Part 1 — Week 2 Knowledge Check
+## Part 1 - Week 2 Knowledge Check
 ### Exercise: Take the Knowledge Check
 
-[Take the Week 2 knowledge check](knowledge-check.md) — covers GPU anatomy + memory hierarchy + bottleneck classification. Questions drawn from Flashcards Days 6–9.
+[Take the Week 2 knowledge check](knowledge-check.md): covers GPU anatomy + memory hierarchy + bottleneck classification. Questions drawn from Flashcards Days 6–9.
 
 **Passing score:** 10/15 (67%)
 
@@ -49,13 +49,13 @@ If you score below 10/15:
 
 ---
 
-## Part 2 — Self-Assessment
+## Part 2 - Self-Assessment
 ### Self-Check List
 
 Go through each item and mark whether you can explain it **without notes**:
 
 - [ ] The inference pipeline: tokenize → embed → layers → logits → sample
-- [ ] Prefill vs decode — what's compute-bound vs memory-bound
+- [ ] Prefill vs decode: what's compute-bound vs memory-bound
 - [ ] GPU anatomy: SMs, Tensor Cores, L1/L2/HBM
 - [ ] The key H100 numbers: 80 GB, 3.35 TB/s, 132 SMs, 528 Tensor Cores
 - [ ] The memory hierarchy from fast to slow
@@ -69,7 +69,7 @@ By Friday you can answer: *"Why is most LLM inference time spent moving data, no
 
 ---
 
-## Part 3 — Practice — Pipeline Review
+## Part 3 - Practice - Pipeline Review
 ### Hands-On: Trace the Prompt
 
 Draw from memory the inference pipeline and annotate each step:
@@ -87,7 +87,7 @@ Then answer:
 
 ---
 
-## Part 4 — Practice — GPU & Memory Review
+## Part 4 - Practice - GPU & Memory Review
 ### Hands-On: Quick Calculations
 
 Practice these calculations until they're automatic:
@@ -117,15 +117,15 @@ Fill in from memory:
 
 ---
 
-## Part 5 — Feynman Teach-Back
+## Part 5 - Feynman Teach-Back
 ### Exercise: Explain to a Peer
 
 Choose one concept from the list and explain it as if to a peer who missed the week:
 
-1. **Bandwidth** — Why does moving data matter more than compute for LLM inference?
-2. **FLOPs** — What's the difference between peak TFLOPs and utilized FLOPs?
-3. **Roofline** — How do you know if a workload is compute-bound or memory-bound?
-4. **Memory hierarchy** — Why is there a pyramid of memory types?
+1. **Bandwidth** - Why does moving data matter more than compute for LLM inference?
+2. **FLOPs** - What's the difference between peak TFLOPs and utilized FLOPs?
+3. **Roofline** - How do you know if a workload is compute-bound or memory-bound?
+4. **Memory hierarchy** - Why is there a pyramid of memory types?
 
 ### Structure Your Explanation
 
@@ -136,15 +136,15 @@ Choose one concept from the list and explain it as if to a peer who missed the w
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### What to Do
 
 This is open time. Choose what you need:
 
 1. **Catch up** on any assignments from Days 6–9
-2. **Ask questions** — use oxtutor or review the relevant day
-3. **Extra practice** — generate more exercises on any concept
-4. **Preview Week 3** — start the pre-reading for Day 11
+2. **Ask questions** - use oxtutor or review the relevant day
+3. **Extra practice** - generate more exercises on any concept
+4. **Preview Week 3** - start the pre-reading for Day 11
 
 ### Connect Forward
 
@@ -156,7 +156,7 @@ Week 3 begins on Monday. You'll learn about:
 
 ### Pre-read for Monday (Week 3, Day 11)
 
-**Resource:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks — LLM Inference Performance Engineering Best Practices</a> (read the prefill/decode section). Alternative: <a href="https://www.baseten.co/blog/llm-transformer-inference-guide/" target="_blank" rel="noopener">Baseten — Prefill vs Decode</a>.
+**Resource:** <a href="https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices" target="_blank" rel="noopener">Databricks - LLM Inference Performance Engineering Best Practices</a> (read the prefill/decode section). Alternative: <a href="https://www.baseten.co/blog/llm-transformer-inference-guide/" target="_blank" rel="noopener">Baseten - Prefill vs Decode</a>.
 
 **Reflection questions:**
 

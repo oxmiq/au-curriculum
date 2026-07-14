@@ -1,4 +1,4 @@
-# Week 7 · Bridge — Theory Meets Tooling
+# Week 7 · Bridge - Theory Meets Tooling
 
 > **Goal of the week:** Capsule installed, agent concepts grounded in real systems. By Friday the platform is ready for hands-on operations in Weeks 8–9.
 
@@ -41,13 +41,13 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 31 (Mon) | Agent Case Studies — Klarna, coding agents, post-mortems | Klarna AI post + coding-agent case study | [module-1/index.md](module-1/index.md) |
+| 31 (Mon) | Agent Case Studies: Klarna, coding agents, post-mortems | Klarna AI post + coding-agent case study | [module-1/index.md](module-1/index.md) |
 | 32 (Tue) | Capsule Foundations & Architecture | Capsule Power User Lab Guide Modules 1+2 | [module-2/index.md](module-2/index.md) |
 | 33 (Wed) | Installation | Lab Guide Module 2 | [module-3/index.md](module-3/index.md) |
 | 34 (Thu) | Environments & Fleet Discovery | Lab Guide Module 3 | [module-4/index.md](module-4/index.md) |
-| 35 (Fri) | **Consolidation** | — | [module-5/index.md](module-5/index.md) |
+| 35 (Fri) | **Consolidation** | - | [module-5/index.md](module-5/index.md) |
 
-## Friday — the bar
+## Friday - the bar
 
 - **Canonical knowledge check:** Capsule architecture vocabulary, install gotchas, environment/node discovery commands.
 - See [module-5](module-5/index.md).
@@ -58,10 +58,10 @@ By Friday you can install Capsule, list environments, and discover nodes. That u
 
 ## Companion guide
 
-Day 31 revisits agents as real, shipped systems — read alongside it (opens in a new tab):
+Day 31 revisits agents as real, shipped systems; read alongside it (opens in a new tab):
 
-- **[AI Agents — Student Guide → The Economic Layer & What Comes Next](../../readings/ai-agents/student-guide.md#module-5-the-economic-layer-and-what-comes-next)** — the Klarna deployment, price-per-completed-task economics, and where agents go from here.
+- **[AI Agents - Student Guide → The Economic Layer & What Comes Next](../../readings/ai-agents/student-guide.md#module-5-the-economic-layer-and-what-comes-next)** - the Klarna deployment, price-per-completed-task economics, and where agents go from here.
 
 ## Stuck?
 
-Ask **oxtutor** — the architecture diagram from [module-2](module-2/index.md) is the single highest-leverage page of this week.
+Ask **oxtutor**; the architecture diagram from [module-2](module-2/index.md) is the single highest-leverage page of this week.

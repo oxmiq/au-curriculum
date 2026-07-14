@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 2 — The GPU &amp; Memory</a>
+    <a href="../">Week 2 - The GPU &amp; Memory</a>
     <span class="sep">/</span>
     <span>Day 7 · Meet the GPU</span>
     {status:week-02/module-2}
@@ -35,10 +35,10 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 ### Before You Start
 
-You should have already read: Pre-Lecture Reading **Reader 5 — Computer architecture primer** + H100 1-page spec.
+You should have already read: Pre-Lecture Reading **Reader 5 - Computer architecture primer** + H100 1-page spec.
 
 ### Quick Self-Check
 
@@ -75,7 +75,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "The power management unit"
     ],
     "answer": 1,
-    "explain": "An SM is a streaming multiprocessor — a cluster of CUDA cores that executes threads in warps (32 threads at a time). Think of an SM as a 'factory floor' where the actual compute happens."
+    "explain": "An SM is a streaming multiprocessor: a cluster of CUDA cores that executes threads in warps (32 threads at a time). Think of an SM as a 'factory floor' where the actual compute happens."
   },
   {
     "stem": "What is a Tensor Core and how does it differ from a CUDA Core?",
@@ -83,10 +83,10 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Tensor Cores are for text processing; CUDA Cores are for graphics",
       "Tensor Cores are specialized for matrix multiplication (the core operation in neural networks); CUDA Cores are general-purpose ALUs",
       "Tensor Cores run at higher clock speeds than CUDA Cores",
-      "There is no difference — they are the same thing"
+      "There is no difference; they are the same thing"
     ],
     "answer": 1,
-    "explain": "Tensor Cores are specialized matrix-multiply-accumulate units. A CUDA Core is a general-purpose ALU. Tensor Cores can do a 4x4 matrix multiply in one cycle that would take many CUDA Cores — they're the key to H100's AI performance."
+    "explain": "Tensor Cores are specialized matrix-multiply-accumulate units. A CUDA Core is a general-purpose ALU. Tensor Cores can do a 4x4 matrix multiply in one cycle that would take many CUDA Cores; they're the key to H100's AI performance."
   },
   {
     "stem": "Why is HBM (High Bandwidth Memory) important for GPUs?",
@@ -97,7 +97,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "It uses less power than DDR"
     ],
     "answer": 1,
-    "explain": "HBM provides terabytes/second of memory bandwidth (H100: ~3.35 TB/s). Traditional DDR is limited to tens of GB/s. The GPU's compute units (Tensor Cores) are starved without this bandwidth — it's the memory wall problem."
+    "explain": "HBM provides terabytes/second of memory bandwidth (H100: ~3.35 TB/s). Traditional DDR is limited to tens of GB/s. The GPU's compute units (Tensor Cores) are starved without this bandwidth; it's the memory wall problem."
   },
   {
     "stem": "What is the approximate memory bandwidth of an H100 SXM5?",
@@ -113,24 +113,24 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
   {
     "stem": "What does intra-GPU memory refer to, and why is it faster than inter-GPU (GPU-to-GPU) communication?",
     "options": [
-      "CPU memory — it is faster than GPU memory",
-      "HBM within a single GPU — it doesn't need to cross the PCIe bus",
-      "System RAM — it is directly connected",
-      "NVMe storage — it is faster than networking"
+      "CPU memory - it is faster than GPU memory",
+      "HBM within a single GPU - it doesn't need to cross the PCIe bus",
+      "System RAM - it is directly connected",
+      "NVMe storage - it is faster than networking"
     ],
     "answer": 1,
-    "explain": "Intra-GPU memory (HBM) is within a single GPU and doesn't need to cross PCIe or networking. Inter-GPU communication goes over PCIe or NVLink — slower due to physical distance and protocol overhead."
+    "explain": "Intra-GPU memory (HBM) is within a single GPU and doesn't need to cross PCIe or networking. Inter-GPU communication goes over PCIe or NVLink: slower due to physical distance and protocol overhead."
   },
   {
     "stem": "What are TFLOPS and how are they measured for H100?",
     "options": [
-      "Trillions of Floating-point Operations Per Second — measured using INT8 for H100's Tensor Cores",
-      "Trillions of Floating-point Operations Per Second — measured using FP16 or FP32 for H100's Tensor/CUDA Cores",
+      "Trillions of Floating-point Operations Per Second - measured using INT8 for H100's Tensor Cores",
+      "Trillions of Floating-point Operations Per Second - measured using FP16 or FP32 for H100's Tensor/CUDA Cores",
       "Terabytes of Free Memory Per Second",
       "Time For Large-scale Object Processing and Retrieval System"
     ],
     "answer": 1,
-    "explain": "TFLOPS measures compute throughput. H100 delivers ~1,000 TFLOPS (1 PetaFLOPS) with FP16 Tensor Cores. Different precisions give different numbers — the key is matching precision to your workload."
+    "explain": "TFLOPS measures compute throughput. H100 delivers ~1,000 TFLOPS (1 PetaFLOPS) with FP16 Tensor Cores. Different precisions give different numbers; the key is matching precision to your workload."
   },
   {
     "stem": "What is the L2 cache on a GPU used for?",
@@ -149,36 +149,36 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — GPU Anatomy
-### Reading — Why GPU Anatomy Matters
+## Part 2 - Core Concepts: GPU Anatomy
+### Reading - Why GPU Anatomy Matters
 
-Every optimization in Weeks 3–5 — KV cache layout, FlashAttention, tensor parallelism, batching — is a response to the *physical* GPU. You can't reason about the optimization without the hardware.
+Every optimization in Weeks 3–5, KV cache layout, FlashAttention, tensor parallelism, batching, is a response to the *physical* GPU. You can't reason about the optimization without the hardware.
 
 ### The H100 SXM5 In One Table
 
 | Component | What it is | H100 numbers | Speed |
 |---|---|---|---|
-| **SM (Streaming Multiprocessor)** | A "factory floor" — the unit of work scheduling | 132 SMs | — |
-| **CUDA Core** | General-purpose ALU within an SM | 16,896 total | — |
-| **Tensor Core** | Specialized matrix-multiply unit (the workhorse for AI) | 528 total | — |
+| **SM (Streaming Multiprocessor)** | A "factory floor" - the unit of work scheduling | 132 SMs | - |
+| **CUDA Core** | General-purpose ALU within an SM | 16,896 total | - |
+| **Tensor Core** | Specialized matrix-multiply unit (the workhorse for AI) | 528 total | - |
 | **Register file** | Per-thread scratch (sub-ns) | KBs per SM | ~0 ns |
 | **L1 / Shared memory** | Per-SM SRAM (~1 ns) | ~256 KB per SM | ~1 ns |
 | **L2 cache** | Chip-wide SRAM (~5 ns) | 50 MB | ~5 ns |
 | **HBM3** | Off-chip "warehouse" DRAM (~80 ns, but very wide) | 80 GB @ 3.35 TB/s | ~80 ns |
-| **NVLink** | GPU↔GPU interconnect | 900 GB/s | — |
-| **PCIe** | CPU↔GPU | ~64 GB/s | — |
+| **NVLink** | GPU↔GPU interconnect | 900 GB/s | - |
+| **PCIe** | CPU↔GPU | ~64 GB/s | - |
 
 ### Key Numbers to Memorize
 
-- **80 GB HBM3** — the memory capacity
-- **3.35 TB/s** — the memory bandwidth
-- **132 SMs** — the compute units
-- **528 Tensor Cores** — the specialized AI accelerators
+- **80 GB HBM3** - the memory capacity
+- **3.35 TB/s** - the memory bandwidth
+- **132 SMs** - the compute units
+- **528 Tensor Cores** - the specialized AI accelerators
 
 ---
 
-## Part 3 — The Mental Model
-### Reading — Factory Floor Analogy
+## Part 3 - The Mental Model
+### Reading - Factory Floor Analogy
 
 > **SM = factory floor. Tensor Core = specialized machine on the floor. HBM = warehouse across the road. L2 = on-site storage. Registers = workbench.**
 
@@ -201,8 +201,8 @@ Every optimization in Weeks 3–5 — KV cache layout, FlashAttention, tensor pa
 
 ---
 
-## Part 4 — GPU Classes Comparison
-### Reading — Three GPU Classes to Remember
+## Part 4 - GPU Classes Comparison
+### Reading - Three GPU Classes to Remember
 
 | Class | Example | Memory | Bandwidth | Where You See It |
 |---|---|---|---|---|
@@ -219,13 +219,13 @@ Every optimization in Weeks 3–5 — KV cache layout, FlashAttention, tensor pa
 ### Compute Throughput
 
 - **H100 SXM5:** ~989 TFLOPs FP16 (dense, with Tensor Cores)
-- **RTX 4090:** ~165 TFLOPs FP16 — but only **24 GB GDDR6X** and only **1 TB/s** bandwidth
+- **RTX 4090:** ~165 TFLOPs FP16 - but only **24 GB GDDR6X** and only **1 TB/s** bandwidth
 
 **Key insight:** TFLOPs alone don't tell the whole story. Memory bandwidth often matters more.
 
 ---
 
-## Part 5 — Hands-On — Calculate Bandwidth
+## Part 5 - Hands-On: Calculate Bandwidth
 ### Exercise 1: Time to Load Weights
 
 **Calculate:** How long would it take to move all 80 GB of H100 weights from HBM into the chip *once*?
@@ -256,7 +256,7 @@ Given this stripped table, identify which row is which GPU:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -268,12 +268,12 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "What is a Streaming Multiprocessor (SM) in a GPU?",
     "options": [
       "A specialized unit that performs matrix multiplication",
-      "A cluster of CUDA cores that executes threads in warps — the basic unit of work scheduling",
+      "A cluster of CUDA cores that executes threads in warps - the basic unit of work scheduling",
       "The memory controller that manages HBM reads and writes",
       "A power management unit that regulates clock speed"
     ],
     "answer": 1,
-    "explain": "An SM (Streaming Multiprocessor) is like a 'factory floor' — a cluster of CUDA cores that schedules and executes threads in warps of 32. The H100 has 132 SMs. Part 2 describes SMs as the fundamental compute units."
+    "explain": "An SM (Streaming Multiprocessor) is like a 'factory floor': a cluster of CUDA cores that schedules and executes threads in warps of 32. The H100 has 132 SMs. Part 2 describes SMs as the fundamental compute units."
   },
   {
     "stem": "How does a Tensor Core differ from a CUDA Core?",
@@ -281,7 +281,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Tensor Cores are slower but more power-efficient than CUDA Cores",
       "Tensor Cores are specialized matrix-multiply-accumulate units; CUDA Cores are general-purpose ALUs",
       "Tensor Cores handle text operations; CUDA Cores handle graphics rendering",
-      "There is no difference — they are the same hardware renamed"
+      "There is no difference; they are the same hardware renamed"
     ],
     "answer": 1,
     "explain": "Tensor Cores perform a matrix multiply-accumulate in one operation that would take many CUDA Core cycles. They are the key to H100's AI performance. CUDA Cores are general-purpose but less efficient for the dense matrix math at the heart of transformers."
@@ -295,15 +295,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "NVLink 900 GB/s and PCIe 64 GB/s"
     ],
     "answer": 1,
-    "explain": "Part 2 states: 'Key Numbers to Memorize: 80 GB HBM3 — the memory capacity; 3.35 TB/s — the memory bandwidth.' For LLM inference, memory capacity limits how large a model you can serve, and memory bandwidth determines how fast you can read weights during decode."
+    "explain": "Part 2 states: 'Key Numbers to Memorize: 80 GB HBM3 - the memory capacity; 3.35 TB/s - the memory bandwidth.' For LLM inference, memory capacity limits how large a model you can serve, and memory bandwidth determines how fast you can read weights during decode."
   },
   {
     "stem": "In the factory floor analogy, what does HBM represent?",
     "options": [
-      "The workbench — ultra-fast per-thread scratch space",
+      "The workbench - ultra-fast per-thread scratch space",
       "The specialized machine that does the actual matrix multiplication",
-      "The warehouse across the road — large capacity but slow to access",
-      "The on-site storage — fast access for frequently used data"
+      "The warehouse across the road - large capacity but slow to access",
+      "The on-site storage - fast access for frequently used data"
     ],
     "answer": 2,
     "explain": "Part 3's factory analogy maps: SM = factory floor, Tensor Core = specialized machine, Registers = workbench, L1 = on-site storage, L2 = warehouse storage, HBM = warehouse across the road. HBM is large (80 GB) but has higher access latency (~80 ns) compared to on-chip memory."
@@ -323,7 +323,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "Why does the RTX 4090 have lower memory bandwidth than the H100, and why does this matter for decode?",
     "options": [
       "The 4090 has older memory technology; it matters because faster bandwidth means more Tensor Cores can run",
-      "The 4090 has ~1 TB/s vs H100's 3.35 TB/s; for decode (memory-bound), bandwidth limits how fast KV cache can be read — directly limiting tokens-per-second",
+      "The 4090 has ~1 TB/s vs H100's 3.35 TB/s; for decode (memory-bound), bandwidth limits how fast KV cache can be read: directly limiting tokens-per-second",
       "The 4090 has lower clock speed; it matters because higher clocks mean faster sampling",
       "The 4090 uses DDR5 instead of HBM; this matters only for training, not inference"
     ],
@@ -369,11 +369,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Tomorrow: why those bandwidth numbers — not the TFLOPs — usually decide how fast your model goes.
+Tomorrow: why those bandwidth numbers, not the TFLOPs, usually decide how fast your model goes.
 
 ### Pre-read for tomorrow (Day 8 · Memory Is the Bottleneck)
 
-- **Resource:** "Why bandwidth matters more than compute" — <a href="https://horace.io/brrr_intro.html#bandwidth" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Bandwidth section)</a>
+- **Resource:** "Why bandwidth matters more than compute" - <a href="https://horace.io/brrr_intro.html#bandwidth" target="_blank" rel="noopener">Horace He - Making Deep Learning Go Brrr (Bandwidth section)</a>
 - **Reflection questions:**
   1. Which is faster: L2 cache or HBM? By roughly how much?
   2. What is **temporal locality**? **spatial locality**?
@@ -383,5 +383,5 @@ Tomorrow: why those bandwidth numbers — not the TFLOPs — usually decide how 
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**; share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

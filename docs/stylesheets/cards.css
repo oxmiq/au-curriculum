@@ -15,6 +15,329 @@
 /* allow grids embedded in Material's content well */
 .md-typeset .ox-card-grid{margin-top:1.2em}
 
+/* ---- meta grid: lay out consecutive admonitions in one auto-adjusting row ---- */
+.md-typeset .ox-meta-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(15rem, 1fr));
+  gap:1rem;
+  margin:1.2em 0 1.6em;
+}
+/* let the grid gap own the spacing and equalise card heights */
+.md-typeset .ox-meta-grid > .admonition{
+  margin:0;
+  height:100%;
+}
+/* centre the title + body within each meta card */
+.md-typeset .ox-meta-grid > .admonition > .admonition-title,
+.md-typeset .ox-meta-grid > .admonition > *{
+  text-align:center;
+}
+/* the title uses a left icon by default — recentre it as a block label */
+.md-typeset .ox-meta-grid > .admonition > .admonition-title{
+  padding-left:.8rem;
+}
+.md-typeset .ox-meta-grid > .admonition > .admonition-title::before{
+  display:none;
+}
+
+/* ============================================================
+   Roadmap sitemap — phase bands ▸ week columns ▸ day timeline
+   Replaces the dense mermaid flowchart on docs/roadmap.md.
+   Each .ox-rmap-phase carries its palette via inline custom
+   props (--phase-fill / --phase-line / --phase-ink), inherited
+   by the week cards and day nodes nested inside it. The band
+   headers double as the phase legend.
+   ============================================================ */
+.md-typeset .ox-roadmap{
+  display:flex;
+  flex-direction:column;
+  gap:1.8em;
+  margin:1.5em 0 2em;
+}
+
+/* ---- phase band ---- */
+.md-typeset .ox-rmap-phase{margin:0}
+.md-typeset .ox-rmap-phase__head{
+  display:flex;
+  align-items:baseline;
+  gap:.6rem;
+  margin:0 0 .85rem;
+  padding:.4rem .8rem;
+  background:var(--phase-fill, var(--ox-cream-2));
+  border-left:4px solid var(--phase-line, var(--ox-blood));
+  border-radius:0 6px 6px 0;
+}
+.md-typeset .ox-rmap-phase__swatch{
+  align-self:center;
+  width:.7rem; height:.7rem;
+  border-radius:50%;
+  background:var(--phase-line, var(--ox-blood));
+  flex:0 0 auto;
+}
+.md-typeset .ox-rmap-phase__name{
+  margin:0;
+  font-family:var(--ox-font-mono);
+  font-size:.9rem;
+  font-weight:700;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+  color:var(--phase-ink, var(--ox-ink));
+}
+.md-typeset .ox-rmap-phase__weeks{
+  margin-left:auto;
+  font-family:var(--ox-font-mono);
+  font-size:.72rem;
+  letter-spacing:.02em;
+  color:var(--phase-ink, var(--ox-muted));
+  opacity:.75;
+}
+
+/* ---- week cards inside a band ---- */
+/* --cols (set per band = number of weeks) keeps every phase's cards on one row;
+   minmax(0,1fr) lets them shrink to fit instead of overflowing. */
+.md-typeset .ox-rmap-weeks{
+  display:grid;
+  grid-template-columns:repeat(var(--cols, 1), minmax(0, 1fr));
+  gap:1.1rem;
+  align-items:start;
+}
+/* on narrow viewports a 4-wide row is too cramped — let cards wrap instead */
+@media (max-width:56.25em){
+  .md-typeset .ox-rmap-weeks{
+    grid-template-columns:repeat(auto-fill, minmax(13rem, 1fr));
+  }
+}
+
+.md-typeset .ox-rmap-week{
+  display:flex;
+  flex-direction:column;
+  background:var(--ox-surface);
+  border:1px solid var(--ox-line);
+  border-top:3px solid var(--phase-line, var(--ox-blood));
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.md-typeset .ox-rmap-week:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 22px rgba(0,0,0,.09), 0 2px 6px rgba(0,0,0,.05);
+}
+
+.md-typeset .ox-rmap-week__head{
+  padding:.85rem 1rem .8rem;
+  background:var(--phase-fill, var(--ox-cream-2));
+  border-bottom:1px solid var(--ox-line);
+}
+.md-typeset .ox-rmap-week__num{
+  display:block;
+  font-family:var(--ox-font-mono);
+  font-size:.7rem;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--phase-ink, var(--ox-muted));
+  opacity:.8;
+}
+.md-typeset .ox-rmap-week__title{
+  margin:.15rem 0 .55rem;
+  font-family:var(--ox-font-body);
+  font-size:.98rem;
+  font-weight:700;
+  line-height:1.2;
+  letter-spacing:-.005em;
+  color:var(--phase-ink, var(--ox-ink));
+}
+
+/* ---- per-day timeline ---- */
+.md-typeset .ox-rmap-days{
+  list-style:none;
+  margin:0;
+  padding:.9rem 1rem 1.05rem;
+  position:relative;
+}
+.md-typeset .ox-rmap-days li{margin:0}
+/* vertical rail threaded through the day nodes */
+.md-typeset .ox-rmap-days::before{
+  content:"";
+  position:absolute;
+  left:calc(1rem + .8rem);          /* padding-left + half node width */
+  top:1.45rem; bottom:1.6rem;
+  width:2px;
+  background:color-mix(in srgb, var(--phase-line, var(--ox-blood)) 30%, transparent);
+}
+
+.md-typeset a.ox-rmap-day,
+.md-typeset a.ox-rmap-day:hover{
+  position:relative;
+  display:grid;
+  grid-template-columns:1.6rem 1fr;
+  align-items:center;
+  gap:.7rem;
+  padding:.3rem 0;
+  text-decoration:none;
+  color:inherit;
+}
+.md-typeset .ox-rmap-day__n{
+  z-index:1;
+  display:grid;
+  place-items:center;
+  width:1.6rem; height:1.6rem;
+  border-radius:50%;
+  background:var(--ox-surface);
+  border:2px solid var(--phase-line, var(--ox-blood));
+  color:var(--phase-ink, var(--ox-ink));
+  font-family:var(--ox-font-mono);
+  font-size:.66rem;
+  font-weight:700;
+  transition:background .15s ease, color .15s ease, transform .15s ease;
+}
+.md-typeset .ox-rmap-day__t{
+  font-size:.85rem;
+  line-height:1.3;
+  color:var(--ox-body);
+  transition:color .15s ease;
+}
+.md-typeset a.ox-rmap-day:hover .ox-rmap-day__n{
+  background:var(--phase-line, var(--ox-blood));
+  color:#fff;
+  transform:scale(1.08);
+}
+.md-typeset a.ox-rmap-day:hover .ox-rmap-day__t{
+  color:var(--ox-ink);
+  text-decoration:underline;
+  text-decoration-color:var(--phase-line, var(--ox-blood));
+  text-underline-offset:2px;
+}
+
+/* Friday consolidation reads as a quieter, dashed node */
+.md-typeset .ox-rmap-day.is-consolidation .ox-rmap-day__n{
+  border-style:dashed;
+  background:transparent;
+}
+.md-typeset .ox-rmap-day.is-consolidation .ox-rmap-day__t{
+  color:var(--ox-muted);
+  font-style:italic;
+}
+
+/* ============================================================
+   Progress overlay — populated at runtime by roadmap-progress.js
+   (reads progress/summary.json). All hidden until data loads, so
+   the roadmap degrades cleanly with JS off / offline.
+   ============================================================ */
+
+/* shared thin progress track (overall + per-week) */
+.md-typeset .ox-rmap-track{
+  display:block;
+  height:7px;
+  border-radius:99px;
+  background:var(--ox-cream-2);
+  overflow:hidden;
+}
+.md-typeset .ox-rmap-track > i{
+  display:block;
+  height:100%;
+  width:0;
+  border-radius:99px;
+  background:var(--ox-blood);
+  transition:width .6s ease;
+}
+
+/* overall summary band */
+.md-typeset .ox-rmap-overall{
+  display:flex;
+  align-items:center;
+  gap:1.1rem;
+  padding:.9rem 1.15rem;
+  margin:0 0 .4em;
+  background:var(--ox-surface);
+  border:1px solid var(--ox-line);
+  border-left:4px solid var(--ox-blood);
+  border-radius:8px;
+}
+.md-typeset .ox-rmap-overall__pct{
+  font-family:var(--ox-font-mono);
+  font-size:1.5rem;
+  font-weight:700;
+  color:var(--ox-blood);
+  min-width:3.1rem;
+}
+.md-typeset .ox-rmap-overall__meta{flex:1}
+.md-typeset .ox-rmap-overall__label{
+  display:block;
+  font-family:var(--ox-font-mono);
+  font-size:.75rem;
+  color:var(--ox-muted);
+  margin-bottom:.45rem;
+}
+
+/* status legend */
+.md-typeset .ox-rmap-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.35rem 1.1rem;
+  margin:0 0 .2em;
+  font-family:var(--ox-font-mono);
+  font-size:.7rem;
+  color:var(--ox-muted);
+}
+.md-typeset .ox-rmap-legend span{display:inline-flex; align-items:center; gap:.4rem}
+.md-typeset .ox-rmap-legend i{
+  width:.62rem; height:.62rem; border-radius:50%;
+  display:inline-block; border:1px solid rgba(0,0,0,.08);
+}
+
+/* per-week bar lives in the card header */
+.md-typeset .ox-rmap-week__prog{
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  margin-top:.6rem;
+}
+.md-typeset .ox-rmap-week__prog .ox-rmap-track{flex:1}
+.md-typeset .ox-rmap-week__prog .ox-rmap-track > i{background:var(--phase-line, var(--ox-blood))}
+.md-typeset .ox-rmap-week__pct{
+  font-family:var(--ox-font-mono);
+  font-size:.72rem;
+  color:var(--phase-ink, var(--ox-muted));
+  min-width:2.4rem;
+  text-align:right;
+}
+
+/* ---- per-day status states ---- */
+.md-typeset .ox-rmap-day[data-status="passed"] .ox-rmap-day__n{
+  background:var(--ox-green);
+  border-color:var(--ox-green);
+  border-style:solid;                 /* override dashed consolidation node once cleared */
+  color:#fff;
+}
+.md-typeset .ox-rmap-day[data-status="passed"] .ox-rmap-day__t{color:var(--ox-muted)}
+.md-typeset .ox-rmap-day[data-status="in_progress"] .ox-rmap-day__n{
+  border-color:var(--ox-gold);
+  color:#7a5b10;
+  background:color-mix(in srgb, var(--ox-gold) 16%, var(--ox-surface));
+}
+
+/* the single "next up" session — ringed node + inline flag */
+.md-typeset .ox-rmap-day.is-next .ox-rmap-day__n{
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--phase-line, var(--ox-blood)) 30%, transparent);
+}
+.md-typeset .ox-rmap-day__next{
+  margin-left:.45rem;
+  font-family:var(--ox-font-mono);
+  font-size:.62rem;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--phase-line, var(--ox-blood));
+  white-space:nowrap;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .md-typeset .ox-rmap-week,
+  .md-typeset .ox-rmap-day__n,
+  .md-typeset .ox-rmap-track > i{ transition:none }
+}
+
 /* ---- card ---- */
 .ox-card{
   position:relative;

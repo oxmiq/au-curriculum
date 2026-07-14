@@ -4,7 +4,7 @@
     <span class="sep">/</span>
     <a href="../../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../../">Week 7 — Bridge: Theory Meets Tooling</a>
+    <a href="../../">Week 7 - Bridge: Theory Meets Tooling</a>
     <span class="sep">/</span>
     <a href="../">Day 34 · Environments</a>
     <span class="sep">/</span>
@@ -16,7 +16,7 @@
 # Day 34 Knowledge Check
 
 !!! info "This day rolls into the Friday check"
-    There isn't a separate knowledge check for **Day 34** — the week's
+    There isn't a separate knowledge check for **Day 34**; the week's
     canonical check covers this day's material alongside the rest of the week.
 
     [**Take the Week 7 Knowledge Check →**](../module-5/knowledge-check.md)
@@ -39,6 +39,6 @@ OxTutor to generate a practice knowledge check.
 
 -   __Back to the week__
 
-    [Week 7 — Bridge: Theory Meets Tooling overview](../index.md)
+    [Week 7 - Bridge: Theory Meets Tooling overview](../index.md)
 
 </div>

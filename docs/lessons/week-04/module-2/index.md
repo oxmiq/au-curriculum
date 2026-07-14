@@ -1,7 +1,7 @@
 # Day 17 · Pipeline & Expert Parallelism
 
-> **Concept of the day:** **PP** splits the model by layer depth across nodes — needed when one node isn't enough. **EP** distributes experts in MoE models across GPUs. **Pipeline bubbles** = the idle time PP creates.<br>
-> **Pre-reading:** Pipeline parallelism + Expert Parallelism — <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng — Large Transformer Model Inference Optimization</a> (PP and MoE sections).
+> **Concept of the day:** **PP** splits the model by layer depth across nodes: needed when one node isn't enough. **EP** distributes experts in MoE models across GPUs. **Pipeline bubbles** = the idle time PP creates.<br>
+> **Pre-reading:** Pipeline parallelism + Expert Parallelism - <a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/" target="_blank" rel="noopener">Lilian Weng - Large Transformer Model Inference Optimization</a> (PP and MoE sections).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 4 — Scaling &amp; Stacks</a>
+    <a href="../">Week 4 - Scaling &amp; Stacks</a>
     <span class="sep">/</span>
     <span>Day 17 · Pipeline Parallelism + MoE</span>
     {status:week-04/module-2}
@@ -35,16 +35,16 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review + Readiness Check
+## Part 1 - Pre-Reading Review + Readiness Check
 ### Before You Start
 
-You should have already read: Pipeline parallelism overview + Mixtral MoE architecture — Pre-Lecture Reading **Reader 8**.
+You should have already read: Pipeline parallelism overview + Mixtral MoE architecture - Pre-Lecture Reading **Reader 8**.
 
 ### Readiness Check
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-04-m2-readiness" data-kind="readiness" data-draw="5" data-source="Lilian Weng — Large Transformer Model Inference Optimization">
+<div class="ox-self-check" data-widget="self-check" data-id="week-04-m2-readiness" data-kind="readiness" data-draw="5" data-source="Lilian Weng - Large Transformer Model Inference Optimization">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -73,7 +73,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
     "stem": "Why does a pipeline bubble exist?",
     "options": [
       "Because GPUs are too slow",
-      "Because of the sequential nature of layer computation — later layers can't start until earlier layers finish",
+      "Because of the sequential nature of layer computation: later layers can't start until earlier layers finish",
       "Because of memory limitations",
       "Because of network latency"
     ],
@@ -89,7 +89,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "No"
     ],
     "answer": 1,
-    "explain": "PP needs much lower bandwidth between stages because it only passes activations (layer input/output), not model weights. TP needs to communicate weights for each layer computation — much higher bandwidth."
+    "explain": "PP needs much lower bandwidth between stages because it only passes activations (layer input/output), not model weights. TP needs to communicate weights for each layer computation: much higher bandwidth."
   },
   {
     "stem": "In a Mixture of Experts (MoE) model, what is an 'expert'?",
@@ -100,7 +100,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "A training dataset"
     ],
     "answer": 1,
-    "explain": "An 'expert' in MoE is a separate feedforward network (MLP) within the model. In Mixtral, each layer has 8 experts, and only 2 are activated per token — sparse MoE."
+    "explain": "An 'expert' in MoE is a separate feedforward network (MLP) within the model. In Mixtral, each layer has 8 experts, and only 2 are activated per token: sparse MoE."
   },
   {
     "stem": "What is 'Top-K routing' in MoE models?",
@@ -111,7 +111,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Sorting experts by size"
     ],
     "answer": 1,
-    "explain": "Top-K routing: for each input token, the model selects the top-K most relevant experts (Mixtral uses Top-2). This gives sparse activation — only a fraction of experts process each token."
+    "explain": "Top-K routing: for each input token, the model selects the top-K most relevant experts (Mixtral uses Top-2). This gives sparse activation; only a fraction of experts process each token."
   },
   {
     "stem": "Why does Expert Parallelism (EP) create load-balancing problems that Tensor Parallelism (TP) doesn't?",
@@ -141,8 +141,8 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concept — Pipeline Parallelism
-### Reading — Why This Matters
+## Part 2 - Core Concept - Pipeline Parallelism
+### Reading - Why This Matters
 
 For models that don't fit in one node (e.g. Llama-3-405B, GPT-4-class), Pipeline Parallelism is unavoidable. For MoE models (Mixtral, DeepSeek, GPT-OSS-20B), Expert Parallelism is the dominant cost. Both have unique failure modes (bubbles, hot experts) that TP doesn't have.
 
@@ -160,22 +160,22 @@ GPU group D: layers 61–80
 A token's forward pass flows **stage A → B → C → D → output**.
 
 - Activations move between stages (not weights)
-- Per-stage payload = batch × seq × hidden — small enough for InfiniBand
+- Per-stage payload = batch × seq × hidden: small enough for InfiniBand
 - Each stage internally can still use TP
 
 ### Key Terms to Understand
 
 | Term | Definition |
 |------|------------|
-| **Pipeline Parallelism (PP)** | Splits the model by layer depth across nodes — depth-wise parallelism |
+| **Pipeline Parallelism (PP)** | Splits the model by layer depth across nodes: depth-wise parallelism |
 | **Stage** | A contiguous group of layers on one GPU group |
 | **Pipeline bubble** | Idle time in a stage waiting for inputs from a prior stage |
 | **Micro-batch** | Small batch within a larger batch, used to fill pipeline stages |
 
 ---
 
-## Part 3 — Deep Dive — Bubbles & TP vs PP
-### Reading — Pipeline Bubbles
+## Part 3 - Deep Dive - Bubbles & TP vs PP
+### Reading - Pipeline Bubbles
 
 A single token can't be in two stages at once. Naïve scheduling: stage B idles while stage A computes layer 1, etc. → **pipeline bubble**.
 
@@ -187,7 +187,7 @@ A single token can't be in two stages at once. Naïve scheduling: stage B idles 
 - Combined with TP intra-node: e.g. **TP = 8 within a node × PP = 2 across nodes** for a 405B model on 16 H100s
 - Latency penalty: each stage adds ~1 inter-node hop per token
 
-### TP vs PP — The Decision Tree
+### TP vs PP - The Decision Tree
 
 | Question | Use TP | Use PP |
 |-----------|--------|--------|
@@ -199,14 +199,14 @@ A single token can't be in two stages at once. Naïve scheduling: stage B idles 
 
 ---
 
-## Part 4 — Core Concept — Expert Parallelism
-### Reading — MoE in 2 Sentences
+## Part 4 - Core Concept - Expert Parallelism
+### Reading - MoE in 2 Sentences
 
 A **Mixture-of-Experts** layer has many "expert" MLPs but each token only flows through a small subset (typically **top-2 of 8** or top-2 of 64). Total parameters huge; **active** parameters per token small.
 
 Mixtral 8x7B: 8 experts × ~7B each, top-2 → ~13B active per token despite ~47B total.
 
-### EP — What It Distributes
+### EP - What It Distributes
 
 Each expert lives on a different GPU. Per token:
 
@@ -217,9 +217,9 @@ Each expert lives on a different GPU. Per token:
 
 ### Why EP Is Hard
 
-- **Hot experts** — distribution is rarely uniform. Some experts get 4× the traffic. Causes stragglers.
-- **All-to-all comms** are expensive — every token touches the network.
-- **Capacity planning** — must size for worst-case expert load, not average.
+- **Hot experts** - distribution is rarely uniform. Some experts get 4× the traffic. Causes stragglers.
+- **All-to-all comms** are expensive; every token touches the network.
+- **Capacity planning** - must size for worst-case expert load, not average.
 
 ### Combining All Three
 
@@ -243,7 +243,7 @@ PP = 1 or 2  (only if model exceeds even that)
 
 ---
 
-## Part 5 — Hands-On — Config Design
+## Part 5 - Hands-On - Config Design
 ### Exercise 1: Pipeline Bubble Math
 
 Compute pipeline bubble fraction for `num_stages = 4` and 1, 4, 16, 64 micro-batches.
@@ -265,7 +265,7 @@ Llama-3-405B FP16 = 810 GB. Design a config on 16 H100s:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -276,10 +276,10 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "What axis does pipeline parallelism (PP) split the model along?",
     "options": [
-      "The hidden dimension — each GPU holds part of each layer's weights",
-      "The layer dimension — different groups of layers run on different GPUs",
-      "The batch dimension — different requests run on different GPUs",
-      "The vocabulary dimension — each GPU handles part of the output projection"
+      "The hidden dimension: each GPU holds part of each layer's weights",
+      "The layer dimension: different groups of layers run on different GPUs",
+      "The batch dimension: different requests run on different GPUs",
+      "The vocabulary dimension: each GPU handles part of the output projection"
     ],
     "answer": 1,
     "explain": "Pipeline parallelism splits the model by depth: GPU 1 holds layers 1–8, GPU 2 holds layers 9–16, etc. A mini-batch passes through each stage sequentially. This is different from tensor parallelism (TP) which splits within a single layer."
@@ -304,7 +304,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "TP uses NVLink; PP uses PCIe"
     ],
     "answer": 1,
-    "explain": "TP splits matrix multiplications within each layer, requiring an all-reduce at each layer boundary — high-frequency, small messages. PP splits by layers, so communication happens only at stage boundaries — lower frequency, larger activations. TP needs NVLink bandwidth; PP can tolerate slower interconnects."
+    "explain": "TP splits matrix multiplications within each layer, requiring an all-reduce at each layer boundary: high-frequency, small messages. PP splits by layers, so communication happens only at stage boundaries: lower frequency, larger activations. TP needs NVLink bandwidth; PP can tolerate slower interconnects."
   },
   {
     "stem": "What is an MoE (Mixture of Experts) model?",
@@ -321,7 +321,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "What problem does Expert Parallelism (EP) create that requires careful management?",
     "options": [
       "Expert parallelism requires all experts to be on the same GPU",
-      "Hot expert imbalance — some experts receive far more tokens than others, creating compute bottlenecks on their GPUs while others sit idle",
+      "Hot expert imbalance: some experts receive far more tokens than others, creating compute bottlenecks on their GPUs while others sit idle",
       "EP cannot be combined with tensor parallelism",
       "EP doubles the memory required because experts are duplicated across GPUs"
     ],
@@ -344,7 +344,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "options": [
       "Add more pipeline stages so the idle time is spread thinner",
       "Switch the interconnect from InfiniBand to NVLink between stages",
-      "Increase the number of micro-batches — bubble fraction is approximately (num_stages - 1) / num_micro_batches, so more micro-batches keeps stages filled",
+      "Increase the number of micro-batches; bubble fraction is approximately (num_stages - 1) / num_micro_batches, so more micro-batches keeps stages filled",
       "Reduce the hidden dimension of each transformer layer"
     ],
     "answer": 2,
@@ -367,7 +367,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "All-reduce at every layer, exactly like tensor parallelism",
       "Point-to-point activation passing between adjacent stages, exactly like pipeline parallelism",
       "A single broadcast from a central parameter server to all experts",
-      "All-to-all — each token's activation is sent to the GPUs holding its selected experts, and the results are sent back"
+      "All-to-all: each token's activation is sent to the GPUs holding its selected experts, and the results are sent back"
     ],
     "answer": 3,
     "explain": "In EP each expert lives on a different GPU. Per token: the router picks the top-K experts, the token's activation is all-to-all'd to those experts, each expert computes locally, and the results are all-to-all'd back. All-to-all is expensive because every token touches the network, which is part of why EP is hard."
@@ -376,7 +376,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "How does production MoE serving typically combine parallelism strategies?",
     "options": [
       "It uses expert parallelism alone and never mixes in TP or PP",
-      "In a 3D mesh — for example TP within a node for dense weights and attention, EP across nodes to distribute experts, and PP (1 or 2) only if the model still exceeds capacity",
+      "In a 3D mesh: for example TP within a node for dense weights and attention, EP across nodes to distribute experts, and PP (1 or 2) only if the model still exceeds capacity",
       "It always picks exactly one strategy and refuses to combine them",
       "It uses PP to split experts and EP to split layers"
     ],
@@ -393,17 +393,17 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Tomorrow: **speculative decoding** — turn slow sequential decode into a series of fast mini-prefills.
+Tomorrow: **speculative decoding**: turn slow sequential decode into a series of fast mini-prefills.
 
 ### Pre-read for tomorrow (Day 18 · Speculative Decoding)
 
-- **Resource:** <a href="https://huggingface.co/blog/assisted-generation" target="_blank" rel="noopener">Hugging Face — Assisted Generation (Speculative Decoding)</a>. Alternative: <a href="https://developer.nvidia.com/blog/an-introduction-to-speculative-decoding-for-reducing-latency-in-ai-inference/" target="_blank" rel="noopener">NVIDIA — An Introduction to Speculative Decoding</a>.
+- **Resource:** <a href="https://huggingface.co/blog/assisted-generation" target="_blank" rel="noopener">Hugging Face - Assisted Generation (Speculative Decoding)</a>. Alternative: <a href="https://developer.nvidia.com/blog/an-introduction-to-speculative-decoding-for-reducing-latency-in-ai-inference/" target="_blank" rel="noopener">NVIDIA - An Introduction to Speculative Decoding</a>.
 - **Reflection questions:**
   1. Decode is memory-bound and sequential. What can a smaller "draft" model contribute?
   2. What does the big "target" model verify?
   3. What's the expected speedup? What kills it?
 
-- **Resource:** "Speculative decoding explained" with diagrams — Pre-Lecture Reading **Reader 8** (advanced serving).
+- **Resource:** "Speculative decoding explained" with diagrams - Pre-Lecture Reading **Reader 8** (advanced serving).
 - **Reflection questions:**
   1. Decode is memory-bound and sequential. What can a smaller "draft" model contribute?
   2. What does the big "target" model verify?
@@ -413,5 +413,5 @@ Tomorrow: **speculative decoding** — turn slow sequential decode into a series
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**; share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

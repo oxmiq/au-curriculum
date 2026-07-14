@@ -1,7 +1,7 @@
 # Day 24 · Cost & Economics
 
 > **Concept of the day:** **cost / million tokens** = (GPU $/hour × hours) / (tokens served × utilization). **Decode dominates** end-to-end cost for chat workloads. **Dedicated breaks even with API** somewhere around 30–50% utilization.
-> **Pre-reading:** "Cost of inference" with worked numbers — <a href="https://a16z.com/navigating-the-high-cost-of-ai-compute/" target="_blank" rel="noopener">a16z — Navigating the High Cost of AI Compute</a>.
+> **Pre-reading:** "Cost of inference" with worked numbers: <a href="https://a16z.com/navigating-the-high-cost-of-ai-compute/" target="_blank" rel="noopener">a16z - Navigating the High Cost of AI Compute</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 5 — Metrics &amp; Production</a>
+    <a href="../">Week 5 - Metrics &amp; Production</a>
     <span class="sep">/</span>
     <span>Day 24 · Cost & Economics</span>
     {status:week-05/module-4}
@@ -40,17 +40,17 @@
 
 ---
 
-## Part 1 — The Cost Formula
+## Part 1 - The Cost Formula
 
 ### Before You Start
 
-You should have already read: <a href="https://a16z.com/navigating-the-high-cost-of-ai-compute/" target="_blank" rel="noopener">a16z — Navigating the High Cost of AI Compute</a>.
+You should have already read: <a href="https://a16z.com/navigating-the-high-cost-of-ai-compute/" target="_blank" rel="noopener">a16z - Navigating the High Cost of AI Compute</a>.
 
 ### Readiness Check
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-05-m4-readiness" data-kind="readiness" data-draw="5" data-source="a16z — Navigating the High Cost of AI Compute">
+<div class="ox-self-check" data-widget="self-check" data-id="week-05-m4-readiness" data-kind="readiness" data-draw="5" data-source="a16z - Navigating the High Cost of AI Compute">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -89,7 +89,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
   {
     "stem": "Why does higher GPU utilization decrease cost per token?",
     "options": [
-      "It doesn't — higher utilization increases cost",
+      "It doesn't; higher utilization increases cost",
       "Fixed GPU costs are spread across more tokens when utilization is higher",
       "Higher utilization requires cheaper GPUs",
       "Utilization has no effect on cost"
@@ -117,7 +117,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "APIs provide better quality"
     ],
     "answer": 1,
-    "explain": "Even if a company can afford GPUs, APIs provide: (1) no ops overhead — no need to manage infrastructure, (2) flexibility — switch models instantly, (3) scale to zero — no idle GPU costs during low traffic. The break-even analysis isn't just about raw cost."
+    "explain": "Even if a company can afford GPUs, APIs provide: (1) no ops overhead - no need to manage infrastructure, (2) flexibility - switch models instantly, (3) scale to zero - no idle GPU costs during low traffic. The break-even analysis isn't just about raw cost."
   },
   {
     "stem": "What is the relationship between input tokens and output tokens in terms of compute cost?",
@@ -147,7 +147,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ### Reading
 
-This is the *third leg* of the SLO tripod: latency, quality, **cost**. Every choice in Phase 1 has a cost implication. By the end of today you should be able to give a number for "what does our deployment cost per million output tokens?" — and defend it.
+This is the *third leg* of the SLO tripod: latency, quality, **cost**. Every choice in Phase 1 has a cost implication. By the end of today you should be able to give a number for "what does our deployment cost per million output tokens?": and defend it.
 
 ### The Cost Formula
 
@@ -159,19 +159,19 @@ Equivalently:
 
 **Three levers:**
 
-1. **$ per GPU-hour** — hardware choice, contract length, region
-2. **Tokens-per-GPU-hour at full util** — engine + model + parallelism (Weeks 3–4)
-3. **Utilization** — what fraction of paid GPU time you're actually serving tokens
+1. **$ per GPU-hour** - hardware choice, contract length, region
+2. **Tokens-per-GPU-hour at full util** - engine + model + parallelism (Weeks 3–4)
+3. **Utilization** - what fraction of paid GPU time you're actually serving tokens
 
 ### Why Decode Dominates
 
-A typical chat request: 500 input tokens, 1500 output tokens. Prefill is one parallel pass (fast); decode is 1500 sequential passes (slow). For most workloads, **70–90% of GPU-time is spent in decode** — so per-token cost is essentially per-output-token cost.
+A typical chat request: 500 input tokens, 1500 output tokens. Prefill is one parallel pass (fast); decode is 1500 sequential passes (slow). For most workloads, **70–90% of GPU-time is spent in decode**; so per-token cost is essentially per-output-token cost.
 
 ---
 
-## Part 2 — Worked Example
+## Part 2 - Worked Example
 
-### Reading — Llama-3-70B FP16 on 8×H100
+### Reading - Llama-3-70B FP16 on 8×H100
 
 Assumptions (rough, 2024–25):
 
@@ -196,7 +196,7 @@ API pricing (Llama-3-70B class via fireworks/together/etc.): **~$0.60–$1.00 / 
 
 ---
 
-## Part 3 — Calculate Your Cost
+## Part 3 - Calculate Your Cost
 
 ### Exercise: Re-Derive Cost at Different Utilizations
 
@@ -221,7 +221,7 @@ Cost / 1M = $30 / (10.8M × utilization)
 
 ---
 
-## Part 4 — Break-Even Analysis
+## Part 4 - Break-Even Analysis
 
 ### Exercise: When Does Dedicated Win?
 
@@ -252,9 +252,9 @@ Cost / 1M = $30 / (10.8M × utilization)
 
 ---
 
-## Part 5 — Cost Levers
+## Part 5 - Cost Levers
 
-### Reading — The Levers in Order of Impact
+### Reading - The Levers in Order of Impact
 
 | Lever | Typical Cost Reduction | Risk |
 |-------|------------------------|------|
@@ -262,18 +262,18 @@ Cost / 1M = $30 / (10.8M × utilization)
 | Enable speculative decoding | 1.5–2.5× | Implementation complexity |
 | Continuous batching, no static | 5–10× | Already standard in vLLM |
 | Spot / reserved GPU pricing | 2–4× | Availability / lock-in |
-| Smaller model + better prompting | 5–10× | Quality regression — measure |
+| Smaller model + better prompting | 5–10× | Quality regression: measure |
 | Caching prefixes (system prompt) | 1.2–3× on prefill cost | None (free win) |
 
 ### Discussion: Pick One Lever
 
 If you could implement **one** change to cut your Week 4 deployment cost in half, which would it be?
 
-**Justify with one number** — show the expected reduction.
+**Justify with one number**; show the expected reduction.
 
 ---
 
-## Part 6 — Build Your Cost Model
+## Part 6 - Build Your Cost Model
 
 ### Exercise: One-Page Cost Model
 
@@ -289,8 +289,8 @@ Create a one-page cost model for your Week 4 serving system. Include:
 
 If you're building a product on top:
 
-1. **Long-context products** — KV cache blows up cost per request 10× at 128K. Charge for context.
-2. **Multi-turn agentic** — Week 7's agents make 10–50 LLM calls per "task." Cost / task ≠ cost / call.
+1. **Long-context products** - KV cache blows up cost per request 10× at 128K. Charge for context.
+2. **Multi-turn agentic** - Week 7's agents make 10–50 LLM calls per "task." Cost / task ≠ cost / call.
 
 ### Reflection Question
 
@@ -299,11 +299,11 @@ Write one sentence summarizing what you learned about cost:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 ### Synthesis
 
-Cost is the third SLO axis. With perplexity + task evals from yesterday and cost numbers from today, you now have the full measurement framework for Phase 1. Tomorrow is the Phase 1 wrap — bring your cost model, Week 3 calculator, and Week 4 design doc.
+Cost is the third SLO axis. With perplexity + task evals from yesterday and cost numbers from today, you now have the full measurement framework for Phase 1. Tomorrow is the Phase 1 wrap; bring your cost model, Week 3 calculator, and Week 4 design doc.
 
 ### Self-Check
 
@@ -316,7 +316,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "Why do decode tokens typically cost more per token than prefill tokens?",
     "options": [
       "Decode uses higher-precision arithmetic than prefill",
-      "Decode is serial and memory-bound — each decode step occupies the full GPU for one token; prefill processes many tokens in parallel per GPU-second",
+      "Decode is serial and memory-bound; each decode step occupies the full GPU for one token; prefill processes many tokens in parallel per GPU-second",
       "Decode tokens are longer than prefill tokens",
       "Decode requires separate hardware that costs more to operate"
     ],
@@ -365,18 +365,18 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Caching system-prompt prefixes (1.2–3× on prefill)"
     ],
     "answer": 0,
-    "explain": "The lever table lists continuous batching (replacing static batching) at 5–10×, tied with 'smaller model + better prompting' at 5–10× — the largest reductions shown. FP8 weights + KV give 1.5–2×, speculative decoding 1.5–2.5×, and prefix caching 1.2–3× on prefill cost."
+    "explain": "The lever table lists continuous batching (replacing static batching) at 5–10×, tied with 'smaller model + better prompting' at 5–10×: the largest reductions shown. FP8 weights + KV give 1.5–2×, speculative decoding 1.5–2.5×, and prefix caching 1.2–3× on prefill cost."
   },
   {
     "stem": "What does the lesson's 'SLO tripod' consist of?",
     "options": [
       "Hardware, software, and networking",
-      "Latency (TTFT/TPS), quality (task evals), and cost — all three must be balanced together",
+      "Latency (TTFT/TPS), quality (task evals), and cost: all three must be balanced together",
       "Training, fine-tuning, and serving",
       "Model selection, hardware selection, and deployment automation"
     ],
     "answer": 1,
-    "explain": "The 'SLO tripod' is the three-axis measurement framework built over Weeks 5 Days 21–24: latency (Day 21 metrics), quality (Day 23 evals), and cost (Day 24 economics). A production LLM deployment must satisfy all three axes simultaneously — optimizing one at the expense of another creates problems."
+    "explain": "The 'SLO tripod' is the three-axis measurement framework built over Weeks 5 Days 21–24: latency (Day 21 metrics), quality (Day 23 evals), and cost (Day 24 economics). A production LLM deployment must satisfy all three axes simultaneously; optimizing one at the expense of another creates problems."
   },
   {
     "stem": "In the worked example (8×H100 at ~$30/hr, ~3000 tokens/sec decode), roughly what is the cost per 1M tokens at a realistic 40% utilization?",
@@ -395,10 +395,10 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Long prompts always lower answer quality",
       "Input tokens are billed at a higher rate than output tokens",
       "Longer context pushes TTFT past every SLO",
-      "The KV cache blows up cost per request — roughly 10× at 128K context"
+      "The KV cache blows up cost per request: roughly 10× at 128K context"
     ],
     "answer": 3,
-    "explain": "Part 6's Token Economics section notes that long-context products make the KV cache blow up cost per request — about 10× at 128K context — so you should charge for context. It also warns that multi-turn agentic tasks make 10–50 LLM calls, so cost per task is not the same as cost per call."
+    "explain": "Part 6's Token Economics section notes that long-context products make the KV cache blow up cost per request, about 10× at 128K context, so you should charge for context. It also warns that multi-turn agentic tasks make 10–50 LLM calls, so cost per task is not the same as cost per call."
   }
 ]
 </script>
@@ -410,11 +410,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 - **Reflection questions:**
   1. Of everything in Phase 1, what's the *one* concept you'd teach a new joiner first?
   2. What concept are you *least* sure of?
-  3. For the cost model above — what's the single change you'd push for to cut cost in half? Justify with one number.
+  3. For the cost model above: what's the single change you'd push for to cut cost in half? Justify with one number.
 
 ---
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**; share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

@@ -1,5 +1,5 @@
 ---
-title: Capsule Power-User — Lab Guide
+title: Capsule Power-User - Lab Guide
 ---
 
 # Capsule Power-User Lab Guide
@@ -15,21 +15,21 @@ title: Capsule Power-User — Lab Guide
 
 Every module has the same shape:
 
-1. **Concept** — what the feature is and why it exists.
-2. **Demo** — commands the instructor will run live.
-3. **Lab** — exercises you run yourself, with checkpoints.
-4. **Stretch** — optional deeper exploration. Do these if you finish early or after class.
-5. **Reliability lens** — what failure modes to watch for. This is the part that matters most for your internship.
+1. **Concept**: what the feature is and why it exists.
+2. **Demo**: commands the instructor will run live.
+3. **Lab**: exercises you run yourself, with checkpoints.
+4. **Stretch**: optional deeper exploration. Do these if you finish early or after class.
+5. **Reliability lens**: what failure modes to watch for. This is the part that matters most for your internship.
 
 Throughout, `<config-tag>` is a machine pool name (e.g. `gpu-workstation-01`) and `<unique-id>` is a specific machine (e.g. `boostergold461`). Run `capsule list` to see the pools you have access to; run `capsule list --all` to see unique IDs.
 
 ---
 
-## Module 1 — Capsule Foundations
+## Module 1 - Capsule Foundations
 
 ### Concept
 
-Capsule is a remote development and application streaming platform. You stay on your laptop; the CPU, GPU, RAM, and disk live somewhere else. Everything you type — terminals, VS Code, Cursor, Claude Code, full desktops, ComfyUI — runs on remote hardware and is piped back to you over the network.
+Capsule is a remote development and application streaming platform. You stay on your laptop; the CPU, GPU, RAM, and disk live somewhere else. Everything you type, terminals, VS Code, Cursor, Claude Code, full desktops, ComfyUI, runs on remote hardware and is piped back to you over the network.
 
 There are two connection paths underneath every command:
 
@@ -77,13 +77,13 @@ Most "Capsule is broken" reports are really one of: (a) wrong environment, (b) w
 
 ---
 
-## Module 2 — Installation & First Login
+## Module 2 - Installation & First Login
 
 ### Concept
 
 Install methods are OS-specific but the moving parts are the same: a CLI binary on your PATH, a GitHub PAT to fetch releases, `rclone` for cloud storage, and a one-time browser login that mints a Capsule auth token.
 
-The PAT (`GH_TOKEN`) needs scopes `repo`, `read:org`, `workflow`, `user`. The token is used during installation and updates only — not at runtime.
+The PAT (`GH_TOKEN`) needs scopes `repo`, `read:org`, `workflow`, `user`. The token is used during installation and updates only: not at runtime.
 
 ### Demo
 
@@ -105,7 +105,7 @@ capsule status
    - macOS: Homebrew tap + `brew install capsule`.
    - Windows: PowerShell as Administrator, `winget install --id GitHub.cli`, then download via `gh release download`. Don't forget `winget install Rclone.Rclone`.
    - Linux: install `gh`, then `gh release download -R mihira-ai/ox.capsule`.
-2. Run `capsule --version`. Note the version on a sticky note — you'll need it when filing bugs.
+2. Run `capsule --version`. Note the version on a sticky note; you'll need it when filing bugs.
 3. Run `capsule auth login`. Complete the browser flow.
 4. Run `capsule status`. Confirm your user name, display name, and token expiry.
 5. Run `capsule auth storage` and complete the OneDrive consent flow.
@@ -123,7 +123,7 @@ When a colleague says "install is broken", ask in this order: (1) Is `GH_TOKEN` 
 
 ---
 
-## Module 3 — Environments, Customers, and Why Your Fleet Looks Wrong
+## Module 3 - Environments, Customers, and Why Your Fleet Looks Wrong
 
 ### Concept
 
@@ -157,7 +157,7 @@ A common silent failure: a user reports "machine X disappeared". Nine times out 
 
 ---
 
-## Module 4 — The Fleet: Listing & Filtering Machines
+## Module 4 - The Fleet: Listing & Filtering Machines
 
 ### Concept
 
@@ -196,11 +196,11 @@ Write a small script (Python, Bash, your call) that consumes `capsule list --jso
 
 ### Reliability lens
 
-`capsule list --users` is your fastest sniff test before scheduling expensive work — never blow away someone else's session by claiming a machine that already has an active user.
+`capsule list --users` is your fastest sniff test before scheduling expensive work; never blow away someone else's session by claiming a machine that already has an active user.
 
 ---
 
-## Module 5 — Connecting to Machines
+## Module 5 - Connecting to Machines
 
 ### Concept
 
@@ -261,15 +261,15 @@ Three rules:
 
 ---
 
-## Module 6 — Files, Storage, and the OneDrive Mount
+## Module 6 - Files, Storage, and the OneDrive Mount
 
 ### Concept
 
 Three orthogonal ways to move bytes between your laptop and a remote box:
 
-1. **Auto-mounted OneDrive (`~/OneDrive`)** — fastest path for files you want to share across multiple machines. Set up once with `capsule auth storage`; every subsequent `capsule term`/`code`/`cursor`/`claude`/`stream` auto-mounts your `OxCapsule` OneDrive folder.
-2. **SCP** — for one-off transfers, especially large blobs. `capsule scp upload` and `capsule scp download` understand both `<config-tag>` (any pool member) and `-u <unique-id>` (specific box). Add `--direct` if SshRTC is misbehaving.
-3. **File passthrough** — small dotfiles you want copied at session start (`.vimrc`, `.gitconfig`). Configured locally with `capsule config files add`.
+1. **Auto-mounted OneDrive (`~/OneDrive`)**: fastest path for files you want to share across multiple machines. Set up once with `capsule auth storage`; every subsequent `capsule term`/`code`/`cursor`/`claude`/`stream` auto-mounts your `OxCapsule` OneDrive folder.
+2. **SCP**: for one-off transfers, especially large blobs. `capsule scp upload` and `capsule scp download` understand both `<config-tag>` (any pool member) and `-u <unique-id>` (specific box). Add `--direct` if SshRTC is misbehaving.
+3. **File passthrough**: small dotfiles you want copied at session start (`.vimrc`, `.gitconfig`). Configured locally with `capsule config files add`.
 
 ### Demo
 
@@ -306,7 +306,7 @@ If `~/OneDrive` is empty on the remote, the daemon couldn't mount it. Common cau
 
 ---
 
-## Module 7 — Streaming & Containers
+## Module 7 - Streaming & Containers
 
 ### Concept
 
@@ -342,7 +342,7 @@ WebRTC streaming is bandwidth-sensitive. On a flaky network the first thing to d
 
 ---
 
-## Module 8 — Model Evaluation: Benchmarking (the InferenceMAX path)
+## Module 8 - Model Evaluation: Benchmarking (the InferenceMAX path)
 
 > This is the most important module for the reliability & model evaluation track. Spend extra time here.
 
@@ -410,11 +410,11 @@ capsule benchmark <tag> <model> --idle-timeout 4h --max-session-length 8h --no-u
 
 ### Reliability lens
 
-Benchmarks are long-running and silent on the SSH channel — that's exactly the kind of session that gets killed by an aggressive idle timeout. Always pass `--idle-timeout` and `--max-session-length` longer than your expected run, and prefer `capsule schedule` (Module 10) for anything over an hour. If a benchmark "vanishes", check session logs first, the dashboard second, and only blame the model last.
+Benchmarks are long-running and silent on the SSH channel; that's exactly the kind of session that gets killed by an aggressive idle timeout. Always pass `--idle-timeout` and `--max-session-length` longer than your expected run, and prefer `capsule schedule` (Module 10) for anything over an hour. If a benchmark "vanishes", check session logs first, the dashboard second, and only blame the model last.
 
 ---
 
-## Module 9 — Model Evaluation: Interactive Chat
+## Module 9 - Model Evaluation: Interactive Chat
 
 ### Concept
 
@@ -459,7 +459,7 @@ A useful trick during incident response: when a customer reports "model is broke
 
 ---
 
-## Module 10 — Scheduled Jobs, Agents, and the Reliability Toolkit
+## Module 10 - Scheduled Jobs, Agents, and the Reliability Toolkit
 
 ### Concept: scheduled jobs
 
@@ -536,14 +536,14 @@ capsule --version
 
 You are now equipped to be the first responder. The shape of a good triage:
 
-1. Reproduce yourself. If you can't reproduce, you don't have a bug yet — you have an incident.
+1. Reproduce yourself. If you can't reproduce, you don't have a bug yet; you have an incident.
 2. Capture `capsule --version`, `env show`, `config customer show`, the exact command, the timestamp, and the unique ID of the machine (`capsule list --all`).
 3. Try `cleanup` then `--direct` before escalating.
 4. Default to scheduled jobs for anything long-running. Don't tie up a GPU on an interactive session that no human will be looking at for hours.
 
 ---
 
-## Capstone Lab — Bench-to-Dashboard Round Trip
+## Capstone Lab - Bench-to-Dashboard Round Trip
 
 Do this end-to-end without notes. Time yourself.
 
@@ -564,15 +564,15 @@ Target time: under 30 minutes once you've done it once. Reliability work is most
 
 ## Glossary
 
-- **Config tag** — a machine pool/class name; the scheduler hands you any available machine in that pool.
-- **Unique ID** — a specific physical machine; always requires `-u`/`--unique`.
-- **SshRTC** — Capsule's WebRTC-based SSH data channel. Default connection method.
-- **Direct SSH** — traditional TCP SSH (`--direct`). Useful as a fallback or for clean port-forwarding.
-- **Environment** — backend deployment (`prod`, `public`, `dev`, `demo`). Determines B2C tenant and endpoint.
-- **Customer** — fleet selector inside an environment (`micc`, `modelhosting`, `oneplay`, `cree8`).
-- **InferenceMAX** — the benchmark suite invoked by `capsule benchmark`.
-- **TURN** — a WebRTC relay used when peer-to-peer NAT traversal fails.
-- **MCP** — Model Context Protocol; how Claude Desktop/Code talks to Capsule as a tool.
+- **Config tag**: a machine pool/class name; the scheduler hands you any available machine in that pool.
+- **Unique ID**: a specific physical machine; always requires `-u`/`--unique`.
+- **SshRTC**: Capsule's WebRTC-based SSH data channel. Default connection method.
+- **Direct SSH**: traditional TCP SSH (`--direct`). Useful as a fallback or for clean port-forwarding.
+- **Environment**: backend deployment (`prod`, `public`, `dev`, `demo`). Determines B2C tenant and endpoint.
+- **Customer**: fleet selector inside an environment (`micc`, `modelhosting`, `oneplay`, `cree8`).
+- **InferenceMAX**: the benchmark suite invoked by `capsule benchmark`.
+- **TURN**: a WebRTC relay used when peer-to-peer NAT traversal fails.
+- **MCP**: Model Context Protocol; how Claude Desktop/Code talks to Capsule as a tool.
 
 ---
 
@@ -581,7 +581,7 @@ Target time: under 30 minutes once you've done it once. Reliability work is most
 If, by the end of the course, all of the following are true, you've passed:
 
 - You can install, authenticate, and produce a benchmark run on a fresh laptop in under 15 minutes.
-- You can debug a "Capsule isn't working" report by walking through env, customer, auth, and connection-method as a checklist — out loud — without hesitating.
+- You can debug a "Capsule isn't working" report by walking through env, customer, auth, and connection-method as a checklist, out loud, without hesitating.
 - You can write a `capsule schedule` job that wraps a non-trivial eval and recover its logs after the fact.
 - You can explain to a new intern, in two minutes, the difference between a config tag and a unique ID, and the difference between SshRTC and Direct SSH.
 
@@ -589,9 +589,9 @@ Welcome to the team.
 
 ---
 
-# Appendix A — Lab Extensions & Reliability Drills
+# Appendix A - Lab Extensions & Reliability Drills
 
-The labs above teach you the happy path. This appendix teaches you the *unhappy* path — the situations you'll actually be paid to handle. Each section pairs an extension lab (more depth on a module's topic) with a reliability drill (a fault to inject and triage).
+The labs above teach you the happy path. This appendix teaches you the *unhappy* path: the situations you'll actually be paid to handle. Each section pairs an extension lab (more depth on a module's topic) with a reliability drill (a fault to inject and triage).
 
 ## How to use this appendix
 
@@ -601,7 +601,7 @@ The labs above teach you the happy path. This appendix teaches you the *unhappy*
 
 ---
 
-## E.1 — Routing-matrix sweep (Modules 1, 3)
+## E.1 - Routing-matrix sweep (Modules 1, 3)
 
 **Goal**: walk all 16 cells of the env × customer matrix and observe what each one returns.
 
@@ -612,7 +612,7 @@ The labs above teach you the happy path. This appendix teaches you the *unhappy*
 
 **Expected outcome**: ~3-5 cells populated for an intern; everywhere else returns empty or 403.
 
-## E.2 — Install on a stranger's laptop (Module 2)
+## E.2 - Install on a stranger's laptop (Module 2)
 
 **Goal**: prove you can hit the 15-minute install bar on hardware you don't control.
 
@@ -624,7 +624,7 @@ The labs above teach you the happy path. This appendix teaches you the *unhappy*
 
 **Target**: <15 min. **Outcome**: if you exceed 20 min, write a one-paragraph postmortem on what slowed you down.
 
-## E.3 — Filter speed-run (Module 4)
+## E.3 - Filter speed-run (Module 4)
 
 **Goal**: build muscle memory for fleet filtering.
 
@@ -636,7 +636,7 @@ The labs above teach you the happy path. This appendix teaches you the *unhappy*
    - Any GPU with ≥40 GB VRAM.
 2. Time yourself. Target: <10 sec per command including typing.
 
-## E.4 — Five verbs on one box (Module 5)
+## E.4 - Five verbs on one box (Module 5)
 
 **Goal**: feel the difference between the connection verbs.
 
@@ -649,7 +649,7 @@ The labs above teach you the happy path. This appendix teaches you the *unhappy*
 2. Time each attach. Compare against the targets (term <1s, exec <0.5s, code ~3s, cursor ~3s, claude ~2s).
 3. In each surface, run `nvidia-smi`. Note the user experience differences.
 
-## E.5 — Storage scope experiment (Module 6)
+## E.5 - Storage scope experiment (Module 6)
 
 **Goal**: internalize the 3-scope durability model.
 
@@ -661,7 +661,7 @@ The labs above teach you the happy path. This appendix teaches you the *unhappy*
 
 **Outcome**: a one-paragraph rule for "where do my outputs go?" that you can recite.
 
-## E.6 — Benchmark variance study (Module 8)
+## E.6 - Benchmark variance study (Module 8)
 
 **Goal**: see why one number is not a measurement.
 
@@ -673,7 +673,7 @@ The labs above teach you the happy path. This appendix teaches you the *unhappy*
 
 **Target**: <5% variance with proper warm-up. **Outcome**: a one-line "how I report a benchmark number" rule.
 
-## E.7 — Schedule + recover (Module 10)
+## E.7 - Schedule + recover (Module 10)
 
 **Goal**: prove you can lose nothing on a long job.
 
@@ -687,21 +687,21 @@ The labs above teach you the happy path. This appendix teaches you the *unhappy*
 
 ---
 
-## R.1 — Empty list triage (Module 3)
+## R.1 - Empty list triage (Module 3)
 
 Instructor sets a student's env+customer to a cell they don't have access to. Student must:
 - Recognize the empty list.
 - Walk the triage tree out loud (env? customer? auth?).
 - Resolve in <2 min.
 
-## R.2 — Token expiry mid-session (Module 2)
+## R.2 - Token expiry mid-session (Module 2)
 
 Instructor lets a student work normally for 60+ min, then has them run a command. They get 401/403. Student must:
 - Recognize the auth failure (not a fleet failure).
 - Re-authenticate.
 - Resume without re-doing prior work.
 
-## R.3 — SshRTC stall (Module 5)
+## R.3 - SshRTC stall (Module 5)
 
 Instructor simulates a degraded WebRTC connection (or asks student to work over hotspot). Student must:
 - Notice keystroke echo >80ms.
@@ -709,14 +709,14 @@ Instructor simulates a degraded WebRTC connection (or asks student to work over 
 - Confirm responsiveness improves.
 - File the WebRTC peer issue (don't just work around it).
 
-## R.4 — Disappeared data (Module 6)
+## R.4 - Disappeared data (Module 6)
 
 Instructor has student write benchmark output to `/tmp`, then cleanup. Student reports "data disappeared." Student must:
 - Identify the scope (ephemeral).
 - Explain why it's gone.
 - Re-run with a durable scope.
 
-## R.5 — Thermal-throttled benchmark (Module 8)
+## R.5 - Thermal-throttled benchmark (Module 8)
 
 Instructor preloads a machine with a heavy workload, then has student benchmark on it. Student must:
 - See decode tok/sec well below the 1500-2500 band.
@@ -724,7 +724,7 @@ Instructor preloads a machine with a heavy workload, then has student benchmark 
 - Diagnose throttle vs. driver vs. PCIe.
 - Either wait or pick a different machine.
 
-## R.6 — Forgotten --parallel (Module 10)
+## R.6 - Forgotten --parallel (Module 10)
 
 Instructor has student submit an 8-model sweep without `--parallel`. After 30 min, student checks ETA: it's 5.5 hours, not 90 min. Student must:
 - Kill the job.
@@ -751,7 +751,7 @@ If any are false, return to the matching module's lab and the matching drill.
 
 ---
 
-# Appendix B — Numerical Anchors
+# Appendix B - Numerical Anchors
 
 These are the numbers you must carry in your head. They are the same anchors used in the Workbook (Appendix B) and Cheatsheet (Page 3).
 
@@ -774,17 +774,17 @@ These are the numbers you must carry in your head. They are the same anchors use
 
 ---
 
-# Appendix C — Concept-Graph Cross-Reference
+# Appendix C - Concept-Graph Cross-Reference
 
 | Module | Primary concept IDs |
 |---|---|
-| 1 — Foundations | `capsule-fleet`, `capsule-routing`, `sshrtc-transport` |
-| 2 — Install | `capsule-install`, `oxgate-auth`, `b2c-tenant` |
-| 3 — Env/Customer | `capsule-env`, `capsule-customer`, `b2c-tenant` |
-| 4 — Fleet | `capsule-fleet`, `config-tag`, `unique-id` |
-| 5 — Connect | `capsule-connect`, `sshrtc-transport`, `mcp-server` |
-| 6 — Storage | `capsule-storage`, `onedrive-mount`, `persistent-volume` |
-| 7 — Streaming | `capsule-streaming`, `webrtc-encoder`, `docker-runtime` |
-| 8 — Benchmark | `inferencemax`, `benchmark-variance`, `gpu-throttling` |
-| 9 — Chat | `interactive-eval`, `model-deployment`, `prompt-probing` |
-| 10 — Schedule | `capsule-scheduler`, `parallel-execution`, `log-retention` |
+| 1 - Foundations | `capsule-fleet`, `capsule-routing`, `sshrtc-transport` |
+| 2 - Install | `capsule-install`, `oxgate-auth`, `b2c-tenant` |
+| 3 - Env/Customer | `capsule-env`, `capsule-customer`, `b2c-tenant` |
+| 4 - Fleet | `capsule-fleet`, `config-tag`, `unique-id` |
+| 5 - Connect | `capsule-connect`, `sshrtc-transport`, `mcp-server` |
+| 6 - Storage | `capsule-storage`, `onedrive-mount`, `persistent-volume` |
+| 7 - Streaming | `capsule-streaming`, `webrtc-encoder`, `docker-runtime` |
+| 8 - Benchmark | `inferencemax`, `benchmark-variance`, `gpu-throttling` |
+| 9 - Chat | `interactive-eval`, `model-deployment`, `prompt-probing` |
+| 10 - Schedule | `capsule-scheduler`, `parallel-execution`, `log-retention` |

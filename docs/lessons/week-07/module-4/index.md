@@ -1,13 +1,13 @@
 ---
 drift: |
-  Originally Day 37 of the former Capsule wk8. Now sits as Day 35 of the new Bridge week
+  Originally Day 37 of the former Capsule wk8. Now sits as Day 34 of the new Bridge week
   (week-07/module-4), unchanged in scope. Source-material link paths bumped one level deeper.
 ---
 
-# Day 35 · Environments & Fleet Discovery
+# Day 34 · Environments & Fleet Discovery
 
-> **Concept of the day:** an **environment** is a backend deployment (`prod`/`public`/`dev`/`demo`); the **customer** selector scopes which fleet you see inside it; and `capsule list` is how you discover machines. `capsule env show`, `capsule config customer show`, and `capsule list` (with `--filter`, `--users`, `--json`, `--all`) are your workhorse commands. Filter by capability — never by name when you can avoid it.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-37-environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading — Day 37 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
+> **Concept of the day:** an **environment** is a backend deployment (`prod`/`public`/`dev`/`demo`); the **customer** selector scopes which fleet you see inside it; and `capsule list` is how you discover machines. `capsule env show`, `capsule config customer show`, and `capsule list` (with `--filter`, `--users`, `--json`, `--all`) are your workhorse commands. Filter by capability: never by name when you can avoid it.<br>
+> **Pre-reading:** <a href="../../../readings/capsule/#day-37-environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading - Day 37 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -16,9 +16,9 @@ drift: |
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 7 — Bridge: Theory Meets Tooling</a>
+    <a href="../">Week 7 - Bridge: Theory Meets Tooling</a>
     <span class="sep">/</span>
-    <span>Day 35 · Environments</span>
+    <span>Day 34 · Environments</span>
     {status:week-07/module-4}
   </div>
 </div>
@@ -38,7 +38,7 @@ drift: |
 | Part 6 | Hands-On: Fleet Discovery Drills |
 | Part 7 | Wrap-up & Connection |
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 
 > Read Lab Guide **Module 3** before this lesson. Use this Part to consolidate what you read.
 
@@ -52,7 +52,7 @@ Answer these before you continue:
 4. Why prefer *capability-based* selection over *name-based*?
 5. How do you target one specific physical machine instead of any-from-pool?
 
-If you hesitated on any of these, flag it — Parts 2–5 will close those gaps.
+If you hesitated on any of these, flag it; Parts 2–5 will close those gaps.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-07-m4-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Module 3">
 <script type="application/json" class="ox-self-check__pool">
@@ -66,7 +66,7 @@ If you hesitated on any of these, flag it — Parts 2–5 will close those gaps.
       "A saved capsule list filter expression"
     ],
     "answer": 1,
-    "explain": "An environment is a backend deployment — prod, public, dev, or demo — selected with `capsule env set`. It determines which B2C tenant and endpoint you talk to. It is NOT a cluster of nodes; the machines you SEE are governed separately by the customer selector."
+    "explain": "An environment is a backend deployment, prod, public, dev, or demo, selected with `capsule env set`. It determines which B2C tenant and endpoint you talk to. It is NOT a cluster of nodes; the machines you SEE are governed separately by the customer selector."
   },
   {
     "stem": "Within one environment, which command changes the fleet of machines you actually see?",
@@ -132,14 +132,14 @@ If you hesitated on any of these, flag it — Parts 2–5 will close those gaps.
       "capsule status --gpus to confirm hardware inventory"
     ],
     "answer": 0,
-    "explain": "Wrong-fleet tickets almost always trace to the wrong environment or wrong customer. Check `capsule env show` and `capsule config customer show` before anything else — a stray `capsule config customer set` is the usual culprit."
+    "explain": "Wrong-fleet tickets almost always trace to the wrong environment or wrong customer. Check `capsule env show` and `capsule config customer show` before anything else; a stray `capsule config customer set` is the usual culprit."
   },
   {
     "stem": "What does `capsule list --users` show, and why is it useful?",
     "options": [
       "The list of users permitted to lease each machine",
       "The lease_expires timestamp for every machine",
-      "Which machines have active user sessions — a sniff test before claiming a machine",
+      "Which machines have active user sessions: a sniff test before claiming a machine",
       "Only the machines you personally have reserved"
     ],
     "answer": 2,
@@ -149,13 +149,13 @@ If you hesitated on any of these, flag it — Parts 2–5 will close those gaps.
 </script>
 </div>
 
-## Part 2 — Core Concepts: Environments & Discovery Commands
+## Part 2 - Core Concepts: Environments & Discovery Commands
 
-### Reading — Why this matters
+### Reading - Why this matters
 
 Half of "Capsule is broken" tickets are actually "I leased the wrong machine." Knowing what's in the fleet, what's available, and how to filter cleanly is the difference between productive and frustrating.
 
-### Reading — The discovery commands
+### Reading - The discovery commands
 
 | Command | Use |
 |---|---|
@@ -169,7 +169,7 @@ Half of "Capsule is broken" tickets are actually "I leased the wrong machine." K
 | `capsule list --json` | Emit JSON for scripting / `jq` |
 | `capsule list --all` | Reveal per-machine unique IDs |
 
-### Reading — Hardware diversity in one fleet
+### Reading - Hardware diversity in one fleet
 
 Capsule's value: heterogeneous hardware behind one UX. You'll see:
 
@@ -181,11 +181,11 @@ Capsule's value: heterogeneous hardware behind one UX. You'll see:
 | Tenstorrent Wormhole n150 / Blackhole p150 | Non-NVIDIA accelerators |
 | Apple M2 / M3 | Laptop-class for testing |
 
-The Week 9 benchmark suite will sweep across multiple classes to compare cost/perf — discovery is the entry point.
+The Week 9 benchmark suite will sweep across multiple classes to compare cost/perf; discovery is the entry point.
 
-## Part 3 — Core Concepts: Reading the Fleet Listing
+## Part 3 - Core Concepts: Reading the Fleet Listing
 
-### Reading — Anatomy of a fleet listing
+### Reading - Anatomy of a fleet listing
 
 `capsule list` groups machines by **config tag** (a machine pool / class). A typical entry surfaces:
 
@@ -193,23 +193,23 @@ The Week 9 benchmark suite will sweep across multiple classes to compare cost/pe
 |---|---|---|
 | Config tag | `gpu-workstation-01` | The pool name you connect to; the scheduler hands you any available member |
 | Machine specs | `H100 80GB ×8`, CPU, memory | Hardware, shown by `capsule list` |
-| Active users | `alice@oxmiq.com` | Who is currently on the machine — shown with `capsule list --users` |
-| Unique ID | `boostergold461` | A specific physical machine — shown with `capsule list --all`, targeted with `-u`/`--unique` |
+| Active users | `alice@oxmiq.com` | Who is currently on the machine: shown with `capsule list --users` |
+| Unique ID | `boostergold461` | A specific physical machine: shown with `capsule list --all`, targeted with `-u`/`--unique` |
 
 Use `capsule list --json | jq` to pull any of these fields programmatically.
 
-### Reading — When discovery is healthy vs sick
+### Reading - When discovery is healthy vs sick
 
 | Sign | Likely cause |
 |---|---|
-| `capsule list` returns 0 machines | Wrong environment or wrong customer selector — check `capsule env show` and `capsule config customer show` |
-| The fleet looks like a different customer's | A stray `capsule config customer set` — run `capsule config customer unset` |
+| `capsule list` returns 0 machines | Wrong environment or wrong customer selector: check `capsule env show` and `capsule config customer show` |
+| The fleet looks like a different customer's | A stray `capsule config customer set`: run `capsule config customer unset` |
 | A machine you expected is missing | Someone already has an active session on it (`capsule list --users`), or you're in the wrong env/customer |
-| Auth errors on every command | Token expired or scoped to a different environment — re-run `capsule auth login` |
+| Auth errors on every command | Token expired or scoped to a different environment: re-run `capsule auth login` |
 
-## Part 4 — Deep Dive: Capability-Based Filtering
+## Part 4 - Deep Dive: Capability-Based Filtering
 
-### Reading — Filter by capability, not name
+### Reading - Filter by capability, not name
 
 **Don't** hard-code a specific machine when any matching one will do:
 ```
@@ -223,7 +223,7 @@ capsule list --filter "vendor=nvidia,vram>=24"
 
 Why: hardware retires, names change, instances get rebuilt. Capability filters survive all of that. Plus you're explicit about what you actually need.
 
-### Reading — The filter grammar
+### Reading - The filter grammar
 
 `--filter` takes a comma-separated list of `key=value` (or `key>=value`) terms, combined with AND semantics:
 
@@ -237,23 +237,23 @@ Why: hardware retires, names change, instances get rebuilt. Capability filters s
 | CI-flagged | `ci=true` |
 | Combined | `vendor=nvidia,vram>=24,memory>=100` |
 
-> On PowerShell, `cap list --filter` with a `>` breaks, and an unquoted `>` redirects to a file on any OS — use `capsule list --filter "..."` with the whole argument quoted.
+> On PowerShell, `cap list --filter` with a `>` breaks, and an unquoted `>` redirects to a file on any OS; use `capsule list --filter "..."` with the whole argument quoted.
 
 ### Exercise: Write your personal filter
 
 Write the `capsule list --filter` expression you'd use 90% of the time for your typical workload. Save it somewhere you can paste from quickly.
 
-## Part 5 — Core Concepts: Sessions & Claiming Machines
+## Part 5 - Core Concepts: Sessions & Claiming Machines
 
-### Reading — There is no "lease"
+### Reading - There is no "lease"
 
-Capsule has **no reservation or lease system**. You don't reserve a machine ahead of time — you simply connect to it (`capsule term`, `code`, `cursor`, `exec`, `stream`), and it's yours to use while your session is open. That makes fleet etiquette your responsibility:
+Capsule has **no reservation or lease system**. You don't reserve a machine ahead of time; you simply connect to it (`capsule term`, `code`, `cursor`, `exec`, `stream`), and it's yours to use while your session is open. That makes fleet etiquette your responsibility:
 
-- **Check before you claim.** Run `capsule list --users` first. If a machine already has an active user, pick another one — never blow away someone else's work.
-- **Manage your own tunnels.** `capsule session list` shows your active SshRTC data-channel tunnels; `capsule session end` closes a specific one (by unique id, port, or session id) and `capsule session endall` closes them all — without disturbing other sessions on your machine.
+- **Check before you claim.** Run `capsule list --users` first. If a machine already has an active user, pick another one; never blow away someone else's work.
+- **Manage your own tunnels.** `capsule session list` shows your active SshRTC data-channel tunnels; `capsule session end` closes a specific one (by unique id, port, or session id) and `capsule session endall` closes them all: without disturbing other sessions on your machine.
 - **Clean up when done.** End sessions you're no longer using so the machine is free for the next person.
 
-## Part 6 — Hands-On: Fleet Discovery Drills
+## Part 6 - Hands-On: Fleet Discovery Drills
 
 ### Exercise: Inventory the fleet
 
@@ -267,11 +267,11 @@ Capsule has **no reservation or lease system**. You don't reserve a machine ahea
 2. Run `nvidia-smi` to confirm the hardware matches what you filtered for.
 3. When done, close the tunnel with `capsule session end` (or `capsule session endall`).
 
-### Exercise: Pair — hardware diversity
+### Exercise: Pair - hardware diversity
 
  Each person filters for a different hardware class. Compare what's available and what's scarce.
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 **Before you finish, check each item:**
 
@@ -285,7 +285,7 @@ Capsule has **no reservation or lease system**. You don't reserve a machine ahea
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-07-m4-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 35 · Environments &amp; Fleet Discovery">
+<div class="ox-self-check" data-widget="self-check" data-id="week-07-m4-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 34 · Environments &amp; Fleet Discovery">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -297,7 +297,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "A config tag only works in prod; a unique ID only works in dev"
     ],
     "answer": 0,
-    "explain": "`capsule list` groups machines by config tag — a pool name; connecting by tag hands you any available machine in that pool. To pin one specific physical box, reveal unique IDs with `capsule list --all` and target it with `-u <unique-id>` (e.g. `-u boostergold461`)."
+    "explain": "`capsule list` groups machines by config tag: a pool name; connecting by tag hands you any available machine in that pool. To pin one specific physical box, reveal unique IDs with `capsule list --all` and target it with `-u <unique-id>` (e.g. `-u boostergold461`)."
   },
   {
     "stem": "Why is capability-based filtering preferable to name-based filtering when selecting a machine?",
@@ -319,7 +319,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "To display the billing owner of each machine"
     ],
     "answer": 1,
-    "explain": "Capsule has no lease/reservation system — you just connect and use a machine. `capsule list --users` is the sniff test that shows which machines have active users, so you can pick a free one instead of blowing away a colleague's session. Manage your own tunnels afterward with `capsule session list`/`end`/`endall`."
+    "explain": "Capsule has no lease/reservation system; you just connect and use a machine. `capsule list --users` is the sniff test that shows which machines have active users, so you can pick a free one instead of blowing away a colleague's session. Manage your own tunnels afterward with `capsule session list`/`end`/`endall`."
   },
   {
     "stem": "What command finds NVIDIA H100-class machines in your fleet?",
@@ -352,7 +352,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "`capsule node list --customer <name>`"
     ],
     "answer": 2,
-    "explain": "The customer selector scopes the fleet inside an environment. `capsule config customer show` reveals it and `capsule config customer set <name>` switches it (`micc` default, plus `modelhosting` / `oneplay` / `cree8`); a stray `set` is the usual cause of a wrong-looking fleet, cleared with `capsule config customer unset`. `capsule env set` switches the backend/tenant — a different dimension. There is no `capsule node list` or `capsule list --refresh`."
+    "explain": "The customer selector scopes the fleet inside an environment. `capsule config customer show` reveals it and `capsule config customer set <name>` switches it (`micc` default, plus `modelhosting` / `oneplay` / `cree8`); a stray `set` is the usual cause of a wrong-looking fleet, cleared with `capsule config customer unset`. `capsule env set` switches the backend/tenant: a different dimension. There is no `capsule node list` or `capsule list --refresh`."
   },
   {
     "stem": "Using the `--filter` grammar, how do you list NVIDIA machines with at least 24 GB VRAM AND at least 100 GB system memory?",
@@ -374,7 +374,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "There is nothing to clean up; sessions expire on a timer"
     ],
     "answer": 0,
-    "explain": "Part 5 ('There is no lease'): you don't reserve machines — you connect and the machine is yours while the session is open, so cleanup is your responsibility. `capsule session list` shows your active SshRTC data-channel tunnels, `capsule session end` closes a specific one (by unique id, port, or 32-char session id), and `capsule session endall` closes them all without disturbing other sessions. Check `capsule list --users` before claiming so you don't disrupt someone else."
+    "explain": "Part 5 ('There is no lease'): you don't reserve machines; you connect and the machine is yours while the session is open, so cleanup is your responsibility. `capsule session list` shows your active SshRTC data-channel tunnels, `capsule session end` closes a specific one (by unique id, port, or 32-char session id), and `capsule session endall` closes them all without disturbing other sessions. Check `capsule list --users` before claiming so you don't disrupt someone else."
   },
   {
     "stem": "On PowerShell, `cap list --filter \"vram>=24\"` misbehaves because of the `>`. What is the fix?",
@@ -393,11 +393,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect forward
 
-Tomorrow: **connecting** — once you have a lease, how to actually shell in, what the session looks like, the etiquette of multi-user nodes.
+Tomorrow: **connecting**: once you have a lease, how to actually shell in, what the session looks like, the etiquette of multi-user nodes.
 
 ### Pre-read for tomorrow (Day 38 · Connecting to Machines)
 
-- **Resource:** <a href="../../../readings/capsule/#day-38-connecting-to-machines">Capsule Power-User Pre-Lecture Reading — Day 38 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5.
+- **Resource:** <a href="../../../readings/capsule/#day-38-connecting-to-machines">Capsule Power-User Pre-Lecture Reading - Day 38 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-5-connecting-to-machines">Capsule Lab Guide</a> Module 5.
 - **Reflection questions:**
   1. What command connects you to a leased node?
   2. How does Capsule's connect differ from raw `ssh`?
@@ -405,4 +405,4 @@ Tomorrow: **connecting** — once you have a lease, how to actually shell in, wh
 
 ## Stuck?
 
-Ask **oxtutor** — describe what you tried and what happened.
+Ask **oxtutor**; describe what you tried and what happened.

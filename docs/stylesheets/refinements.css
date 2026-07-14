@@ -206,17 +206,6 @@
   font-weight:700;
 }
 
-/* legend colour chips used in roadmap.md table */
-.ox-legend-swatch{
-  display:inline-block;
-  width:1.05em;
-  height:1.05em;
-  border:1.5px solid var(--ox-muted);
-  border-radius:3px;
-  vertical-align:-.15em;
-}
-
-
 /* ============================================================
    4. SMALL POLISH — cards, tables, links, focus
    ============================================================ */

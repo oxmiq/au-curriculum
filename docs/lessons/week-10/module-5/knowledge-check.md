@@ -4,7 +4,7 @@
     <span class="sep">/</span>
     <a href="../../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../../">Week 10 — Capstone Project</a>
+    <a href="../../">Week 10 - Capstone Project</a>
     <span class="sep">/</span>
     <a href="../">Day 50 · Close</a>
     <span class="sep">/</span>
@@ -15,9 +15,9 @@
 
 # Day 50 Knowledge Check
 
-!!! info "Capstone week — no knowledge checks"
+!!! info "Capstone week: no knowledge checks"
     Week 10 is the Capstone. The only assessed artifacts are the **capstone
-    deliverable** and the Day 50 panel presentation — there is no per-day
+    deliverable** and the Day 50 panel presentation; there is no per-day
     knowledge check to take here.
 
 ## What next
@@ -34,6 +34,6 @@
 
 -   __Back to the week__
 
-    [Week 10 — Capstone Project overview](../index.md)
+    [Week 10 - Capstone Project overview](../index.md)
 
 </div>

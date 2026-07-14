@@ -4,7 +4,7 @@
     <span class="sep">/</span>
     <a href="../../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../../">Week 5 — Metrics &amp; Production</a>
+    <a href="../../">Week 5 - Metrics &amp; Production</a>
     <span class="sep">/</span>
     <a href="../">Day 25 · Consolidation + Phase 1 Problem Set</a>
     <span class="sep">/</span>
@@ -16,7 +16,7 @@
 # Week 5 Knowledge Check
 
 **Phase 1 Assessment · Week 5.** 26-question bank · **15 drawn per attempt** · aim for **strong (≥ 80%)**. This check is
-formative — it never blocks you — but it's the week's bar. Answer the drawn questions,
+formative, it never blocks you, but it's the week's bar. Answer the drawn questions,
 then submit to reveal explanations and your score band.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-05-m5-canonical" data-kind="wrap-up" data-draw="15" data-lesson="Phase 1 Assessment · Week 5" data-source="Canonical knowledge check">
@@ -31,7 +31,7 @@ then submit to reveal explanations and your score band.
       "Bad prompt"
     ],
     "answer": 2,
-    "explain": "A P99/P50 ratio above 5× signals tail behaviour — queue depth or batch boundaries under load — not raw compute speed. Here the ratio is ~52×."
+    "explain": "A P99/P50 ratio above 5× signals tail behaviour, queue depth or batch boundaries under load, not raw compute speed. Here the ratio is ~52×."
   },
   {
     "stem": "You compress a 70B model FP16 → FP8. Decode throughput should:",
@@ -86,7 +86,7 @@ then submit to reveal explanations and your score band.
       "Provably identical to sampling from the target model"
     ],
     "answer": 3,
-    "explain": "Speculative sampling accepts a draft token only when it matches the target model's distribution, so the output distribution is provably identical — it is a pure systems speedup with no quality cost."
+    "explain": "Speculative sampling accepts a draft token only when it matches the target model's distribution, so the output distribution is provably identical; it is a pure systems speedup with no quality cost."
   },
   {
     "stem": "Which is the MOST honest single quality metric for shipping a quantization change?",
@@ -119,7 +119,7 @@ then submit to reveal explanations and your score band.
       "Speculative decoding"
     ],
     "answer": 2,
-    "explain": "PagedAttention stores the KV cache in fixed-size blocks with a per-request block table — an OS virtual-memory analogy — which eliminates fragmentation and enables high concurrency."
+    "explain": "PagedAttention stores the KV cache in fixed-size blocks with a per-request block table, an OS virtual-memory analogy, which eliminates fragmentation and enables high concurrency."
   },
   {
     "stem": "Choose the right deployment for a bursty internal tool at ~5% GPU utilization with no privacy constraints:",
@@ -152,7 +152,7 @@ then submit to reveal explanations and your score band.
       "Skip evaluation and monitor later"
     ],
     "answer": 1,
-    "explain": "Canary catches regressions on a small slice before full exposure. Never combine an engine upgrade with a model change — you couldn't tell which one caused a regression."
+    "explain": "Canary catches regressions on a small slice before full exposure. Never combine an engine upgrade with a model change; you couldn't tell which one caused a regression."
   },
   {
     "stem": "Cold start for a fresh 70B-FP16 replica is typically:",
@@ -163,7 +163,7 @@ then submit to reveal explanations and your score band.
       "Several hours"
     ],
     "answer": 2,
-    "explain": "The replica must pull a 10s-of-GB image, load ~140 GB of weights into HBM, and warm/JIT kernels — minutes for a big model. This is why you keep a warm pool."
+    "explain": "The replica must pull a 10s-of-GB image, load ~140 GB of weights into HBM, and warm/JIT kernels: minutes for a big model. This is why you keep a warm pool."
   },
   {
     "stem": "Mixtral 8x7B is described as 'top-2 of 8 experts.' Per token, active params are approximately:",
@@ -218,7 +218,7 @@ then submit to reveal explanations and your score band.
       "P95 TTFT"
     ],
     "answer": 1,
-    "explain": "Queue depth directly reflects unmet demand but is spiky. GPU utilization lags 30–60s, concurrent requests is stable but blind to the queue, and P95 TTFT is user-facing but slowest to react — so production combines two signals."
+    "explain": "Queue depth directly reflects unmet demand but is spiky. GPU utilization lags 30–60s, concurrent requests is stable but blind to the queue, and P95 TTFT is user-facing but slowest to react; so production combines two signals."
   },
   {
     "stem": "Why is round-robin a poor load-balancing strategy for LLM serving?",
@@ -236,7 +236,7 @@ then submit to reveal explanations and your score band.
     "options": [
       "Immediate 100% rollout",
       "Feature flag per tenant",
-      "Shadow — run in parallel, don't serve the output",
+      "Shadow - run in parallel, don't serve the output",
       "Round-robin across old and new"
     ],
     "answer": 2,
@@ -273,7 +273,7 @@ then submit to reveal explanations and your score band.
       "Any increase at all"
     ],
     "answer": 0,
-    "explain": "The contract's first gate is 'perplexity delta on a held-out set — reject if Δ > 1%.' It is the cheap first filter before the more expensive task and human evals (which reject on >2 pp regression and <45% win rate)."
+    "explain": "The contract's first gate is 'perplexity delta on a held-out set: reject if Δ > 1%.' It is the cheap first filter before the more expensive task and human evals (which reject on >2 pp regression and <45% win rate)."
   },
   {
     "stem": "Using the worked example (8×H100 at ~$30/hr producing 10.8M tokens/hour at 100% util), the cost per 1M tokens at a realistic 50% utilization is about:",
@@ -306,7 +306,7 @@ then submit to reveal explanations and your score band.
       "Prefill, decode, and tokenization"
     ],
     "answer": 0,
-    "explain": "Week 5 builds the three-axis framework: latency (Day 21 metrics), quality (Day 23 evals), and cost (Day 24 economics). A production deployment must satisfy all three at once — optimizing one at the expense of another creates problems."
+    "explain": "Week 5 builds the three-axis framework: latency (Day 21 metrics), quality (Day 23 evals), and cost (Day 24 economics). A production deployment must satisfy all three at once; optimizing one at the expense of another creates problems."
   }
 ]
 </script>
@@ -316,17 +316,13 @@ then submit to reveal explanations and your score band.
 
 <div class="grid cards" markdown>
 
--   __Record your result__
-
-    Use **Retake** and **Copy progress JSON** in the check above to log the attempt in `docs/progress/`.
-
 -   __Back to today's lesson__
 
     [Day 25 · Consolidation + Phase 1 Problem Set](index.md)
 
 -   __Back to the week__
 
-    [Week 5 — Metrics &amp; Production overview](../index.md)
+    [Week 5 - Metrics &amp; Production overview](../index.md)
 
 -   __Continue the curriculum__
 

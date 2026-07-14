@@ -1,7 +1,7 @@
 # Day 1 · Welcome & Context
 
 > **Concept of the day:** What is Oxmiq? Why remote GPUs matter. The 10-week journey.<br>
-> **Pre-reading:** None — first day.
+> **Pre-reading:** None: first day.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 1 — Orientation &amp; Foundations</a>
+    <a href="../">Week 1 - Orientation &amp; Foundations</a>
     <span class="sep">/</span>
     <span>Day 1 · Welcome & Context</span>
     {status:week-01/module-1}
@@ -35,24 +35,24 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Why This Matters
+## Part 1 - Why This Matters
 ### Reading
 
-You're about to spend 10 weeks learning how GPU inference works, how agents are built, and how Capsule is operated. That's a lot. Today is the only day that's *just* context — every day after this is technical content. Use today to internalize the "why."
+You're about to spend 10 weeks learning how GPU inference works, how agents are built, and how Capsule is operated. That's a lot. Today is the only day that's *just* context; every day after this is technical content. Use today to internalize the "why."
 
 This foundational understanding will inform every technical decision you make in Weeks 2-10. When you're debugging aKV cache issue in Week 3 or optimizing a prompt in Week 6, you'll need to recall *why* these systems exist in the first place.
 
 ### Reflection (write your answer)
 
 Take 2 minutes to write down:
-> What do you currently think Capsule does? (No wrong answer — this is a baseline.)
+> What do you currently think Capsule does? (No wrong answer: this is a baseline.)
 
 ---
 
-## Part 2 — Core Concepts
-### Reading — What Oxmiq Does (in three sentences)
+## Part 2 - Core Concepts
+### Reading - What Oxmiq Does (in three sentences)
 
-1. **Oxmiq Labs builds Capsule** — a platform that lets engineers and researchers use remote GPU machines (NVIDIA H100, Tenstorrent, AMD MI300, Apple Silicon, etc.) as if they were sitting on their own desk.
+1. **Oxmiq Labs builds Capsule**: a platform that lets engineers and researchers use remote GPU machines (NVIDIA H100, Tenstorrent, AMD MI300, Apple Silicon, etc.) as if they were sitting on their own desk.
 
 2. **The problem Capsule solves:** GPUs are expensive (an 8×H100 box rents for ~$24/hour, ~$17K/month), scarce, and operationally painful. Most teams can't justify owning them; the ones who do, can't keep them busy. Capsule turns a fleet of GPUs into a self-service utility.
 
@@ -68,37 +68,37 @@ Take 2 minutes to write down:
 
 ---
 
-## Part 3 — The 10-Week Journey
+## Part 3 - The 10-Week Journey
 ### Reading
 
 Here's the roadmap you'll follow:
 
 | Week | What you'll learn | Key Technologies |
 |------|-------------------|------------------|
-| 1 | Tooling — shell, git, GPU primer | Linux, bash, git |
+| 1 | Tooling: shell, git, GPU primer | Linux, bash, git |
 | 2 | GPU hardware & memory bottlenecks | NVIDIA H100, memory hierarchy |
 | 3 | Attention, KV cache, quantization | FlashAttention, AWQ, GPTQ |
 | 4 | Multi-GPU scaling, speculative decoding, serving engines | vLLM, TensorRT-LLM |
 | 5 | Metrics, production patterns, cost economics | TTFT, TPOT, throughput |
-| 6 | Prompt engineering — the LLM-side companion to inference | Chain-of-thought, few-shot |
-| 7 | AI agents — tools, governance, orchestration | ReAct, MCP, LangChain |
+| 6 | Prompt engineering: the LLM-side companion to inference | Chain-of-thought, few-shot |
+| 7 | AI agents: tools, governance, orchestration | ReAct, MCP, LangChain |
 | 8 | Capsule foundations & operations (hands-on) | Capsule CLI, fleet management |
 | 9 | Capsule benchmarking & evaluation (apply Phase 1) | Benchmarking, eval frameworks |
-| 10 | Capstone — prove it independently | Your final project |
+| 10 | Capstone: prove it independently | Your final project |
 
 ### How Each Day Works (Self-Study Version)
 
-- **Part A** (10-20 min): Reading — understand the core concept
-- **Part B** (20-30 min): Deep dive — explore the details
-- **Part C**: Hands-on practice — apply what you learned
-- **Part D**: Reflection — connect to tomorrow's content
+- **Part A** (10-20 min): Reading: understand the core concept
+- **Part B** (20-30 min): Deep dive: explore the details
+- **Part C**: Hands-on practice: apply what you learned
+- **Part D**: Reflection: connect to tomorrow's content
 
 **Fridays are consolidation days.** No new content. Practice, ask, catch up.
 **Afternoons are free.** Learning needs space.
 
 ---
 
-## Part 4 — Hands-On — Research Capsule
+## Part 4 - Hands-On - Research Capsule
 ### Exercise 1: Explore the Capsule Product
 
 1. Visit `oxmiq.com` and browse the product documentation
@@ -119,7 +119,7 @@ Focus on:
 
 ---
 
-## Part 5 — Hands-On — Write Your Summary
+## Part 5 - Hands-On - Write Your Summary
 ### Assignment: Three-Sentence Summary
 
 Write a **three-sentence answer** to: *"What does Capsule do, and why does it exist?"*
@@ -144,7 +144,7 @@ If you have a partner:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -194,14 +194,14 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "~$100/hour"
     ],
     "answer": 2,
-    "explain": "Part 2 states: \"an 8×H100 box rents for ~$24/hour, ~$17K/month\". This number establishes why most teams can't justify owning them — and why Capsule's self-service model matters."
+    "explain": "Part 2 states: \"an 8×H100 box rents for ~$24/hour, ~$17K/month\". This number establishes why most teams can't justify owning them: and why Capsule's self-service model matters."
   },
   {
     "stem": "What happens every Friday in this 10-week program?",
     "options": [
       "New technical content is introduced",
       "Students take a graded exam worth 40% of the final grade",
-      "Consolidation day — practice, Q&A, and catch-up; no new content",
+      "Consolidation day: practice, Q&A, and catch-up; no new content",
       "Lectures from external industry speakers"
     ],
     "answer": 2,
@@ -249,7 +249,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Reflection that connects what you learned to the next day's content"
     ],
     "answer": 3,
-    "explain": "Part 3's \"How Each Day Works\" breakdown lists Part D as \"Reflection — connect to tomorrow's content.\" Part A is reading the core concept, Part B is the deep dive, and Part C is hands-on practice."
+    "explain": "Part 3's \"How Each Day Works\" breakdown lists Part D as \"Reflection: connect to tomorrow's content.\" Part A is reading the core concept, Part B is the deep dive, and Part C is hands-on practice."
   }
 ]
 </script>
@@ -257,11 +257,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Reading
 
-Tomorrow: the shell. Every operation in this curriculum — every git commit, every benchmark run, every Capsule command — starts with you in a terminal. We make sure you're fluent on Day 2 so it doesn't slow you down for the next 49 days.
+Tomorrow: the shell. Every operation in this curriculum, every git commit, every benchmark run, every Capsule command, starts with you in a terminal. We make sure you're fluent on Day 2 so it doesn't slow you down for the next 49 days.
 
 ### Pre-read for tomorrow (Day 2 · Shell & Linux)
 
-**Resource:** <a href="https://missing.csail.mit.edu/2020/course-shell/" target="_blank" rel="noopener">MIT Missing Semester — Shell chapter</a> (lecture 1 only).
+**Resource:** <a href="https://missing.csail.mit.edu/2020/course-shell/" target="_blank" rel="noopener">MIT Missing Semester - Shell chapter</a> (lecture 1 only).
 
 **Reflection questions** (write your answers; bring them to the readiness check):
 
@@ -272,5 +272,5 @@ Tomorrow: the shell. Every operation in this curriculum — every git commit, ev
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**: share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

@@ -1,14 +1,14 @@
 ---
 drift: |
-  Originally Day 41 of the former Capsule wk9. Now Day 42 of the new Benchmarking & Eval
+  Originally Day 41 of the former Capsule wk9. Now Day 41 of the new Benchmarking & Eval
   week (week-09/module-1), unchanged in scope. Source-material link paths bumped one
   level deeper.
 ---
 
-# Day 42 · Your First Benchmark
+# Day 41 · Your First Benchmark
 
 > **Concept of the day:** `capsule benchmark` orchestrates a serving engine + a request load + metric collection. Phase-1 vocabulary (TTFT, ITL, p99, throughput) lands here in real numbers. Today: run *one* benchmark cleanly, end to end, on a leased GPU node.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-41-your-first-benchmark">Capsule Power-User Pre-Lecture Reading — Day 41 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-8-model-evaluation-benchmarking-the-inferencemax-path">Capsule Lab Guide</a> Module 8.
+> **Pre-reading:** <a href="../../../readings/capsule/#day-41-your-first-benchmark">Capsule Power-User Pre-Lecture Reading - Day 41 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-8-model-evaluation-benchmarking-the-inferencemax-path">Capsule Lab Guide</a> Module 8.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -17,9 +17,9 @@ drift: |
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 9 — Capsule: Benchmarking &amp; Eval</a>
+    <a href="../">Week 9 - Capsule: Benchmarking &amp; Eval</a>
     <span class="sep">/</span>
-    <span>Day 42 · Benchmarking</span>
+    <span>Day 41 · Benchmarking</span>
     {status:week-09/module-1}
   </div>
 </div>
@@ -43,9 +43,9 @@ drift: |
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 
-### Reading — Why this matters
+### Reading - Why this matters
 
 You've spent six weeks learning what TTFT, throughput, and p99 *mean*. Today you generate them yourself, on a real GPU, and read them off a real report. This is the moment Phase 1 becomes muscle memory rather than vocabulary.
 
@@ -56,7 +56,7 @@ Answer before reading on:
 1. Name the three things a benchmark run consists of.
 2. What's the minimal command to run a benchmark on a leased node?
 3. What four metrics will the report contain? (Phase 1 recall.)
-4. What does *one* benchmark prove? (Hint: very little — that's tomorrow's lesson.)
+4. What does *one* benchmark prove? (Hint: very little - that's tomorrow's lesson.)
 5. Where should the result file live?
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-09-m1-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Module 8">
@@ -104,7 +104,7 @@ Answer before reading on:
       "They are printed to stdout and then discarded"
     ],
     "answer": 2,
-    "explain": "Results upload to the Capsule benchmark dashboard by default; pass `--no-upload` to suppress this while iterating. There is no `/shared/runs/` convention for benchmark output — the dashboard is the destination."
+    "explain": "Results upload to the Capsule benchmark dashboard by default; pass `--no-upload` to suppress this while iterating. There is no `/shared/runs/` convention for benchmark output; the dashboard is the destination."
   },
   {
     "stem": "Which metrics does a `capsule benchmark` run report?",
@@ -148,7 +148,7 @@ Answer before reading on:
       "--skip-dashboard"
     ],
     "answer": 2,
-    "explain": "`--no-upload` suppresses the default dashboard upload — the right choice while you're iterating and don't want noisy in-progress runs cluttering the shared dashboard. The other flags are fabricated."
+    "explain": "`--no-upload` suppresses the default dashboard upload: the right choice while you're iterating and don't want noisy in-progress runs cluttering the shared dashboard. The other flags are fabricated."
   }
 ]
 </script>
@@ -156,9 +156,9 @@ Answer before reading on:
 
 ---
 
-## Part 2 — Core Concepts: Benchmark Anatomy
+## Part 2 - Core Concepts: Benchmark Anatomy
 
-### Reading — The three-piece architecture
+### Reading - The three-piece architecture
 
 ```
 ┌────────────┐        ┌───────────────┐        ┌──────────────┐
@@ -175,11 +175,11 @@ Answer before reading on:
 
 Three pieces:
 
-1. **Load generator** — what prompts, what concurrency, how long.
-2. **Serving engine** — which engine, which model, which config (TP, quant, batching).
-3. **Metric collection** — TTFT, ITL, throughput, p50/p95/p99, GPU util.
+1. **Load generator** - what prompts, what concurrency, how long.
+2. **Serving engine** - which engine, which model, which config (TP, quant, batching).
+3. **Metric collection** - TTFT, ITL, throughput, p50/p95/p99, GPU util.
 
-### Reading — The minimum-viable command
+### Reading - The minimum-viable command
 
 At its smallest, a benchmark is just the target machine and the model:
 
@@ -213,9 +213,9 @@ Without looking at the documentation:
 
 ---
 
-## Part 3 — Core Concepts: Reading the Report
+## Part 3 - Core Concepts: Reading the Report
 
-### Reading — Phase-1 vocabulary check
+### Reading - Phase-1 vocabulary check
 
 A typical `report.json` excerpt:
 
@@ -228,7 +228,7 @@ A typical `report.json` excerpt:
 }
 ```
 
-You should be able to read every field without checking a glossary. If `ttft_p99` is 380 ms — is that compute-bound or memory-bound territory? (Week 2, Day 9.)
+You should be able to read every field without checking a glossary. If `ttft_p99` is 380 ms: is that compute-bound or memory-bound territory? (Week 2, Day 9.)
 
 ### Exercise: Field-by-Field Explanation
 
@@ -247,24 +247,24 @@ For each field in the JSON above, write:
 
 ---
 
-## Part 4 — Deep Dive: What One Benchmark Proves
+## Part 4 - Deep Dive: What One Benchmark Proves
 
-### Reading — The limits of a single data point
+### Reading - The limits of a single data point
 
 A single number is just a data point. It tells you *this config, this load, this moment*. It can't tell you:
 
 - Is this engine better than another? (need comparison)
 - Does it scale? (need to vary load)
 - Is the GPU saturated? (need to vary `--concurrency`)
-- Is the model quality acceptable? (need eval, Day 44)
+- Is the model quality acceptable? (need eval, Day 43)
 
 So today's goal: a *clean* baseline. Tomorrow we sweep.
 
-### Reading — Where the result lives
+### Reading - Where the result lives
 
 `capsule benchmark` uploads each run to the Capsule benchmark dashboard by default:
 
-- The dashboard is the durable home for a run — throughput, latency percentiles, and cost-per-token, keyed to the model + config you ran.
+- The dashboard is the durable home for a run: throughput, latency percentiles, and cost-per-token, keyed to the model + config you ran.
 - Pass `--no-upload` while iterating to keep noisy in-progress runs off the shared dashboard.
 - Open the dashboard to compare runs side by side and share links with teammates.
 
@@ -279,7 +279,7 @@ Write one sentence describing what you'd need to run to answer each question:
 
 ---
 
-## Part 5 — Hands-On: Run Your First Benchmark
+## Part 5 - Hands-On: Run Your First Benchmark
 
 ### Exercise: First Clean Baseline
 
@@ -303,7 +303,7 @@ Write one sentence describing what you'd need to run to answer each question:
 
 ---
 
-## Part 6 — Hands-On: Annotate & Defend the Report
+## Part 6 - Hands-On: Annotate & Defend the Report
 
 ### Exercise: Annotation
 
@@ -335,13 +335,13 @@ Commit your annotated report to your fork.
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 ### Self-check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-09-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 42 · First Benchmark">
+<div class="ox-self-check" data-widget="self-check" data-id="week-09-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 41 · First Benchmark">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -364,7 +364,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "A tokenizer, an optimizer, and a learning-rate scheduler"
     ],
     "answer": 0,
-    "explain": "Part 2's diagram breaks a benchmark into three pieces: the load generator (what prompts, what concurrency, how long), the serving engine (which engine, model, and config — TP, quant, batching), and metric collection (TTFT, ITL, throughput, p50/p95/p99, GPU util). Training-loop and web-infra options are distractors — a benchmark drives inference, it does not train."
+    "explain": "Part 2's diagram breaks a benchmark into three pieces: the load generator (what prompts, what concurrency, how long), the serving engine (which engine, model, and config: TP, quant, batching), and metric collection (TTFT, ITL, throughput, p50/p95/p99, GPU util). Training-loop and web-infra options are distractors; a benchmark drives inference, it does not train."
   },
   {
     "stem": "You run `capsule benchmark <config-tag> meta-llama/Llama-3.1-8B-Instruct` on an NVIDIA node and omit `--backend`. Which serving backend runs?",
@@ -375,7 +375,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "oxpython"
     ],
     "answer": 2,
-    "explain": "Defaults give sensible TP, quant, and prompt distribution — and vllm is the default backend on an NVIDIA box (it is best for batched serving with paged-attention). The four supported backends are vllm, llamacpp, mlx, and oxpython; mlx targets Apple Silicon and oxpython is the OXMIQ Python runtime, so neither is the NVIDIA default."
+    "explain": "Defaults give sensible TP, quant, and prompt distribution; and vllm is the default backend on an NVIDIA box (it is best for batched serving with paged-attention). The four supported backends are vllm, llamacpp, mlx, and oxpython; mlx targets Apple Silicon and oxpython is the OXMIQ Python runtime, so neither is the NVIDIA default."
   },
   {
     "stem": "In `capsule benchmark ... --concurrency 8 --num-prompts 80`, what does `--num-prompts` control?",
@@ -386,23 +386,23 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "The total number of requests sent before the run stops"
     ],
     "answer": 3,
-    "explain": "`--num-prompts` is the total number of requests sent before the run stops; `--concurrency` is the number of simultaneous in-flight requests. Run size is set by `--num-prompts`, not by any duration flag — there is no `--duration` in `capsule benchmark`."
+    "explain": "`--num-prompts` is the total number of requests sent before the run stops; `--concurrency` is the number of simultaneous in-flight requests. Run size is set by `--num-prompts`, not by any duration flag; there is no `--duration` in `capsule benchmark`."
   },
   {
     "stem": "Today's goal was one clean baseline. Which question can that single benchmark run NOT answer on its own?",
     "options": [
       "What throughput this exact config achieved at this moment",
       "What TTFT p99 this config produced under this load",
-      "Whether vllm is faster than llamacpp for this model — that needs a comparison run",
+      "Whether vllm is faster than llamacpp for this model: that needs a comparison run",
       "What the GPU memory usage was during the run"
     ],
     "answer": 2,
-    "explain": "Part 4 lists what one benchmark can't tell you: is this engine better than another (need comparison), does it scale (vary load), is the GPU saturated (vary --concurrency), is quality acceptable (need eval, Day 44). A single run does report this config's own throughput, TTFT, and memory at this moment — those it can answer."
+    "explain": "Part 4 lists what one benchmark can't tell you: is this engine better than another (need comparison), does it scale (vary load), is the GPU saturated (vary --concurrency), is quality acceptable (need eval, Day 43). A single run does report this config's own throughput, TTFT, and memory at this moment; those it can answer."
   },
   {
     "stem": "Why does one benchmark run prove very little on its own?",
     "options": [
-      "One run is statistically insufficient — variance from thermal state, neighbor processes, KV cache warmup, and measurement noise requires multiple runs to establish reliable baselines",
+      "One run is statistically insufficient; variance from thermal state, neighbor processes, KV cache warmup, and measurement noise requires multiple runs to establish reliable baselines",
       "One run only tests one user, not a full production load",
       "One run cannot be compared against other models",
       "One run uses the wrong precision"
@@ -419,14 +419,14 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "They print to stdout and are then discarded"
     ],
     "answer": 1,
-    "explain": "By default each run uploads to the Capsule benchmark dashboard, keyed to the model + config — that is the durable, shareable home for throughput, latency percentiles, and cost-per-token. Pass `--no-upload` to keep in-progress runs off the shared dashboard while iterating. There is no `/shared/runs/` directory convention for benchmark output."
+    "explain": "By default each run uploads to the Capsule benchmark dashboard, keyed to the model + config; that is the durable, shareable home for throughput, latency percentiles, and cost-per-token. Pass `--no-upload` to keep in-progress runs off the shared dashboard while iterating. There is no `/shared/runs/` directory convention for benchmark output."
   },
   {
     "stem": "If your benchmark shows TTFT_p99 = 850 ms, which Phase-1 concept explains this?",
     "options": [
-      "The model's vocabulary size determines TTFT — larger vocabulary = slower tokenization",
-      "TTFT is driven by the prefill phase (processing all input tokens) — high P99 TTFT suggests long input prompts, a large model requiring many compute cycles, or insufficient GPU compute throughput",
-      "TTFT is determined by decode speed — high TTFT means slow token generation",
+      "The model's vocabulary size determines TTFT; larger vocabulary = slower tokenization",
+      "TTFT is driven by the prefill phase (processing all input tokens); high P99 TTFT suggests long input prompts, a large model requiring many compute cycles, or insufficient GPU compute throughput",
+      "TTFT is determined by decode speed; high TTFT means slow token generation",
       "TTFT only depends on network latency between the user and the server"
     ],
     "answer": 1,
@@ -436,12 +436,12 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "Why is committing your annotated benchmark report to your fork important?",
     "options": [
       "GitHub automatically improves the benchmark with each commit",
-      "It creates a reproducible record of your findings that serves as evidence for the capstone and portfolio — annotated reports show you can connect data to concepts",
+      "It creates a reproducible record of your findings that serves as evidence for the capstone and portfolio; annotated reports show you can connect data to concepts",
       "Committing triggers an automatic re-run to verify the results",
       "It is required for access to the shared GPU pool"
     ],
     "answer": 1,
-    "explain": "The lesson states: 'Commit your annotated report to your fork.' Your fork is your portfolio. An annotated report — raw numbers + Phase-1 explanations for each metric — is evidence of technical depth. Hiring managers can read it. The capstone builds directly on this artifact."
+    "explain": "The lesson states: 'Commit your annotated report to your fork.' Your fork is your portfolio. An annotated report, raw numbers + Phase-1 explanations for each metric, is evidence of technical depth. Hiring managers can read it. The capstone builds directly on this artifact."
   }
 ]
 </script>
@@ -449,11 +449,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect forward
 
-Tomorrow: **varying parameters** — sweep `--concurrency`, `--tp`, and quantization, and see the Phase-1 tradeoffs play out in real numbers.
+Tomorrow: **varying parameters** - sweep `--concurrency`, `--tp`, and quantization, and see the Phase-1 tradeoffs play out in real numbers.
 
-### Pre-read for tomorrow (Day 43 · Model Evaluation / Varying Parameters)
+### Pre-read for tomorrow (Day 42 · Model Evaluation / Varying Parameters)
 
-- **Resource:** none new — builds on Day 42 + recalls Week 3–4.
+- **Resource:** none new - builds on Day 41 + recalls Week 3–4.
 - **Reflection questions:**
   1. As `--concurrency` rises, which metrics will degrade first, and why?
   2. Doubling `--tp` from 1 to 2: what's the expected effect on throughput? On latency?
@@ -463,4 +463,4 @@ Tomorrow: **varying parameters** — sweep `--concurrency`, `--tp`, and quantiza
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact command, the error or unexpected output, and which GPU type you're on.
+Ask **oxtutor**; share your exact command, the error or unexpected output, and which GPU type you're on.

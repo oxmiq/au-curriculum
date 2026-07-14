@@ -1,7 +1,7 @@
 # Day 9 · Compute-Bound vs Memory-Bound
 
 > **Concept of the day:** ops:byte ratio. The roofline model. Which ceiling you're hitting. **Punchline: prefill = compute. Decode = memory.**<br>
-> **Pre-reading:** <a href="https://horace.io/brrr_intro.html#compute" target="_blank" rel="noopener">Horace He — Making Deep Learning Go Brrr (Compute section)</a>.
+> **Pre-reading:** <a href="https://horace.io/brrr_intro.html#compute" target="_blank" rel="noopener">Horace He - Making Deep Learning Go Brrr (Compute section)</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 2 — The GPU &amp; Memory</a>
+    <a href="../">Week 2 - The GPU &amp; Memory</a>
     <span class="sep">/</span>
     <span>Day 9 · Compute-Bound vs Memory-Bound</span>
     {status:week-02/module-4}
@@ -35,7 +35,7 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 ### Before You Start
 
 You should have already read: Pre-Lecture Reading **Reader 4 (complexity, memory, attention math)** + Study Guide §A.5 roofline subsection.
@@ -52,7 +52,7 @@ Answer these questions from memory:
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-02-m4-readiness" data-kind="readiness" data-draw="5" data-source="Horace He — Making Deep Learning Go Brrr (Compute section)">
+<div class="ox-self-check" data-widget="self-check" data-id="week-02-m4-readiness" data-kind="readiness" data-draw="5" data-source="Horace He - Making Deep Learning Go Brrr (Compute section)">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -75,7 +75,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "It requires caching"
     ],
     "answer": 0,
-    "explain": "Prefill processes the full prompt in parallel — massive matrix multiplications over a long sequence. The ops:byte ratio is high because there's lots of compute per token read. This hits the compute ceiling (roofline)."
+    "explain": "Prefill processes the full prompt in parallel: massive matrix multiplications over a long sequence. The ops:byte ratio is high because there's lots of compute per token read. This hits the compute ceiling (roofline)."
   },
   {
     "stem": "Why is the decode phase typically memory-bound?",
@@ -115,7 +115,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
     "options": [
       "Compute ceiling (compute-bound)",
       "Memory bandwidth ceiling (memory-bound)",
-      "Neither — the kernel is perfectly balanced",
+      "Neither - the kernel is perfectly balanced",
       "Both simultaneously"
     ],
     "answer": 1,
@@ -130,7 +130,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Batching makes decode compute-bound"
     ],
     "answer": 1,
-    "explain": "Decode is memory-bound because one token has low compute. Batching multiple decodes together amortizes the HBM read — you do more compute per byte read, increasing effective arithmetic intensity. This is why continuous batching helps."
+    "explain": "Decode is memory-bound because one token has low compute. Batching multiple decodes together amortizes the HBM read; you do more compute per byte read, increasing effective arithmetic intensity. This is why continuous batching helps."
   },
   {
     "stem": "What does Horace He mean by 'making deep learning go brrr'?",
@@ -141,7 +141,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Using faster GPUs"
     ],
     "answer": 1,
-    "explain": "'Making deep learning go brrr' (onomatopoeia for fast computation) is about making models run faster. The key insight is that most optimizations (fusion, quantization, caching) work by reducing memory traffic — solving the memory bottleneck."
+    "explain": "'Making deep learning go brrr' (onomatopoeia for fast computation) is about making models run faster. The key insight is that most optimizations (fusion, quantization, caching) work by reducing memory traffic: solving the memory bottleneck."
   }
 ]
 </script>
@@ -149,8 +149,8 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — Roofline Model
-### Reading — Why the Roofline Matters
+## Part 2 - Core Concepts - Roofline Model
+### Reading - Why the Roofline Matters
 
 Knowing *which ceiling* a workload hits tells you *which knob to turn*: more FLOPs (bigger / better Tensor Cores)? more bandwidth (HBM3e, NVLink)? more parallelism? You can't optimize what you can't classify.
 
@@ -187,8 +187,8 @@ For each kernel:
 
 ---
 
-## Part 3 — Deep Dive — Ridge Points
-### Reading — Ridge Point Examples
+## Part 3 - Deep Dive - Ridge Points
+### Reading - Ridge Point Examples
 
 ### Ridge Point Formula
 
@@ -209,8 +209,8 @@ For each kernel:
 
 ---
 
-## Part 4 — Deep Dive — Where Kernels Sit
-### Reading — Common Workloads
+## Part 4 - Deep Dive - Where Kernels Sit
+### Reading - Common Workloads
 
 | Kernel | Intensity (rough) | Verdict |
 |---|---|---|
@@ -227,7 +227,7 @@ For each kernel:
 >
 > **Decode = memory-bound.** One token at a time → you re-read all weights per token → intensity is tiny → you're hitting the HBM ceiling.
 
-### Why This Matters — Every Week 3-4 Trick
+### Why This Matters - Every Week 3-4 Trick
 
 | Trick | Why It Helps |
 |-------|--------------|
@@ -239,7 +239,7 @@ For each kernel:
 
 ---
 
-## Part 5 — Hands-On — Calculate
+## Part 5 - Hands-On - Calculate
 ### Exercise 1: Arithmetic Intensity
 
 Calculate arithmetic intensity for:
@@ -265,11 +265,11 @@ At intensity = 2 ops/byte (decode), what fraction of H100's peak compute can you
 
 **Answer:** Only ~0.7% of the Tensor Cores are being used! The other 99.3% are idle, waiting for data.
 
-**Implication:** This explains why batching exists — if you pack multiple decodes together, you reuse weights and increase your effective intensity.
+**Implication:** This explains why batching exists: if you pack multiple decodes together, you reuse weights and increase your effective intensity.
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -286,18 +286,18 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "The latency from submitting a request to receiving the first output token"
     ],
     "answer": 1,
-    "explain": "The roofline model plots performance (FLOP/s) vs arithmetic intensity (ops/byte) and shows two ceilings: the memory bandwidth roof (below the ridge point) and the compute roof (above it). It tells you whether your kernel is bottlenecked by memory or compute — and by how much."
+    "explain": "The roofline model plots performance (FLOP/s) vs arithmetic intensity (ops/byte) and shows two ceilings: the memory bandwidth roof (below the ridge point) and the compute roof (above it). It tells you whether your kernel is bottlenecked by memory or compute: and by how much."
   },
   {
     "stem": "Where does LLM decode sit on the roofline, relative to the ridge point?",
     "options": [
-      "Well above the ridge — it is heavily compute-bound",
-      "At the ridge — it is perfectly balanced",
-      "Well below the ridge — it is heavily memory-bound (~2 ops/byte vs ridge of ~295 ops/byte)",
-      "Off the chart — the roofline does not apply to LLM workloads"
+      "Well above the ridge - it is heavily compute-bound",
+      "At the ridge - it is perfectly balanced",
+      "Well below the ridge - it is heavily memory-bound (~2 ops/byte vs ridge of ~295 ops/byte)",
+      "Off the chart - the roofline does not apply to LLM workloads"
     ],
     "answer": 2,
-    "explain": "Decode reads model weights to perform ~2 multiplications per byte — roughly 150× below the H100 ridge point of ~295 ops/byte. It sits far to the left on the roofline plot, deep in the memory-bound region."
+    "explain": "Decode reads model weights to perform ~2 multiplications per byte: roughly 150× below the H100 ridge point of ~295 ops/byte. It sits far to the left on the roofline plot, deep in the memory-bound region."
   },
   {
     "stem": "During decode, approximately what fraction of Tensor Cores are actively being used on an H100?",
@@ -308,7 +308,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "~0.7%"
     ],
     "answer": 3,
-    "explain": "Part 5 calculates: decode intensity ≈ 2 ops/byte ÷ ridge point 295 ops/byte ≈ 0.68%. Only ~0.7% of the H100's Tensor Core compute capacity is used during decode — the other 99.3% sit idle waiting for HBM reads. This is why batching is so important."
+    "explain": "Part 5 calculates: decode intensity ≈ 2 ops/byte ÷ ridge point 295 ops/byte ≈ 0.68%. Only ~0.7% of the H100's Tensor Core compute capacity is used during decode; the other 99.3% sit idle waiting for HBM reads. This is why batching is so important."
   },
   {
     "stem": "Why does batching multiple decode requests together increase arithmetic intensity?",
@@ -319,18 +319,18 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Batching reduces the KV cache size because requests share context"
     ],
     "answer": 1,
-    "explain": "If a single decode reads W bytes of weights and does 2W operations, batching 8 requests reads W bytes once but performs 8×2W operations — intensity ×8. This is the fundamental reason batching improves GPU utilization for memory-bound workloads."
+    "explain": "If a single decode reads W bytes of weights and does 2W operations, batching 8 requests reads W bytes once but performs 8×2W operations: intensity ×8. This is the fundamental reason batching improves GPU utilization for memory-bound workloads."
   },
   {
     "stem": "Where does LLM prefill sit on the roofline?",
     "options": [
       "Well below the ridge, even deeper into the memory-bound region than decode",
-      "At or above the ridge — it is compute-bound because all input tokens are processed in parallel",
+      "At or above the ridge - it is compute-bound because all input tokens are processed in parallel",
       "At the same point as decode since both use the same model weights",
-      "Above all hardware limits — it exceeds both memory and compute ceilings"
+      "Above all hardware limits - it exceeds both memory and compute ceilings"
     ],
     "answer": 1,
-    "explain": "Prefill processes all input tokens simultaneously (a large matrix multiply), which achieves high arithmetic intensity. It sits at or above the ridge point — compute-bound. This is why prefill time scales with compute throughput (TFLOPs), while decode time scales with memory bandwidth."
+    "explain": "Prefill processes all input tokens simultaneously (a large matrix multiply), which achieves high arithmetic intensity. It sits at or above the ridge point: compute-bound. This is why prefill time scales with compute throughput (TFLOPs), while decode time scales with memory bandwidth."
   },
   {
     "stem": "Name two techniques that attack the memory bottleneck in LLM decode.",
@@ -374,7 +374,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Prefill attention (long input)"
     ],
     "answer": 2,
-    "explain": "Part 4 lists 'All-reduce across nodes' with intensity ~0 and verdict Network-bound — it moves data between machines and does essentially no local compute. Large GEMM and prefill are compute-bound; decode attention is memory-bound."
+    "explain": "Part 4 lists 'All-reduce across nodes' with intensity ~0 and verdict Network-bound; it moves data between machines and does essentially no local compute. Large GEMM and prefill are compute-bound; decode attention is memory-bound."
   }
 ]
 </script>
@@ -382,7 +382,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Friday: consolidation — Feynman teach-back across the four concepts (pipeline, GPU anatomy, memory hierarchy, roofline). Then the canonical [quiz](knowledge-check.md).
+Friday: consolidation - Feynman teach-back across the four concepts (pipeline, GPU anatomy, memory hierarchy, roofline). Then the canonical [quiz](knowledge-check.md).
 
 ---
 
@@ -391,12 +391,12 @@ Friday: consolidation — Feynman teach-back across the four concepts (pipeline,
 - **Resource:** None. Re-read your Day 6–9 notes. Bring your roofline plot.
 - **Reflection questions:**
   1. Which of the four Week 2 days felt least clear?
-  2. If you had to teach one of {pipeline, anatomy, bandwidth, roofline} to a peer in 5 minutes — which would you pick? Why?
+  2. If you had to teach one of {pipeline, anatomy, bandwidth, roofline} to a peer in 5 minutes: which would you pick? Why?
   3. Write one question you want answered before Week 3.
 
 ---
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**: share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

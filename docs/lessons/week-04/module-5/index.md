@@ -1,6 +1,6 @@
 # Day 20 (Fri) · Week 4 Consolidation
 
-> **Goal of the day:** consolidate parallelism + speculative decoding + serving engines. No new content — practice, ask, catch up.
+> **Goal of the day:** consolidate parallelism + speculative decoding + serving engines. No new content: practice, ask, catch up.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -9,7 +9,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 4 — Scaling &amp; Stacks</a>
+    <a href="../">Week 4 - Scaling &amp; Stacks</a>
     <span class="sep">/</span>
     <span>Day 20 · Consolidation</span>
     {status:week-04/module-5}
@@ -21,7 +21,7 @@
 
 ## Lesson plan
 
-This consolidation day is different from other days — it's for practice and review. Here's how your ~3 hours are organized:
+This consolidation day is different from other days; it's for practice and review. Here's how your ~3 hours are organized:
 
 | Part | What you do |
 |-------------|---------------|
@@ -35,10 +35,10 @@ This consolidation day is different from other days — it's for practice and re
 
 ---
 
-## Part 1 — Week 4 Knowledge Check
+## Part 1 - Week 4 Knowledge Check
 ### Exercise: Take the Knowledge Check
 
-[Take the Week 4 knowledge check](knowledge-check.md) — covers tensor parallelism, pipeline/expert parallelism, speculative decoding, and serving engines.
+[Take the Week 4 knowledge check](knowledge-check.md): covers tensor parallelism, pipeline/expert parallelism, speculative decoding, and serving engines.
 
 **Passing score:** 10/15 (67%)
 
@@ -50,16 +50,16 @@ If you score below 10/15:
 
 ---
 
-## Part 2 — Self-Assessment
+## Part 2 - Self-Assessment
 ### Self-Check List
 
 Go through each item and mark whether you can do it **without notes**:
 
 - [ ] Explain what tensor parallelism splits and what it replicates across GPUs
 - [ ] Describe why TP requires NVLink (intra-node only)
-- [ ] Compare tensor parallelism vs pipeline parallelism — when to use each
+- [ ] Compare tensor parallelism vs pipeline parallelism: when to use each
 - [ ] Explain expert parallelism and why it helps MoE models
-- [ ] Describe speculative decoding — the idea and why it works
+- [ ] Describe speculative decoding: the idea and why it works
 - [ ] Calculate speedup from speculation (e.g., 3x speculation, 80% acceptance)
 - [ ] Name two serving engines and explain their batching strategies
 - [ ] Explain continuous batching vs static batching
@@ -75,7 +75,7 @@ For any item you can't do:
 
 ---
 
-## Part 3 — Practice — Tensor Parallelism
+## Part 3 - Practice - Tensor Parallelism
 ### Hands-On: TP Calculations
 
 Practice these calculations:
@@ -121,7 +121,7 @@ Model fits in one GPU?
 
 ---
 
-## Part 4 — Practice — Pipeline & Expert Parallelism
+## Part 4 - Practice - Pipeline & Expert Parallelism
 ### Hands-On: PP vs EP Comparison
 
 Complete this comparison table from memory:
@@ -151,7 +151,7 @@ Questions:
 
 ---
 
-## Part 5 — Practice — Speculative Decoding
+## Part 5 - Practice - Speculative Decoding
 ### Hands-On: Speculation Math
 
 Practice calculating speedup from speculative decoding:
@@ -184,7 +184,7 @@ Questions:
 
 ---
 
-## Part 6 — Practice — Serving Engines
+## Part 6 - Practice - Serving Engines
 ### Hands-On: Engine Comparison
 
 Match each serving engine to its key characteristic:
@@ -219,15 +219,15 @@ Workload 3: Agent loops (bursty, variable length)
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### What to Do
 
 This is open time. Choose what you need:
 
 1. **Catch up** on any assignments from Mon–Thu
-2. **Ask questions** — use oxtutor or review the relevant day
-3. **Extra practice** — generate more exercises on any concept
-4. **Preview Week 5** — start the pre-reading for Day 21
+2. **Ask questions**: use oxtutor or review the relevant day
+3. **Extra practice**: generate more exercises on any concept
+4. **Preview Week 5**: start the pre-reading for Day 21
 
 ### Connect Forward
 
@@ -238,7 +238,7 @@ Week 5 begins on Monday. You'll learn about:
 
 ### Pre-read for Monday (Week 5, Day 21)
 
-**Resource:** <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale — LLM Inference Performance</a>. Alternative: <a href="https://www.baseten.co/blog/understanding-llm-latency/" target="_blank" rel="noopener">Baseten — Understanding LLM Latency</a>.
+**Resource:** <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale - LLM Inference Performance</a>. Alternative: <a href="https://www.baseten.co/blog/understanding-llm-latency/" target="_blank" rel="noopener">Baseten - Understanding LLM Latency</a>.
 
 **Reflection questions:**
 

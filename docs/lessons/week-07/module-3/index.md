@@ -1,6 +1,6 @@
-# Day 34 · Installation
+# Day 33 · Installation
 
-> **Concept of the day:** **install once, use every day.** A clean Capsule install takes under 15 minutes; a botched one loses you a day. Today you install the CLI, complete the auth flow, run `capsule status`, and memorise the four most-asked support questions.<br> **Pre-reading:** <a href="../../../readings/capsule/#day-36-capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading — Day 36 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-2-installation-first-login">Capsule Lab Guide</a> Module 2.
+> **Concept of the day:** **install once, use every day.** A clean Capsule install takes under 15 minutes; a botched one loses you a day. Today you install the CLI, complete the auth flow, run `capsule status`, and memorise the four most-asked support questions.<br> **Pre-reading:** <a href="../../../readings/capsule/#day-36-capsule-architecture-installation">Capsule Power-User Pre-Lecture Reading - Day 36 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-2-installation-first-login">Capsule Lab Guide</a> Module 2.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -9,9 +9,9 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 7 — Bridge: Theory Meets Tooling</a>
+    <a href="../">Week 7 - Bridge: Theory Meets Tooling</a>
     <span class="sep">/</span>
-    <span>Day 34 · Installation</span>
+    <span>Day 33 · Installation</span>
     {status:week-07/module-3}
   </div>
 </div>
@@ -32,9 +32,9 @@
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 
-### Reading —
+### Reading -
 
 Before continuing, you should have read **Lab Guide Module 2** (Installation). It covers:
 
@@ -100,7 +100,7 @@ Answer from memory:
       "A terminal multiplexer for keeping sessions alive"
     ],
     "answer": 1,
-    "explain": "Capsule uses `rclone` under the hood for cloud storage mounts (OneDrive). You never call it directly — `capsule auth storage` and the OneDrive mount handle it — but it must be on PATH. The brew formula installs it automatically on macOS; on Windows you run `winget install Rclone.Rclone`."
+    "explain": "Capsule uses `rclone` under the hood for cloud storage mounts (OneDrive). You never call it directly, `capsule auth storage` and the OneDrive mount handle it, but it must be on PATH. The brew formula installs it automatically on macOS; on Windows you run `winget install Rclone.Rclone`."
   },
   {
     "stem": "What is the post-install command sequence used to verify a working Capsule install?",
@@ -144,7 +144,7 @@ Answer from memory:
       "Run `capsule mount --login`"
     ],
     "answer": 0,
-    "explain": "OneDrive access is a separate consent step: run `capsule auth storage` once and complete the browser consent flow. After that, connection commands auto-mount your OneDrive folder. Login and storage auth are distinct — logging in does not by itself grant storage access."
+    "explain": "OneDrive access is a separate consent step: run `capsule auth storage` once and complete the browser consent flow. After that, connection commands auto-mount your OneDrive folder. Login and storage auth are distinct; logging in does not by itself grant storage access."
   }
 ]
 </script>
@@ -152,9 +152,9 @@ Answer from memory:
 
 ---
 
-## Part 2 — Core Concepts: What the Install Actually Does
+## Part 2 - Core Concepts: What the Install Actually Does
 
-### Reading —
+### Reading -
 
 Running the Capsule install does four things:
 
@@ -167,7 +167,7 @@ After install, `capsule --version` should return the version string. If it doesn
 
 **2. Creates the OS-specific config directory**
 
-There is no `~/.capsule/`. Capsule stores its state in the platform config directory — `$HOME/Library/Application Support/Capsule/` on macOS, `%APPDATA%\capsule` on Windows. Contents after first run:
+There is no `~/.capsule/`. Capsule stores its state in the platform config directory: `$HOME/Library/Application Support/Capsule/` on macOS, `%APPDATA%\capsule` on Windows. Contents after first run:
 ```
 Capsule/
   capsule.conf          ← config: default env, customer, settings
@@ -178,16 +178,16 @@ The cached Azure B2C auth token lives alongside this config (held in the macOS K
 
 **3. Installs `rclone` alongside**
 
-Capsule uses `rclone` under the hood for cloud storage mounts (OneDrive). You don't invoke rclone directly — `capsule auth storage` and the automatic OneDrive mount handle it — but rclone must be on PATH. The brew formula handles this automatically on macOS.
+Capsule uses `rclone` under the hood for cloud storage mounts (OneDrive). You don't invoke rclone directly, `capsule auth storage` and the automatic OneDrive mount handle it, but rclone must be on PATH. The brew formula handles this automatically on macOS.
 
 **4. Requires GH_TOKEN during tap**
 
 The software-packages repo is private. `brew tap` must authenticate via GITHUB_API_TOKEN. The token needs these scopes:
 
-- `repo` — read private repos (for the tap and release downloads)
-- `read:org` — verify org membership
-- `workflow` — allow workflow-triggered releases
-- `user` — read user profile for identity
+- `repo`: read private repos (for the tap and release downloads)
+- `read:org`: verify org membership
+- `workflow`: allow workflow-triggered releases
+- `user`: read user profile for identity
 
 **Post-install verification sequence:**
 
@@ -212,11 +212,11 @@ Without looking at the above:
 
 ---
 
-## Part 3 — Core Concepts: Authentication Flow
+## Part 3 - Core Concepts: Authentication Flow
 
-### Reading —
+### Reading -
 
-**`capsule auth login` — the main auth flow:**
+**`capsule auth login` - the main auth flow:**
 
 1. The CLI opens a browser tab to `https://login.oxmiq.ai` (Azure B2C tenant)
 2. You complete the OAuth flow (sign in with your org account)
@@ -234,7 +234,7 @@ Without looking at the above:
 
 When the access token expires, Capsule uses the refresh token automatically. When the refresh token expires (30 days of inactivity), you must re-run `capsule auth login`.
 
-**`capsule auth storage` — separate OneDrive consent:**
+**`capsule auth storage` - separate OneDrive consent:**
 
 OneDrive requires a separate OAuth consent because it's a Microsoft Graph permission. Run once after login:
 
@@ -246,14 +246,14 @@ capsule auth storage   # opens browser → consent to OneDrive access → stores
 
 In headless terminals (no browser), two options:
 
-1. **Manual token fallback** — when the browser can't open, `capsule auth login` automatically prints a URL (`https://oxmiq.ai/oxcapsule/auth`); open it on any browser, complete auth, then paste the token it gives you back into the CLI when prompted
-2. Set the `CAPSULE_AUTH_TOKEN=<token>` environment variable — the CLI uses this token directly (this is how headless CI authenticates)
+1. **Manual token fallback**: when the browser can't open, `capsule auth login` automatically prints a URL (`https://oxmiq.ai/oxcapsule/auth`); open it on any browser, complete auth, then paste the token it gives you back into the CLI when prompted
+2. Set the `CAPSULE_AUTH_TOKEN=<token>` environment variable; the CLI uses this token directly (this is how headless CI authenticates)
 
 **Clock skew causes silent auth failures:**
 
 If your system clock is more than 5 minutes ahead of UTC, the access token will be rejected by the server even if it hasn't expired locally. Symptom: `capsule status` shows valid token, but all API calls fail with "unauthorized."
 
-Fix: sync NTP — `sudo sntp -sS time.apple.com` (macOS) or `w32tm /resync` (Windows).
+Fix: sync NTP - `sudo sntp -sS time.apple.com` (macOS) or `w32tm /resync` (Windows).
 
 ### Exercise:
 
@@ -264,7 +264,7 @@ Fix: sync NTP — `sudo sntp -sS time.apple.com` (macOS) or `w32tm /resync` (Win
 
 ---
 
-## Part 4 — Hands-On: Install on Your Laptop
+## Part 4 - Hands-On: Install on Your Laptop
 
 ### Exercise:
 
@@ -300,7 +300,7 @@ capsule auth storage  # complete the browser flow
 capsule list | head -10
 ```
 
-**Deliverables — paste into your lab notes:**
+**Deliverables - paste into your lab notes:**
 
 1. Output of `capsule --version`
 2. Output of `capsule status` (redact your full email if sharing)
@@ -311,36 +311,36 @@ If any step failed, jump to Part 5 for the gotcha table.
 
 ---
 
-## Part 5 — Core Concepts: Four Common Gotchas
+## Part 5 - Core Concepts: Four Common Gotchas
 
-### Reading —
+### Reading -
 
-These are the four most common support questions after a new install. Memorize them — you'll answer at least one of these per week of the internship.
+These are the four most common support questions after a new install. Memorize them; you'll answer at least one of these per week of the internship.
 
 **Gotcha 1: `capsule: command not found`**
 
 - **Symptom:** `zsh: command not found: capsule` or `bash: capsule: command not found`
-- **Cause:** The install directory is not on PATH. brew may have printed "capsule was successfully installed but may not be linked" — or you installed but haven't restarted the shell.
-- **Fix:** `source ~/.zshrc` or `source ~/.bashrc`, or open a new terminal window. If still not found: `echo $PATH` — verify `/usr/local/bin` (Intel Mac) or `/opt/homebrew/bin` (Apple Silicon) is included.
+- **Cause:** The install directory is not on PATH. brew may have printed "capsule was successfully installed but may not be linked"; or you installed but haven't restarted the shell.
+- **Fix:** `source ~/.zshrc` or `source ~/.bashrc`, or open a new terminal window. If still not found: `echo $PATH` - verify `/usr/local/bin` (Intel Mac) or `/opt/homebrew/bin` (Apple Silicon) is included.
 
 **Gotcha 2: `capsule auth login` browser doesn't open**
 
 - **Symptom:** The command runs but no browser opens; it prints a URL but hangs.
 - **Cause:** Headless terminal (remote SSH session, tmux with no display), or browser association is broken.
-- **Fix:** Use the manual token fallback — `capsule auth login` prints a URL (`https://oxmiq.ai/oxcapsule/auth`); open it in any browser, complete auth, and paste the returned token back into the CLI. In CI, set `CAPSULE_AUTH_TOKEN` instead.
+- **Fix:** Use the manual token fallback - `capsule auth login` prints a URL (`https://oxmiq.ai/oxcapsule/auth`); open it in any browser, complete auth, and paste the returned token back into the CLI. In CI, set `CAPSULE_AUTH_TOKEN` instead.
 
 **Gotcha 3: `capsule status` shows "unauthorized" after successful login**
 
 - **Symptom:** `capsule status` shows "Token expired" or "Unauthorized" immediately after `capsule auth login` succeeded.
 - **Cause:** System clock is skewed by more than 5 minutes from UTC. The token is technically valid locally but fails server-side validation.
-- **Diagnosis:** `date -u` — compare to actual UTC time.
+- **Diagnosis:** `date -u` - compare to actual UTC time.
 - **Fix:** Sync NTP: `sudo sntp -sS time.apple.com` (macOS) or `sudo ntpdate -s time.nist.gov` (Linux).
 
 **Gotcha 4: connection hangs after `capsule term`**
 
 - **Symptom:** `capsule term <config-tag>` prints "connecting..." and hangs indefinitely.
 - **Cause:** Corporate proxy is intercepting the WebRTC / SSH traffic. Capsule SshRTC uses non-standard ports that some proxies block.
-- **Diagnosis:** Check `echo $HTTPS_PROXY` — if set, it may be blocking Capsule's traffic.
+- **Diagnosis:** Check `echo $HTTPS_PROXY`; if set, it may be blocking Capsule's traffic.
 - **Fix:** Set `HTTPS_PROXY` to your organization's proxy if needed, or ask IT to whitelist `*.oxmiq.ai` and `*.capsuleapp.cloud`. As a fallback: `capsule term <config-tag> --direct` bypasses WebRTC.
 
 ### Exercise:
@@ -356,7 +356,7 @@ For each gotcha, fill in this table from memory (no notes):
 
 ---
 
-## Part 6 — Hands-On: Gotcha Reproduction Lab
+## Part 6 - Hands-On: Gotcha Reproduction Lab
 
 ### Exercise:
 
@@ -381,9 +381,9 @@ Reproduce three of the four gotchas deliberately and fix them. You will remember
 2. Run `capsule status`. Observe the unauthorized error.
 3. Fix: re-enable automatic time sync. Run `sudo sntp -sS time.apple.com`.
 4. Confirm `capsule status` works again.
-5. **Important:** Re-enable automatic time sync — don't leave it off.
+5. **Important:** Re-enable automatic time sync; don't leave it off.
 
-**Reproduce Gotcha 4 (8 min — simulate):**
+**Reproduce Gotcha 4 (8 min - simulate):**
 
 1. Set a bad proxy: `export HTTPS_PROXY=http://127.0.0.1:9999`
 2. Attempt to connect: `capsule term <your-dev-node-config-tag>`. Observe the hang or error.
@@ -392,19 +392,19 @@ Reproduce three of the four gotchas deliberately and fix them. You will remember
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 ### Self-check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-07-m3-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 34 · Capsule Install &amp; Auth">
+<div class="ox-self-check" data-widget="self-check" data-id="week-07-m3-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 33 · Capsule Install &amp; Auth">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
     "stem": "You're authenticating Capsule on a headless server with no browser. What does `capsule auth login` do?",
     "options": [
-      "It fails — Capsule can only authenticate from a machine with a browser",
+      "It fails; Capsule can only authenticate from a machine with a browser",
       "It falls back to a manual token flow: it prints a URL you open on any browser, then you paste the returned token back into the CLI (or you set `CAPSULE_AUTH_TOKEN`)",
       "It generates a device-specific license key that never expires",
       "It silently logs you in as an anonymous user"
@@ -432,7 +432,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Both tokens have the same TTL of 24 hours"
     ],
     "answer": 1,
-    "explain": "Access tokens are short-lived (typically hours) for security — if stolen, they expire quickly. Refresh tokens are long-lived (days to weeks) and are used to obtain new access tokens without re-authenticating. This pattern minimizes the window for access token misuse while maintaining session continuity."
+    "explain": "Access tokens are short-lived (typically hours) for security; if stolen, they expire quickly. Refresh tokens are long-lived (days to weeks) and are used to obtain new access tokens without re-authenticating. This pattern minimizes the window for access token misuse while maintaining session continuity."
   },
   {
     "stem": "What is the first diagnostic step when a Capsule command appears stuck or hangs?",
@@ -449,23 +449,23 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "Which of the following is a common install gotcha for Capsule on Linux?",
     "options": [
       "Capsule requires Python 3.11 or higher",
-      "PATH not updated after install — `capsule` command not found until the shell is restarted or PATH is sourced",
+      "PATH not updated after install: `capsule` command not found until the shell is restarted or PATH is sourced",
       "Capsule requires a GPU in the local machine for installation",
       "Capsule must be installed as root"
     ],
     "answer": 1,
-    "explain": "A common install gotcha: the install script adds Capsule to a PATH directory but the current shell session doesn't see it yet. Fix: run `source ~/.bashrc` (or `~/.zshrc`) or open a new terminal. This is one of the four gotchas the lesson enumerates — check the gotchas table for the full list."
+    "explain": "A common install gotcha: the install script adds Capsule to a PATH directory but the current shell session doesn't see it yet. Fix: run `source ~/.bashrc` (or `~/.zshrc`) or open a new terminal. This is one of the four gotchas the lesson enumerates; check the gotchas table for the full list."
   },
   {
     "stem": "Which four GitHub token (GH_TOKEN) scopes does the Capsule install require, and why?",
     "options": [
-      "`repo` only — nothing else is needed",
+      "`repo` only: nothing else is needed",
       "`repo`, `read:org`, `workflow`, `admin:repo_hook`",
       "`repo` (read the private tap + release downloads), `read:org` (verify org membership), `workflow` (workflow-triggered releases), and `user` (read the profile for identity)",
       "No token is needed; the tap is public"
     ],
     "answer": 2,
-    "explain": "Part 2 ('Requires GH_TOKEN during tap'): the software-packages repo is private, so `brew tap` authenticates with a PAT carrying `repo`, `read:org`, `workflow`, and `user`. The token is used only at install/update time, not at runtime — runtime auth is Azure B2C via `capsule auth login`."
+    "explain": "Part 2 ('Requires GH_TOKEN during tap'): the software-packages repo is private, so `brew tap` authenticates with a PAT carrying `repo`, `read:org`, `workflow`, and `user`. The token is used only at install/update time, not at runtime; runtime auth is Azure B2C via `capsule auth login`."
   },
   {
     "stem": "What is the exact post-install command sequence to verify a working Capsule install?",
@@ -487,7 +487,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Capsule uses it under the hood for cloud storage mounts (OneDrive); you never call it directly, but it must be on PATH"
     ],
     "answer": 3,
-    "explain": "Part 2 ('Installs rclone alongside') and Part 1: rclone is a file-transfer tool Capsule uses under the hood for OneDrive cloud-storage mounts. `capsule auth storage` and the automatic OneDrive mount drive it — you never invoke it directly — but it must be on PATH. The brew formula installs it automatically on macOS."
+    "explain": "Part 2 ('Installs rclone alongside') and Part 1: rclone is a file-transfer tool Capsule uses under the hood for OneDrive cloud-storage mounts. `capsule auth storage` and the automatic OneDrive mount drive it, you never invoke it directly, but it must be on PATH. The brew formula installs it automatically on macOS."
   },
   {
     "stem": "`capsule status` reports 'unauthorized' immediately after a successful `capsule auth login`. What is the most likely cause?",
@@ -498,7 +498,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "You must reinstall the CLI from scratch"
     ],
     "answer": 1,
-    "explain": "Part 3 and Gotcha 3 in Part 5: clock skew causes silent auth failures — if the system clock is more than ~5 minutes ahead of UTC the access token is rejected server-side even though it looks valid locally. Diagnose with `date -u` against real UTC; fix by syncing NTP (`sudo sntp -sS time.apple.com` on macOS, `w32tm /resync` on Windows)."
+    "explain": "Part 3 and Gotcha 3 in Part 5: clock skew causes silent auth failures; if the system clock is more than ~5 minutes ahead of UTC the access token is rejected server-side even though it looks valid locally. Diagnose with `date -u` against real UTC; fix by syncing NTP (`sudo sntp -sS time.apple.com` on macOS, `w32tm /resync` on Windows)."
   }
 ]
 </script>
@@ -506,11 +506,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-You've installed the tool. The next two days build the daily workflow: environments and fleet discovery (Day 35), and then the Week 7 Friday wrap (Day 36) to cement everything before Week 8's operational deep-dives.
+You've installed the tool. The next two days build the daily workflow: environments and fleet discovery (Day 34), and then the Week 7 Friday wrap (Day 35) to cement everything before Week 8's operational deep-dives.
 
-### Pre-read for tomorrow (Day 35 · Environments & Fleet Discovery)
+### Pre-read for tomorrow (Day 34 · Environments & Fleet Discovery)
 
-- **Resource:** <a href="../../../readings/capsule/#day-37-environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading — Day 37 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
+- **Resource:** <a href="../../../readings/capsule/#day-37-environments-fleet-discovery">Capsule Power-User Pre-Lecture Reading - Day 37 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-3-environments-customers-and-why-your-fleet-looks-wrong">Capsule Lab Guide</a> Module 3.
 - **Reflection questions:**
   1. How do you list available machines? What command shows machine details?
   2. What fields distinguish an `available` machine from a `leased` one?

@@ -141,7 +141,7 @@
       if (user) {
         var who = user.email || (user.user_metadata && user.user_metadata.user_name) || 'you';
         bar.appendChild(el('span', { class: 'ox-self-check__auth-status',
-          text: '✓ Signed in as ' + who + ' — your attempts are recorded for your instructor.' }));
+          text: '✓ Signed in as ' + who + '. Your attempts are recorded.' }));
       } else {
         bar.appendChild(el('span', { class: 'ox-self-check__auth-status',
           text: 'Sign in to record this attempt (kept in your progress history).' }));

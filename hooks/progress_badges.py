@@ -103,7 +103,7 @@ def on_config(config, **_kwargs):  # type: ignore[no-untyped-def]
         summary = {}
 
     # Defaults so the header template never blows up on missing keys.
-    summary.setdefault("overall", {"completed": 0, "total": 51, "percent": 0})
+    summary.setdefault("overall", {"completed": 0, "total": 50, "percent": 0})
     summary.setdefault("weeks", {})
     summary.setdefault("modules", {})
 

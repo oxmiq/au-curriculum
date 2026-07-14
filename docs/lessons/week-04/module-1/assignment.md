@@ -1,4 +1,4 @@
-# Week 4 — Scaling & Stacks · Module Assignment
+# Week 4 - Scaling & Stacks · Module Assignment
 
 
 ## What you submit
@@ -30,18 +30,18 @@ A **serving-system design document** (1–2 pages) for the scenario below, plus 
 - Parallelism choice is **TP = 8** (with one-sentence justification noting NVLink).
 - Engine choice is defended on workload fit, not popularity.
 - The optimization stack is ordered by **impact** (FP8 weights before speculative, KV-FP8 before all-out INT4 weights).
-- The numerical verdict is **honest** — if you don't make the SLO, say what relaxation you'd negotiate (P99 → P95? throughput → 40 req/s? smaller model?).
+- The numerical verdict is **honest**; if you don't make the SLO, say what relaxation you'd negotiate (P99 → P95? throughput → 40 req/s? smaller model?).
 
 ## Grading
 
-- All 6 sections present — pass on each.
-- Numbers internally consistent — pass.
-- Verdict is honest (no over-claiming) — pass.
+- All 6 sections present: pass on each.
+- Numbers internally consistent: pass.
+- Verdict is honest (no over-claiming): pass.
 - Need 5/6 sections passing to pass the assignment.
 
 ## Reference solution
 
-Worksheets Appendix C in `planning/source-material/Inference Engineering/` has a worked example for the *same* scenario at FP8 + speculative decoding, hitting both SLOs. Use it to calibrate after you've drafted yours — not before.
+Worksheets Appendix C in `planning/source-material/Inference Engineering/` has a worked example for the *same* scenario at FP8 + speculative decoding, hitting both SLOs. Use it to calibrate after you've drafted yours: not before.
 
 ## Why this assignment exists
 

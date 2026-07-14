@@ -18,13 +18,13 @@ validation:
 theme:
   name: material
   custom_dir: overrides             # Phase B: right-side header actions + status pill
-  font: false                       # self-host Oxygen / Oxygen Mono (see stylesheets/oxblood.css) — offline-safe
+  font: false                       # self-host Oxygen / Oxygen Mono (see stylesheets/oxblood.css): offline-safe
   logo: assets/OXMIQ-logo-white.png
   favicon: assets/OXMIQ-logo-oxblood.png
   palette:
     scheme: default                 # light; cream + oxblood applied via oxblood.css
   features:
-    - navigation.tabs               # verb-style top tabs (Home · Learn · Plan · Reference · My Progress)
+    - navigation.tabs               # verb-style top tabs (Home · Learn · Plan · Reference)
     - navigation.tabs.sticky        # keep the tab strip pinned while scrolling lessons
     - navigation.sections
     - navigation.top
@@ -46,6 +46,7 @@ extra_javascript:
   - assets/widgets/self-check.js    # ox-self-check MCQ formative widget
   - assets/readings-newtab.js       # open standalone reading/reference pages in a new tab
   - assets/embed-autosize.js        # grow document-flow kb/*.html embeds to their content height
+  - assets/roadmap-progress.js      # overlay student progress onto the roadmap sitemap
 
 markdown_extensions:
   - admonition
@@ -70,7 +71,7 @@ nav:
       - Why this curriculum: rationale.md
   - Learn:
       - Curriculum: curriculum.md
-      - "Week 1 — Orientation & Foundations":
+      - "Week 1 - Orientation & Foundations":
           - Overview: lessons/week-01/index.md
           - "Day 1 · Welcome & Context": lessons/week-01/module-1/index.md
           - "Day 2 · Shell & Linux": lessons/week-01/module-2/index.md
@@ -78,7 +79,7 @@ nav:
           - "Day 4 · How Computers Run AI": lessons/week-01/module-4/index.md
           - "Day 5 · Consolidation": lessons/week-01/module-5/index.md
           - "Week 1 Knowledge Check": lessons/week-01/module-5/knowledge-check.md
-      - "Week 2 — The GPU & Memory":
+      - "Week 2 - The GPU & Memory":
           - Overview: lessons/week-02/index.md
           - "Day 6 · What Happens When You Send a Prompt": lessons/week-02/module-1/index.md
           - "Day 7 · Meet the GPU": lessons/week-02/module-2/index.md
@@ -86,7 +87,7 @@ nav:
           - "Day 9 · Compute-Bound vs Memory-Bound": lessons/week-02/module-4/index.md
           - "Day 10 · Consolidation": lessons/week-02/module-5/index.md
           - "Week 2 Knowledge Check": lessons/week-02/module-5/knowledge-check.md
-      - "Week 3 — Attention & KV Cache":
+      - "Week 3 - Attention & KV Cache":
           - Overview: lessons/week-03/index.md
           - "Day 11 · Prefill vs Decode": lessons/week-03/module-1/index.md
           - "Day 12 · KV Cache": lessons/week-03/module-2/index.md
@@ -94,7 +95,7 @@ nav:
           - "Day 14 · Quantization": lessons/week-03/module-4/index.md
           - "Day 15 · Consolidation": lessons/week-03/module-5/index.md
           - "Week 3 Knowledge Check": lessons/week-03/module-5/knowledge-check.md
-      - "Week 4 — Scaling & Stacks":
+      - "Week 4 - Scaling & Stacks":
           - Overview: lessons/week-04/index.md
           - "Day 16 · Multi-GPU Parallelism": lessons/week-04/module-1/index.md
           - "Day 17 · Pipeline Parallelism + MoE": lessons/week-04/module-2/index.md
@@ -102,7 +103,7 @@ nav:
           - "Day 19 · vLLM Introduction": lessons/week-04/module-4/index.md
           - "Day 20 · Consolidation": lessons/week-04/module-5/index.md
           - "Week 4 Knowledge Check": lessons/week-04/module-5/knowledge-check.md
-      - "Week 5 — Metrics & Production":
+      - "Week 5 - Metrics & Production":
           - Overview: lessons/week-05/index.md
           - "Day 21 · Latency vs Throughput": lessons/week-05/module-1/index.md
           - "Day 22 · Production Deployment": lessons/week-05/module-2/index.md
@@ -110,7 +111,7 @@ nav:
           - "Day 24 · Inference Economics": lessons/week-05/module-4/index.md
           - "Day 25 · Consolidation + Phase 1 Problem Set": lessons/week-05/module-5/index.md
           - "Week 5 Knowledge Check": lessons/week-05/module-5/knowledge-check.md
-      - "Week 6 — Prompt Engineering + AI Agents":
+      - "Week 6 - Prompt Engineering + AI Agents":
           - Overview: lessons/week-06/index.md
           - "Day 26 · Prompt Engineering": lessons/week-06/module-1/index.md
           - "Day 27 · Agent Fundamentals": lessons/week-06/module-2/index.md
@@ -118,7 +119,7 @@ nav:
           - "Day 29 · Governance": lessons/week-06/module-4/index.md
           - "Day 30 · Orchestration + Consolidation + Phase 2 Assessment": lessons/week-06/module-5/index.md
           - "Week 6 Knowledge Check": lessons/week-06/module-5/knowledge-check.md
-      - "Week 7 — Bridge: Theory Meets Tooling":
+      - "Week 7 - Bridge: Theory Meets Tooling":
           - Overview: lessons/week-07/index.md
           - "Day 31 · Agent Case Studies": lessons/week-07/module-1/index.md
           - "Day 32 · Capsule Foundations": lessons/week-07/module-2/index.md
@@ -126,7 +127,7 @@ nav:
           - "Day 34 · Environments": lessons/week-07/module-4/index.md
           - "Day 35 · Consolidation": lessons/week-07/module-5/index.md
           - "Week 7 Knowledge Check": lessons/week-07/module-5/knowledge-check.md
-      - "Week 8 — Capsule: Connections & Operations":
+      - "Week 8 - Capsule: Connections & Operations":
           - Overview: lessons/week-08/index.md
           - "Day 36 · Connecting": lessons/week-08/module-1/index.md
           - "Day 37 · Files & Storage": lessons/week-08/module-2/index.md
@@ -134,7 +135,7 @@ nav:
           - "Day 39 · Known Quirks": lessons/week-08/module-4/index.md
           - "Day 40 · Consolidation": lessons/week-08/module-5/index.md
           - "Week 8 Knowledge Check": lessons/week-08/module-5/knowledge-check.md
-      - "Week 9 — Capsule: Benchmarking & Eval":
+      - "Week 9 - Capsule: Benchmarking & Eval":
           - Overview: lessons/week-09/index.md
           - "Day 41 · Benchmarking": lessons/week-09/module-1/index.md
           - "Day 42 · Model Evaluation": lessons/week-09/module-2/index.md
@@ -142,7 +143,7 @@ nav:
           - "Day 44 · Scheduling & MCP": lessons/week-09/module-4/index.md
           - "Day 45 · Consolidation": lessons/week-09/module-5/index.md
           - "Week 9 Knowledge Check": lessons/week-09/module-5/knowledge-check.md
-      - "Week 10 — Capstone Project":
+      - "Week 10 - Capstone Project":
           - Overview: lessons/week-10/index.md
           - "Day 46 · Kickoff & Planning": lessons/week-10/module-1/index.md
           - "Day 47 · Execute": lessons/week-10/module-2/index.md
@@ -152,13 +153,9 @@ nav:
   - Plan:
       - Roadmap: roadmap.md
       - Interactive Concept Graph: kb/interactive-graph.md
-      - Curriculum Map: kb/graph.md
-      - Dependency Graph: kb/edge-graph.md
   - Reference:
       - Glossary: kb/glossary.md
       - Concepts: kb/concepts.md
-  - My Progress:
-      - Timeline: kb/timeline.md
 
 # Phase D: build-time hook that swaps {status:week-XX/module-Y} tokens with
 # status pills derived from docs/progress/summary.json, and emits
@@ -169,8 +166,8 @@ hooks:
 # Linked from lesson pages, intentionally not a sidebar entry.
 # The kb/ views are self-contained *.html documents embedded (via a full-bleed
 # iframe) inside thin Markdown wrapper pages (kb/*.md) so they inherit the site
-# header, tabs and nav; those wrappers ARE the nav entries (Plan / Reference /
-# My Progress tabs) and the raw *.html files are treated as static embeds.
+# header, tabs and nav; those wrappers ARE the nav entries (Plan / Reference
+# tabs) and the raw *.html files are treated as static embeds.
 # Per-day knowledge checks are reached from their lesson pages rather than the
 # sidebar, so they are listed here to keep `mkdocs build` quiet instead of
 # emitting "exists but not in nav" notices that read like errors.

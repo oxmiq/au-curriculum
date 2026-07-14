@@ -6,24 +6,24 @@
 
 A **team presentation + design document** for a complete agent system you've designed (not necessarily fully built) for a real problem. Two pieces:
 
-### Artifact 1 — Design document (3–5 pages)
+### Artifact 1 - Design document (3–5 pages)
 
 Required sections:
 
 1. **Problem statement.** What user-facing task does this agent solve? Who's the user?
 2. **Why an agent.** Justify vs a single-shot prompt or a deterministic pipeline. Cite the Day 27 "assistant vs agent" rubric.
 3. **The 5-layer map** (Day 30 rubric):
-   - **Foundation layer** — model choice + inference backend (Phase 1 connection). Defend with TTFT/cost/quality numbers.
-   - **Reasoning layer** — prompt structure, CoT/few-shot, schema, guardrails (Day 26).
-   - **Action layer** — tools (read/write split), schemas, MCP if applicable (Day 28).
-   - **Governance layer** — least-privilege, audit, human-in-loop, defenses against EchoLeak-class attacks (Day 29).
-   - **Orchestration layer** — single, planner-worker, or supervisor-worker; why (Day 30).
+   - **Foundation layer** - model choice + inference backend (Phase 1 connection). Defend with TTFT/cost/quality numbers.
+   - **Reasoning layer** - prompt structure, CoT/few-shot, schema, guardrails (Day 26).
+   - **Action layer** - tools (read/write split), schemas, MCP if applicable (Day 28).
+   - **Governance layer** - least-privilege, audit, human-in-loop, defenses against EchoLeak-class attacks (Day 29).
+   - **Orchestration layer** - single, planner-worker, or supervisor-worker; why (Day 30).
 4. **Reliability budget.** Per-step expected reliability, max steps, end-to-end success target. Show the multiplication.
 5. **Cost model.** Calls per task × $/call × tasks/month. Justify the spend.
 6. **Failure-mode analysis.** Three plausible failure modes, three mitigations. Include at least one *security* failure mode.
 7. **What you'd build vs ship.** Honest: would you put this in production today? What's gating?
 
-### Artifact 2 — 15-minute team presentation
+### Artifact 2 - 15-minute team presentation
 
 Live walkthrough of the design document for the cohort + instructor. Each team member must own and present at least one of the 5 layers.
 
@@ -33,11 +33,11 @@ Live walkthrough of the design document for the cohort + instructor. Each team m
 
 Pick one, or propose your own:
 
-- **Capsule onboarding helper** — agent that walks a new user through environment selection, model deploy, first benchmark (preps Weeks 8–9).
-- **Curriculum study buddy** — agent over the AU-curriculum content that handles quiz remediation, progress tracking, scheduling practice.
-- **Incident triage** — agent that ingests an alert, queries logs, classifies, drafts a postmortem.
-- **PR reviewer** — agent that reads a PR, runs lint/tests via tools, leaves structured comments.
-- **Research summarizer** — agent that scrapes papers, extracts claims, builds a comparison table.
+- **Capsule onboarding helper** - agent that walks a new user through environment selection, model deploy, first benchmark (preps Weeks 8–9).
+- **Curriculum study buddy** - agent over the AU-curriculum content that handles quiz remediation, progress tracking, scheduling practice.
+- **Incident triage** - agent that ingests an alert, queries logs, classifies, drafts a postmortem.
+- **PR reviewer** - agent that reads a PR, runs lint/tests via tools, leaves structured comments.
+- **Research summarizer** - agent that scrapes papers, extracts claims, builds a comparison table.
 
 ## Grading rubric
 
@@ -55,4 +55,4 @@ Pick one, or propose your own:
 
 ## Why this assignment exists
 
-This is **the integration test of Phases 1+2**. Phase 1 gave you the foundation, Phase 2 gave you prompts + agents. Designing a real system end-to-end is the only way to know if those parts compose. By Week 8 you'll be standing on Capsule machines — having drawn the architecture for what you'll later actually build.
+This is **the integration test of Phases 1+2**. Phase 1 gave you the foundation, Phase 2 gave you prompts + agents. Designing a real system end-to-end is the only way to know if those parts compose. By Week 8 you'll be standing on Capsule machines: having drawn the architecture for what you'll later actually build.

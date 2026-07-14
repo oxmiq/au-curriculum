@@ -1,7 +1,7 @@
 # Day 21 · Metrics That Matter
 
 > **Concept of the day:** **TTFT, ITL/TPS, throughput, percentiles (P50/P95/P99)**. Means lie; percentiles tell the truth. **Goodhart's Law:** once a metric becomes a target it stops being a good metric.<br>
-> **Pre-reading:** "Latency vs throughput in LLM serving" — <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale — LLM Inference Performance</a>.
+> **Pre-reading:** "Latency vs throughput in LLM serving" - <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale - LLM Inference Performance</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 5 — Metrics &amp; Production</a>
+    <a href="../">Week 5 - Metrics &amp; Production</a>
     <span class="sep">/</span>
     <span>Day 21 · Latency vs Throughput</span>
     {status:week-05/module-1}
@@ -35,17 +35,17 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Why Metrics Matter
+## Part 1 - Why Metrics Matter
 
 ### Before You Start
 
-You should have already read: <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale — Latency vs Throughput in LLM Serving</a>.
+You should have already read: <a href="https://www.anyscale.com/blog/llm-inference-performance" target="_blank" rel="noopener">Anyscale - Latency vs Throughput in LLM Serving</a>.
 
 ### Readiness Check
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-05-m1-readiness" data-kind="readiness" data-draw="5" data-source="Anyscale — Latency vs Throughput in LLM Serving">
+<div class="ox-self-check" data-widget="self-check" data-id="week-05-m1-readiness" data-kind="readiness" data-draw="5" data-source="Anyscale - Latency vs Throughput in LLM Serving">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -101,7 +101,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Users only care about the slowest requests"
     ],
     "answer": 1,
-    "explain": "Average latency hides outliers. P99 (99th percentile) latency shows the experience of the slowest 1% of requests — this is what most user-facing SLOs target because it reflects the actual user experience for a significant fraction of users."
+    "explain": "Average latency hides outliers. P99 (99th percentile) latency shows the experience of the slowest 1% of requests; this is what most user-facing SLOs target because it reflects the actual user experience for a significant fraction of users."
   },
   {
     "stem": "What is the primary driver of ITL (Inter-Token Latency)?",
@@ -112,7 +112,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "Network latency"
     ],
     "answer": 2,
-    "explain": "ITL is driven by decode speed — how fast the model can generate each subsequent token after the first. This is memory-bandwidth bound (reading KV caches) rather than compute-bound like prefill."
+    "explain": "ITL is driven by decode speed: how fast the model can generate each subsequent token after the first. This is memory-bandwidth bound (reading KV caches) rather than compute-bound like prefill."
   },
   {
     "stem": "What is continuous batching in LLM serving?",
@@ -134,7 +134,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "A failed deployment"
     ],
     "answer": 1,
-    "explain": "High throughput with high latency typically indicates a system optimizing for batch processing — accepting many concurrent requests (large batch sizes) which maximizes GPU utilization but increases individual request latency."
+    "explain": "High throughput with high latency typically indicates a system optimizing for batch processing: accepting many concurrent requests (large batch sizes) which maximizes GPU utilization but increases individual request latency."
   }
 ]
 </script>
@@ -142,7 +142,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ### Reading
 
-Every decision in Weeks 2–4 — TP size, engine, FP8 — is justified by *some* metric improving. If you measure the wrong number, or the wrong percentile, you ship the wrong system. This day is when "fast" stops being a feeling and becomes a number with a percentile attached.
+Every decision in Weeks 2–4, TP size, engine, FP8, is justified by *some* metric improving. If you measure the wrong number, or the wrong percentile, you ship the wrong system. This day is when "fast" stops being a feeling and becomes a number with a percentile attached.
 
 ### Reflection (write your answer)
 
@@ -151,8 +151,8 @@ Take 2 minutes to write down:
 
 ---
 
-## Part 2 — Deep Dive — The Metric Vocabulary
-### Reading — Latency Metrics (Per Request)
+## Part 2 - Deep Dive - The Metric Vocabulary
+### Reading - Latency Metrics (Per Request)
 
 | Metric | What it Measures | Driven By |
 |--------|-----------------|-----------|
@@ -161,7 +161,7 @@ Take 2 minutes to write down:
 | **TPS** (Tokens Per Second) | 1000 / ITL_ms | Decode speed |
 | **End-to-end Latency** | Request received → response complete | TTFT + output_tokens × ITL |
 
-### Reading — Throughput Metrics (Per System)
+### Reading - Throughput Metrics (Per System)
 
 | Metric | What it Measures |
 |--------|-----------------|
@@ -170,19 +170,19 @@ Take 2 minutes to write down:
 | **Concurrency** | In-flight requests at peak |
 | **GPU Utilization** | Tensor Core busy time fraction (compute) and HBM bandwidth fraction (memory) |
 
-### Reading — Percentile Metrics
+### Reading - Percentile Metrics
 
 Mean latency hides outliers. Real reporting uses **percentiles**:
 
-- **P50 (median)** — typical request.
-- **P95** — 1 in 20 requests slower than this.
-- **P99** — 1 in 100 requests slower. **Most user-experience SLOs are P99.**
+- **P50 (median)** - typical request.
+- **P95** - 1 in 20 requests slower than this.
+- **P99** - 1 in 100 requests slower. **Most user-experience SLOs are P99.**
 
 > **Rule of thumb:** P99 / P50 ratio > 5× means you have a queueing or batching issue.
 
 ---
 
-## Part 3 — Hands-On — Percentile Calculations
+## Part 3 - Hands-On - Percentile Calculations
 ### Exercise 1: Calculate Percentiles
 
 Given the following latency distribution (in milliseconds):
@@ -209,7 +209,7 @@ Look at the distribution above. The value `5000` ms (5 seconds) represents a col
 
 ---
 
-## Part 4 — Hands-On — Latency vs Throughput Tradeoff
+## Part 4 - Hands-On - Latency vs Throughput Tradeoff
 ### Exercise 1: Sketch the Frontier
 
 Draw a coordinate system with:
@@ -218,8 +218,8 @@ Draw a coordinate system with:
 
 Sketch two curves:
 
-1. **P50 Latency** curve — typically decreases slightly then increases as batch size grows
-2. **P99 Latency** curve — stays low initially, then spikes dramatically at high load
+1. **P50 Latency** curve - typically decreases slightly then increases as batch size grows
+2. **P99 Latency** curve - stays low initially, then spikes dramatically at high load
 
 **Mark the point** where the system transitions from "healthy" to "overloaded."
 
@@ -237,8 +237,8 @@ Sketch two curves:
 
 ---
 
-## Part 5 — Discussion — Goodhart Traps
-### Reading — Goodhart's Law
+## Part 5 - Discussion - Goodhart Traps
+### Reading - Goodhart's Law
 
 > *"When a measure becomes a target, it ceases to be a good measure."*
 
@@ -255,7 +255,7 @@ Pick two products from this list:
 For each product:
 
 1. Name the **top-two metrics** you'd track
-2. Identify **one Goodhart trap** — what could go wrong if you optimized only for that metric?
+2. Identify **one Goodhart trap**: what could go wrong if you optimized only for that metric?
 
 ### Discussion Prompt
 
@@ -267,7 +267,7 @@ Think about:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### What to Measure Per Workload
 
 | Workload | Top-Priority Metric |
@@ -309,57 +309,57 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "For code completion (e.g., GitHub Copilot-style), what is the top-priority latency metric and why?",
     "options": [
-      "Aggregate TPS — because code generation needs to be fast overall",
-      "P99 TTFT with a very tight target (< 200 ms) — because users expect instant inline completions and any delay breaks the typing flow",
-      "Cost per million tokens — because code assistants are used frequently",
-      "GPU utilization — because maximum hardware usage minimizes per-user cost"
+      "Aggregate TPS: because code generation needs to be fast overall",
+      "P99 TTFT with a very tight target (< 200 ms): because users expect instant inline completions and any delay breaks the typing flow",
+      "Cost per million tokens: because code assistants are used frequently",
+      "GPU utilization: because maximum hardware usage minimizes per-user cost"
     ],
     "answer": 1,
-    "explain": "Code completion has the tightest TTFT requirement of any workload — the IDE must respond before the user's next keystroke. The lesson's table shows: 'Code completion: P99 TTFT (very tight, < 200 ms).' Even TPS matters less if the first suggestion appears slowly."
+    "explain": "Code completion has the tightest TTFT requirement of any workload; the IDE must respond before the user's next keystroke. The lesson's table shows: 'Code completion: P99 TTFT (very tight, < 200 ms).' Even TPS matters less if the first suggestion appears slowly."
   },
   {
     "stem": "What does P99 TTFT mean?",
     "options": [
       "The average TTFT across 99 requests",
-      "The TTFT at the 99th percentile — 99% of requests have lower TTFT, only 1% are slower",
+      "The TTFT at the 99th percentile: 99% of requests have lower TTFT, only 1% are slower",
       "The maximum TTFT ever observed",
       "The TTFT target that 99% of the engineering team agreed to"
     ],
     "answer": 1,
-    "explain": "Pxx percentile means X% of requests complete at or below this value. P99 TTFT = only 1% of requests have higher TTFT. P99 is used instead of average because it captures tail latency — the slow outliers that users actually experience as frustrating, even if the average is good."
+    "explain": "Pxx percentile means X% of requests complete at or below this value. P99 TTFT = only 1% of requests have higher TTFT. P99 is used instead of average because it captures tail latency: the slow outliers that users actually experience as frustrating, even if the average is good."
   },
   {
     "stem": "For batch summarization (e.g., overnight document processing), what is the top-priority metric?",
     "options": [
-      "P99 TTFT — because documents must start processing quickly",
-      "Aggregate throughput (TPS) and cost per million tokens — because the workload is not user-facing and maximizing throughput minimizes cost",
-      "GPU utilization — because batch jobs must run at 100% GPU usage",
-      "Median TTFT — because individual document latency matters"
+      "P99 TTFT: because documents must start processing quickly",
+      "Aggregate throughput (TPS) and cost per million tokens: because the workload is not user-facing and maximizing throughput minimizes cost",
+      "GPU utilization: because batch jobs must run at 100% GPU usage",
+      "Median TTFT: because individual document latency matters"
     ],
     "answer": 1,
-    "explain": "Batch summarization is not interactive — no user waits for individual responses. The goal is to process the largest volume of documents at the lowest cost. The lesson states: 'Batch summarization: Aggregate TPS, cost / 1M tokens.'"
+    "explain": "Batch summarization is not interactive; no user waits for individual responses. The goal is to process the largest volume of documents at the lowest cost. The lesson states: 'Batch summarization: Aggregate TPS, cost / 1M tokens.'"
   },
   {
     "stem": "Why is GPU utilization important as a cost metric?",
     "options": [
       "Higher GPU utilization always means lower latency",
-      "GPU cost is roughly fixed per hour — higher utilization means more tokens generated per dollar of GPU time",
+      "GPU cost is roughly fixed per hour; higher utilization means more tokens generated per dollar of GPU time",
       "GPU utilization determines whether the model runs in FP16 or FP8",
       "Low GPU utilization triggers autoscaling which increases costs"
     ],
     "answer": 1,
-    "explain": "You pay for GPU time regardless of whether the GPU is busy (e.g., $24/hour for an 8×H100 box). If GPU utilization is 20%, you're generating tokens at 20% of capacity — cost per token is 5× higher than at full utilization. Maximizing GPU utilization is the same as minimizing cost per token."
+    "explain": "You pay for GPU time regardless of whether the GPU is busy (e.g., $24/hour for an 8×H100 box). If GPU utilization is 20%, you're generating tokens at 20% of capacity; cost per token is 5× higher than at full utilization. Maximizing GPU utilization is the same as minimizing cost per token."
   },
   {
     "stem": "What is the top-priority metric for an agentic tool-calling workload with multiple back-and-forth turns?",
     "options": [
-      "Aggregate TPS — because agents make many small calls",
-      "P99 TTFT per turn — because agent tools block on each LLM call and latency accumulates across turns",
-      "P99 end-to-end per turn — because the user only cares about each turn completing, not the first token",
-      "GPU utilization — because agents have low concurrency so the GPU may be idle"
+      "Aggregate TPS: because agents make many small calls",
+      "P99 TTFT per turn: because agent tools block on each LLM call and latency accumulates across turns",
+      "P99 end-to-end per turn: because the user only cares about each turn completing, not the first token",
+      "GPU utilization: because agents have low concurrency so the GPU may be idle"
     ],
     "answer": 2,
-    "explain": "The lesson states: 'Agentic tool calls (multi-turn): P99 end-to-end per turn.' Agents run sequentially — each turn must finish before the next tool call starts. End-to-end latency per turn (including both prefill and decode) determines how quickly the agent chain completes."
+    "explain": "The lesson states: 'Agentic tool calls (multi-turn): P99 end-to-end per turn.' Agents run sequentially; each turn must finish before the next tool call starts. End-to-end latency per turn (including both prefill and decode) determines how quickly the agent chain completes."
   },
   {
     "stem": "If a deployment's inter-token latency (ITL) is 25 ms, what is its tokens-per-second (TPS)?",
@@ -400,7 +400,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Pre-read for tomorrow (Day 22 · Production Patterns)
 
-- **Resource:** <a href="https://modal.com/docs/guide/high-performance-llm-inference" target="_blank" rel="noopener">Modal — High-Performance LLM Inference</a> (throughput, latency, cold-start sections). Alternative: <a href="https://huyenchip.com/mlops/" target="_blank" rel="noopener">Chip Huyen — MLOps Guide</a> (serving section).
+- **Resource:** <a href="https://modal.com/docs/guide/high-performance-llm-inference" target="_blank" rel="noopener">Modal - High-Performance LLM Inference</a> (throughput, latency, cold-start sections). Alternative: <a href="https://huyenchip.com/mlops/" target="_blank" rel="noopener">Chip Huyen - MLOps Guide</a> (serving section).
 - **Reflection questions:**
   1. What's the difference between **horizontal** and **vertical** autoscale for LLM serving? Why is horizontal usually preferred?
   2. What's a **warm pool** and why does cold-start hurt LLMs more than other services?
@@ -410,5 +410,5 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**; share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

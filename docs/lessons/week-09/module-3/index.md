@@ -1,14 +1,14 @@
 ---
 drift: |
-  Originally Day 43 of the former Capsule wk9, named "Interactive Evaluation". Now Day 44
+  Originally Day 43 of the former Capsule wk9, named "Interactive Evaluation". Now Day 43
   of the new week (week-09/module-3), renamed "Interactive Chat" in the graph but scope
   is essentially identical. Source-material link paths bumped one level deeper.
 ---
 
-# Day 44 · Interactive Chat (Quality Evaluation)
+# Day 43 · Interactive Chat (Quality Evaluation)
 
-> **Concept of the day:** **throughput is not quality.** A fast config that produces worse answers is a worse config. Use the Capsule chat UI to probe quality *interactively* — both speed (TTFT/ITL felt as a human) and quality (correctness, refusals, hallucinations) — alongside the benchmark numbers.<br>
-> **Pre-reading:** <a href="../../../readings/capsule/#day-43-interactive-evaluation">Capsule Power-User Pre-Lecture Reading — Day 43 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-9-model-evaluation-interactive-chat">Capsule Lab Guide</a> Module 9.
+> **Concept of the day:** **throughput is not quality.** A fast config that produces worse answers is a worse config. Use the Capsule chat UI to probe quality *interactively*, both speed (TTFT/ITL felt as a human) and quality (correctness, refusals, hallucinations), alongside the benchmark numbers.<br>
+> **Pre-reading:** <a href="../../../readings/capsule/#day-43-interactive-evaluation">Capsule Power-User Pre-Lecture Reading - Day 43 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-9-model-evaluation-interactive-chat">Capsule Lab Guide</a> Module 9.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -17,9 +17,9 @@ drift: |
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 9 — Capsule: Benchmarking &amp; Eval</a>
+    <a href="../">Week 9 - Capsule: Benchmarking &amp; Eval</a>
     <span class="sep">/</span>
-    <span>Day 44 · Interactive Chat</span>
+    <span>Day 43 · Interactive Chat</span>
     {status:week-09/module-3}
   </div>
 </div>
@@ -43,11 +43,11 @@ drift: |
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 
-### Reading — Why this matters
+### Reading - Why this matters
 
-It's painfully easy to optimize for the wrong thing. Quantize down to FP8 to hit a throughput target, ship it, watch the model hallucinate medical dosages or refuse benign requests — and now your "fast" config has cost a customer. Today: build the habit of **feeling** the model alongside benchmarking it.
+It's painfully easy to optimize for the wrong thing. Quantize down to FP8 to hit a throughput target, ship it, watch the model hallucinate medical dosages or refuse benign requests; and now your "fast" config has cost a customer. Today: build the habit of **feeling** the model alongside benchmarking it.
 
 ### Exercise: Self-Check
 
@@ -56,7 +56,7 @@ Answer before reading on:
 1. What does the chat UI measure that `report.json` cannot?
 2. What's the difference between *latency you measure* and *latency you feel*?
 3. Name three quality dimensions you can probe interactively.
-4. Why is a 5–10 prompt eval suite enough to *catch regressions* — but not enough to *validate quality*?
+4. Why is a 5–10 prompt eval suite enough to *catch regressions*: but not enough to *validate quality*?
 5. What's the link to Week 6 Day 29 (eval-driven prompting)?
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-09-m3-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Module 9">
@@ -76,13 +76,13 @@ Answer before reading on:
   {
     "stem": "What is 'latency you feel' vs 'latency you measure'?",
     "options": [
-      "They are the same thing — p99 latency",
+      "They are the same thing: p99 latency",
       "'Latency you feel' is how a human experiences streaming (first word, smoothness); 'latency you measure' is p50/p99 numbers in report.json",
       "'Latency you measure' is GPU processing time; 'latency you feel' is network delay",
       "'Latency you feel' is only relevant for video streaming, not text"
     ],
     "answer": 1,
-    "explain": "A p99 TTFT of 380 ms may be acceptable or unacceptable depending on context — you only know when you feel it in the chat UI. Smooth ITL (no stutter) doesn't show up in a percentile number either. Both dimensions matter for real deployment."
+    "explain": "A p99 TTFT of 380 ms may be acceptable or unacceptable depending on context; you only know when you feel it in the chat UI. Smooth ITL (no stutter) doesn't show up in a percentile number either. Both dimensions matter for real deployment."
   },
   {
     "stem": "Why is a 5–10 prompt eval suite enough to CATCH regressions but not to VALIDATE quality?",
@@ -93,7 +93,7 @@ Answer before reading on:
       "Because quality can only be validated by automated benchmarks"
     ],
     "answer": 1,
-    "explain": "A targeted 5–10 prompt suite detects regressions on the specific capabilities you care about — if a prompt that worked before now fails, something changed. But it can't validate general quality, which requires hundreds of prompts spanning diverse topics, refusals, factuality, and edge cases."
+    "explain": "A targeted 5–10 prompt suite detects regressions on the specific capabilities you care about; if a prompt that worked before now fails, something changed. But it can't validate general quality, which requires hundreds of prompts spanning diverse topics, refusals, factuality, and edge cases."
   },
   {
     "stem": "Which of these quality dimensions can you probe interactively in the Capsule chat UI?",
@@ -107,9 +107,9 @@ Answer before reading on:
     "explain": "The chat UI lets you probe: correctness (is the answer right?), refusals (does it refuse benign prompts?), hallucinations (does it invent facts?), tone (does it sound right for the use-case?), and output format (does it produce valid JSON/code/markdown as required?)."
   },
   {
-    "stem": "You optimize a model config for throughput — it's 30% faster but fails your eval suite on medical prompts. What does this tell you?",
+    "stem": "You optimize a model config for throughput; it's 30% faster but fails your eval suite on medical prompts. What does this tell you?",
     "options": [
-      "The eval suite is wrong — throughput is the goal",
+      "The eval suite is wrong; throughput is the goal",
       "A fast config that produces worse answers is a worse config; throughput is not quality",
       "You should ignore the quality failure if throughput is the SLA metric",
       "The model needs more GPU memory"
@@ -118,26 +118,26 @@ Answer before reading on:
     "explain": "Throughput is not quality. A faster config that hallucinates medical dosages or refuses benign requests is a worse deployment, not a better one. Always evaluate both performance AND quality before shipping a config change."
   },
   {
-    "stem": "What is the connection between Day 44 (Interactive Chat) and Week 6 Day 29 (eval-driven prompting)?",
+    "stem": "What is the connection between Day 43 (Interactive Chat) and Week 6 Day 29 (eval-driven prompting)?",
     "options": [
-      "Day 29 introduced API calls; Day 44 introduces the chat UI",
-      "Day 29 taught evaluating outputs to iterate on prompts; Day 44 applies the same evaluation habit to model configs — same skill, different target",
-      "They are unrelated — one is about prompting, the other about infrastructure",
+      "Day 29 introduced API calls; Day 43 introduces the chat UI",
+      "Day 29 taught evaluating outputs to iterate on prompts; Day 43 applies the same evaluation habit to model configs: same skill, different target",
+      "They are unrelated; one is about prompting, the other about infrastructure",
       "Day 44 replaces the techniques from Day 29"
     ],
     "answer": 1,
-    "explain": "In Week 6 you learned to evaluate LLM outputs to improve your prompts. Day 44 applies exactly the same evaluation habit to model configs: pick prompts, judge outputs, iterate. The skill is identical — only the thing being tuned changes (prompt → config)."
+    "explain": "In Week 6 you learned to evaluate LLM outputs to improve your prompts. Day 43 applies exactly the same evaluation habit to model configs: pick prompts, judge outputs, iterate. The skill is identical; only the thing being tuned changes (prompt → config)."
   },
   {
     "stem": "When evaluating two configs side by side in the Capsule chat UI, what is the minimum useful comparison?",
     "options": [
       "Run the same 5 prompts on both configs; compare TTFT felt + answer quality for each",
       "Run 100+ prompts and use automated scoring",
-      "Compare only TTFT — if one feels faster, it's better",
+      "Compare only TTFT; if one feels faster, it's better",
       "Compare GPU utilisation from report.json"
     ],
     "answer": 0,
-    "explain": "The minimum useful comparison: run the same 5 prompts on both configs and compare two things per config — TTFT as felt (subjectively) and answer quality (judged by you). This gives a concrete, fast signal about whether a config change is an improvement."
+    "explain": "The minimum useful comparison: run the same 5 prompts on both configs and compare two things per config: TTFT as felt (subjectively) and answer quality (judged by you). This gives a concrete, fast signal about whether a config change is an improvement."
   },
   {
     "stem": "What does 'streaming smoothness' measure in the chat UI that benchmark numbers miss?",
@@ -148,7 +148,7 @@ Answer before reading on:
       "The network bandwidth between the GPU node and your laptop"
     ],
     "answer": 1,
-    "explain": "ITL p50 might be 18 ms but p99 might be 200 ms — meaning occasional visible stutter in the chat UI. That stutter shows up as a jarring pause in real usage. Benchmark numbers give you percentiles; the chat UI shows you whether those percentiles translate to a smooth experience."
+    "explain": "ITL p50 might be 18 ms but p99 might be 200 ms: meaning occasional visible stutter in the chat UI. That stutter shows up as a jarring pause in real usage. Benchmark numbers give you percentiles; the chat UI shows you whether those percentiles translate to a smooth experience."
   }
 ]
 </script>
@@ -156,19 +156,19 @@ Answer before reading on:
 
 ---
 
-## Part 2 — Core Concepts: What Benchmarks Miss
+## Part 2 - Core Concepts: What Benchmarks Miss
 
-### Reading — The benchmark vs chat comparison
+### Reading - The benchmark vs chat comparison
 
 | Dimension | Benchmark report | Chat UI |
 |---|---|---|
-| TTFT | p50 / p99 number | You *feel* it — how long until first word? |
-| ITL | p50 / p99 number | You *see* it — does it stream smoothly? |
-| Correctness | — | You judge it |
-| Refusals | — | You probe edge cases |
-| Tone / style | — | You feel it |
-| Hallucinations | — | You spot them |
-| Output format | — | You verify it |
+| TTFT | p50 / p99 number | You *feel* it: how long until first word? |
+| ITL | p50 / p99 number | You *see* it: does it stream smoothly? |
+| Correctness | - | You judge it |
+| Refusals | - | You probe edge cases |
+| Tone / style | - | You feel it |
+| Hallucinations | - | You spot them |
+| Output format | - | You verify it |
 
 The benchmark answers "is it fast?" The chat answers "is it any good?"
 
@@ -183,24 +183,24 @@ For each production scenario, identify what the benchmark report would NOT tell 
 
 ---
 
-## Part 3 — Core Concepts: The 5-Prompt Eval Suite
+## Part 3 - Core Concepts: The 5-Prompt Eval Suite
 
-### Reading — Borrow from Week 6 Day 29
+### Reading - Borrow from Week 6 Day 29
 
 Keep a curated set of prompts you run against *every* config change:
 
-1. **A simple correctness probe** — math, fact, code one-liner. Answer should be obvious.
-2. **A refusal probe** — benign-but-edgy request the model shouldn't refuse.
-3. **A safety probe** — clearly out-of-bounds request the model *should* refuse.
-4. **A long-context probe** — give it a doc, ask a specific question deep in it.
-5. **A format probe** — "return JSON with fields x, y, z." Verify schema.
-6. **A reasoning probe** — multi-step word problem.
-7. **A hallucination probe** — ask about something specific & verifiable.
-8. **A tone probe** — ensure it stays in character / register.
+1. **A simple correctness probe** - math, fact, code one-liner. Answer should be obvious.
+2. **A refusal probe** - benign-but-edgy request the model shouldn't refuse.
+3. **A safety probe** - clearly out-of-bounds request the model *should* refuse.
+4. **A long-context probe** - give it a doc, ask a specific question deep in it.
+5. **A format probe** - "return JSON with fields x, y, z." Verify schema.
+6. **A reasoning probe** - multi-step word problem.
+7. **A hallucination probe** - ask about something specific & verifiable.
+8. **A tone probe** - ensure it stays in character / register.
 
 Run all of them. Note pass/fail per prompt. Compare config A vs config B.
 
-This isn't statistical validation — it's a **smoke test**. Enough to catch regressions, not enough to certify production quality (that needs Week 5 Day 23's full eval setup).
+This isn't statistical validation; it's a **smoke test**. Enough to catch regressions, not enough to certify production quality (that needs Week 5 Day 23's full eval setup).
 
 ### Exercise: Write Your First Eval Prompt
 
@@ -219,21 +219,21 @@ Write one prompt for each of the 8 types above, targeting a "code assistant" use
 
 ---
 
-## Part 4 — Deep Dive: Latency You Measure vs Latency You Feel
+## Part 4 - Deep Dive: Latency You Measure vs Latency You Feel
 
-### Reading — The human perception table
+### Reading - The human perception table
 
 | Measured | Felt |
 |---|---|
 | TTFT 380 ms | "feels snappy" |
-| TTFT 1200 ms | "feels sluggish — am I sure I hit enter?" |
+| TTFT 1200 ms | "feels sluggish: am I sure I hit enter?" |
 | ITL 20 ms (50 tok/s) | "comfortable reading pace" |
 | ITL 50 ms (20 tok/s) | "I'm waiting on words" |
-| ITL 8 ms (125 tok/s) | "too fast to read in real time — fine for tools, weird for chat" |
+| ITL 8 ms (125 tok/s) | "too fast to read in real time: fine for tools, weird for chat" |
 
-For human-facing chat, you want both TTFT < ~600 ms *and* ITL roughly matched to reading pace (~30–60 tokens/s). For agent / tool calls, push throughput as high as you can — no human is reading the stream.
+For human-facing chat, you want both TTFT < ~600 ms *and* ITL roughly matched to reading pace (~30–60 tokens/s). For agent / tool calls, push throughput as high as you can; no human is reading the stream.
 
-### Reading — How to evaluate two configs side by side
+### Reading - How to evaluate two configs side by side
 
 1. Spin up config A in one Capsule chat tab.
 2. Spin up config B in a second tab.
@@ -245,23 +245,23 @@ For human-facing chat, you want both TTFT < ~600 ms *and* ITL roughly matched to
 
 Your benchmark shows: Config A: TTFT p99 = 380 ms. Config B: TTFT p99 = 1150 ms.
 
-1. Which would a human notice more — the difference in p99 or p50? Why?
+1. Which would a human notice more: the difference in p99 or p50? Why?
 2. For a streaming chat interface, at what ITL do you expect users to start complaining?
 3. For an autonomous agent making 50 tool calls per task, does TTFT matter much? What does?
 
 ---
 
-## Part 5 — Hands-On: Build Your Eval Suite
+## Part 5 - Hands-On: Build Your Eval Suite
 
 ### Exercise: Finalize Your 8-Prompt Suite
 
-1. Refine the table from Part 3 — make sure every prompt is specific and the pass criterion is binary (pass/fail, not "looks good").
+1. Refine the table from Part 3; make sure every prompt is specific and the pass criterion is binary (pass/fail, not "looks good").
 2. Write out each prompt in full, as you'd type it into a chat UI.
 3. Share your suite with a partner. They should be able to run it without asking you any questions.
 
 ---
 
-## Part 6 — Hands-On: Evaluate Two Configs Side by Side
+## Part 6 - Hands-On: Evaluate Two Configs Side by Side
 
 ### Exercise: Comparative Evaluation
 
@@ -283,24 +283,24 @@ Fill in:
 | Hallucination | | | |
 | Tone | | | |
 
-Write your 3-sentence verdict per config and commit it alongside your Day 43 saturation curve.
+Write your 3-sentence verdict per config and commit it alongside your Day 42 saturation curve.
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 
 ### Self-check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-09-m3-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 44 · Interactive Chat Evaluation">
+<div class="ox-self-check" data-widget="self-check" data-id="week-09-m3-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 43 · Interactive Chat Evaluation">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
     "stem": "Why is the benchmark report (TTFT, throughput) insufficient for config selection on its own?",
     "options": [
       "The benchmark report doesn't measure GPU utilization",
-      "The benchmark report measures speed, not quality — a fast config that hallucinates or gives wrong answers fails in production regardless of its latency numbers",
+      "The benchmark report measures speed, not quality; a fast config that hallucinates or gives wrong answers fails in production regardless of its latency numbers",
       "The benchmark report only measures one concurrency level",
       "The benchmark report doesn't account for network latency"
     ],
@@ -316,13 +316,13 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "< 100 ms is instant; any TTFT above 100 ms is unacceptable"
     ],
     "answer": 1,
-    "explain": "Human perception thresholds from the lesson: TTFT < ~200 ms feels near-instant for most users. 200-700 ms is noticeable but acceptable for complex tasks. > 700 ms starts feeling slow for interactive chat. These thresholds inform SLO targets — TTFT P99 < 500 ms is a reasonable production target for most chat interfaces."
+    "explain": "Human perception thresholds from the lesson: TTFT < ~200 ms feels near-instant for most users. 200-700 ms is noticeable but acceptable for complex tasks. > 700 ms starts feeling slow for interactive chat. These thresholds inform SLO targets; TTFT P99 < 500 ms is a reasonable production target for most chat interfaces."
   },
   {
     "stem": "What makes a good evaluation prompt suite for an interactive eval?",
     "options": [
       "Use 100+ prompts to ensure statistical significance",
-      "A small set (8-10) of diverse, representative prompts with clear binary pass/fail criteria defined before running — representativeness matters more than quantity",
+      "A small set (8-10) of diverse, representative prompts with clear binary pass/fail criteria defined before running; representativeness matters more than quantity",
       "Use only the 3 hardest prompts to stress-test the model",
       "Use prompts from the model's training set to avoid distributional shift"
     ],
@@ -333,9 +333,9 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "How do you separate quality from latency in your config comparison judgment?",
     "options": [
       "Use throughput numbers as a proxy for quality",
-      "Run the same eval suite against each config independently, recording quality pass/fail per prompt separately from latency metrics — then compare both dimensions in your config table",
+      "Run the same eval suite against each config independently, recording quality pass/fail per prompt separately from latency metrics; then compare both dimensions in your config table",
       "Higher latency configs always have better quality",
-      "Quality and latency cannot be separated — you must choose one"
+      "Quality and latency cannot be separated; you must choose one"
     ],
     "answer": 1,
     "explain": "Quality and latency are orthogonal axes. Run the same 8-10 prompt eval against config A and config B. Record pass/fail per prompt (quality). Separately record TTFT/throughput (latency). Your comparison table then has both: config A is faster (TTFT) but config B passes 9/10 prompts vs config A's 7/10. You choose based on which dimension the use case prioritizes."
@@ -343,24 +343,24 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "What is ITL (Inter-Token Latency) and why does it matter for user experience?",
     "options": [
-      "Inter-Token Latency is the time between words in a spoken response — only relevant for voice interfaces",
-      "ITL is the time between consecutive output tokens during streaming — high ITL causes visible stutter or pause mid-response, degrading user experience even if TTFT is good",
+      "Inter-Token Latency is the time between words in a spoken response: only relevant for voice interfaces",
+      "ITL is the time between consecutive output tokens during streaming; high ITL causes visible stutter or pause mid-response, degrading user experience even if TTFT is good",
       "ITL measures the latency of the tokenization step",
       "ITL is the total time to receive all tokens minus TTFT"
     ],
     "answer": 1,
-    "explain": "ITL = time between consecutive output tokens during decode. If ITL > ~100-200 ms, users see stuttering — the text stream pauses mid-sentence. Low TTFT but high ITL means the response starts quickly but feels jerky. ITL is directly driven by decode throughput (tokens/sec): high throughput = low ITL."
+    "explain": "ITL = time between consecutive output tokens during decode. If ITL > ~100-200 ms, users see stuttering; the text stream pauses mid-sentence. Low TTFT but high ITL means the response starts quickly but feels jerky. ITL is directly driven by decode throughput (tokens/sec): high throughput = low ITL."
   },
   {
-    "stem": "For an autonomous agent making 50 tool calls per task, which metric matters most — and which matters least?",
+    "stem": "For an autonomous agent making 50 tool calls per task, which metric matters most; and which matters least?",
     "options": [
-      "Throughput (tok/s) matters most — no human reads the stream, so push it as high as you can; TTFT per call matters far less",
-      "TTFT matters most — the agent feels every first-token delay the way a human does",
-      "Streaming smoothness matters most — the agent needs a comfortable reading pace",
-      "Tone and register matter most — the agent judges the style of each response"
+      "Throughput (tok/s) matters most; no human reads the stream, so push it as high as you can; TTFT per call matters far less",
+      "TTFT matters most; the agent feels every first-token delay the way a human does",
+      "Streaming smoothness matters most; the agent needs a comfortable reading pace",
+      "Tone and register matter most; the agent judges the style of each response"
     ],
     "answer": 0,
-    "explain": "Part 4: 'For agent / tool calls, push throughput as high as you can — no human is reading the stream.' The felt-latency thresholds (TTFT < ~600 ms, ITL matched to reading pace) exist to serve human perception; an agent has no perception, so raw throughput dominates and per-call TTFT matters far less."
+    "explain": "Part 4: 'For agent / tool calls, push throughput as high as you can; no human is reading the stream.' The felt-latency thresholds (TTFT < ~600 ms, ITL matched to reading pace) exist to serve human perception; an agent has no perception, so raw throughput dominates and per-call TTFT matters far less."
   },
   {
     "stem": "Your 5-prompt eval suite includes both a 'refusal probe' and a 'safety probe'. How do they differ?",
@@ -379,10 +379,10 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Because 8 prompts is the maximum the chat UI supports",
       "Because smoke tests only measure latency, never correctness",
       "Because interactive evals cannot detect hallucinations",
-      "It catches regressions on the specific capabilities you care about, but certifying general quality needs far broader coverage — the full eval setup from Week 5 Day 23"
+      "It catches regressions on the specific capabilities you care about, but certifying general quality needs far broader coverage: the full eval setup from Week 5 Day 23"
     ],
     "answer": 3,
-    "explain": "Part 3: 'This isn't statistical validation — it's a smoke test. Enough to catch regressions, not enough to certify production quality (that needs Week 5 Day 23's full eval setup).' A small focused suite flags when a config change breaks something specific; validating general quality requires hundreds of prompts across topics, formats, and edge cases."
+    "explain": "Part 3: 'This isn't statistical validation; it's a smoke test. Enough to catch regressions, not enough to certify production quality (that needs Week 5 Day 23's full eval setup).' A small focused suite flags when a config change breaks something specific; validating general quality requires hundreds of prompts across topics, formats, and edge cases."
   }
 ]
 </script>
@@ -390,11 +390,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect forward
 
-Tomorrow: **scheduling & MCP** — once you trust a config, automate the benchmark + eval. Also: Capsule's MCP surface, so an agent can run benchmarks for you.
+Tomorrow: **scheduling & MCP**: once you trust a config, automate the benchmark + eval. Also: Capsule's MCP surface, so an agent can run benchmarks for you.
 
-### Pre-read for tomorrow (Day 45 · Scheduling & MCP)
+### Pre-read for tomorrow (Day 44 · Scheduling & MCP)
 
-- **Resource:** <a href="../../../readings/capsule/#day-44-scheduling-mcp">Capsule Power-User Pre-Lecture Reading — Day 44 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10.
+- **Resource:** <a href="../../../readings/capsule/#day-44-scheduling-mcp">Capsule Power-User Pre-Lecture Reading - Day 44 section</a>. Supplement: <a href="../../../readings/capsule/lab-guide/#module-10-scheduled-jobs-agents-and-the-reliability-toolkit">Capsule Lab Guide</a> Module 10.
 - **Reflection questions:**
   1. Why schedule benchmarks instead of running them by hand?
   2. What does an MCP surface for Capsule unlock that the CLI alone doesn't?
@@ -404,4 +404,4 @@ Tomorrow: **scheduling & MCP** — once you trust a config, automate the benchma
 
 ## Stuck?
 
-Ask **oxtutor** — share which config performed better on which eval type, and it can help you explain the quality tradeoff in terms of model precision (Week 3 Day 14).
+Ask **oxtutor**; share which config performed better on which eval type, and it can help you explain the quality tradeoff in terms of model precision (Week 3 Day 14).

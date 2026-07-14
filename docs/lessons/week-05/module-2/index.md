@@ -1,7 +1,7 @@
 # Day 22 · Production Patterns
 
 > **Concept of the day:** **autoscale, warm pools, load balancing, observability, rollout strategies**. The operational layer that turns a serving stack into a service.<br>
-> **Pre-reading:** "Deploying LLMs in production" — <a href="https://modal.com/docs/guide/high-performance-llm-inference" target="_blank" rel="noopener">Modal — High-Performance LLM Inference</a> (throughput, latency, and cold-start sections).
+> **Pre-reading:** "Deploying LLMs in production" - <a href="https://modal.com/docs/guide/high-performance-llm-inference" target="_blank" rel="noopener">Modal - High-Performance LLM Inference</a> (throughput, latency, and cold-start sections).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 5 — Metrics &amp; Production</a>
+    <a href="../">Week 5 - Metrics &amp; Production</a>
     <span class="sep">/</span>
     <span>Day 22 · Production Deployment</span>
     {status:week-05/module-2}
@@ -35,17 +35,17 @@ This lesson is designed for guided self-study. Here's how your ~3 hours are orga
 
 ---
 
-## Part 1 — Why Production Matters
+## Part 1 - Why Production Matters
 
 ### Before You Start
 
-You should have already read: <a href="https://modal.com/docs/guide/high-performance-llm-inference" target="_blank" rel="noopener">Modal — High-Performance LLM Inference</a> (throughput, latency, and cold-start sections).
+You should have already read: <a href="https://modal.com/docs/guide/high-performance-llm-inference" target="_blank" rel="noopener">Modal - High-Performance LLM Inference</a> (throughput, latency, and cold-start sections).
 
 ### Readiness Check
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-05-m2-readiness" data-kind="readiness" data-draw="5" data-source="Modal — High-Performance LLM Inference + Chip Huyen — MLOps Guide">
+<div class="ox-self-check" data-widget="self-check" data-id="week-05-m2-readiness" data-kind="readiness" data-draw="5" data-source="Modal - High-Performance LLM Inference + Chip Huyen - MLOps Guide">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -101,7 +101,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "It reduces the cost of serving"
     ],
     "answer": 1,
-    "explain": "Observability (metrics, logs, traces) helps operators identify and diagnose issues in production — cold starts, model latency spikes, input drift, output degradation, GPU utilization problems, etc. Without observability, you're blind to production issues."
+    "explain": "Observability (metrics, logs, traces) helps operators identify and diagnose issues in production: cold starts, model latency spikes, input drift, output degradation, GPU utilization problems, etc. Without observability, you're blind to production issues."
   },
   {
     "stem": "What is autoscaling in the context of ML model serving?",
@@ -123,7 +123,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "A process for cleaning up old training data"
     ],
     "answer": 0,
-    "explain": "A rollback strategy defines how to quickly revert to a previous model version if issues are detected in production. This is critical for minimizing the blast radius of bad deployments — being able to roll back in minutes rather than hours."
+    "explain": "A rollback strategy defines how to quickly revert to a previous model version if issues are detected in production. This is critical for minimizing the blast radius of bad deployments: being able to roll back in minutes rather than hours."
   },
   {
     "stem": "What is the relationship between TTFT (Time To First Token) and warm pools?",
@@ -151,8 +151,8 @@ Take 2 minutes to write down:
 
 ---
 
-## Part 2 — Deep Dive — Scaling & Cold Starts
-### Reading — Autoscaling for LLM Serving
+## Part 2 - Deep Dive - Scaling & Cold Starts
+### Reading - Autoscaling for LLM Serving
 
 **Horizontal** scaling (add replicas) is dominant. Vertical (bigger GPUs) is impossible mid-deploy.
 
@@ -167,7 +167,7 @@ The autoscaler watches a signal:
 
 Production usually combines two (e.g., queue depth + P95 TTFT thresholds).
 
-### Reading — Cold Starts: The LLM Problem
+### Reading - Cold Starts: The LLM Problem
 
 A fresh replica needs to:
 
@@ -179,7 +179,7 @@ A fresh replica needs to:
 
 ### Mitigations for Cold Starts
 
-- **Warm pools** — keep N replicas always-on, pre-warmed
+- **Warm pools** - keep N replicas always-on, pre-warmed
 - **Image / weight caching** at the node level (e.g., local PV or cached image)
 - **Pre-loaded base images** with weights baked in or mounted
 - **Never auto-scale to zero** during business hours
@@ -188,7 +188,7 @@ A fresh replica needs to:
 
 ---
 
-## Part 3 — Hands-On — Design an Autoscaler
+## Part 3 - Hands-On - Design an Autoscaler
 ### Exercise: Autoscaler Design
 
 Consider your Week 4 system:
@@ -219,10 +219,10 @@ Draw the failure chain:
 
 ---
 
-## Part 4 — Hands-On — Load Balancing Strategies
-### Reading — Load Balancing for LLMs
+## Part 4 - Hands-On - Load Balancing Strategies
+### Reading - Load Balancing for LLMs
 
-Round-robin is bad — different requests cost very different amounts (200-token vs 8K-token output). Common strategies:
+Round-robin is bad; different requests cost very different amounts (200-token vs 8K-token output). Common strategies:
 
 | Strategy | When to Use |
 |----------|-------------|
@@ -235,9 +235,9 @@ Round-robin is bad — different requests cost very different amounts (200-token
 
 For each scenario, pick the best load balancing strategy:
 
-1. **Chatbot with 1000 concurrent users** — most have short conversations, some have long threads
-2. **Code completion tool** — short inputs, varying output lengths
-3. **Multi-tenant SaaS** — each customer has their own fine-tuned adapter
+1. **Chatbot with 1000 concurrent users** - most have short conversations, some have long threads
+2. **Code completion tool** - short inputs, varying output lengths
+3. **Multi-tenant SaaS** - each customer has their own fine-tuned adapter
 
 ### Exercise: Request Lifecycle Diagram
 
@@ -252,8 +252,8 @@ At each **[?]**, list:
 
 ---
 
-## Part 5 — Discussion — Rollout Strategies
-### Reading — Rollout Strategies
+## Part 5 - Discussion - Rollout Strategies
+### Reading - Rollout Strategies
 
 | Strategy | When to Use |
 |----------|-------------|
@@ -275,14 +275,14 @@ For each change, recommend a rollout strategy and explain why:
 
 **Two failure modes that bite:**
 
-1. **Cold start during traffic spike** — Replica added but not ready → existing replicas overload → cascading P99 breach
-2. **Bad model rollout** — New model produces lower-quality output that doesn't trigger latency alerts
+1. **Cold start during traffic spike** - Replica added but not ready → existing replicas overload → cascading P99 breach
+2. **Bad model rollout** - New model produces lower-quality output that doesn't trigger latency alerts
 
 **Which one is harder to detect? Why?**
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### The Minimum Observability Kit
 
 **Metrics (Prometheus + Grafana style):**
@@ -306,7 +306,7 @@ For each change, recommend a rollout strategy and explain why:
 
 ### Reflection Question
 
-Tomorrow: **evaluation & quality** — the *other* set of metrics.
+Tomorrow: **evaluation & quality** - the *other* set of metrics.
 
 Write one sentence about why quality evaluation matters for production:
 
@@ -326,7 +326,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "LLMs need to download new model versions before serving starts"
     ],
     "answer": 1,
-    "explain": "A typical web service starts in seconds. An LLM serving replica must load gigabytes of model weights from storage into GPU HBM before processing any requests. A 70B FP16 model requires loading ~140 GB — this can take 30–120 seconds. Warm pools keep pre-warmed replicas ready to accept traffic instantly."
+    "explain": "A typical web service starts in seconds. An LLM serving replica must load gigabytes of model weights from storage into GPU HBM before processing any requests. A 70B FP16 model requires loading ~140 GB; this can take 30–120 seconds. Warm pools keep pre-warmed replicas ready to accept traffic instantly."
   },
   {
     "stem": "Why is horizontal autoscaling preferred over vertical autoscaling for LLM serving?",
@@ -337,7 +337,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Vertical scaling requires retraining the model for each new hardware tier"
     ],
     "answer": 1,
-    "explain": "Vertical scaling (bigger machine) quickly hits hardware limits — you can't always get an 8×H100+ machine. Horizontal scaling (more replicas) is linearly scalable and uses commodity nodes. Each additional replica handles more concurrent users in parallel."
+    "explain": "Vertical scaling (bigger machine) quickly hits hardware limits; you can't always get an 8×H100+ machine. Horizontal scaling (more replicas) is linearly scalable and uses commodity nodes. Each additional replica handles more concurrent users in parallel."
   },
   {
     "stem": "What is a warm pool?",
@@ -348,7 +348,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "A queue of requests waiting for an available GPU"
     ],
     "answer": 1,
-    "explain": "A warm pool keeps pre-initialized serving replicas with model weights already loaded into GPU HBM. When traffic spikes, these replicas accept requests immediately — no cold-start. Without a warm pool, autoscaling adds new replicas that take minutes to warm up, causing P99 latency spikes during ramp."
+    "explain": "A warm pool keeps pre-initialized serving replicas with model weights already loaded into GPU HBM. When traffic spikes, these replicas accept requests immediately: no cold-start. Without a warm pool, autoscaling adds new replicas that take minutes to warm up, causing P99 latency spikes during ramp."
   },
   {
     "stem": "What are the four key components of a minimum observability kit for LLM serving?",
@@ -359,7 +359,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Cost per request, cost per token, monthly budget, budget alerts"
     ],
     "answer": 1,
-    "explain": "The lesson's 'Minimum Observability Kit' lists: Metrics (TTFT P50/P95/P99, TPS, requests/sec, GPU/HBM utilization), Logging (request ID + tenant + output tokens — NOT full prompt body), Tracing (queue → prefill → decode spans), and Alerts (P99 breach, GPU errors, OOM, unhealthy replicas)."
+    "explain": "The lesson's 'Minimum Observability Kit' lists: Metrics (TTFT P50/P95/P99, TPS, requests/sec, GPU/HBM utilization), Logging (request ID + tenant + output tokens: NOT full prompt body), Tracing (queue → prefill → decode spans), and Alerts (P99 breach, GPU errors, OOM, unhealthy replicas)."
   },
   {
     "stem": "Which alert threshold from the lesson should trigger investigation?",
@@ -370,13 +370,13 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Cost per request exceeding the 30-day moving average"
     ],
     "answer": 0,
-    "explain": "The lesson specifies: 'Alerts: P99 TTFT breach for > 5 min.' A single spike might be a fluke; a sustained breach indicates a systemic issue — queue backup, OOM-induced restart, or a degraded replica. The 5-minute window filters transient noise."
+    "explain": "The lesson specifies: 'Alerts: P99 TTFT breach for > 5 min.' A single spike might be a fluke; a sustained breach indicates a systemic issue: queue backup, OOM-induced restart, or a degraded replica. The 5-minute window filters transient noise."
   },
   {
     "stem": "Why should production logging capture request IDs and token counts but NOT the full prompt body?",
     "options": [
       "Full prompts are too large to store efficiently in log systems",
-      "Full prompt logging violates user privacy — prompts may contain PII, confidential content, or sensitive business data",
+      "Full prompt logging violates user privacy; prompts may contain PII, confidential content, or sensitive business data",
       "Prompt bodies are redundant since the model output is already logged",
       "Logging full prompts increases inference latency"
     ],
@@ -392,7 +392,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "It cannot be read during the decode phase"
     ],
     "answer": 0,
-    "explain": "In the autoscaler signal table, GPU utilization is 'cheap, available' but 'lags real demand by 30–60s.' That lag is why production usually combines signals — e.g., request queue depth (direct but spiky) plus P95 TTFT thresholds."
+    "explain": "In the autoscaler signal table, GPU utilization is 'cheap, available' but 'lags real demand by 30–60s.' That lag is why production usually combines signals: e.g., request queue depth (direct but spiky) plus P95 TTFT thresholds."
   },
   {
     "stem": "What rule does the lesson give about autoscaling replicas down to zero?",
@@ -414,7 +414,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "It always routes to the coldest replica"
     ],
     "answer": 0,
-    "explain": "The lesson states 'Round-robin is bad — different requests cost very different amounts.' A replica handed several 8K-token generations is far busier than one handed 200-token replies. Strategies like Least Outstanding Requests or Least KV-Cache Used route by actual load instead."
+    "explain": "The lesson states 'Round-robin is bad; different requests cost very different amounts.' A replica handed several 8K-token generations is far busier than one handed 200-token replies. Strategies like Least Outstanding Requests or Least KV-Cache Used route by actual load instead."
   },
   {
     "stem": "Which rollout strategy does the lesson recommend for a quality-sensitive change such as swapping in a quantized model?",
@@ -425,7 +425,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Immediate 100% rollout"
     ],
     "answer": 2,
-    "explain": "The rollout table pairs Shadow — 'parallel run, don't serve' — with quality-sensitive changes like a new model or quantization, because a quality regression may not trip latency alerts. Blue-green fits major version swaps, canary fits most weight/config changes, and feature flags fit adapter/system-prompt changes."
+    "explain": "The rollout table pairs Shadow, 'parallel run, don't serve', with quality-sensitive changes like a new model or quantization, because a quality regression may not trip latency alerts. Blue-green fits major version swaps, canary fits most weight/config changes, and feature flags fit adapter/system-prompt changes."
   }
 ]
 </script>
@@ -433,15 +433,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Pre-read for tomorrow (Day 23 · Evaluation & Quality)
 
-- **Resource:** <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face — Evaluate</a> + <a href="https://eugeneyan.com/writing/evals/" target="_blank" rel="noopener">Eugene Yan — Task-Specific LLM Evals that Do & Don't Work</a>.
+- **Resource:** <a href="https://huggingface.co/docs/evaluate/index" target="_blank" rel="noopener">Hugging Face - Evaluate</a> + <a href="https://eugeneyan.com/writing/evals/" target="_blank" rel="noopener">Eugene Yan - Task-Specific LLM Evals that Do & Don't Work</a>.
 - **Reflection questions:**
   1. What's **perplexity** and what does it capture? What does it miss?
-  2. **Benchmark** (MMLU) vs **task eval** (your own use-case suite) — which is more honest about production quality?
+  2. **Benchmark** (MMLU) vs **task eval** (your own use-case suite): which is more honest about production quality?
   3. **Goodhart's Law** revisited: why is MMLU saturating not actually progress?
 
 ---
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**; share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

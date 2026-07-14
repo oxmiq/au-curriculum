@@ -1,7 +1,7 @@
 # Day 26 · Prompt Structure & Clarity
 
-> **Concept of the day:** **clear, specific, structured prompts** beat clever ones. A model can't read your mind — give it role, context, task, format, and constraints **explicitly**. Anthropic tutorial Chapters 1–2.<br>
-> **Pre-reading:** <a href="../../../readings/prompt-engineering/#day-26-primer-why-the-same-question-gives-different-answers">Prompt Engineering Pre-Lecture Reading — Day 26 primer</a>. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic Prompt Engineering Interactive Tutorial</a> (Ch 1 + Ch 2).
+> **Concept of the day:** **clear, specific, structured prompts** beat clever ones. A model can't read your mind; give it role, context, task, format, and constraints **explicitly**. Anthropic tutorial Chapters 1–2.<br>
+> **Pre-reading:** <a href="../../../readings/prompt-engineering/#day-26-primer-why-the-same-question-gives-different-answers">Prompt Engineering Pre-Lecture Reading - Day 26 primer</a>. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic Prompt Engineering Interactive Tutorial</a> (Ch 1 + Ch 2).
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 6 — Prompt Engineering + AI Agents</a>
+    <a href="../">Week 6 - Prompt Engineering + AI Agents</a>
     <span class="sep">/</span>
     <span>Day 26 · Prompt Engineering</span>
     {status:week-06/module-1}
@@ -35,10 +35,10 @@ This lesson is designed for guided self-study. Here's how your ~3 hours are orga
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 ### Before You Start
 
-You should have already read: Anthropic Prompt Engineering Interactive Tutorial — **Chapter 1 (Basic Prompt Structure)** + **Chapter 2 (Being Clear and Direct)**.
+You should have already read: Anthropic Prompt Engineering Interactive Tutorial - **Chapter 1 (Basic Prompt Structure)** + **Chapter 2 (Being Clear and Direct)**.
 
 ### Quick Self-Check
 
@@ -62,7 +62,7 @@ If you couldn't answer all three, review the tutorial chapters again before proc
       "Prefill and decode"
     ],
     "answer": 1,
-    "explain": "The two structural slots are: (1) System prompt — sets the model's behavior, role, and context, and (2) User messages — where you provide the actual task/input. The system prompt is like the 'environment' or 'persona' and the user message is the 'task'."
+    "explain": "The two structural slots are: (1) System prompt - sets the model's behavior, role, and context, and (2) User messages - where you provide the actual task/input. The system prompt is like the 'environment' or 'persona' and the user message is the 'task'."
   },
   {
     "stem": "What is the primary purpose of the system prompt?",
@@ -84,7 +84,7 @@ If you couldn't answer all three, review the tutorial chapters again before proc
       "Specific prompts are always shorter"
     ],
     "answer": 1,
-    "explain": "Specificity beats vagueness because LLMs can only follow explicit instructions — they can't read your mind or infer what you 'meant' to say. Vague prompts like 'write a good summary' leave too much to interpretation; specific prompts like 'write a 3-paragraph executive summary targeting C-suite readers' produce predictable results."
+    "explain": "Specificity beats vagueness because LLMs can only follow explicit instructions; they can't read your mind or infer what you 'meant' to say. Vague prompts like 'write a good summary' leave too much to interpretation; specific prompts like 'write a 3-paragraph executive summary targeting C-suite readers' produce predictable results."
   },
   {
     "stem": "What is the difference between the system prompt and user messages in the chat API?",
@@ -106,13 +106,13 @@ If you couldn't answer all three, review the tutorial chapters again before proc
       "Network latency changes the output"
     ],
     "answer": 1,
-    "explain": "An LLM doesn't retrieve an answer — it samples the next token from a probability distribution, token by token. With temperature above 0, different runs can sample different tokens, producing different completions. That is why the same prompt can give different answers."
+    "explain": "An LLM doesn't retrieve an answer; it samples the next token from a probability distribution, token by token. With temperature above 0, different runs can sample different tokens, producing different completions. That is why the same prompt can give different answers."
   },
   {
     "stem": "What does setting temperature = 0 do?",
     "options": [
       "Disables the model",
-      "Makes sampling deterministic — the model always picks the most likely next token",
+      "Makes sampling deterministic: the model always picks the most likely next token",
       "Removes the system prompt",
       "Doubles the response speed"
     ],
@@ -123,18 +123,18 @@ If you couldn't answer all three, review the tutorial chapters again before proc
     "stem": "In the Day 26 mental model, what does every word you add to a prompt do?",
     "options": [
       "It slows the model down proportionally",
-      "It moves probability mass around — shaping the model's next-token distribution",
+      "It moves probability mass around: shaping the model's next-token distribution",
       "It is stored in the model's long-term memory",
       "Nothing until you press enter twice"
     ],
     "answer": 1,
-    "explain": "The primer's mental model: the model has a probability distribution over completions, and your prompt determines its shape. A vague prompt produces a broad distribution (many completions about equally likely); a specific prompt produces a sharp one. Every word moves probability mass — prompt engineering is shaping that distribution."
+    "explain": "The primer's mental model: the model has a probability distribution over completions, and your prompt determines its shape. A vague prompt produces a broad distribution (many completions about equally likely); a specific prompt produces a sharp one. Every word moves probability mass; prompt engineering is shaping that distribution."
   },
   {
     "stem": "What is the key insight about prompting versus programming?",
     "options": [
       "They are the same thing",
-      "Prompting is 'programming' with natural language — you need the same rigor as code",
+      "Prompting is 'programming' with natural language; you need the same rigor as code",
       "Prompting is easier than programming",
       "Programming skills are not useful for prompting"
     ],
@@ -147,8 +147,8 @@ If you couldn't answer all three, review the tutorial chapters again before proc
 
 ---
 
-## Part 2 — Core Concepts: Prompt Anatomy
-### Reading — Why This Matters
+## Part 2 - Core Concepts: Prompt Anatomy
+### Reading - Why This Matters
 
 Prompts are how you program an LLM. The single biggest source of bad output is **ambiguous instruction**, not model capability. By the end of this week you should be able to look at a failing prompt and say *what's missing* with the same fluency as debugging code.
 
@@ -178,17 +178,17 @@ POST /v1/chat/completions
 | **System prompt** | Instructions that apply to the whole conversation | "You are a senior code reviewer. Focus on security bugs." |
 | **User turn(s)** | The actual question, data, or task | "Review this diff and find race conditions." |
 
-> **Key insight:** The model sees system and user concatenated with role markers. From the model's point of view, they're not magically different — but the **convention** matters. System instructions are stable across turns; user content is the per-turn payload.
+> **Key insight:** The model sees system and user concatenated with role markers. From the model's point of view, they're not magically different; but the **convention** matters. System instructions are stable across turns; user content is the per-turn payload.
 
 ### Why Two Slots Matter
 
-1. **Caching:** Anthropic and others cache the system prompt prefix, so you pay per-token once and reuse it across requests — huge savings at scale.
+1. **Caching:** Anthropic and others cache the system prompt prefix, so you pay per-token once and reuse it across requests: huge savings at scale.
 2. **Discipline:** Separating "rules" from "data" stops you from accidentally rewriting rules every turn.
 
 ---
 
-## Part 3 — Deep Dive: The Three Vagueness Traps
-### Reading — Specificity Beats Vagueness
+## Part 3 - Deep Dive: The Three Vagueness Traps
+### Reading - Specificity Beats Vagueness
 
 The model is a probability machine over text. Give it a vague instruction → it samples from the broad distribution of valid completions. Give it a specific one → the distribution narrows to what you actually wanted.
 
@@ -216,7 +216,7 @@ The model is a probability machine over text. Give it a vague instruction → it
 
 ---
 
-## Part 4 — Hands-On: Rewrite Vague Prompts
+## Part 4 - Hands-On: Rewrite Vague Prompts
 ### Exercise 1: Identify the Trap
 
 For each vague prompt, identify which trap it falls into (Undefined Audience, Undefined Format, or Undefined Success Criteria), then rewrite it:
@@ -244,7 +244,7 @@ If you have access to an LLM:
 
 ---
 
-## Part 5 — Hands-On: Prompt Checklist Practice
+## Part 5 - Hands-On: Prompt Checklist Practice
 ### Exercise: The 6-Component Prompt Checklist
 
 Every well-formed prompt should have these components. Use this checklist:
@@ -288,7 +288,7 @@ My Prompt Checklist:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -305,7 +305,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Context window and output buffer"
     ],
     "answer": 1,
-    "explain": "Chat-completion APIs (e.g., OpenAI, Anthropic) have a system message — permanent instructions that shape behavior for the whole conversation — and a user message — the current input. Structuring prompts across these two slots correctly is a foundational prompt engineering skill."
+    "explain": "Chat-completion APIs (e.g., OpenAI, Anthropic) have a system message, permanent instructions that shape behavior for the whole conversation, and a user message: the current input. Structuring prompts across these two slots correctly is a foundational prompt engineering skill."
   },
   {
     "stem": "Why does specificity beat vagueness in prompt engineering?",
@@ -327,7 +327,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "User turns are encrypted while system prompts are not"
     ],
     "answer": 2,
-    "explain": "The lesson gives two reasons the two slots matter: (1) Caching — Anthropic and others cache the system-prompt prefix, so you pay for those tokens once and reuse them across requests; (2) Discipline — separating 'rules' (system) from 'data' (user turn) stops you from accidentally rewriting the rules on every turn."
+    "explain": "The lesson gives two reasons the two slots matter: (1) Caching - Anthropic and others cache the system-prompt prefix, so you pay for those tokens once and reuse them across requests; (2) Discipline - separating 'rules' (system) from 'data' (user turn) stops you from accidentally rewriting the rules on every turn."
   },
   {
     "stem": "The 6-component prompt checklist is Role, Context, Task, Input, Format, and which sixth component?",
@@ -349,7 +349,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Wrong temperature, wrong token limit, wrong model"
     ],
     "answer": 0,
-    "explain": "The three vagueness traps are: (1) Undefined Audience — for whom? (a 5-year-old, a CS undergrad, a datacenter engineer?); (2) Undefined Format — bulleted, numbered, JSON, a table?; (3) Undefined Success Criteria — how long, what depth, what counts as done? The fix for each is to state the missing dimension explicitly."
+    "explain": "The three vagueness traps are: (1) Undefined Audience - for whom? (a 5-year-old, a CS undergrad, a datacenter engineer?); (2) Undefined Format - bulleted, numbered, JSON, a table?; (3) Undefined Success Criteria - how long, what depth, what counts as done? The fix for each is to state the missing dimension explicitly."
   },
   {
     "stem": "Which of these is a complete well-structured prompt using the 6-component checklist?",
@@ -367,11 +367,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "options": [
       "Undefined Format",
       "Undefined Success Criteria",
-      "No trap — it is specific enough",
+      "No trap - it is specific enough",
       "Undefined Audience"
     ],
     "answer": 3,
-    "explain": "In the lesson this is the Trap 1 (Undefined Audience) example: it never says for whom — a 5-year-old, a CS undergrad, or a datacenter engineer would all need different explanations. The fix names the audience and their prior knowledge (e.g., 'a second-year CS undergrad who knows what a CPU is but has never written CUDA')."
+    "explain": "In the lesson this is the Trap 1 (Undefined Audience) example: it never says for whom; a 5-year-old, a CS undergrad, or a datacenter engineer would all need different explanations. The fix names the audience and their prior knowledge (e.g., 'a second-year CS undergrad who knows what a CPU is but has never written CUDA')."
   },
   {
     "stem": "What heuristic does the lesson give for deciding whether a prompt is specific enough?",
@@ -382,7 +382,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "If temperature is set to 0, specificity no longer matters"
     ],
     "answer": 0,
-    "explain": "The lesson's rule: 'If a junior engineer would need to ask a clarifying question, the LLM does too.' Any ambiguity a capable human would need resolved is ambiguity the model will otherwise resolve by guessing — so specify it up front."
+    "explain": "The lesson's rule: 'If a junior engineer would need to ask a clarifying question, the LLM does too.' Any ambiguity a capable human would need resolved is ambiguity the model will otherwise resolve by guessing; so specify it up front."
   }
 ]
 </script>
@@ -390,11 +390,11 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Tomorrow: **roles, data separation, output formatting** — the patterns that turn a clear prompt into one safe to put into production code.
+Tomorrow: **roles, data separation, output formatting** - the patterns that turn a clear prompt into one safe to put into production code.
 
 ### Pre-read for tomorrow (Day 27 · Roles, Data, Output Formatting)
 
-- **Resource:** <a href="../../../readings/prompt-engineering/#day-27-primer-roles-walls-and-shapes">Prompt Engineering Pre-Lecture Reading — Day 27 primer</a>. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic tutorial</a> Ch 3 + Ch 4 + Ch 5.
+- **Resource:** <a href="../../../readings/prompt-engineering/#day-27-primer-roles-walls-and-shapes">Prompt Engineering Pre-Lecture Reading - Day 27 primer</a>. Supplement: <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Anthropic tutorial</a> Ch 3 + Ch 4 + Ch 5.
 - **Reflection questions:**
   1. How does giving the model a **specific role** change its output quality? Why?
   2. What attack does proper data separation defend against?

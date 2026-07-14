@@ -4,7 +4,7 @@
     <span class="sep">/</span>
     <a href="../../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../../">Week 8 — Capsule: Connections &amp; Operations</a>
+    <a href="../../">Week 8 - Capsule: Connections &amp; Operations</a>
     <span class="sep">/</span>
     <a href="../">Day 40 · Consolidation</a>
     <span class="sep">/</span>
@@ -16,7 +16,7 @@
 # Week 8 Knowledge Check
 
 **Week 8 · Capsule Foundations & Operations.** 31-question bank · **15 drawn per attempt** · aim for **strong (≥ 80%)**. This check is
-formative — it never blocks you — but it's the week's bar. Answer the drawn questions,
+formative, it never blocks you, but it's the week's bar. Answer the drawn questions,
 then submit to reveal explanations and your score band.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-08-m5-canonical" data-kind="wrap-up" data-draw="15" data-lesson="Week 8 · Capsule Foundations &amp; Operations" data-source="Canonical knowledge check">
@@ -42,7 +42,7 @@ then submit to reveal explanations and your score band.
       "ssh"
     ],
     "answer": 1,
-    "explain": "Step 1 of the triage tree is <code>capsule status</code> — it reports your identity and token expiry, the fastest confirmation that auth is valid. (capsule connect and capsule node list are not real Capsule commands.)"
+    "explain": "Step 1 of the triage tree is <code>capsule status</code>; it reports your identity and token expiry, the fastest confirmation that auth is valid. (capsule connect and capsule node list are not real Capsule commands.)"
   },
   {
     "stem": "In Capsule, an 'environment' (prod, public, dev, demo) is best described as:",
@@ -86,7 +86,7 @@ then submit to reveal explanations and your score band.
       "Less secure"
     ],
     "answer": 0,
-    "explain": "capsule term uses your Capsule auth identity and tunnels SSH over a WebRTC data channel — no public port and no manual SSH key management (Capsule auto-generates and manages the keys). Raw SSH gives you none of that."
+    "explain": "capsule term uses your Capsule auth identity and tunnels SSH over a WebRTC data channel: no public port and no manual SSH key management (Capsule auto-generates and manages the keys). Raw SSH gives you none of that."
   },
   {
     "stem": "The first thing to run after you open a remote shell with <code>capsule term &lt;config-tag&gt;</code> should be:",
@@ -97,7 +97,7 @@ then submit to reveal explanations and your score band.
       "sudo apt update"
     ],
     "answer": 2,
-    "explain": "Network connections drop — VPN timeouts, laptop sleep, ISP hiccups. Starting inside tmux (tmux a || tmux new -s work) keeps a long job alive on the node so a dropped connection never kills it; reconnect and run tmux a to reattach."
+    "explain": "Network connections drop: VPN timeouts, laptop sleep, ISP hiccups. Starting inside tmux (tmux a || tmux new -s work) keeps a long job alive on the node so a dropped connection never kills it; reconnect and run tmux a to reattach."
   },
   {
     "stem": "A 140 GB model checkpoint you need available on every machine belongs in:",
@@ -119,7 +119,7 @@ then submit to reveal explanations and your score band.
       "Required by SOC2"
     ],
     "answer": 0,
-    "explain": "capsule exec runs the command and returns its output to your terminal as it comes back, so you can catch a typo'd config in 30 seconds and Ctrl-C — saving GPU-hours instead of discovering the failure in a log after a 4-hour run finished."
+    "explain": "capsule exec runs the command and returns its output to your terminal as it comes back, so you can catch a typo'd config in 30 seconds and Ctrl-C: saving GPU-hours instead of discovering the failure in a log after a 4-hour run finished."
   },
   {
     "stem": "The documented daily file workflow for a benchmark run is roughly:",
@@ -133,7 +133,7 @@ then submit to reveal explanations and your score band.
     "explain": "Find a machine with capsule list --filter, push the config with capsule scp upload, run it with capsule exec (watch stdout live), pull results with capsule scp download, then close the tunnel with capsule session end. All five are real USAGE.md commands."
   },
   {
-    "stem": "<code>capsule term</code> (SshRTC) hangs forever on connect — a likely cause is:",
+    "stem": "<code>capsule term</code> (SshRTC) hangs forever on connect; a likely cause is:",
     "options": [
       "A restrictive network/proxy is blocking the WebRTC negotiation",
       "Capsule bug",
@@ -163,7 +163,7 @@ then submit to reveal explanations and your score band.
       "Remove the stale <code>capsule-&lt;uniqueId&gt;</code> blocks from ~/.ssh/config"
     ],
     "answer": 3,
-    "explain": "Old sessions leave stale capsule-<uniqueId> blocks in ~/.ssh/config, and VS Code Remote-SSH picks up those entries and fails. Remove the blocks manually — USAGE.md gives the same advice when switching between --direct and SshRTC connections."
+    "explain": "Old sessions leave stale capsule-<uniqueId> blocks in ~/.ssh/config, and VS Code Remote-SSH picks up those entries and fails. Remove the blocks manually; USAGE.md gives the same advice when switching between --direct and SshRTC connections."
   },
   {
     "stem": "A good Capsule bug report contains at minimum how many required fields, and which set?",
@@ -185,7 +185,7 @@ then submit to reveal explanations and your score band.
       "A Kubernetes diagram"
     ],
     "answer": 1,
-    "explain": "Goal of the week — operational fluency: the two connection paths, environment/customer routing, and the connect verbs, mapped onto earlier concepts."
+    "explain": "Goal of the week - operational fluency: the two connection paths, environment/customer routing, and the connect verbs, mapped onto earlier concepts."
   },
   {
     "stem": "To run a single command like <code>nvidia-smi</code> on a remote machine and get its output back WITHOUT opening an interactive shell, use:",
@@ -196,7 +196,7 @@ then submit to reveal explanations and your score band.
       "capsule ssh <tag> --options \"-L 8080:localhost:8080\""
     ],
     "answer": 2,
-    "explain": "capsule exec <tag> \"<command>\" runs one command on the remote, returns its output, then exits — ideal for scripted checks. capsule term opens a full interactive shell, capsule stream opens a WebRTC desktop, and the ssh --options form is for port-forwarding."
+    "explain": "capsule exec <tag> \"<command>\" runs one command on the remote, returns its output, then exits: ideal for scripted checks. capsule term opens a full interactive shell, capsule stream opens a WebRTC desktop, and the ssh --options form is for port-forwarding."
   },
   {
     "stem": "You launched a vLLM server on the node's port 8000 and want to reach it from your laptop. Which command sets up the tunnel?",
@@ -212,10 +212,10 @@ then submit to reveal explanations and your score band.
   {
     "stem": "You write benchmark output to <code>/tmp</code> on a node, disconnect, then reconnect later. What likely happened to it?",
     "options": [
-      "/tmp is ephemeral — it may be gone after a restart/cleanup; keep results in $HOME or ~/OneDrive",
+      "/tmp is ephemeral; it may be gone after a restart/cleanup; keep results in $HOME or ~/OneDrive",
       "It synced to every other machine automatically",
       "It moved to ~/OneDrive automatically",
-      "Nothing persists — $HOME is also wiped every session"
+      "Nothing persists; $HOME is also wiped every session"
     ],
     "answer": 0,
     "explain": "/tmp is ephemeral and disappears on restart/cleanup. $HOME survives a reconnect but is node-local (not visible on other machines). Only ~/OneDrive follows you across machines, so anything you want to keep or reuse elsewhere goes there."
@@ -235,7 +235,7 @@ then submit to reveal explanations and your score band.
     "stem": "How does <code>capsule scp upload</code> differ from the <code>~/OneDrive</code> mount?",
     "options": [
       "scp upload is a one-off copy to one machine's local disk; ~/OneDrive auto-mounts the SAME folder on every machine you connect to",
-      "They are identical — both just copy files",
+      "They are identical; both just copy files",
       "scp upload is only for small files; ~/OneDrive only for large ones",
       "Both push to a cluster-wide /shared/ pool via capsule storage put"
     ],
@@ -248,7 +248,7 @@ then submit to reveal explanations and your score band.
       "Create a pool with capsule storage init",
       "capsule config files add OneDrive",
       "Run capsule auth storage and complete the OneDrive consent flow",
-      "Nothing — OneDrive is always mounted by default"
+      "Nothing: OneDrive is always mounted by default"
     ],
     "answer": 2,
     "explain": "capsule auth storage runs the OneDrive OAuth/consent flow once and writes rclone.conf; after that your OxCapsule folder auto-mounts at ~/OneDrive on every term/code/cursor/stream session. There is no capsule storage init and no /shared/ pool."
@@ -273,7 +273,7 @@ then submit to reveal explanations and your score band.
       "Streams benchmark logs to the dashboard; NVIDIA machines only"
     ],
     "answer": 1,
-    "explain": "capsule stream opens a hardware-encoded WebRTC pixel stream of the remote desktop (or a single app with --app) for GUI work like ComfyUI or Blender. Per USAGE.md it is available only on Windows and Mac and needs a machine that can pixel stream. It is NOT stdout streaming — that's capsule exec."
+    "explain": "capsule stream opens a hardware-encoded WebRTC pixel stream of the remote desktop (or a single app with --app) for GUI work like ComfyUI or Blender. Per USAGE.md it is available only on Windows and Mac and needs a machine that can pixel stream. It is NOT stdout streaming; that's capsule exec."
   },
   {
     "stem": "During an open 1080p stream, <code>nvidia-smi</code> shows encoder activity. Why doesn't this meaningfully slow a training job on the same GPU?",
@@ -284,7 +284,7 @@ then submit to reveal explanations and your score band.
       "The stream runs on the CPU, not the GPU"
     ],
     "answer": 1,
-    "explain": "Modern NVIDIA GPUs have a dedicated NVENC hardware encoder separate from the CUDA and Tensor cores. Encoder activity appears in nvidia-smi but does not consume the compute resources your training/inference uses — even a 1080p/60fps stream costs a running job <1% throughput."
+    "explain": "Modern NVIDIA GPUs have a dedicated NVENC hardware encoder separate from the CUDA and Tensor cores. Encoder activity appears in nvidia-smi but does not consume the compute resources your training/inference uses; even a 1080p/60fps stream costs a running job <1% throughput."
   },
   {
     "stem": "For which task should you reach for <code>capsule stream</code> rather than <code>capsule term</code>/<code>exec</code>?",
@@ -311,8 +311,8 @@ then submit to reveal explanations and your score band.
   {
     "stem": "Capsule streaming connects peer-to-peer by default. When does it fall back to a TURN relay, and what's the tradeoff?",
     "options": [
-      "When direct P2P is blocked (corporate firewall / symmetric NAT) — the relay guarantees connectivity but adds latency (~100–200ms vs ~20–50ms local)",
-      "Never — Capsule streaming is always peer-to-peer",
+      "When direct P2P is blocked (corporate firewall / symmetric NAT): the relay guarantees connectivity but adds latency (~100–200ms vs ~20–50ms local)",
+      "Never: Capsule streaming is always peer-to-peer",
       "When the GPU is busy, it relays to save compute",
       "On every connection, purely to encrypt the stream"
     ],
@@ -339,7 +339,7 @@ then submit to reveal explanations and your score band.
       "The list of tunnels shown by capsule session list"
     ],
     "answer": 2,
-    "explain": "capsule session endall closes every active SshRTC data-channel tunnel on YOUR machine at once. It does not kill remote processes, delete remote files, or disturb other users' sessions — which is why it's safe as a first diagnostic step; you won't lose remote work (a job inside tmux keeps running)."
+    "explain": "capsule session endall closes every active SshRTC data-channel tunnel on YOUR machine at once. It does not kill remote processes, delete remote files, or disturb other users' sessions: which is why it's safe as a first diagnostic step; you won't lose remote work (a job inside tmux keeps running)."
   },
   {
     "stem": "<code>capsule list</code> suddenly shows completely different machines than yesterday. The two commands to check FIRST are:",
@@ -350,7 +350,7 @@ then submit to reveal explanations and your score band.
       "capsule session endall and capsule list --json"
     ],
     "answer": 2,
-    "explain": "Known-quirks row 2: 'capsule list shows wrong machines' is fixed by checking capsule env show and capsule config customer show — one is pointed at the wrong environment or customer fleet. Both settings persist across sessions, so a single accidental switch explains why 'everything stopped working.'"
+    "explain": "Known-quirks row 2: 'capsule list shows wrong machines' is fixed by checking capsule env show and capsule config customer show; one is pointed at the wrong environment or customer fleet. Both settings persist across sessions, so a single accidental switch explains why 'everything stopped working.'"
   },
   {
     "stem": "On Windows PowerShell, <code>capsule list --filter</code> with an unquoted <code>&gt;</code> (e.g. vram&gt;=24) fails or silently creates a file. The fix is:",
@@ -371,17 +371,13 @@ then submit to reveal explanations and your score band.
 
 <div class="grid cards" markdown>
 
--   __Record your result__
-
-    Use **Retake** and **Copy progress JSON** in the check above to log the attempt in `docs/progress/`.
-
 -   __Back to today's lesson__
 
     [Day 40 · Consolidation](index.md)
 
 -   __Back to the week__
 
-    [Week 8 — Capsule: Connections &amp; Operations overview](../index.md)
+    [Week 8 - Capsule: Connections &amp; Operations overview](../index.md)
 
 -   __Continue the curriculum__
 

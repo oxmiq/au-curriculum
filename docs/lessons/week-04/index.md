@@ -1,4 +1,4 @@
-# Week 4 · Inference Engineering — Scaling & Stacks
+# Week 4 · Inference Engineering - Scaling & Stacks
 
 > **Goal of the week:** from one GPU to many GPUs. From theory to real software.
 
@@ -41,16 +41,16 @@
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| 16 (Mon) | Tensor Parallelism | Reader 6 — parallelism overview | [Day 1 · Tensor Parallelism](module-1/index.md) |
-| 17 (Tue) | Pipeline & Expert Parallelism | Reader 6 — PP + MoE | [Day 2 · Pipeline Expert Parallelism](module-2/index.md) |
-| 18 (Wed) | Speculative Decoding | Reader 8 — advanced serving | [Day 3 · Speculative Decoding](module-3/index.md) |
-| 19 (Thu) | Serving Engines & Continuous Batching | Reader 9 — production engines | [Day 4 · Serving Engines](module-4/index.md) |
-| 20 (Fri) | **Consolidation** — serving-system design | — | [module-5/index.md](module-5/index.md) |
+| 16 (Mon) | Tensor Parallelism | Reader 6 - parallelism overview | [Day 1 · Tensor Parallelism](module-1/index.md) |
+| 17 (Tue) | Pipeline & Expert Parallelism | Reader 6 - PP + MoE | [Day 2 · Pipeline Expert Parallelism](module-2/index.md) |
+| 18 (Wed) | Speculative Decoding | Reader 8 - advanced serving | [Day 3 · Speculative Decoding](module-3/index.md) |
+| 19 (Thu) | Serving Engines & Continuous Batching | Reader 9 - production engines | [Day 4 · Serving Engines](module-4/index.md) |
+| 20 (Fri) | **Consolidation** - serving-system design | - | [module-5/index.md](module-5/index.md) |
 
-## Friday — the bar
+## Friday - the bar
 
 - **Canonical quiz:** parallelism (TP/PP/EP), speculation, batching, engines. Item bank: Problem Sets Day 19/20 ★.
-- **[Assignment](module-1/assignment.md)** — **Design a serving system.** Given 70B model, 8×H100, P99 < 500 ms, throughput 50 req/s → what config? Rubric: Worksheets Appendix C.
+- **[Assignment](module-1/assignment.md)** - **Design a serving system.** Given 70B model, 8×H100, P99 < 500 ms, throughput 50 req/s → what config? Rubric: Worksheets Appendix C.
 
 ## Big-picture connect
 
@@ -58,4 +58,4 @@ Week 4 turns Week 3's bottleneck knowledge into engineering decisions: *which* p
 
 ## Stuck?
 
-Ask **oxtutor** to re-explain — the TP-vs-PP-vs-EP decision tree is the most-asked interview question of the entire program.
+Ask **oxtutor** to re-explain; the TP-vs-PP-vs-EP decision tree is the most-asked interview question of the entire program.

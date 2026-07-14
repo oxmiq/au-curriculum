@@ -1,4 +1,4 @@
-# Week 8 · Capsule — Connections & Operations
+# Week 8 · Capsule - Connections & Operations
 
 > **Goal of the week:** fluent in connecting to machines, moving files, streaming output, and diagnosing common quirks. By Friday you operate Capsule day-to-day.
 
@@ -45,9 +45,9 @@
 | 37 (Tue) | Files & Storage | Lab Guide Modules 6+7 | [module-2/index.md](module-2/index.md) |
 | 38 (Wed) | Streaming | Lab Guide Module 7 | [module-3/index.md](module-3/index.md) |
 | 39 (Thu) | Known Quirks | Lab Guide Module 10 Known Quirks | [module-4/index.md](module-4/index.md) |
-| 40 (Fri) | **Consolidation** | — | [module-5/index.md](module-5/index.md) |
+| 40 (Fri) | **Consolidation** | - | [module-5/index.md](module-5/index.md) |
 
-## Friday — the bar
+## Friday - the bar
 
 - **Canonical knowledge check:** diagnostic sequences, bug-report rubric, the known-quirks table.
 - See [module-5](module-5/index.md).
@@ -58,4 +58,4 @@ By Friday you can install Capsule, list environments, connect to a machine, move
 
 ## Stuck?
 
-Ask **oxtutor** — Module 10's known-quirks table (linked from [Day 40](module-4/index.md)) is the single highest-leverage document for daily Capsule operation.
+Ask **oxtutor**; Module 10's known-quirks table (linked from [Day 40](module-4/index.md)) is the single highest-leverage document for daily Capsule operation.

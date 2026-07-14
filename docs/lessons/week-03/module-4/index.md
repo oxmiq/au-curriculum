@@ -1,7 +1,7 @@
 # Day 14 · Quantization
 
 > **Concept of the day:** fewer bits → less data to move → faster decode. FP16 → FP8 → FP4 progression. **Float > int** (dynamic range). Sensitivity ladder: weights → activations → KV → attention.<br>
-> **Pre-reading:** "What is quantization?" — <a href="https://huggingface.co/docs/optimum/concept_guides/quantization" target="_blank" rel="noopener">Hugging Face — Quantization</a>.
+> **Pre-reading:** "What is quantization?" - <a href="https://huggingface.co/docs/optimum/concept_guides/quantization" target="_blank" rel="noopener">Hugging Face - Quantization</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 3 — Attention &amp; KV Cache</a>
+    <a href="../">Week 3 - Attention &amp; KV Cache</a>
     <span class="sep">/</span>
     <span>Day 14 · Quantization</span>
     {status:week-03/module-4}
@@ -36,10 +36,10 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review
+## Part 1 - Pre-Reading Review
 ### Before You Start
 
-You should have already read: "What is quantization?" — Pre-Lecture Reading **Reader 7**.
+You should have already read: "What is quantization?" - Pre-Lecture Reading **Reader 7**.
 
 ### Quick Self-Check
 
@@ -55,7 +55,7 @@ Answer these questions from memory:
 
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
-<div class="ox-self-check" data-widget="self-check" data-id="week-03-m4-readiness" data-kind="readiness" data-draw="5" data-source="Hugging Face — Quantization">
+<div class="ox-self-check" data-widget="self-check" data-id="week-03-m4-readiness" data-kind="readiness" data-draw="5" data-source="Hugging Face - Quantization">
 <script type="application/json" class="ox-self-check__pool">
 [
   {
@@ -73,18 +73,18 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
     "stem": "Why does float (FP) have an advantage over integer (INT) at the same bit count?",
     "options": [
       "Integers are faster",
-      "Float has a dynamic range — it can represent both very small and very large values",
+      "Float has a dynamic range - it can represent both very small and very large values",
       "Integers are more accurate",
       "There is no difference"
     ],
     "answer": 1,
-    "explain": "Float has a dynamic range through its exponent. INT is fixed-range. At the same bit count, FP can represent orders of magnitude difference in values — crucial for neural network weights and activations."
+    "explain": "Float has a dynamic range through its exponent. INT is fixed-range. At the same bit count, FP can represent orders of magnitude difference in values: crucial for neural network weights and activations."
   },
   {
     "stem": "Which is more sensitive to quantization: weights or activations?",
     "options": [
-      "Weights — they change the most",
-      "Activations — they vary more dynamically at runtime",
+      "Weights - they change the most",
+      "Activations - they vary more dynamically at runtime",
       "They are equally sensitive",
       "Neither are sensitive"
     ],
@@ -100,7 +100,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "No quality change"
     ],
     "answer": 1,
-    "explain": "Going from FP16 to FP8 weights typically costs <1% quality loss. This makes it nearly lossless. The key insight is that weights are static — easier to quantize than dynamic activations."
+    "explain": "Going from FP16 to FP8 weights typically costs <1% quality loss. This makes it nearly lossless. The key insight is that weights are static: easier to quantize than dynamic activations."
   },
   {
     "stem": "If you quantize weights from FP16 to FP8 on a memory-bound kernel, what's the rough speedup ceiling?",
@@ -111,7 +111,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
       "No speedup"
     ],
     "answer": 1,
-    "explain": "FP8 uses half the bytes of FP16, so memory bandwidth roughly doubles. For memory-bound kernels, speedup is ~2x. This is the theoretical ceiling — actual speedup may be slightly less due to overhead."
+    "explain": "FP8 uses half the bytes of FP16, so memory bandwidth roughly doubles. For memory-bound kernels, speedup is ~2x. This is the theoretical ceiling: actual speedup may be slightly less due to overhead."
   },
   {
     "stem": "What is the 'sensitivity ladder' for quantization (from most to least sensitive)?",
@@ -128,7 +128,7 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
     "stem": "What does quantization achieve for decode-phase inference?",
     "options": [
       "Faster prefill",
-      "Less data to move from HBM — directly reduces decode latency",
+      "Less data to move from HBM - directly reduces decode latency",
       "Higher accuracy",
       "Better model quality"
     ],
@@ -152,10 +152,10 @@ Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 ---
 
-## Part 2 — Core Concepts — The Precision Ladder
-### Reading — The Numerical Precision Spectrum
+## Part 2 - Core Concepts - The Precision Ladder
+### Reading - The Numerical Precision Spectrum
 
-Quantization is the *single biggest lever* for decode latency. Halving the bits roughly halves the HBM traffic — and decode is memory-bound, so that roughly halves the time per token.
+Quantization is the *single biggest lever* for decode latency. Halving the bits roughly halves the HBM traffic; and decode is memory-bound, so that roughly halves the time per token.
 
 | Precision | Bytes | Dynamic Range | Notes |
 |-----------|-------|---------------|-------|
@@ -180,10 +180,10 @@ From **Inference Engineering Study Guide §5.1**: "Quantization lowers the numer
 
 ---
 
-## Part 3 — Deep Dive — Float vs Int & Sensitivity Ladder
-### Float vs Int — Why Float Usually Wins
+## Part 3 - Deep Dive - Float vs Int & Sensitivity Ladder
+### Float vs Int - Why Float Usually Wins
 
-**Floating-point formats** have a sign bit, exponent, and mantissa — giving **dynamic range** to represent very large and very small values. **Integer formats** have no exponent — they represent uniformly spaced values.
+**Floating-point formats** have a sign bit, exponent, and mantissa: giving **dynamic range** to represent very large and very small values. **Integer formats** have no exponent: they represent uniformly spaced values.
 
 > **Neural network activations are heavy-tailed** (outliers in every layer). Float handles outliers gracefully; int either clips them or wastes range.
 
@@ -198,16 +198,16 @@ From **Inference Engineering Study Guide §5.1**: "Quantization lowers the numer
 
 From **Inference Engineering Study Guide §5.1**:
 
-1. **Weights** — *least sensitive*. Quantize aggressively (FP8, INT8, INT4) with small quality loss. Biggest decode win.
-2. **KV cache** — FP8 KV is now common — halves cache size *and* halves the bandwidth to read it.
-3. **Activations** — more sensitive; outliers can blow up. Usually FP8 OK with calibration.
-4. **Attention output / softmax** — *most sensitive*; usually kept in higher precision. Errors accumulate over thousands of tokens.
+1. **Weights** - *least sensitive*. Quantize aggressively (FP8, INT8, INT4) with small quality loss. Biggest decode win.
+2. **KV cache** - FP8 KV is now common: halves cache size *and* halves the bandwidth to read it.
+3. **Activations** - more sensitive; outliers can blow up. Usually FP8 OK with calibration.
+4. **Attention output / softmax** - *most sensitive*; usually kept in higher precision. Errors accumulate over thousands of tokens.
 
-> **Recommended starter:** FP8 weights, FP16 activations, FP8 KV cache — the modern Hopper sweet spot.
+> **Recommended starter:** FP8 weights, FP16 activations, FP8 KV cache: the modern Hopper sweet spot.
 
 ---
 
-## Part 4 — Hands-On — Weight Memory Calculations
+## Part 4 - Hands-On - Weight Memory Calculations
 ### Exercise 1: Llama-3-8B Weight Memory
 
 Calculate weight memory for Llama-3-8B at different precisions:
@@ -232,7 +232,7 @@ If you have an 80 GB H100:
 
 ---
 
-## Part 5 — Hands-On — Decode Latency at Different Precisions
+## Part 5 - Hands-On - Decode Latency at Different Precisions
 ### Exercise: 70B Model Decode Time Floor
 
 **Given:**
@@ -261,7 +261,7 @@ From **Inference Engineering Study Guide §A.5**: "FP8 vs FP16 throughput on H10
 
 ---
 
-## Part 6 — Hands-On — Combined Memory Budget
+## Part 6 - Hands-On - Combined Memory Budget
 ### Exercise: Full System Memory Budget
 
 **Scenario:** 70B model on 8×H100 (80 GB each = 640 GB total)
@@ -290,7 +290,7 @@ Pair discussion:
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -324,12 +324,12 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "Why does decode benefit more from weight quantization than prefill does?",
     "options": [
       "Decode uses different model layers than prefill",
-      "Decode is memory-bound — quantization reduces bytes per weight, directly increasing effective bandwidth and TPS; prefill is compute-bound so bandwidth savings matter less",
+      "Decode is memory-bound - quantization reduces bytes per weight, directly increasing effective bandwidth and TPS; prefill is compute-bound so bandwidth savings matter less",
       "Prefill is never run with quantized weights",
       "Quantization is only applied to the KV cache during decode"
     ],
     "answer": 1,
-    "explain": "Decode's bottleneck is memory bandwidth (reading weights from HBM). Halving weight size (e.g., FP16 to INT8) roughly halves the bytes transferred and doubles effective bandwidth, directly increasing TPS. Prefill is compute-bound — bandwidth savings don't help as much."
+    "explain": "Decode's bottleneck is memory bandwidth (reading weights from HBM). Halving weight size (e.g., FP16 to INT8) roughly halves the bytes transferred and doubles effective bandwidth, directly increasing TPS. Prefill is compute-bound: bandwidth savings don't help as much."
   },
   {
     "stem": "Approximately how much memory footprint reduction does FP8 provide compared to FP16?",
@@ -337,7 +337,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "2× reduction (FP8 = 1 byte vs FP16 = 2 bytes per parameter)",
       "4× reduction (FP8 = 0.5 bytes per parameter)",
       "8× reduction",
-      "No reduction — FP8 is only a compute optimization"
+      "No reduction - FP8 is only a compute optimization"
     ],
     "answer": 0,
     "explain": "FP8 = 1 byte per parameter; FP16 = 2 bytes per parameter. FP8 gives a 2× memory reduction vs FP16, the same as INT8. INT4 gives 4× vs FP16 (0.5 bytes per param). The memory savings directly reduce KV cache and weight footprints."
@@ -345,13 +345,13 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "What is the typical quality cost of FP8 quantization on benchmarks like MMLU?",
     "options": [
-      "Greater than 10 percentage points — noticeable degradation",
-      "Around 5 percentage points — significant but acceptable",
-      "Around 0.1–0.3 percentage points — negligible loss for ~2× throughput gain",
-      "Zero — FP8 is perfectly lossless for all models"
+      "Greater than 10 percentage points - noticeable degradation",
+      "Around 5 percentage points - significant but acceptable",
+      "Around 0.1–0.3 percentage points - negligible loss for ~2× throughput gain",
+      "Zero - FP8 is perfectly lossless for all models"
     ],
     "answer": 2,
-    "explain": "Well-calibrated FP8 quantization typically costs ~0.1–0.3 MMLU points compared to FP16 on modern LLMs. This is an excellent tradeoff: roughly 2× throughput improvement for less than 0.5% quality degradation. However, some models are more sensitive — always measure before deploying."
+    "explain": "Well-calibrated FP8 quantization typically costs ~0.1–0.3 MMLU points compared to FP16 on modern LLMs. This is an excellent tradeoff: roughly 2× throughput improvement for less than 0.5% quality degradation. However, some models are more sensitive; always measure before deploying."
   },
   {
     "stem": "When should you avoid aggressive quantization (e.g., INT4)?",
@@ -362,7 +362,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "When serving more than 100 requests per second"
     ],
     "answer": 1,
-    "explain": "The lesson notes: 'When NOT to use: small batch + abundant memory + quality-critical task; early-stage eval where you're still measuring quality; models with known quantization sensitivity.' INT4 is more aggressive — use it for throughput-critical deployments where you've validated quality on your specific workload."
+    "explain": "The lesson notes: 'When NOT to use: small batch + abundant memory + quality-critical task; early-stage eval where you're still measuring quality; models with known quantization sensitivity.' INT4 is more aggressive; use it for throughput-critical deployments where you've validated quality on your specific workload."
   },
   {
     "stem": "What is the 'modern Hopper sweet spot' starter quantization config the lesson recommends?",
@@ -384,7 +384,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "0.25 bytes each; 8× smaller than FP16"
     ],
     "answer": 2,
-    "explain": "The Part 2 table lists INT4 and FP4/NF4 at 0.5 bytes per parameter versus FP16's 2 bytes — a 4× reduction. Part 4 confirms it: Llama-3-8B is 16 GB at FP16 but only 4 GB at INT4."
+    "explain": "The Part 2 table lists INT4 and FP4/NF4 at 0.5 bytes per parameter versus FP16's 2 bytes: a 4× reduction. Part 4 confirms it: Llama-3-8B is 16 GB at FP16 but only 4 GB at INT4."
   },
   {
     "stem": "Why does the lesson say float formats like FP8 handle LLM values better than integer formats like INT8 at the same bit count?",
@@ -407,7 +407,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
 
 ### Connect Forward
 
-Friday: consolidation. We build the **memory budget calculator** — given GPU, model, context, batch → does it fit, and what does it cost at each precision level? Then [the canonical quiz](knowledge-check.md).
+Friday: consolidation. We build the **memory budget calculator**: given GPU, model, context, batch → does it fit, and what does it cost at each precision level? Then [the canonical quiz](knowledge-check.md).
 
 ---
 
@@ -415,7 +415,7 @@ Friday: consolidation. We build the **memory budget calculator** — given GPU, 
 
 - **Resource:** None. Bring your Day 12 KV math and Day 14 quantization math.
 - **Reflection questions:**
-  1. Of {KV cache, FlashAttention, quantization} — which one would you teach a peer first? Why?
+  1. Of {KV cache, FlashAttention, quantization}: which one would you teach a peer first? Why?
   2. What's still confusing about prefill vs decode? Write the question.
   3. What's the *one* number you'd put on a wall-poster for Week 3?
 
@@ -423,5 +423,5 @@ Friday: consolidation. We build the **memory budget calculator** — given GPU, 
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**: share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

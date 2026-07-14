@@ -1,7 +1,7 @@
 # Day 19 · Serving Engines & Continuous Batching
 
 > **Concept of the day:** **Continuous batching** = new requests join the running batch every step. Engines (vLLM, TGI, TensorRT-LLM) bundle this with PagedAttention, FlashAttention, quantization, scheduling. PyTorch alone is *not* a production serving stack.<br>
-> **Pre-reading:** vLLM + "what is continuous batching" — <a href="https://docs.vllm.ai/en/latest/getting_started/quickstart.html" target="_blank" rel="noopener">vLLM — Getting Started</a> + <a href="https://www.anyscale.com/blog/comparing-llm-inference-frameworks" target="_blank" rel="noopener">Anyscale — Comparing LLM Inference Frameworks</a>.
+> **Pre-reading:** vLLM + "what is continuous batching" - <a href="https://docs.vllm.ai/en/latest/getting_started/quickstart.html" target="_blank" rel="noopener">vLLM - Getting Started</a> + <a href="https://www.anyscale.com/blog/comparing-llm-inference-frameworks" target="_blank" rel="noopener">Anyscale - Comparing LLM Inference Frameworks</a>.
 
 <!-- AUTO-GEN:LESSON-HEADER:START -->
 <div class="ox-lesson-header" markdown="0">
@@ -10,7 +10,7 @@
     <span class="sep">/</span>
     <a href="../../">Learn</a>
     <span class="sep">/</span>
-    <a href="../">Week 4 — Scaling &amp; Stacks</a>
+    <a href="../">Week 4 - Scaling &amp; Stacks</a>
     <span class="sep">/</span>
     <span>Day 19 · vLLM Introduction</span>
     {status:week-04/module-4}
@@ -35,10 +35,10 @@ This lesson is designed for guided self-study. Here's how your ~3 hours is organ
 
 ---
 
-## Part 1 — Pre-Reading Review + Readiness Check
+## Part 1 - Pre-Reading Review + Readiness Check
 ### Before You Start
 
-You should have already read: vLLM landing page + "what is continuous batching" — Pre-Lecture Reading **Reader 6**.
+You should have already read: vLLM landing page + "what is continuous batching" - Pre-Lecture Reading **Reader 6**.
 
 ### Readiness Check
 
@@ -62,7 +62,7 @@ Answer these questions from memory before proceeding:
       "The model to be reloaded"
     ],
     "answer": 1,
-    "explain": "Static batching waits for ALL requests in the batch to complete their output before returning any results. The longest output dominates — if one request generates 500 tokens and others generate 10, everyone waits for the 500-token request to finish."
+    "explain": "Static batching waits for ALL requests in the batch to complete their output before returning any results. The longest output dominates: if one request generates 500 tokens and others generate 10, everyone waits for the 500-token request to finish."
   },
   {
     "stem": "What is the key advantage of continuous batching over static batching?",
@@ -95,7 +95,7 @@ Answer these questions from memory before proceeding:
       "Pandas"
     ],
     "answer": 1,
-    "explain": "vLLM, TGI (Text Generation Inference by Hugging Face), and TensorRT-LLM (by NVIDIA) are production serving engines. Plain PyTorch is not a serving stack — it's a framework for building models, not for serving them efficiently."
+    "explain": "vLLM, TGI (Text Generation Inference by Hugging Face), and TensorRT-LLM (by NVIDIA) are production serving engines. Plain PyTorch is not a serving stack; it's a framework for building models, not for serving them efficiently."
   },
   {
     "stem": "Why is plain PyTorch significantly slower than vLLM for LLM serving?",
@@ -147,10 +147,10 @@ Answer these questions from memory before proceeding:
 
 ---
 
-## Part 2 — Core Concept — Static vs Continuous Batching
-### Reading — Why This Matters
+## Part 2 - Core Concept - Static vs Continuous Batching
+### Reading - Why This Matters
 
-The serving engine is **where every Week 2–3–4 concept lands in code**. Continuous batching is the *single biggest throughput multiplier* of the era — often 5–10× over PyTorch. Pick the wrong engine for your workload and you give up performance and operability for nothing.
+The serving engine is **where every Week 2–3–4 concept lands in code**. Continuous batching is the *single biggest throughput multiplier* of the era: often 5–10× over PyTorch. Pick the wrong engine for your workload and you give up performance and operability for nothing.
 
 ### Static Batching (The Naive Approach)
 
@@ -180,15 +180,15 @@ The serving engine is **where every Week 2–3–4 concept lands in code**. Cont
 |------|------------|
 | **Static batching** | Wait for N requests, process all together, return when longest finishes |
 | **Continuous batching** | Admit/evict requests at every decode step; GPU stays saturated |
-| **Iteration-level scheduling** | Another name for continuous batching — schedule at each token step |
+| **Iteration-level scheduling** | Another name for continuous batching: schedule at each token step |
 | **PagedAttention** | Block-based KV-cache allocation that prevents fragmentation |
 
 ---
 
-## Part 3 — Deep Dive — Why This Needs PagedAttention
-### Reading — The Connection
+## Part 3 - Deep Dive - Why This Needs PagedAttention
+### Reading - The Connection
 
-Continuous batching ⇒ KV-cache slots constantly allocated/freed at variable sizes. Without PagedAttention's block-based allocator, fragmentation kills you. That's why vLLM ships both — they're symbiotic.
+Continuous batching ⇒ KV-cache slots constantly allocated/freed at variable sizes. Without PagedAttention's block-based allocator, fragmentation kills you. That's why vLLM ships both: they're symbiotic.
 
 **The problem:**
 - Traditional attention assumes contiguous KV cache
@@ -202,8 +202,8 @@ Continuous batching ⇒ KV-cache slots constantly allocated/freed at variable si
 
 ---
 
-## Part 4 — Core Concept — Serving Engines Comparison
-### Reading — The Big Three
+## Part 4 - Core Concept - Serving Engines Comparison
+### Reading - The Big Three
 
 | Engine | Maintainer | Key strengths | Best for |
 |--------|------------|---------------|----------|
@@ -265,9 +265,9 @@ Result:
 
 ### Why this needs PagedAttention
 
-Continuous batching ⇒ KV-cache slots constantly allocated/freed at variable sizes. Without PagedAttention's block-based allocator, fragmentation kills you. That's why vLLM ships both — they're symbiotic.
+Continuous batching ⇒ KV-cache slots constantly allocated/freed at variable sizes. Without PagedAttention's block-based allocator, fragmentation kills you. That's why vLLM ships both: they're symbiotic.
 
-## Core concept — serving engines
+## Core concept - serving engines
 
 ### The big three
 
@@ -299,7 +299,7 @@ A 10-line `model.generate()` script uses:
 
 It works. It's also **5–10× slower** and falls over under any real concurrency.
 
-### Choosing an engine — a quick rubric
+### Choosing an engine - a quick rubric
 
 | Need | Pick |
 |---|---|
@@ -311,7 +311,7 @@ It works. It's also **5–10× slower** and falls over under any real concurrenc
 
 ---
 
-## Part 5 — Hands-On — Engine Selection + vLLM Quickstart
+## Part 5 - Hands-On - Engine Selection + vLLM Quickstart
 ### Exercise 1: Draw the Batching Timeline
 
 Draw two timelines for 4 requests with lengths 50/150/100/300:
@@ -330,7 +330,7 @@ Document your findings.
 
 ---
 
-## Part 7 — Wrap-up & Connection
+## Part 7 - Wrap-up & Connection
 ### Self-Check
 
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
@@ -347,7 +347,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Continuous batching requires quantization; static batching does not"
     ],
     "answer": 1,
-    "explain": "Static batching groups requests together and waits for all to complete before swapping in new ones — wasting GPU cycles when some requests finish early. Continuous batching (iteration-level scheduling) adds new requests as soon as slots open, keeping the GPU continuously busy."
+    "explain": "Static batching groups requests together and waits for all to complete before swapping in new ones: wasting GPU cycles when some requests finish early. Continuous batching (iteration-level scheduling) adds new requests as soon as slots open, keeping the GPU continuously busy."
   },
   {
     "stem": "Why does continuous batching require PagedAttention?",
@@ -358,15 +358,15 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "PagedAttention converts continuous batching to static batching for efficiency"
     ],
     "answer": 1,
-    "explain": "Continuous batching adds/removes requests dynamically. Static contiguous KV cache allocation can't support this — fragmentation and inability to grow/shrink blocks for individual requests would cause inefficiency or OOM. PagedAttention's non-contiguous page-based allocation enables flexible dynamic memory management."
+    "explain": "Continuous batching adds/removes requests dynamically. Static contiguous KV cache allocation can't support this: fragmentation and inability to grow/shrink blocks for individual requests would cause inefficiency or OOM. PagedAttention's non-contiguous page-based allocation enables flexible dynamic memory management."
   },
   {
     "stem": "Which serving engine is best suited for maximum throughput with TensorRT optimization on NVIDIA hardware?",
     "options": [
-      "vLLM — fastest time-to-first-token for any model",
-      "Text Generation Inference (TGI) — best for CPU-GPU hybrid deployments",
-      "TensorRT-LLM — uses NVIDIA TensorRT compilation for maximum throughput on NVIDIA hardware",
-      "SGLang — best for multi-turn structured generation"
+      "vLLM - fastest time-to-first-token for any model",
+      "Text Generation Inference (TGI) - best for CPU-GPU hybrid deployments",
+      "TensorRT-LLM - uses NVIDIA TensorRT compilation for maximum throughput on NVIDIA hardware",
+      "SGLang - best for multi-turn structured generation"
     ],
     "answer": 2,
     "explain": "TensorRT-LLM compiles models using NVIDIA's TensorRT graph optimizer, fusing operations and generating highly optimized CUDA kernels. This gives it the highest throughput on NVIDIA hardware, at the cost of longer model compilation time. vLLM prioritizes flexibility and wide model support."
@@ -375,7 +375,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
     "stem": "Why is PyTorch alone insufficient for production LLM serving?",
     "options": [
       "PyTorch does not support FP16 inference",
-      "PyTorch lacks production features: continuous batching, PagedAttention, KV cache management, and optimized kernels — it runs each request sequentially without batching infrastructure",
+      "PyTorch lacks production features: continuous batching, PagedAttention, KV cache management, and optimized kernels; it runs each request sequentially without batching infrastructure",
       "PyTorch cannot run on NVIDIA GPUs",
       "PyTorch requires training data to run inference"
     ],
@@ -396,13 +396,13 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
   {
     "stem": "Which serving engine is best for structured generation and multi-turn agent workloads?",
     "options": [
-      "TensorRT-LLM — best for all production workloads",
-      "Text Generation Inference (TGI) — designed specifically for agent frameworks",
-      "SGLang — optimized for structured generation and complex multi-turn control flow",
-      "vLLM — already supports all structured generation out of the box"
+      "TensorRT-LLM - best for all production workloads",
+      "Text Generation Inference (TGI) - designed specifically for agent frameworks",
+      "SGLang - optimized for structured generation and complex multi-turn control flow",
+      "vLLM - already supports all structured generation out of the box"
     ],
     "answer": 2,
-    "explain": "SGLang (Structured Generation LAnguage) is designed for structured output and complex generation programs — JSON schemas, constrained decoding, multi-turn agents. It adds a RadixAttention mechanism for KV cache reuse across shared prefixes. vLLM is the most versatile general-purpose engine."
+    "explain": "SGLang (Structured Generation LAnguage) is designed for structured output and complex generation programs: JSON schemas, constrained decoding, multi-turn agents. It adds a RadixAttention mechanism for KV cache reuse across shared prefixes. vLLM is the most versatile general-purpose engine."
   },
   {
     "stem": "In static batching, why does a request with a short output still wait to return?",
@@ -413,14 +413,14 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "Because quantization of the batch must complete before any result is returned"
     ],
     "answer": 1,
-    "explain": "Static batching runs N requests together and returns only when all finish — the longest output dominates. If one request generates 300 tokens and another 50, the short one sits idle waiting for the long one, wasting GPU cycles between batches. That waste is what continuous batching removes."
+    "explain": "Static batching runs N requests together and returns only when all finish: the longest output dominates. If one request generates 300 tokens and another 50, the short one sits idle waiting for the long one, wasting GPU cycles between batches. That waste is what continuous batching removes."
   },
   {
     "stem": "How does PagedAttention actually reduce KV-cache memory waste?",
     "options": [
       "It compresses the KV cache using FP8 quantization",
       "It offloads the KV cache to CPU RAM and pages it back in on demand",
-      "It stores the KV cache in fixed-size blocks (typically 16 tokens) that are allocated and freed independently, like OS virtual memory — giving near-zero fragmentation",
+      "It stores the KV cache in fixed-size blocks (typically 16 tokens) that are allocated and freed independently, like OS virtual memory: giving near-zero fragmentation",
       "It discards KV entries for finished requests during the prefill phase"
     ],
     "answer": 2,
@@ -446,7 +446,7 @@ Not gated; the score nudges you to revisit specific sections or ask OxTutor befo
       "SGLang, from LMSys"
     ],
     "answer": 0,
-    "explain": "The lesson credits vLLM (UC Berkeley plus community) as the origin of PagedAttention. It is one of the key innovations that makes vLLM the OSS default, and continuous batching plus PagedAttention are 'symbiotic' — vLLM ships both together."
+    "explain": "The lesson credits vLLM (UC Berkeley plus community) as the origin of PagedAttention. It is one of the key innovations that makes vLLM the OSS default, and continuous batching plus PagedAttention are 'symbiotic': vLLM ships both together."
   }
 ]
 </script>
@@ -480,5 +480,5 @@ Friday: design a serving system end-to-end. Then **[the canonical quiz](knowledg
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**; share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.

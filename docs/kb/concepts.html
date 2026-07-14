@@ -3,15 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Concept Library — Oxmiq × AU Internship</title>
+<title>Concept Library - Oxmiq × AU Internship</title>
 <style>
+  /* self-host Oxygen so the heading matches native site headings (iframes
+     don't inherit the parent page's @font-face) */
+  @font-face{font-family:"Oxygen";src:url("../stylesheets/fonts/Oxygen-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:"Oxygen";src:url("../stylesheets/fonts/Oxygen-Bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
   :root{
-    /* OxBlood — OXMIQ brand tokens (light / cream) */
+    /* OxBlood - OXMIQ brand tokens (light / cream) */
     --bg:#F5F0E4;--surface:#EFEADD;--surface-2:#FBF9F3;--line:rgba(26,26,26,.10);
     --line-strong:rgba(26,26,26,.22);--text:#1A1A1A;--muted:#666666;--faint:#9C9486;
     --mono:"Oxygen Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
     --sans:"Oxygen",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
-    /* category ramp — mid-dark hues, distinct on cream */
+    /* category ramp - mid-dark hues, distinct on cream */
     --p-foundations:#5A6577;--p-inference:#0E7C8A;--p-prompting:#6A4EC9;
     --p-agents:#B8761E;--p-capsule:#2E7D32;--p-capstone:#C43E54;
     --accent:#8B0000;
@@ -23,11 +27,12 @@
       radial-gradient(1100px 520px at 50% -8%,rgba(139,0,0,.06),transparent 60%),
       linear-gradient(rgba(26,26,26,.035) 1px, transparent 1px) 0 0 / 100% 40px,
       var(--bg);
-    color:var(--text);font-family:var(--sans);padding:36px 20px 70px;
+    color:var(--text);font-family:var(--sans);padding:0 20px 70px 0;
   }
-  .wrap{max-width:1100px;margin:0 auto}
-  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
-  h1{font-family:var(--mono);font-weight:600;font-size:24px;margin:0 0 4px;letter-spacing:-.01em}
+  /* left-aligned (not centred) so the heading lines up with native page content:
+     the iframe fills .md-content__inner, whose left edge is where native h1s sit */
+  .wrap{max-width:1100px;margin:0}
+  h1{font-family:var(--sans);font-weight:700;font-size:24px;margin:0 0 4px;letter-spacing:-.01em}
   .sub{color:var(--muted);font-size:13.5px;margin:0 0 18px}
   .switch{font-family:var(--mono);font-size:12px;margin:14px 0 4px;display:flex;gap:6px;align-items:center}
   .switch a{color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:7px;padding:5px 11px}
@@ -57,8 +62,11 @@
   .anchor{background:rgba(139,0,0,.06);border-color:rgba(139,0,0,.28);color:var(--accent)}
   .anchor .v{font-weight:600}
   .anchor .l{color:var(--muted);font-weight:400;margin-left:4px}
-  .assess{background:rgba(184,118,30,.10);border-color:rgba(184,118,30,.38);color:#8A5710}
-  .src{background:rgba(106,78,201,.08);border-color:rgba(106,78,201,.30);color:#6A4EC9}
+  a.pill{text-decoration:none;cursor:pointer;transition:border-color .15s,color .15s}
+  a.pill.lesson:hover{border-color:var(--accent);color:var(--accent)}
+  a.pill.link:hover{border-color:var(--p-inference);color:var(--p-inference)}
+  @keyframes cardflash{0%{box-shadow:0 0 0 2px var(--accent)}100%{box-shadow:0 0 0 2px transparent}}
+  .card.flash{animation:cardflash 1.5s ease}
   footer{margin-top:28px;color:var(--faint);font-size:12px;font-family:var(--mono)}
   .err{background:#F7E7E4;border:1px solid #E0B4AE;color:#8B0000;padding:16px;border-radius:10px;font-family:var(--mono);font-size:13px}
   .err code{color:#6B0000}
@@ -67,13 +75,11 @@
 </head>
 <body>
 <div class="wrap">
-  <p class="eyebrow" id="eyebrow">Concept library</p>
   <h1>Concepts</h1>
   <p class="sub">Every learnable idea in the program, with the appendices that teach it, the facts to memorise, and the problems that test it.</p>
   <div class="switch">
     <span style="color:var(--faint)">view:</span>
-    <a href="graph.html">Module tree</a>
-    <a href="edge-graph.html">Module graph</a>
+    <a href="interactive-graph.html">Concept graph</a>
     <a href="concepts.html" class="active">Concept library</a>
   </div>
   <div class="controls">
@@ -82,7 +88,6 @@
   </div>
   <p class="stats" id="stats"></p>
   <div id="grid" class="grid"><p class="empty">Loading concepts…</p></div>
-  <footer id="footer"></footer>
 </div>
 
 <script>
@@ -97,9 +102,30 @@ let DATA = null;
 let activePhases = new Set();
 let q = "";
 
+// Lesson index (module id -> {title,url}) from graph.json, plus a concept index
+// (id -> concept) so cards can show real lesson names + link prereqs to cards.
+let LESSON = {};
+function buildLessonIndex(graph){
+  if(!graph || !graph.weeks) return;
+  graph.weeks.forEach(w => (w.modules||[]).forEach(m => {
+    LESSON[m.id] = { title: m.title, url: "../lessons/" + m.id + "/" };
+  }));
+}
+const lessonName = mid => (LESSON[mid] && LESSON[mid].title) || mid;
+const lessonUrl  = mid => (LESSON[mid] && LESSON[mid].url) || null;
+
+let BY_ID = {};
+const conceptTitle = id => (BY_ID[id] && BY_ID[id].title) || id;
+
 async function load(){
   try{
-    DATA = await fetch(CONCEPTS_URL).then(r=>{if(!r.ok)throw new Error(CONCEPTS_URL);return r.json();});
+    const [data, graph] = await Promise.all([
+      fetch(CONCEPTS_URL).then(r=>{if(!r.ok)throw new Error(CONCEPTS_URL);return r.json();}),
+      fetch("graph.json").then(r=>r.ok?r.json():null).catch(()=>null)
+    ]);
+    DATA = data;
+    buildLessonIndex(graph);
+    BY_ID = {}; (DATA.concepts||[]).forEach(c=>BY_ID[c.id]=c);
   }catch(e){
     document.getElementById("grid").innerHTML =
       `<div class="err">Couldn't load <code>${esc(e.message)}</code>. Serve over HTTP (mkdocs serve), not file://.</div>`;
@@ -108,6 +134,44 @@ async function load(){
   buildChips();
   render();
   document.getElementById("q").addEventListener("input", e=>{ q = e.target.value.toLowerCase().trim(); render(); });
+  // delegated: a prereq pill jumps to that concept's card in this same page
+  document.getElementById("grid").addEventListener("click", e=>{
+    const link = e.target.closest("[data-goto]");
+    if(!link) return;
+    e.preventDefault();
+    goToConcept(link.getAttribute("data-goto"));
+  });
+}
+
+// Bring a concept card into view. This page is a "flow" embed (the iframe is
+// grown to its content height and has no inner scroll), so an in-iframe #anchor
+// can't move the host viewport; we scroll the parent document directly
+// (same-origin), accounting for the sticky header/tabs.
+function goToConcept(id){
+  const needReset = activePhases.size || q;
+  if(needReset){
+    activePhases.clear();
+    document.querySelectorAll(".chip.active").forEach(c=>c.classList.remove("active"));
+    q=""; const qi=document.getElementById("q"); if(qi) qi.value="";
+    render();
+  }
+  setTimeout(()=>scrollToConcept(id), needReset ? 200 : 30);
+}
+function scrollToConcept(id){
+  const target = document.getElementById("c-"+id);
+  if(!target) return;
+  try{
+    const frame = window.frameElement;
+    if(frame && window.parent && window.parent !== window){
+      const y = frame.getBoundingClientRect().top + window.parent.scrollY
+              + target.getBoundingClientRect().top - 90;
+      window.parent.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    } else {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }catch(e){ target.scrollIntoView({ behavior: "smooth", block: "start" }); }
+  target.classList.add("flash");
+  setTimeout(()=>target.classList.remove("flash"), 1500);
 }
 
 function buildChips(){
@@ -158,17 +222,26 @@ function render(){
   document.getElementById("grid").innerHTML = filtered.map(card).join("");
 }
 
+// A module reference (introduced_in / also_used_in) → lesson name, linked to the
+// lesson page when we can resolve it from graph.json.
+function lessonPill(m){
+  const url = lessonUrl(m);
+  return url
+    ? `<a class="pill lesson" href="${esc(url)}" target="_blank" rel="noopener">${esc(lessonName(m))}</a>`
+    : `<span class="pill">${esc(lessonName(m))}</span>`;
+}
+
 function card(c){
   const color = PHASE_COLOR[c.phase] || "var(--muted)";
-  const intro = (c.introduced_in||[]).map(m=>`<span class="pill">${esc(m)}</span>`).join("");
-  const also = (c.also_used_in||[]).map(m=>`<span class="pill">${esc(m)}</span>`).join("");
-  const prereqs = (c.prereqs||[]).map(p=>`<span class="pill">${esc(p)}</span>`).join("");
-  const sources = (c.sources||[]).map(s=>`<span class="pill src">${esc(s)}</span>`).join("");
+  const intro = (c.introduced_in||[]).map(lessonPill).join("");
+  const also = (c.also_used_in||[]).map(lessonPill).join("");
+  const prereqs = (c.prereqs||[]).map(p=>
+    BY_ID[p]
+      ? `<a class="pill link" href="#c-${esc(p)}" data-goto="${esc(p)}">${esc(conceptTitle(p))}</a>`
+      : `<span class="pill">${esc(p)}</span>`
+  ).join("");
   const anchors = (c.numerical_anchors||[]).map(a=>
     `<span class="pill anchor"><span class="v">${esc(a.value)}</span><span class="l">${esc(a.label)}</span></span>`
-  ).join("");
-  const assess = (c.assessed_by||[]).map(a=>
-    `<span class="pill assess">${esc(a.problem_id)} <span class="l">${esc(a.difficulty||"")}</span></span>`
   ).join("");
 
   const rows = [
@@ -176,12 +249,10 @@ function card(c){
     prereqs  && `<div class="row"><span class="lbl">Prereqs</span><span>${prereqs}</span></div>`,
     also     && `<div class="row"><span class="lbl">Also in</span><span>${also}</span></div>`,
     anchors  && `<div class="row"><span class="lbl">Anchors</span><span>${anchors}</span></div>`,
-    assess   && `<div class="row"><span class="lbl">Tested by</span><span>${assess}</span></div>`,
-    sources  && `<div class="row"><span class="lbl">Sources</span><span>${sources}</span></div>`,
   ].filter(Boolean).join("");
 
   return `
-    <div class="card" style="--phase:${color}">
+    <div class="card" id="c-${esc(c.id)}" style="--phase:${color}">
       <div class="head">
         <div class="title">${esc(c.title)}</div>
         <div class="id">${esc(c.id)}</div>
@@ -190,9 +261,6 @@ function card(c){
       <div class="meta">${rows}</div>
     </div>`;
 }
-
-document.getElementById("footer").textContent =
-  "Concept library · backed by docs/kb/concepts.json (v0.2) · regenerate with scripts/enhance_kb.py";
 
 load();
 </script>
