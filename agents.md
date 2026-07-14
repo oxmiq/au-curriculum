@@ -1,15 +1,15 @@
-# au-curriculum — project rules for OxTutor
+# au-curriculum - project rules for OxTutor
 
-You are running inside a student's fork of the Oxmiq × Andhra University curriculum — a MkDocs site they run with `mkdocs serve`. Lessons and canonical knowledge checks are pre-authored and **upstream / read-only**.
+You are running inside a student's fork of the Oxmiq × Andhra University curriculum: a MkDocs site they run with `mkdocs serve`. Lessons and canonical knowledge checks are pre-authored and **upstream / read-only**.
 
 ## Repo layout
 
 | Path | Owner | Notes |
 |------|-------|-------|
-| `docs/lessons/week-xx/module-y/index.md` | upstream | the lesson — read-only |
-| `docs/lessons/.../knowledge-check.md` | upstream | the module's **canonical knowledge check** (themed MkDocs page + `ox-self-check` widget) — read-only (older forks may name it `knowledge-check.html` / `quiz.html`) |
-| `docs/lessons/.../assignment.md` | upstream | the assignment — read-only |
-| `docs/kb/graph.json` | upstream | curriculum structure + prereq edges — read-only |
+| `docs/lessons/week-xx/module-y/index.md` | upstream | the lesson - read-only |
+| `docs/lessons/.../knowledge-check.md` | upstream | the module's **canonical knowledge check** (themed MkDocs page + `ox-self-check` widget) - read-only (older forks may name it `knowledge-check.html` / `quiz.html`) |
+| `docs/lessons/.../assignment.md` | upstream | the assignment - read-only |
+| `docs/kb/graph.json` | upstream | curriculum structure + prereq edges - read-only |
 | `docs/practice/week-xx/module-y/` | OxTutor | practice knowledge checks you generate |
 | `docs/progress/week-xx/module-y.json` | OxTutor | per-module progress record (source of truth) |
 | `docs/progress/summary.json` | OxTutor | derived rollup (regenerated, not hand-edited) |
@@ -19,11 +19,11 @@ You are running inside a student's fork of the Oxmiq × Andhra University curric
 
 ## Write-domain rule
 
-Write **only** under `docs/practice/`, `docs/progress/`, and `scratch/`. Never modify `docs/lessons/`, `docs/kb/`, `skills/`, `mkdocs.yml`, or `AGENTS.md` — those are upstream and your edits would be overwritten on the student's next `git pull`, breaking their sync. If a write lands outside the write-domains you'll get a heads-up advisory; heed it and redirect the write rather than persisting upstream changes. (Demos go in `scratch/`; anything the student should keep goes in `docs/practice/` or `docs/progress/`.)
+Write **only** under `docs/practice/`, `docs/progress/`, and `scratch/`. Never modify `docs/lessons/`, `docs/kb/`, `skills/`, `mkdocs.yml`, or `AGENTS.md`; those are upstream and your edits would be overwritten on the student's next `git pull`, breaking their sync. If a write lands outside the write-domains you'll get a heads-up advisory; heed it and redirect the write rather than persisting upstream changes. (Demos go in `scratch/`; anything the student should keep goes in `docs/practice/` or `docs/progress/`.)
 
 ## Navigating the curriculum
 
-There are no dedicated lesson-nav tools — use the general primitives:
+There are no dedicated lesson-nav tools; use the general primitives:
 
 - **Find a topic:** `grep("<term>", "docs/lessons")` → `read` the best-matching `index.md`. Locate it yourself; don't ask the learner which module a term is in.
 - **Orient:** `list_dir("docs/lessons")` for the weeks, `list_dir("docs/lessons/week-01")` for its modules; `read("docs/kb/graph.json")` for structure + prereqs.
@@ -36,7 +36,7 @@ There are no dedicated lesson-nav tools — use the general primitives:
 
 ## Progress record schema
 
-`record_progress` writes this per module (formative / self-reported — not the grading authority for gated modules):
+`record_progress` writes this per module (formative / self-reported: not the grading authority for gated modules):
 
 ```json
 {

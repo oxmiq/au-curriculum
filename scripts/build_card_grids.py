@@ -43,7 +43,7 @@ DOCS = ROOT / "docs"
 START = "<!-- AUTO-GEN:CARD-GRID:START -->"
 END = "<!-- AUTO-GEN:CARD-GRID:END -->"
 
-WEEK_TITLE_RE = re.compile(r"^Week\s+(\d+)\s+—\s+(.+)$")
+WEEK_TITLE_RE = re.compile(r"^Week\s+(\d+)\s+[-—–]\s+(.+)$")   # accept hyphen / em / en dash
 
 
 # ── parse the canonical structure out of mkdocs.yml ────────────────────────

@@ -73,7 +73,7 @@ def _duration_label(week: int, day_in_week: int, total_in_week: int) -> str:
         return "Friday · review &amp; wrap"
     return "~3 hrs"
 
-WEEK_TITLE_RE = re.compile(r"^Week\s+(\d+)\s+—\s+(.+)$")
+WEEK_TITLE_RE = re.compile(r"^Week\s+(\d+)\s+[-—–]\s+(.+)$")   # accept hyphen / em / en dash
 
 
 # ── nav parsing ────────────────────────────────────────────────────────────

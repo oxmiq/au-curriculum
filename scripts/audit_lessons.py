@@ -69,7 +69,7 @@ WEEK_GOAL_RE = re.compile(r"\*\*Goal of the week:\*\*")
 WEEK_DAYMAP_HEADER_RE = re.compile(r"^## Day map", re.MULTILINE)
 # 4-column table: must have exactly 3 pipes between columns (= 4 columns)
 WEEK_DAYMAP_4COL_RE = re.compile(r"^\|[^|]+\|[^|]+\|[^|]+\|[^|]+\|", re.MULTILINE)
-WEEK_FRIDAY_BAR_RE = re.compile(r"^## (?:Friday — the bar|The bar)", re.MULTILINE)
+WEEK_FRIDAY_BAR_RE = re.compile(r"^## (?:Friday [-—–] the bar|The bar)", re.MULTILINE)
 
 # ── L011: shape classification ───────────────────────────────────────────────
 SHAPE_B7_LESSON_PLAN_RE = re.compile(r"^## Lesson plan", re.MULTILINE)
@@ -79,9 +79,9 @@ SHAPE_F_BUCKET_HEAD_RE = re.compile(r"^## [🔵🟢🟡🟠🔴🟣]", re.MULTIL
 SHAPE_C_MILESTONES_RE = re.compile(r"^## Today.s milestones|^## Detailed time budget", re.MULTILINE)
 
 # ── L012: B7 invariants ──────────────────────────────────────────────────────
-B7_PART7_RE = re.compile(r"^## Part 7 — Wrap-up & Connection", re.MULTILINE)
-B7_PART_MIDDLE_DOT_RE = re.compile(r"^## Part \d+ — .+ · \d", re.MULTILINE)
-B7_PART_ANY_RE = re.compile(r"^## Part \d+ — ", re.MULTILINE)
+B7_PART7_RE = re.compile(r"^## Part 7 [-—–] Wrap-up & Connection", re.MULTILINE)
+B7_PART_MIDDLE_DOT_RE = re.compile(r"^## Part \d+ [-—–] .+ · \d", re.MULTILINE)
+B7_PART_ANY_RE = re.compile(r"^## Part \d+ [-—–] ", re.MULTILINE)
 B7_STUCK_RE = re.compile(r"^## Stuck\?", re.MULTILINE)
 B7_PREREAD_H3_RE = re.compile(r"^### Pre-read for tomorrow", re.MULTILINE)
 B7_LEGACY_WRAP_H2_RE = re.compile(r"^## Wrap-up\b|^## Wrap\b", re.MULTILINE)

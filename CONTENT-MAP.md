@@ -10,31 +10,32 @@ the rendered site. This is the maintainer's companion to
 - **Content source of truth:** the `docs/` filesystem.
 - **Guardrails:** `scripts/audit_lessons.py` (rules L001–L015) + `mkdocs build --strict` in CI.
 
-At a glance: **~179 content pages** — 5 nav tabs, 10 weeks × 5 daily modules,
-6 interactive knowledge-base pages, driven by 6 build scripts and 1 build-time hook.
+At a glance: **~176 content pages** across 4 nav tabs, 10 weeks × 5 daily modules,
+3 interactive knowledge-base pages, driven by build scripts and 1 build-time hook.
 
 ---
 
 ## 1. Navigation structure
 
-The site presents five verb-style top tabs (`navigation.tabs`). Everything
+The site presents four verb-style top tabs (`navigation.tabs`). Everything
 below is declared in the `nav:` block of [`mkdocs.yml`](mkdocs.yml).
 
 | Tab | Pages | Contents |
 |-----|-------|----------|
 | **🏠 Home** | 2 | `index.md` (Welcome), `rationale.md` (Why this curriculum) |
 | **📚 Learn** | 61 | `curriculum.md` + 10 week overviews + 50 daily lessons |
-| **🗺️ Plan** | 4 | `roadmap.md` + Interactive Concept Graph, Curriculum Map, Dependency Graph |
+| **🗺️ Plan** | 2 | `roadmap.md` (progress-aware sitemap) + Interactive Concept Graph |
 | **📖 Reference** | 2 | Glossary, Concepts |
-| **✅ My Progress** | 1 | Timeline |
+
+Progress is surfaced on the **Roadmap** itself (per-week + overall bars, a "next up" flag) and via status pills on lesson pages; there is no separate progress tab.
 
 ### The 10 weeks (3 phases)
 
 | Phase | Weeks | Focus |
 |-------|-------|-------|
-| **Phase 1 — Inference Engineering** | 1–5 | Foundations, the GPU & memory, attention & KV cache, scaling & stacks, metrics & production |
-| **Phase 2 — Prompt & Agents** | 6 | Prompt engineering, agent fundamentals, tools, governance, orchestration |
-| **Phase 3 — Capsule** | 7–10 | Bridge → connections & operations → benchmarking & eval → capstone |
+| **Phase 1 - Inference Engineering** | 1–5 | Foundations, the GPU & memory, attention & KV cache, scaling & stacks, metrics & production |
+| **Phase 2 - Prompt & Agents** | 6 | Prompt engineering, agent fundamentals, tools, governance, orchestration |
+| **Phase 3 - Capsule** | 7–10 | Bridge → connections & operations → benchmarking & eval → capstone |
 
 Each week folder is `docs/lessons/week-XX/` (`XX` zero-padded `01`–`10`) with a
 `week-XX/index.md` overview plus five `module-Y/` folders (`Y` = `1`–`5`).
@@ -58,7 +59,7 @@ docs/lessons/week-XX/module-Y/
   (roles & formatting, CoT / few-shot, hallucinations & evals).
 - Each `index.md` opens with an auto-generated breadcrumb header (see §4).
 
-New lessons must satisfy `scripts/audit_lessons.py` — see
+New lessons must satisfy `scripts/audit_lessons.py`; see
 [CONTRIBUTING.md § Authoring new lessons](CONTRIBUTING.md#authoring-new-lessons).
 
 ---
@@ -86,34 +87,34 @@ The core rule: **edit sources of truth, never edit generated artifacts.**
 
 ```
    SOURCES OF TRUTH                 BUILD SCRIPTS                GENERATED ARTIFACTS
-   (hand-authored)          (scripts/ + hooks/, run in CI)      (derived — don't edit)
+   (hand-authored)          (scripts/ + hooks/, run in CI)      (derived - don't edit)
    ─────────────────        ──────────────────────────────      ────────────────────────
    lessons/**/*.md      ──▶ build_catalog.py              ──▶   catalog.json
    kb/graph.json        ──▶ build_glossary.py             ──▶   kb/glossary.json
-   mkdocs.yml (nav)     ──▶ generate_roadmap.py           ──▶   roadmap.md (mermaid)
+   kb/graph.json        ──▶ generate_roadmap.py           ──▶   roadmap.md (sitemap)
    source-material/     ──▶ build_card_grids.py           ──▶   AUTO-GEN card grids
                             apply_lesson_header.py         ──▶   AUTO-GEN lesson headers
                             hooks/progress_badges.py       ──▶   {status:…} → status pills
                             audit_lessons.py (lint L001–L015)
 ```
 
-### Sources of truth — edit these
+### Sources of truth - edit these
 
-- `docs/lessons/**/index.md`, `assignment.md`, `knowledge-check.md` — lesson content.
-- `docs/kb/graph.json` — the hand-authored heart: ~98 concepts + prerequisite
-  edges. Feeds the concept graph, curriculum map, dependency graph, **and** the roadmap.
-- `planning/source-material/` — upstream study guides the lessons distill from
+- `docs/lessons/**/index.md`, `assignment.md`, `knowledge-check.md` - lesson content.
+- `docs/kb/graph.json` - the hand-authored heart: ~98 concepts + prerequisite
+  edges. Feeds the interactive concept graph **and** the roadmap.
+- `planning/source-material/` - upstream study guides the lessons distill from
   and the glossary is built from (reference, not a primary edit target).
-- `mkdocs.yml` — the canonical nav. Adding/reordering lessons means editing
+- `mkdocs.yml` - the canonical nav. Adding/reordering lessons means editing
   **both** the filesystem folder and this nav; the catalog check keeps them in sync.
 
-### Generated artifacts — never hand-edit
+### Generated artifacts - never hand-edit
 
 | Artifact | Generated by | Notes |
 |----------|--------------|-------|
 | `catalog.json` (repo root) | `build_catalog.py` | Filesystem-derived week/module catalog; committed so CI can diff structure. |
 | `docs/kb/glossary.json` | `build_glossary.py` | A–Z dictionary built from the 5 source-material glossaries. |
-| `docs/roadmap.md` | `generate_roadmap.py` | Mermaid flowchart derived from `kb/graph.json`. |
+| `docs/roadmap.md` | `generate_roadmap.py` | Phase-banded sitemap derived from `kb/graph.json` (has `--check`). |
 | In-page card grids | `build_card_grids.py` | Bounded by `<!-- AUTO-GEN:CARD-GRID:START/END -->` markers. |
 | In-page lesson headers | `apply_lesson_header.py` | Bounded by `<!-- AUTO-GEN:LESSON-HEADER:START/END -->` markers. |
 | Status pills | `hooks/progress_badges.py` | Build-time hook swaps `{status:week-XX/module-Y}` tokens. |
@@ -121,8 +122,9 @@ The core rule: **edit sources of truth, never edit generated artifacts.**
 ### Progress tracking
 
 `docs/progress/summary.json` (derived from per-module progress files) drives the
-status pills on lesson pages and the **My Progress → Timeline**. It's a build
-artifact — don't hand-edit.
+status pills on lesson pages and the **Roadmap** progress overlay (per-week + overall
+bars, next-up), read at runtime by `docs/assets/roadmap-progress.js`. It's a build
+artifact; don't hand-edit.
 
 ---
 
@@ -130,16 +132,13 @@ artifact — don't hand-edit.
 
 The interactive KB pages under `docs/kb/` are **self-contained HTML** (inline
 `<style>` + `<script>`, served without Material chrome). To restyle one, edit
-that `.html` file's inline styles directly — not the global stylesheets.
+that `.html` file's inline styles directly: not the global stylesheets.
 
 | KB page (`docs/kb/`) | Kind | Backing data |
 |----------------------|------|--------------|
 | `interactive-graph.html` | Plan | `graph.json` |
-| `graph.html` (Curriculum Map) | Plan | `graph.json` |
-| `edge-graph.html` (Dependency Graph) | Plan | `graph.json` |
 | `glossary.html` | Reference | `glossary.json` (generated) |
 | `concepts.html` | Reference | `concepts.json`, `facts.json` |
-| `timeline.html` | My Progress | `progress/summary.json` |
 
 Other committed data: `docs/kb/lesson-frontmatter.json` (per-lesson metadata).
 

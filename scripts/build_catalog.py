@@ -82,12 +82,14 @@ def collect_source_links(text: str, parent: Path):
             rel_to_repo = target.relative_to(REPO_ROOT)
         except ValueError:
             continue
-        found.append(str(rel_to_repo))
+        found.append(rel_to_repo.as_posix())
     return sorted(set(found))
 
 
 def relpath(p: Path):
-    return str(p.relative_to(REPO_ROOT))
+    # as_posix() so paths are forward-slashed on every OS (stable across
+    # Windows dev + Linux CI; the committed catalog uses "/").
+    return p.relative_to(REPO_ROOT).as_posix()
 
 
 def build_module(module_dir: Path):

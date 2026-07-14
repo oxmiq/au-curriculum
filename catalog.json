@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-08T13:49:25Z",
+  "generated_at": "2026-07-14T05:21:41Z",
   "week_count": 10,
   "module_count": 50,
   "weeks": [
@@ -58,7 +58,7 @@
     },
     {
       "id": "week-02",
-      "title": "Week 2 \u00b7 Inference Engineering \u2014 The GPU & Memory",
+      "title": "Week 2 \u00b7 Inference Engineering - The GPU & Memory",
       "overview": "docs/lessons/week-02/index.md",
       "modules": [
         {
@@ -110,7 +110,7 @@
     },
     {
       "id": "week-03",
-      "title": "Week 3 \u00b7 Inference Engineering \u2014 Attention & KV Cache",
+      "title": "Week 3 \u00b7 Inference Engineering - Attention & KV Cache",
       "overview": "docs/lessons/week-03/index.md",
       "modules": [
         {
@@ -162,7 +162,7 @@
     },
     {
       "id": "week-04",
-      "title": "Week 4 \u00b7 Inference Engineering \u2014 Scaling & Stacks",
+      "title": "Week 4 \u00b7 Inference Engineering - Scaling & Stacks",
       "overview": "docs/lessons/week-04/index.md",
       "modules": [
         {
@@ -214,7 +214,7 @@
     },
     {
       "id": "week-05",
-      "title": "Week 5 \u00b7 Inference Engineering \u2014 Metrics, Production & Economics",
+      "title": "Week 5 \u00b7 Inference Engineering - Metrics, Production & Economics",
       "overview": "docs/lessons/week-05/index.md",
       "modules": [
         {
@@ -255,7 +255,7 @@
         },
         {
           "id": "week-05/module-5",
-          "title": "Day 25 (Fri) \u00b7 Week 5 \u2014 Phase 1 Wrap (Assessment)",
+          "title": "Day 25 (Fri) \u00b7 Week 5 - Phase 1 Wrap (Assessment)",
           "index": "docs/lessons/week-05/module-5/index.md",
           "assignment": "docs/lessons/week-05/module-5/assignment.md",
           "knowledge_check": "docs/lessons/week-05/module-5/knowledge-check.md",
@@ -266,7 +266,7 @@
     },
     {
       "id": "week-06",
-      "title": "Week 6 \u00b7 Phase 2 \u2014 Prompt Engineering + AI Agents",
+      "title": "Week 6 \u00b7 Phase 2 - Prompt Engineering + AI Agents",
       "overview": "docs/lessons/week-06/index.md",
       "modules": [
         {
@@ -322,12 +322,12 @@
     },
     {
       "id": "week-07",
-      "title": "Week 7 \u00b7 Bridge \u2014 Theory Meets Tooling",
+      "title": "Week 7 \u00b7 Bridge - Theory Meets Tooling",
       "overview": "docs/lessons/week-07/index.md",
       "modules": [
         {
           "id": "week-07/module-1",
-          "title": "Day 32 \u00b7 Agent Case Studies",
+          "title": "Day 31 \u00b7 Agent Case Studies",
           "index": "docs/lessons/week-07/module-1/index.md",
           "assignment": "docs/lessons/week-07/module-1/assignment.md",
           "knowledge_check": "docs/lessons/week-07/module-1/knowledge-check.md",
@@ -336,7 +336,7 @@
         },
         {
           "id": "week-07/module-2",
-          "title": "Day 33 \u00b7 Capsule Foundations & Architecture",
+          "title": "Day 32 \u00b7 Capsule Foundations & Architecture",
           "index": "docs/lessons/week-07/module-2/index.md",
           "assignment": "docs/lessons/week-07/module-2/assignment.md",
           "knowledge_check": "docs/lessons/week-07/module-2/knowledge-check.md",
@@ -345,7 +345,7 @@
         },
         {
           "id": "week-07/module-3",
-          "title": "Day 34 \u00b7 Installation",
+          "title": "Day 33 \u00b7 Installation",
           "index": "docs/lessons/week-07/module-3/index.md",
           "assignment": "docs/lessons/week-07/module-3/assignment.md",
           "knowledge_check": "docs/lessons/week-07/module-3/knowledge-check.md",
@@ -354,7 +354,7 @@
         },
         {
           "id": "week-07/module-4",
-          "title": "Day 35 \u00b7 Environments & Fleet Discovery",
+          "title": "Day 34 \u00b7 Environments & Fleet Discovery",
           "index": "docs/lessons/week-07/module-4/index.md",
           "assignment": "docs/lessons/week-07/module-4/assignment.md",
           "knowledge_check": "docs/lessons/week-07/module-4/knowledge-check.md",
@@ -363,7 +363,7 @@
         },
         {
           "id": "week-07/module-5",
-          "title": "Day 36 (Fri) \u00b7 Week 7 Consolidation",
+          "title": "Day 35 (Fri) \u00b7 Week 7 Consolidation",
           "index": "docs/lessons/week-07/module-5/index.md",
           "assignment": "docs/lessons/week-07/module-5/assignment.md",
           "knowledge_check": "docs/lessons/week-07/module-5/knowledge-check.md",
@@ -374,12 +374,12 @@
     },
     {
       "id": "week-08",
-      "title": "Week 8 \u00b7 Capsule \u2014 Connections & Operations",
+      "title": "Week 8 \u00b7 Capsule - Connections & Operations",
       "overview": "docs/lessons/week-08/index.md",
       "modules": [
         {
           "id": "week-08/module-1",
-          "title": "Day 37 \u00b7 Connecting to Machines",
+          "title": "Day 36 \u00b7 Connecting to Machines",
           "index": "docs/lessons/week-08/module-1/index.md",
           "assignment": "docs/lessons/week-08/module-1/assignment.md",
           "knowledge_check": "docs/lessons/week-08/module-1/knowledge-check.md",
@@ -388,7 +388,7 @@
         },
         {
           "id": "week-08/module-2",
-          "title": "Day 38 \u00b7 Files & Storage (with streaming primer)",
+          "title": "Day 37 \u00b7 Files & Storage (with streaming primer)",
           "index": "docs/lessons/week-08/module-2/index.md",
           "assignment": "docs/lessons/week-08/module-2/assignment.md",
           "knowledge_check": "docs/lessons/week-08/module-2/knowledge-check.md",
@@ -397,7 +397,7 @@
         },
         {
           "id": "week-08/module-3",
-          "title": "Day 39 \u00b7 Streaming",
+          "title": "Day 38 \u00b7 Streaming",
           "index": "docs/lessons/week-08/module-3/index.md",
           "assignment": "docs/lessons/week-08/module-3/assignment.md",
           "knowledge_check": "docs/lessons/week-08/module-3/knowledge-check.md",
@@ -406,7 +406,7 @@
         },
         {
           "id": "week-08/module-4",
-          "title": "Day 40 \u00b7 Known Quirks",
+          "title": "Day 39 \u00b7 Known Quirks",
           "index": "docs/lessons/week-08/module-4/index.md",
           "assignment": "docs/lessons/week-08/module-4/assignment.md",
           "knowledge_check": "docs/lessons/week-08/module-4/knowledge-check.md",
@@ -415,7 +415,7 @@
         },
         {
           "id": "week-08/module-5",
-          "title": "Day 41 (Fri) \u00b7 Week 8 Consolidation",
+          "title": "Day 40 (Fri) \u00b7 Week 8 Consolidation",
           "index": "docs/lessons/week-08/module-5/index.md",
           "assignment": "docs/lessons/week-08/module-5/assignment.md",
           "knowledge_check": "docs/lessons/week-08/module-5/knowledge-check.md",
@@ -426,12 +426,12 @@
     },
     {
       "id": "week-09",
-      "title": "Week 9 \u00b7 Capsule \u2014 Benchmarking & Evaluation",
+      "title": "Week 9 \u00b7 Capsule - Benchmarking & Evaluation",
       "overview": "docs/lessons/week-09/index.md",
       "modules": [
         {
           "id": "week-09/module-1",
-          "title": "Day 42 \u00b7 Your First Benchmark",
+          "title": "Day 41 \u00b7 Your First Benchmark",
           "index": "docs/lessons/week-09/module-1/index.md",
           "assignment": "docs/lessons/week-09/module-1/assignment.md",
           "knowledge_check": "docs/lessons/week-09/module-1/knowledge-check.md",
@@ -440,7 +440,7 @@
         },
         {
           "id": "week-09/module-2",
-          "title": "Day 43 \u00b7 Model Evaluation (Varying Parameters)",
+          "title": "Day 42 \u00b7 Model Evaluation (Varying Parameters)",
           "index": "docs/lessons/week-09/module-2/index.md",
           "assignment": "docs/lessons/week-09/module-2/assignment.md",
           "knowledge_check": "docs/lessons/week-09/module-2/knowledge-check.md",
@@ -449,7 +449,7 @@
         },
         {
           "id": "week-09/module-3",
-          "title": "Day 44 \u00b7 Interactive Chat (Quality Evaluation)",
+          "title": "Day 43 \u00b7 Interactive Chat (Quality Evaluation)",
           "index": "docs/lessons/week-09/module-3/index.md",
           "assignment": "docs/lessons/week-09/module-3/assignment.md",
           "knowledge_check": "docs/lessons/week-09/module-3/knowledge-check.md",
@@ -458,7 +458,7 @@
         },
         {
           "id": "week-09/module-4",
-          "title": "Day 45 \u00b7 Scheduling & MCP",
+          "title": "Day 44 \u00b7 Scheduling & MCP",
           "index": "docs/lessons/week-09/module-4/index.md",
           "assignment": "docs/lessons/week-09/module-4/assignment.md",
           "knowledge_check": "docs/lessons/week-09/module-4/knowledge-check.md",
@@ -467,7 +467,7 @@
         },
         {
           "id": "week-09/module-5",
-          "title": "Day 46 (Fri) \u00b7 Week 9 Consolidation",
+          "title": "Day 45 (Fri) \u00b7 Week 9 Consolidation",
           "index": "docs/lessons/week-09/module-5/index.md",
           "assignment": "docs/lessons/week-09/module-5/assignment.md",
           "knowledge_check": "docs/lessons/week-09/module-5/knowledge-check.md",
@@ -485,7 +485,7 @@
       "modules": [
         {
           "id": "week-10/module-1",
-          "title": "Day 47 \u00b7 Kickoff & Planning",
+          "title": "Day 46 \u00b7 Kickoff & Planning",
           "index": "docs/lessons/week-10/module-1/index.md",
           "assignment": "docs/lessons/week-10/module-1/assignment.md",
           "knowledge_check": "docs/lessons/week-10/module-1/knowledge-check.md",
@@ -498,7 +498,7 @@
         },
         {
           "id": "week-10/module-2",
-          "title": "Day 48 \u00b7 Execute",
+          "title": "Day 47 \u00b7 Execute",
           "index": "docs/lessons/week-10/module-2/index.md",
           "assignment": "docs/lessons/week-10/module-2/assignment.md",
           "knowledge_check": "docs/lessons/week-10/module-2/knowledge-check.md",
@@ -509,7 +509,7 @@
         },
         {
           "id": "week-10/module-3",
-          "title": "Day 49 \u00b7 Analyze & Recommend",
+          "title": "Day 48 \u00b7 Analyze & Recommend",
           "index": "docs/lessons/week-10/module-3/index.md",
           "assignment": "docs/lessons/week-10/module-3/assignment.md",
           "knowledge_check": "docs/lessons/week-10/module-3/knowledge-check.md",
@@ -520,7 +520,7 @@
         },
         {
           "id": "week-10/module-4",
-          "title": "Day 50 \u00b7 Present",
+          "title": "Day 49 \u00b7 Present",
           "index": "docs/lessons/week-10/module-4/index.md",
           "assignment": "docs/lessons/week-10/module-4/assignment.md",
           "knowledge_check": "docs/lessons/week-10/module-4/knowledge-check.md",
@@ -531,7 +531,7 @@
         },
         {
           "id": "week-10/module-5",
-          "title": "Day 51 \u00b7 Close",
+          "title": "Day 50 \u00b7 Close",
           "index": "docs/lessons/week-10/module-5/index.md",
           "assignment": "docs/lessons/week-10/module-5/assignment.md",
           "knowledge_check": "docs/lessons/week-10/module-5/knowledge-check.md",

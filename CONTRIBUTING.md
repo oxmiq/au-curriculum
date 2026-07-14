@@ -2,16 +2,16 @@
 
 Curriculum content is maintained by Oxmiq Labs. External contributions are welcome for typo fixes, broken-link reports, and clarifying edits.
 
-> New to the site's layout? Read **[CONTENT-MAP.md](CONTENT-MAP.md)** first — it
+> New to the site's layout? Read **[CONTENT-MAP.md](CONTENT-MAP.md)** first; it
 > maps every content surface and shows which files are sources of truth vs.
 > generated artifacts you should never hand-edit.
 
 ## What goes where
 
-- **Lesson content** (`docs/lessons/`) — authored by the curriculum team; changes here require a content-owner review.
-- **Tooling** (`scripts/`, `.github/workflows/`) — open PRs welcome.
-- **Source material** (`planning/source-material/`) — the upstream study guides the lessons distill from; treat as reference, not as a primary edit target.
-- **Site config** (`mkdocs.yml`, theme overrides) — open PRs welcome.
+- **Lesson content** (`docs/lessons/`) - authored by the curriculum team; changes here require a content-owner review.
+- **Tooling** (`scripts/`, `.github/workflows/`) - open PRs welcome.
+- **Source material** (`planning/source-material/`) - the upstream study guides the lessons distill from; treat as reference, not as a primary edit target.
+- **Site config** (`mkdocs.yml`, theme overrides) - open PRs welcome.
 
 ## Branch + PR
 
@@ -52,7 +52,7 @@ See [LESSON_TEMPLATE.md](LESSON_TEMPLATE.md) for the full lesson shape. Every le
 - Lives under `docs/lessons/week-NN/module-N/` (week zero-padded `01`–`10`; module single digit `1`–`9`).
 - Has an `index.md` (the lesson page), a `knowledge-check.html` (canonical formative knowledge check), and an `assignment.md`.
 - Each week folder also has its own `week-NN/index.md` overview with a Day map.
-- Cites source material via relative links into `planning/source-material/` — three levels up from a module file (`../../../planning/source-material/...`) or three levels up from the week overview.
+- Cites source material via relative links into `planning/source-material/`: three levels up from a module file (`../../../planning/source-material/...`) or three levels up from the week overview.
 - Uses `knowledge-check.html` (NOT the legacy `quiz.html`) and never references the legacy flat `docs/lessons/module-NN/` layout. Both are checked by `scripts/audit_lessons.py` rule L008.
 - Passes `scripts/audit_lessons.py` (rules L001, L001m, L002, L003, L005, L006, L007, L008).
 

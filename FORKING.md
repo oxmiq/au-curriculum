@@ -41,7 +41,7 @@ git fetch upstream
 git merge upstream/main                 # or: git rebase upstream/main
 ```
 
-You will only ever get **fast-forward merges** if you have not edited lesson files yourself. `oxtutor` is configured to write only to `docs/practice/`, `docs/progress/`, and `scratch/` for exactly this reason — those paths never collide with upstream.
+You will only ever get **fast-forward merges** if you have not edited lesson files yourself. `oxtutor` is configured to write only to `docs/practice/`, `docs/progress/`, and `scratch/` for exactly this reason; those paths never collide with upstream.
 
 If `git merge upstream/main` reports a conflict in `docs/lessons/`, `docs/kb/`, `scripts/`, or `mkdocs.yml`, something has written outside the allowed paths. Open an issue; do not force-resolve.
 

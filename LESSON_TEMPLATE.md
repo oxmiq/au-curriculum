@@ -21,8 +21,8 @@ docs/lessons/
 ├── week-02/ … week-10/         same shape
 ```
 
-- `NN` is zero-padded (`01`, `02`, …, `10`) — enforced by audit rule **L001**.
-- `N` (module) is a single digit `1`–`9` — enforced by audit rule **L001m**.
+- `NN` is zero-padded (`01`, `02`, …, `10`): enforced by audit rule **L001**.
+- `N` (module) is a single digit `1`–`9`: enforced by audit rule **L001m**.
 - The module count per week is sourced from `docs/kb/graph.json` and enforced by **L003**.
 
 ## `docs/lessons/week-NN/index.md` (week overview) shape
@@ -36,20 +36,20 @@ docs/lessons/
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| <Day> (Mon) | <Topic> | <ref or —> | [Day 1 · <slug>](module-1/index.md) |
+| <Day> (Mon) | <Topic> | <ref or -> | [Day 1 · <slug>](module-1/index.md) |
 | <Day> (Tue) | <Topic> | <ref>        | [Day 2 · <slug>](module-2/index.md) |
 | <Day> (Wed) | <Topic> | <ref>        | [Day 3 · <slug>](module-3/index.md) |
 | <Day> (Thu) | <Topic> | <ref>        | [Day 4 · <slug>](module-4/index.md) |
-| <Day> (Fri) | **Consolidation** | — | [module-5/index.md](module-5/index.md) |
+| <Day> (Fri) | **Consolidation** | - | [module-5/index.md](module-5/index.md) |
 
-## Friday — the bar
+## Friday - the bar
 
-- **[Canonical knowledge check](module-5/knowledge-check.html)** — N questions. Pass = M/N.
-- **[Assignment](module-1/assignment.md)** — short description. The week's substantive assignment lives in `module-1/assignment.md` by convention; sibling `module-N/assignment.md` files are stubs that point back to it.
+- **[Canonical knowledge check](module-5/knowledge-check.html)** - N questions. Pass = M/N.
+- **[Assignment](module-1/assignment.md)** - short description. The week's substantive assignment lives in `module-1/assignment.md` by convention; sibling `module-N/assignment.md` files are stubs that point back to it.
 ```
 
 > **Day-map links must be relative to the week folder** (`module-N/index.md`),
-> not `../module-N/index.md` — that would resolve outside the week directory and
+> not `../module-N/index.md`; that would resolve outside the week directory and
 > break navigation.
 
 ## `docs/lessons/week-NN/module-N/index.md` (lesson page) shape
@@ -71,7 +71,7 @@ One paragraph.
 
 Optional. Short questions to test whether the pre-reading landed.
 
-## Core concept — <name>
+## Core concept - <name>
 
 The main body.
 
@@ -84,13 +84,13 @@ Hands-on micro-exercise.
 Three-bullet recap.
 ```
 
-YAML-style frontmatter (a leading `---` block) is permitted — drift markers
+YAML-style frontmatter (a leading `---` block) is permitted; drift markers
 and other metadata live there. The audit script skips the frontmatter when
 checking the H1 invariant (**L002**, **L006**).
 
 ## `knowledge-check.html` shape
 
-Self-contained HTML — no external CSS or JS. The page is the **canonical
+Self-contained HTML: no external CSS or JS. The page is the **canonical
 formative knowledge check** for the module. If the item bank is not yet
 authored, ship a clearly-labelled stub so progress tooling can detect the
 slot (**L005**); never self-link to a non-existent canonical elsewhere.
@@ -101,14 +101,14 @@ The page must define a `QUIZ` object so progress tooling can pick it up:
 <script>
 const QUIZ = {
   module: "week-NN/module-N",
-  title:  "Knowledge Check — week-NN/module-N",
+  title:  "Knowledge Check - week-NN/module-N",
   pass:   0.6,
   questions: [ /* … */ ]
 };
 </script>
 ```
 
-The filename is **`knowledge-check.html`** — never the legacy `quiz.html`
+The filename is **`knowledge-check.html`**: never the legacy `quiz.html`
 (**L008** flags any lingering `quiz.html` reference).
 
 ## `assignment.md` shape
@@ -125,13 +125,13 @@ stub placeholders that point back to module-1:
 
 > **No standalone assignment for this day.**
 >
-> The week's main assignment is on the day where the substantive deliverable lands —
+> The week's main assignment is on the day where the substantive deliverable lands;
 > see [module-1/assignment.md](../module-1/assignment.md).
 ```
 
 ## Source-material citations
 
-All `Source:` links use **relative paths from the lesson file** — three levels
+All `Source:` links use **relative paths from the lesson file**: three levels
 up to reach the repo root (or four levels up from inside a `module-N/`
 subdirectory, depending on file depth):
 
@@ -173,7 +173,7 @@ python3 scripts/audit_lessons.py --json    # machine-readable
 Every `module-N/index.md` must conform to **exactly one** of the four shapes
 below. Mixing shapes (Hybrid) is forbidden.
 
-### Shape B7 — Regular day (Mon–Fri weekday, non-consolidation, non-capstone)
+### Shape B7 - Regular day (Mon–Fri weekday, non-consolidation, non-capstone)
 
 > **Reference:** `docs/lessons/week-09/module-1/index.md`
 
@@ -199,25 +199,25 @@ below. Mixing shapes (Hybrid) is forbidden.
 | 7 | Wrap-up & Connection | 10 min |
 | **Total** | | **~140 min** |
 
-## Part 1 — Pre-Reading Review · 15 min
+## Part 1 - Pre-Reading Review · 15 min
 …
 
-## Part 2 — <Name> · X min
+## Part 2 - <Name> · X min
 …
 
-## Part 3 — <Name> · X min
+## Part 3 - <Name> · X min
 …
 
-## Part 4 — <Name> · X min
+## Part 4 - <Name> · X min
 …
 
-## Part 5 — <Name> · X min
+## Part 5 - <Name> · X min
 …
 
-## Part 6 — <Name> · X min
+## Part 6 - <Name> · X min
 …
 
-## Part 7 — Wrap-up & Connection · 10 min
+## Part 7 - Wrap-up & Connection · 10 min
 
 ### Self-check
 
@@ -241,7 +241,7 @@ One sentence pointing to the next day's topic.
 
 ## Stuck?
 
-Ask **oxtutor** — share your exact question, the concept or command that isn't
+Ask **oxtutor**; share your exact question, the concept or command that isn't
 clicking, and which week/module you are on.
 ```
 
@@ -249,17 +249,17 @@ clicking, and which week/module you are on.
 - H1 matches `^# Day \d+` (any day number, optional `(Fri)` suffix).
 - Frontmatter block-quote has `Concept of the day:`, `Pre-reading:`, `Source:`.
 - `## Lesson plan` table present with ≥3 Part rows and a `**Total**` row.
-- Exactly Parts 1–7 present as `## Part N — ` headings, in order.
+- Exactly Parts 1–7 present as `## Part N - ` headings, in order.
 - Part headings use `·` (U+00B7 middle dot) as time separator, not `:`.
 - Part 7 heading text is `Wrap-up & Connection`.
-- `### Pre-read for tomorrow` is H3 **inside Part 7** — not a standalone H2.
+- `### Pre-read for tomorrow` is H3 **inside Part 7**: not a standalone H2.
 - `## Stuck?` present as the final H2.
 - No legacy H2s: `## Wrap-up`, `## Connect forward`, `## Pre-read for tomorrow`
   (top-level H2 form is forbidden; must live inside Part 7 as H3).
 
 ---
 
-### Shape F — Friday consolidation
+### Shape F - Friday consolidation
 
 > **Reference:** `docs/lessons/week-09/module-5/index.md`
 
@@ -286,7 +286,7 @@ clicking, and which week/module you are on.
 ## 🔵 Bucket 1: Knowledge Check (30 min)
 …
 
-## 🟢 Bucket 2: Self-Assessment — <Title> (25 min)
+## 🟢 Bucket 2: Self-Assessment - <Title> (25 min)
 …
 
 ## 🟡 Bucket 3: <Drill topic A> (25 min)
@@ -303,7 +303,7 @@ clicking, and which week/module you are on.
 
 ## Stuck?
 
-Ask **oxtutor** — share what you tried, the unexpected result, and your module.
+Ask **oxtutor**; share what you tried, the unexpected result, and your module.
 ```
 
 **Invariants (enforced by L011/L013):**
@@ -319,7 +319,7 @@ Ask **oxtutor** — share what you tried, the unexpected result, and your module
 
 ---
 
-### Shape C — Capstone day (week-10)
+### Shape C - Capstone day (week-10)
 
 > **Reference:** `docs/lessons/week-10/module-1/index.md`
 
@@ -360,7 +360,7 @@ Three-bullet recap.
 
 ## Stuck?
 
-Ask **oxtutor** — share your charter / deliverable and where you are stuck.
+Ask **oxtutor**; share your charter / deliverable and where you are stuck.
 ```
 
 **Invariants (enforced by L011/L014):**
@@ -406,16 +406,16 @@ The audit script (rules L011/L012) enforces this at CI time.
 
 | Day | Topic | Pre-read | Page |
 |---|---|---|---|
-| N (Mon) | <Topic> | <citation or —> | [Day NN · <slug>](module-1/index.md) |
-| N+1 (Tue) | <Topic> | <citation or —> | [Day NN+1 · <slug>](module-2/index.md) |
-| N+2 (Wed) | <Topic> | <citation or —> | [Day NN+2 · <slug>](module-3/index.md) |
-| N+3 (Thu) | <Topic> | <citation or —> | [Day NN+3 · <slug>](module-4/index.md) |
-| N+4 (Fri) | **Consolidation** | — | [Day NN+4 · Consolidation](module-5/index.md) |
+| N (Mon) | <Topic> | <citation or -> | [Day NN · <slug>](module-1/index.md) |
+| N+1 (Tue) | <Topic> | <citation or -> | [Day NN+1 · <slug>](module-2/index.md) |
+| N+2 (Wed) | <Topic> | <citation or -> | [Day NN+2 · <slug>](module-3/index.md) |
+| N+3 (Thu) | <Topic> | <citation or -> | [Day NN+3 · <slug>](module-4/index.md) |
+| N+4 (Fri) | **Consolidation** | - | [Day NN+4 · Consolidation](module-5/index.md) |
 
-## Friday — the bar
+## Friday - the bar
 
-- **[Canonical knowledge check](module-5/knowledge-check.html)** — N questions. Pass = M/N.
-- **[Assignment](module-1/assignment.md)** — short description.
+- **[Canonical knowledge check](module-5/knowledge-check.html)** - N questions. Pass = M/N.
+- **[Assignment](module-1/assignment.md)** - short description.
 
 ## Big-picture connect
 
@@ -423,7 +423,7 @@ One or two sentences connecting this week to the broader arc.
 
 ## Stuck?
 
-Ask **oxtutor** — glossary entries for this week are the canonical definitions.
+Ask **oxtutor**; glossary entries for this week are the canonical definitions.
 ```
 
 **Invariants (enforced by L010):**
@@ -434,6 +434,6 @@ Ask **oxtutor** — glossary entries for this week are the canonical definitions
   no `../` prefix).
 - Friday row Topic cell is `**Consolidation**` (special weeks may use
   `**Phase N Wrap**` or similar descriptive label, but must be documented).
-- `## Friday — the bar` present (or `## The bar` for capstone weeks).
+- `## Friday - the bar` present (or `## The bar` for capstone weeks).
 - `## Big-picture connect` and `## Stuck?` are optional but must appear in this
   order if present.
