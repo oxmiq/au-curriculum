@@ -6,16 +6,36 @@ student's reach by grading server-side. This script reads each lesson's
 `data-kind="readiness"` pool and emits INSERT statements for public.question_keys
 (check_id, question_id, correct_index, explain).
 
-Usage:
-    python scripts/build_readiness_keys.py        # writes supabase/seed/question_keys.sql
-    python scripts/build_readiness_keys.py --json  # also writes question_keys.json
+The answer keys are NOT stored in this (public, student-forked) repo — they are
+written into the private `au-cohort-tracker` repo so they never ship in a student
+fork. This script reads the lesson pools here and writes the seed there.
 
-Run after any edit to a readiness pool, then re-seed (see supabase/README.md).
+Usage:
+    # writes ../au-cohort-tracker/supabase/seed/question_keys.sql (sibling checkout)
+    python scripts/build_readiness_keys.py
+    # point at a specific au-cohort-tracker checkout:
+    AU_COHORT_TRACKER=/path/to/au-cohort-tracker python scripts/build_readiness_keys.py
+    # --json also writes question_keys.json alongside the .sql
+    python scripts/build_readiness_keys.py --json
+
+Run after any edit to a readiness pool, then re-seed (see the au-cohort-tracker
+repo's supabase/README.md).
 """
 from __future__ import annotations
 import glob, json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def cohort_tracker_root() -> str:
+    """Locate the private au-cohort-tracker checkout that receives the keys.
+
+    Order: $AU_COHORT_TRACKER, else a sibling `au-cohort-tracker/` next to this repo.
+    """
+    env = os.environ.get("AU_COHORT_TRACKER")
+    if env:
+        return os.path.abspath(os.path.expanduser(env))
+    return os.path.abspath(os.path.join(ROOT, os.pardir, "au-cohort-tracker"))
 # Seed keys for every server-persisted check: readiness pools + end-of-lesson
 # self-checks (wrap-up in lesson index.md) + weekly knowledge-checks (wrap-up,
 # data-id "*-canonical", in knowledge-check.md). All are data-kind readiness/wrap-up.
@@ -51,7 +71,14 @@ def main() -> int:
             for qid, q in enumerate(pool):
                 rows.append((check_id, qid, int(q["answer"]), q.get("explain", "")))
 
-    out_dir = os.path.join(ROOT, "supabase", "seed")
+    cohort_root = cohort_tracker_root()
+    if not os.path.isdir(cohort_root):
+        print(f"!! au-cohort-tracker checkout not found at {cohort_root}\n"
+              f"   Clone it as a sibling of this repo, or set AU_COHORT_TRACKER "
+              f"to its path. Answer keys are written there (never into this "
+              f"public repo).", file=sys.stderr)
+        return 1
+    out_dir = os.path.join(cohort_root, "supabase", "seed")
     os.makedirs(out_dir, exist_ok=True)
     sql_path = os.path.join(out_dir, "question_keys.sql")
     with open(sql_path, "w", encoding="utf-8") as fh:
