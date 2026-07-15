@@ -130,6 +130,7 @@
       if (btn) { btn.disabled = true; btn.textContent = 'Recording…'; }
       serverSubmit(host, attempt).then(function (result) {
         host._serverResult = result;
+        applyServerFeedback(attempt, result);
         host._submitError = null;
         host._submitted = true;
         return fetchHistory(host).then(function (h) { host._history = h; renderAll(host, pool); });
@@ -137,6 +138,19 @@
         host._submitError = String((e && e.message) || e);
         renderAll(host, pool);
       });
+    });
+  }
+  // Map server grading onto the shuffled attempt so locked cards can highlight
+  // the correct option and show explanations WITHOUT the pool ever carrying the
+  // answer. The server returns correct_indices (original option indices, aligned
+  // to the submitted question order) and aligned explanations.
+  function applyServerFeedback(attempt, result) {
+    if (!result) return;
+    var ci = result.correct_indices || [];
+    var ex = result.explanations || [];
+    attempt.forEach(function (q, i) {
+      if (typeof ci[i] === 'number') q.correctIdx = q.optOrder.indexOf(ci[i]);
+      if (typeof ex[i] === 'string') q.explain = ex[i];
     });
   }
   function renderAuthBar(host) {
@@ -248,12 +262,15 @@
     try {
       var pool = JSON.parse(script.textContent || '[]');
       if (!Array.isArray(pool)) return [];
-      // sanity-filter malformed entries
+      // sanity-filter malformed entries. `answer` may be ABSENT: server-graded
+      // checks (readiness/wrap-up/knowledge-check) have it stripped at build time
+      // so it never ships to the client — those are graded by grade-readiness.
+      // If `answer` is present (formative, client-graded check), it must be valid.
       return pool.filter(function (q) {
-        return q && typeof q.stem === 'string'
-          && Array.isArray(q.options) && q.options.length >= 2
-          && typeof q.answer === 'number'
-          && q.answer >= 0 && q.answer < q.options.length;
+        if (!q || typeof q.stem !== 'string'
+          || !Array.isArray(q.options) || q.options.length < 2) return false;
+        if (typeof q.answer === 'number') return q.answer >= 0 && q.answer < q.options.length;
+        return true;
       });
     } catch (e) {
       console.warn('[ox-self-check] failed to parse pool for', host.dataset.id, e);
@@ -386,11 +403,14 @@
 
     card.appendChild(optsList);
 
-    if (locked && poolQ.explain) {
+    // Explanation comes from the server (qState.explain) for server-graded checks,
+    // or from the pool (poolQ.explain) for formative client-graded checks.
+    var explainText = qState.explain || poolQ.explain;
+    if (locked && explainText) {
       var explainLabel = (qState.chosenIdx === qState.correctIdx) ? 'Why' : 'Why not';
       var explain = el('div', { class: 'ox-self-check__explain' }, [
         el('div', { class: 'ox-self-check__explain-label', text: explainLabel }),
-        el('div', { class: 'ox-self-check__explain-body', html: poolQ.explain })
+        el('div', { class: 'ox-self-check__explain-body', html: explainText })
       ]);
       card.appendChild(explain);
     }
@@ -587,6 +607,14 @@
   function submitAttempt(host, pool) {
     if (serverEnabled(host)) { submitReadiness(host, pool); return; }
     var attempt = host._attempt;
+    // If answers were stripped (a server-graded check) but the server isn't
+    // configured/reachable, we CANNOT grade locally — never fabricate a score.
+    var gradable = attempt.every(function (q) { return typeof pool[q.poolIdx].answer === 'number'; });
+    if (!gradable) {
+      host._submitError = 'grading unavailable — server not configured for this check';
+      renderAll(host, pool);
+      return;
+    }
     var total = attempt.length;
     var score = attempt.reduce(function (s, q) {
       return s + (q.chosenIdx === q.correctIdx ? 1 : 0);

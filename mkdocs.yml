@@ -165,6 +165,7 @@ nav:
 hooks:
   - hooks/progress_badges.py
   - hooks/git_identity.py            # expose fork owner + git email to the header (config.extra.git_identity)
+  - hooks/strip_answers.py           # answer-secrecy (task 5b): strip answer/explain from server-persisted pools in the published site
 
 # Linked from lesson pages, intentionally not a sidebar entry.
 # The kb/ views are self-contained *.html documents embedded (via a full-bleed
