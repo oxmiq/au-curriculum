@@ -51,96 +51,17 @@ Answer these questions from memory:
 If you couldn't answer all three, review the tutorial chapters again before proceeding.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-06-m1-readiness" data-kind="readiness" data-draw="5" data-source="Prompt Engineering Day 26 Primer + Anthropic Tutorial Ch 1-2">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What are the two structural slots in a chat-completion API call?",
-    "options": [
-      "Input and output",
-      "System prompt and user messages",
-      "Temperature and max tokens",
-      "Prefill and decode"
-    ],
-    "answer": 1,
-    "explain": "The two structural slots are: (1) System prompt - sets the model's behavior, role, and context, and (2) User messages - where you provide the actual task/input. The system prompt is like the 'environment' or 'persona' and the user message is the 'task'."
-  },
-  {
-    "stem": "What is the primary purpose of the system prompt?",
-    "options": [
-      "To provide the actual task or question",
-      "To set the model's behavior, role, and context",
-      "To limit the model's output length",
-      "To control the randomness of responses"
-    ],
-    "answer": 1,
-    "explain": "The system prompt sets the model's behavior, role, and context. It's the 'environment' that shapes how the model responds to user messages. A good system prompt defines who the model is, what context it has, and how it should approach tasks."
-  },
-  {
-    "stem": "Why does specificity generally produce better results than vague prompts?",
-    "options": [
-      "It reduces API costs",
-      "The model can only follow explicit instructions, not infer implied intent",
-      "It makes responses faster",
-      "Specific prompts are always shorter"
-    ],
-    "answer": 1,
-    "explain": "Specificity beats vagueness because LLMs can only follow explicit instructions; they can't read your mind or infer what you 'meant' to say. Vague prompts like 'write a good summary' leave too much to interpretation; specific prompts like 'write a 3-paragraph executive summary targeting C-suite readers' produce predictable results."
-  },
-  {
-    "stem": "What is the difference between the system prompt and user messages in the chat API?",
-    "options": [
-      "There is no difference",
-      "System prompt is persistent across turns; user messages are per-turn inputs",
-      "System prompts are shorter than user messages",
-      "User messages cannot contain instructions"
-    ],
-    "answer": 1,
-    "explain": "In most APIs, the system prompt is set once and persists across the conversation, while user messages are the per-turn inputs. The system prompt defines the 'persona' and 'context' while each user message provides a specific task."
-  },
-  {
-    "stem": "Why can the same prompt produce two different answers on repeated runs?",
-    "options": [
-      "The model retrieves a stored answer that changes over time",
-      "The model samples each next token from a probability distribution, so runs can differ",
-      "The model is being retrained between requests",
-      "Network latency changes the output"
-    ],
-    "answer": 1,
-    "explain": "An LLM doesn't retrieve an answer; it samples the next token from a probability distribution, token by token. With temperature above 0, different runs can sample different tokens, producing different completions. That is why the same prompt can give different answers."
-  },
-  {
-    "stem": "What does setting temperature = 0 do?",
-    "options": [
-      "Disables the model",
-      "Makes sampling deterministic: the model always picks the most likely next token",
-      "Removes the system prompt",
-      "Doubles the response speed"
-    ],
-    "answer": 1,
-    "explain": "temperature = 0 gives deterministic (greedy) sampling: the model always takes the most likely next token, so the same prompt yields the same output. Most production systems run around 0.7 because deterministic outputs are less flexible."
-  },
-  {
-    "stem": "In the Day 26 mental model, what does every word you add to a prompt do?",
-    "options": [
-      "It slows the model down proportionally",
-      "It moves probability mass around: shaping the model's next-token distribution",
-      "It is stored in the model's long-term memory",
-      "Nothing until you press enter twice"
-    ],
-    "answer": 1,
-    "explain": "The primer's mental model: the model has a probability distribution over completions, and your prompt determines its shape. A vague prompt produces a broad distribution (many completions about equally likely); a specific prompt produces a sharp one. Every word moves probability mass; prompt engineering is shaping that distribution."
-  },
-  {
-    "stem": "What is the key insight about prompting versus programming?",
-    "options": [
-      "They are the same thing",
-      "Prompting is 'programming' with natural language; you need the same rigor as code",
-      "Prompting is easier than programming",
-      "Programming skills are not useful for prompting"
-    ],
-    "answer": 1,
-    "explain": "Prompting is essentially 'programming' with natural language. Just like code, prompts can have bugs (vagueness, ambiguity, missing edge cases), and you need the same rigor: clear requirements, explicit instructions, testing edge cases, and iteration."
-  }
+  {"stem": "What are the two structural slots in a chat-completion API call?", "options": ["Input and output", "System prompt and user messages", "Temperature and max tokens", "Prefill and decode"]},
+  {"stem": "What is the primary purpose of the system prompt?", "options": ["To provide the actual task or question", "To set the model's behavior, role, and context", "To limit the model's output length", "To control the randomness of responses"]},
+  {"stem": "Why does specificity generally produce better results than vague prompts?", "options": ["It reduces API costs", "The model can only follow explicit instructions, not infer implied intent", "It makes responses faster", "Specific prompts are always shorter"]},
+  {"stem": "What is the difference between the system prompt and user messages in the chat API?", "options": ["There is no difference", "System prompt is persistent across turns; user messages are per-turn inputs", "System prompts are shorter than user messages", "User messages cannot contain instructions"]},
+  {"stem": "Why can the same prompt produce two different answers on repeated runs?", "options": ["The model retrieves a stored answer that changes over time", "The model samples each next token from a probability distribution, so runs can differ", "The model is being retrained between requests", "Network latency changes the output"]},
+  {"stem": "What does setting temperature = 0 do?", "options": ["Disables the model", "Makes sampling deterministic: the model always picks the most likely next token", "Removes the system prompt", "Doubles the response speed"]},
+  {"stem": "In the Day 26 mental model, what does every word you add to a prompt do?", "options": ["It slows the model down proportionally", "It moves probability mass around: shaping the model's next-token distribution", "It is stored in the model's long-term memory", "Nothing until you press enter twice"]},
+  {"stem": "What is the key insight about prompting versus programming?", "options": ["They are the same thing", "Prompting is 'programming' with natural language; you need the same rigor as code", "Prompting is easier than programming", "Programming skills are not useful for prompting"]}
 ]
 </script>
 </div>
@@ -294,96 +215,17 @@ My Prompt Checklist:
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-06-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 26 · Prompt Engineering Fundamentals">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What are the two structural slots in a chat-completion API?",
-    "options": [
-      "Question and answer",
-      "System message (instructions to the model) and user message (the actual input)",
-      "Prompt and completion",
-      "Context window and output buffer"
-    ],
-    "answer": 1,
-    "explain": "Chat-completion APIs (e.g., OpenAI, Anthropic) have a system message, permanent instructions that shape behavior for the whole conversation, and a user message: the current input. Structuring prompts across these two slots correctly is a foundational prompt engineering skill."
-  },
-  {
-    "stem": "Why does specificity beat vagueness in prompt engineering?",
-    "options": [
-      "Longer prompts always generate better outputs regardless of content",
-      "Specific prompts constrain the model's output space to the intended task, reducing ambiguity and irrelevant responses",
-      "Specific prompts are cached by the model, reducing inference cost",
-      "Vague prompts cause syntax errors in the model"
-    ],
-    "answer": 1,
-    "explain": "Vague prompts leave the model to guess intent, resulting in generic, off-target, or inconsistent outputs. Specificity (task + context + format + constraints) reduces the model's 'decision space' to what the user actually wants. The lesson's core principle: 'Specificity beats vagueness.'"
-  },
-  {
-    "stem": "Why do production systems separate the system prompt from the user turn(s)?",
-    "options": [
-      "The model executes them in two separate processes",
-      "It doubles the effective context window",
-      "The system-prompt prefix can be cached and reused across requests, and separating stable rules from per-turn data keeps you from rewriting the rules every turn",
-      "User turns are encrypted while system prompts are not"
-    ],
-    "answer": 2,
-    "explain": "The lesson gives two reasons the two slots matter: (1) Caching - Anthropic and others cache the system-prompt prefix, so you pay for those tokens once and reuse them across requests; (2) Discipline - separating 'rules' (system) from 'data' (user turn) stops you from accidentally rewriting the rules on every turn."
-  },
-  {
-    "stem": "The 6-component prompt checklist is Role, Context, Task, Input, Format, and which sixth component?",
-    "options": [
-      "Temperature",
-      "Examples",
-      "Audience",
-      "Constraints"
-    ],
-    "answer": 3,
-    "explain": "The lesson's 6-component checklist is Role, Context, Task, Input, Format, and Constraints. Constraints are the hard rules the output must obey (length limits, forbidden content, required tone). 'Audience' and 'Examples' are useful but are not the sixth named component in this checklist."
-  },
-  {
-    "stem": "What are the three vagueness traps covered in the lesson?",
-    "options": [
-      "Undefined Audience, Undefined Format, Undefined Success Criteria",
-      "Undefined Length, Undefined Tone, Undefined Language",
-      "No role, no context, no examples",
-      "Wrong temperature, wrong token limit, wrong model"
-    ],
-    "answer": 0,
-    "explain": "The three vagueness traps are: (1) Undefined Audience - for whom? (a 5-year-old, a CS undergrad, a datacenter engineer?); (2) Undefined Format - bulleted, numbered, JSON, a table?; (3) Undefined Success Criteria - how long, what depth, what counts as done? The fix for each is to state the missing dimension explicitly."
-  },
-  {
-    "stem": "Which of these is a complete well-structured prompt using the 6-component checklist?",
-    "options": [
-      "Summarize this.",
-      "Tell me about AI.",
-      "You are a technical writer. Summarize the following GPU benchmark report for a non-technical manager. Focus on cost and performance. Output exactly 3 bullet points, each under 20 words. Do not mention FLOPS or bandwidth. [report text]",
-      "Be very helpful and give a great answer about machine learning."
-    ],
-    "answer": 2,
-    "explain": "Mapping option C to the 6-component checklist: Role (technical writer), Context (a GPU benchmark report, reader is a non-technical manager), Task (summarize), Input (the [report text]), Format (exactly 3 bullet points, each under 20 words), and Constraints (do not mention FLOPS or bandwidth). It covers all six components; options A, B, and D are vague or missing multiple components."
-  },
-  {
-    "stem": "The prompt 'Explain what a GPU is' primarily falls into which vagueness trap?",
-    "options": [
-      "Undefined Format",
-      "Undefined Success Criteria",
-      "No trap - it is specific enough",
-      "Undefined Audience"
-    ],
-    "answer": 3,
-    "explain": "In the lesson this is the Trap 1 (Undefined Audience) example: it never says for whom; a 5-year-old, a CS undergrad, or a datacenter engineer would all need different explanations. The fix names the audience and their prior knowledge (e.g., 'a second-year CS undergrad who knows what a CPU is but has never written CUDA')."
-  },
-  {
-    "stem": "What heuristic does the lesson give for deciding whether a prompt is specific enough?",
-    "options": [
-      "If a junior engineer would need to ask a clarifying question, the LLM does too",
-      "If the prompt is over 100 words, it is specific enough",
-      "If the prompt contains a role, it is complete",
-      "If temperature is set to 0, specificity no longer matters"
-    ],
-    "answer": 0,
-    "explain": "The lesson's rule: 'If a junior engineer would need to ask a clarifying question, the LLM does too.' Any ambiguity a capable human would need resolved is ambiguity the model will otherwise resolve by guessing; so specify it up front."
-  }
+  {"stem": "What are the two structural slots in a chat-completion API?", "options": ["Question and answer", "System message (instructions to the model) and user message (the actual input)", "Prompt and completion", "Context window and output buffer"]},
+  {"stem": "Why does specificity beat vagueness in prompt engineering?", "options": ["Longer prompts always generate better outputs regardless of content", "Specific prompts constrain the model's output space to the intended task, reducing ambiguity and irrelevant responses", "Specific prompts are cached by the model, reducing inference cost", "Vague prompts cause syntax errors in the model"]},
+  {"stem": "Why do production systems separate the system prompt from the user turn(s)?", "options": ["The model executes them in two separate processes", "It doubles the effective context window", "The system-prompt prefix can be cached and reused across requests, and separating stable rules from per-turn data keeps you from rewriting the rules every turn", "User turns are encrypted while system prompts are not"]},
+  {"stem": "The 6-component prompt checklist is Role, Context, Task, Input, Format, and which sixth component?", "options": ["Temperature", "Examples", "Audience", "Constraints"]},
+  {"stem": "What are the three vagueness traps covered in the lesson?", "options": ["Undefined Audience, Undefined Format, Undefined Success Criteria", "Undefined Length, Undefined Tone, Undefined Language", "No role, no context, no examples", "Wrong temperature, wrong token limit, wrong model"]},
+  {"stem": "Which of these is a complete well-structured prompt using the 6-component checklist?", "options": ["Summarize this.", "Tell me about AI.", "You are a technical writer. Summarize the following GPU benchmark report for a non-technical manager. Focus on cost and performance. Output exactly 3 bullet points, each under 20 words. Do not mention FLOPS or bandwidth. [report text]", "Be very helpful and give a great answer about machine learning."]},
+  {"stem": "The prompt 'Explain what a GPU is' primarily falls into which vagueness trap?", "options": ["Undefined Format", "Undefined Success Criteria", "No trap - it is specific enough", "Undefined Audience"]},
+  {"stem": "What heuristic does the lesson give for deciding whether a prompt is specific enough?", "options": ["If a junior engineer would need to ask a clarifying question, the LLM does too", "If the prompt is over 100 words, it is specific enough", "If the prompt contains a role, it is complete", "If temperature is set to 0, specificity no longer matters"]}
 ]
 </script>
 </div>

@@ -55,96 +55,17 @@ Answer these questions from memory before continuing:
 If you couldn't answer all five, re-read the Student Guide Module 4 before continuing.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-06-m5-readiness" data-kind="readiness" data-draw="5" data-source="AI Agents Orchestration & Multi-Agent + HuggingFace Agents Course">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What is the planner-worker pattern in multi-agent systems?",
-    "options": [
-      "A single agent that plans and executes all tasks",
-      "A planner agent decomposes tasks and worker agents execute the subtasks",
-      "Workers that plan their own tasks",
-      "A type of load balancing"
-    ],
-    "answer": 1,
-    "explain": "The planner-worker pattern has a planner agent that decomposes the overall task into subtasks and assigns them to worker agents. The planner decides 'what goes where' and workers focus on execution. This is also called 'decomposer + executors' pattern."
-  },
-  {
-    "stem": "What is the supervisor-worker pattern?",
-    "options": [
-      "Workers supervise each other",
-      "A supervisor agent delegates tasks to workers based on their capabilities, acting as a central manager",
-      "A single worker supervised by a human",
-      "A pattern where workers plan for supervisors"
-    ],
-    "answer": 1,
-    "explain": "The supervisor-worker pattern has a supervisor agent that acts as a central manager, delegating tasks to specialized workers based on their capabilities. The supervisor decides which worker should handle which subtask, unlike planner-worker where the planner does explicit decomposition."
-  },
-  {
-    "stem": "What is the key difference between planner-worker and supervisor-worker?",
-    "options": [
-      "There is no difference",
-      "Planner-worker does explicit task decomposition upfront; supervisor-worker delegates dynamically as tasks come in",
-      "Planner-worker is faster; supervisor-worker is more accurate",
-      "They use different LLM models"
-    ],
-    "answer": 1,
-    "explain": "The key difference: Planner-worker does explicit task decomposition upfront (the planner breaks down the whole task into subtasks). Supervisor-worker delegates dynamically (the supervisor decides what to delegate as tasks come in). Planner is 'divide then conquer'; supervisor is 'delegate on demand'."
-  },
-  {
-    "stem": "Why would you split work across multiple agents instead of one big loop?",
-    "options": [
-      "Multiple agents are always faster",
-      "For parallelism, specialization, and scaling beyond a single context window",
-      "Because one agent cannot think",
-      "To save API costs"
-    ],
-    "answer": 1,
-    "explain": "Multi-agent systems provide: (1) Parallelism - multiple workers can execute subtasks simultaneously, (2) Specialization - each worker can be optimized for a specific task type, (3) Scale beyond context window - the combined input might exceed what one model can handle."
-  },
-  {
-    "stem": "What is the approximate LLM call overhead of adding a planner + 3 workers vs a single agent?",
-    "options": [
-      "No overhead",
-      "Approximately 3-5x more LLM calls",
-      "Approximately 10x more LLM calls",
-      "It reduces LLM calls"
-    ],
-    "answer": 1,
-    "explain": "Adding a planner + 3 workers adds significant overhead: the planner needs to decompose (1+ call), the supervisor needs to delegate (multiple calls), and each worker needs to execute (multiple calls). Approximate overhead is 3-5x more LLM calls than a single agent doing the same work. This directly impacts cost and latency."
-  },
-  {
-    "stem": "When is single-agent the right answer?",
-    "options": [
-      "Always",
-      "When the task fits in one context window, doesn't need parallelism, and doesn't require specialized skills",
-      "Never",
-      "When cost is not a concern"
-    ],
-    "answer": 1,
-    "explain": "Single-agent is right when: (1) the task fits in one context window, (2) doesn't need parallelism (tasks are sequential), (3) doesn't require specialized skills. Multi-agent adds complexity (more failure modes, harder debugging); only use it when the benefits (parallelism, specialization) outweigh the costs."
-  },
-  {
-    "stem": "What is the main benefit of multi-agent systems despite the cost?",
-    "options": [
-      "They are always more accurate",
-      "Parallelism, specialization, and ability to scale beyond a single context window",
-      "They are cheaper",
-      "They require less code"
-    ],
-    "answer": 1,
-    "explain": "The main benefits of multi-agent systems are: (1) Parallelism - multiple agents can work simultaneously, (2) Specialization - each agent can be optimized for a specific task, (3) Scale beyond context window - the combined input might exceed what one model can handle. These benefits can justify the extra cost and complexity for the right use case."
-  },
-  {
-    "stem": "What is communication protocol in multi-agent systems?",
-    "options": [
-      "The API used to call LLMs",
-      "The structured way agents communicate with each other (e.g., message formats, coordination)",
-      "A type of network protocol",
-      "A security standard"
-    ],
-    "answer": 1,
-    "explain": "Communication protocol defines how agents communicate with each other: message formats, coordination patterns, how to handle failures across agents. Without structured protocols, multi-agent systems become chaotic. Common patterns include message passing, shared state, and hierarchical reporting."
-  }
+  {"stem": "What is the planner-worker pattern in multi-agent systems?", "options": ["A single agent that plans and executes all tasks", "A planner agent decomposes tasks and worker agents execute the subtasks", "Workers that plan their own tasks", "A type of load balancing"]},
+  {"stem": "What is the supervisor-worker pattern?", "options": ["Workers supervise each other", "A supervisor agent delegates tasks to workers based on their capabilities, acting as a central manager", "A single worker supervised by a human", "A pattern where workers plan for supervisors"]},
+  {"stem": "What is the key difference between planner-worker and supervisor-worker?", "options": ["There is no difference", "Planner-worker does explicit task decomposition upfront; supervisor-worker delegates dynamically as tasks come in", "Planner-worker is faster; supervisor-worker is more accurate", "They use different LLM models"]},
+  {"stem": "Why would you split work across multiple agents instead of one big loop?", "options": ["Multiple agents are always faster", "For parallelism, specialization, and scaling beyond a single context window", "Because one agent cannot think", "To save API costs"]},
+  {"stem": "What is the approximate LLM call overhead of adding a planner + 3 workers vs a single agent?", "options": ["No overhead", "Approximately 3-5x more LLM calls", "Approximately 10x more LLM calls", "It reduces LLM calls"]},
+  {"stem": "When is single-agent the right answer?", "options": ["Always", "When the task fits in one context window, doesn't need parallelism, and doesn't require specialized skills", "Never", "When cost is not a concern"]},
+  {"stem": "What is the main benefit of multi-agent systems despite the cost?", "options": ["They are always more accurate", "Parallelism, specialization, and ability to scale beyond a single context window", "They are cheaper", "They require less code"]},
+  {"stem": "What is communication protocol in multi-agent systems?", "options": ["The API used to call LLMs", "The structured way agents communicate with each other (e.g., message formats, coordination)", "A type of network protocol", "A security standard"]}
 ]
 </script>
 </div>
@@ -411,96 +332,17 @@ Complete this decision rule:
 Not gated; draw 5 questions from the Week 6 pool to warm up before the assessed check above.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-06-m5-wrapup" data-kind="wrap-up" data-draw="5" data-source="Week 6 consolidation - prompt engineering + AI agents">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What is the correct order of the five-step agent loop?",
-    "options": [
-      "Plan → Act → Perceive → Observe → Repeat",
-      "Perceive → Plan → Act → Observe → Repeat",
-      "Act → Perceive → Plan → Repeat → Observe",
-      "Observe → Plan → Perceive → Act → Repeat"
-    ],
-    "answer": 1,
-    "explain": "The agent loop: Perceive (gather environment inputs), Plan (decide next action), Act (execute), Observe (read result), Repeat. This is the fundamental ReAct-style architecture covered in Day 27."
-  },
-  {
-    "stem": "What does chain-of-thought prompting do that direct prompting does not?",
-    "options": [
-      "It provides examples of correct outputs",
-      "It instructs the model to generate step-by-step reasoning before producing the final answer",
-      "It specifies the output format as a numbered list",
-      "It restricts the model to only use factual information"
-    ],
-    "answer": 1,
-    "explain": "Chain-of-thought (CoT) prompting produces intermediate reasoning steps that guide the model toward the correct answer. Direct prompting asks for the answer without reasoning steps. CoT is especially effective for multi-step math, logic, and complex analysis tasks (Day 26)."
-  },
-  {
-    "stem": "What is the end-to-end reliability of a 5-step agent chain where each step has 95% reliability?",
-    "options": [
-      "95%",
-      "90%",
-      "77%",
-      "62%"
-    ],
-    "answer": 2,
-    "explain": "0.95^5 ≈ 0.774 = ~77%. Chain reliability compounds: each step that might fail multiplies the probability. This is why long chains need retry logic and why keeping chains short improves reliability (Day 27)."
-  },
-  {
-    "stem": "What safety rule must wrap any write tool (a tool with side effects)?",
-    "options": [
-      "Log the call and proceed automatically",
-      "Require a human-in-the-loop confirmation before executing the write action",
-      "Convert the write tool to read-only mode",
-      "Limit write tools to a maximum of 3 calls per agent run"
-    ],
-    "answer": 1,
-    "explain": "Write tools, those that send emails, modify databases, delete files, or take other irreversible actions, must be wrapped in a human approval step. Without this gate, a hijacked agent can cause real-world damage. Read tools (query, fetch) are safe to call automatically (Day 28)."
-  },
-  {
-    "stem": "What is indirect prompt injection?",
-    "options": [
-      "Manually editing the system prompt to change agent behavior",
-      "Malicious instructions embedded in tool outputs or retrieved content that override the agent's original task when the model processes that content",
-      "An agent calling tools that were not listed in its schema",
-      "A model hallucinating tool names that don't exist"
-    ],
-    "answer": 1,
-    "explain": "Indirect prompt injection hides attack instructions in external data (web pages, emails, documents). When the agent reads that data, the hidden instructions hijack its behavior. The EchoLeak vulnerability (CVE-2025-32711) exploited exactly this vector in M365 Copilot (Day 29)."
-  },
-  {
-    "stem": "When should you use a multi-agent system instead of a single agent?",
-    "options": [
-      "Whenever the task requires more than 5 tool calls",
-      "Only when the task involves external APIs",
-      "When a single agent's context window, expertise, or reliability cannot handle the full task: e.g., tasks with parallel subtasks, specialist sub-domains, or more steps than fit in one context",
-      "Multi-agent is always preferred over single-agent for reliability"
-    ],
-    "answer": 2,
-    "explain": "Day 30's rule: 'go multi-agent only when a single agent provably cannot handle the task.' Multi-agent systems add latency, cost, and coordination complexity. Reasons to split: context window overflow, parallel independent subtasks, different tools/permissions per agent, or isolating blast radius."
-  },
-  {
-    "stem": "What are the four MCP (Model Context Protocol) building blocks?",
-    "options": [
-      "Agents, Models, Memories, Actions",
-      "Tools, Resources, Prompts, Sampling",
-      "Context, Schema, Auth, Transport",
-      "Plans, Actions, Observations, Rewards"
-    ],
-    "answer": 1,
-    "explain": "MCP exposes: Tools (callable functions), Resources (files, DB rows, APIs to read), Prompts (reusable prompt templates), and Sampling (the server can ask the client to call a model). Together these provide everything an agent needs to interact with its environment through a standardized interface (Day 28)."
-  },
-  {
-    "stem": "In the planner-worker multi-agent pattern, who decides task decomposition?",
-    "options": [
-      "The workers decide collectively via voting",
-      "The planner agent decomposes the task and assigns subtasks to worker agents",
-      "The user manually specifies which worker handles which subtask",
-      "A separate routing model determines task decomposition"
-    ],
-    "answer": 1,
-    "explain": "Planner-worker: the planner receives the high-level goal, breaks it into subtasks, and dispatches each subtask to a specialized worker. The planner aggregates worker outputs into a final result. This pattern is good for tasks with clear decomposable structure (Day 30)."
-  }
+  {"stem": "What is the correct order of the five-step agent loop?", "options": ["Plan → Act → Perceive → Observe → Repeat", "Perceive → Plan → Act → Observe → Repeat", "Act → Perceive → Plan → Repeat → Observe", "Observe → Plan → Perceive → Act → Repeat"]},
+  {"stem": "What does chain-of-thought prompting do that direct prompting does not?", "options": ["It provides examples of correct outputs", "It instructs the model to generate step-by-step reasoning before producing the final answer", "It specifies the output format as a numbered list", "It restricts the model to only use factual information"]},
+  {"stem": "What is the end-to-end reliability of a 5-step agent chain where each step has 95% reliability?", "options": ["95%", "90%", "77%", "62%"]},
+  {"stem": "What safety rule must wrap any write tool (a tool with side effects)?", "options": ["Log the call and proceed automatically", "Require a human-in-the-loop confirmation before executing the write action", "Convert the write tool to read-only mode", "Limit write tools to a maximum of 3 calls per agent run"]},
+  {"stem": "What is indirect prompt injection?", "options": ["Manually editing the system prompt to change agent behavior", "Malicious instructions embedded in tool outputs or retrieved content that override the agent's original task when the model processes that content", "An agent calling tools that were not listed in its schema", "A model hallucinating tool names that don't exist"]},
+  {"stem": "When should you use a multi-agent system instead of a single agent?", "options": ["Whenever the task requires more than 5 tool calls", "Only when the task involves external APIs", "When a single agent's context window, expertise, or reliability cannot handle the full task: e.g., tasks with parallel subtasks, specialist sub-domains, or more steps than fit in one context", "Multi-agent is always preferred over single-agent for reliability"]},
+  {"stem": "What are the four MCP (Model Context Protocol) building blocks?", "options": ["Agents, Models, Memories, Actions", "Tools, Resources, Prompts, Sampling", "Context, Schema, Auth, Transport", "Plans, Actions, Observations, Rewards"]},
+  {"stem": "In the planner-worker multi-agent pattern, who decides task decomposition?", "options": ["The workers decide collectively via voting", "The planner agent decomposes the task and assigns subtasks to worker agents", "The user manually specifies which worker handles which subtask", "A separate routing model determines task decomposition"]}
 ]
 </script>
 </div>

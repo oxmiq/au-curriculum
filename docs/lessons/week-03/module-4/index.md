@@ -56,96 +56,17 @@ Answer these questions from memory:
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-03-m4-readiness" data-kind="readiness" data-draw="5" data-source="Hugging Face - Quantization">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "How many bytes is FP16?",
-    "options": [
-      "1 byte",
-      "2 bytes",
-      "4 bytes",
-      "8 bytes"
-    ],
-    "answer": 1,
-    "explain": "FP16 is 16 bits = 2 bytes. It provides sufficient precision for most deep learning while halving memory vs FP32 (4 bytes)."
-  },
-  {
-    "stem": "Why does float (FP) have an advantage over integer (INT) at the same bit count?",
-    "options": [
-      "Integers are faster",
-      "Float has a dynamic range - it can represent both very small and very large values",
-      "Integers are more accurate",
-      "There is no difference"
-    ],
-    "answer": 1,
-    "explain": "Float has a dynamic range through its exponent. INT is fixed-range. At the same bit count, FP can represent orders of magnitude difference in values: crucial for neural network weights and activations."
-  },
-  {
-    "stem": "Which is more sensitive to quantization: weights or activations?",
-    "options": [
-      "Weights - they change the most",
-      "Activations - they vary more dynamically at runtime",
-      "They are equally sensitive",
-      "Neither are sensitive"
-    ],
-    "answer": 1,
-    "explain": "Activations are more sensitive to quantization because they vary dynamically at runtime based on input. Weights are static. This is why many methods quantize weights aggressively but keep activations in higher precision."
-  },
-  {
-    "stem": "What is the typical quality cost of going FP16 → FP8 weights?",
-    "options": [
-      "10-20% quality loss",
-      "<1% quality loss (nearly lossless)",
-      "50% quality loss",
-      "No quality change"
-    ],
-    "answer": 1,
-    "explain": "Going from FP16 to FP8 weights typically costs <1% quality loss. This makes it nearly lossless. The key insight is that weights are static: easier to quantize than dynamic activations."
-  },
-  {
-    "stem": "If you quantize weights from FP16 to FP8 on a memory-bound kernel, what's the rough speedup ceiling?",
-    "options": [
-      "2x",
-      "~2x (memory bandwidth doubles, so speed roughly doubles)",
-      "10x",
-      "No speedup"
-    ],
-    "answer": 1,
-    "explain": "FP8 uses half the bytes of FP16, so memory bandwidth roughly doubles. For memory-bound kernels, speedup is ~2x. This is the theoretical ceiling: actual speedup may be slightly less due to overhead."
-  },
-  {
-    "stem": "What is the 'sensitivity ladder' for quantization (from most to least sensitive)?",
-    "options": [
-      "Weights > Activations > KV > Attention",
-      "Attention output > Activations > KV cache > Weights",
-      "KV > Attention > Activations > Weights",
-      "Attention > Weights > KV > Activations"
-    ],
-    "answer": 1,
-    "explain": "The sensitivity ladder (most to least sensitive): attention output > activations > KV cache > weights. This guides quantization strategy: quantize weights aggressively (INT4/FP8), keep activations and attention outputs at higher precision."
-  },
-  {
-    "stem": "What does quantization achieve for decode-phase inference?",
-    "options": [
-      "Faster prefill",
-      "Less data to move from HBM - directly reduces decode latency",
-      "Higher accuracy",
-      "Better model quality"
-    ],
-    "answer": 1,
-    "explain": "Quantization reduces the precision of weights (and sometimes activations), so less data needs to be moved from HBM during decode. Since decode is memory-bound, this directly reduces latency."
-  },
-  {
-    "stem": "What is the difference between static and dynamic quantization?",
-    "options": [
-      "Static: activation scales are precomputed offline via a calibration pass; dynamic: activation scales are computed on-the-fly at runtime",
-      "There is no difference",
-      "Dynamic is always better",
-      "Static is always better"
-    ],
-    "answer": 0,
-    "explain": "Both quantize the weights. The difference is how activation scales are chosen: static (PTQ) runs a calibration pass to precompute activation scales offline; dynamic computes activation scales per input at runtime. Static is faster at inference; dynamic adapts better to each input but adds runtime overhead."
-  }
+  {"stem": "How many bytes is FP16?", "options": ["1 byte", "2 bytes", "4 bytes", "8 bytes"]},
+  {"stem": "Why does float (FP) have an advantage over integer (INT) at the same bit count?", "options": ["Integers are faster", "Float has a dynamic range - it can represent both very small and very large values", "Integers are more accurate", "There is no difference"]},
+  {"stem": "Which is more sensitive to quantization: weights or activations?", "options": ["Weights - they change the most", "Activations - they vary more dynamically at runtime", "They are equally sensitive", "Neither are sensitive"]},
+  {"stem": "What is the typical quality cost of going FP16 → FP8 weights?", "options": ["10-20% quality loss", "<1% quality loss (nearly lossless)", "50% quality loss", "No quality change"]},
+  {"stem": "If you quantize weights from FP16 to FP8 on a memory-bound kernel, what's the rough speedup ceiling?", "options": ["2x", "~2x (memory bandwidth doubles, so speed roughly doubles)", "10x", "No speedup"]},
+  {"stem": "What is the 'sensitivity ladder' for quantization (from most to least sensitive)?", "options": ["Weights > Activations > KV > Attention", "Attention output > Activations > KV cache > Weights", "KV > Attention > Activations > Weights", "Attention > Weights > KV > Activations"]},
+  {"stem": "What does quantization achieve for decode-phase inference?", "options": ["Faster prefill", "Less data to move from HBM - directly reduces decode latency", "Higher accuracy", "Better model quality"]},
+  {"stem": "What is the difference between static and dynamic quantization?", "options": ["Static: activation scales are precomputed offline via a calibration pass; dynamic: activation scales are computed on-the-fly at runtime", "There is no difference", "Dynamic is always better", "Static is always better"]}
 ]
 </script>
 </div>
@@ -296,107 +217,18 @@ Pair discussion:
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-03-m4-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 14 · Quantization">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "Why is FP8 generally preferred over INT8 for LLM weight quantization?",
-    "options": [
-      "FP8 uses less memory than INT8",
-      "FP8 has a floating-point exponent allowing it to represent a wider dynamic range, reducing quality loss on outlier activations compared to INT8's fixed-range integer representation",
-      "FP8 is faster because it requires fewer multiplications",
-      "FP8 is hardware-accelerated on all GPU architectures since 2018"
-    ],
-    "answer": 1,
-    "explain": "INT8 maps values to 256 fixed integer levels, which clips outlier values. FP8 (e.g., E4M3 format) has a floating-point exponent that better handles the wide range of weight magnitudes in transformer layers. This makes FP8 less lossy for LLMs, which have outlier-prone activations."
-  },
-  {
-    "stem": "In the quantization sensitivity ladder (least to most sensitive), which is the ordering?",
-    "options": [
-      "Activations are least sensitive; KV cache is most sensitive",
-      "Weights are least sensitive; attention output is most sensitive",
-      "KV cache is least sensitive; weights are most sensitive",
-      "All components are equally sensitive to quantization"
-    ],
-    "answer": 1,
-    "explain": "The sensitivity ladder from least to most sensitive is approximately: weights < KV cache < activations < attention output. Weights are static and can be calibrated offline. Activations and attention outputs are computed dynamically per input and have outliers, making them hardest to quantize without accuracy loss."
-  },
-  {
-    "stem": "Why does decode benefit more from weight quantization than prefill does?",
-    "options": [
-      "Decode uses different model layers than prefill",
-      "Decode is memory-bound - quantization reduces bytes per weight, directly increasing effective bandwidth and TPS; prefill is compute-bound so bandwidth savings matter less",
-      "Prefill is never run with quantized weights",
-      "Quantization is only applied to the KV cache during decode"
-    ],
-    "answer": 1,
-    "explain": "Decode's bottleneck is memory bandwidth (reading weights from HBM). Halving weight size (e.g., FP16 to INT8) roughly halves the bytes transferred and doubles effective bandwidth, directly increasing TPS. Prefill is compute-bound: bandwidth savings don't help as much."
-  },
-  {
-    "stem": "Approximately how much memory footprint reduction does FP8 provide compared to FP16?",
-    "options": [
-      "2× reduction (FP8 = 1 byte vs FP16 = 2 bytes per parameter)",
-      "4× reduction (FP8 = 0.5 bytes per parameter)",
-      "8× reduction",
-      "No reduction - FP8 is only a compute optimization"
-    ],
-    "answer": 0,
-    "explain": "FP8 = 1 byte per parameter; FP16 = 2 bytes per parameter. FP8 gives a 2× memory reduction vs FP16, the same as INT8. INT4 gives 4× vs FP16 (0.5 bytes per param). The memory savings directly reduce KV cache and weight footprints."
-  },
-  {
-    "stem": "What is the typical quality cost of FP8 quantization on benchmarks like MMLU?",
-    "options": [
-      "Greater than 10 percentage points - noticeable degradation",
-      "Around 5 percentage points - significant but acceptable",
-      "Around 0.1–0.3 percentage points - negligible loss for ~2× throughput gain",
-      "Zero - FP8 is perfectly lossless for all models"
-    ],
-    "answer": 2,
-    "explain": "Well-calibrated FP8 quantization typically costs ~0.1–0.3 MMLU points compared to FP16 on modern LLMs. This is an excellent tradeoff: roughly 2× throughput improvement for less than 0.5% quality degradation. However, some models are more sensitive; always measure before deploying."
-  },
-  {
-    "stem": "When should you avoid aggressive quantization (e.g., INT4)?",
-    "options": [
-      "When running on H100s, which do not support INT4",
-      "When memory is abundant, quality requirements are high, or the model has known quantization sensitivity",
-      "When running batch sizes larger than 32",
-      "When serving more than 100 requests per second"
-    ],
-    "answer": 1,
-    "explain": "The lesson notes: 'When NOT to use: small batch + abundant memory + quality-critical task; early-stage eval where you're still measuring quality; models with known quantization sensitivity.' INT4 is more aggressive; use it for throughput-critical deployments where you've validated quality on your specific workload."
-  },
-  {
-    "stem": "What is the 'modern Hopper sweet spot' starter quantization config the lesson recommends?",
-    "options": [
-      "INT4 weights, INT4 activations, INT4 KV cache",
-      "FP8 weights, FP16 activations, FP8 KV cache",
-      "FP32 for every component, for maximum safety",
-      "FP16 weights, FP8 activations, FP16 KV cache"
-    ],
-    "answer": 1,
-    "explain": "Part 3's recommended starter is FP8 weights, FP16 activations, FP8 KV cache. This follows the sensitivity ladder: weights are least sensitive (quantize aggressively), KV cache tolerates FP8 (halving both size and read bandwidth), while activations are kept in higher precision because they are more sensitive."
-  },
-  {
-    "stem": "Per the lesson's precision ladder, how many bytes per parameter do INT4 and FP4/NF4 use, and how does that compare with FP16?",
-    "options": [
-      "1 byte each; 2× smaller than FP16",
-      "2 bytes each; the same as FP16",
-      "0.5 bytes each; 4× smaller than FP16",
-      "0.25 bytes each; 8× smaller than FP16"
-    ],
-    "answer": 2,
-    "explain": "The Part 2 table lists INT4 and FP4/NF4 at 0.5 bytes per parameter versus FP16's 2 bytes: a 4× reduction. Part 4 confirms it: Llama-3-8B is 16 GB at FP16 but only 4 GB at INT4."
-  },
-  {
-    "stem": "Why does the lesson say float formats like FP8 handle LLM values better than integer formats like INT8 at the same bit count?",
-    "options": [
-      "Integers are computed faster, so quality is traded away for speed",
-      "FP8's exponent gives dynamic range and logarithmic spacing (finer near zero), handling the heavy-tailed activation outliers; INT8's uniform spacing clips or wastes range",
-      "FP8 physically stores more bits than INT8",
-      "There is no quality difference; the choice is arbitrary"
-    ],
-    "answer": 1,
-    "explain": "Part 3: neural-network activations are heavy-tailed with outliers in every layer. A float's sign/exponent/mantissa gives dynamic range and logarithmic spacing (wider near zero), so FP8 handles outliers gracefully; INT8's uniform spacing either clips the outliers or wastes range on them. Hence FP8 > INT8 for LLM weights at equal bits."
-  }
+  {"stem": "Why is FP8 generally preferred over INT8 for LLM weight quantization?", "options": ["FP8 uses less memory than INT8", "FP8 has a floating-point exponent allowing it to represent a wider dynamic range, reducing quality loss on outlier activations compared to INT8's fixed-range integer representation", "FP8 is faster because it requires fewer multiplications", "FP8 is hardware-accelerated on all GPU architectures since 2018"]},
+  {"stem": "In the quantization sensitivity ladder (least to most sensitive), which is the ordering?", "options": ["Activations are least sensitive; KV cache is most sensitive", "Weights are least sensitive; attention output is most sensitive", "KV cache is least sensitive; weights are most sensitive", "All components are equally sensitive to quantization"]},
+  {"stem": "Why does decode benefit more from weight quantization than prefill does?", "options": ["Decode uses different model layers than prefill", "Decode is memory-bound - quantization reduces bytes per weight, directly increasing effective bandwidth and TPS; prefill is compute-bound so bandwidth savings matter less", "Prefill is never run with quantized weights", "Quantization is only applied to the KV cache during decode"]},
+  {"stem": "Approximately how much memory footprint reduction does FP8 provide compared to FP16?", "options": ["2× reduction (FP8 = 1 byte vs FP16 = 2 bytes per parameter)", "4× reduction (FP8 = 0.5 bytes per parameter)", "8× reduction", "No reduction - FP8 is only a compute optimization"]},
+  {"stem": "What is the typical quality cost of FP8 quantization on benchmarks like MMLU?", "options": ["Greater than 10 percentage points - noticeable degradation", "Around 5 percentage points - significant but acceptable", "Around 0.1–0.3 percentage points - negligible loss for ~2× throughput gain", "Zero - FP8 is perfectly lossless for all models"]},
+  {"stem": "When should you avoid aggressive quantization (e.g., INT4)?", "options": ["When running on H100s, which do not support INT4", "When memory is abundant, quality requirements are high, or the model has known quantization sensitivity", "When running batch sizes larger than 32", "When serving more than 100 requests per second"]},
+  {"stem": "What is the 'modern Hopper sweet spot' starter quantization config the lesson recommends?", "options": ["INT4 weights, INT4 activations, INT4 KV cache", "FP8 weights, FP16 activations, FP8 KV cache", "FP32 for every component, for maximum safety", "FP16 weights, FP8 activations, FP16 KV cache"]},
+  {"stem": "Per the lesson's precision ladder, how many bytes per parameter do INT4 and FP4/NF4 use, and how does that compare with FP16?", "options": ["1 byte each; 2× smaller than FP16", "2 bytes each; the same as FP16", "0.5 bytes each; 4× smaller than FP16", "0.25 bytes each; 8× smaller than FP16"]},
+  {"stem": "Why does the lesson say float formats like FP8 handle LLM values better than integer formats like INT8 at the same bit count?", "options": ["Integers are computed faster, so quality is traded away for speed", "FP8's exponent gives dynamic range and logarithmic spacing (finer near zero), handling the heavy-tailed activation outliers; INT8's uniform spacing clips or wastes range", "FP8 physically stores more bits than INT8", "There is no quality difference; the choice is arbitrary"]}
 ]
 </script>
 </div>

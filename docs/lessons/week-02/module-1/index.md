@@ -55,96 +55,17 @@ If you couldn't answer all three, review the Pre-Lecture Reading again before pr
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-02-m1-readiness" data-kind="readiness" data-draw="5" data-source="Databricks - LLM Inference Performance Engineering">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "In LLM engineering, what is the fundamental difference between training and inference?",
-    "options": [
-      "Training is batch processing; inference is real-time",
-      "Training updates model weights; inference only reads weights",
-      "Training happens on GPUs; inference can happen on CPUs",
-      "Training is done by researchers; inference is done by users"
-    ],
-    "answer": 1,
-    "explain": "Training modifies the model's weights through backpropagation. Inference is a forward pass only; the model reads its weights to generate predictions. This is the foundational difference that drives all inference optimization."
-  },
-  {
-    "stem": "Why is inference often more expensive than training in the long run?",
-    "options": [
-      "Inference requires more compute per token",
-      "Inference is done continuously for every user query, while training is one-time",
-      "Training can be parallelized but inference cannot",
-      "Inference models are always larger than training models"
-    ],
-    "answer": 1,
-    "explain": "Training is a one-time cost (or periodic fine-tuning). Inference costs accumulate with every user query; millions of inferences over a model's lifetime often exceed the one-time training cost. This is why inference optimization matters."
-  },
-  {
-    "stem": "What is the tokenization step in the inference pipeline?",
-    "options": [
-      "Converting the model's output to text",
-      "Breaking the input text into tokens (subword units) the model can process",
-      "Compressing the model weights",
-      "Encrypting the prompt for security"
-    ],
-    "answer": 1,
-    "explain": "Tokenization converts raw text into tokens: typically subword units (like 'un+likely' from 'unlikely'). The model operates on tokens, not raw characters. This is the first step in the pipeline."
-  },
-  {
-    "stem": "In the inference pipeline (tokenize → embed → layers → logits → sample), what do the 'layers' component do?",
-    "options": [
-      "They tokenize the input",
-      "They run the transformer forward pass to process the embedded tokens",
-      "They select the next token",
-      "They store the conversation history"
-    ],
-    "answer": 1,
-    "explain": "The layers (transformer blocks) process the embedded tokens through self-attention and feedforward networks. Each layer transforms the representations until the final layer outputs logits for token prediction."
-  },
-  {
-    "stem": "What is the 'sample' step in the inference pipeline?",
-    "options": [
-      "Loading the model into memory",
-      "Selecting the next token from the logits using a sampling strategy",
-      "Summarizing the output for the user",
-      "Caching the response for future use"
-    ],
-    "answer": 1,
-    "explain": "Sampling converts the raw logits (token probabilities) into an actual token choice. This can be greedy (pick highest probability), random sampling with temperature, top-k, top-p, etc. The choice affects output quality and diversity."
-  },
-  {
-    "stem": "What does KV caching optimize in inference?",
-    "options": [
-      "It caches the final output text",
-      "It caches key and value matrices from attention to avoid recomputing them for each generated token",
-      "It compresses the model weights",
-      "It stores user sessions"
-    ],
-    "answer": 1,
-    "explain": "KV caching stores the key and value matrices from attention computations. When generating token-by-token, the KVs for previous tokens are cached so they don't need to be recomputed; this is critical for decode-stage efficiency."
-  },
-  {
-    "stem": "Why is batching important for inference cost?",
-    "options": [
-      "Batching reduces the number of model weights",
-      "Batching amortizes the cost of a single forward pass across multiple requests",
-      "Batching eliminates the need for GPUs",
-      "Batching automatically optimizes the model size"
-    ],
-    "answer": 1,
-    "explain": "A single forward pass processes multiple prompts at once, sharing the computation cost. Without batching, each request pays the full overhead of a forward pass. Batching is fundamental to making inference economically viable."
-  },
-  {
-    "stem": "What is quantization in the context of LLM inference?",
-    "options": [
-      "Converting tokens to text",
-      "Reducing model weight precision (e.g., from 16-bit to 8-bit) to reduce memory and compute costs",
-      "Encrypting the model for security",
-      "Sampling multiple tokens at once"
-    ],
-    "answer": 1,
-    "explain": "Quantization reduces weight precision (e.g., FP16 → INT8). This cuts memory footprint and speeds up computation, at some cost to output quality. It's a key technique for serving large models cost-effectively."
-  }
+  {"stem": "In LLM engineering, what is the fundamental difference between training and inference?", "options": ["Training is batch processing; inference is real-time", "Training updates model weights; inference only reads weights", "Training happens on GPUs; inference can happen on CPUs", "Training is done by researchers; inference is done by users"]},
+  {"stem": "Why is inference often more expensive than training in the long run?", "options": ["Inference requires more compute per token", "Inference is done continuously for every user query, while training is one-time", "Training can be parallelized but inference cannot", "Inference models are always larger than training models"]},
+  {"stem": "What is the tokenization step in the inference pipeline?", "options": ["Converting the model's output to text", "Breaking the input text into tokens (subword units) the model can process", "Compressing the model weights", "Encrypting the prompt for security"]},
+  {"stem": "In the inference pipeline (tokenize → embed → layers → logits → sample), what do the 'layers' component do?", "options": ["They tokenize the input", "They run the transformer forward pass to process the embedded tokens", "They select the next token", "They store the conversation history"]},
+  {"stem": "What is the 'sample' step in the inference pipeline?", "options": ["Loading the model into memory", "Selecting the next token from the logits using a sampling strategy", "Summarizing the output for the user", "Caching the response for future use"]},
+  {"stem": "What does KV caching optimize in inference?", "options": ["It caches the final output text", "It caches key and value matrices from attention to avoid recomputing them for each generated token", "It compresses the model weights", "It stores user sessions"]},
+  {"stem": "Why is batching important for inference cost?", "options": ["Batching reduces the number of model weights", "Batching amortizes the cost of a single forward pass across multiple requests", "Batching eliminates the need for GPUs", "Batching automatically optimizes the model size"]},
+  {"stem": "What is quantization in the context of LLM inference?", "options": ["Converting tokens to text", "Reducing model weight precision (e.g., from 16-bit to 8-bit) to reduce memory and compute costs", "Encrypting the model for security", "Sampling multiple tokens at once"]}
 ]
 </script>
 </div>
@@ -273,107 +194,18 @@ Given:
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-02-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 6 · What Happens When You Send a Prompt">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What is the correct order of the five stages in the LLM inference pipeline?",
-    "options": [
-      "Embed → Tokenize → Layers → Logits → Sample",
-      "Tokenize → Embed → Layers → Logits → Sample",
-      "Tokenize → Layers → Embed → Sample → Logits",
-      "Layers → Tokenize → Embed → Logits → Sample"
-    ],
-    "answer": 1,
-    "explain": "The pipeline in Part 2 is: Tokenize (text → token IDs) → Embed (IDs → vectors) → Layers (transformer forward pass) → Logits (probability over vocabulary) → Sample (pick next token). This loop repeats for every output token."
-  },
-  {
-    "stem": "What is the key difference between the prefill phase and the decode phase?",
-    "options": [
-      "Prefill generates tokens one at a time; decode processes all input tokens at once",
-      "Prefill processes all input tokens in parallel; decode generates output tokens one at a time",
-      "Prefill is memory-bound; decode is compute-bound",
-      "Prefill happens on the CPU; decode happens on the GPU"
-    ],
-    "answer": 1,
-    "explain": "Part 3 explains: Prefill runs all input tokens through the model simultaneously (parallel, compute-bound). Decode generates each output token sequentially, using the KV cache from prefill (sequential, memory-bound)."
-  },
-  {
-    "stem": "What drives TTFT (Time To First Token)?",
-    "options": [
-      "The decode phase - how fast individual output tokens are generated",
-      "The prefill phase - how fast all input tokens are processed",
-      "The sampling step - how quickly the logits are converted to a token",
-      "The embedding step - how fast token IDs become vectors"
-    ],
-    "answer": 1,
-    "explain": "TTFT is determined by the prefill phase. The first token can only be produced after all input tokens have been processed. Part 3 shows: TTFT occurs at the end of prefill (~200 ms in the worked example)."
-  },
-  {
-    "stem": "Why is inference more expensive than training over a model's lifetime?",
-    "options": [
-      "Inference requires more memory than training",
-      "Training is a one-time cost; inference costs accumulate with every user query across the model's lifetime",
-      "Inference hardware is more expensive than training hardware",
-      "Inference cannot be parallelized, unlike training"
-    ],
-    "answer": 1,
-    "explain": "Part 1 covers this: training is a one-time (or periodic) cost. Inference happens for every single user request. Millions of inferences over a model's deployment lifetime typically exceed the original training cost."
-  },
-  {
-    "stem": "In the worked example timeline (Part 4), what is happening during the 45–200 ms window?",
-    "options": [
-      "Decode - generating output tokens one at a time",
-      "Prefill - processing all input tokens in parallel",
-      "Network transit from the user's browser to the data center",
-      "Sampling - selecting the final token from logits"
-    ],
-    "answer": 1,
-    "explain": "Part 4's timeline shows: 45–200 ms is the prefill window where all input tokens are processed simultaneously. This is compute-intensive. The first token ('Paris') is generated at 200 ms, which is the TTFT."
-  },
-  {
-    "stem": "Why is KV caching critical for decode performance?",
-    "options": [
-      "It compresses the model weights to save memory",
-      "It caches key and value matrices from previous tokens so they don't need to be recomputed each decode step",
-      "It reduces the number of output tokens generated",
-      "It stores the final output to avoid re-running inference for repeated queries"
-    ],
-    "answer": 1,
-    "explain": "Without KV caching, each decode step would require recomputing attention over all previous tokens: O(N) work per token. KV caching stores those results so each decode step only processes the new token. This is why decode latency scales with sequence length, not re-computation."
-  },
-  {
-    "stem": "Which phase of inference is compute-bound and which is memory-bound?",
-    "options": [
-      "Both prefill and decode are compute-bound",
-      "Both prefill and decode are memory-bound",
-      "Prefill is compute-bound; decode is memory-bound",
-      "Prefill is memory-bound; decode is compute-bound"
-    ],
-    "answer": 2,
-    "explain": "Part 3 states: 'Prefill = compute-bound (GPU is the bottleneck); Decode = memory-bound (KV cache reads are the bottleneck).' This distinction drives everything in Weeks 2–4."
-  },
-  {
-    "stem": "In the Part 5 exercise (1000 input tokens, 500 output tokens), how many decode forward passes are required?",
-    "options": [
-      "500 - one decode pass per output token",
-      "1000 - one per input token",
-      "1500 - one per input and output token combined",
-      "1 - decode processes all output tokens in parallel"
-    ],
-    "answer": 0,
-    "explain": "Part 5 works this out: prefill processes the 1000 input tokens (in parallel), then decode generates the 500 output tokens one at a time: so 500 decode passes. Total forward passes = 1000 + 500 = 1500, but only 500 of those are decode."
-  },
-  {
-    "stem": "Which throughput metric does the decode phase drive?",
-    "options": [
-      "TTFT (Time To First Token)",
-      "The model's vocabulary size",
-      "TPS (Tokens Per Second)",
-      "The embedding dimension"
-    ],
-    "answer": 2,
-    "explain": "Part 3 states decode 'Drives: TPS (Tokens Per Second)' because decode generates output tokens one at a time. Prefill, by contrast, drives TTFT: the time until the first token appears."
-  }
+  {"stem": "What is the correct order of the five stages in the LLM inference pipeline?", "options": ["Embed → Tokenize → Layers → Logits → Sample", "Tokenize → Embed → Layers → Logits → Sample", "Tokenize → Layers → Embed → Sample → Logits", "Layers → Tokenize → Embed → Logits → Sample"]},
+  {"stem": "What is the key difference between the prefill phase and the decode phase?", "options": ["Prefill generates tokens one at a time; decode processes all input tokens at once", "Prefill processes all input tokens in parallel; decode generates output tokens one at a time", "Prefill is memory-bound; decode is compute-bound", "Prefill happens on the CPU; decode happens on the GPU"]},
+  {"stem": "What drives TTFT (Time To First Token)?", "options": ["The decode phase - how fast individual output tokens are generated", "The prefill phase - how fast all input tokens are processed", "The sampling step - how quickly the logits are converted to a token", "The embedding step - how fast token IDs become vectors"]},
+  {"stem": "Why is inference more expensive than training over a model's lifetime?", "options": ["Inference requires more memory than training", "Training is a one-time cost; inference costs accumulate with every user query across the model's lifetime", "Inference hardware is more expensive than training hardware", "Inference cannot be parallelized, unlike training"]},
+  {"stem": "In the worked example timeline (Part 4), what is happening during the 45–200 ms window?", "options": ["Decode - generating output tokens one at a time", "Prefill - processing all input tokens in parallel", "Network transit from the user's browser to the data center", "Sampling - selecting the final token from logits"]},
+  {"stem": "Why is KV caching critical for decode performance?", "options": ["It compresses the model weights to save memory", "It caches key and value matrices from previous tokens so they don't need to be recomputed each decode step", "It reduces the number of output tokens generated", "It stores the final output to avoid re-running inference for repeated queries"]},
+  {"stem": "Which phase of inference is compute-bound and which is memory-bound?", "options": ["Both prefill and decode are compute-bound", "Both prefill and decode are memory-bound", "Prefill is compute-bound; decode is memory-bound", "Prefill is memory-bound; decode is compute-bound"]},
+  {"stem": "In the Part 5 exercise (1000 input tokens, 500 output tokens), how many decode forward passes are required?", "options": ["500 - one decode pass per output token", "1000 - one per input token", "1500 - one per input and output token combined", "1 - decode processes all output tokens in parallel"]},
+  {"stem": "Which throughput metric does the decode phase drive?", "options": ["TTFT (Time To First Token)", "The model's vocabulary size", "TPS (Tokens Per Second)", "The embedding dimension"]}
 ]
 </script>
 </div>

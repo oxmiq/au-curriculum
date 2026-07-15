@@ -55,96 +55,17 @@ Answer from memory:
 5. Name one scenario where streaming is clearly better than `capsule term`, and one where term is clearly better.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-08-m3-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Module 7">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What command opens a streaming session in Capsule?",
-    "options": [
-      "capsule term",
-      "capsule stream",
-      "capsule connect",
-      "capsule watch"
-    ],
-    "answer": 1,
-    "explain": "'capsule stream' opens a streaming session in Capsule, giving you a live hardware-encoded desktop or single-app view of a remote machine. Use the --app flag to limit it to a single app."
-  },
-  {
-    "stem": "Which hardware encoder option corresponds to NVIDIA GPUs?",
-    "options": [
-      "h264_vaapi",
-      "h264_nvenc",
-      "h264_videotoolbox",
-      "h264_software"
-    ],
-    "answer": 1,
-    "explain": "h264_nvenc is the hardware encoder for NVIDIA GPUs. Different GPU vendors have different encoders: NVIDIA uses nvenc, AMD uses vaapi, Apple uses videotoolbox."
-  },
-  {
-    "stem": "What is the transport protocol for Capsule streaming?",
-    "options": [
-      "RDP",
-      "WebRTC",
-      "VNC",
-      "RTSP"
-    ],
-    "answer": 1,
-    "explain": "Capsule streaming uses WebRTC as its transport protocol. WebRTC provides low-latency streaming and supports peer-to-peer connections."
-  },
-  {
-    "stem": "What does TURN relay fallback mean?",
-    "options": [
-      "It automatically disconnects",
-      "When direct peer-to-peer fails, traffic is relayed through a TURN server to ensure connectivity",
-      "It switches to a different protocol",
-      "It uses the GPU for relay"
-    ],
-    "answer": 1,
-    "explain": "TURN relay fallback means when direct peer-to-peer WebRTC connection fails (e.g., due to NAT/firewall), traffic is relayed through a TURN server to ensure connectivity. This ensures streaming works even in restrictive network environments."
-  },
-  {
-    "stem": "When is streaming clearly better than `capsule term`?",
-    "options": [
-      "For quick command execution",
-      "When you need to see GPU utilization, desktop apps, or visual output",
-      "When network is slow",
-      "For file transfers"
-    ],
-    "answer": 1,
-    "explain": "Streaming is better when you need to see visual output: GPU utilization graphs, desktop applications, TensorBoard, etc. Term is for quick command execution. Use streaming for visual/GUI tasks, term for shell commands."
-  },
-  {
-    "stem": "When is `capsule term` clearly better than streaming?",
-    "options": [
-      "For GUI applications",
-      "For quick command execution, scripts, and text-based workflows",
-      "When you need hardware encoding",
-      "For long-running tasks"
-    ],
-    "answer": 1,
-    "explain": "'capsule term' is better for quick command execution, running scripts, and text-based workflows. It's lower bandwidth and more reliable than streaming for shell-based work."
-  },
-  {
-    "stem": "What is the --app flag in capsule stream used for?",
-    "options": [
-      "Specifies the app name",
-      "Limits streaming to a single application window instead of the full desktop",
-      "Sets the application priority",
-      "Launches a specific application"
-    ],
-    "answer": 1,
-    "explain": "The --app flag limits streaming to a single application window instead of the full desktop. This reduces bandwidth and provides a cleaner view for focused work."
-  },
-  {
-    "stem": "Why is streaming sensitive to network conditions?",
-    "options": [
-      "It is not sensitive",
-      "Streaming sends constant video data; poor network causes lag, artifacts, or disconnection",
-      "It uses more CPU",
-      "It requires GPU"
-    ],
-    "answer": 1,
-    "explain": "Streaming sends constant video data, so poor network conditions cause lag, visual artifacts, or disconnection. Unlike term where text is lightweight, streaming is bandwidth-intensive and network-sensitive."
-  }
+  {"stem": "What command opens a streaming session in Capsule?", "options": ["capsule term", "capsule stream", "capsule connect", "capsule watch"]},
+  {"stem": "Which hardware encoder option corresponds to NVIDIA GPUs?", "options": ["h264_vaapi", "h264_nvenc", "h264_videotoolbox", "h264_software"]},
+  {"stem": "What is the transport protocol for Capsule streaming?", "options": ["RDP", "WebRTC", "VNC", "RTSP"]},
+  {"stem": "What does TURN relay fallback mean?", "options": ["It automatically disconnects", "When direct peer-to-peer fails, traffic is relayed through a TURN server to ensure connectivity", "It switches to a different protocol", "It uses the GPU for relay"]},
+  {"stem": "When is streaming clearly better than `capsule term`?", "options": ["For quick command execution", "When you need to see GPU utilization, desktop apps, or visual output", "When network is slow", "For file transfers"]},
+  {"stem": "When is `capsule term` clearly better than streaming?", "options": ["For GUI applications", "For quick command execution, scripts, and text-based workflows", "When you need hardware encoding", "For long-running tasks"]},
+  {"stem": "What is the --app flag in capsule stream used for?", "options": ["Specifies the app name", "Limits streaming to a single application window instead of the full desktop", "Sets the application priority", "Launches a specific application"]},
+  {"stem": "Why is streaming sensitive to network conditions?", "options": ["It is not sensitive", "Streaming sends constant video data; poor network causes lag, artifacts, or disconnection", "It uses more CPU", "It requires GPU"]}
 ]
 </script>
 </div>
@@ -350,107 +271,18 @@ WebRTC streaming is bandwidth-sensitive. Know the failure modes before users rep
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-08-m3-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 38 · Capsule Streaming">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What is the hardware encoding pipeline for Capsule streaming?",
-    "options": [
-      "CPU renders the frame, GPU compresses it, network sends it to the client browser",
-      "GPU renders the frame, the GPU's NVENC hardware encoder compresses it, the encoded stream is sent to the client browser over WebRTC",
-      "GPU renders and encodes; a separate relay server decodes and re-encodes for each client",
-      "The CPU handles all encoding to avoid impacting GPU compute workloads"
-    ],
-    "answer": 1,
-    "explain": "The Capsule streaming pipeline: GPU renders the frame (display output), the GPU's dedicated NVENC hardware encoder compresses it (separate silicon: doesn't impact compute), the H.264/H.265 stream is delivered over WebRTC to the client browser. This is why GPU utilization during streaming shows encoder activity separate from compute."
-  },
-  {
-    "stem": "When would you use `capsule stream` instead of `capsule term`?",
-    "options": [
-      "stream for command-line work; term for graphical applications",
-      "stream for graphical/interactive GPU applications (visual desktop, GUI tools, anything requiring display output); term for CLI-only work (scripts, benchmarks, file management)",
-      "stream is always preferred over term for better performance",
-      "stream for large files; term for small commands"
-    ],
-    "answer": 1,
-    "explain": "The stream vs term decision: use `capsule stream` when you need to see graphical output (running a GUI application, visual debugging, interactive demos). Use `capsule term` for pure CLI work; it's lower overhead and more suitable for scripted commands, benchmarks, and file operations."
-  },
-  {
-    "stem": "What does the `--turn` flag enable in `capsule stream`?",
-    "options": [
-      "It rotates the display output 90 degrees",
-      "It forces traffic through a TURN relay server (for network environments where direct P2P WebRTC connections are blocked)",
-      "It enables hardware-accelerated encoding",
-      "It switches from H.264 to H.265 encoding"
-    ],
-    "answer": 1,
-    "explain": "WebRTC tries direct peer-to-peer connection first (lower latency). If firewalls or NAT block direct connections, `--turn` forces routing through a TURN relay server. The lesson notes P2P working is the preferred path; TURN relay adds latency but ensures connectivity through restrictive networks."
-  },
-  {
-    "stem": "Why does `nvidia-smi` showing high GPU utilization during an 'idle' stream not necessarily mean encoding is hurting your compute workload?",
-    "options": [
-      "nvidia-smi reports incorrect utilization for streaming workloads",
-      "The GPU's NVENC hardware encoder is separate silicon from the compute units (CUDA/Tensor Cores); encoder utilization does not reduce compute throughput",
-      "Streaming automatically throttles when GPU compute is high",
-      "GPU utilization during streaming is always below 10% regardless of activity"
-    ],
-    "answer": 1,
-    "explain": "Modern NVIDIA GPUs have dedicated NVENC encoder hardware separate from CUDA cores and Tensor Cores. Encoder activity shows in `nvidia-smi` but does NOT consume the compute resources your training/inference uses. High encoder utilization + high compute utilization can coexist without interference."
-  },
-  {
-    "stem": "A user reports 'input lag makes streaming unusable.' Per the lesson's reliability rule, what is your FIRST diagnostic step?",
-    "options": [
-      "Restart the GPU and reconnect",
-      "Run a local speed test first; ~80% of 'streaming is slow' reports are a local network problem, not Capsule; only after that do you check whether a TURN relay is adding latency",
-      "Immediately disable hardware encoding and fall back to software encoding",
-      "Force the resolution down to 720p without checking anything else"
-    ],
-    "answer": 1,
-    "explain": "The Part 6 reliability rule: when users report input lag, always run a local speed test first before blaming the encoder or relay; 80% of 'streaming is slow' reports are a local network problem. Only after that do you test the transport: the failure-mode table maps 'input lag > 200ms' to an active TURN relay, diagnosed by forcing direct P2P with `capsule stream --no-turn` (does the lag drop?)."
-  },
-  {
-    "stem": "You run `capsule docker <config-tag>` and `nvidia-smi` inside the container reports no NVIDIA devices. How do you get GPU access in the container?",
-    "options": [
-      "GPU access is impossible from a Capsule container",
-      "Re-run `capsule auth login` first",
-      "Relaunch with `capsule docker <config-tag> -- --gpus all`; the `-- --gpus all` passes the Docker flag through to the container runtime",
-      "Add `--turn` to the command"
-    ],
-    "answer": 2,
-    "explain": "By default `capsule docker` gives you an Ubuntu container with no GPU access, so `nvidia-smi` fails. Relaunch with `capsule docker <config-tag> -- --gpus all`; the `--` passes the `--gpus all` Docker flag through the Capsule CLI to the container runtime, and `nvidia-smi` then shows the GPU."
-  },
-  {
-    "stem": "For which task should you reach for `capsule stream` rather than `capsule term`/`capsule exec`?",
-    "options": [
-      "Running an unattended overnight training benchmark and collecting the loss curve",
-      "Pulling a report.json file back to your laptop",
-      "Executing a one-off `nvidia-smi` check",
-      "Interactively using ComfyUI with visual feedback on the remote GPU"
-    ],
-    "answer": 3,
-    "explain": "The decision key is: does the task require a human to see and interact with a GUI? ComfyUI with visual feedback → yes → stream. Unattended benchmarks, file transfers, and one-off CLI checks are all text/CLI work → `capsule term` or `capsule exec`, which are lower overhead and more reliable."
-  },
-  {
-    "stem": "Capsule streaming connects peer-to-peer by default. When does it fall back to a TURN relay, and what's the tradeoff?",
-    "options": [
-      "When direct P2P is blocked (corporate firewall, symmetric NAT), traffic relays through a TURN server; it guarantees connectivity but adds latency (~100–200ms via relay vs ~20–50ms local)",
-      "Never: Capsule streaming is always peer-to-peer",
-      "When the GPU is busy, it relays to save compute",
-      "On every connection, purely to encrypt the stream"
-    ],
-    "answer": 0,
-    "explain": "WebRTC tries direct peer-to-peer first (best latency, ~20–50ms local). If a corporate firewall or symmetric NAT blocks the direct path, it falls back to a TURN relay, which guarantees connectivity but adds a relay hop (~100–200ms). You can force relay with `--turn` for testing, or force direct P2P with `--no-turn` when diagnosing lag."
-  },
-  {
-    "stem": "A stream opens but shows a black screen. Per the Part 6 failure-mode table, the most likely cause and check is?",
-    "options": [
-      "Insufficient downlink bandwidth; run a local speed test",
-      "TURN relay latency; force P2P with `--no-turn`",
-      "The display compositor (X server / Wayland) isn't running on the remote; SSH in and check with `systemctl status display-manager`",
-      "The NVENC encoder is disabled; re-enable hardware encoding"
-    ],
-    "answer": 2,
-    "explain": "The failure-mode table maps 'stream opens but shows a black screen' to the display compositor not running on the remote. The diagnostic is to SSH in and check whether the X server / Wayland session is up (`systemctl status display-manager`). Bandwidth issues cause stutter/dropped frames, and relay latency causes input lag: different rows."
-  }
+  {"stem": "What is the hardware encoding pipeline for Capsule streaming?", "options": ["CPU renders the frame, GPU compresses it, network sends it to the client browser", "GPU renders the frame, the GPU's NVENC hardware encoder compresses it, the encoded stream is sent to the client browser over WebRTC", "GPU renders and encodes; a separate relay server decodes and re-encodes for each client", "The CPU handles all encoding to avoid impacting GPU compute workloads"]},
+  {"stem": "When would you use `capsule stream` instead of `capsule term`?", "options": ["stream for command-line work; term for graphical applications", "stream for graphical/interactive GPU applications (visual desktop, GUI tools, anything requiring display output); term for CLI-only work (scripts, benchmarks, file management)", "stream is always preferred over term for better performance", "stream for large files; term for small commands"]},
+  {"stem": "What does the `--turn` flag enable in `capsule stream`?", "options": ["It rotates the display output 90 degrees", "It forces traffic through a TURN relay server (for network environments where direct P2P WebRTC connections are blocked)", "It enables hardware-accelerated encoding", "It switches from H.264 to H.265 encoding"]},
+  {"stem": "Why does `nvidia-smi` showing high GPU utilization during an 'idle' stream not necessarily mean encoding is hurting your compute workload?", "options": ["nvidia-smi reports incorrect utilization for streaming workloads", "The GPU's NVENC hardware encoder is separate silicon from the compute units (CUDA/Tensor Cores); encoder utilization does not reduce compute throughput", "Streaming automatically throttles when GPU compute is high", "GPU utilization during streaming is always below 10% regardless of activity"]},
+  {"stem": "A user reports 'input lag makes streaming unusable.' Per the lesson's reliability rule, what is your FIRST diagnostic step?", "options": ["Restart the GPU and reconnect", "Run a local speed test first; ~80% of 'streaming is slow' reports are a local network problem, not Capsule; only after that do you check whether a TURN relay is adding latency", "Immediately disable hardware encoding and fall back to software encoding", "Force the resolution down to 720p without checking anything else"]},
+  {"stem": "You run `capsule docker <config-tag>` and `nvidia-smi` inside the container reports no NVIDIA devices. How do you get GPU access in the container?", "options": ["GPU access is impossible from a Capsule container", "Re-run `capsule auth login` first", "Relaunch with `capsule docker <config-tag> -- --gpus all`; the `-- --gpus all` passes the Docker flag through to the container runtime", "Add `--turn` to the command"]},
+  {"stem": "For which task should you reach for `capsule stream` rather than `capsule term`/`capsule exec`?", "options": ["Running an unattended overnight training benchmark and collecting the loss curve", "Pulling a report.json file back to your laptop", "Executing a one-off `nvidia-smi` check", "Interactively using ComfyUI with visual feedback on the remote GPU"]},
+  {"stem": "Capsule streaming connects peer-to-peer by default. When does it fall back to a TURN relay, and what's the tradeoff?", "options": ["When direct P2P is blocked (corporate firewall, symmetric NAT), traffic relays through a TURN server; it guarantees connectivity but adds latency (~100–200ms via relay vs ~20–50ms local)", "Never: Capsule streaming is always peer-to-peer", "When the GPU is busy, it relays to save compute", "On every connection, purely to encrypt the stream"]},
+  {"stem": "A stream opens but shows a black screen. Per the Part 6 failure-mode table, the most likely cause and check is?", "options": ["Insufficient downlink bandwidth; run a local speed test", "TURN relay latency; force P2P with `--no-turn`", "The display compositor (X server / Wayland) isn't running on the remote; SSH in and check with `systemctl status display-manager`", "The NVENC encoder is disabled; re-enable hardware encoding"]}
 ]
 </script>
 </div>

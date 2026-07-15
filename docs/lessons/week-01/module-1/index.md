@@ -150,107 +150,18 @@ If you have a partner:
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-01-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 1 · Welcome & Context">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What is the core problem that Capsule solves?",
-    "options": [
-      "It trains large language models faster",
-      "It provides self-service remote GPU access so teams can use expensive hardware without owning it",
-      "It replaces cloud storage with local SSDs",
-      "It compresses model weights to reduce inference cost"
-    ],
-    "answer": 1,
-    "explain": "Capsule turns a fleet of GPUs into a self-service utility. GPUs are expensive (~$24/hour for an 8×H100 box) and operationally painful to own. Capsule lets engineers and researchers use them on-demand over the network, as described in Part 2."
-  },
-  {
-    "stem": "What is the difference between GPU training and GPU inference?",
-    "options": [
-      "Training uses CPUs; inference uses GPUs",
-      "Training updates model weights via backpropagation; inference runs a forward pass to generate outputs",
-      "Training is done once; inference is done at most three times",
-      "Inference is always done on the same machine as training"
-    ],
-    "answer": 1,
-    "explain": "Training modifies the model's weights by learning from data. Inference only reads those weights to produce outputs for new inputs. This distinction is fundamental to the 10-week curriculum, as explained in Part 2's Key Terms table."
-  },
-  {
-    "stem": "By the end of Week 10, which of the following should you be able to do?",
-    "options": [
-      "Train a large language model from scratch on Capsule hardware",
-      "Take a model, pick the right GPU + serving config + quantization, benchmark it on Capsule, and write a defensible recommendation",
-      "Build a new GPU architecture to replace the H100",
-      "Teach a deep-learning course to undergraduates"
-    ],
-    "answer": 1,
-    "explain": "Part 2 states: \"by the end of Week 10 you can take a model, pick the right GPU + serving config + quantization, benchmark it on Capsule, and write a recommendation that an engineering manager would act on.\" That's the target hireable skill."
-  },
-  {
-    "stem": "What is the approximate hourly cost of an 8×H100 GPU box?",
-    "options": [
-      "~$2/hour",
-      "~$10/hour",
-      "~$24/hour",
-      "~$100/hour"
-    ],
-    "answer": 2,
-    "explain": "Part 2 states: \"an 8×H100 box rents for ~$24/hour, ~$17K/month\". This number establishes why most teams can't justify owning them: and why Capsule's self-service model matters."
-  },
-  {
-    "stem": "What happens every Friday in this 10-week program?",
-    "options": [
-      "New technical content is introduced",
-      "Students take a graded exam worth 40% of the final grade",
-      "Consolidation day: practice, Q&A, and catch-up; no new content",
-      "Lectures from external industry speakers"
-    ],
-    "answer": 2,
-    "explain": "Part 3 explains: \"Fridays are consolidation days. No new content. Practice, ask, catch up.\" Friday modules are also where weekly knowledge-check assessments live."
-  },
-  {
-    "stem": "What does the term 'remote GPU' mean in the context of Capsule?",
-    "options": [
-      "A GPU that has been remotely updated with new firmware",
-      "A GPU machine accessed over the network rather than physically attached to your workstation",
-      "A GPU running inside a virtual machine with reduced performance",
-      "A GPU shared between multiple cloud regions via DNS routing"
-    ],
-    "answer": 1,
-    "explain": "Part 2 defines a remote GPU as: \"A GPU machine accessed over the network, not local to your machine.\" Capsule provides the tooling to make remote GPUs feel like local ones."
-  },
-  {
-    "stem": "In what week of the program do students begin hands-on use of Capsule itself?",
-    "options": [
-      "Week 1",
-      "Week 4",
-      "Week 7",
-      "Week 8"
-    ],
-    "answer": 3,
-    "explain": "The Week-by-Week roadmap in Part 3 lists Week 8 as \"Capsule foundations & operations (hands-on)\" with key technologies \"Capsule CLI, fleet management.\" That is where hands-on use of Capsule and its CLI begins; Weeks 1-7 build the prerequisite foundations (tooling, GPU hardware, inference internals, serving, prompting, and agents)."
-  },
-  {
-    "stem": "According to Part 2, which kinds of remote hardware does Capsule let engineers and researchers use as if they were local?",
-    "options": [
-      "NVIDIA H100, Tenstorrent, AMD MI300, and Apple Silicon",
-      "Only NVIDIA H100 GPUs",
-      "CPU clusters and FPGAs, but not GPUs",
-      "Consumer gaming graphics cards exclusively"
-    ],
-    "answer": 0,
-    "explain": "Part 2 states that Capsule lets engineers and researchers use remote GPU machines \"(NVIDIA H100, Tenstorrent, AMD MI300, Apple Silicon, etc.) as if they were sitting on their own desk.\" The platform spans multiple vendors, not a single GPU type."
-  },
-  {
-    "stem": "In the self-study day structure described in Part 3, what is the focus of the final part (Part D) of each day?",
-    "options": [
-      "A graded exam that determines whether you advance",
-      "Installing the software dependencies for the next lesson",
-      "Reading to first understand the core concept",
-      "Reflection that connects what you learned to the next day's content"
-    ],
-    "answer": 3,
-    "explain": "Part 3's \"How Each Day Works\" breakdown lists Part D as \"Reflection: connect to tomorrow's content.\" Part A is reading the core concept, Part B is the deep dive, and Part C is hands-on practice."
-  }
+  {"stem": "What is the core problem that Capsule solves?", "options": ["It trains large language models faster", "It provides self-service remote GPU access so teams can use expensive hardware without owning it", "It replaces cloud storage with local SSDs", "It compresses model weights to reduce inference cost"]},
+  {"stem": "What is the difference between GPU training and GPU inference?", "options": ["Training uses CPUs; inference uses GPUs", "Training updates model weights via backpropagation; inference runs a forward pass to generate outputs", "Training is done once; inference is done at most three times", "Inference is always done on the same machine as training"]},
+  {"stem": "By the end of Week 10, which of the following should you be able to do?", "options": ["Train a large language model from scratch on Capsule hardware", "Take a model, pick the right GPU + serving config + quantization, benchmark it on Capsule, and write a defensible recommendation", "Build a new GPU architecture to replace the H100", "Teach a deep-learning course to undergraduates"]},
+  {"stem": "What is the approximate hourly cost of an 8×H100 GPU box?", "options": ["~$2/hour", "~$10/hour", "~$24/hour", "~$100/hour"]},
+  {"stem": "What happens every Friday in this 10-week program?", "options": ["New technical content is introduced", "Students take a graded exam worth 40% of the final grade", "Consolidation day: practice, Q&A, and catch-up; no new content", "Lectures from external industry speakers"]},
+  {"stem": "What does the term 'remote GPU' mean in the context of Capsule?", "options": ["A GPU that has been remotely updated with new firmware", "A GPU machine accessed over the network rather than physically attached to your workstation", "A GPU running inside a virtual machine with reduced performance", "A GPU shared between multiple cloud regions via DNS routing"]},
+  {"stem": "In what week of the program do students begin hands-on use of Capsule itself?", "options": ["Week 1", "Week 4", "Week 7", "Week 8"]},
+  {"stem": "According to Part 2, which kinds of remote hardware does Capsule let engineers and researchers use as if they were local?", "options": ["NVIDIA H100, Tenstorrent, AMD MI300, and Apple Silicon", "Only NVIDIA H100 GPUs", "CPU clusters and FPGAs, but not GPUs", "Consumer gaming graphics cards exclusively"]},
+  {"stem": "In the self-study day structure described in Part 3, what is the focus of the final part (Part D) of each day?", "options": ["A graded exam that determines whether you advance", "Installing the software dependencies for the next lesson", "Reading to first understand the core concept", "Reflection that connects what you learned to the next day's content"]}
 ]
 </script>
 </div>

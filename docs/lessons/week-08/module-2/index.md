@@ -62,96 +62,17 @@ Answer before reading on:
 5. What command runs a one-off remote command and returns its stdout to your laptop?
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-08-m2-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Modules 6-7">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "You want to do a one-off transfer of a dataset from your laptop to a specific remote machine. Which command is correct?",
-    "options": [
-      "capsule scp upload <tag> ./data/ /workspace/data/",
-      "capsule cp ./data/ <tag>:/workspace/data/",
-      "capsule storage put ./data/ /shared/data/",
-      "capsule run --stream -- cp ./data/ /workspace/data/"
-    ],
-    "answer": 0,
-    "explain": "SCP is the path for one-off transfers, especially large blobs: 'capsule scp upload' (and 'capsule scp download') accept a <config-tag> or -u <unique-id>, plus --direct if SshRTC misbehaves. There is no 'capsule cp' and no 'capsule storage put'; those commands do not exist in Capsule."
-  },
-  {
-    "stem": "You want a file to be available on every machine you connect to, without re-copying it each time. What should you use?",
-    "options": [
-      "A shared storage pool at /shared/",
-      "capsule storage put to a cluster-wide pool",
-      "The auto-mounted OneDrive (~/OneDrive)",
-      "capsule scp upload to each machine individually"
-    ],
-    "answer": 2,
-    "explain": "The auto-mounted OneDrive is the path for files you want across multiple machines. After a one-time 'capsule auth storage', your OxCapsule OneDrive folder auto-mounts at ~/OneDrive on every term/code/cursor/claude/stream session: the same folder no matter which machine you're on. Capsule has no '/shared/' pool or 'capsule storage put'."
-  },
-  {
-    "stem": "What does `capsule stream` actually do?",
-    "options": [
-      "Streams a command's stdout/stderr back to your local terminal in real time",
-      "Opens a hardware-encoded WebRTC stream of the remote desktop (or a single app with --app)",
-      "Uploads files to storage in a continuous stream",
-      "Streams benchmark logs to the Capsule dashboard"
-    ],
-    "answer": 1,
-    "explain": "'capsule stream <config-tag>' opens a hardware-encoded WebRTC pixel stream of the remote desktop, or a single app with '--app <name>': for ComfyUI, Blender, browser debugging, and other GUI work (Windows and Mac only). It is NOT stdout streaming; don't confuse it with running a command."
-  },
-  {
-    "stem": "Which command runs a single command on a remote machine non-interactively and then exits?",
-    "options": [
-      "capsule run --stream -- <command>",
-      "capsule stream <tag> -- <command>",
-      "capsule cp <tag> <command>",
-      "capsule exec <tag> \"<command>\""
-    ],
-    "answer": 3,
-    "explain": "'capsule exec' runs a one-off remote command, then exits: e.g. 'capsule exec <tag> \"nvidia-smi\"'. There is no 'capsule run --stream'; 'capsule stream' is the WebRTC desktop stream, a different thing entirely."
-  },
-  {
-    "stem": "You want your .gitconfig and .vimrc copied to the remote home directory automatically each time you connect. What's the mechanism?",
-    "options": [
-      "File passthrough: capsule config files add .gitconfig ~/.gitconfig",
-      "capsule scp upload for each dotfile on every connect",
-      "Put them in the /shared/ pool so all nodes read them",
-      "capsule storage put ~/.gitconfig /shared/dotfiles/"
-    ],
-    "answer": 0,
-    "explain": "File passthrough handles small dotfiles copied at session start. You configure it locally with 'capsule config files add' (and manage the list with 'capsule config files list/remove'); the mappings live in config-files.json. On connect, those files are copied to the remote home directory."
-  },
-  {
-    "stem": "Before the OneDrive mount will appear on remote machines, what one-time step is required?",
-    "options": [
-      "Create a shared storage pool with capsule storage init",
-      "Run capsule auth storage and complete the OneDrive consent flow",
-      "Run capsule config files add for OneDrive",
-      "Nothing: OneDrive is always mounted by default"
-    ],
-    "answer": 1,
-    "explain": "OneDrive is set up once with 'capsule auth storage' (the OneDrive OAuth/consent flow), which writes rclone.conf. After that, your OxCapsule folder auto-mounts at ~/OneDrive on every subsequent term/code/cursor/claude/stream session."
-  },
-  {
-    "stem": "You connect to a machine and find ~/OneDrive is empty. What's the recommended recovery?",
-    "options": [
-      "Run capsule storage get to re-download the pool",
-      "Manually scp your files back onto the node",
-      "Re-run capsule auth storage, then reconnect",
-      "Switch to the /shared/ pool instead"
-    ],
-    "answer": 2,
-    "explain": "An empty ~/OneDrive means the daemon couldn't mount it; common causes are rclone missing locally, expired OneDrive OAuth, or VFS cache fighting a previous session. The fix is to run 'capsule auth storage' again and then reconnect."
-  },
-  {
-    "stem": "In the storage-scope experiment, you write the same file to /tmp, ~/, and ~/OneDrive on machine A, then check machine B. Which file is visible from machine B?",
-    "options": [
-      "The file in ~/OneDrive",
-      "The file in ~/ (home directory)",
-      "The file in /tmp",
-      "All three, since nodes share a filesystem"
-    ],
-    "answer": 0,
-    "explain": "Only ~/OneDrive is synced across machines; it's the same OxCapsule folder everywhere. /tmp is ephemeral (gone after a restart/cleanup) and ~/ survives a restart but is node-local, so neither is visible from a second machine. Nodes do not share a filesystem."
-  }
+  {"stem": "You want to do a one-off transfer of a dataset from your laptop to a specific remote machine. Which command is correct?", "options": ["capsule scp upload <tag> ./data/ /workspace/data/", "capsule cp ./data/ <tag>:/workspace/data/", "capsule storage put ./data/ /shared/data/", "capsule run --stream -- cp ./data/ /workspace/data/"]},
+  {"stem": "You want a file to be available on every machine you connect to, without re-copying it each time. What should you use?", "options": ["A shared storage pool at /shared/", "capsule storage put to a cluster-wide pool", "The auto-mounted OneDrive (~/OneDrive)", "capsule scp upload to each machine individually"]},
+  {"stem": "What does `capsule stream` actually do?", "options": ["Streams a command's stdout/stderr back to your local terminal in real time", "Opens a hardware-encoded WebRTC stream of the remote desktop (or a single app with --app)", "Uploads files to storage in a continuous stream", "Streams benchmark logs to the Capsule dashboard"]},
+  {"stem": "Which command runs a single command on a remote machine non-interactively and then exits?", "options": ["capsule run --stream -- <command>", "capsule stream <tag> -- <command>", "capsule cp <tag> <command>", "capsule exec <tag> \"<command>\""]},
+  {"stem": "You want your .gitconfig and .vimrc copied to the remote home directory automatically each time you connect. What's the mechanism?", "options": ["File passthrough: capsule config files add .gitconfig ~/.gitconfig", "capsule scp upload for each dotfile on every connect", "Put them in the /shared/ pool so all nodes read them", "capsule storage put ~/.gitconfig /shared/dotfiles/"]},
+  {"stem": "Before the OneDrive mount will appear on remote machines, what one-time step is required?", "options": ["Create a shared storage pool with capsule storage init", "Run capsule auth storage and complete the OneDrive consent flow", "Run capsule config files add for OneDrive", "Nothing: OneDrive is always mounted by default"]},
+  {"stem": "You connect to a machine and find ~/OneDrive is empty. What's the recommended recovery?", "options": ["Run capsule storage get to re-download the pool", "Manually scp your files back onto the node", "Re-run capsule auth storage, then reconnect", "Switch to the /shared/ pool instead"]},
+  {"stem": "In the storage-scope experiment, you write the same file to /tmp, ~/, and ~/OneDrive on machine A, then check machine B. Which file is visible from machine B?", "options": ["The file in ~/OneDrive", "The file in ~/ (home directory)", "The file in /tmp", "All three, since nodes share a filesystem"]}
 ]
 </script>
 </div>
@@ -323,107 +244,18 @@ For each mistake: what's wrong, and what's the correct approach?
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-08-m2-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 39 · Files &amp; Storage">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What is the difference between `capsule scp upload` and the `~/OneDrive` mount?",
-    "options": [
-      "They are identical; both copy files",
-      "`capsule scp upload` does a one-off transfer to a specific machine's local disk; `~/OneDrive` is a cloud-synced folder that auto-mounts at the same path on every machine you connect to",
-      "`capsule scp upload` is for large files; `~/OneDrive` is only for small files",
-      "Both push to a cluster-wide `/shared/` pool via `capsule storage put`"
-    ],
-    "answer": 1,
-    "explain": "`capsule scp upload <config-tag> <src> <dest>` is like `scp`: a one-off transfer to/from one machine's filesystem, and that copy lives only on that machine. `~/OneDrive` is your OxCapsule cloud folder; after a one-time `capsule auth storage` it auto-mounts at the same path on every machine. There is no `capsule cp`, no `capsule storage put`, and no `/shared/` pool in Capsule."
-  },
-  {
-    "stem": "What is the recommended artifact layout for benchmark runs?",
-    "options": [
-      "Store everything in `/tmp` for fast access",
-      "Stage models in `~/OneDrive/models/`, write run outputs to `~/OneDrive/runs/<date-label>/`, keep config in `$HOME`, and pull results to your laptop",
-      "Store all artifacts in a machine's home directory for simplicity",
-      "Push everything to a `/shared/` pool with `capsule storage put`"
-    ],
-    "answer": 1,
-    "explain": "The lesson's artifact layout: models in `~/OneDrive/models/` (staged once, available on every machine), each run in `~/OneDrive/runs/<YYYY-MM-DD>-<label>/` (timestamped for reproducibility), config in `$HOME` (per-machine), and the report pulled to your laptop with `capsule scp download`. `/tmp` is ephemeral and `$HOME` is node-local, so neither survives across machines; that's why keepers go to `~/OneDrive`."
-  },
-  {
-    "stem": "You want to run a benchmark command on a remote machine and watch its stdout come back to your terminal. Which command do you use?",
-    "options": [
-      "`capsule run --stream -- <command>`",
-      "`capsule exec <config-tag> \"<command>\"`",
-      "`capsule stream <config-tag>`",
-      "`capsule storage get <command>`"
-    ],
-    "answer": 1,
-    "explain": "`capsule exec <config-tag> \"<command>\"` runs a one-off command on the remote machine, returns its output, then exits: the tool for watching a command run without holding an interactive session. Don't confuse it with `capsule stream`, which opens a hardware-encoded WebRTC pixel stream of the remote desktop (GUI work on Windows/Mac). There is no `capsule run --stream` or `capsule storage get`."
-  },
-  {
-    "stem": "What is the hygiene rule for your `~/OneDrive/models/` folder?",
-    "options": [
-      "Store all your working files there for fast access from any machine",
-      "Keep only checkpoints you'll actually reuse and clean up old artifacts; OneDrive quota is finite and the mount is slower than local disk",
-      "Never read from OneDrive; always copy everything to a `/shared/` pool first",
-      "Prefix every file with your username to avoid conflicts in the shared pool"
-    ],
-    "answer": 1,
-    "explain": "`~/OneDrive` is your own cloud-synced OxCapsule folder, and quota is finite. Keep it tidy: stage only checkpoints and results worth keeping, clean up old runs, and remember the mount is slower than local NVMe; copy to `$HOME` first if a job needs fast repeated reads. It is not a shared team pool (there is no `/shared/` in Capsule), so no username-prefixing is needed."
-  },
-  {
-    "stem": "When should you stage model weights into `~/OneDrive` instead of `capsule scp upload`-ing them to a machine?",
-    "options": [
-      "Always: `~/OneDrive` is faster for all file sizes",
-      "When you'll use the weights from multiple machines or need them to survive a restart: `~/OneDrive` follows you across machines, whereas an `scp`'d copy lives only on that one machine's local disk",
-      "When the model is larger than 1 GB",
-      "When you need the model on your laptop, not on a machine"
-    ],
-    "answer": 1,
-    "explain": "A machine's `$HOME`/`/tmp` is node-local; if you `scp` a checkpoint to one machine and then connect to another, it isn't there. `~/OneDrive` auto-mounts the same folder everywhere, so weights staged once are available on every machine and survive restarts: ideal for a 70B checkpoint you'll reuse. Reach for `capsule scp upload` when it's a genuinely one-off transfer to a single machine."
-  },
-  {
-    "stem": "A benchmark left `report.json` at `/workspace/report.json` on `nv-h100-04-1`. Which command pulls it onto your laptop?",
-    "options": [
-      "capsule scp download nv-h100-04-1 /workspace/report.json ./",
-      "capsule scp upload nv-h100-04-1 ./report.json /workspace/",
-      "capsule storage get /workspace/report.json ./",
-      "capsule cp nv-h100-04-1:/workspace/report.json ./"
-    ],
-    "answer": 0,
-    "explain": "`capsule scp download <config-tag> <remote-path> <local-dest>` pulls a single artifact off a specific machine: here `capsule scp download nv-h100-04-1 /workspace/report.json ./`. `capsule scp upload` goes the other direction (laptop → machine). There is no `capsule storage get` and no `capsule cp` in Capsule."
-  },
-  {
-    "stem": "OneDrive isn't mounting at `~/OneDrive` on your sessions yet. What one-time step enables it?",
-    "options": [
-      "Create a /shared/ pool with `capsule storage init`",
-      "Run `capsule auth storage` and complete the OneDrive consent flow; after that your OxCapsule folder auto-mounts at ~/OneDrive on every term/code/cursor/stream session",
-      "Add it with `capsule config files add OneDrive`",
-      "Nothing: reboot the node and it appears"
-    ],
-    "answer": 1,
-    "explain": "`capsule auth storage` runs the OneDrive OAuth/consent flow once and writes `rclone.conf`; from then on your OxCapsule folder auto-mounts at `~/OneDrive` on every subsequent term/code/cursor/stream session. There is no `capsule storage init` and no `/shared/` pool in Capsule."
-  },
-  {
-    "stem": "You want your `.gitconfig` copied into the remote home directory automatically every time you connect. Which mechanism does the lesson use?",
-    "options": [
-      "`capsule scp upload` it by hand on every connect",
-      "Put it in a cluster-wide /shared/ pool",
-      "File passthrough: `capsule config files add .gitconfig ~/.gitconfig`; the mapping lives in config-files.json and is copied to the remote home on connect",
-      "`capsule storage put ~/.gitconfig /shared/dotfiles/`"
-    ],
-    "answer": 2,
-    "explain": "File passthrough handles small dotfiles. You register them locally with `capsule config files add` (and manage the list with `capsule config files list` / `remove`); the mappings live in `config-files.json`, and on every `term`/`code` connect those files are copied to the remote home directory. There is no `/shared/` pool or `capsule storage put`."
-  },
-  {
-    "stem": "A teammate claims `capsule stream` streams a command's stdout back to your terminal. How should you correct them?",
-    "options": [
-      "They're right; it's just `capsule exec` running continuously",
-      "`capsule stream` opens a hardware-encoded WebRTC pixel stream of the remote desktop (or one app with `--app`) on Windows/Mac; for a command's stdout you want `capsule exec`",
-      "They're right; but it only works for benchmark logs",
-      "`capsule stream` uploads files in a continuous stream to OneDrive"
-    ],
-    "answer": 1,
-    "explain": "`capsule stream <config-tag>` opens a hardware-encoded WebRTC pixel stream of the remote desktop (or a single GUI app with `--app`), for GUI work like ComfyUI or Blender: Windows and Mac only. It is NOT stdout streaming. To run a command and watch its output, use `capsule exec`."
-  }
+  {"stem": "What is the difference between `capsule scp upload` and the `~/OneDrive` mount?", "options": ["They are identical; both copy files", "`capsule scp upload` does a one-off transfer to a specific machine's local disk; `~/OneDrive` is a cloud-synced folder that auto-mounts at the same path on every machine you connect to", "`capsule scp upload` is for large files; `~/OneDrive` is only for small files", "Both push to a cluster-wide `/shared/` pool via `capsule storage put`"]},
+  {"stem": "What is the recommended artifact layout for benchmark runs?", "options": ["Store everything in `/tmp` for fast access", "Stage models in `~/OneDrive/models/`, write run outputs to `~/OneDrive/runs/<date-label>/`, keep config in `$HOME`, and pull results to your laptop", "Store all artifacts in a machine's home directory for simplicity", "Push everything to a `/shared/` pool with `capsule storage put`"]},
+  {"stem": "You want to run a benchmark command on a remote machine and watch its stdout come back to your terminal. Which command do you use?", "options": ["`capsule run --stream -- <command>`", "`capsule exec <config-tag> \"<command>\"`", "`capsule stream <config-tag>`", "`capsule storage get <command>`"]},
+  {"stem": "What is the hygiene rule for your `~/OneDrive/models/` folder?", "options": ["Store all your working files there for fast access from any machine", "Keep only checkpoints you'll actually reuse and clean up old artifacts; OneDrive quota is finite and the mount is slower than local disk", "Never read from OneDrive; always copy everything to a `/shared/` pool first", "Prefix every file with your username to avoid conflicts in the shared pool"]},
+  {"stem": "When should you stage model weights into `~/OneDrive` instead of `capsule scp upload`-ing them to a machine?", "options": ["Always: `~/OneDrive` is faster for all file sizes", "When you'll use the weights from multiple machines or need them to survive a restart: `~/OneDrive` follows you across machines, whereas an `scp`'d copy lives only on that one machine's local disk", "When the model is larger than 1 GB", "When you need the model on your laptop, not on a machine"]},
+  {"stem": "A benchmark left `report.json` at `/workspace/report.json` on `nv-h100-04-1`. Which command pulls it onto your laptop?", "options": ["capsule scp download nv-h100-04-1 /workspace/report.json ./", "capsule scp upload nv-h100-04-1 ./report.json /workspace/", "capsule storage get /workspace/report.json ./", "capsule cp nv-h100-04-1:/workspace/report.json ./"]},
+  {"stem": "OneDrive isn't mounting at `~/OneDrive` on your sessions yet. What one-time step enables it?", "options": ["Create a /shared/ pool with `capsule storage init`", "Run `capsule auth storage` and complete the OneDrive consent flow; after that your OxCapsule folder auto-mounts at ~/OneDrive on every term/code/cursor/stream session", "Add it with `capsule config files add OneDrive`", "Nothing: reboot the node and it appears"]},
+  {"stem": "You want your `.gitconfig` copied into the remote home directory automatically every time you connect. Which mechanism does the lesson use?", "options": ["`capsule scp upload` it by hand on every connect", "Put it in a cluster-wide /shared/ pool", "File passthrough: `capsule config files add .gitconfig ~/.gitconfig`; the mapping lives in config-files.json and is copied to the remote home on connect", "`capsule storage put ~/.gitconfig /shared/dotfiles/`"]},
+  {"stem": "A teammate claims `capsule stream` streams a command's stdout back to your terminal. How should you correct them?", "options": ["They're right; it's just `capsule exec` running continuously", "`capsule stream` opens a hardware-encoded WebRTC pixel stream of the remote desktop (or one app with `--app`) on Windows/Mac; for a command's stdout you want `capsule exec`", "They're right; but it only works for benchmark logs", "`capsule stream` uploads files in a continuous stream to OneDrive"]}
 ]
 </script>
 </div>

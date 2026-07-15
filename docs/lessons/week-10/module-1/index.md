@@ -95,107 +95,18 @@ Every team has a peer-reviewed, instructor-approved charter. Tomorrow you execut
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-10-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 46 · Capstone Kickoff">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What distinguishes a strong capstone use case from a weak one?",
-    "options": [
-      "Strong use cases test more models; weak ones test only one",
-      "Strong: names a specific user (QA team) + specific task (summarize bug reports); weak: generic framing like 'explore LLMs for productivity'",
-      "Strong use cases require the most expensive GPU configuration",
-      "Strong use cases have longer time horizons: more days to work"
-    ],
-    "answer": 1,
-    "explain": "The lesson's comparison table: 'summarize bug reports for the QA team' is strong (specific user + task, measurable outcome). 'Explore LLMs for the team' is weak; you can't define done, can't write eval prompts, can't fail. Specificity is what makes the eval plan, the success criterion, and the peer review possible."
-  },
-  {
-    "stem": "Why must a success criterion be a number, not a description?",
-    "options": [
-      "Numbers are easier to put in slides",
-      "A number (P95 TTFT < 800 ms, quality pass rate > 8/10) can be objectively evaluated on Day 49; a description like 'fast and accurate' cannot be tested or falsified",
-      "Numbers make the charter longer and more impressive",
-      "Descriptions are allowed if the team agrees on them informally"
-    ],
-    "answer": 1,
-    "explain": "The lesson states: 'Success criterion must be a number.' If success criterion is '< 800 ms P95 TTFT', you can run the benchmark on Day 48 and know if you passed. If it's 'fast', reasonable people can disagree. The number also forces you to think about what actually matters for the use case."
-  },
-  {
-    "stem": "What is the goal of peer review in the charter process?",
-    "options": [
-      "To assign grades to each charter",
-      "To find one fatal flaw: an assumption, vague field, or missing eval plan that would make the capstone impossible to complete or evaluate by Day 49",
-      "To suggest which model is best for the use case",
-      "To compare which team has the most ambitious scope"
-    ],
-    "answer": 1,
-    "explain": "Peer review has one job: find the flaw that will kill the capstone before it starts. Common fatal flaws: TBD fields ('model TBD'), unmeasurable success ('users will love it'), eval plan with no ground truth ('we'll know quality when we see it'). One flaw caught Monday saves four days of wasted work."
-  },
-  {
-    "stem": "Why must every charter field be filled with no 'TBD' entries?",
-    "options": [
-      "It makes the charter look professional",
-      "TBD fields are deferred decisions; each one is a future blocker that will stop progress mid-week when there is no time to recover",
-      "Instructors won't accept TBD fields per grading rubric",
-      "TBD fields break the charter template formatting"
-    ],
-    "answer": 1,
-    "explain": "A TBD model choice means Day 47 starts with a decision that should have been made on Day 46: burning execution time. A TBD eval plan means Day 48 analysis has no quality criteria to apply. The charter is a commitment that removes ambiguity before execution, not a rough draft to refine later."
-  },
-  {
-    "stem": "In a capstone charter, how should the model choice be justified?",
-    "options": [
-      "Choose the largest model available for the hardware",
-      "Choose the most popular model in the benchmark leaderboard",
-      "Justify model choice with the use case first: 'Task X requires Y context window and Z quality threshold; model A meets both while fitting in 40 GB HBM at FP8'",
-      "The model choice doesn't need justification in the charter"
-    ],
-    "answer": 2,
-    "explain": "The lesson's pattern: derive model from task requirements. Start with what the task needs (context length, quality level, latency target), then identify models that meet those constraints, then select the one that fits the available hardware at the target precision. Choosing the model first and fitting the task to it is backwards."
-  },
-  {
-    "stem": "What is the recommended team size for the capstone project?",
-    "options": [
-      "1 person only: individual work for portfolio purposes",
-      "2-3 people, with instructor approval",
-      "4-6 people to distribute the workload across 4 days",
-      "Any size: team size is not specified in the charter"
-    ],
-    "answer": 1,
-    "explain": "The lesson specifies 'Form teams (2-3 people, instructor approval).' Small enough that everyone contributes substantively, large enough to parallelize benchmark runs and eval. Instructor approval prevents teams from forming around convenience rather than complementary skills."
-  },
-  {
-    "stem": "What distinguishes an eval plan with ground truth from one without?",
-    "options": [
-      "Ground truth means using a larger model to evaluate responses",
-      "Ground truth means each eval prompt has a pre-defined correct answer or pass criteria established before running: not 'we'll know quality when we see it'",
-      "Ground truth means running the eval on the training data",
-      "Ground truth is only possible for factual Q&A tasks, not for summarization"
-    ],
-    "answer": 1,
-    "explain": "The lesson's example: '10-prompt suite: 5 real triage tickets with ground-truth summaries from Anita, judge by 3 criteria (factuality, brevity, action-orientation).' Ground truth = criteria defined before you run. 'Check the output' is not an eval plan; you can't tell if config A is better than config B without pre-defined pass criteria."
-  },
-  {
-    "stem": "The charter's failure-mode table warns against an 'aspirational stack' (e.g., 'let's also try an MoE model'). What is the prescribed fix?",
-    "options": [
-      "Add a second GPU so the extra models fit",
-      "Defer the extra models to Day 49 if time allows",
-      "One model, one config sweep: cut everything else",
-      "Split the team so each person tries a different model"
-    ],
-    "answer": 2,
-    "explain": "The failure-mode table pairs 'Aspirational stack (\"let's also try MoE\")' with the fix 'One model, one config sweep. Cut everything else.' A 4-day window kills any project that isn't sharply scoped. Extra models multiply the benchmark + eval matrix beyond what the week allows, so the charter commits to exactly one model and one sweep."
-  },
-  {
-    "stem": "After the Day 46 charter is approved, what does the rest of Week 10 look like?",
-    "options": [
-      "Day 47 execute (deploy + sweeps + evals), Day 48 analyze + build presentation, Day 49 present (assessed, 15 min + 10 min Q&A), Day 50 retrospective + career conversation",
-      "Day 47 present, Day 48 execute, Day 49 analyze, Day 50 retrospective",
-      "Days 47-50 are all execution days with a single presentation at the very end",
-      "Day 47 peer review, Day 48 charter revision, Day 49 execute, Day 50 present"
-    ],
-    "answer": 0,
-    "explain": "The 'How to use the rest of the week' table: Day 47 (Tue) execute: deploy on Capsule, run sweeps, run evals; Day 48 (Wed) analyze + build presentation; Day 49 (Thu) present (15 min + 10 min Q&A): assessed; Day 50 (Fri) retrospective + career conversation. The charter on Day 46 is the forcing function that makes the compressed rest of the week possible."
-  }
+  {"stem": "What distinguishes a strong capstone use case from a weak one?", "options": ["Strong use cases test more models; weak ones test only one", "Strong: names a specific user (QA team) + specific task (summarize bug reports); weak: generic framing like 'explore LLMs for productivity'", "Strong use cases require the most expensive GPU configuration", "Strong use cases have longer time horizons: more days to work"]},
+  {"stem": "Why must a success criterion be a number, not a description?", "options": ["Numbers are easier to put in slides", "A number (P95 TTFT < 800 ms, quality pass rate > 8/10) can be objectively evaluated on Day 49; a description like 'fast and accurate' cannot be tested or falsified", "Numbers make the charter longer and more impressive", "Descriptions are allowed if the team agrees on them informally"]},
+  {"stem": "What is the goal of peer review in the charter process?", "options": ["To assign grades to each charter", "To find one fatal flaw: an assumption, vague field, or missing eval plan that would make the capstone impossible to complete or evaluate by Day 49", "To suggest which model is best for the use case", "To compare which team has the most ambitious scope"]},
+  {"stem": "Why must every charter field be filled with no 'TBD' entries?", "options": ["It makes the charter look professional", "TBD fields are deferred decisions; each one is a future blocker that will stop progress mid-week when there is no time to recover", "Instructors won't accept TBD fields per grading rubric", "TBD fields break the charter template formatting"]},
+  {"stem": "In a capstone charter, how should the model choice be justified?", "options": ["Choose the largest model available for the hardware", "Choose the most popular model in the benchmark leaderboard", "Justify model choice with the use case first: 'Task X requires Y context window and Z quality threshold; model A meets both while fitting in 40 GB HBM at FP8'", "The model choice doesn't need justification in the charter"]},
+  {"stem": "What is the recommended team size for the capstone project?", "options": ["1 person only: individual work for portfolio purposes", "2-3 people, with instructor approval", "4-6 people to distribute the workload across 4 days", "Any size: team size is not specified in the charter"]},
+  {"stem": "What distinguishes an eval plan with ground truth from one without?", "options": ["Ground truth means using a larger model to evaluate responses", "Ground truth means each eval prompt has a pre-defined correct answer or pass criteria established before running: not 'we'll know quality when we see it'", "Ground truth means running the eval on the training data", "Ground truth is only possible for factual Q&A tasks, not for summarization"]},
+  {"stem": "The charter's failure-mode table warns against an 'aspirational stack' (e.g., 'let's also try an MoE model'). What is the prescribed fix?", "options": ["Add a second GPU so the extra models fit", "Defer the extra models to Day 49 if time allows", "One model, one config sweep: cut everything else", "Split the team so each person tries a different model"]},
+  {"stem": "After the Day 46 charter is approved, what does the rest of Week 10 look like?", "options": ["Day 47 execute (deploy + sweeps + evals), Day 48 analyze + build presentation, Day 49 present (assessed, 15 min + 10 min Q&A), Day 50 retrospective + career conversation", "Day 47 present, Day 48 execute, Day 49 analyze, Day 50 retrospective", "Days 47-50 are all execution days with a single presentation at the very end", "Day 47 peer review, Day 48 charter revision, Day 49 execute, Day 50 present"]}
 ]
 </script>
 </div>

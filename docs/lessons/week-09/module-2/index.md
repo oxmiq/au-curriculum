@@ -211,118 +211,19 @@ Watch the first run's live output; let the rest finish.
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-09-m2-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 42 · Varying Parameters">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What does the 'elbow' in a throughput vs concurrency curve represent?",
-    "options": [
-      "The point where the GPU runs out of memory and crashes",
-      "The concurrency level at which the GPU transitions from underutilized to saturated: throughput peaks and then plateaus or degrades",
-      "The maximum concurrency allowed by the serving engine",
-      "The point where TTFT exceeds the SLO threshold"
-    ],
-    "answer": 1,
-    "explain": "As concurrency increases from 1, throughput rises because more requests share fixed weight reads (batching efficiency improves). At the elbow, the GPU is fully saturated; adding more concurrency starts queuing requests rather than improving throughput. The elbow is the optimal operating point for throughput."
-  },
-  {
-    "stem": "As concurrency increases beyond the elbow, which metrics degrade first and why?",
-    "options": [
-      "Throughput degrades first because the GPU runs out of memory",
-      "TTFT and P99 latency degrade first; queued requests wait longer before prefill begins, even though throughput may remain stable for a while",
-      "Model quality degrades because of KV cache pressure",
-      "GPU utilization drops because the serving engine starts rejecting requests"
-    ],
-    "answer": 1,
-    "explain": "Beyond the elbow, the GPU is saturated. New requests queue up. Queue time adds directly to TTFT; requests wait longer before their prefill even starts. P99 latency spikes because tail requests sit in queue longest. Throughput may still improve slightly via better batching, but user-facing latency degrades."
-  },
-  {
-    "stem": "Doubling tensor parallelism (TP) from 1 to 2: what is the expected effect on latency and throughput?",
-    "options": [
-      "Both latency and throughput double",
-      "Latency should decrease (each token computed faster with 2 GPUs sharing the work) but throughput may not double (communication overhead); the tradeoff depends on model size and batch size",
-      "Only throughput doubles; latency is unaffected",
-      "Latency and throughput both remain the same; TP only affects memory fit"
-    ],
-    "answer": 1,
-    "explain": "TP=2 splits each matrix multiply across 2 GPUs. Compute per GPU halves, reducing latency. But all-reduce communication between GPUs adds overhead. For small batches (latency-focused), TP=2 reduces TTFT. For large batches (throughput-focused), the communication overhead may limit throughput gains. The net effect must be measured."
-  },
-  {
-    "stem": "What compute regime was your Day 42 concurrency sweep primarily in, and how did you determine it?",
-    "options": [
-      "Always compute-bound - GPU compute always bottlenecks LLM workloads",
-      "Memory-bound at low concurrency (few requests, underutilized GPU), transitioning to compute-bound at high concurrency near saturation",
-      "Network-bound - the bottleneck is always data transfer from client to server",
-      "I/O-bound - disk reads of model weights dominate"
-    ],
-    "answer": 1,
-    "explain": "At low concurrency, decode is memory-bound (few requests, low arithmetic intensity). As concurrency rises toward saturation, more requests share weight reads; intensity increases and the workload approaches compute-bound territory. The lesson asks students to classify their experiment's regime using Phase-1 concepts (arithmetic intensity, roofline)."
-  },
-  {
-    "stem": "What should you do when your measured results differ from your prediction?",
-    "options": [
-      "Discard the prediction and treat the measurement as ground truth without explanation",
-      "Write 2-3 sentences naming the specific Phase-1 concept that explains the deviation; reconciliation is the learning artifact",
-      "Re-run the benchmark until the results match the prediction",
-      "Lower your concurrency to reduce variance"
-    ],
-    "answer": 1,
-    "explain": "The lesson states: 'For every deviation between prediction and result, write 2-3 sentences naming the Phase-1 concept that explains it.' Reconciliation is the core skill: connecting unexpected data to the underlying system behavior. This is what technical interviews ask for: not just what you measured, but why."
-  },
-  {
-    "stem": "When switching from FP16 to FP8 quantization at the same concurrency level, which metrics improve and which remain roughly stable?",
-    "options": [
-      "Quality improves and latency stays the same",
-      "Throughput rises (~1.5-2×) due to higher memory bandwidth and compute density, while quality drops a little (measurable via eval suite); TTFT may also drop because smaller weights load faster",
-      "Only quality changes; latency and throughput are unaffected by quantization",
-      "All metrics degrade equally with FP8 because precision loss affects every operation"
-    ],
-    "answer": 1,
-    "explain": "The lesson's FP8 vs FP16 prediction table: throughput rises ~1.5-2× (FP8 fits more activations in cache, doubles memory bandwidth), quality drops a little (measurable via eval on Day 43), and TTFT may decrease since smaller model loads faster. The metrics you must measure empirically are quality; throughput improvement is predictable but quality degradation varies by model and task."
-  },
-  {
-    "stem": "Why is a parameter sweep more informative than a single benchmark run?",
-    "options": [
-      "Sweeps use more GPU time and therefore generate more accurate results",
-      "A sweep traces a curve; it shows how the system responds to changes and reveals the operating point (elbow) and the regimes on either side; a single point has no context",
-      "Sweeps allow you to average out measurement noise",
-      "A single run can only measure one metric; a sweep measures all metrics simultaneously"
-    ],
-    "answer": 1,
-    "explain": "The lesson's concept: 'one number means nothing; a sweep means everything.' A single TTFT=400ms data point tells you nothing about whether you're at peak efficiency. A 6-point concurrency sweep reveals the elbow, shows throughput saturation, shows P99 degradation; you can see the system's behavior envelope. The curve is the evidence; naming the regime is the deliverable."
-  },
-  {
-    "stem": "The sweep template varies one axis at a time and holds everything else fixed. Why?",
-    "options": [
-      "So any change in the metric can be attributed to the single axis you varied; otherwise you can't tell which variable caused the effect",
-      "Because the serving engine only accepts one flag per invocation",
-      "Because varying two parameters at once crashes the GPU",
-      "Because the dashboard can only plot one run at a time"
-    ],
-    "answer": 0,
-    "explain": "Part 2's rule: 'Vary one axis at a time, hold everything else fixed.' If you change concurrency AND quantization together, a throughput shift can't be attributed to either; the experiment is confounded. Isolating one variable is what lets each observed change map back to a single Phase-1 concept you can name."
-  },
-  {
-    "stem": "You benchmark an 8B model at TP=4 and throughput barely improves over TP=2, with GPU compute util only 0.35. Which regime is this?",
-    "options": [
-      "Memory bandwidth-bound - quantization would help most",
-      "Compute-bound - a faster GPU or more TP would help",
-      "Communication-bound - per-step time barely drops as you add GPUs; drop TP or change the model",
-      "I/O-bound - disk reads of the model weights dominate"
-    ],
-    "answer": 2,
-    "explain": "Part 4's third regime: communication-bound (high TP, small model). Adding GPUs via TP barely improves per-step time because all-reduce communication overhead eats the wins, and compute util stays low (0.35) because each GPU has too little work. The fix is to drop TP or move to a larger model: not more quant or a faster GPU."
-  },
-  {
-    "stem": "Per the lesson's confound table, which is a real confounding variable when running back-to-back benchmarks on the same node: and its mitigation?",
-    "options": [
-      "The model's parameter count silently changing between runs; re-download the weights",
-      "The CLI version being out of date; run `capsule update` between runs",
-      "Thermal throttling from the previous run; pause ~30s between runs and check `nvidia-smi -q -d CLOCK`",
-      "The dashboard being offline; pass `--no-upload`"
-    ],
-    "answer": 2,
-    "explain": "Part 2's confound table lists thermal throttling between runs, mitigated by pausing ~30s and checking `nvidia-smi -q -d CLOCK`. Other listed confounds are cold warmup (pre-warm), neighbor processes (verify idle GPU util = 0), drifted prompt distribution (same seed/prompt set), and reused quant cache (clear between fundamentally different configs)."
-  }
+  {"stem": "What does the 'elbow' in a throughput vs concurrency curve represent?", "options": ["The point where the GPU runs out of memory and crashes", "The concurrency level at which the GPU transitions from underutilized to saturated: throughput peaks and then plateaus or degrades", "The maximum concurrency allowed by the serving engine", "The point where TTFT exceeds the SLO threshold"]},
+  {"stem": "As concurrency increases beyond the elbow, which metrics degrade first and why?", "options": ["Throughput degrades first because the GPU runs out of memory", "TTFT and P99 latency degrade first; queued requests wait longer before prefill begins, even though throughput may remain stable for a while", "Model quality degrades because of KV cache pressure", "GPU utilization drops because the serving engine starts rejecting requests"]},
+  {"stem": "Doubling tensor parallelism (TP) from 1 to 2: what is the expected effect on latency and throughput?", "options": ["Both latency and throughput double", "Latency should decrease (each token computed faster with 2 GPUs sharing the work) but throughput may not double (communication overhead); the tradeoff depends on model size and batch size", "Only throughput doubles; latency is unaffected", "Latency and throughput both remain the same; TP only affects memory fit"]},
+  {"stem": "What compute regime was your Day 42 concurrency sweep primarily in, and how did you determine it?", "options": ["Always compute-bound - GPU compute always bottlenecks LLM workloads", "Memory-bound at low concurrency (few requests, underutilized GPU), transitioning to compute-bound at high concurrency near saturation", "Network-bound - the bottleneck is always data transfer from client to server", "I/O-bound - disk reads of model weights dominate"]},
+  {"stem": "What should you do when your measured results differ from your prediction?", "options": ["Discard the prediction and treat the measurement as ground truth without explanation", "Write 2-3 sentences naming the specific Phase-1 concept that explains the deviation; reconciliation is the learning artifact", "Re-run the benchmark until the results match the prediction", "Lower your concurrency to reduce variance"]},
+  {"stem": "When switching from FP16 to FP8 quantization at the same concurrency level, which metrics improve and which remain roughly stable?", "options": ["Quality improves and latency stays the same", "Throughput rises (~1.5-2×) due to higher memory bandwidth and compute density, while quality drops a little (measurable via eval suite); TTFT may also drop because smaller weights load faster", "Only quality changes; latency and throughput are unaffected by quantization", "All metrics degrade equally with FP8 because precision loss affects every operation"]},
+  {"stem": "Why is a parameter sweep more informative than a single benchmark run?", "options": ["Sweeps use more GPU time and therefore generate more accurate results", "A sweep traces a curve; it shows how the system responds to changes and reveals the operating point (elbow) and the regimes on either side; a single point has no context", "Sweeps allow you to average out measurement noise", "A single run can only measure one metric; a sweep measures all metrics simultaneously"]},
+  {"stem": "The sweep template varies one axis at a time and holds everything else fixed. Why?", "options": ["So any change in the metric can be attributed to the single axis you varied; otherwise you can't tell which variable caused the effect", "Because the serving engine only accepts one flag per invocation", "Because varying two parameters at once crashes the GPU", "Because the dashboard can only plot one run at a time"]},
+  {"stem": "You benchmark an 8B model at TP=4 and throughput barely improves over TP=2, with GPU compute util only 0.35. Which regime is this?", "options": ["Memory bandwidth-bound - quantization would help most", "Compute-bound - a faster GPU or more TP would help", "Communication-bound - per-step time barely drops as you add GPUs; drop TP or change the model", "I/O-bound - disk reads of the model weights dominate"]},
+  {"stem": "Per the lesson's confound table, which is a real confounding variable when running back-to-back benchmarks on the same node: and its mitigation?", "options": ["The model's parameter count silently changing between runs; re-download the weights", "The CLI version being out of date; run `capsule update` between runs", "Thermal throttling from the previous run; pause ~30s between runs and check `nvidia-smi -q -d CLOCK`", "The dashboard being offline; pass `--no-upload`"]}
 ]
 </script>
 </div>

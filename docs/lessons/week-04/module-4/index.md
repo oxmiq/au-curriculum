@@ -51,96 +51,17 @@ Answer these questions from memory before proceeding:
 5. Why is plain PyTorch ~5–10× slower than vLLM for serving?
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-04-m4-readiness" data-kind="readiness" data-draw="5" data-source="vLLM + Continuous Batching">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "In static batching, what does the batch wait for before processing?",
-    "options": [
-      "A fixed number of requests to arrive",
-      "All requests in the batch to finish their output",
-      "GPU memory to be cleared",
-      "The model to be reloaded"
-    ],
-    "answer": 1,
-    "explain": "Static batching waits for ALL requests in the batch to complete their output before returning any results. The longest output dominates: if one request generates 500 tokens and others generate 10, everyone waits for the 500-token request to finish."
-  },
-  {
-    "stem": "What is the key advantage of continuous batching over static batching?",
-    "options": [
-      "It uses less GPU memory",
-      "It allows new requests to join a running batch mid-generation",
-      "It processes requests faster",
-      "It doesn't require any configuration"
-    ],
-    "answer": 1,
-    "explain": "Continuous batching (iteration-level scheduling) allows new requests to join the batch after every decode step. This maximizes GPU utilization by keeping the batch full and reducing idle time between batches."
-  },
-  {
-    "stem": "What is PagedAttention and which engine pioneered it?",
-    "options": [
-      "A memory optimization technique pioneered by vLLM",
-      "A new attention algorithm pioneered by PyTorch",
-      "A batching strategy pioneered by TensorRT-LLM",
-      "A quantization method pioneered by Hugging Face"
-    ],
-    "answer": 0,
-    "explain": "PagedAttention is a memory optimization technique that manages KV caches in non-contiguous pages, reducing memory fragmentation. It was pioneered by vLLM and is one of the key innovations that makes vLLM faster than vanilla PyTorch."
-  },
-  {
-    "stem": "Which of these is a production serving engine for LLMs?",
-    "options": [
-      "PyTorch",
-      "vLLM, TGI (Text Generation Inference), TensorRT-LLM",
-      "NumPy",
-      "Pandas"
-    ],
-    "answer": 1,
-    "explain": "vLLM, TGI (Text Generation Inference by Hugging Face), and TensorRT-LLM (by NVIDIA) are production serving engines. Plain PyTorch is not a serving stack; it's a framework for building models, not for serving them efficiently."
-  },
-  {
-    "stem": "Why is plain PyTorch significantly slower than vLLM for LLM serving?",
-    "options": [
-      "PyTorch uses older GPU architectures",
-      "PyTorch lacks key optimizations like PagedAttention, continuous batching, and efficient KV cache management",
-      "PyTorch is only for training, not inference",
-      "PyTorch requires more GPU memory"
-    ],
-    "answer": 1,
-    "explain": "Plain PyTorch lacks key serving optimizations: (1) PagedAttention for memory efficiency, (2) continuous batching for GPU utilization, (3) optimized CUDA kernels. These optimizations can provide 5-10x throughput improvement over naive PyTorch inference."
-  },
-  {
-    "stem": "What is the primary benefit of iteration-level scheduling in continuous batching?",
-    "options": [
-      "It reduces the model size",
-      "It allows the batch composition to change after every decode step",
-      "It improves model accuracy",
-      "It eliminates the need for GPUs"
-    ],
-    "answer": 1,
-    "explain": "Iteration-level scheduling means the batch composition can change after every decode step. Finished requests are removed and new requests are added, allowing the batch to stay full and maximize GPU utilization throughout the serving period."
-  },
-  {
-    "stem": "What problem does PagedAttention solve in LLM serving?",
-    "options": [
-      "It speeds up the prefill phase",
-      "It reduces KV cache memory fragmentation",
-      "It eliminates the need for quantization",
-      "It improves model accuracy"
-    ],
-    "answer": 1,
-    "explain": "PagedAttention manages KV caches in non-contiguous pages (like virtual memory in OSes), which reduces memory fragmentation. In traditional serving, KV caches must be stored contiguously, leading to waste when outputs have different lengths."
-  },
-  {
-    "stem": "Which engine is developed by NVIDIA and optimized for their GPUs?",
-    "options": [
-      "vLLM",
-      "TGI",
-      "TensorRT-LLM",
-      "LightLLM"
-    ],
-    "answer": 2,
-    "explain": "TensorRT-LLM is NVIDIA's serving engine, optimized for NVIDIA GPUs with features like FP8 support, INT8 quantization, and tight integration with NVIDIA's software stack. It's one of the main production serving engines."
-  }
+  {"stem": "In static batching, what does the batch wait for before processing?", "options": ["A fixed number of requests to arrive", "All requests in the batch to finish their output", "GPU memory to be cleared", "The model to be reloaded"]},
+  {"stem": "What is the key advantage of continuous batching over static batching?", "options": ["It uses less GPU memory", "It allows new requests to join a running batch mid-generation", "It processes requests faster", "It doesn't require any configuration"]},
+  {"stem": "What is PagedAttention and which engine pioneered it?", "options": ["A memory optimization technique pioneered by vLLM", "A new attention algorithm pioneered by PyTorch", "A batching strategy pioneered by TensorRT-LLM", "A quantization method pioneered by Hugging Face"]},
+  {"stem": "Which of these is a production serving engine for LLMs?", "options": ["PyTorch", "vLLM, TGI (Text Generation Inference), TensorRT-LLM", "NumPy", "Pandas"]},
+  {"stem": "Why is plain PyTorch significantly slower than vLLM for LLM serving?", "options": ["PyTorch uses older GPU architectures", "PyTorch lacks key optimizations like PagedAttention, continuous batching, and efficient KV cache management", "PyTorch is only for training, not inference", "PyTorch requires more GPU memory"]},
+  {"stem": "What is the primary benefit of iteration-level scheduling in continuous batching?", "options": ["It reduces the model size", "It allows the batch composition to change after every decode step", "It improves model accuracy", "It eliminates the need for GPUs"]},
+  {"stem": "What problem does PagedAttention solve in LLM serving?", "options": ["It speeds up the prefill phase", "It reduces KV cache memory fragmentation", "It eliminates the need for quantization", "It improves model accuracy"]},
+  {"stem": "Which engine is developed by NVIDIA and optimized for their GPUs?", "options": ["vLLM", "TGI", "TensorRT-LLM", "LightLLM"]}
 ]
 </script>
 </div>
@@ -336,118 +257,19 @@ Document your findings.
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-04-m4-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 19 · Serving Engines &amp; Continuous Batching">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What is the key difference between static batching and continuous batching?",
-    "options": [
-      "Static batching uses GPUs; continuous batching uses CPUs",
-      "Static batching waits for the slowest request before accepting new ones; continuous batching inserts new requests as soon as a slot frees, without waiting",
-      "Static batching supports larger batch sizes than continuous batching",
-      "Continuous batching requires quantization; static batching does not"
-    ],
-    "answer": 1,
-    "explain": "Static batching groups requests together and waits for all to complete before swapping in new ones: wasting GPU cycles when some requests finish early. Continuous batching (iteration-level scheduling) adds new requests as soon as slots open, keeping the GPU continuously busy."
-  },
-  {
-    "stem": "Why does continuous batching require PagedAttention?",
-    "options": [
-      "PagedAttention speeds up continuous batching by pre-loading all KV caches",
-      "Continuous batching dynamically adds and removes requests mid-batch; without PagedAttention, KV cache memory cannot be efficiently reallocated between requests",
-      "PagedAttention allows continuous batching to use FP8 precision",
-      "PagedAttention converts continuous batching to static batching for efficiency"
-    ],
-    "answer": 1,
-    "explain": "Continuous batching adds/removes requests dynamically. Static contiguous KV cache allocation can't support this: fragmentation and inability to grow/shrink blocks for individual requests would cause inefficiency or OOM. PagedAttention's non-contiguous page-based allocation enables flexible dynamic memory management."
-  },
-  {
-    "stem": "Which serving engine is best suited for maximum throughput with TensorRT optimization on NVIDIA hardware?",
-    "options": [
-      "vLLM - fastest time-to-first-token for any model",
-      "Text Generation Inference (TGI) - best for CPU-GPU hybrid deployments",
-      "TensorRT-LLM - uses NVIDIA TensorRT compilation for maximum throughput on NVIDIA hardware",
-      "SGLang - best for multi-turn structured generation"
-    ],
-    "answer": 2,
-    "explain": "TensorRT-LLM compiles models using NVIDIA's TensorRT graph optimizer, fusing operations and generating highly optimized CUDA kernels. This gives it the highest throughput on NVIDIA hardware, at the cost of longer model compilation time. vLLM prioritizes flexibility and wide model support."
-  },
-  {
-    "stem": "Why is PyTorch alone insufficient for production LLM serving?",
-    "options": [
-      "PyTorch does not support FP16 inference",
-      "PyTorch lacks production features: continuous batching, PagedAttention, KV cache management, and optimized kernels; it runs each request sequentially without batching infrastructure",
-      "PyTorch cannot run on NVIDIA GPUs",
-      "PyTorch requires training data to run inference"
-    ],
-    "answer": 1,
-    "explain": "Bare PyTorch inference lacks production-critical features: continuous batching, PagedAttention for memory management, FlashAttention kernels, quantization support, and multi-GPU orchestration. These features are what serving engines provide on top of PyTorch's core computation graph."
-  },
-  {
-    "stem": "What is the 'modern serving stack' described at the end of Part 7?",
-    "options": [
-      "Quantization + batching + caching + monitoring",
-      "Continuous batching + PagedAttention + FlashAttention + quantization",
-      "vLLM + TensorRT + TGI + SGLang running in parallel",
-      "Load balancer + serving engine + model store + logging"
-    ],
-    "answer": 1,
-    "explain": "The lesson states: 'Continuous batching + PagedAttention + FlashAttention + quantization = modern serving stack.' These four innovations work together: continuous batching maximizes GPU utilization; PagedAttention manages KV memory; FlashAttention speeds attention; quantization reduces memory footprint."
-  },
-  {
-    "stem": "Which serving engine is best for structured generation and multi-turn agent workloads?",
-    "options": [
-      "TensorRT-LLM - best for all production workloads",
-      "Text Generation Inference (TGI) - designed specifically for agent frameworks",
-      "SGLang - optimized for structured generation and complex multi-turn control flow",
-      "vLLM - already supports all structured generation out of the box"
-    ],
-    "answer": 2,
-    "explain": "SGLang (Structured Generation LAnguage) is designed for structured output and complex generation programs: JSON schemas, constrained decoding, multi-turn agents. It adds a RadixAttention mechanism for KV cache reuse across shared prefixes. vLLM is the most versatile general-purpose engine."
-  },
-  {
-    "stem": "In static batching, why does a request with a short output still wait to return?",
-    "options": [
-      "Because short outputs are deprioritized by the scheduler until long ones finish",
-      "Because the batch returns only when ALL requests finish, so the longest output dominates and short ones sit idle",
-      "Because PagedAttention holds finished requests until memory is freed",
-      "Because quantization of the batch must complete before any result is returned"
-    ],
-    "answer": 1,
-    "explain": "Static batching runs N requests together and returns only when all finish: the longest output dominates. If one request generates 300 tokens and another 50, the short one sits idle waiting for the long one, wasting GPU cycles between batches. That waste is what continuous batching removes."
-  },
-  {
-    "stem": "How does PagedAttention actually reduce KV-cache memory waste?",
-    "options": [
-      "It compresses the KV cache using FP8 quantization",
-      "It offloads the KV cache to CPU RAM and pages it back in on demand",
-      "It stores the KV cache in fixed-size blocks (typically 16 tokens) that are allocated and freed independently, like OS virtual memory: giving near-zero fragmentation",
-      "It discards KV entries for finished requests during the prefill phase"
-    ],
-    "answer": 2,
-    "explain": "PagedAttention holds the KV cache in fixed-size blocks (typically 16 tokens each) that can be allocated and freed independently, analogous to virtual memory in an OS. Traditional serving assumes a contiguous KV cache, so variable-length outputs cause internal fragmentation and OOM; paging drives fragmentation to near zero."
-  },
-  {
-    "stem": "According to the lesson, what does every modern serving engine ship with?",
-    "options": [
-      "Only continuous batching, with all other features left to the user",
-      "Continuous batching, PagedAttention (or equivalent), FlashAttention v2+ kernels, quantized weight loading, KV-cache prefix sharing, and an OpenAI-compatible API",
-      "A built-in training loop and dataset loader for fine-tuning",
-      "Exclusive support for a single model family per engine"
-    ],
-    "answer": 1,
-    "explain": "The lesson's 'what every modern engine ships with' list: continuous batching, PagedAttention (or equivalent), FlashAttention v2+ kernels, quantized weight loading (FP8/INT4/GPTQ/AWQ), KV-cache prefix sharing for system prompts, an HTTP/gRPC server with an OpenAI-compatible API, and multi-GPU TP with optional PP."
-  },
-  {
-    "stem": "Which engine originated PagedAttention, and who maintains it?",
-    "options": [
-      "vLLM, from UC Berkeley plus the community",
-      "TensorRT-LLM, from NVIDIA",
-      "TGI, from Hugging Face",
-      "SGLang, from LMSys"
-    ],
-    "answer": 0,
-    "explain": "The lesson credits vLLM (UC Berkeley plus community) as the origin of PagedAttention. It is one of the key innovations that makes vLLM the OSS default, and continuous batching plus PagedAttention are 'symbiotic': vLLM ships both together."
-  }
+  {"stem": "What is the key difference between static batching and continuous batching?", "options": ["Static batching uses GPUs; continuous batching uses CPUs", "Static batching waits for the slowest request before accepting new ones; continuous batching inserts new requests as soon as a slot frees, without waiting", "Static batching supports larger batch sizes than continuous batching", "Continuous batching requires quantization; static batching does not"]},
+  {"stem": "Why does continuous batching require PagedAttention?", "options": ["PagedAttention speeds up continuous batching by pre-loading all KV caches", "Continuous batching dynamically adds and removes requests mid-batch; without PagedAttention, KV cache memory cannot be efficiently reallocated between requests", "PagedAttention allows continuous batching to use FP8 precision", "PagedAttention converts continuous batching to static batching for efficiency"]},
+  {"stem": "Which serving engine is best suited for maximum throughput with TensorRT optimization on NVIDIA hardware?", "options": ["vLLM - fastest time-to-first-token for any model", "Text Generation Inference (TGI) - best for CPU-GPU hybrid deployments", "TensorRT-LLM - uses NVIDIA TensorRT compilation for maximum throughput on NVIDIA hardware", "SGLang - best for multi-turn structured generation"]},
+  {"stem": "Why is PyTorch alone insufficient for production LLM serving?", "options": ["PyTorch does not support FP16 inference", "PyTorch lacks production features: continuous batching, PagedAttention, KV cache management, and optimized kernels; it runs each request sequentially without batching infrastructure", "PyTorch cannot run on NVIDIA GPUs", "PyTorch requires training data to run inference"]},
+  {"stem": "What is the 'modern serving stack' described at the end of Part 7?", "options": ["Quantization + batching + caching + monitoring", "Continuous batching + PagedAttention + FlashAttention + quantization", "vLLM + TensorRT + TGI + SGLang running in parallel", "Load balancer + serving engine + model store + logging"]},
+  {"stem": "Which serving engine is best for structured generation and multi-turn agent workloads?", "options": ["TensorRT-LLM - best for all production workloads", "Text Generation Inference (TGI) - designed specifically for agent frameworks", "SGLang - optimized for structured generation and complex multi-turn control flow", "vLLM - already supports all structured generation out of the box"]},
+  {"stem": "In static batching, why does a request with a short output still wait to return?", "options": ["Because short outputs are deprioritized by the scheduler until long ones finish", "Because the batch returns only when ALL requests finish, so the longest output dominates and short ones sit idle", "Because PagedAttention holds finished requests until memory is freed", "Because quantization of the batch must complete before any result is returned"]},
+  {"stem": "How does PagedAttention actually reduce KV-cache memory waste?", "options": ["It compresses the KV cache using FP8 quantization", "It offloads the KV cache to CPU RAM and pages it back in on demand", "It stores the KV cache in fixed-size blocks (typically 16 tokens) that are allocated and freed independently, like OS virtual memory: giving near-zero fragmentation", "It discards KV entries for finished requests during the prefill phase"]},
+  {"stem": "According to the lesson, what does every modern serving engine ship with?", "options": ["Only continuous batching, with all other features left to the user", "Continuous batching, PagedAttention (or equivalent), FlashAttention v2+ kernels, quantized weight loading, KV-cache prefix sharing, and an OpenAI-compatible API", "A built-in training loop and dataset loader for fine-tuning", "Exclusive support for a single model family per engine"]},
+  {"stem": "Which engine originated PagedAttention, and who maintains it?", "options": ["vLLM, from UC Berkeley plus the community", "TensorRT-LLM, from NVIDIA", "TGI, from Hugging Face", "SGLang, from LMSys"]}
 ]
 </script>
 </div>

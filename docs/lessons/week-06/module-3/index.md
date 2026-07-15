@@ -54,96 +54,17 @@ Answer these questions from memory before continuing:
 If you couldn't answer all four, re-read the Student Guide Module 2 before continuing.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-06-m3-readiness" data-kind="readiness" data-draw="5" data-source="AI Agents Pre-Lecture Reading - Tools & MCP + Anthropic MCP">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What is a tool in the context of an AI agent?",
-    "options": [
-      "A software library",
-      "A function the agent can call to act on the world (e.g., search, calculate, API call)",
-      "A type of prompt",
-      "A model configuration"
-    ],
-    "answer": 1,
-    "explain": "A tool is a function the agent can call to act on the world: like search, calculate, make an API call, read a file, or send an email. Tools extend what the agent can do beyond just generating text."
-  },
-  {
-    "stem": "Why does a tool need a schema?",
-    "options": [
-      "To make it run faster",
-      "So the model knows what arguments to provide and what the tool does",
-      "To secure the tool",
-      "Schemas are optional"
-    ],
-    "answer": 1,
-    "explain": "A tool schema tells the model: (1) what the tool does, (2) what arguments are required, (3) what each argument means. Without a schema, the model can't correctly invoke the tool; it doesn't know what to pass or how."
-  },
-  {
-    "stem": "What does MCP stand for and what problem does it solve?",
-    "options": [
-      "Model Call Protocol: standardizes how models make API calls",
-      "Model Context Protocol: standardizes how agents connect to tools and data sources",
-      "Multi-Channel Processing: improves response speed",
-      "Main Control Panel: a UI component"
-    ],
-    "answer": 1,
-    "explain": "MCP (Model Context Protocol) standardizes how agents connect to tools and data sources. Before MCP, every agent had custom integrations for each tool. With MCP, you write the tool once and it works with any compatible agent: like USB-C for AI."
-  },
-  {
-    "stem": "What is the difference between a read tool and a write tool?",
-    "options": [
-      "There is no difference",
-      "Read tools retrieve information; write tools modify state or take actions",
-      "Read tools are slower than write tools",
-      "Write tools don't need schemas"
-    ],
-    "answer": 1,
-    "explain": "Read tools retrieve information (search, read file, query database) without changing state. Write tools modify state or take actions (send email, write file, make payment). Write tools are riskier because they can cause real-world effects."
-  },
-  {
-    "stem": "Why must a write tool never be called 'because the agent decided to'?",
-    "options": [
-      "It's inefficient",
-      "The agent needs to provide a reasoned justification traceable to user intent, not just its own decision",
-      "Write tools don't support that parameter",
-      "It's against the MCP specification"
-    ],
-    "answer": 1,
-    "explain": "Write tools must have a reasoned justification traceable to user intent. The agent saying 'I decided to send this email' is not acceptable; it must say 'I'm sending this because the user asked to...'. This ensures human oversight and auditability."
-  },
-  {
-    "stem": "What is tool selection in the context of agents?",
-    "options": [
-      "Choosing which programming language to use",
-      "The agent deciding which tool(s) to call from a available set",
-      "Installing tools on a computer",
-      "A security feature"
-    ],
-    "answer": 1,
-    "explain": "Tool selection is the agent deciding which tool(s) to call from the available set. The model sees the tool schemas and chooses the appropriate tool(s) based on the user's request and its reasoning."
-  },
-  {
-    "stem": "What is the relationship between MCP and tool integration?",
-    "options": [
-      "MCP replaces tools",
-      "MCP provides a standard way to expose tools to agents so they work across different frameworks",
-      "MCP is a type of tool",
-      "MCP and tools are unrelated"
-    ],
-    "answer": 1,
-    "explain": "MCP provides a standard way to expose tools to agents. Instead of writing custom integrations for each agent framework (LangChain, Claude Code, etc.), MCP lets tool developers write once and have their tools work across all compatible frameworks."
-  },
-  {
-    "stem": "What is the key safety consideration for write tools?",
-    "options": [
-      "Write tools should not be used",
-      "Write tools must require explicit user authorization, not just agent decision",
-      "Write tools are always safe",
-      "Write tools don't need any special handling"
-    ],
-    "answer": 1,
-    "explain": "Write tools must require explicit user authorization. The agent can't just decide to write/change something; the user's intent must be clear and traceable. This is why write tools have stricter requirements than read tools."
-  }
+  {"stem": "What is a tool in the context of an AI agent?", "options": ["A software library", "A function the agent can call to act on the world (e.g., search, calculate, API call)", "A type of prompt", "A model configuration"]},
+  {"stem": "Why does a tool need a schema?", "options": ["To make it run faster", "So the model knows what arguments to provide and what the tool does", "To secure the tool", "Schemas are optional"]},
+  {"stem": "What does MCP stand for and what problem does it solve?", "options": ["Model Call Protocol: standardizes how models make API calls", "Model Context Protocol: standardizes how agents connect to tools and data sources", "Multi-Channel Processing: improves response speed", "Main Control Panel: a UI component"]},
+  {"stem": "What is the difference between a read tool and a write tool?", "options": ["There is no difference", "Read tools retrieve information; write tools modify state or take actions", "Read tools are slower than write tools", "Write tools don't need schemas"]},
+  {"stem": "Why must a write tool never be called 'because the agent decided to'?", "options": ["It's inefficient", "The agent needs to provide a reasoned justification traceable to user intent, not just its own decision", "Write tools don't support that parameter", "It's against the MCP specification"]},
+  {"stem": "What is tool selection in the context of agents?", "options": ["Choosing which programming language to use", "The agent deciding which tool(s) to call from a available set", "Installing tools on a computer", "A security feature"]},
+  {"stem": "What is the relationship between MCP and tool integration?", "options": ["MCP replaces tools", "MCP provides a standard way to expose tools to agents so they work across different frameworks", "MCP is a type of tool", "MCP and tools are unrelated"]},
+  {"stem": "What is the key safety consideration for write tools?", "options": ["Write tools should not be used", "Write tools must require explicit user authorization, not just agent decision", "Write tools are always safe", "Write tools don't need any special handling"]}
 ]
 </script>
 </div>
@@ -424,96 +345,17 @@ You're designing an agent with 40 potential tools.
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-06-m3-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 28 · Tools &amp; MCP">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What are the six fields of a tool schema?",
-    "options": [
-      "name, type, input, output, version, owner",
-      "name, description, parameters, returns, side_effects, cost",
-      "tool_id, endpoint, method, auth, timeout, retry",
-      "action, object, arguments, result, error, log"
-    ],
-    "answer": 1,
-    "explain": "The six fields from the lesson: name (unique identifier), description (what it does: the model reads this to decide when to call it), parameters (inputs with types/descriptions), returns (what comes back), side_effects (what it changes in the world), cost (tokens or money per call). Missing description is the most common mistake."
-  },
-  {
-    "stem": "What is the safety rule for write tools (tools with side effects)?",
-    "options": [
-      "Write tools should only be called during business hours",
-      "Write tools must be wrapped in a confirm/deny human-in-the-loop step before execution",
-      "Write tools should not be included in the tool schema",
-      "Write tools should always retry on failure"
-    ],
-    "answer": 1,
-    "explain": "Read tools (query, fetch) are safe to call freely. Write tools (send email, write to DB, delete file) have irreversible side effects. The safety rule: wrap write tools in a confirmation step that requires human approval before execution. This prevents agent runaway and accidental data destruction."
-  },
-  {
-    "stem": "What does MCP stand for and what problem does it solve?",
-    "options": [
-      "Multi-Call Protocol: it batches multiple tool calls into one network request",
-      "Model Context Protocol: it provides a standard interface for connecting AI models to tools and resources, so tools built once work with any MCP-compatible model",
-      "Managed Compute Pipeline: it optimizes GPU allocation for agent workloads",
-      "Memory Cache Protocol: it caches tool outputs to reduce redundant calls"
-    ],
-    "answer": 1,
-    "explain": "MCP = Model Context Protocol (Anthropic, Nov 2024). The problem: each model and each tool had custom integrations. MCP is the 'USB-C for AI': a standard protocol where any MCP server exposes tools/resources/prompts that any MCP-compatible client can consume without custom code."
-  },
-  {
-    "stem": "What are the four MCP building blocks?",
-    "options": [
-      "Agents, Models, Tools, Memories",
-      "Tools, Resources, Prompts, Sampling",
-      "Context, Actions, Observations, Rewards",
-      "Endpoints, Schemas, Auth, Logging"
-    ],
-    "answer": 1,
-    "explain": "MCP exposes four building blocks: Tools (callable functions), Resources (files, DB rows, APIs the model can read), Prompts (reusable prompt templates), and Sampling (the model can ask the MCP client to call another model). These cover the full range of what an agent needs from its environment."
-  },
-  {
-    "stem": "A pipeline makes 10 tool calls, each with 95% individual reliability. What is the approximate end-to-end reliability?",
-    "options": [
-      "~95%",
-      "~90%",
-      "~80%",
-      "~60%"
-    ],
-    "answer": 3,
-    "explain": "0.95^10 ≈ 0.60 = ~60% end-to-end reliability. The lesson states: 'Tool-call reliability compounding: 95% per-call × 10 calls ≈ 60% end-to-end.' This is why production agent pipelines need retry logic, circuit breakers, and graceful degradation for failed tool calls."
-  },
-  {
-    "stem": "What happens to model accuracy when too many tools are provided simultaneously?",
-    "options": [
-      "Model accuracy improves because it has more options to choose from",
-      "Model accuracy degrades; studies show providing more than ~30 tools hurts the model's ability to select the right tool",
-      "Model accuracy is unaffected by tool count",
-      "Model accuracy degrades only when tools have overlapping descriptions"
-    ],
-    "answer": 1,
-    "explain": "The lesson states: 'Tool-count degradation: >30 tools hurts model accuracy.' When given too many tools, models struggle to select the right one and may hallucinate calls to non-existent tools. Mitigations: tool tiering (load only relevant tools), tool-of-tools (a dispatcher that selects subsets)."
-  },
-  {
-    "stem": "Which of the following is a write tool (per the lesson's read-vs-write distinction)?",
-    "options": [
-      "search_docs",
-      "get_weather",
-      "send_email",
-      "read_file"
-    ],
-    "answer": 2,
-    "explain": "The lesson classifies send_email (along with create_ticket, write_file, transfer_money, delete_record) as write tools; they modify state and are often irreversible, so they need approval / dry-run / audit / rate-limiting. search_docs, get_weather, and read_file are read tools: they only retrieve information and are safe to call freely."
-  },
-  {
-    "stem": "Which tool-schema field does the model primarily use to decide which tool to call?",
-    "options": [
-      "name",
-      "cost",
-      "returns",
-      "description"
-    ],
-    "answer": 3,
-    "explain": "The lesson's 'Why the Description Field Dominates' section: the model uses description, not name, to choose a tool. A vague or misleading description is the most common source of tool-selection errors. Rule of thumb: the description should answer 'when would I pick this tool over the others?'"
-  }
+  {"stem": "What are the six fields of a tool schema?", "options": ["name, type, input, output, version, owner", "name, description, parameters, returns, side_effects, cost", "tool_id, endpoint, method, auth, timeout, retry", "action, object, arguments, result, error, log"]},
+  {"stem": "What is the safety rule for write tools (tools with side effects)?", "options": ["Write tools should only be called during business hours", "Write tools must be wrapped in a confirm/deny human-in-the-loop step before execution", "Write tools should not be included in the tool schema", "Write tools should always retry on failure"]},
+  {"stem": "What does MCP stand for and what problem does it solve?", "options": ["Multi-Call Protocol: it batches multiple tool calls into one network request", "Model Context Protocol: it provides a standard interface for connecting AI models to tools and resources, so tools built once work with any MCP-compatible model", "Managed Compute Pipeline: it optimizes GPU allocation for agent workloads", "Memory Cache Protocol: it caches tool outputs to reduce redundant calls"]},
+  {"stem": "What are the four MCP building blocks?", "options": ["Agents, Models, Tools, Memories", "Tools, Resources, Prompts, Sampling", "Context, Actions, Observations, Rewards", "Endpoints, Schemas, Auth, Logging"]},
+  {"stem": "A pipeline makes 10 tool calls, each with 95% individual reliability. What is the approximate end-to-end reliability?", "options": ["~95%", "~90%", "~80%", "~60%"]},
+  {"stem": "What happens to model accuracy when too many tools are provided simultaneously?", "options": ["Model accuracy improves because it has more options to choose from", "Model accuracy degrades; studies show providing more than ~30 tools hurts the model's ability to select the right tool", "Model accuracy is unaffected by tool count", "Model accuracy degrades only when tools have overlapping descriptions"]},
+  {"stem": "Which of the following is a write tool (per the lesson's read-vs-write distinction)?", "options": ["search_docs", "get_weather", "send_email", "read_file"]},
+  {"stem": "Which tool-schema field does the model primarily use to decide which tool to call?", "options": ["name", "cost", "returns", "description"]}
 ]
 </script>
 </div>

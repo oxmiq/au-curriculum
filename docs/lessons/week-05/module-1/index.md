@@ -46,96 +46,17 @@ You should have already read: <a href="https://www.anyscale.com/blog/llm-inferen
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-05-m1-readiness" data-kind="readiness" data-draw="5" data-source="Anyscale - Latency vs Throughput in LLM Serving">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What does TTFT (Time To First Token) measure?",
-    "options": [
-      "The time between consecutive output tokens",
-      "The wall-clock time from request received to first output token",
-      "The total time to process the entire request",
-      "The time spent in the decode phase"
-    ],
-    "answer": 1,
-    "explain": "TTFT measures the wall-clock time from when a request is received to when the first output token is generated. It's primarily driven by the prefill phase (processing the input prompt) and any queueing delay."
-  },
-  {
-    "stem": "What is the relationship between ITL (Inter-Token Latency) and TPS (Tokens Per Second)?",
-    "options": [
-      "TPS = ITL × 1000",
-      "TPS = 1000 / ITL_ms",
-      "TPS = ITL / 1000",
-      "TPS and ITL are unrelated metrics"
-    ],
-    "answer": 1,
-    "explain": "TPS (Tokens Per Second) = 1000 / ITL_ms. For example, if ITL is 50ms per token, then TPS = 1000/50 = 20 tokens/second. This is the decode-phase throughput metric."
-  },
-  {
-    "stem": "In LLM inference, what happens to latency when you increase batch size?",
-    "options": [
-      "Latency always decreases",
-      "Latency always increases",
-      "Latency typically increases while throughput improves",
-      "Batch size has no impact on latency"
-    ],
-    "answer": 2,
-    "explain": "There's a fundamental tradeoff: larger batches improve throughput (more tokens/second across all requests) but increase latency for individual requests (especially P99) because the system processes more requests in parallel."
-  },
-  {
-    "stem": "What is the 'prefill' phase in LLM inference?",
-    "options": [
-      "Generating the first token of output",
-      "Processing the input prompt to compute KV caches",
-      "Decoding tokens one-by-one",
-      "Finalizing the response"
-    ],
-    "answer": 1,
-    "explain": "The prefill phase processes the entire input prompt in parallel to compute KV caches for all tokens. This phase is compute-intensive and determines TTFT. After prefill, the decode phase generates output tokens sequentially."
-  },
-  {
-    "stem": "Why do real-world LLM deployments often report P99 latency instead of average latency?",
-    "options": [
-      "P99 is easier to calculate",
-      "Average latency hides outliers; P99 captures the experience of the slowest 1% of requests",
-      "P99 is always lower than average",
-      "Users only care about the slowest requests"
-    ],
-    "answer": 1,
-    "explain": "Average latency hides outliers. P99 (99th percentile) latency shows the experience of the slowest 1% of requests; this is what most user-facing SLOs target because it reflects the actual user experience for a significant fraction of users."
-  },
-  {
-    "stem": "What is the primary driver of ITL (Inter-Token Latency)?",
-    "options": [
-      "Prefill speed",
-      "Queueing delay",
-      "Decode speed",
-      "Network latency"
-    ],
-    "answer": 2,
-    "explain": "ITL is driven by decode speed: how fast the model can generate each subsequent token after the first. This is memory-bandwidth bound (reading KV caches) rather than compute-bound like prefill."
-  },
-  {
-    "stem": "What is continuous batching in LLM serving?",
-    "options": [
-      "Batching that processes all requests at once",
-      "A technique that adds new requests to a batch while other requests are still decoding",
-      "Batching that only processes requests with continuous token streams",
-      "A method to reduce batch size over time"
-    ],
-    "answer": 1,
-    "explain": "Continuous batching (also called rolling batching) adds new requests to a batch while existing requests are still in the decode phase, maximizing GPU utilization without waiting for entire batches to complete."
-  },
-  {
-    "stem": "In the latency vs throughput tradeoff, what does high throughput with high latency typically indicate?",
-    "options": [
-      "An underutilized GPU",
-      "A system with large batch sizes processing many concurrent requests",
-      "A system with no batching",
-      "A failed deployment"
-    ],
-    "answer": 1,
-    "explain": "High throughput with high latency typically indicates a system optimizing for batch processing: accepting many concurrent requests (large batch sizes) which maximizes GPU utilization but increases individual request latency."
-  }
+  {"stem": "What does TTFT (Time To First Token) measure?", "options": ["The time between consecutive output tokens", "The wall-clock time from request received to first output token", "The total time to process the entire request", "The time spent in the decode phase"]},
+  {"stem": "What is the relationship between ITL (Inter-Token Latency) and TPS (Tokens Per Second)?", "options": ["TPS = ITL × 1000", "TPS = 1000 / ITL_ms", "TPS = ITL / 1000", "TPS and ITL are unrelated metrics"]},
+  {"stem": "In LLM inference, what happens to latency when you increase batch size?", "options": ["Latency always decreases", "Latency always increases", "Latency typically increases while throughput improves", "Batch size has no impact on latency"]},
+  {"stem": "What is the 'prefill' phase in LLM inference?", "options": ["Generating the first token of output", "Processing the input prompt to compute KV caches", "Decoding tokens one-by-one", "Finalizing the response"]},
+  {"stem": "Why do real-world LLM deployments often report P99 latency instead of average latency?", "options": ["P99 is easier to calculate", "Average latency hides outliers; P99 captures the experience of the slowest 1% of requests", "P99 is always lower than average", "Users only care about the slowest requests"]},
+  {"stem": "What is the primary driver of ITL (Inter-Token Latency)?", "options": ["Prefill speed", "Queueing delay", "Decode speed", "Network latency"]},
+  {"stem": "What is continuous batching in LLM serving?", "options": ["Batching that processes all requests at once", "A technique that adds new requests to a batch while other requests are still decoding", "Batching that only processes requests with continuous token streams", "A method to reduce batch size over time"]},
+  {"stem": "In the latency vs throughput tradeoff, what does high throughput with high latency typically indicate?", "options": ["An underutilized GPU", "A system with large batch sizes processing many concurrent requests", "A system with no batching", "A failed deployment"]}
 ]
 </script>
 </div>
@@ -293,107 +214,18 @@ Create a table with:
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-05-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 21 · Metrics &amp; SLOs">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What does TTFT (Time To First Token) measure?",
-    "options": [
-      "The total time for the model to generate all output tokens",
-      "The time from when the request is received to when the first output token is produced",
-      "The time it takes to tokenize the input prompt",
-      "The time between consecutive output tokens during streaming"
-    ],
-    "answer": 1,
-    "explain": "TTFT = time from request receipt to first token emitted. It is driven by the prefill phase (processing all input tokens). TTFT is the primary latency metric for interactive use cases where users perceive responsiveness from when streaming starts."
-  },
-  {
-    "stem": "For code completion (e.g., GitHub Copilot-style), what is the top-priority latency metric and why?",
-    "options": [
-      "Aggregate TPS: because code generation needs to be fast overall",
-      "P99 TTFT with a very tight target (< 200 ms): because users expect instant inline completions and any delay breaks the typing flow",
-      "Cost per million tokens: because code assistants are used frequently",
-      "GPU utilization: because maximum hardware usage minimizes per-user cost"
-    ],
-    "answer": 1,
-    "explain": "Code completion has the tightest TTFT requirement of any workload; the IDE must respond before the user's next keystroke. The lesson's table shows: 'Code completion: P99 TTFT (very tight, < 200 ms).' Even TPS matters less if the first suggestion appears slowly."
-  },
-  {
-    "stem": "What does P99 TTFT mean?",
-    "options": [
-      "The average TTFT across 99 requests",
-      "The TTFT at the 99th percentile: 99% of requests have lower TTFT, only 1% are slower",
-      "The maximum TTFT ever observed",
-      "The TTFT target that 99% of the engineering team agreed to"
-    ],
-    "answer": 1,
-    "explain": "Pxx percentile means X% of requests complete at or below this value. P99 TTFT = only 1% of requests have higher TTFT. P99 is used instead of average because it captures tail latency: the slow outliers that users actually experience as frustrating, even if the average is good."
-  },
-  {
-    "stem": "For batch summarization (e.g., overnight document processing), what is the top-priority metric?",
-    "options": [
-      "P99 TTFT: because documents must start processing quickly",
-      "Aggregate throughput (TPS) and cost per million tokens: because the workload is not user-facing and maximizing throughput minimizes cost",
-      "GPU utilization: because batch jobs must run at 100% GPU usage",
-      "Median TTFT: because individual document latency matters"
-    ],
-    "answer": 1,
-    "explain": "Batch summarization is not interactive; no user waits for individual responses. The goal is to process the largest volume of documents at the lowest cost. The lesson states: 'Batch summarization: Aggregate TPS, cost / 1M tokens.'"
-  },
-  {
-    "stem": "Why is GPU utilization important as a cost metric?",
-    "options": [
-      "Higher GPU utilization always means lower latency",
-      "GPU cost is roughly fixed per hour; higher utilization means more tokens generated per dollar of GPU time",
-      "GPU utilization determines whether the model runs in FP16 or FP8",
-      "Low GPU utilization triggers autoscaling which increases costs"
-    ],
-    "answer": 1,
-    "explain": "You pay for GPU time regardless of whether the GPU is busy (e.g., $24/hour for an 8×H100 box). If GPU utilization is 20%, you're generating tokens at 20% of capacity; cost per token is 5× higher than at full utilization. Maximizing GPU utilization is the same as minimizing cost per token."
-  },
-  {
-    "stem": "What is the top-priority metric for an agentic tool-calling workload with multiple back-and-forth turns?",
-    "options": [
-      "Aggregate TPS: because agents make many small calls",
-      "P99 TTFT per turn: because agent tools block on each LLM call and latency accumulates across turns",
-      "P99 end-to-end per turn: because the user only cares about each turn completing, not the first token",
-      "GPU utilization: because agents have low concurrency so the GPU may be idle"
-    ],
-    "answer": 2,
-    "explain": "The lesson states: 'Agentic tool calls (multi-turn): P99 end-to-end per turn.' Agents run sequentially; each turn must finish before the next tool call starts. End-to-end latency per turn (including both prefill and decode) determines how quickly the agent chain completes."
-  },
-  {
-    "stem": "If a deployment's inter-token latency (ITL) is 25 ms, what is its tokens-per-second (TPS)?",
-    "options": [
-      "40 tokens/sec",
-      "25 tokens/sec",
-      "400 tokens/sec",
-      "0.04 tokens/sec"
-    ],
-    "answer": 0,
-    "explain": "From the metric vocabulary, TPS = 1000 / ITL_ms. With ITL = 25 ms, TPS = 1000 / 25 = 40 tokens/sec. TPS and ITL both describe decode-phase speed and are inverses of each other."
-  },
-  {
-    "stem": "As batch size grows very large, what does the lesson say happens to P99 latency and throughput?",
-    "options": [
-      "Both P99 latency and throughput fall",
-      "P99 latency stays flat while throughput falls",
-      "P99 latency spikes dramatically (queueing + slower decode) even as aggregate throughput keeps rising",
-      "P99 latency and throughput are unaffected by batch size"
-    ],
-    "answer": 2,
-    "explain": "The latency-vs-throughput frontier: small batches are fast but under-utilize the GPU; large batches push aggregate throughput 'very high' but P99 latency spikes from queueing and slower per-token decode. There is a point where the system transitions from healthy to overloaded."
-  },
-  {
-    "stem": "The lesson's rule of thumb says a P99/P50 latency ratio above what value points to a queueing or batching problem?",
-    "options": [
-      "Above 1.5×",
-      "Above 5×",
-      "Above 100×",
-      "Below 1×"
-    ],
-    "answer": 1,
-    "explain": "The percentile section states: 'P99 / P50 ratio > 5× means you have a queueing or batching issue.' A healthy system keeps the tail close to the median; a large gap signals requests piling up behind large batches."
-  }
+  {"stem": "What does TTFT (Time To First Token) measure?", "options": ["The total time for the model to generate all output tokens", "The time from when the request is received to when the first output token is produced", "The time it takes to tokenize the input prompt", "The time between consecutive output tokens during streaming"]},
+  {"stem": "For code completion (e.g., GitHub Copilot-style), what is the top-priority latency metric and why?", "options": ["Aggregate TPS: because code generation needs to be fast overall", "P99 TTFT with a very tight target (< 200 ms): because users expect instant inline completions and any delay breaks the typing flow", "Cost per million tokens: because code assistants are used frequently", "GPU utilization: because maximum hardware usage minimizes per-user cost"]},
+  {"stem": "What does P99 TTFT mean?", "options": ["The average TTFT across 99 requests", "The TTFT at the 99th percentile: 99% of requests have lower TTFT, only 1% are slower", "The maximum TTFT ever observed", "The TTFT target that 99% of the engineering team agreed to"]},
+  {"stem": "For batch summarization (e.g., overnight document processing), what is the top-priority metric?", "options": ["P99 TTFT: because documents must start processing quickly", "Aggregate throughput (TPS) and cost per million tokens: because the workload is not user-facing and maximizing throughput minimizes cost", "GPU utilization: because batch jobs must run at 100% GPU usage", "Median TTFT: because individual document latency matters"]},
+  {"stem": "Why is GPU utilization important as a cost metric?", "options": ["Higher GPU utilization always means lower latency", "GPU cost is roughly fixed per hour; higher utilization means more tokens generated per dollar of GPU time", "GPU utilization determines whether the model runs in FP16 or FP8", "Low GPU utilization triggers autoscaling which increases costs"]},
+  {"stem": "What is the top-priority metric for an agentic tool-calling workload with multiple back-and-forth turns?", "options": ["Aggregate TPS: because agents make many small calls", "P99 TTFT per turn: because agent tools block on each LLM call and latency accumulates across turns", "P99 end-to-end per turn: because the user only cares about each turn completing, not the first token", "GPU utilization: because agents have low concurrency so the GPU may be idle"]},
+  {"stem": "If a deployment's inter-token latency (ITL) is 25 ms, what is its tokens-per-second (TPS)?", "options": ["40 tokens/sec", "25 tokens/sec", "400 tokens/sec", "0.04 tokens/sec"]},
+  {"stem": "As batch size grows very large, what does the lesson say happens to P99 latency and throughput?", "options": ["Both P99 latency and throughput fall", "P99 latency stays flat while throughput falls", "P99 latency spikes dramatically (queueing + slower decode) even as aggregate throughput keeps rising", "P99 latency and throughput are unaffected by batch size"]},
+  {"stem": "The lesson's rule of thumb says a P99/P50 latency ratio above what value points to a queueing or batching problem?", "options": ["Above 1.5×", "Above 5×", "Above 100×", "Below 1×"]}
 ]
 </script>
 </div>

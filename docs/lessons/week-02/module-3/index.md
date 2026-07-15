@@ -53,96 +53,17 @@ Answer these questions from memory:
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-02-m3-readiness" data-kind="readiness" data-draw="5" data-source="Horace He - Making Deep Learning Go Brrr (Bandwidth section)">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "According to Horace He, why does bandwidth matter more than compute for deep learning?",
-    "options": [
-      "Compute is free; bandwidth is expensive",
-      "Most operations are memory-bound, not compute-bound; the GPU spends most time moving data, not computing",
-      "Bandwidth is measured in FLOPS, which is more important",
-      "Compute cannot be parallelized effectively"
-    ],
-    "answer": 1,
-    "explain": "Most deep learning operations (especially inference) are memory-bound. The GPU waits for data from HBM far more than it waits for compute units. This is why bandwidth, the rate at which data can be moved, often matters more than raw compute capacity."
-  },
-  {
-    "stem": "In the GPU memory hierarchy, which is fastest and which is slowest?",
-    "options": [
-      "Registers fastest, HBM slowest",
-      "HBM fastest, registers slowest",
-      "L2 cache fastest, registers slowest",
-      "All are roughly the same speed"
-    ],
-    "answer": 0,
-    "explain": "Registers are the fastest (sub-nanosecond), followed by L1/shared memory (~1ns), L2 cache (~5ns), and HBM (~80ns). Each level up is larger but slower; this is the memory hierarchy."
-  },
-  {
-    "stem": "What is temporal locality?",
-    "options": [
-      "Accessing nearby memory locations together",
-      "Accessing the same data repeatedly over time",
-      "Storing data in temporary registers",
-      "Sequential memory access patterns"
-    ],
-    "answer": 1,
-    "explain": "Temporal locality means if you accessed data recently, you're likely to access it again soon. Caches exploit this: keep recently-used data close to the compute units. This is why KV cache matters for inference."
-  },
-  {
-    "stem": "What is spatial locality?",
-    "options": [
-      "Accessing the same data repeatedly over time",
-      "Accessing memory locations that are close together in address space",
-      "Storing data in multiple locations for safety",
-      "Parallel access to different memory banks"
-    ],
-    "answer": 1,
-    "explain": "Spatial locality means if you accessed one memory location, you'll likely access nearby locations soon. This is why memory transfers happen in blocks/chunks, and why contiguous memory access is faster."
-  },
-  {
-    "stem": "Why does kernel fusion make things faster?",
-    "options": [
-      "It uses more compute units",
-      "It reduces data movement between memory and compute by combining multiple operations into one kernel",
-      "It runs kernels in parallel",
-      "It increases the clock speed"
-    ],
-    "answer": 1,
-    "explain": "Kernel fusion combines multiple operations (e.g., add + relu) into a single kernel. This eliminates intermediate reads/writes to HBM; data stays in registers/L1 between operations. Less data movement = faster."
-  },
-  {
-    "stem": "What is arithmetic intensity?",
-    "options": [
-      "How fast the arithmetic units run",
-      "The ratio of compute operations to memory accesses in a kernel",
-      "The number of arithmetic operations per second",
-      "The precision of floating-point calculations"
-    ],
-    "answer": 1,
-    "explain": "Arithmetic intensity = compute operations / memory accesses. High arithmetic intensity means compute-bound (lots of work per data move). Low arithmetic intensity means memory-bound (waiting on data). LLMs are typically memory-bound."
-  },
-  {
-    "stem": "Roughly how much faster is L2 cache access compared to HBM access?",
-    "options": [
-      "2-5x faster",
-      "10-20x faster",
-      "50-100x faster",
-      "1000x faster"
-    ],
-    "answer": 1,
-    "explain": "L2 cache access is ~5ns vs HBM at ~80ns: roughly 10-20x faster. This is why caching strategies (KV cache, FlashAttention) are so impactful: keeping data in cache avoids the slow HBM access."
-  },
-  {
-    "stem": "What does it mean for a workload to be 'memory-bound'?",
-    "options": [
-      "The workload uses too much memory",
-      "The workload is limited by memory bandwidth, not compute capacity",
-      "The workload requires more VRAM than available",
-      "The workload cannot be parallelized"
-    ],
-    "answer": 1,
-    "explain": "Memory-bound means the GPU is waiting on data from memory more than it's computing. Even if the GPU has more compute capability, it sits idle waiting for HBM. Most LLM inference is memory-bound."
-  }
+  {"stem": "According to Horace He, why does bandwidth matter more than compute for deep learning?", "options": ["Compute is free; bandwidth is expensive", "Most operations are memory-bound, not compute-bound; the GPU spends most time moving data, not computing", "Bandwidth is measured in FLOPS, which is more important", "Compute cannot be parallelized effectively"]},
+  {"stem": "In the GPU memory hierarchy, which is fastest and which is slowest?", "options": ["Registers fastest, HBM slowest", "HBM fastest, registers slowest", "L2 cache fastest, registers slowest", "All are roughly the same speed"]},
+  {"stem": "What is temporal locality?", "options": ["Accessing nearby memory locations together", "Accessing the same data repeatedly over time", "Storing data in temporary registers", "Sequential memory access patterns"]},
+  {"stem": "What is spatial locality?", "options": ["Accessing the same data repeatedly over time", "Accessing memory locations that are close together in address space", "Storing data in multiple locations for safety", "Parallel access to different memory banks"]},
+  {"stem": "Why does kernel fusion make things faster?", "options": ["It uses more compute units", "It reduces data movement between memory and compute by combining multiple operations into one kernel", "It runs kernels in parallel", "It increases the clock speed"]},
+  {"stem": "What is arithmetic intensity?", "options": ["How fast the arithmetic units run", "The ratio of compute operations to memory accesses in a kernel", "The number of arithmetic operations per second", "The precision of floating-point calculations"]},
+  {"stem": "Roughly how much faster is L2 cache access compared to HBM access?", "options": ["2-5x faster", "10-20x faster", "50-100x faster", "1000x faster"]},
+  {"stem": "What does it mean for a workload to be 'memory-bound'?", "options": ["The workload uses too much memory", "The workload is limited by memory bandwidth, not compute capacity", "The workload requires more VRAM than available", "The workload cannot be parallelized"]}
 ]
 </script>
 </div>
@@ -264,107 +185,18 @@ Calculate arithmetic intensity for:
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-02-m3-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 8 · Memory Is the Bottleneck">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What is arithmetic intensity?",
-    "options": [
-      "The number of operations per second a GPU can execute",
-      "The ratio of floating-point operations to bytes of memory transferred",
-      "The proportion of Tensor Cores actively computing vs idle",
-      "The latency in nanoseconds to read from HBM"
-    ],
-    "answer": 1,
-    "explain": "Arithmetic intensity = FLOPs ÷ bytes moved. It measures how much computation is done per byte fetched from memory. A kernel with high intensity is compute-bound; one with low intensity is memory-bound. This ratio determines where a workload falls on the roofline."
-  },
-  {
-    "stem": "What is the approximate ridge point for the H100 SXM5?",
-    "options": [
-      "~10 ops/byte",
-      "~100 ops/byte",
-      "~295 ops/byte",
-      "~1000 ops/byte"
-    ],
-    "answer": 2,
-    "explain": "The ridge point for H100 is ~295 ops/byte (989 TFLOPs ÷ 3.35 TB/s). Any kernel performing fewer than ~295 operations per byte of memory transferred is memory-bound and won't fully utilize the Tensor Cores."
-  },
-  {
-    "stem": "Why is LLM decode roughly 150× below the H100 ridge point?",
-    "options": [
-      "Decode uses low-precision integers which reduce arithmetic intensity",
-      "Decode processes one token at a time, requiring a full model weight read for very little compute: roughly 2 ops/byte",
-      "Decode is pipelined across 150 GPU layers, spreading the compute too thin",
-      "Decode requires double-precision arithmetic which is 150× slower than FP16"
-    ],
-    "answer": 1,
-    "explain": "During decode, each step reads all model weights (~2 bytes/param for FP16) to perform ~2 multiply-add operations per parameter. That's ~2 ops/byte vs the ridge point of ~295 ops/byte: roughly 150× below the compute-optimal ratio. The GPU is almost entirely idle waiting for memory."
-  },
-  {
-    "stem": "What does kernel fusion do to improve performance?",
-    "options": [
-      "It combines multiple GPU kernels into one kernel, reducing the number of round-trips to HBM",
-      "It increases the number of Tensor Cores active simultaneously",
-      "It reduces model weights by merging redundant layers",
-      "It batches multiple user requests into a single forward pass"
-    ],
-    "answer": 0,
-    "explain": "Kernel fusion combines multiple sequential operations (e.g., layernorm + attention + activation) into a single GPU kernel. Instead of reading from and writing to HBM between each operation, intermediate results stay in L1/registers. This increases effective arithmetic intensity and reduces memory bandwidth usage."
-  },
-  {
-    "stem": "What is temporal locality, and how is it relevant to GPU memory performance?",
-    "options": [
-      "Data accessed at time T is also likely to be accessed soon after; this allows L2 caching to reduce HBM pressure",
-      "Data stored at low addresses is faster to access than data at high addresses",
-      "GPU operations that happen in the same clock cycle can share registers",
-      "HBM pages recently evicted can be immediately re-used without penalty"
-    ],
-    "answer": 0,
-    "explain": "Temporal locality means recently used data is likely to be used again soon. GPUs exploit this via L2 and L1 caches: if weights or KV cache entries are reused within a short window, they may be served from cache rather than from HBM, significantly reducing bandwidth pressure."
-  },
-  {
-    "stem": "If a kernel does 600 GFLOP and transfers 4 GB of data, and the H100 ridge point is 295 ops/byte, is this kernel compute-bound or memory-bound?",
-    "options": [
-      "Compute-bound - it does more than the ridge point",
-      "Memory-bound - it does fewer than the ridge point",
-      "Cannot be determined without knowing the clock speed",
-      "Balanced - it is exactly at the ridge point"
-    ],
-    "answer": 1,
-    "explain": "Arithmetic intensity = 600 GFLOP ÷ 4 GB = 600×10^9 ÷ 4×10^9 = 150 ops/byte. Since 150 < 295 (the H100 ridge point), the kernel is memory-bound; it does too little compute per byte fetched, so the Tensor Cores sit idle waiting on HBM. A kernel is compute-bound only when its intensity exceeds the ridge point."
-  },
-  {
-    "stem": "In the Part 4 worked example, roughly how long does it take to read 16 GB from H100 HBM at 3.35 TB/s?",
-    "options": [
-      "~0.48 ms",
-      "~48 ms",
-      "~4.8 ms",
-      "~480 ms"
-    ],
-    "answer": 2,
-    "explain": "Part 4 computes Time = Size / Bandwidth = 16 GB ÷ 3.35 TB/s = 16 ÷ 3,350 s ≈ 4.8 ms: just to read the data once, before doing any math. This read-time floor is why decode latency is dominated by memory traffic."
-  },
-  {
-    "stem": "According to Part 2, why can't you simply keep an entire model in L2 cache?",
-    "options": [
-      "L2 cache cannot store floating-point numbers",
-      "Fast memory is small; L2 is only ~50 MB chip-wide, while models are many gigabytes",
-      "L2 is reserved for the operating system",
-      "L2 is actually slower than HBM"
-    ],
-    "answer": 1,
-    "explain": "Part 2's first rule: 'Fast memory is small.' L2 is ~50 MB and HBM is 80 GB; a multi-gigabyte model can't fit in L2, so weights must be streamed from HBM. That is the root cause of the memory bottleneck."
-  },
-  {
-    "stem": "Part 4 notes that FlashAttention (covered the next day) is essentially an application of which idea from this lesson?",
-    "options": [
-      "Adding more HBM capacity to the GPU",
-      "Increasing the GPU clock speed",
-      "Quantizing the KV cache to INT8",
-      "Kernel fusion - fusing operations so intermediates stay on-chip instead of round-tripping to HBM"
-    ],
-    "answer": 3,
-    "explain": "Part 4 states 'FlashAttention is exactly this idea' immediately after explaining kernel fusion: fusing operations into one kernel keeps intermediates in registers (sub-ns) instead of writing them to and re-reading them from HBM. Same math, far less data movement."
-  }
+  {"stem": "What is arithmetic intensity?", "options": ["The number of operations per second a GPU can execute", "The ratio of floating-point operations to bytes of memory transferred", "The proportion of Tensor Cores actively computing vs idle", "The latency in nanoseconds to read from HBM"]},
+  {"stem": "What is the approximate ridge point for the H100 SXM5?", "options": ["~10 ops/byte", "~100 ops/byte", "~295 ops/byte", "~1000 ops/byte"]},
+  {"stem": "Why is LLM decode roughly 150× below the H100 ridge point?", "options": ["Decode uses low-precision integers which reduce arithmetic intensity", "Decode processes one token at a time, requiring a full model weight read for very little compute: roughly 2 ops/byte", "Decode is pipelined across 150 GPU layers, spreading the compute too thin", "Decode requires double-precision arithmetic which is 150× slower than FP16"]},
+  {"stem": "What does kernel fusion do to improve performance?", "options": ["It combines multiple GPU kernels into one kernel, reducing the number of round-trips to HBM", "It increases the number of Tensor Cores active simultaneously", "It reduces model weights by merging redundant layers", "It batches multiple user requests into a single forward pass"]},
+  {"stem": "What is temporal locality, and how is it relevant to GPU memory performance?", "options": ["Data accessed at time T is also likely to be accessed soon after; this allows L2 caching to reduce HBM pressure", "Data stored at low addresses is faster to access than data at high addresses", "GPU operations that happen in the same clock cycle can share registers", "HBM pages recently evicted can be immediately re-used without penalty"]},
+  {"stem": "If a kernel does 600 GFLOP and transfers 4 GB of data, and the H100 ridge point is 295 ops/byte, is this kernel compute-bound or memory-bound?", "options": ["Compute-bound - it does more than the ridge point", "Memory-bound - it does fewer than the ridge point", "Cannot be determined without knowing the clock speed", "Balanced - it is exactly at the ridge point"]},
+  {"stem": "In the Part 4 worked example, roughly how long does it take to read 16 GB from H100 HBM at 3.35 TB/s?", "options": ["~0.48 ms", "~48 ms", "~4.8 ms", "~480 ms"]},
+  {"stem": "According to Part 2, why can't you simply keep an entire model in L2 cache?", "options": ["L2 cache cannot store floating-point numbers", "Fast memory is small; L2 is only ~50 MB chip-wide, while models are many gigabytes", "L2 is reserved for the operating system", "L2 is actually slower than HBM"]},
+  {"stem": "Part 4 notes that FlashAttention (covered the next day) is essentially an application of which idea from this lesson?", "options": ["Adding more HBM capacity to the GPU", "Increasing the GPU clock speed", "Quantizing the KV cache to INT8", "Kernel fusion - fusing operations so intermediates stay on-chip instead of round-tripping to HBM"]}
 ]
 </script>
 </div>

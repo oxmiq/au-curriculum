@@ -56,6 +56,25 @@ See [LESSON_TEMPLATE.md](LESSON_TEMPLATE.md) for the full lesson shape. Every le
 - Uses `knowledge-check.html` (NOT the legacy `quiz.html`) and never references the legacy flat `docs/lessons/module-NN/` layout. Both are checked by `scripts/audit_lessons.py` rule L008.
 - Passes `scripts/audit_lessons.py` (rules L001, L001m, L002, L003, L005, L006, L007, L008).
 
+## Self-check answers live in the PRIVATE repo (task 5b)
+
+This repo is forked **publicly**, so it must never contain the correct answers to
+graded checks. For any `ox-self-check` pool whose `data-id` ends in `-readiness`,
+`-wrapup`, or `-canonical` (graded server-side by the `grade-readiness` function):
+
+- In the lesson `index.md` / `knowledge-check.md`, author **only** `stem` + `options`
+  in the pool JSON — **never** `answer` or `explain`. CI
+  (`scripts/check_no_embedded_answers.py`) hard-fails if you do.
+- Put the `answer` (correct option index) + `explain` in the **private
+  `au-cohort-tracker`** repo, under `answers/<check-id>.json`, then regenerate the
+  seed there (`scripts/build_readiness_keys.py`) and re-seed the `question_keys`
+  table. See that repo's `answers/README.md`.
+- Question order matters: `answers/<check-id>.json` question `id` is the 0-based
+  index into the lesson pool. Add/remove/reorder options → update both repos.
+
+Formative, client-graded checks (any other `data-id`) may keep `answer`/`explain`
+inline — they never leave the browser and aren't stripped.
+
 > **Source-material availability note.** The bulk of `planning/source-material/`
 > is being imported across follow-up PRs (PR-B and PR-C) to keep each PR under
 > the Copilot 20,000-line review cap. Until those merge, `audit_lessons.py`

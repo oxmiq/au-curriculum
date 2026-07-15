@@ -16,6 +16,12 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: No embedded answers in server-persisted pools (hard fail)
+        run: |
+          # Security invariant (task 5b): readiness/wrap-up/knowledge-check pools
+          # must NOT embed answer/explain in this public repo. NOT warn-only.
+          python3 scripts/check_no_embedded_answers.py
+
       - name: Run audit_lessons.py
         run: |
           # Warn-only — do not fail the build yet.

@@ -60,96 +60,17 @@ Answer before reading on:
 5. Where should the result file live?
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-09-m1-readiness" data-kind="readiness" data-draw="5" data-source="Capsule Power-User Pre-Lecture Reading + Lab Guide Module 8">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "Which four serving backends does `capsule benchmark` support?",
-    "options": [
-      "vllm, sglang, tensorrt-llm, triton",
-      "vllm, ollama, mlx, transformers",
-      "vllm, llamacpp, mlx, oxpython",
-      "llamacpp, exllama, mlx, deepspeed"
-    ],
-    "answer": 2,
-    "explain": "The four supported backends are vllm (default; best for NVIDIA, batched serving, paged-attention), llamacpp (CPU-friendly, GGUF quants), mlx (Apple Silicon), and oxpython (the OXMIQ Python runtime for in-house eval). SGLang is a common distractor but is NOT one of them."
-  },
-  {
-    "stem": "Which flag chooses the serving backend for a benchmark run?",
-    "options": [
-      "--engine",
-      "--serve",
-      "--runtime",
-      "--backend"
-    ],
-    "answer": 3,
-    "explain": "The backend is selected with `--backend` (for example `--backend llamacpp`). There is no `--engine` flag in `capsule benchmark`; if you omit `--backend`, vllm is the default on an NVIDIA box."
-  },
-  {
-    "stem": "What does `--num-prompts` (`-n`) control, and what is its default?",
-    "options": [
-      "The total number of requests sent; it defaults to concurrency × 10",
-      "How long the load runs in seconds; it defaults to 60",
-      "The number of GPUs to use; it defaults to 1",
-      "The number of benchmark iterations; it defaults to 3"
-    ],
-    "answer": 0,
-    "explain": "`--num-prompts` (`-n`) sets the total number of requests sent to the server, and it defaults to concurrency × 10. Run size is controlled by `--num-prompts`, not by any duration flag."
-  },
-  {
-    "stem": "By default, where do the results of a `capsule benchmark` run go?",
-    "options": [
-      "They are written to /shared/runs/<timestamp>/report.json",
-      "They are saved to ~/.capsule/results/ on the remote",
-      "They are uploaded to the Capsule benchmark dashboard unless you pass --no-upload",
-      "They are printed to stdout and then discarded"
-    ],
-    "answer": 2,
-    "explain": "Results upload to the Capsule benchmark dashboard by default; pass `--no-upload` to suppress this while iterating. There is no `/shared/runs/` convention for benchmark output; the dashboard is the destination."
-  },
-  {
-    "stem": "Which metrics does a `capsule benchmark` run report?",
-    "options": [
-      "Training loss, validation loss, and epoch count",
-      "Throughput, latency percentiles, and cost-per-token",
-      "CPU usage, disk I/O, and network latency",
-      "Time-to-first-token only"
-    ],
-    "answer": 1,
-    "explain": "`capsule benchmark` drives the inference server with InferenceMAX and reports throughput, latency percentiles, and cost-per-token. Those three families are exactly the Phase-1 vocabulary you built up over prior weeks."
-  },
-  {
-    "stem": "What is the minimum-viable command to benchmark a model on a remote machine?",
-    "options": [
-      "capsule benchmark --model <model> --engine vllm --duration 60s",
-      "capsule bench <model> --backend auto --out /shared/runs/",
-      "capsule benchmark run <model> --concurrency 8 --duration 60s",
-      "capsule benchmark <config-tag> <model>"
-    ],
-    "answer": 3,
-    "explain": "`capsule benchmark <config-tag> <model>` is the minimal form: it provisions an inference server on the target machine and drives it with InferenceMAX using defaults (vllm on NVIDIA). The other options invent flags like `--engine` and `--duration` that don't exist."
-  },
-  {
-    "stem": "How do you benchmark an OpenAI-compatible endpoint you already have, without provisioning a machine?",
-    "options": [
-      "capsule benchmark --api-base <url> --api-key <key> <model>",
-      "capsule benchmark --external-endpoint <url> <model>",
-      "capsule benchmark --remote <url> --no-deploy <model>",
-      "You cannot; capsule benchmark always provisions a fresh server"
-    ],
-    "answer": 0,
-    "explain": "`--api-base` plus `--api-key` skips provisioning entirely and benchmarks an OpenAI-compatible endpoint you already have (for example a local `capsule chat` server). No `<config-tag>` is needed in that form."
-  },
-  {
-    "stem": "You are iterating on a config and don't want results published to the dashboard yet. Which flag do you add?",
-    "options": [
-      "--dry-run",
-      "--local-only",
-      "--no-upload",
-      "--skip-dashboard"
-    ],
-    "answer": 2,
-    "explain": "`--no-upload` suppresses the default dashboard upload: the right choice while you're iterating and don't want noisy in-progress runs cluttering the shared dashboard. The other flags are fabricated."
-  }
+  {"stem": "Which four serving backends does `capsule benchmark` support?", "options": ["vllm, sglang, tensorrt-llm, triton", "vllm, ollama, mlx, transformers", "vllm, llamacpp, mlx, oxpython", "llamacpp, exllama, mlx, deepspeed"]},
+  {"stem": "Which flag chooses the serving backend for a benchmark run?", "options": ["--engine", "--serve", "--runtime", "--backend"]},
+  {"stem": "What does `--num-prompts` (`-n`) control, and what is its default?", "options": ["The total number of requests sent; it defaults to concurrency × 10", "How long the load runs in seconds; it defaults to 60", "The number of GPUs to use; it defaults to 1", "The number of benchmark iterations; it defaults to 3"]},
+  {"stem": "By default, where do the results of a `capsule benchmark` run go?", "options": ["They are written to /shared/runs/<timestamp>/report.json", "They are saved to ~/.capsule/results/ on the remote", "They are uploaded to the Capsule benchmark dashboard unless you pass --no-upload", "They are printed to stdout and then discarded"]},
+  {"stem": "Which metrics does a `capsule benchmark` run report?", "options": ["Training loss, validation loss, and epoch count", "Throughput, latency percentiles, and cost-per-token", "CPU usage, disk I/O, and network latency", "Time-to-first-token only"]},
+  {"stem": "What is the minimum-viable command to benchmark a model on a remote machine?", "options": ["capsule benchmark --model <model> --engine vllm --duration 60s", "capsule bench <model> --backend auto --out /shared/runs/", "capsule benchmark run <model> --concurrency 8 --duration 60s", "capsule benchmark <config-tag> <model>"]},
+  {"stem": "How do you benchmark an OpenAI-compatible endpoint you already have, without provisioning a machine?", "options": ["capsule benchmark --api-base <url> --api-key <key> <model>", "capsule benchmark --external-endpoint <url> <model>", "capsule benchmark --remote <url> --no-deploy <model>", "You cannot; capsule benchmark always provisions a fresh server"]},
+  {"stem": "You are iterating on a config and don't want results published to the dashboard yet. Which flag do you add?", "options": ["--dry-run", "--local-only", "--no-upload", "--skip-dashboard"]}
 ]
 </script>
 </div>
@@ -342,107 +263,18 @@ Commit your annotated report to your fork.
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-09-m1-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 41 · First Benchmark">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What are the key fields in a Capsule benchmark `report.json`?",
-    "options": [
-      "CPU usage, disk I/O, network latency, memory usage",
-      "TTFT_p50, TTFT_p99, throughput (tok/s), concurrency, model config, GPU type, and timestamp",
-      "Training loss, validation loss, epoch count, and learning rate",
-      "User count, session duration, error rate, and uptime"
-    ],
-    "answer": 1,
-    "explain": "A benchmark report captures latency percentiles (TTFT p50, p99), throughput (tokens/second), the concurrency and config used, GPU type, and timestamp. Every field is explainable using Phase-1 vocabulary: TTFT ← prefill, throughput ← decode + batching, GPU type ← bandwidth and compute specs."
-  },
-  {
-    "stem": "The lesson describes a benchmark run as a three-piece architecture. What are the three pieces?",
-    "options": [
-      "A load generator (prompts + concurrency), a serving engine (vllm etc. with a model/config), and metric collection (TTFT, ITL, throughput, percentiles)",
-      "A dataset, a training loop, and a saved checkpoint",
-      "A load balancer, a database, and a cache layer",
-      "A tokenizer, an optimizer, and a learning-rate scheduler"
-    ],
-    "answer": 0,
-    "explain": "Part 2's diagram breaks a benchmark into three pieces: the load generator (what prompts, what concurrency, how long), the serving engine (which engine, model, and config: TP, quant, batching), and metric collection (TTFT, ITL, throughput, p50/p95/p99, GPU util). Training-loop and web-infra options are distractors; a benchmark drives inference, it does not train."
-  },
-  {
-    "stem": "You run `capsule benchmark <config-tag> meta-llama/Llama-3.1-8B-Instruct` on an NVIDIA node and omit `--backend`. Which serving backend runs?",
-    "options": [
-      "llamacpp",
-      "mlx",
-      "vllm",
-      "oxpython"
-    ],
-    "answer": 2,
-    "explain": "Defaults give sensible TP, quant, and prompt distribution; and vllm is the default backend on an NVIDIA box (it is best for batched serving with paged-attention). The four supported backends are vllm, llamacpp, mlx, and oxpython; mlx targets Apple Silicon and oxpython is the OXMIQ Python runtime, so neither is the NVIDIA default."
-  },
-  {
-    "stem": "In `capsule benchmark ... --concurrency 8 --num-prompts 80`, what does `--num-prompts` control?",
-    "options": [
-      "How many seconds the load runs before stopping",
-      "The number of GPUs allocated to the run",
-      "The number of simultaneous in-flight requests",
-      "The total number of requests sent before the run stops"
-    ],
-    "answer": 3,
-    "explain": "`--num-prompts` is the total number of requests sent before the run stops; `--concurrency` is the number of simultaneous in-flight requests. Run size is set by `--num-prompts`, not by any duration flag; there is no `--duration` in `capsule benchmark`."
-  },
-  {
-    "stem": "Today's goal was one clean baseline. Which question can that single benchmark run NOT answer on its own?",
-    "options": [
-      "What throughput this exact config achieved at this moment",
-      "What TTFT p99 this config produced under this load",
-      "Whether vllm is faster than llamacpp for this model: that needs a comparison run",
-      "What the GPU memory usage was during the run"
-    ],
-    "answer": 2,
-    "explain": "Part 4 lists what one benchmark can't tell you: is this engine better than another (need comparison), does it scale (vary load), is the GPU saturated (vary --concurrency), is quality acceptable (need eval, Day 43). A single run does report this config's own throughput, TTFT, and memory at this moment; those it can answer."
-  },
-  {
-    "stem": "Why does one benchmark run prove very little on its own?",
-    "options": [
-      "One run is statistically insufficient; variance from thermal state, neighbor processes, KV cache warmup, and measurement noise requires multiple runs to establish reliable baselines",
-      "One run only tests one user, not a full production load",
-      "One run cannot be compared against other models",
-      "One run uses the wrong precision"
-    ],
-    "answer": 0,
-    "explain": "A single benchmark run has confounds: the GPU may be thermally throttled from prior work, a noisy neighbor process consumes bandwidth, the KV cache isn't warm, or the run happened during a network congestion window. Multiple runs with consistent warmup, no neighbors, and stable thermal state produce reliable baselines."
-  },
-  {
-    "stem": "Where do the results of a `capsule benchmark` run go by default?",
-    "options": [
-      "To a per-run directory under /shared/runs/<YYYY-MM-DD-HHMM>-<label>/",
-      "They are uploaded to the Capsule benchmark dashboard unless you pass --no-upload",
-      "To ~/.capsule/results/ on the remote node",
-      "They print to stdout and are then discarded"
-    ],
-    "answer": 1,
-    "explain": "By default each run uploads to the Capsule benchmark dashboard, keyed to the model + config; that is the durable, shareable home for throughput, latency percentiles, and cost-per-token. Pass `--no-upload` to keep in-progress runs off the shared dashboard while iterating. There is no `/shared/runs/` directory convention for benchmark output."
-  },
-  {
-    "stem": "If your benchmark shows TTFT_p99 = 850 ms, which Phase-1 concept explains this?",
-    "options": [
-      "The model's vocabulary size determines TTFT; larger vocabulary = slower tokenization",
-      "TTFT is driven by the prefill phase (processing all input tokens); high P99 TTFT suggests long input prompts, a large model requiring many compute cycles, or insufficient GPU compute throughput",
-      "TTFT is determined by decode speed; high TTFT means slow token generation",
-      "TTFT only depends on network latency between the user and the server"
-    ],
-    "answer": 1,
-    "explain": "TTFT ← prefill phase. High P99 TTFT means the tail of the input distribution has long prompts (more tokens to process in prefill) or the GPU is compute-bottlenecked during prefill (insufficient TFLOP/s). Using Phase-1 vocabulary to annotate benchmark fields is the core skill being developed this week."
-  },
-  {
-    "stem": "Why is committing your annotated benchmark report to your fork important?",
-    "options": [
-      "GitHub automatically improves the benchmark with each commit",
-      "It creates a reproducible record of your findings that serves as evidence for the capstone and portfolio; annotated reports show you can connect data to concepts",
-      "Committing triggers an automatic re-run to verify the results",
-      "It is required for access to the shared GPU pool"
-    ],
-    "answer": 1,
-    "explain": "The lesson states: 'Commit your annotated report to your fork.' Your fork is your portfolio. An annotated report, raw numbers + Phase-1 explanations for each metric, is evidence of technical depth. Hiring managers can read it. The capstone builds directly on this artifact."
-  }
+  {"stem": "What are the key fields in a Capsule benchmark `report.json`?", "options": ["CPU usage, disk I/O, network latency, memory usage", "TTFT_p50, TTFT_p99, throughput (tok/s), concurrency, model config, GPU type, and timestamp", "Training loss, validation loss, epoch count, and learning rate", "User count, session duration, error rate, and uptime"]},
+  {"stem": "The lesson describes a benchmark run as a three-piece architecture. What are the three pieces?", "options": ["A load generator (prompts + concurrency), a serving engine (vllm etc. with a model/config), and metric collection (TTFT, ITL, throughput, percentiles)", "A dataset, a training loop, and a saved checkpoint", "A load balancer, a database, and a cache layer", "A tokenizer, an optimizer, and a learning-rate scheduler"]},
+  {"stem": "You run `capsule benchmark <config-tag> meta-llama/Llama-3.1-8B-Instruct` on an NVIDIA node and omit `--backend`. Which serving backend runs?", "options": ["llamacpp", "mlx", "vllm", "oxpython"]},
+  {"stem": "In `capsule benchmark ... --concurrency 8 --num-prompts 80`, what does `--num-prompts` control?", "options": ["How many seconds the load runs before stopping", "The number of GPUs allocated to the run", "The number of simultaneous in-flight requests", "The total number of requests sent before the run stops"]},
+  {"stem": "Today's goal was one clean baseline. Which question can that single benchmark run NOT answer on its own?", "options": ["What throughput this exact config achieved at this moment", "What TTFT p99 this config produced under this load", "Whether vllm is faster than llamacpp for this model: that needs a comparison run", "What the GPU memory usage was during the run"]},
+  {"stem": "Why does one benchmark run prove very little on its own?", "options": ["One run is statistically insufficient; variance from thermal state, neighbor processes, KV cache warmup, and measurement noise requires multiple runs to establish reliable baselines", "One run only tests one user, not a full production load", "One run cannot be compared against other models", "One run uses the wrong precision"]},
+  {"stem": "Where do the results of a `capsule benchmark` run go by default?", "options": ["To a per-run directory under /shared/runs/<YYYY-MM-DD-HHMM>-<label>/", "They are uploaded to the Capsule benchmark dashboard unless you pass --no-upload", "To ~/.capsule/results/ on the remote node", "They print to stdout and are then discarded"]},
+  {"stem": "If your benchmark shows TTFT_p99 = 850 ms, which Phase-1 concept explains this?", "options": ["The model's vocabulary size determines TTFT; larger vocabulary = slower tokenization", "TTFT is driven by the prefill phase (processing all input tokens); high P99 TTFT suggests long input prompts, a large model requiring many compute cycles, or insufficient GPU compute throughput", "TTFT is determined by decode speed; high TTFT means slow token generation", "TTFT only depends on network latency between the user and the server"]},
+  {"stem": "Why is committing your annotated benchmark report to your fork important?", "options": ["GitHub automatically improves the benchmark with each commit", "It creates a reproducible record of your findings that serves as evidence for the capstone and portfolio; annotated reports show you can connect data to concepts", "Committing triggers an automatic re-run to verify the results", "It is required for access to the shared GPU pool"]}
 ]
 </script>
 </div>

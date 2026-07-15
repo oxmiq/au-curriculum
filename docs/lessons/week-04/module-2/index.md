@@ -45,96 +45,17 @@ You should have already read: Pipeline parallelism overview + Mixtral MoE archit
 Not gated; the score nudges you to re-read or to ask OxTutor before continuing.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-04-m2-readiness" data-kind="readiness" data-draw="5" data-source="Lilian Weng - Large Transformer Model Inference Optimization">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What axis does pipeline parallelism (PP) split along? What does each GPU hold?",
-    "options": [
-      "PP splits along the batch dimension; each GPU holds different samples",
-      "PP splits along the layer depth; each GPU holds consecutive layers of the model",
-      "PP splits along the attention head dimension; each GPU holds different heads",
-      "PP splits along the vocabulary dimension; each GPU holds different tokens"
-    ],
-    "answer": 1,
-    "explain": "Pipeline parallelism splits the model along layer depth. Each GPU (or node) holds consecutive layers. For example, with 8 layers and 2 GPUs, GPU 0 has layers 0-3, GPU 1 has layers 4-7."
-  },
-  {
-    "stem": "What is a 'pipeline bubble' in pipeline parallelism?",
-    "options": [
-      "A memory overflow error",
-      "The idle time when some GPUs are waiting for others to complete their computation",
-      "A technique to reduce memory usage",
-      "A type of pipeline parallelism"
-    ],
-    "answer": 1,
-    "explain": "A pipeline bubble is the idle time when some GPUs are waiting. At the start, GPU 1 waits for GPU 0 to finish first layer. At the end, GPU 0 waits for GPU 1. This idle time is the bubble overhead."
-  },
-  {
-    "stem": "Why does a pipeline bubble exist?",
-    "options": [
-      "Because GPUs are too slow",
-      "Because of the sequential nature of layer computation: later layers can't start until earlier layers finish",
-      "Because of memory limitations",
-      "Because of network latency"
-    ],
-    "answer": 1,
-    "explain": "Bubbles exist because transformer layers have dependencies: layer N needs output from layer N-1. This creates sequential bottlenecks. Techniques like microbatching help reduce bubble overhead."
-  },
-  {
-    "stem": "Pipeline parallelism needs ___ bandwidth between stages compared to tensor parallelism.",
-    "options": [
-      "Much higher",
-      "Much lower",
-      "The same",
-      "No"
-    ],
-    "answer": 1,
-    "explain": "PP needs much lower bandwidth between stages because it only passes activations (layer input/output), not model weights. TP needs to communicate weights for each layer computation: much higher bandwidth."
-  },
-  {
-    "stem": "In a Mixture of Experts (MoE) model, what is an 'expert'?",
-    "options": [
-      "A human researcher",
-      "A separate feedforward network that processes different inputs",
-      "A type of GPU",
-      "A training dataset"
-    ],
-    "answer": 1,
-    "explain": "An 'expert' in MoE is a separate feedforward network (MLP) within the model. In Mixtral, each layer has 8 experts, and only 2 are activated per token: sparse MoE."
-  },
-  {
-    "stem": "What is 'Top-K routing' in MoE models?",
-    "options": [
-      "Selecting the top K most important features",
-      "For each token, selecting the K most relevant experts to process it",
-      "Routing to the K nearest experts",
-      "Sorting experts by size"
-    ],
-    "answer": 1,
-    "explain": "Top-K routing: for each input token, the model selects the top-K most relevant experts (Mixtral uses Top-2). This gives sparse activation; only a fraction of experts process each token."
-  },
-  {
-    "stem": "Why does Expert Parallelism (EP) create load-balancing problems that Tensor Parallelism (TP) doesn't?",
-    "options": [
-      "EP doesn't have load balancing",
-      "Because different tokens may route to different experts, causing some experts to be over/under-utilized",
-      "Because TP is more efficient",
-      "There is no difference"
-    ],
-    "answer": 1,
-    "explain": "EP routes tokens to experts dynamically. If one expert gets more 'popular' tokens, it becomes overloaded while others idle. TP has fixed computation per layer. EP needs load-balancing mechanisms (like aux loss) to prevent this."
-  },
-  {
-    "stem": "What is the key advantage of Pipeline Parallelism over Tensor Parallelism?",
-    "options": [
-      "PP is faster than TP",
-      "PP requires less communication bandwidth between stages",
-      "PP doesn't create bubbles",
-      "PP works on a single GPU"
-    ],
-    "answer": 1,
-    "explain": "PP requires much less bandwidth because only layer activations (not weights) are passed between stages. TP needs to communicate weight matrices. This makes PP suitable for multi-node clusters with less network bandwidth."
-  }
+  {"stem": "What axis does pipeline parallelism (PP) split along? What does each GPU hold?", "options": ["PP splits along the batch dimension; each GPU holds different samples", "PP splits along the layer depth; each GPU holds consecutive layers of the model", "PP splits along the attention head dimension; each GPU holds different heads", "PP splits along the vocabulary dimension; each GPU holds different tokens"]},
+  {"stem": "What is a 'pipeline bubble' in pipeline parallelism?", "options": ["A memory overflow error", "The idle time when some GPUs are waiting for others to complete their computation", "A technique to reduce memory usage", "A type of pipeline parallelism"]},
+  {"stem": "Why does a pipeline bubble exist?", "options": ["Because GPUs are too slow", "Because of the sequential nature of layer computation: later layers can't start until earlier layers finish", "Because of memory limitations", "Because of network latency"]},
+  {"stem": "Pipeline parallelism needs ___ bandwidth between stages compared to tensor parallelism.", "options": ["Much higher", "Much lower", "The same", "No"]},
+  {"stem": "In a Mixture of Experts (MoE) model, what is an 'expert'?", "options": ["A human researcher", "A separate feedforward network that processes different inputs", "A type of GPU", "A training dataset"]},
+  {"stem": "What is 'Top-K routing' in MoE models?", "options": ["Selecting the top K most important features", "For each token, selecting the K most relevant experts to process it", "Routing to the K nearest experts", "Sorting experts by size"]},
+  {"stem": "Why does Expert Parallelism (EP) create load-balancing problems that Tensor Parallelism (TP) doesn't?", "options": ["EP doesn't have load balancing", "Because different tokens may route to different experts, causing some experts to be over/under-utilized", "Because TP is more efficient", "There is no difference"]},
+  {"stem": "What is the key advantage of Pipeline Parallelism over Tensor Parallelism?", "options": ["PP is faster than TP", "PP requires less communication bandwidth between stages", "PP doesn't create bubbles", "PP works on a single GPU"]}
 ]
 </script>
 </div>
@@ -271,118 +192,19 @@ Llama-3-405B FP16 = 810 GB. Design a config on 16 H100s:
 Not gated; the score nudges you to revisit specific sections or ask OxTutor before moving on.
 
 <div class="ox-self-check" data-widget="self-check" data-id="week-04-m2-wrapup" data-kind="wrap-up" data-draw="5" data-source="Day 17 · Pipeline Parallelism &amp; MoE">
+
 <script type="application/json" class="ox-self-check__pool">
 [
-  {
-    "stem": "What axis does pipeline parallelism (PP) split the model along?",
-    "options": [
-      "The hidden dimension: each GPU holds part of each layer's weights",
-      "The layer dimension: different groups of layers run on different GPUs",
-      "The batch dimension: different requests run on different GPUs",
-      "The vocabulary dimension: each GPU handles part of the output projection"
-    ],
-    "answer": 1,
-    "explain": "Pipeline parallelism splits the model by depth: GPU 1 holds layers 1–8, GPU 2 holds layers 9–16, etc. A mini-batch passes through each stage sequentially. This is different from tensor parallelism (TP) which splits within a single layer."
-  },
-  {
-    "stem": "What is a pipeline bubble in pipeline parallelism?",
-    "options": [
-      "A memory overflow that occurs when the KV cache exceeds HBM capacity",
-      "Idle time on GPUs earlier in the pipeline while they wait for forward-pass data from the previous stage",
-      "A network congestion event when multiple GPUs send activations simultaneously",
-      "An out-of-memory error caused by storing too many intermediate activations"
-    ],
-    "answer": 1,
-    "explain": "Pipeline bubbles are idle GPU cycles at the start and end of each batch. GPU 1 finishes its forward pass and idles while GPU 2 completes and passes activations forward. Microbatching (splitting the batch into smaller chunks) fills these gaps by keeping the pipeline occupied."
-  },
-  {
-    "stem": "How does tensor parallelism (TP) communication differ from pipeline parallelism (PP) communication?",
-    "options": [
-      "TP sends gradients between GPUs; PP sends activations",
-      "TP requires all-reduce communication at every layer (within-layer splits); PP only sends activations at layer boundaries",
-      "TP is for inter-node communication; PP is for intra-node",
-      "TP uses NVLink; PP uses PCIe"
-    ],
-    "answer": 1,
-    "explain": "TP splits matrix multiplications within each layer, requiring an all-reduce at each layer boundary: high-frequency, small messages. PP splits by layers, so communication happens only at stage boundaries: lower frequency, larger activations. TP needs NVLink bandwidth; PP can tolerate slower interconnects."
-  },
-  {
-    "stem": "What is an MoE (Mixture of Experts) model?",
-    "options": [
-      "A model that requires multiple GPUs to run",
-      "A model where only a subset of 'expert' feed-forward networks are activated per token, reducing compute cost while maintaining parameter count",
-      "A model architecture with more attention heads than standard transformers",
-      "A model that uses specialized hardware (ASICs) instead of GPUs"
-    ],
-    "answer": 1,
-    "explain": "MoE models (e.g., Mixtral) have many feed-forward expert layers but only activate K of N experts per token (sparse activation). This allows large parameter count (capacity) with lower compute per token, but creates routing and load-balancing complexity."
-  },
-  {
-    "stem": "What problem does Expert Parallelism (EP) create that requires careful management?",
-    "options": [
-      "Expert parallelism requires all experts to be on the same GPU",
-      "Hot expert imbalance: some experts receive far more tokens than others, creating compute bottlenecks on their GPUs while others sit idle",
-      "EP cannot be combined with tensor parallelism",
-      "EP doubles the memory required because experts are duplicated across GPUs"
-    ],
-    "answer": 1,
-    "explain": "If certain experts are 'hot' (routed more tokens), those GPUs are overloaded while GPUs hosting less-popular experts are underutilized. This load imbalance reduces overall throughput. Solutions include auxiliary loss to encourage balanced routing and expert replication."
-  },
-  {
-    "stem": "Which phrase captures the rule for choosing between TP, PP, and EP?",
-    "options": [
-      "TP for throughput, PP for latency, EP for cost",
-      "TP for latency (within node), PP for fit (across nodes), EP for MoE throughput",
-      "TP for large models, PP for small models, EP for very small models",
-      "Use only one parallelism strategy at a time"
-    ],
-    "answer": 1,
-    "explain": "The lesson states: 'TP for latency (within node), PP for fit (across nodes), EP for MoE throughput.' TP uses fast NVLink within a node to split layers for low latency. PP scales across nodes to fit models too large for a single node. EP handles MoE expert routing."
-  },
-  {
-    "stem": "According to the lesson, how do you shrink the pipeline bubble fraction?",
-    "options": [
-      "Add more pipeline stages so the idle time is spread thinner",
-      "Switch the interconnect from InfiniBand to NVLink between stages",
-      "Increase the number of micro-batches; bubble fraction is approximately (num_stages - 1) / num_micro_batches, so more micro-batches keeps stages filled",
-      "Reduce the hidden dimension of each transformer layer"
-    ],
-    "answer": 2,
-    "explain": "The lesson gives the bubble fraction as approximately (num_stages - 1) / num_micro_batches. Scheduling many micro-batches concurrently fills the stages and drives the bubble toward zero: at stages=4, going from 1 to 64 micro-batches drops the bubble from ~300% to ~5%. Real systems target under 10%."
-  },
-  {
-    "stem": "In Mixtral 8x7B, why is only about 13B of its ~47B total parameters active per token?",
-    "options": [
-      "It uses top-2-of-8 expert routing, so each token flows through only 2 of the 8 expert MLPs per layer",
-      "The other ~34B parameters are stored on CPU and never used at inference",
-      "Mixtral quantizes ~34B of its parameters down to zero",
-      "Only the attention layers run per token; all experts are skipped"
-    ],
-    "answer": 0,
-    "explain": "An MoE layer has many expert MLPs but each token is routed to only a small subset. Mixtral uses top-2 of 8 experts (8 experts x ~7B each), so ~13B parameters are active per token even though the model totals ~47B. Total parameters are huge; active parameters per token stay small."
-  },
-  {
-    "stem": "What communication pattern does Expert Parallelism (EP) rely on to route tokens to their experts?",
-    "options": [
-      "All-reduce at every layer, exactly like tensor parallelism",
-      "Point-to-point activation passing between adjacent stages, exactly like pipeline parallelism",
-      "A single broadcast from a central parameter server to all experts",
-      "All-to-all: each token's activation is sent to the GPUs holding its selected experts, and the results are sent back"
-    ],
-    "answer": 3,
-    "explain": "In EP each expert lives on a different GPU. Per token: the router picks the top-K experts, the token's activation is all-to-all'd to those experts, each expert computes locally, and the results are all-to-all'd back. All-to-all is expensive because every token touches the network, which is part of why EP is hard."
-  },
-  {
-    "stem": "How does production MoE serving typically combine parallelism strategies?",
-    "options": [
-      "It uses expert parallelism alone and never mixes in TP or PP",
-      "In a 3D mesh: for example TP within a node for dense weights and attention, EP across nodes to distribute experts, and PP (1 or 2) only if the model still exceeds capacity",
-      "It always picks exactly one strategy and refuses to combine them",
-      "It uses PP to split experts and EP to split layers"
-    ],
-    "answer": 1,
-    "explain": "The lesson describes a TP x EP x PP 3D mesh: e.g. TP=8 within a node for dense weights plus attention, EP=8 across nodes distributing experts, and PP=1 or 2 only if the model exceeds even that. Each stage can still use TP internally, so the strategies stack."
-  }
+  {"stem": "What axis does pipeline parallelism (PP) split the model along?", "options": ["The hidden dimension: each GPU holds part of each layer's weights", "The layer dimension: different groups of layers run on different GPUs", "The batch dimension: different requests run on different GPUs", "The vocabulary dimension: each GPU handles part of the output projection"]},
+  {"stem": "What is a pipeline bubble in pipeline parallelism?", "options": ["A memory overflow that occurs when the KV cache exceeds HBM capacity", "Idle time on GPUs earlier in the pipeline while they wait for forward-pass data from the previous stage", "A network congestion event when multiple GPUs send activations simultaneously", "An out-of-memory error caused by storing too many intermediate activations"]},
+  {"stem": "How does tensor parallelism (TP) communication differ from pipeline parallelism (PP) communication?", "options": ["TP sends gradients between GPUs; PP sends activations", "TP requires all-reduce communication at every layer (within-layer splits); PP only sends activations at layer boundaries", "TP is for inter-node communication; PP is for intra-node", "TP uses NVLink; PP uses PCIe"]},
+  {"stem": "What is an MoE (Mixture of Experts) model?", "options": ["A model that requires multiple GPUs to run", "A model where only a subset of 'expert' feed-forward networks are activated per token, reducing compute cost while maintaining parameter count", "A model architecture with more attention heads than standard transformers", "A model that uses specialized hardware (ASICs) instead of GPUs"]},
+  {"stem": "What problem does Expert Parallelism (EP) create that requires careful management?", "options": ["Expert parallelism requires all experts to be on the same GPU", "Hot expert imbalance: some experts receive far more tokens than others, creating compute bottlenecks on their GPUs while others sit idle", "EP cannot be combined with tensor parallelism", "EP doubles the memory required because experts are duplicated across GPUs"]},
+  {"stem": "Which phrase captures the rule for choosing between TP, PP, and EP?", "options": ["TP for throughput, PP for latency, EP for cost", "TP for latency (within node), PP for fit (across nodes), EP for MoE throughput", "TP for large models, PP for small models, EP for very small models", "Use only one parallelism strategy at a time"]},
+  {"stem": "According to the lesson, how do you shrink the pipeline bubble fraction?", "options": ["Add more pipeline stages so the idle time is spread thinner", "Switch the interconnect from InfiniBand to NVLink between stages", "Increase the number of micro-batches; bubble fraction is approximately (num_stages - 1) / num_micro_batches, so more micro-batches keeps stages filled", "Reduce the hidden dimension of each transformer layer"]},
+  {"stem": "In Mixtral 8x7B, why is only about 13B of its ~47B total parameters active per token?", "options": ["It uses top-2-of-8 expert routing, so each token flows through only 2 of the 8 expert MLPs per layer", "The other ~34B parameters are stored on CPU and never used at inference", "Mixtral quantizes ~34B of its parameters down to zero", "Only the attention layers run per token; all experts are skipped"]},
+  {"stem": "What communication pattern does Expert Parallelism (EP) rely on to route tokens to their experts?", "options": ["All-reduce at every layer, exactly like tensor parallelism", "Point-to-point activation passing between adjacent stages, exactly like pipeline parallelism", "A single broadcast from a central parameter server to all experts", "All-to-all: each token's activation is sent to the GPUs holding its selected experts, and the results are sent back"]},
+  {"stem": "How does production MoE serving typically combine parallelism strategies?", "options": ["It uses expert parallelism alone and never mixes in TP or PP", "In a 3D mesh: for example TP within a node for dense weights and attention, EP across nodes to distribute experts, and PP (1 or 2) only if the model still exceeds capacity", "It always picks exactly one strategy and refuses to combine them", "It uses PP to split experts and EP to split layers"]}
 ]
 </script>
 </div>
