@@ -7,9 +7,11 @@ The site is built locally in each student's fork/clone (``mkdocs serve``), so
 this reads *their own* git identity at build time: the header can show
 "<github-username> / <email>" with no sign-in and no network. The username is
 the owner of the ``origin`` remote (i.e. the fork owner on GitHub); the email is
-``git config user.email``. Everything degrades to empty strings if git / the
-remote / the email is unavailable (e.g. a bare CI checkout), in which case the
-header simply shows whatever is present (or nothing).
+``git config --local user.email`` (the clone's *own* committer email, read
+repo-locally so it never leaks the user's global identity). Everything degrades
+to empty strings if git / the remote / the email is unavailable (e.g. a bare CI
+checkout, or no repo-local email set), in which case the header simply shows
+whatever is present (or nothing).
 
 Registered in mkdocs.yml via ``hooks:`` alongside progress_badges.py.
 """
@@ -37,9 +39,11 @@ def _owner_from_remote(url: str) -> str:
 
 
 def on_config(config, **_kwargs):  # type: ignore[no-untyped-def]
-    email = _git("config", "user.email")
-    # prefer the fork owner from origin; fall back to the configured name
-    user = _owner_from_remote(_git("remote", "get-url", "origin")) or _git("config", "user.name")
+    # read repo-local only: never fall back to the user's global git identity,
+    # which may not match the fork account they cloned as.
+    email = _git("config", "--local", "user.email")
+    # prefer the fork owner from origin; fall back to the local configured name
+    user = _owner_from_remote(_git("remote", "get-url", "origin")) or _git("config", "--local", "user.name")
 
     extra = config.setdefault("extra", {}) or {}
     extra["git_identity"] = {"user": user, "email": email}
