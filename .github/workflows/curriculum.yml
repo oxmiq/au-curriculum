@@ -57,3 +57,50 @@ jobs:
 
       - name: Build site
         run: mkdocs build --strict
+
+  deploy:
+    name: Deploy to GitHub Pages
+    # Publish from main only — PR runs stop at the mkdocs build above.
+    if: github.event_name == 'push'
+    # Gate on the audit job too: it hard-fails when a server-persisted pool
+    # embeds answers, and that must never reach the public site.
+    needs: [audit, mkdocs]
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write      # publish to Pages
+      id-token: write   # OIDC token that deploy-pages verifies
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    # One Pages deploy at a time; queue rather than cancel so a push to main
+    # is never silently dropped.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install mkdocs
+        run: pip install mkdocs mkdocs-material pymdown-extensions
+
+      - name: Build site
+        run: mkdocs build --strict
+
+      - uses: actions/configure-pages@v5
+
+      - name: Upload site/
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy
+        id: deploy
+        uses: actions/deploy-pages@v4
