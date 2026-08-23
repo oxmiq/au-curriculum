@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Readiness — Cohort Leaderboard</title>
+<!--
+  Public cohort leaderboard + instructor analytics (sign-in gated).
+
+  Filters (apply to every tab):
+    Cohort: All / AU (all batches) / <specific batch> / Non-AU / Alumni / Unassigned
+    Phase:  All / Phase 1..6  (derived from week via check_taxonomy)
+    Weeks:  checkboxes W1..W10
+    Types:  checkboxes Pre-read / Wrap-up / Weekly
+
+  Tabs:
+    Overall   — podium + ranked table + horizontal score bars
+    Weekly    — cohort avg-score trend line + per-week ranked bars
+    Per check — grouped dropdown (Phase ▸ Week ▸ Type) → ranked students
+    Instructor— sign-in gated; insight cards + auto-remarks + per-student trends
+
+  Charts are inline SVG with height scaled to row count (no empty space).
+-->
+<style>
+  :root{ --ink:#2b2622; --bg:#f5f0e4; --line:#d8cfbc; --accent:#8b0000; --muted:#7a7266; --gold:#b8860b; --silver:#888; --bronze:#b87333; --green:#2e7d32; --amber:#ef6c00; --red:#c62828; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; font:15px/1.5 "Oxygen", system-ui, sans-serif; color:var(--ink); background:var(--bg); padding:1.5rem; max-width:1200px; margin:0 auto; }
+  h1{ font-size:1.4rem; margin:0 0 .2rem; }
+  h2{ font-size:1.05rem; margin:1rem 0 .4rem; }
+  .sub{ color:var(--muted); font-size:.85rem; margin-bottom:.8rem; }
+  .tabs{ display:flex; gap:.4rem; margin-bottom:.8rem; }
+  .tab{ font:inherit; font-size:.9rem; background:transparent; color:var(--ink); border:1px solid var(--line); border-radius:8px 8px 0 0; padding:.5rem 1rem; cursor:pointer; border-bottom:0; }
+  .tab.active{ background:#fff8ec; border-bottom:1px solid #fff8ec; margin-bottom:-1px; font-weight:600; }
+  button{ font:inherit; font-size:.85rem; background:var(--ink); color:var(--bg); border:0; border-radius:6px; padding:.4rem .8rem; cursor:pointer; }
+  button.ghost{ background:transparent; color:var(--ink); border:1px solid var(--line); }
+  button:disabled{ opacity:.35; cursor:default; }
+  select{ font:inherit; font-size:.9rem; padding:.4rem .6rem; border:1px solid var(--line); border-radius:6px; background:#fff8ec; }
+  table{ border-collapse:collapse; width:100%; background:#fff8ec; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th,td{ text-align:left; padding:.5rem .7rem; border-bottom:1px solid var(--line); font-size:.85rem; }
+  th{ background:#efe7d5; font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; cursor:pointer; }
+  tr:last-child td{ border-bottom:0; }
+  .rank{ font-variant-numeric:tabular-nums; font-weight:600; width:2.5rem; text-align:center; }
+  .rank-1{ color:var(--gold); } .rank-2{ color:var(--silver); } .rank-3{ color:var(--bronze); }
+  .ratio{ font-variant-numeric:tabular-nums; }
+  .bar{ height:.5rem; border-radius:3px; background:var(--accent); display:inline-block; vertical-align:middle; }
+  .track{ display:inline-block; width:80px; height:.5rem; border-radius:3px; background:var(--line); vertical-align:middle; margin-right:.4rem; }
+  .muted{ color:var(--muted); }
+  .controls{ display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem; flex-wrap:wrap; }
+  .who{ margin-left:auto; color:var(--muted); font-size:.82rem; }
+  .hidden{ display:none; }
+  .err{ color:var(--accent); }
+  .panel{ background:#fff8ec; border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; }
+  .panel.hidden{ display:none; }
+  #msg{ padding:.5rem 0; }
+  .podium{ display:flex; gap:.7rem; margin-bottom:.8rem; flex-wrap:wrap; }
+  .pod{ flex:1; min-width:120px; background:#fff8ec; border:1px solid var(--line); border-radius:10px; padding:.6rem; text-align:center; }
+  .pod .pos{ font-size:1.2rem; font-weight:700; }
+  .pod .nm{ font-size:.9rem; margin:.1rem 0; }
+  .pod .sc{ color:var(--muted); font-size:.75rem; }
+  .pod-1{ border-color:var(--gold); } .pod-1 .pos{ color:var(--gold); }
+  .pod-2{ border-color:var(--silver); } .pod-2 .pos{ color:var(--silver); }
+  .pod-3{ border-color:var(--bronze); } .pod-3 .pos{ color:var(--bronze); }
+  .chart{ width:100%; height:auto; display:block; margin:.3rem 0 .6rem; }
+  .chart .grid{ stroke:var(--line); stroke-width:1; }
+  .chart .axis{ fill:var(--muted); font-size:11px; }
+  .chart .line{ fill:none; stroke:var(--accent); stroke-width:2; }
+  .chart .area{ fill:var(--accent); opacity:.08; }
+  .chart .dot{ fill:var(--accent); }
+  .chart .lbl{ fill:var(--ink); font-size:11px; }
+  .chart .title{ fill:var(--ink); font-size:13px; font-weight:600; }
+  .week-pick{ display:inline-flex; gap:.2rem; flex-wrap:wrap; }
+  .week-pick button{ padding:.25rem .5rem; font-size:.72rem; }
+  .week-pick button.active{ background:var(--accent); }
+  .filter-row{ display:flex; gap:.8rem; align-items:flex-start; margin-bottom:.6rem; flex-wrap:wrap; padding:.6rem; background:#fff8ec; border:1px solid var(--line); border-radius:8px; }
+  .filter-group{ display:flex; flex-direction:column; gap:.2rem; }
+  .filter-group > span{ font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+  .chk-row{ display:flex; gap:.6rem; flex-wrap:wrap; }
+  .chk{ display:inline-flex; align-items:center; gap:.25rem; font-size:.8rem; }
+  .chk input{ margin:0; }
+  .chk button.on{ background:var(--accent); }
+  .tag{ font-size:.7rem; padding:.1rem .4rem; border-radius:4px; background:var(--line); color:var(--muted); }
+  .tag.au{ background:#e8d5b7; color:#5d4a1a; }
+  .tag.non-au{ background:#d5e0d8; color:#2e5a36; }
+  .tag.alumni{ background:#d8c5d5; color:#6b3a5d; }
+  .tag.unassigned{ background:#eee; color:#999; font-style:italic; }
+  .empty{ color:var(--muted); padding:1rem 0; font-style:italic; }
+  /* Insight cards */
+  .insights{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:.6rem; margin-bottom:.8rem; }
+  .insight{ background:#fff8ec; border:1px solid var(--line); border-radius:8px; padding:.7rem .8rem; }
+  .insight .lbl{ font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+  .insight .val{ font-size:1.3rem; font-weight:700; margin:.1rem 0; }
+  .insight .det{ font-size:.78rem; color:var(--muted); }
+  .insight.warn{ border-color:var(--amber); } .insight.warn .val{ color:var(--amber); }
+  .insight.bad{ border-color:var(--red); } .insight.bad .val{ color:var(--red); }
+  .insight.good{ border-color:var(--green); } .insight.good .val{ color:var(--green); }
+  .remark{ background:#fff8ec; border-left:3px solid var(--accent); padding:.5rem .8rem; margin-bottom:.6rem; font-size:.85rem; border-radius:0 6px 6px 0; }
+  .remark .src{ font-size:.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+  .trend-btn{ padding:.2rem .4rem; font-size:.7rem; }
+</style>
+</head>
+<body>
+<h1>Readiness — Cohort Leaderboard</h1>
+<div class="sub">Public ranked cohort. Filter by cohort, phase, week, and check type. Sign in as instructor for analytics + per-student trends.</div>
+
+<div class="controls">
+  <span id="who" class="who"></span>
+  <button id="signin" class="ghost">Instructor sign-in</button>
+  <button id="signout" class="ghost hidden">Sign out</button>
+</div>
+
+<!-- Filters -->
+<div class="filter-row">
+  <div class="filter-group">
+    <span>Cohort</span>
+    <select id="f-cohort"></select>
+  </div>
+  <div class="filter-group">
+    <span>Phase</span>
+    <select id="f-phase">
+      <option value="all">All phases</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <span>Weeks</span>
+    <div class="week-pick" id="f-weeks"></div>
+  </div>
+  <div class="filter-group">
+    <span>Check type</span>
+    <div class="chk-row" id="f-types">
+      <label class="chk"><input type="checkbox" value="readiness" checked> Pre-read</label>
+      <label class="chk"><input type="checkbox" value="wrapup" checked> Wrap-up</label>
+      <label class="chk"><input type="checkbox" value="canonical" checked> Weekly</label>
+    </div>
+  </div>
+  <div class="filter-group">
+    <span>&nbsp;</span>
+    <button class="ghost" id="f-reset" style="font-size:.75rem;padding:.3rem .6rem;">Reset filters</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" id="tab-overall">Overall</button>
+  <button class="tab" id="tab-weekly">Weekly</button>
+  <button class="tab" id="tab-percheck">Per check</button>
+  <button class="tab" id="tab-instructor">Instructor</button>
+</div>
+
+<div id="msg" class="muted hidden"></div>
+
+<!-- Overall -->
+<div id="panel-overall" class="panel">
+  <div class="podium" id="podium"></div>
+  <h2>Score by student</h2>
+  <svg id="chart-overall" class="chart" preserveAspectRatio="xMidYMid meet"></svg>
+  <h2>Full ranking</h2>
+  <table id="tbl-overall">
+    <thead><tr><th class="rank">#</th><th>Student</th><th>Cohort</th><th>Checks</th><th>Attempts</th><th>Correct</th><th>Score</th><th>Last active</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- Weekly -->
+<div id="panel-weekly" class="panel hidden">
+  <h2>Cohort trend — average weekly score</h2>
+  <svg id="chart-trend" class="chart" preserveAspectRatio="xMidYMid meet"></svg>
+  <h2>Per-week ranking — <span id="week-label" class="muted"></span></h2>
+  <svg id="chart-week" class="chart" preserveAspectRatio="xMidYMid meet"></svg>
+  <table id="tbl-week">
+    <thead><tr><th class="rank">#</th><th>Student</th><th>Cohort</th><th>Checks</th><th>Attempts</th><th>Week score</th><th>Best single</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- Per check -->
+<div id="panel-percheck" class="panel hidden">
+  <div class="controls">
+    <label for="check-select">Check:</label>
+    <select id="check-select"></select>
+    <span id="check-meta" class="muted" style="font-size:.8rem;"></span>
+  </div>
+  <table id="tbl-percheck">
+    <thead><tr><th class="rank">#</th><th>Student</th><th>Cohort</th><th>Best</th><th>Last</th><th>Attempts</th><th>Pool</th><th>Last attempt</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- Instructor -->
+<div id="panel-instructor" class="panel hidden">
+  <div id="ins-msg" class="muted">Sign in with an instructor GitHub account to see real emails, analytics, and per-student trends.</div>
+  <div id="insights" class="insights hidden"></div>
+  <div id="remarks"></div>
+  <div class="controls">
+    <input id="filter" type="search" placeholder="Filter by student or check…" class="hidden" style="font:inherit;font-size:.85rem;padding:.4rem .6rem;border:1px solid var(--line);border-radius:6px;background:#fff8ec;flex:1;min-width:200px;">
+  </div>
+  <table id="tbl-ins" class="hidden">
+    <thead><tr>
+      <th data-k="student_email">Student</th><th data-k="check_id">Check</th><th>Type</th>
+      <th data-k="attempts">Attempts</th><th data-k="best_ratio_pool">Best</th>
+      <th data-k="last_ratio_pool">Last</th><th>Pool</th><th data-k="last_attempt">Last attempt</th><th>Trend</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+  <div id="detail"></div>
+</div>
+
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const URL = "https://vzlbdkwswfosiszeyypl.supabase.co";
+const KEY = "sb_publishable_poEAtdEbogTdTZjzhqh0DQ_XAembje9";
+const sb = createClient(URL, KEY);
+const $ = (id) => document.getElementById(id);
+
+// ── State ────────────────────────────────────────────────────────────────────
+let overallRows = [], percheckRows = [], weekRows = [], trendRows = [];
+let cohorts = [], taxonomy = [];          // [{name,display_name,group_tag}], [{check_id,week,type,phase,type_label}]
+let checkIds = [];                         // filtered, sorted
+let currentWeek = null;
+let filters = {
+  cohort: "all",       // 'all' | 'au' | 'au-2026-batch-a' | 'non-au' | 'alumni' | 'unassigned'
+  phase: "all",        // 'all' | 'Phase 1 · Orientation' | ...
+  weeks: new Set([1,2,3,4,5,6,7,8,9,10]),
+  types: new Set(["readiness","wrapup","canonical"]),
+};
+
+// ── Auth ─────────────────────────────────────────────────────────────────────
+$("signin").onclick = () => sb.auth.signInWithOAuth({
+  provider: "github",
+  options: { redirectTo: location.origin + location.pathname }
+});
+$("signout").onclick = async () => { await sb.auth.signOut(); refreshAuth(); };
+
+// ── Tab switching ────────────────────────────────────────────────────────────
+["overall","weekly","percheck","instructor"].forEach(t => {
+  $("tab-"+t).onclick = () => switchTab(t);
+});
+function switchTab(name) {
+  for (const t of ["overall","weekly","percheck","instructor"]) {
+    $("tab-"+t).classList.toggle("active", t === name);
+    $("panel-"+t).classList.toggle("hidden", t !== name);
+  }
+  if (name === "instructor") refreshAuth();
+  else if (name === "percheck") renderPer();
+}
+
+// ── Filters ──────────────────────────────────────────────────────────────────
+$("f-cohort").onchange = (e) => { filters.cohort = e.target.value; renderAll(); };
+$("f-phase").onchange = (e) => { filters.phase = e.target.value; filters.weeks = new Set(weeksForPhase(filters.phase)); renderWeekPick(); renderAll(); };
+$("f-types").querySelectorAll("input").forEach(c => c.onchange = () => {
+  filters.types = new Set([...$("f-types").querySelectorAll("input:checked")].map(x => x.value));
+  renderAll();
+});
+$("f-reset").onclick = () => {
+  filters = { cohort:"all", phase:"all", weeks:new Set([1,2,3,4,5,6,7,8,9,10]), types:new Set(["readiness","wrapup","canonical"]) };
+  $("f-cohort").value = "all"; $("f-phase").value = "all";
+  $("f-types").querySelectorAll("input").forEach(c => c.checked = true);
+  renderWeekPick(); renderAll();
+};
+
+function weeksForPhase(phase) {
+  if (phase === "all") return [1,2,3,4,5,6,7,8,9,10];
+  const byPhase = {
+    "Phase 1 · Orientation": [1],
+    "Phase 2 · Inference": [2,3,4,5],
+    "Phase 3 · Prompt Eng": [6],
+    "Phase 4 · AI Agents": [7],
+    "Phase 5 · Capsule": [8,9],
+    "Phase 6 · Capstone": [10],
+  };
+  return byPhase[phase] || [];
+}
+
+function renderWeekPick() {
+  $("f-weeks").innerHTML = "";
+  for (let w = 1; w <= 10; w++) {
+    const on = filters.weeks.has(w);
+    const b = document.createElement("button");
+    b.textContent = "W" + w;
+    b.className = on ? "active" : "ghost";
+    b.onclick = () => {
+      if (filters.weeks.has(w)) filters.weeks.delete(w); else filters.weeks.add(w);
+      renderWeekPick(); renderAll();
+    };
+    $("f-weeks").appendChild(b);
+  }
+}
+
+// ── Load all public data ─────────────────────────────────────────────────────
+async function loadPublic() {
+  const [o, p, w, t, c, tax] = await Promise.all([
+    sb.from("leaderboard_overall_ranked").select("*").order("rank", { ascending: true }),
+    sb.from("leaderboard_percheck_named").select("*"),
+    sb.from("leaderboard_weekly_ranked").select("*"),
+    sb.from("cohort_weekly_trend").select("*").order("week", { ascending: true }),
+    sb.from("cohorts").select("*").order("name"),
+    sb.from("check_taxonomy").select("*"),
+  ]);
+  if (o.error || p.error || w.error || t.error || c.error || tax.error) {
+    $("msg").innerHTML = '<span class="err">Load failed: ' + (o.error?.message||p.error?.message||w.error?.message||t.error?.message||c.error?.message||tax.error?.message||"") + "</span>";
+    $("msg").classList.remove("hidden"); return;
+  }
+  overallRows = o.data || []; percheckRows = p.data || [];
+  weekRows = w.data || []; trendRows = t.data || [];
+  cohorts = c.data || [];
+  // Dedupe taxonomy (one row per question_key — same check_id repeats)
+  const seen = new Set();
+  taxonomy = (tax.data || []).filter(r => { if (seen.has(r.check_id)) return false; seen.add(r.check_id); return true; });
+  taxonomy.sort((a,b) => a.week - b.week || a.check_id.localeCompare(b.check_id));
+
+  if (!overallRows.length && !percheckRows.length) {
+    $("msg").textContent = "No attempts recorded yet."; $("msg").classList.remove("hidden"); return;
+  }
+  buildCohortSelect();
+  buildPhaseSelect();
+  renderWeekPick();
+  renderAll();
+}
+
+function buildCohortSelect() {
+  const groups = {};
+  for (const c of cohorts) {
+    (groups[c.group_tag] = groups[c.group_tag] || []).push(c);
+  }
+  const opts = [`<option value="all">All students</option>`];
+  if (groups.au) {
+    opts.push(`<option value="au">All AU batches</option>`);
+    for (const c of groups.au) opts.push(`<option value="${c.name}">${c.display_name}</option>`);
+  }
+  if (groups["non-au"]) for (const c of groups["non-au"]) opts.push(`<option value="${c.name}">${c.display_name}</option>`);
+  if (groups.alumni) for (const c of groups.alumni) opts.push(`<option value="${c.name}">${c.display_name}</option>`);
+  opts.push(`<option value="unassigned">Unassigned</option>`);
+  $("f-cohort").innerHTML = opts.join("");
+}
+
+function buildPhaseSelect() {
+  const phases = [...new Set(taxonomy.map(t => t.phase))];
+  $("f-phase").innerHTML = `<option value="all">All phases</option>` + phases.map(p => `<option value="${p}">${p}</option>`).join("");
+}
+
+// ── Filter predicates ────────────────────────────────────────────────────────
+function inCohort(r) {
+  if (filters.cohort === "all") return true;
+  if (filters.cohort === "unassigned") return !r.cohort;
+  if (filters.cohort === "au") return r.cohort && cohorts.find(c => c.name === r.cohort)?.group_tag === "au";
+  return r.cohort === filters.cohort;
+}
+function checkOk(checkId) {
+  const t = taxonomy.find(x => x.check_id === checkId);
+  if (!t) return false;
+  if (!filters.weeks.has(t.week)) return false;
+  if (!filters.types.has(t.type)) return false;
+  if (filters.phase !== "all" && t.phase !== filters.phase) return false;
+  return true;
+}
+
+// ── Render ───────────────────────────────────────────────────────────────────
+function renderAll() { renderOverall(); renderTrend(); renderWeek(); renderPerSelect(); renderPer(); }
+
+function renderOverall() {
+  const rows = overallRows.filter(inCohort);
+  $("podium").innerHTML = rows.slice(0, 3).map((r, i) =>
+    `<div class="pod pod-${i+1}"><div class="pos">#${i+1}</div><div class="nm">${esc(r.display_name)}</div><div class="sc">${fmt(r.score)} pts · ${r.checks_attempted} checks · ${cohortLabel(r.cohort)}</div></div>`
+  ).join("") || '<div class="empty">No students in this cohort.</div>';
+  const tb = $("tbl-overall").querySelector("tbody"); tb.innerHTML = "";
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      `<td class="rank ${rankClass(r.rank)}">${r.rank}</td>` +
+      `<td>${esc(r.display_name)}</td><td>${cohortTag(r.cohort)}</td>` +
+      `<td>${r.checks_attempted}</td><td>${r.total_attempts}</td>` +
+      `<td>${r.total_correct}</td><td class="ratio">${fmt(r.score)}</td>` +
+      `<td class="muted">${r.last_active ? new Date(r.last_active).toLocaleDateString() : "—"}</td>`;
+    tb.appendChild(tr);
+  });
+  drawHBars("chart-overall", rows.map(r => ({label: r.display_name, value: r.score, rank: r.rank})),
+    "Score (Σ best pool-relative ratio per check)");
+}
+
+function renderTrend() {
+  // Cohort-filter the trend: recompute avg per week from filtered weekRows.
+  const byWeek = {};
+  weekRows.filter(inCohort).forEach(r => {
+    const w = +r.week;
+    if (!filters.weeks.has(w)) return;
+    // only count this week's score if any of its checks pass the type/phase filter
+    const passes = percheckRows.some(p => p.check_id && p.check_id.includes(`week-${String(w).padStart(2,'0')}`) && checkOk(p.check_id));
+    if (!passes) return;
+    (byWeek[w] = byWeek[w] || []).push(r.week_score);
+  });
+  const pts = [];
+  for (let w = 1; w <= 10; w++) {
+    if (byWeek[w] && byWeek[w].length) {
+      const avg = byWeek[w].reduce((a,b)=>a+b,0) / byWeek[w].length;
+      pts.push({x: "W"+w, avg, n: byWeek[w].length});
+    }
+  }
+  drawTrend("chart-trend", pts);
+}
+
+function renderWeek() {
+  // Pick a week to show: first week in filters.weeks that has data.
+  const weeksWithData = [...new Set(weekRows.filter(inCohort).map(r => +r.week))]
+    .filter(w => filters.weeks.has(w)).sort((a,b)=>a-b);
+  if (weeksWithData.length && !weeksWithData.includes(+currentWeek)) currentWeek = weeksWithData[0];
+  if (!weeksWithData.length) currentWeek = null;
+  $("week-label").textContent = currentWeek ? "Week " + currentWeek : "—";
+  const rows = currentWeek
+    ? weekRows.filter(r => +r.week === +currentWeek && inCohort(r)).sort((a,b)=>a.rank-b.rank)
+    : [];
+  const tb = $("tbl-week").querySelector("tbody"); tb.innerHTML = "";
+  if (!rows.length) {
+    tb.innerHTML = '<tr><td colspan="7" class="empty">No attempts for the selected weeks in this cohort.</td></tr>';
+    $("chart-week").innerHTML = '<text class="lbl" x="20" y="30">No data</text>'; return;
+  }
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      `<td class="rank ${rankClass(r.rank)}">${r.rank}</td>` +
+      `<td>${esc(r.display_name)}</td><td>${cohortTag(r.cohort)}</td>` +
+      `<td>${r.checks}</td><td>${r.attempts}</td>` +
+      `<td class="ratio">${fmt(r.week_score)}</td><td class="ratio">${pct(r.best_single)}</td>`;
+    tb.appendChild(tr);
+  });
+  drawHBars("chart-week", rows.map(r => ({label: r.display_name, value: r.week_score, rank: r.rank})),
+    "Week " + currentWeek + " score by student");
+}
+
+function renderPerSelect() {
+  // Build check dropdown grouped by Phase ▸ Week ▸ Type, filtered by current filters.
+  const eligible = taxonomy.filter(t => checkOk(t.check_id));
+  // Group
+  const byPhase = {};
+  for (const t of eligible) (byPhase[t.phase] = byPhase[t.phase] || {})[t.week] = (byPhase[t.phase][t.week] || []).concat(t);
+  const optgroups = [];
+  for (const phase of Object.keys(byPhase).sort()) {
+    const weeks = byPhase[phase];
+    let items = [];
+    for (const w of Object.keys(weeks).sort((a,b)=>+a-+b)) {
+      for (const t of weeks[w]) items.push({value: t.check_id, label: `W${w} · ${t.type_label} · ${t.check_id}`});
+    }
+    optgroups.push(`<optgroup label="${phase}">${items.map(i => `<option value="${i.value}">${esc(i.label)}</option>`).join("")}</optgroup>`);
+  }
+  $("check-select").innerHTML = optgroups.join("") || `<option value="">(no checks match filters)</option>`;
+}
+
+function renderPer() {
+  const cid = $("check-select").value;
+  const meta = taxonomy.find(t => t.check_id === cid);
+  $("check-meta").textContent = meta ? `${meta.phase} · W${meta.week} · ${meta.type_label}` : "";
+  const rows = percheckRows.filter(r => r.check_id === cid && inCohort(r)).sort((a,b)=>a.rank-b.rank);
+  const tb = $("tbl-percheck").querySelector("tbody"); tb.innerHTML = "";
+  if (!rows.length) {
+    tb.innerHTML = '<tr><td colspan="8" class="empty">No attempts for this check in this cohort.</td></tr>'; return;
+  }
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      `<td class="rank ${rankClass(r.rank)}">${r.rank}</td>` +
+      `<td>${esc(r.display_name)}</td><td>${cohortTag(r.cohort)}</td>` +
+      `<td class="ratio"><span class="track"><span class="bar" style="width:${Math.round(Math.min(r.best_ratio_pool||0,1)*80)}px"></span></span>${pct(r.best_ratio_pool)}</td>` +
+      `<td class="ratio">${pct(r.last_ratio_pool)}</td>` +
+      `<td>${r.attempts}</td><td class="muted">${r.pool_total ?? "—"}</td>` +
+      `<td class="muted">${r.last_attempt ? new Date(r.last_attempt).toLocaleString() : "—"}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+// ── Instructor panel (sign-in gated) ─────────────────────────────────────────
+let insRows = [];
+async function refreshAuth() {
+  const { data } = await sb.auth.getUser();
+  const user = data && data.user;
+  $("signin").classList.toggle("hidden", !!user);
+  $("signout").classList.toggle("hidden", !user);
+  $("who").textContent = user ? ("Signed in as " + (user.email || "")) : "";
+  if (user) loadInstructor();
+  else {
+    $("ins-msg").textContent = "Sign in with an instructor GitHub account to see real emails, analytics, and per-student trends.";
+    $("ins-msg").classList.remove("hidden");
+    $("tbl-ins").classList.add("hidden"); $("filter").classList.add("hidden");
+    $("insights").classList.add("hidden"); $("remarks").innerHTML = "";
+    $("detail").innerHTML = ""; insRows = [];
+  }
+}
+
+async function loadInstructor() {
+  $("ins-msg").textContent = "Loading…"; $("ins-msg").classList.remove("hidden");
+  const { data: isInstructor } = await sb.rpc("is_instructor", { uid: (await sb.auth.getUser()).data.user.id });
+  if (!isInstructor) {
+    $("ins-msg").innerHTML = '<span class="err">This account is not registered as an instructor.</span>';
+    $("tbl-ins").classList.add("hidden"); $("filter").classList.add("hidden"); $("insights").classList.add("hidden"); return;
+  }
+  const { data, error } = await sb.from("readiness_progress").select("*");
+  if (error) { $("ins-msg").innerHTML = '<span class="err">' + error.message + "</span>"; return; }
+  insRows = data || [];
+  if (!insRows.length) { $("ins-msg").textContent = "No attempts recorded yet."; return; }
+  $("ins-msg").classList.add("hidden");
+  $("tbl-ins").classList.remove("hidden"); $("filter").classList.remove("hidden");
+  renderInsights(); renderInstructor();
+}
+
+function renderInsights() {
+  // Apply the same filters to instructor data.
+  const rows = insRows.filter(r => inCohort({cohort: cohortOf(r.student_email)}) && checkOk(r.check_id));
+  const students = new Set(rows.map(r => r.student_email));
+  const attempts = rows.length;
+  const avgBest = rows.length ? rows.reduce((s,r)=>s+(r.best_ratio_pool||0),0)/rows.length : 0;
+  // At-risk: students with avg best < 0.5 across their checks
+  const perStudent = {};
+  rows.forEach(r => {
+    (perStudent[r.student_email] = perStudent[r.student_email] || []).push(r.best_ratio_pool||0);
+  });
+  const atRisk = Object.entries(perStudent).filter(([_,v]) => v.length && v.reduce((a,b)=>a+b,0)/v.length < 0.5);
+  // Trend: compare avg last_ratio_pool of earliest vs latest week
+  const trendDir = trendDirection(rows);
+  // Top performer
+  const top = overallRows.filter(inCohort)[0];
+
+  const cards = [
+    { lbl:"Participants", val: students.size, det: `${attempts} attempts · ${rows.length} check-rows`, cls:"" },
+    { lbl:"Avg best score", val: Math.round(avgBest*100)+"%", det: "across all filtered checks", cls: avgBest >= 0.7 ? "good" : avgBest >= 0.5 ? "" : "warn" },
+    { lbl:"At-risk students", val: atRisk.length, det: atRisk.length ? atRisk.map(([e])=>e.split("@")[0]).slice(0,3).join(", ") + (atRisk.length>3?"…":"") : "none", cls: atRisk.length ? "bad" : "good" },
+    { lbl:"Trend", val: trendDir.symbol, det: trendDir.text, cls: trendDir.cls },
+    { lbl:"Top performer", val: top ? top.display_name.split(".")[0] : "—", det: top ? `${fmt(top.score)} pts · ${top.checks_attempted} checks` : "", cls:"good" },
+  ];
+  $("insights").innerHTML = cards.map(c =>
+    `<div class="insight ${c.cls}"><div class="lbl">${c.lbl}</div><div class="val">${esc(String(c.val))}</div><div class="det">${esc(c.det)}</div></div>`
+  ).join("");
+  $("insights").classList.remove("hidden");
+
+  // Auto-remarks
+  const remarks = [];
+  if (atRisk.length) remarks.push({src:"at-risk", text:`${atRisk.length} student(s) averaging below 50% on the selected checks. Consider a focused review session for: ${atRisk.map(([e])=>e.split("@")[0]).join(", ")}.`});
+  if (trendDir.remark) remarks.push({src:"trend", text:trendDir.remark});
+  if (avgBest < 0.5) remarks.push({src:"cohort", text:`Cohort average best score is ${Math.round(avgBest*100)}%, below the 50% comfort line. The material in the selected scope may need re-teaching or a different framing.`});
+  else if (avgBest >= 0.75) remarks.push({src:"cohort", text:`Cohort is tracking well at ${Math.round(avgBest*100)}% average. Consider stretching the top performers with extension material.`});
+  if (top && top.score > 0 && overallRows.filter(inCohort)[1] && top.score - overallRows.filter(inCohort)[1].score > 2) {
+    remarks.push({src:"gap", text:`Large gap between #1 (${top.display_name}, ${fmt(top.score)}) and #2 (${overallRows.filter(inCohort)[1].display_name}, ${fmt(overallRows.filter(inCohort)[1].score)}). Pair-programming could lift the cohort.`});
+  }
+  $("remarks").innerHTML = remarks.map(r => `<div class="remark"><div class="src">${r.src}</div>${esc(r.text)}</div>`).join("") || '<div class="remark"><div class="src">note</div>No remarks for the current filter scope.</div>';
+}
+
+function trendDirection(rows) {
+  // Use last_ratio_pool per (student, check), bucket by week, compare first vs last active week.
+  if (!rows.length) return {symbol:"—", text:"no data", cls:"", remark:""};
+  const byWeek = {};
+  rows.forEach(r => {
+    const t = taxonomy.find(x => x.check_id === r.check_id);
+    if (!t) return;
+    (byWeek[t.week] = byWeek[t.week] || []).push(r.last_ratio_pool || 0);
+  });
+  const weeks = Object.keys(byWeek).map(Number).sort((a,b)=>a-b);
+  if (weeks.length < 2) return {symbol:"→", text:"only one week of data", cls:"", remark:""};
+  const first = avg(byWeek[weeks[0]]), last = avg(byWeek[weeks[weeks.length-1]]);
+  const delta = last - first;
+  if (delta > 0.05) return {symbol:"↗", text:`+${Math.round(delta*100)}% from W${weeks[0]} to W${weeks[weeks.length-1]}`, cls:"good",
+    remark:`Cohort is improving — average last-attempt score rose ${Math.round(delta*100)}% from week ${weeks[0]} to week ${weeks[weeks.length-1]}.`};
+  if (delta < -0.05) return {symbol:"↘", text:`${Math.round(delta*100)}% from W${weeks[0]} to W${weeks[weeks.length-1]}`, cls:"bad",
+    remark:`Cohort is slipping — average last-attempt score fell ${Math.round(-delta*100)}% from week ${weeks[0]} to week ${weeks[weeks.length-1]}. Recent material may be harder or engagement dropping.`};
+  return {symbol:"→", text:"stable across weeks", cls:"", remark:"Cohort scores are stable across the selected weeks."};
+}
+function avg(a){ return a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0; }
+
+function cohortOf(email) {
+  // Look up cohort from cached roster (fetched in loadInstructor via readiness_progress join isn't available;
+  // for analytics filtering we use the email-domain heuristic as a fallback).
+  if (!email) return null;
+  if (email.endsWith("@andhrauniversity.edu.in")) return "au";
+  return "non-au";
+}
+
+let sortKI = "student_email", sortDirI = 1;
+document.querySelectorAll("#tbl-ins th[data-k]").forEach(th => th.onclick = () => {
+  const k = th.dataset.k; sortDirI = (k === sortKI) ? -sortDirI : 1; sortKI = k; renderInstructor();
+});
+
+function renderInstructor() {
+  const q = ($("filter").value || "").trim().toLowerCase();
+  let view = insRows.filter(r => !q || (r.student_email||"").toLowerCase().includes(q) || (r.check_id||"").toLowerCase().includes(q));
+  view.sort((a,b) => { const x=a[sortKI], y=b[sortKI]; return (x>y?1:x<y?-1:0)*sortDirI; });
+  const tb = $("tbl-ins").querySelector("tbody"); tb.innerHTML = "";
+  for (const r of view) {
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      "<td>" + (r.student_email||"—") + "</td>" +
+      "<td class='muted'>" + r.check_id + "</td>" +
+      "<td>" + typeOf(r.check_id) + "</td>" +
+      "<td>" + r.attempts + "</td>" +
+      "<td class='ratio'>" + pct(r.best_ratio_pool) + "</td>" +
+      "<td class='ratio'>" + pct(r.last_ratio_pool) + "</td>" +
+      "<td class='muted'>" + (r.pool_total ?? "—") + "</td>" +
+      "<td class='muted'>" + new Date(r.last_attempt).toLocaleString() + "</td>" +
+      "<td><button class='ghost trend-btn'>trend</button></td>";
+    tr.querySelector("button").onclick = () => showTrend(r.student_id, r.student_email, r.check_id);
+    tb.appendChild(tr);
+  }
+}
+
+async function showTrend(studentId, email, checkId) {
+  const { data } = await sb.from("readiness_attempts")
+    .select("score,total,pool_total,attempted_at")
+    .eq("student_id", studentId).eq("check_id", checkId)
+    .order("attempted_at", { ascending: true });
+  const d = $("detail");
+  if (!data || !data.length) { d.innerHTML = ""; return; }
+  const pool = data[data.length - 1].pool_total || data[0].pool_total || 0;
+  const ratios = data.map(a => a.score / (a.pool_total || pool || a.total || 1));
+  const w = 320, h = 60, n = ratios.length;
+  const pts = ratios.map((v,i) => (n===1 ? w/2 : (i/(n-1))*w).toFixed(1) + "," + (h - v*h).toFixed(1)).join(" ");
+  d.innerHTML =
+    "<h2 style='font-size:1rem'>" + esc(email||"student") + " · " + esc(checkId) + "</h2>" +
+    "<svg width='"+w+"' height='"+h+"' viewBox='0 0 "+w+" "+h+"'><polyline fill='none' stroke='#8b0000' stroke-width='2' points='"+pts+"'/></svg>" +
+    "<ol style='font-size:.82rem'>" +
+    data.map(a => "<li>"+a.score+" / "+a.total+" (pool "+(a.pool_total||pool)+") · "+new Date(a.attempted_at).toLocaleString()+"</li>").join("") +
+    "</ol>";
+  d.scrollIntoView({ behavior:"smooth" });
+}
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function pct(x){ return x == null ? "—" : Math.round(x * 100) + "%"; }
+function rankClass(r){ return r <= 3 ? "rank-" + r : ""; }
+function fmt(x, d=2){ return x == null ? "—" : Number(x).toFixed(d); }
+function esc(s){ return String(s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+function typeOf(cid){ return /-readiness$/.test(cid) ? 'Pre-read' : /-wrapup$/.test(cid) ? 'Wrap-up' : /-canonical$/.test(cid) ? 'Weekly' : '—'; }
+function cohortLabel(c) {
+  if (!c) return "unassigned";
+  const found = cohorts.find(x => x.name === c);
+  return found ? found.display_name : c;
+}
+function cohortTag(c) {
+  if (!c) return `<span class="tag unassigned">unassigned</span>`;
+  const found = cohorts.find(x => x.name === c);
+  const cls = found ? found.group_tag : "unassigned";
+  return `<span class="tag ${cls}">${cohortLabel(c)}</span>`;
+}
+
+// ── Inline SVG charts (height scales to row count) ───────────────────────────
+function drawHBars(id, items, title) {
+  const svg = $(id); if (!svg) return;
+  const n = Math.max(1, items.length);
+  const W = 600, rowH = 32, m = { l: 120, r: 60, t: 28, b: 24 };
+  const H = m.t + n * rowH + m.b;
+  const iw = W - m.l - m.r;
+  const max = Math.max(0.001, ...items.map(i => i.value || 0));
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  let out = `<text class="title" x="${m.l}" y="18">${esc(title)}</text>`;
+  out += `<line class="grid" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${m.t + n*rowH}"/>`;
+  out += `<line class="grid" x1="${m.l}" y1="${m.t + n*rowH}" x2="${m.l+iw}" y2="${m.t + n*rowH}"/>`;
+  for (const g of [0, .25, .5, .75, 1]) {
+    const x = m.l + g * iw;
+    out += `<line class="grid" x1="${x}" y1="${m.t}" x2="${x}" y2="${m.t + n*rowH}" stroke-dasharray="2 3"/>`;
+    out += `<text class="axis" x="${x}" y="${m.t + n*rowH + 14}" text-anchor="middle">${(g*max).toFixed(1)}</text>`;
+  }
+  const barH = 16;
+  items.forEach((it, i) => {
+    const y = m.t + i * rowH + rowH/2;
+    const w = (it.value || 0) / max * iw;
+    const rc = it.rank <= 3 ? ["#b8860b","#888","#b87333"][it.rank-1] : "var(--accent)";
+    out += `<text class="lbl" x="${m.l - 6}" y="${y + 4}" text-anchor="end">${esc(it.label)}</text>`;
+    out += `<rect x="${m.l}" y="${y - barH/2}" width="${w}" height="${barH}" rx="3" style="fill:${rc}"/>`;
+    out += `<text class="lbl" x="${m.l + w + 4}" y="${y + 4}">${fmt(it.value)}</text>`;
+  });
+  svg.innerHTML = out;
+}
+
+function drawTrend(id, points) {
+  const svg = $(id); if (!svg) return;
+  const W = 600, H = 200, m = { l: 36, r: 16, t: 26, b: 32 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const weeks = ["W1","W2","W3","W4","W5","W6","W7","W8","W9","W10"];
+  const byW = {}; points.forEach(p => byW[p.x] = p);
+  const xs = (i) => m.l + (i / (weeks.length - 1)) * iw;
+  const ys = (v) => m.t + ih - (v || 0) * ih;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  let out = `<text class="title" x="${m.l}" y="16">Cohort average score per week (filtered)</text>`;
+  out += `<line class="grid" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${m.t + ih}"/>`;
+  out += `<line class="grid" x1="${m.l}" y1="${m.t + ih}" x2="${m.l+iw}" y2="${m.t + ih}"/>`;
+  for (const g of [0, .25, .5, .75, 1]) {
+    const y = m.t + ih - g * ih;
+    out += `<line class="grid" x1="${m.l}" y1="${y}" x2="${m.l+iw}" y2="${y}" stroke-dasharray="2 3"/>`;
+    out += `<text class="axis" x="${m.l - 4}" y="${y + 4}" text-anchor="end">${Math.round(g*100)}%</text>`;
+  }
+  weeks.forEach((w, i) => { out += `<text class="axis" x="${xs(i)}" y="${m.t + ih + 16}" text-anchor="middle">${w}</text>`; });
+  const present = weeks.map((w, i) => ({i, p: byW[w]})).filter(p => p.p);
+  if (present.length) {
+    const path = present.map((p, k) => (k === 0 ? "M" : "L") + xs(p.i) + "," + ys(p.p.avg)).join(" ");
+    const area = path + ` L${xs(present[present.length-1].i)},${m.t+ih} L${xs(present[0].i)},${m.t+ih} Z`;
+    out += `<path class="area" d="${area}"/>`;
+    out += `<path class="line" d="${path}"/>`;
+    present.forEach(p => {
+      out += `<circle class="dot" cx="${xs(p.i)}" cy="${ys(p.p.avg)}" r="4"/>`;
+      out += `<text class="lbl" x="${xs(p.i)}" y="${ys(p.p.avg) - 8}" text-anchor="middle">${Math.round(p.p.avg*100)}%</text>`;
+      if (p.p.n) out += `<text class="axis" x="${xs(p.i)}" y="${ys(p.p.avg) + 16}" text-anchor="middle">n=${p.p.n}</text>`;
+    });
+  } else {
+    out += `<text class="lbl" x="${m.l+10}" y="${m.t+20}">No data for the current filter scope.</text>`;
+  }
+  svg.innerHTML = out;
+}
+
+// ── init ─────────────────────────────────────────────────────────────────────
+loadPublic();
+sb.auth.onAuthStateChange(() => refreshAuth());
+</script>
+</body>
+</html>
