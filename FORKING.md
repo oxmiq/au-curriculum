@@ -19,17 +19,23 @@ If you are an enrolled student, you'll work in your **own fork** of this repo. Y
    git remote -v
    ```
 
-4. **Install the tooling**:
+4. **Create a virtualenv and install the tooling**:
 
    ```bash
-   pip install mkdocs mkdocs-material pymdown-extensions
+   python3 -m venv .venv
+   source .venv/bin/activate            # Windows: .venv\Scripts\activate
+   python3 -m pip install -r requirements.txt
    ```
+
+   Re-run the `activate` line each time you open a new shell. `.venv/` is
+   gitignored, so it never lands in your fork.
 
 5. **Install `oxtutor`** per the instructions you received at cohort kickoff. Configure it with the LiteLLM gateway key issued to you.
 
 ## Daily flow
 
 ```bash
+source .venv/bin/activate               # Windows: .venv\Scripts\activate
 mkdocs serve                            # local site at http://localhost:8000
 oxtutor                                 # tutor agent (key required)
 ```

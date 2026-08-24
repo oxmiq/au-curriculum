@@ -52,8 +52,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install mkdocs
-        run: pip install mkdocs mkdocs-material pymdown-extensions
+      - name: Install site tooling
+        # Install from requirements.txt so CI exercises the same dependency set
+        # the setup docs tell contributors and students to install.
+        run: pip install -r requirements.txt
 
       - name: Build site
         run: mkdocs build --strict
@@ -88,8 +90,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install mkdocs
-        run: pip install mkdocs mkdocs-material pymdown-extensions
+      - name: Install site tooling
+        run: pip install -r requirements.txt
 
       - name: Build site
         run: mkdocs build --strict

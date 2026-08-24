@@ -1,5 +1,8 @@
 # Requirements for the AU curriculum MkDocs site
-# Install into the project's virtualenv:  pip install -r requirements.txt
+# Install into the project's virtualenv:
+#   python3 -m venv .venv
+#   source .venv/bin/activate        # Windows: .venv\Scripts\activate
+#   python3 -m pip install -r requirements.txt
 
 # Core
 mkdocs>=1.6,<2.0
@@ -10,10 +13,12 @@ mkdocs-material>=9.7,<10.0
 # Markdown extensions
 pymdown-extensions>=10.0,<11.0
 
-# Common plugins
-mkdocs-redirects
-mkdocs-awesome-pages-plugin
-mkdocs-git-revision-date-plugin
-mkdocs-minify-plugin
-mkdocs-macros-plugin
+# Used directly by scripts/apply_lesson_header.py and scripts/build_card_grids.py
+# (also a transitive mkdocs dependency; declared here so the scripts don't rely
+# on that staying true).
+PyYAML>=6.0,<7.0
 
+# NOTE: mkdocs.yml declares no `plugins:` — the site's build-time extensions are
+# the `hooks:` entries (hooks/*.py), which are plain Python and need no packages
+# beyond the above. Do not add mkdocs-* plugin packages here unless mkdocs.yml
+# actually loads them.
