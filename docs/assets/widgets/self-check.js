@@ -135,7 +135,10 @@
         host._submitted = true;
         return fetchHistory(host).then(function (h) { host._history = h; renderAll(host, pool); });
       }).catch(function (e) {
-        host._submitError = String((e && e.message) || e);
+        var msg = String((e && e.message) || e);
+        // Classify the error so the UI can show a targeted message.
+        host._submitErrorType = /network|fetch|failed to fetch|cors/i.test(msg) ? 'network' : 'other';
+        host._submitError = msg;
         renderAll(host, pool);
       });
     });
@@ -457,8 +460,13 @@
           text: 'Sign in above to record your attempt, then submit again.' }));
       }
       if (host._submitError) {
-        actions.appendChild(el('div', { class: 'ox-self-check__error',
-          text: 'Not recorded (' + host._submitError + '). Sign in and retry.' }));
+        var errText;
+        if (host._submitErrorType === 'network') {
+          errText = 'Could not reach the server. Please try again later.';
+        } else {
+          errText = 'Not recorded (' + host._submitError + '). Sign in and retry.';
+        }
+        actions.appendChild(el('div', { class: 'ox-self-check__error', text: errText }));
       }
       shell.appendChild(actions);
     } else {
