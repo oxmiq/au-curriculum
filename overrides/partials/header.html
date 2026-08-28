@@ -3,9 +3,13 @@
     - Fork identity ("<github-username> / <email>"), centered in the bar and
       rendered server-side from the local clone's git config (fork owner of the
       `origin` remote + `user.email`), via hooks/git_identity.py. No sign-in.
-    - Overall progress pill (read from docs/assets/status.json at runtime
-      via a tiny script, with a static fallback rendered server-side from
-      the Phase D hook's `extra.progress.overall`)
+    - Overall progress pill. Rendered server-side from the Phase D hook's
+      `extra.progress.overall` as a no-JS fallback, then replaced at runtime by
+      assets/progress-source.js with the signed-in student's LIVE progress
+      (or "Sign in to track progress" when there is no session). The
+      server-side value comes from the committed docs/progress/summary.json,
+      which is all zeros unless a fork records progress that way — so the
+      live pass is what students actually see.
   The default header markup is kept intact below; we only inject an extra
   flex item before the search box.
 -#}
@@ -15,7 +19,7 @@
 {% set overall  = progress.overall      | default({}) %}
 {% set pct      = overall.percent       | default(0) %}
 {% set done     = overall.completed     | default(0) %}
-{% set total    = overall.total         | default(51) %}
+{% set total    = overall.total         | default(50) %}
 {% set pill_class = 'status-not-started' %}
 {% if pct >= 100 %}
   {% set pill_class = 'status-passed' %}

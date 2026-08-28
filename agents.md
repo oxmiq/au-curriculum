@@ -50,6 +50,29 @@ There are no dedicated lesson-nav tools; use the general primitives:
 
 `status` is one of `passed | in_progress | not_started`. "Passed" = cleared the canonical knowledge-check threshold **and** the assignment marked done. After writing, the student commits + pushes to their fork.
 
+### Relationship to live (server-side) progress
+
+These committed records are **no longer the primary progress signal**. Every
+readiness / wrap-up / weekly check is graded and stored server-side by the
+`grade-readiness` Edge Function, and `docs/assets/progress-source.js` reads the
+signed-in student's own attempts back out of Supabase to drive the header pill
+and the roadmap overlay. That path needs no commit and no agent.
+
+The committed records remain a supported second source: `progress-source.js`
+falls back to `docs/progress/summary.json` whenever there is no session, so a
+fork that records progress this way still renders. Where both exist, live wins.
+
+Note the two use **different pass rules**, on purpose:
+
+| | Live (`progress-source.js`) | Committed record |
+|---|---|---|
+| Cleared when | the module's wrap-up (or the week's canonical, for consolidation days) reaches **>= 80%** | canonical check threshold **and** assignment marked done |
+| Covers | anything the student submitted through a check widget | assignment + agent-observed work |
+
+Live progress can only ever see what the checks see; it deliberately does not
+claim the assignment half. Keep writing the records for modules where the
+assignment matters.
+
 ## Knowledge checks (naming)
 
 The formative checks are **knowledge checks** (not "quizzes"). The canonical one per module is upstream and read-only; the ones you author with `create_practice_knowledge_check` go in `docs/practice/` and hide answers until the learner submits. Coach the concept from the lesson freely; don't read out the canonical check's answer key.

@@ -22,6 +22,16 @@ jobs:
           # must NOT embed answer/explain in this public repo. NOT warn-only.
           python3 scripts/check_no_embedded_answers.py
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Progress rollup unit test (hard fail)
+        run: |
+          # The header pill and roadmap overlay are driven by this rollup; a
+          # regression here silently mis-states every student's progress.
+          node tests/progress_source.test.mjs
+
       - name: Run audit_lessons.py
         run: |
           # Warn-only — do not fail the build yet.

@@ -1,14 +1,18 @@
 /* roadmap-progress.js — overlays student progress onto the roadmap sitemap.
  *
- * Reads the same data the retired kb progress views used:
- *   progress/summary.json  — per-module status + weekly / overall rollups
- *   kb/graph.json          — module prereqs (for "next up" + "locked")
+ * Progress comes from assets/progress-source.js (window.OX_PROGRESS.ready),
+ * which resolves the signed-in student's LIVE Supabase attempts where possible
+ * and falls back to the committed progress/summary.json otherwise. This file
+ * used to fetch summary.json directly, which meant the roadmap only ever showed
+ * the committed record — in practice all zeros, since nothing writes the
+ * per-module JSON automatically.
+ *
+ *   window.OX_PROGRESS.ready  — per-module status + weekly / overall rollups
+ *   kb/graph.json             — module prereqs (for "next up")
  *
  * Pure progressive enhancement: the static roadmap (structure + lesson links)
- * works with JS off or if either fetch fails. Only when summary.json loads do
- * the status ticks, week bars, overall bar, legend, next-up and locked states
- * appear. This is exactly the "future client-side enhancer" the progress hook
- * (hooks/progress_badges.py) already emits assets/status.json for.
+ * works with JS off or if either source fails. Only when progress resolves do
+ * the status ticks, week bars, overall bar, legend and next-up state appear.
  */
 (function () {
   "use strict";
@@ -17,7 +21,6 @@
   if (!root) return; // only on the roadmap page
 
   // Relative to the roadmap page (served at <base>/roadmap/).
-  var SUMMARY_URL = "../progress/summary.json";
   var GRAPH_URL = "../kb/graph.json";
 
   function statusOf(summary, id) {
@@ -33,7 +36,8 @@
       .catch(function () { return null; });
   }
 
-  Promise.all([getJSON(SUMMARY_URL), getJSON(GRAPH_URL)]).then(function (res) {
+  var progress = (window.OX_PROGRESS && window.OX_PROGRESS.ready) || Promise.resolve(null);
+  Promise.all([progress, getJSON(GRAPH_URL)]).then(function (res) {
     var summary = res[0];
     if (!summary) return; // no progress data → leave the static roadmap untouched
     decorate(summary, res[1]);

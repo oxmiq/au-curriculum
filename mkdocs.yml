@@ -45,6 +45,7 @@ extra_javascript:
   - assets/supabase-config.js       # public Supabase URL + publishable key (readiness persistence)
   - assets/identity-check.js        # nudge to use one GitHub account for both fork + Supabase sign-in
   - assets/widgets/self-check.js    # ox-self-check MCQ formative widget
+  - assets/progress-source.js       # resolves live (Supabase) or static progress; must precede roadmap-progress.js
   - assets/readings-newtab.js       # open standalone reading/reference pages in a new tab
   - assets/embed-autosize.js        # grow document-flow kb/*.html embeds to their content height
   - assets/roadmap-progress.js      # overlay student progress onto the roadmap sitemap

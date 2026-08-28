@@ -179,7 +179,7 @@
     <span id="check-meta" class="muted" style="font-size:.8rem;"></span>
   </div>
   <table id="tbl-percheck">
-    <thead><tr><th class="rank">#</th><th>Student</th><th>Cohort</th><th>Best</th><th>Last</th><th>Attempts</th><th>Pool</th><th>Last attempt</th></tr></thead>
+    <thead><tr><th class="rank">#</th><th>Student</th><th>Cohort</th><th>Best</th><th>Last</th><th>Attempts</th><th>Draw</th><th>Pool</th><th>Last attempt</th></tr></thead>
     <tbody></tbody>
   </table>
 </div>
@@ -195,8 +195,8 @@
   <table id="tbl-ins" class="hidden">
     <thead><tr>
       <th data-k="student_email">Student</th><th data-k="check_id">Check</th><th>Type</th>
-      <th data-k="attempts">Attempts</th><th data-k="best_ratio_pool">Best</th>
-      <th data-k="last_ratio_pool">Last</th><th>Pool</th><th data-k="last_attempt">Last attempt</th><th>Trend</th>
+      <th data-k="attempts">Attempts</th><th data-k="best_ratio">Best</th>
+      <th data-k="last_ratio">Last</th><th>Draw</th><th>Pool</th><th data-k="last_attempt">Last attempt</th><th>Trend</th>
     </tr></thead>
     <tbody></tbody>
   </table>
@@ -296,15 +296,15 @@ async function loadPublic() {
     sb.from("check_taxonomy").select("*"),
   ]);
   if (o.error || p.error || w.error || t.error || c.error || tax.error) {
-    $("msg").innerHTML = '<span class="err">Load failed: ' + (o.error?.message||p.error?.message||w.error?.message||t.error?.message||c.error?.message||tax.error?.message||"") + "</span>";
+    $("msg").innerHTML = '<span class="err">Load failed: ' + esc(o.error?.message||p.error?.message||w.error?.message||t.error?.message||c.error?.message||tax.error?.message||"") + "</span>";
     $("msg").classList.remove("hidden"); return;
   }
   overallRows = o.data || []; percheckRows = p.data || [];
   weekRows = w.data || []; trendRows = t.data || [];
   cohorts = c.data || [];
-  // Dedupe taxonomy (one row per question_key — same check_id repeats)
-  const seen = new Set();
-  taxonomy = (tax.data || []).filter(r => { if (seen.has(r.check_id)) return false; seen.add(r.check_id); return true; });
+  // check_taxonomy is one row per check as of migration 0014 (it used to be one
+  // row per question_key, i.e. 1042 rows for 87 checks, deduped here).
+  taxonomy = tax.data || [];
   taxonomy.sort((a,b) => a.week - b.week || a.check_id.localeCompare(b.check_id));
 
   if (!overallRows.length && !percheckRows.length) {
@@ -373,7 +373,7 @@ function renderOverall() {
     tb.appendChild(tr);
   });
   drawHBars("chart-overall", rows.map(r => ({label: r.display_name, value: r.score, rank: r.rank})),
-    "Score (Σ best pool-relative ratio per check)");
+    "Score (Σ best score per check, 1.00 = a perfect check)");
 }
 
 function renderTrend() {
@@ -450,16 +450,16 @@ function renderPer() {
   const rows = percheckRows.filter(r => r.check_id === cid && inCohort(r)).sort((a,b)=>a.rank-b.rank);
   const tb = $("tbl-percheck").querySelector("tbody"); tb.innerHTML = "";
   if (!rows.length) {
-    tb.innerHTML = '<tr><td colspan="8" class="empty">No attempts for this check in this cohort.</td></tr>'; return;
+    tb.innerHTML = '<tr><td colspan="9" class="empty">No attempts for this check in this cohort.</td></tr>'; return;
   }
   rows.forEach(r => {
     const tr = document.createElement("tr");
     tr.innerHTML =
       `<td class="rank ${rankClass(r.rank)}">${r.rank}</td>` +
       `<td>${esc(r.display_name)}</td><td>${cohortTag(r.cohort)}</td>` +
-      `<td class="ratio"><span class="track"><span class="bar" style="width:${Math.round(Math.min(r.best_ratio_pool||0,1)*80)}px"></span></span>${pct(r.best_ratio_pool)}</td>` +
-      `<td class="ratio">${pct(r.last_ratio_pool)}</td>` +
-      `<td>${r.attempts}</td><td class="muted">${r.pool_total ?? "—"}</td>` +
+      `<td class="ratio"><span class="track"><span class="bar" style="width:${Math.round(Math.min(r.best_ratio||0,1)*80)}px"></span></span>${pct(r.best_ratio)}</td>` +
+      `<td class="ratio">${pct(r.last_ratio)}</td>` +
+      `<td>${r.attempts}</td><td class="muted">${r.draw ?? "—"}</td><td class="muted">${r.pool_total ?? "—"}</td>` +
       `<td class="muted">${r.last_attempt ? new Date(r.last_attempt).toLocaleString() : "—"}</td>`;
     tb.appendChild(tr);
   });
@@ -467,6 +467,7 @@ function renderPer() {
 
 // ── Instructor panel (sign-in gated) ─────────────────────────────────────────
 let insRows = [];
+let insCohort = {};   // student_id -> cohort name (null = unassigned)
 async function refreshAuth() {
   const { data } = await sb.auth.getUser();
   const user = data && data.user;
@@ -490,9 +491,18 @@ async function loadInstructor() {
     $("ins-msg").innerHTML = '<span class="err">This account is not registered as an instructor.</span>';
     $("tbl-ins").classList.add("hidden"); $("filter").classList.add("hidden"); $("insights").classList.add("hidden"); return;
   }
-  const { data, error } = await sb.from("readiness_progress").select("*");
-  if (error) { $("ins-msg").innerHTML = '<span class="err">' + error.message + "</span>"; return; }
-  insRows = data || [];
+  // instructor_roster (migration 0013) is the instructor-gated view carrying
+  // email + the REAL cohort assignment. It replaces the old email-domain guess,
+  // which could never match a named cohort like "au-2026-batch-a" and silently
+  // emptied every insight whenever one was selected.
+  const [rp, ros] = await Promise.all([
+    sb.from("readiness_progress").select("*"),
+    sb.from("instructor_roster").select("student_id,cohort"),
+  ]);
+  if (rp.error) { $("ins-msg").innerHTML = '<span class="err">' + esc(rp.error.message) + "</span>"; return; }
+  insCohort = {};
+  for (const r of (ros.data || [])) insCohort[r.student_id] = r.cohort;
+  insRows = rp.data || [];
   if (!insRows.length) { $("ins-msg").textContent = "No attempts recorded yet."; return; }
   $("ins-msg").classList.add("hidden");
   $("tbl-ins").classList.remove("hidden"); $("filter").classList.remove("hidden");
@@ -501,17 +511,17 @@ async function loadInstructor() {
 
 function renderInsights() {
   // Apply the same filters to instructor data.
-  const rows = insRows.filter(r => inCohort({cohort: cohortOf(r.student_email)}) && checkOk(r.check_id));
+  const rows = insRows.filter(r => inCohort({cohort: insCohort[r.student_id] ?? null}) && checkOk(r.check_id));
   const students = new Set(rows.map(r => r.student_email));
   const attempts = rows.length;
-  const avgBest = rows.length ? rows.reduce((s,r)=>s+(r.best_ratio_pool||0),0)/rows.length : 0;
+  const avgBest = rows.length ? rows.reduce((s,r)=>s+(r.best_ratio||0),0)/rows.length : 0;
   // At-risk: students with avg best < 0.5 across their checks
   const perStudent = {};
   rows.forEach(r => {
-    (perStudent[r.student_email] = perStudent[r.student_email] || []).push(r.best_ratio_pool||0);
+    (perStudent[r.student_email] = perStudent[r.student_email] || []).push(r.best_ratio||0);
   });
   const atRisk = Object.entries(perStudent).filter(([_,v]) => v.length && v.reduce((a,b)=>a+b,0)/v.length < 0.5);
-  // Trend: compare avg last_ratio_pool of earliest vs latest week
+  // Trend: compare avg last_ratio of earliest vs latest week
   const trendDir = trendDirection(rows);
   // Top performer
   const top = overallRows.filter(inCohort)[0];
@@ -541,13 +551,13 @@ function renderInsights() {
 }
 
 function trendDirection(rows) {
-  // Use last_ratio_pool per (student, check), bucket by week, compare first vs last active week.
+  // Use last_ratio per (student, check), bucket by week, compare first vs last active week.
   if (!rows.length) return {symbol:"—", text:"no data", cls:"", remark:""};
   const byWeek = {};
   rows.forEach(r => {
     const t = taxonomy.find(x => x.check_id === r.check_id);
     if (!t) return;
-    (byWeek[t.week] = byWeek[t.week] || []).push(r.last_ratio_pool || 0);
+    (byWeek[t.week] = byWeek[t.week] || []).push(r.last_ratio || 0);
   });
   const weeks = Object.keys(byWeek).map(Number).sort((a,b)=>a-b);
   if (weeks.length < 2) return {symbol:"→", text:"only one week of data", cls:"", remark:""};
@@ -560,14 +570,6 @@ function trendDirection(rows) {
   return {symbol:"→", text:"stable across weeks", cls:"", remark:"Cohort scores are stable across the selected weeks."};
 }
 function avg(a){ return a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0; }
-
-function cohortOf(email) {
-  // Look up cohort from cached roster (fetched in loadInstructor via readiness_progress join isn't available;
-  // for analytics filtering we use the email-domain heuristic as a fallback).
-  if (!email) return null;
-  if (email.endsWith("@andhrauniversity.edu.in")) return "au";
-  return "non-au";
-}
 
 let sortKI = "student_email", sortDirI = 1;
 document.querySelectorAll("#tbl-ins th[data-k]").forEach(th => th.onclick = () => {
@@ -582,14 +584,15 @@ function renderInstructor() {
   for (const r of view) {
     const tr = document.createElement("tr");
     tr.innerHTML =
-      "<td>" + (r.student_email||"—") + "</td>" +
-      "<td class='muted'>" + r.check_id + "</td>" +
+      "<td>" + esc(r.student_email||"—") + "</td>" +
+      "<td class='muted'>" + esc(r.check_id) + "</td>" +
       "<td>" + typeOf(r.check_id) + "</td>" +
-      "<td>" + r.attempts + "</td>" +
-      "<td class='ratio'>" + pct(r.best_ratio_pool) + "</td>" +
-      "<td class='ratio'>" + pct(r.last_ratio_pool) + "</td>" +
-      "<td class='muted'>" + (r.pool_total ?? "—") + "</td>" +
-      "<td class='muted'>" + new Date(r.last_attempt).toLocaleString() + "</td>" +
+      "<td>" + esc(r.attempts) + "</td>" +
+      "<td class='ratio'>" + pct(r.best_ratio) + "</td>" +
+      "<td class='ratio'>" + pct(r.last_ratio) + "</td>" +
+      "<td class='muted'>" + esc(r.draw ?? "—") + "</td>" +
+      "<td class='muted'>" + esc(r.pool_total ?? "—") + "</td>" +
+      "<td class='muted'>" + esc(new Date(r.last_attempt).toLocaleString()) + "</td>" +
       "<td><button class='ghost trend-btn'>trend</button></td>";
     tr.querySelector("button").onclick = () => showTrend(r.student_id, r.student_email, r.check_id);
     tb.appendChild(tr);
@@ -598,20 +601,22 @@ function renderInstructor() {
 
 async function showTrend(studentId, email, checkId) {
   const { data } = await sb.from("readiness_attempts")
-    .select("score,total,pool_total,attempted_at")
+    .select("score,total,pool_total,expected_draw,attempted_at")
     .eq("student_id", studentId).eq("check_id", checkId)
     .order("attempted_at", { ascending: true });
   const d = $("detail");
   if (!data || !data.length) { d.innerHTML = ""; return; }
   const pool = data[data.length - 1].pool_total || data[0].pool_total || 0;
-  const ratios = data.map(a => a.score / (a.pool_total || pool || a.total || 1));
+  // Normalize by the draw the attempt was scored against (migration 0014) so
+  // this sparkline sits on the same 0..1 scale as every leaderboard figure.
+  const ratios = data.map(a => a.score / (a.expected_draw || a.total || 1));
   const w = 320, h = 60, n = ratios.length;
   const pts = ratios.map((v,i) => (n===1 ? w/2 : (i/(n-1))*w).toFixed(1) + "," + (h - v*h).toFixed(1)).join(" ");
   d.innerHTML =
     "<h2 style='font-size:1rem'>" + esc(email||"student") + " · " + esc(checkId) + "</h2>" +
     "<svg width='"+w+"' height='"+h+"' viewBox='0 0 "+w+" "+h+"'><polyline fill='none' stroke='#8b0000' stroke-width='2' points='"+pts+"'/></svg>" +
     "<ol style='font-size:.82rem'>" +
-    data.map(a => "<li>"+a.score+" / "+a.total+" (pool "+(a.pool_total||pool)+") · "+new Date(a.attempted_at).toLocaleString()+"</li>").join("") +
+    data.map(a => "<li>"+esc(a.score)+" / "+esc(a.total)+" (draw "+esc(a.expected_draw ?? a.total)+", pool "+esc(a.pool_total||pool)+") · "+esc(new Date(a.attempted_at).toLocaleString())+"</li>").join("") +
     "</ol>";
   d.scrollIntoView({ behavior:"smooth" });
 }

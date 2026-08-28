@@ -25,3 +25,9 @@ script.
 > Driven from the agent's system prompt + `agents.md`; wired into the `oxtutor` agent
 > configuration under the ADK pivot. `build_summary.py` is the one executable here and is
 > pure stdlib.
+
+> **Scope note.** Since `docs/assets/progress-source.js` landed, the header pill
+> and the roadmap overlay read the signed-in student's **live** check attempts
+> from Supabase and no longer depend on these files. Keep recording assignment
+> completion here — that is the half live progress cannot see — but a module
+> cleared purely by knowledge checks now shows up on its own, with no commit.
