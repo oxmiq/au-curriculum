@@ -70,6 +70,9 @@
   .pod-3{ border-color:var(--bronze); } .pod-3 .pos{ color:var(--bronze); }
   .chart{ width:100%; max-width:560px; height:auto; display:block; margin:.2rem 0 .5rem; }
   .chart.wide{ max-width:760px; }
+  .chart.sm{ max-width:330px; }
+  .duo{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:.8rem; align-items:start; }
+  .duo h2{ margin-top:.4rem; }
   .chart .grid{ stroke:var(--line); stroke-width:1; }
   .chart .axis{ fill:var(--muted); font-size:9px; }
   .chart .line{ fill:none; stroke:var(--accent); stroke-width:2; }
@@ -284,6 +287,17 @@
       <button data-st="ontrack">On track</button>
       <button data-st="complete">Complete</button>
     </span>
+  </div>
+
+  <div id="ins-duo" class="duo hidden">
+    <div>
+      <h2>Cohort mix</h2>
+      <svg id="chart-mix" class="chart sm" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div>
+      <h2>Students started, cumulative</h2>
+      <svg id="chart-onboard" class="chart sm" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
   </div>
 
   <div id="ins-heat-wrap" class="hidden">
@@ -847,7 +861,7 @@ async function refreshAuth() {
   else {
     $("ins-msg").textContent = "Sign in with an instructor GitHub account to see names, coverage and per-student detail.";
     $("ins-msg").classList.remove("hidden");
-    ["tbl-ins","ins-tools","insights","ins-heat-wrap","ins-dist-wrap","ins-tbl-h"]
+    ["tbl-ins","ins-tools","insights","ins-heat-wrap","ins-dist-wrap","ins-tbl-h","ins-duo"]
       .forEach(id => $(id).classList.add("hidden"));
     $("remarks").innerHTML = ""; $("detail").innerHTML = "";
     insRows = []; insRoster = [];
@@ -859,7 +873,7 @@ async function loadInstructor() {
   const { data: isInstructor } = await sb.rpc("is_instructor", { uid: (await sb.auth.getUser()).data.user.id });
   if (!isInstructor) {
     $("ins-msg").innerHTML = '<span class="err">This account is not registered as an instructor.</span>';
-    ["tbl-ins","ins-tools","insights","ins-heat-wrap","ins-dist-wrap","ins-tbl-h"]
+    ["tbl-ins","ins-tools","insights","ins-heat-wrap","ins-dist-wrap","ins-tbl-h","ins-duo"]
       .forEach(id => $(id).classList.add("hidden"));
     return;
   }
@@ -883,7 +897,91 @@ async function loadInstructor() {
   renderInstructorAll();
 }
 
-function renderInstructorAll() { renderInsights(); renderHeat(); renderDist(); renderInstructor(); }
+function renderInstructorAll() {
+  renderInsights(); renderMix(); renderOnboarding(); renderHeat(); renderDist(); renderInstructor();
+}
+
+const STATUS_COLOR = { notstarted:"#cfc4ad", behind:"#ef6c00", atrisk:"#c62828",
+                       ontrack:"#5a8f5e", complete:"#2e7d32" };
+
+// ── Cohort mix (donut) ──────────────────────────────────────────────────────
+// A genuine part-to-whole: every student sits in exactly one status and the
+// segments sum to the roster. Drawn as dasharray arcs on one circle, so it
+// costs a single element rather than a path per slice.
+function renderMix() {
+  const all = insStudents();
+  const el = $("chart-mix");
+  if (!all.length) { $("ins-duo").classList.add("hidden"); return; }
+  $("ins-duo").classList.remove("hidden");
+
+  const order = ["complete","ontrack","behind","atrisk","notstarted"];
+  const counts = order.map(k => ({ k, label: ST[k][1], n: all.filter(s => s.status === k).length }))
+                      .filter(d => d.n > 0);
+  const total = all.length;
+  const W = 330, H = 118, cx = 56, cy = 59, r = 40, sw = 15;
+  const C = 2 * Math.PI * r;
+
+  let off = 0;
+  let arcs = "";
+  for (const d of counts) {
+    const len = (d.n / total) * C;
+    arcs += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${STATUS_COLOR[d.k]}" ` +
+            `stroke-width="${sw}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" ` +
+            `stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})">` +
+            `<title>${esc(d.label)}: ${d.n} of ${total}</title></circle>`;
+    off += len;
+  }
+  const started = all.filter(s => s.done > 0).length;
+  const legend = counts.map((d, i) =>
+    `<g transform="translate(112,${18 + i*19})">` +
+    `<rect width="9" height="9" rx="2" fill="${STATUS_COLOR[d.k]}"/>` +
+    `<text class="lbl" x="15" y="8">${esc(d.label)}</text>` +
+    `<text class="lbl" x="200" y="8" text-anchor="end">${d.n}</text></g>`).join("");
+
+  el.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  el.innerHTML = arcs +
+    `<text x="${cx}" y="${cy-1}" text-anchor="middle" style="font-size:17px;font-weight:700;fill:var(--ink)">${started}</text>` +
+    `<text x="${cx}" y="${cy+13}" text-anchor="middle" class="axis">of ${total}</text>` + legend;
+}
+
+// ── Onboarding curve (area) ─────────────────────────────────────────────────
+// Cumulative distinct students who have made their first attempt. This is the
+// one question none of the tables answer: is engagement still growing, or has
+// it flattened? A flat tail against a roster line is a stalled cohort.
+function renderOnboarding() {
+  const all = insStudents();
+  const el = $("chart-onboard");
+  const firsts = all
+    .map(s => s.perCheck.reduce((m, r) => (!m || (r.first_attempt && r.first_attempt < m)) ? r.first_attempt : m, null))
+    .filter(Boolean).map(d => String(d).slice(0, 10)).sort();
+  const W = 330, H = 118, m = { l: 22, r: 8, t: 14, b: 18 };
+  if (firsts.length < 1) {
+    el.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    el.innerHTML = `<text class="axis" x="${W/2}" y="${H/2}" text-anchor="middle">no attempts yet</text>`;
+    return;
+  }
+  const days = [...new Set(firsts)];
+  const cum = days.map(d => firsts.filter(f => f <= d).length);
+  const roster = Math.max(all.length, 1);
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const xs = i => m.l + (days.length === 1 ? iw/2 : (i/(days.length-1))*iw);
+  const ys = v => m.t + ih - (v/roster)*ih;
+
+  const pts = cum.map((v,i) => `${xs(i).toFixed(1)},${ys(v).toFixed(1)}`).join(" ");
+  const area = `${m.l},${m.t+ih} ${pts} ${xs(days.length-1).toFixed(1)},${m.t+ih}`;
+  let out =
+    `<line class="grid" x1="${m.l}" y1="${m.t}" x2="${W-m.r}" y2="${m.t}" stroke-dasharray="2 3"/>` +
+    `<text class="axis" x="${W-m.r}" y="${m.t-4}" text-anchor="end">roster ${roster}</text>` +
+    `<line class="grid" x1="${m.l}" y1="${m.t+ih}" x2="${W-m.r}" y2="${m.t+ih}"/>` +
+    `<polygon class="area" points="${area}"/>` +
+    `<polyline class="line" points="${pts}"/>`;
+  cum.forEach((v,i) => { out += `<circle class="dot" cx="${xs(i).toFixed(1)}" cy="${ys(v).toFixed(1)}" r="2"><title>${days[i]}: ${v} started</title></circle>`; });
+  out += `<text class="axis" x="${m.l}" y="${H-5}">${days[0].slice(5)}</text>`;
+  if (days.length > 1) out += `<text class="axis" x="${W-m.r}" y="${H-5}" text-anchor="end">${days[days.length-1].slice(5)}</text>`;
+  out += `<text class="axis" x="2" y="${m.t+6}">${roster}</text><text class="axis" x="2" y="${m.t+ih}">0</text>`;
+  el.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  el.innerHTML = out;
+}
 
 // Roster-spined roll-up: every student in scope, attempts or not.
 function insStudents() {
