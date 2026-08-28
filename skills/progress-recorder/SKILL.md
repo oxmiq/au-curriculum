@@ -3,7 +3,8 @@ name: progress-recorder
 description: >
   Record a student's progress after a canonical knowledge check is passed, an assignment submitted,
   or a practice attempt made — by updating the per-module JSON record and regenerating the
-  derived summary.json that the curriculum map and progress views read.
+  derived summary.json that the curriculum map and progress views fall back to when a
+  student has no signed-in session. Live progress comes from server-stored check attempts.
 ---
 
 # progress-recorder

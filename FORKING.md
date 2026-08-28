@@ -42,9 +42,18 @@ oxtutor                                 # tutor agent (key required)
 
 ## Pulling new lessons
 
+Pull at the **start of each week**, and any time an instructor announces a
+change. You are serving the site from your own clone, so nothing reaches you
+until you do.
+
+This is not only about getting new content. An assessment retired upstream still
+renders in a stale fork, and submitting it fails with a grading error, because
+its answer key no longer exists on the server. Pulling is the fix.
+
 ```bash
 git fetch upstream
 git merge upstream/main                 # or: git rebase upstream/main
+git push origin main                    # keep your GitHub fork in sync too
 ```
 
 You will only ever get **fast-forward merges** if you have not edited lesson files yourself. `oxtutor` is configured to write only to `docs/practice/`, `docs/progress/`, and `scratch/` for exactly this reason; those paths never collide with upstream.
@@ -53,4 +62,23 @@ If `git merge upstream/main` reports a conflict in `docs/lessons/`, `docs/kb/`, 
 
 ## Sharing your progress with instructors
 
-The instructor cohort view recomputes from each fork's `docs/progress/summary.json` on demand. Make sure your fork is **public** (the default) and you push your progress commits regularly.
+**Sign in with GitHub on any knowledge check.** That is the whole mechanism.
+
+Every readiness, wrap-up and weekly check is graded and stored server-side the
+moment you submit it. The instructor cohort view reads that store directly, so
+your results appear there without you pushing anything.
+
+Two things follow, both the opposite of what you might expect:
+
+- **Your fork's visibility does not affect progress tracking.** Public or
+  private, it makes no difference — your attempts never travel through the repo.
+- **Committing and pushing does not record progress.** If you never sign in,
+  nothing is tracked no matter how many commits you push.
+
+The same sign-in drives the progress pill in the site header and the status
+ticks on the **Roadmap**: they read back your own attempts (and only yours).
+Signed out, the pill reads "Sign in to track progress" rather than 0%, because
+nobody can tell the difference between "no work done" and "not signed in".
+
+> Use the **same GitHub account** for your fork and for signing in. The site
+> shows a banner if it spots a mismatch.

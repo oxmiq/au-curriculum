@@ -125,10 +125,21 @@ The core rule: **edit sources of truth, never edit generated artifacts.**
 
 ### Progress tracking
 
-`docs/progress/summary.json` (derived from per-module progress files) drives the
-status pills on lesson pages and the **Roadmap** progress overlay (per-week + overall
-bars, next-up), read at runtime by `docs/assets/roadmap-progress.js`. It's a build
-artifact; don't hand-edit.
+Progress has two sources, resolved by `docs/assets/progress-source.js`:
+
+1. **Live (primary).** For a signed-in student it reads their own server-stored
+   check attempts and derives per-module status, per-week and overall rollups.
+   A module counts as cleared when its wrap-up — or the week's canonical check,
+   on consolidation days that have no wrap-up — reaches 80%. Pre-reads move a
+   module to *in progress* but never clear it.
+2. **Committed (fallback).** `docs/progress/summary.json`, derived from the
+   per-module files under `docs/progress/`. Used when there is no session, and
+   by forks that record progress that way. It's a build artifact; don't hand-edit.
+
+Both are emitted in the same shape, so the consumers are unchanged:
+`docs/assets/roadmap-progress.js` (per-week + overall bars, next-up) and the
+header progress pill. The `{status:...}` pills on lesson pages still come from
+the build-time hook reading the committed files.
 
 ---
 

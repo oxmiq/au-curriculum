@@ -69,4 +69,9 @@ ships inside a student fork. From inside `au-cohort-tracker`:
    (rewrites `docs/progress/summary.json`)
 3. The **Roadmap** reflects it: the overall and per-week progress bars fill, day tiles switch to passed / in-progress, and the **NEXT** flag moves to the next available session.
 
-In production the **course agent** performs steps 1-2 automatically as students pass knowledge checks.
+> **This is the fallback path, not the primary one.** In production a
+> signed-in student's progress comes from their server-stored check attempts,
+> read live by `docs/assets/progress-source.js` — no commit, no agent, no
+> `build_summary.py` run. The loop above still works and is what a fork without
+> a session falls back to, and it remains the way assignment completion is
+> recorded, since checks alone cannot observe that.
