@@ -232,6 +232,8 @@
 <!-- Overall -->
 <div id="panel-overall" class="panel">
   <div class="podium" id="podium"></div>
+  <h2>Score by student</h2>
+  <svg id="chart-overall" class="chart wide" preserveAspectRatio="xMidYMid meet"></svg>
   <h2>Ranking</h2>
   <table id="tbl-overall">
     <thead><tr><th class="rank">#</th><th>Student</th><th>Cohort</th><th>Checks</th><th>Attempts</th><th>Correct</th><th>Score</th><th>Last active</th></tr></thead>
@@ -554,10 +556,12 @@ function renderOverall() {
   const tb = $("tbl-overall").querySelector("tbody"); tb.innerHTML = "";
   if (!rows.length) {
     tb.innerHTML = '<tr><td colspan="8" class="empty">No attempts match the current filters.</td></tr>';
-    return;
+    $("chart-overall").innerHTML = ""; return;
   }
   // The bar lives inside the Score cell. A separate chart above this table was
   // the same ranking drawn again at several times the height.
+  drawRankBars("chart-overall", rows.map(r => ({label: r.display_name, value: r.score, rank: r.rank})),
+    "Σ best score per assessment · 1.00 = one perfect assessment");
   const maxScore = Math.max(...rows.map(r => r.score || 0), 0.001);
   rows.forEach(r => {
     const tr = document.createElement("tr");
@@ -570,6 +574,35 @@ function renderOverall() {
       `<td class="muted">${r.last_active ? new Date(r.last_active).toLocaleDateString() : "—"}</td>`;
     tb.appendChild(tr);
   });
+}
+
+// Compact ranking bars. The old version used 32px rows and an uncapped height;
+// this is 15px rows, at most MAX_BARS of them, so a growing cohort cannot make
+// the page balloon again.
+const MAX_BARS = 12;
+function drawRankBars(id, items, title) {
+  const svg = $(id); if (!svg) return;
+  const shown = items.slice(0, MAX_BARS);
+  const n = Math.max(1, shown.length);
+  const W = 560, rowH = 15, m = { l: 132, r: 46, t: 16, b: 4 };
+  const H = m.t + n * rowH + m.b + (items.length > MAX_BARS ? 12 : 0);
+  const iw = W - m.l - m.r;
+  const max = Math.max(0.001, ...shown.map(i => i.value || 0));
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  let out = `<text class="title" x="0" y="9">${esc(title)}</text>`;
+  shown.forEach((it, i) => {
+    const y = m.t + i * rowH + rowH / 2;
+    const w = (it.value || 0) / max * iw;
+    const rc = it.rank <= 3 ? ["#b8860b", "#888", "#b87333"][it.rank - 1] : "var(--accent)";
+    const label = it.label.length > 20 ? it.label.slice(0, 19) + "…" : it.label;
+    out += `<text class="lbl" x="${m.l - 6}" y="${y + 3}" text-anchor="end">${esc(label)}</text>`;
+    out += `<rect x="${m.l}" y="${y - 4}" width="${Math.max(w, 1)}" height="8" rx="2" style="fill:${rc}"><title>${esc(it.label)}: ${fmt(it.value)}</title></rect>`;
+    out += `<text class="lbl" x="${m.l + w + 4}" y="${y + 3}">${fmt(it.value)}</text>`;
+  });
+  if (items.length > MAX_BARS) {
+    out += `<text class="axis" x="${m.l}" y="${m.t + n*rowH + 10}">+ ${items.length - MAX_BARS} more in the table below</text>`;
+  }
+  svg.innerHTML = out;
 }
 
 function renderTrend() {
@@ -909,7 +942,9 @@ const STATUS_COLOR = { notstarted:"#cfc4ad", behind:"#ef6c00", atrisk:"#c62828",
 // segments sum to the roster. Drawn as dasharray arcs on one circle, so it
 // costs a single element rather than a path per slice.
 function renderMix() {
-  const all = insStudents();
+  const q = ($("filter").value || "").trim().toLowerCase();
+  const all = insStudents().filter(s => !q ||
+    s.display_name.toLowerCase().includes(q) || (s.email||"").toLowerCase().includes(q));
   const el = $("chart-mix");
   if (!all.length) { $("ins-duo").classList.add("hidden"); return; }
   $("ins-duo").classList.remove("hidden");
@@ -925,23 +960,40 @@ function renderMix() {
   let arcs = "";
   for (const d of counts) {
     const len = (d.n / total) * C;
-    arcs += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${STATUS_COLOR[d.k]}" ` +
-            `stroke-width="${sw}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" ` +
+    const dim = insStatusFilter !== "all" && insStatusFilter !== d.k;
+    arcs += `<circle class="seg-arc" data-seg="${d.k}" cx="${cx}" cy="${cy}" r="${r}" fill="none" ` +
+            `stroke="${STATUS_COLOR[d.k]}" opacity="${dim ? 0.22 : 1}" ` +
+            `stroke-width="${dim ? sw - 3 : sw}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" ` +
             `stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})">` +
-            `<title>${esc(d.label)}: ${d.n} of ${total}</title></circle>`;
+            `<title>${esc(d.label)}: ${d.n} of ${total} — click to filter</title></circle>`;
     off += len;
   }
   const started = all.filter(s => s.done > 0).length;
-  const legend = counts.map((d, i) =>
-    `<g transform="translate(112,${18 + i*19})">` +
-    `<rect width="9" height="9" rx="2" fill="${STATUS_COLOR[d.k]}"/>` +
-    `<text class="lbl" x="15" y="8">${esc(d.label)}</text>` +
-    `<text class="lbl" x="200" y="8" text-anchor="end">${d.n}</text></g>`).join("");
+  const legend = counts.map((d, i) => {
+    const dim = insStatusFilter !== "all" && insStatusFilter !== d.k;
+    return `<g class="seg-arc" data-seg="${d.k}" transform="translate(112,${18 + i*19})" opacity="${dim ? 0.4 : 1}">` +
+      `<rect width="9" height="9" rx="2" fill="${STATUS_COLOR[d.k]}"/>` +
+      `<text class="lbl" x="15" y="8">${esc(d.label)}</text>` +
+      `<text class="lbl" x="200" y="8" text-anchor="end">${d.n}</text></g>`;
+  }).join("");
 
+  const sel = insStatusFilter !== "all" ? counts.find(d => d.k === insStatusFilter) : null;
+  const bigNum = sel ? sel.n : started;
+  const capt = sel ? esc(sel.label.toLowerCase()) : `of ${total} started`;
   el.setAttribute("viewBox", `0 0 ${W} ${H}`);
   el.innerHTML = arcs +
-    `<text x="${cx}" y="${cy-1}" text-anchor="middle" style="font-size:17px;font-weight:700;fill:var(--ink)">${started}</text>` +
-    `<text x="${cx}" y="${cy+13}" text-anchor="middle" class="axis">of ${total}</text>` + legend;
+    `<text x="${cx}" y="${cy-1}" text-anchor="middle" style="font-size:17px;font-weight:700;fill:var(--ink)">${bigNum}</text>` +
+    `<text x="${cx}" y="${cy+13}" text-anchor="middle" class="axis">${capt}</text>` + legend;
+  el.querySelectorAll(".seg-arc").forEach(node => {
+    node.style.cursor = "pointer";
+    node.onclick = () => {
+      const k = node.dataset.seg;
+      insStatusFilter = (insStatusFilter === k) ? "all" : k;
+      $("ins-status").querySelectorAll("button")
+        .forEach(b => b.classList.toggle("active", b.dataset.st === insStatusFilter));
+      insOpen = null; renderInstructorAll();
+    };
+  });
 }
 
 // ── Onboarding curve (area) ─────────────────────────────────────────────────
@@ -949,7 +1001,7 @@ function renderMix() {
 // one question none of the tables answer: is engagement still growing, or has
 // it flattened? A flat tail against a roster line is a stalled cohort.
 function renderOnboarding() {
-  const all = insStudents();
+  const all = insStudents().filter(insMatchesFilter);
   const el = $("chart-onboard");
   const firsts = all
     .map(s => s.perCheck.reduce((m, r) => (!m || (r.first_attempt && r.first_attempt < m)) ? r.first_attempt : m, null))
@@ -962,7 +1014,7 @@ function renderOnboarding() {
   }
   const days = [...new Set(firsts)];
   const cum = days.map(d => firsts.filter(f => f <= d).length);
-  const roster = Math.max(all.length, 1);
+  const roster = Math.max(all.length, 1);   // the filtered group, so the line matches the curve
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
   const xs = i => m.l + (days.length === 1 ? iw/2 : (i/(days.length-1))*iw);
   const ys = v => m.t + ih - (v/roster)*ih;
@@ -1006,11 +1058,28 @@ function insStudents() {
     a.perCheck.push(r);
     if (r.last_attempt && (!a.last || r.last_attempt > a.last)) a.last = r.last_attempt;
   }
-  const available = taxonomy.filter(t => checkOk(t.check_id) && !t.retired).length;
+  // Weeks "in play": those at least two students have attempted. Two rather
+  // than one so a single student racing ahead cannot make the whole cohort
+  // look behind on a week nobody else has reached. If nothing clears that bar
+  // but attempts exist, fall back to any week with activity.
+  const attemptedBy = {};
+  for (const r of scoped) {
+    const w = weekOf(r.check_id);
+    if (!isFinite(w)) continue;
+    (attemptedBy[w] = attemptedBy[w] || new Set()).add(r.student_id);
+  }
+  let inPlay = new Set(Object.keys(attemptedBy).filter(w => attemptedBy[w].size >= 2).map(Number));
+  if (!inPlay.size) inPlay = new Set(Object.keys(attemptedBy).map(Number));
+  const liveInScope = taxonomy.filter(t => checkOk(t.check_id) && !t.retired);
+  const available = liveInScope.filter(t => inPlay.has(+t.week)).length;
   for (const a of byStudent.values()) {
     a.avg = a.done ? a.sum / a.done : 0;
     a.available = available;
-    const coverage = available ? a.done / available : 0;
+    a.inPlayWeeks = inPlay.size;
+    a.totalInScope = liveInScope.length;
+    // done can exceed available when a student attempted a since-retired
+    // assessment; that is real work, so clamp rather than penalise.
+    const coverage = available ? Math.min(a.done / available, 1) : 0;
     a.coverage = coverage;
     a.status = a.done === 0                         ? "notstarted"
              : (available && a.done >= available)   ? "complete"
@@ -1036,6 +1105,7 @@ function renderInsights() {
   const mean = scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : 0;
   const median = scores.length ? scores[Math.floor(scores.length/2)] : 0;
   const avail = all.length ? all[0].available : 0;
+  const weeksInPlay = all.length ? all[0].inPlayWeeks : 0;
   const coverage = all.length && avail ? started.reduce((n,s)=>n+s.done,0) / (all.length*avail) : 0;
   const trendDir = trendDirection(insRows.filter(r => checkOk(r.check_id)));
 
@@ -1044,13 +1114,14 @@ function renderInsights() {
       det:notStarted ? `${notStarted} not started` : "everyone has started",
       cls: all.length && started.length/all.length >= .75 ? "good" : started.length/all.length >= .4 ? "" : "bad" },
     { lbl:"Coverage", val:Math.round(coverage*100)+"%",
-      det:`of ${avail} assessments in scope`, cls: coverage>=.6?"good":coverage>=.3?"":"warn" },
+      det: avail ? `of ${avail} in the ${weeksInPlay} week(s) under way` : "nothing under way yet",
+      cls: coverage>=.6?"good":coverage>=.3?"":"warn" },
     { lbl:"Avg best", val:Math.round(mean*100)+"%", det:`median ${Math.round(median*100)}%`,
       cls: mean>=.7?"good":mean>=.5?"":"warn" },
     { lbl:"At risk", val:String(atRisk.length),
       det: atRisk.length ? atRisk.slice(0,2).map(s=>s.display_name).join(", ") + (atRisk.length>2?"…":"") : "none below 50%",
       cls: atRisk.length ? "bad" : "good" },
-    { lbl:"Completed all", val:String(complete), det:`did all ${avail}`, cls: complete?"good":"" },
+    { lbl:"Completed all", val:String(complete), det:`did all ${avail} under way`, cls: complete?"good":"" },
     { lbl:"Trend", val:trendDir.symbol, det:trendDir.text, cls:trendDir.cls },
   ];
   $("insights").innerHTML = cards.map(c =>
