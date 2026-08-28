@@ -212,7 +212,7 @@ const sb = createClient(URL, KEY);
 const $ = (id) => document.getElementById(id);
 
 // ── State ────────────────────────────────────────────────────────────────────
-let overallRows = [], percheckRows = [], weekRows = [], trendRows = [];
+let percheckRows = [];
 let cohorts = [], taxonomy = [];          // [{name,display_name,group_tag}], [{check_id,week,type,phase,type_label}]
 let checkIds = [];                         // filtered, sorted
 let currentWeek = null;
@@ -287,27 +287,27 @@ function renderWeekPick() {
 
 // ── Load all public data ─────────────────────────────────────────────────────
 async function loadPublic() {
-  const [o, p, w, t, c, tax] = await Promise.all([
-    sb.from("leaderboard_overall_ranked").select("*").order("rank", { ascending: true }),
+  // Only per-check-granular sources are fetched. leaderboard_overall_ranked and
+  // leaderboard_weekly_ranked are rolled up server-side across every check, so
+  // they cannot honour a phase / week / check-type filter — every tab now
+  // derives from percheckRows instead. Those views remain as the public API.
+  const [p, c, tax] = await Promise.all([
     sb.from("leaderboard_percheck_named").select("*"),
-    sb.from("leaderboard_weekly_ranked").select("*"),
-    sb.from("cohort_weekly_trend").select("*").order("week", { ascending: true }),
     sb.from("cohorts").select("*").order("name"),
     sb.from("check_taxonomy").select("*"),
   ]);
-  if (o.error || p.error || w.error || t.error || c.error || tax.error) {
-    $("msg").innerHTML = '<span class="err">Load failed: ' + esc(o.error?.message||p.error?.message||w.error?.message||t.error?.message||c.error?.message||tax.error?.message||"") + "</span>";
+  if (p.error || c.error || tax.error) {
+    $("msg").innerHTML = '<span class="err">Load failed: ' + esc(p.error?.message||c.error?.message||tax.error?.message||"") + "</span>";
     $("msg").classList.remove("hidden"); return;
   }
-  overallRows = o.data || []; percheckRows = p.data || [];
-  weekRows = w.data || []; trendRows = t.data || [];
+  percheckRows = p.data || [];
   cohorts = c.data || [];
   // check_taxonomy is one row per check as of migration 0014 (it used to be one
   // row per question_key, i.e. 1042 rows for 87 checks, deduped here).
   taxonomy = tax.data || [];
   taxonomy.sort((a,b) => a.week - b.week || a.check_id.localeCompare(b.check_id));
 
-  if (!overallRows.length && !percheckRows.length) {
+  if (!percheckRows.length) {
     $("msg").textContent = "No attempts recorded yet."; $("msg").classList.remove("hidden"); return;
   }
   buildCohortSelect();
@@ -356,12 +356,56 @@ function checkOk(checkId) {
 // ── Render ───────────────────────────────────────────────────────────────────
 function renderAll() { renderOverall(); renderTrend(); renderWeek(); renderPerSelect(); renderPer(); }
 
+// Every tab derives from percheckRows, the only per-check-granular data, so a
+// cohort / phase / week / check-type filter applies identically everywhere.
+// The pre-aggregated overall + weekly views cannot be filtered past cohort:
+// they are rolled up server-side across all checks.
+function eligibleRows() {
+  return percheckRows.filter(r => inCohort(r) && checkOk(r.check_id));
+}
+
+// Group per-check rows into per-student totals. Keyed on student_key (an opaque
+// per-view id) rather than display_name, so two students sharing a GitHub
+// display name stay distinct — the collision migration 0014 fixed in SQL.
+function aggregateByStudent(rows) {
+  const by = new Map();
+  for (const r of rows) {
+    const k = r.student_key ?? ("name:" + r.display_name);
+    let a = by.get(k);
+    if (!a) {
+      a = { key: k, display_name: r.display_name, cohort: r.cohort, checks_attempted: 0,
+            total_attempts: 0, total_correct: 0, score: 0, best_single: 0, last_active: null };
+      by.set(k, a);
+    }
+    a.checks_attempted += 1;
+    a.total_attempts   += Number(r.attempts) || 0;
+    a.total_correct    += Number(r.total_correct) || 0;
+    a.score            += Number(r.best_ratio) || 0;
+    a.best_single       = Math.max(a.best_single, Number(r.best_ratio) || 0);
+    if (r.last_attempt && (!a.last_active || r.last_attempt > a.last_active)) a.last_active = r.last_attempt;
+  }
+  const out = [...by.values()].sort((x, y) =>
+    y.score - x.score || String(x.last_active||"").localeCompare(String(y.last_active||"")));
+  out.forEach((r, i) => { r.rank = i + 1; });
+  return out;
+}
+
+function weekOf(checkId) {
+  const t = taxonomy.find(x => x.check_id === checkId);
+  return t ? +t.week : NaN;
+}
+
 function renderOverall() {
-  const rows = overallRows.filter(inCohort);
+  const rows = aggregateByStudent(eligibleRows());
   $("podium").innerHTML = rows.slice(0, 3).map((r, i) =>
     `<div class="pod pod-${i+1}"><div class="pos">#${i+1}</div><div class="nm">${esc(r.display_name)}</div><div class="sc">${fmt(r.score)} pts · ${r.checks_attempted} checks · ${cohortLabel(r.cohort)}</div></div>`
-  ).join("") || '<div class="empty">No students in this cohort.</div>';
+  ).join("") || '<div class="empty">No attempts match the current filters.</div>';
   const tb = $("tbl-overall").querySelector("tbody"); tb.innerHTML = "";
+  if (!rows.length) {
+    tb.innerHTML = '<tr><td colspan="8" class="empty">No attempts match the current filters.</td></tr>';
+    $("chart-overall").innerHTML = '<text class="lbl" x="20" y="30">No data</text>';
+    return;
+  }
   rows.forEach(r => {
     const tr = document.createElement("tr");
     tr.innerHTML =
@@ -377,39 +421,45 @@ function renderOverall() {
 }
 
 function renderTrend() {
-  // Cohort-filter the trend: recompute avg per week from filtered weekRows.
+  // Average per-student week score, computed from the SAME filtered per-check
+  // rows as every other tab. The old version read the pre-aggregated weekly
+  // view and kept a whole week's score whenever ANY check in it passed the
+  // filter, so a check-type filter barely moved the line.
+  const byWeekStudent = new Map();
+  for (const r of eligibleRows()) {
+    const w = weekOf(r.check_id);
+    if (!isFinite(w) || !filters.weeks.has(w)) continue;
+    const k = w + "|" + (r.student_key ?? r.display_name);
+    byWeekStudent.set(k, (byWeekStudent.get(k) || 0) + (Number(r.best_ratio) || 0));
+  }
   const byWeek = {};
-  weekRows.filter(inCohort).forEach(r => {
-    const w = +r.week;
-    if (!filters.weeks.has(w)) return;
-    // only count this week's score if any of its checks pass the type/phase filter
-    const passes = percheckRows.some(p => p.check_id && p.check_id.includes(`week-${String(w).padStart(2,'0')}`) && checkOk(p.check_id));
-    if (!passes) return;
-    (byWeek[w] = byWeek[w] || []).push(r.week_score);
-  });
+  for (const [k, v] of byWeekStudent) {
+    const w = +k.split("|")[0];
+    (byWeek[w] = byWeek[w] || []).push(v);
+  }
   const pts = [];
   for (let w = 1; w <= 10; w++) {
     if (byWeek[w] && byWeek[w].length) {
-      const avg = byWeek[w].reduce((a,b)=>a+b,0) / byWeek[w].length;
-      pts.push({x: "W"+w, avg, n: byWeek[w].length});
+      pts.push({ x: "W" + w, avg: byWeek[w].reduce((a,b)=>a+b,0) / byWeek[w].length, n: byWeek[w].length });
     }
   }
   drawTrend("chart-trend", pts);
 }
 
 function renderWeek() {
-  // Pick a week to show: first week in filters.weeks that has data.
-  const weeksWithData = [...new Set(weekRows.filter(inCohort).map(r => +r.week))]
-    .filter(w => filters.weeks.has(w)).sort((a,b)=>a-b);
+  const rows0 = eligibleRows();
+  const weeksWithData = [...new Set(rows0.map(r => weekOf(r.check_id)))]
+    .filter(w => isFinite(w) && filters.weeks.has(w)).sort((a,b)=>a-b);
   if (weeksWithData.length && !weeksWithData.includes(+currentWeek)) currentWeek = weeksWithData[0];
   if (!weeksWithData.length) currentWeek = null;
   $("week-label").textContent = currentWeek ? "Week " + currentWeek : "—";
+
   const rows = currentWeek
-    ? weekRows.filter(r => +r.week === +currentWeek && inCohort(r)).sort((a,b)=>a.rank-b.rank)
+    ? aggregateByStudent(rows0.filter(r => weekOf(r.check_id) === +currentWeek))
     : [];
   const tb = $("tbl-week").querySelector("tbody"); tb.innerHTML = "";
   if (!rows.length) {
-    tb.innerHTML = '<tr><td colspan="7" class="empty">No attempts for the selected weeks in this cohort.</td></tr>';
+    tb.innerHTML = '<tr><td colspan="7" class="empty">No attempts match the current filters.</td></tr>';
     $("chart-week").innerHTML = '<text class="lbl" x="20" y="30">No data</text>'; return;
   }
   rows.forEach(r => {
@@ -417,11 +467,11 @@ function renderWeek() {
     tr.innerHTML =
       `<td class="rank ${rankClass(r.rank)}">${r.rank}</td>` +
       `<td>${esc(r.display_name)}</td><td>${cohortTag(r.cohort)}</td>` +
-      `<td>${r.checks}</td><td>${r.attempts}</td>` +
-      `<td class="ratio">${fmt(r.week_score)}</td><td class="ratio">${pct(r.best_single)}</td>`;
+      `<td>${r.checks_attempted}</td><td>${r.total_attempts}</td>` +
+      `<td class="ratio">${fmt(r.score)}</td><td class="ratio">${pct(r.best_single)}</td>`;
     tb.appendChild(tr);
   });
-  drawHBars("chart-week", rows.map(r => ({label: r.display_name, value: r.week_score, rank: r.rank})),
+  drawHBars("chart-week", rows.map(r => ({label: r.display_name, value: r.score, rank: r.rank})),
     "Week " + currentWeek + " score by student");
 }
 
@@ -531,8 +581,10 @@ function renderInsights() {
   const atRisk = Object.entries(perStudent).filter(([_,v]) => v.length && v.reduce((a,b)=>a+b,0)/v.length < 0.5);
   // Trend: compare avg last_ratio of earliest vs latest week
   const trendDir = trendDirection(rows);
-  // Top performer
-  const top = overallRows.filter(inCohort)[0];
+  // Top performer — same filtered aggregation as the Overall tab, so the card
+  // cannot disagree with the board next to it.
+  const filteredOverall = aggregateByStudent(eligibleRows());
+  const top = filteredOverall[0];
 
   const cards = [
     { lbl:"Participants", val: students.size, det: `${attempts} attempts · ${rows.length} check-rows`, cls:"" },
@@ -552,8 +604,9 @@ function renderInsights() {
   if (trendDir.remark) remarks.push({src:"trend", text:trendDir.remark});
   if (avgBest < 0.5) remarks.push({src:"cohort", text:`Cohort average best score is ${Math.round(avgBest*100)}%, below the 50% comfort line. The material in the selected scope may need re-teaching or a different framing.`});
   else if (avgBest >= 0.75) remarks.push({src:"cohort", text:`Cohort is tracking well at ${Math.round(avgBest*100)}% average. Consider stretching the top performers with extension material.`});
-  if (top && top.score > 0 && overallRows.filter(inCohort)[1] && top.score - overallRows.filter(inCohort)[1].score > 2) {
-    remarks.push({src:"gap", text:`Large gap between #1 (${top.display_name}, ${fmt(top.score)}) and #2 (${overallRows.filter(inCohort)[1].display_name}, ${fmt(overallRows.filter(inCohort)[1].score)}). Pair-programming could lift the cohort.`});
+  const second = filteredOverall[1];
+  if (top && top.score > 0 && second && top.score - second.score > 2) {
+    remarks.push({src:"gap", text:`Large gap between #1 (${top.display_name}, ${fmt(top.score)}) and #2 (${second.display_name}, ${fmt(second.score)}). Pair-programming could lift the cohort.`});
   }
   $("remarks").innerHTML = remarks.map(r => `<div class="remark"><div class="src">${r.src}</div>${esc(r.text)}</div>`).join("") || '<div class="remark"><div class="src">note</div>No remarks for the current filter scope.</div>';
 }
