@@ -372,13 +372,16 @@ $("f-types").querySelectorAll("input").forEach(c => c.onchange = () => {
   renderAll();
 });
 // ── Instructor-local controls ───────────────────────────────────────────────
-$("filter").oninput = () => { insOpen = null; renderHeat(); renderDist(); renderInstructor(); };
+function applyInsFilter() { insOpen = null; renderInstructorAll(); }
+function setInsStatus(st) {
+  insStatusFilter = st;
+  $("ins-status").querySelectorAll("button")
+    .forEach(b => b.classList.toggle("active", b.dataset.st === st));
+  applyInsFilter();
+}
+$("filter").oninput = applyInsFilter;
 $("ins-status").querySelectorAll("button").forEach(b => {
-  b.onclick = () => {
-    insStatusFilter = b.dataset.st;
-    $("ins-status").querySelectorAll("button").forEach(x => x.classList.toggle("active", x === b));
-    insOpen = null; renderHeat(); renderDist(); renderInstructor();
-  };
+  b.onclick = () => setInsStatus(b.dataset.st);
 });
 document.querySelectorAll("#tbl-ins th[data-k]").forEach(th => {
   th.style.cursor = "pointer";
@@ -988,10 +991,7 @@ function renderMix() {
     node.style.cursor = "pointer";
     node.onclick = () => {
       const k = node.dataset.seg;
-      insStatusFilter = (insStatusFilter === k) ? "all" : k;
-      $("ins-status").querySelectorAll("button")
-        .forEach(b => b.classList.toggle("active", b.dataset.st === insStatusFilter));
-      insOpen = null; renderInstructorAll();
+      setInsStatus(insStatusFilter === k ? "all" : k);
     };
   });
 }
