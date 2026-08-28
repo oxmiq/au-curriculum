@@ -96,6 +96,21 @@
   .remark{ background:#fff8ec; border-left:3px solid var(--accent); padding:.5rem .8rem; margin-bottom:.6rem; font-size:.85rem; border-radius:0 6px 6px 0; }
   .remark .src{ font-size:.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
   .trend-btn{ padding:.2rem .4rem; font-size:.7rem; }
+
+/* ── By-assessment picker ───────────────────────────────────────────────── */
+.ckgrid{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:.2rem 0 .9rem}
+.ckgrid table{margin:0;border:0}
+.ckgrid th,.ckgrid td{border:0;border-bottom:1px solid var(--line);padding:.42rem .7rem;font-size:.85rem}
+.ckgrid tr:last-child td{border-bottom:0}
+.ckgrid thead th{background:#f3ead9;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ckgrid td.daylbl{font-weight:600;white-space:nowrap}
+.ckgrid tr.weekly td{background:#faf3e6}
+.ckgrid label{display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;white-space:nowrap}
+.ckgrid .none{color:var(--muted);font-size:.8rem}
+.ckgrid .n{color:var(--muted);font-size:.76rem;margin-left:.25rem}
+.ckgrid .retired{opacity:.55}
+.pill-weekly{display:inline-block;background:var(--blood);color:#fff;border-radius:4px;
+  font-size:.66rem;letter-spacing:.05em;padding:.06rem .34rem;text-transform:uppercase;margin-left:.3rem}
 </style>
 </head>
 <body>
@@ -141,7 +156,7 @@
 <div class="tabs">
   <button class="tab active" id="tab-overall">Overall</button>
   <button class="tab" id="tab-weekly">Weekly</button>
-  <button class="tab" id="tab-percheck">Per check</button>
+  <button class="tab" id="tab-percheck">By assessment</button>
   <button class="tab" id="tab-instructor">Instructor</button>
 </div>
 
@@ -174,12 +189,18 @@
 <!-- Per check -->
 <div id="panel-percheck" class="panel hidden">
   <div class="controls">
-    <label for="check-select">Check:</label>
-    <select id="check-select"></select>
-    <span id="check-meta" class="muted" style="font-size:.8rem;"></span>
+    <label for="wk-select">Week</label>
+    <select id="wk-select"></select>
+    <button class="ghost" id="ck-weekly">Weekly assessment only</button>
+    <button class="ghost" id="ck-all">Select all</button>
+    <button class="ghost" id="ck-none">Clear</button>
   </div>
+  <div id="check-grid"></div>
+  <div id="pc-summary" class="insights"></div>
+  <h2 id="pc-heading">Results</h2>
+  <div id="check-meta" class="muted" style="font-size:.8rem;margin:-.5rem 0 .6rem"></div>
   <table id="tbl-percheck">
-    <thead><tr><th class="rank">#</th><th>Student</th><th>Cohort</th><th>Best</th><th>Last</th><th>Attempts</th><th>Draw</th><th>Pool</th><th>Last attempt</th></tr></thead>
+    <thead><tr></tr></thead>
     <tbody></tbody>
   </table>
 </div>
@@ -212,7 +233,7 @@ const sb = createClient(URL, KEY);
 const $ = (id) => document.getElementById(id);
 
 // ── State ────────────────────────────────────────────────────────────────────
-let percheckRows = [];
+let percheckRows = [], cohortSizes = [];
 let cohorts = [], taxonomy = [];          // [{name,display_name,group_tag}], [{check_id,week,type,phase,type_label}]
 let checkIds = [];                         // filtered, sorted
 let currentWeek = null;
@@ -250,6 +271,11 @@ $("f-types").querySelectorAll("input").forEach(c => c.onchange = () => {
   filters.types = new Set([...$("f-types").querySelectorAll("input:checked")].map(x => x.value));
   renderAll();
 });
+$("wk-select").onchange = (e) => { pcWeek = +e.target.value; pcChecks = new Set(); renderPerSelect(); renderPer(); };
+$("ck-all").onclick    = () => pcSelect("all");
+$("ck-weekly").onclick = () => pcSelect("weekly");
+$("ck-none").onclick   = () => pcSelect("none");
+
 $("f-reset").onclick = () => {
   filters = { cohort:"all", phase:"all", weeks:new Set([1,2,3,4,5,6,7,8,9,10]), types:new Set(["readiness","wrapup","canonical"]) };
   $("f-cohort").value = "all"; $("f-phase").value = "all";
@@ -291,10 +317,11 @@ async function loadPublic() {
   // leaderboard_weekly_ranked are rolled up server-side across every check, so
   // they cannot honour a phase / week / check-type filter — every tab now
   // derives from percheckRows instead. Those views remain as the public API.
-  const [p, c, tax] = await Promise.all([
+  const [p, c, tax, sz] = await Promise.all([
     sb.from("leaderboard_percheck_named").select("*"),
     sb.from("cohorts").select("*").order("name"),
     sb.from("check_taxonomy").select("*"),
+    sb.from("cohort_sizes").select("*"),
   ]);
   if (p.error || c.error || tax.error) {
     $("msg").innerHTML = '<span class="err">Load failed: ' + esc(p.error?.message||c.error?.message||tax.error?.message||"") + "</span>";
@@ -302,6 +329,9 @@ async function loadPublic() {
   }
   percheckRows = p.data || [];
   cohorts = c.data || [];
+  // cohort_sizes (migration 0020) is the participation denominator. Optional:
+  // an older database without it just hides the "not started" figure.
+  cohortSizes = sz && !sz.error ? (sz.data || []) : [];
   // check_taxonomy is one row per check as of migration 0014 (it used to be one
   // row per question_key, i.e. 1042 rows for 87 checks, deduped here).
   taxonomy = tax.data || [];
@@ -475,52 +505,216 @@ function renderWeek() {
     "Week " + currentWeek + " score by student");
 }
 
-function renderPerSelect() {
-  // Build check dropdown grouped by Phase ▸ Week ▸ Type, filtered by current filters.
-  const eligible = taxonomy.filter(t => checkOk(t.check_id));
-  // Group
-  const byPhase = {};
-  for (const t of eligible) (byPhase[t.phase] = byPhase[t.phase] || {})[t.week] = (byPhase[t.phase][t.week] || []).concat(t);
-  const optgroups = [];
-  for (const phase of Object.keys(byPhase).sort()) {
-    const weeks = byPhase[phase];
-    let items = [];
-    for (const w of Object.keys(weeks).sort((a,b)=>+a-+b)) {
-      for (const t of weeks[w]) items.push({
-        value: t.check_id,
-        // A retired check has no answer key left in the curriculum but may still
-        // hold immutable attempt history, so it stays selectable and is labelled.
-        label: `W${w} · ${t.type_label} · ${t.check_id}` + (t.retired ? "  · retired" : ""),
-      });
-    }
-    optgroups.push(`<optgroup label="${phase}">${items.map(i => `<option value="${i.value}">${esc(i.label)}</option>`).join("")}</optgroup>`);
+// ── By-assessment tab ────────────────────────────────────────────────────────
+// A week is the unit people actually think in: one canonical weekly assessment,
+// plus a pre-read and a wrap-up on most days. The old flat dropdown listed all
+// 85 checks at once, which made that structure invisible and forced you to look
+// at exactly one check at a time. Now: pick a week, tick the assessments you
+// care about, and the table answers for that selection.
+let pcWeek = null;
+let pcChecks = new Set();
+
+function weekChecks(w) {
+  return taxonomy
+    .filter(t => +t.week === +w && checkOk(t.check_id))
+    .sort((a, b) => a.module - b.module || a.type.localeCompare(b.type));
+}
+
+function buildWeekSelect() {
+  const weeks = [...new Set(taxonomy.map(t => +t.week))].filter(w => isFinite(w)).sort((a,b)=>a-b);
+  $("wk-select").innerHTML = weeks.map(w => `<option value="${w}">Week ${w}</option>`).join("");
+  if (pcWeek == null || !weeks.includes(+pcWeek)) pcWeek = weeks[0] ?? null;
+  if (pcWeek != null) $("wk-select").value = String(pcWeek);
+}
+
+// How many students attempted each check — shown next to every checkbox so you
+// can see participation before selecting anything.
+function attemptCounts() {
+  const n = {};
+  for (const r of percheckRows.filter(inCohort)) n[r.check_id] = (n[r.check_id] || 0) + 1;
+  return n;
+}
+
+function renderCheckGrid() {
+  const host = $("check-grid");
+  if (pcWeek == null) { host.innerHTML = ""; return; }
+  const rows = weekChecks(pcWeek);
+  if (!rows.length) {
+    host.innerHTML = '<div class="ckgrid"><table><tr><td class="none">No assessments in Week ' +
+      esc(pcWeek) + ' match the current filters.</td></tr></table></div>';
+    pcChecks = new Set(); return;
   }
-  $("check-select").innerHTML = optgroups.join("") || `<option value="">(no checks match filters)</option>`;
+  const counts = attemptCounts();
+  const weekly = rows.filter(t => t.type === "canonical");
+  const daily  = rows.filter(t => t.type !== "canonical");
+  const days   = [...new Set(daily.map(t => t.module))].sort((a,b)=>a-b);
+
+  const cell = (t) => {
+    if (!t) return '<span class="none">—</span>';
+    const n = counts[t.check_id] || 0;
+    return `<label class="${t.retired ? 'retired' : ''}" title="${esc(t.check_id)}${t.retired ? ' (retired from the curriculum)' : ''}">` +
+      `<input type="checkbox" data-ck="${esc(t.check_id)}" ${pcChecks.has(t.check_id) ? "checked" : ""}>` +
+      `<span>${esc(t.type_label)}</span><span class="n">${n ? n + " attempted" : "none yet"}</span></label>`;
+  };
+
+  let html = '<div class="ckgrid"><table><thead><tr><th>Day</th><th>Pre-read</th><th>Wrap-up</th></tr></thead><tbody>';
+  for (const w of weekly) {
+    html += `<tr class="weekly"><td class="daylbl">Day ${w.module}<span class="pill-weekly">weekly</span></td>` +
+            `<td colspan="2">${cell(w)}</td></tr>`;
+  }
+  for (const d of days) {
+    const pre  = daily.find(t => t.module === d && t.type === "readiness");
+    const wrap = daily.find(t => t.module === d && t.type === "wrapup");
+    html += `<tr><td class="daylbl">Day ${d}</td><td>${cell(pre)}</td><td>${cell(wrap)}</td></tr>`;
+  }
+  html += "</tbody></table></div>";
+  host.innerHTML = html;
+
+  host.querySelectorAll("input[data-ck]").forEach(cb => {
+    cb.onchange = () => {
+      if (cb.checked) pcChecks.add(cb.dataset.ck); else pcChecks.delete(cb.dataset.ck);
+      renderPer();
+    };
+  });
+}
+
+function pcSelect(kind) {
+  const rows = weekChecks(pcWeek);
+  pcChecks = new Set(
+    kind === "none"   ? []
+  : kind === "weekly" ? rows.filter(t => t.type === "canonical").map(t => t.check_id)
+  :                     rows.map(t => t.check_id)
+  );
+  renderCheckGrid(); renderPer();
+}
+
+function renderPerSelect() {
+  buildWeekSelect();
+  // Default to the whole week the first time, so the tab is never empty on open.
+  const avail = weekChecks(pcWeek).map(t => t.check_id);
+  const kept = [...pcChecks].filter(c => avail.includes(c));
+  pcChecks = new Set(kept.length ? kept : avail);
+  renderCheckGrid();
 }
 
 function renderPer() {
-  const cid = $("check-select").value;
-  const meta = taxonomy.find(t => t.check_id === cid);
-  $("check-meta").textContent = meta
-    ? `${meta.phase} · W${meta.week} · ${meta.type_label}` +
-      (meta.retired ? " · retired from the curriculum; showing historical attempts" : "")
-    : "";
-  const rows = percheckRows.filter(r => r.check_id === cid && inCohort(r)).sort((a,b)=>a.rank-b.rank);
-  const tb = $("tbl-percheck").querySelector("tbody"); tb.innerHTML = "";
-  if (!rows.length) {
-    tb.innerHTML = '<tr><td colspan="9" class="empty">No attempts for this check in this cohort.</td></tr>'; return;
+  const chosen = [...pcChecks];
+  const rows0 = percheckRows.filter(r => inCohort(r) && pcChecks.has(r.check_id) && checkOk(r.check_id));
+  const single = chosen.length === 1 ? taxonomy.find(t => t.check_id === chosen[0]) : null;
+
+  $("pc-heading").textContent = chosen.length === 1
+    ? "Results — " + (single ? `Day ${single.module} ${single.type_label}` : chosen[0])
+    : `Results — ${chosen.length} assessments in Week ${pcWeek}`;
+
+  if (single) {
+    const any = rows0[0];
+    $("check-meta").textContent = `${single.check_id} · ${single.phase}` +
+      (any ? ` · ${any.draw} questions drawn from a pool of ${any.pool_total}` : "") +
+      (single.retired ? " · retired from the curriculum; showing historical attempts" : "");
+  } else {
+    $("check-meta").textContent = chosen.length
+      ? "Score is the sum of each student's best result across the selected assessments — " +
+        `${chosen.length}.00 is a perfect sweep.`
+      : "";
   }
-  rows.forEach(r => {
+
+  renderPcSummary(rows0, chosen);
+
+  const thead = $("tbl-percheck").querySelector("thead tr");
+  const tb = $("tbl-percheck").querySelector("tbody");
+  thead.innerHTML = single
+    ? '<th class="rank">#</th><th>Student</th><th>Cohort</th><th>Best</th><th>Last</th><th>Attempts</th><th>Last attempt</th>'
+    : '<th class="rank">#</th><th>Student</th><th>Cohort</th><th>Score</th><th>Done</th><th>Attempts</th><th>Best single</th><th>Last attempt</th>';
+  tb.innerHTML = "";
+
+  if (!chosen.length) {
+    tb.innerHTML = '<tr><td colspan="8" class="empty">Tick one or more assessments above.</td></tr>'; return;
+  }
+  if (!rows0.length) {
+    tb.innerHTML = '<tr><td colspan="8" class="empty">No attempts yet for this selection.</td></tr>'; return;
+  }
+
+  if (single) {
+    rows0.slice().sort((a,b) =>
+      (b.best_ratio - a.best_ratio) || String(a.last_attempt).localeCompare(String(b.last_attempt))
+    ).forEach((r, i) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        `<td class="rank ${rankClass(i+1)}">${i+1}</td>` +
+        `<td>${esc(r.display_name)}</td><td>${cohortTag(r.cohort)}</td>` +
+        `<td class="ratio"><span class="track"><span class="bar" style="width:${Math.round(Math.min(r.best_ratio||0,1)*80)}px"></span></span>${pct(r.best_ratio)}</td>` +
+        `<td class="ratio">${pct(r.last_ratio)}</td>` +
+        `<td>${esc(r.attempts)}</td>` +
+        `<td class="muted">${r.last_attempt ? new Date(r.last_attempt).toLocaleString() : "—"}</td>`;
+      tb.appendChild(tr);
+    });
+    return;
+  }
+
+  aggregateByStudent(rows0).forEach(r => {
     const tr = document.createElement("tr");
     tr.innerHTML =
       `<td class="rank ${rankClass(r.rank)}">${r.rank}</td>` +
       `<td>${esc(r.display_name)}</td><td>${cohortTag(r.cohort)}</td>` +
-      `<td class="ratio"><span class="track"><span class="bar" style="width:${Math.round(Math.min(r.best_ratio||0,1)*80)}px"></span></span>${pct(r.best_ratio)}</td>` +
-      `<td class="ratio">${pct(r.last_ratio)}</td>` +
-      `<td>${r.attempts}</td><td class="muted">${r.draw ?? "—"}</td><td class="muted">${r.pool_total ?? "—"}</td>` +
-      `<td class="muted">${r.last_attempt ? new Date(r.last_attempt).toLocaleString() : "—"}</td>`;
+      `<td class="ratio"><span class="track"><span class="bar" style="width:${Math.round(Math.min(r.score/chosen.length,1)*80)}px"></span></span>${fmt(r.score)}</td>` +
+      `<td>${r.checks_attempted} / ${chosen.length}</td>` +
+      `<td>${r.total_attempts}</td>` +
+      `<td class="ratio">${pct(r.best_single)}</td>` +
+      `<td class="muted">${r.last_active ? new Date(r.last_active).toLocaleString() : "—"}</td>`;
     tb.appendChild(tr);
   });
+}
+
+// Participation + spread. The table can only show students who attempted; this
+// is where "13 of 24 have not started" becomes visible.
+function renderPcSummary(rows0, chosen) {
+  const host = $("pc-summary");
+  if (!chosen.length) { host.innerHTML = ""; host.classList.add("hidden"); return; }
+
+  const agg = aggregateByStudent(rows0);
+  const size = cohortSize();
+  const started = agg.length;
+  const notStarted = size == null ? null : Math.max(0, size - started);
+  const completed = agg.filter(a => a.checks_attempted === chosen.length).length;
+
+  const bests = rows0.map(r => Number(r.best_ratio) || 0).sort((a,b)=>a-b);
+  const mean = bests.length ? bests.reduce((a,b)=>a+b,0) / bests.length : 0;
+  const median = bests.length ? bests[Math.floor(bests.length/2)] : 0;
+  const perfect = bests.filter(v => v >= 0.999).length;
+  const weak = bests.filter(v => v < 0.5).length;
+
+  const cards = [
+    { lbl: "Participation", val: size == null ? String(started) : `${started} / ${size}`,
+      det: notStarted == null ? "students attempted" : `${notStarted} not started`,
+      cls: size ? (started / size >= 0.75 ? "good" : started / size >= 0.4 ? "" : "bad") : "" },
+    { lbl: "Completed all", val: `${completed}`,
+      det: `did all ${chosen.length} selected`, cls: "" },
+    { lbl: "Average best", val: Math.round(mean * 100) + "%",
+      det: `median ${Math.round(median * 100)}%`,
+      cls: mean >= 0.7 ? "good" : mean >= 0.5 ? "" : "warn" },
+    { lbl: "Perfect scores", val: `${perfect}`, det: `of ${bests.length} results`, cls: perfect ? "good" : "" },
+    { lbl: "Below 50%", val: `${weak}`, det: weak ? "need a follow-up" : "none", cls: weak ? "bad" : "good" },
+  ];
+  host.innerHTML = cards.map(c =>
+    `<div class="insight ${c.cls}"><div class="lbl">${c.lbl}</div><div class="val">${esc(String(c.val))}</div><div class="det">${esc(c.det)}</div></div>`
+  ).join("");
+  host.classList.remove("hidden");
+}
+
+// Denominator for participation, from the anon-safe cohort_sizes view (0020).
+function cohortSize() {
+  if (!cohortSizes.length) return null;
+  if (filters.cohort === "all") return cohortSizes.reduce((n, r) => n + r.students, 0);
+  if (filters.cohort === "au") {
+    const au = new Set(cohorts.filter(c => c.group_tag === "au").map(c => c.name));
+    return cohortSizes.filter(r => au.has(r.cohort)).reduce((n, r) => n + r.students, 0);
+  }
+  if (filters.cohort === "unassigned") {
+    const r = cohortSizes.find(x => x.cohort === "(unassigned)");
+    return r ? r.students : 0;
+  }
+  const r = cohortSizes.find(x => x.cohort === filters.cohort);
+  return r ? r.students : 0;
 }
 
 // ── Instructor panel (sign-in gated) ─────────────────────────────────────────
