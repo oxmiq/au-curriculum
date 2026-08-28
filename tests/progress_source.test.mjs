@@ -115,4 +115,32 @@ function statuses(prog) {
   console.log("  PASS  week-10 (wrap-up only, no canonical) clears correctly");
 }
 
+// 9. A RETIRED wrap-up must not be the mastery check. Consolidation days carry
+//    only the weekly canonical; the W1 D5 / W6 D30 wrap-ups were retired as
+//    outliers, but their historical attempts still exist in check_taxonomy.
+{
+  const t = [
+    { check_id: "week-01-m5-wrapup",    week: 1, module: 5, type: "wrapup",    retired: true },
+    { check_id: "week-01-m5-canonical", week: 1, module: 5, type: "canonical", retired: false },
+  ];
+  // A past 0.9 on the retired wrap-up must NOT clear the module...
+  let s = build(t, [{ check_id: "week-01-m5-wrapup", best_ratio: 0.9 }]);
+  assert.equal(s.modules["week-01/module-5"].status, "in_progress",
+    "a retired wrap-up cannot gate a module a student can no longer take");
+  assert.equal(s.modules["week-01/module-5"].mastery_check, "week-01-m5-canonical");
+
+  // ...the canonical does.
+  s = build(t, [{ check_id: "week-01-m5-canonical", best_ratio: 0.9 }]);
+  assert.equal(s.modules["week-01/module-5"].status, "passed");
+  console.log("  PASS  a retired wrap-up is ignored; the canonical is the mastery check");
+}
+
+// 10. Absent `retired` (older taxonomy rows) must behave as live.
+{
+  const t = [{ check_id: "week-02-m1-wrapup", week: 2, module: 1, type: "wrapup" }];
+  const s = build(t, [{ check_id: "week-02-m1-wrapup", best_ratio: 0.9 }]);
+  assert.equal(s.modules["week-02/module-1"].status, "passed");
+  console.log("  PASS  a taxonomy row without `retired` is treated as live");
+}
+
 console.log("\n=== progress_source: ALL ASSERTIONS PASSED ===");

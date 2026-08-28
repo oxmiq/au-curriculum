@@ -50,39 +50,9 @@ If you score below 10/15:
 ---
 
 ## Part 2 - Self-Assessment
-### Self-Check List
-
-<div class="ox-self-check" data-widget="self-check" data-id="week-01-m5-wrapup" data-kind="wrap-up" data-draw="5" data-source="Week 1 consolidation (shell, git, GPU)">
-
-<script type="application/json" class="ox-self-check__pool">
-[
-  {"stem": "Which command extracts a single field from nvidia-smi output?", "options": ["nvidia-smi | grep", "nvidia-smi | grep | awk", "nvidia-smi --query-gpu", "nvidia-smi | cut"]},
-  {"stem": "What is the correct sequence for a git workflow?", "options": ["Push → Commit → Branch", "Clone → Branch → Commit → Push", "Commit → Push → Branch", "Branch → Clone → Push"]},
-  {"stem": "What does a conventional commit message look like?", "options": ["wip", "update", "feat: add user login", "fixed stuff"]},
-  {"stem": "Why are GPUs faster than CPUs for neural networks?", "options": ["They have fewer cores", "Thousands of cores run matrix multiplication in parallel", "They use less power", "They are cheaper"]},
-  {"stem": "What are three differences between training and serving?", "options": ["Same thing", "Training is batch (throughput); serving is real-time (latency); training happens once, serving is continuous", "Training uses CPU; serving uses GPU", "No differences"]},
-  {"stem": "What are the two most-used H100 specs to remember?", "options": ["Core count and price", "80GB memory and 3.35 TB/s bandwidth", "TDP and color", "Weight and size"]},
-  {"stem": "What is the journey of a prompt? (Select the correct first step)", "options": ["Matrix multiplication", "Tokenization", "Embedding", "Sampling"]},
-  {"stem": "What command creates a new branch with a commit?", "options": ["git new branch", "git checkout -b && git commit", "git branch create", "git init branch"]},
-  {"stem": "What is the correct commit type for documentation?", "options": ["feat:", "fix:", "docs:", "chore:"]},
-  {"stem": "What does `git push origin <branch>` do?", "options": ["Creates a new repo", "Uploads branch to remote", "Deletes branch", "Merges to main"]},
-  {"stem": "What is 'embarrassingly parallel'?", "options": ["A problem that's embarrassing", "Operations that can all run independently at the same time", "A GPU error", "A commit type"]},
-  {"stem": "What is the H100's memory capacity?", "options": ["16 GB", "80 GB", "32 GB", "8 GB"]},
-  {"stem": "What is the H100's memory bandwidth?", "options": ["500 GB/s", "3.35 TB/s", "1 TB/s", "100 GB/s"]},
-  {"stem": "What does `git add . && git commit -m` do?", "options": ["Only stages", "Stages all changes and commits with message", "Pushes to remote", "Creates branch"]},
-  {"stem": "What is a pull request?", "options": ["A git command", "A proposal to merge changes for review", "A backup", "A delete command"]},
-  {"stem": "What is the key GPU design fact?", "options": ["Few powerful cores", "Thousands of small cores for parallel work", "No cores", "Single core"]},
-  {"stem": "What happens in transformer layers?", "options": ["Data storage", "Attention and feed-forward operations on GPU", "CPU processing", "Network transfer"]},
-  {"stem": "What is sampling in inference?", "options": ["Reading from disk", "Picking next token from probability distribution", "Compressing data", "Saving output"]},
-  {"stem": "What is the correct order of the prompt journey?", "options": ["GPU → CPU → Output", "Tokenize → Embed → Layers → Logits → Sample → Output", "Input → Output", "CPU only"]},
-  {"stem": "What should you do if you can't do an item from memory?", "options": ["Skip it", "Review the relevant day's content and practice", "Ask someone else to do it", "Ignore it"]}
-]
-</script>
-</div>
-
 ### Action Items
 
-For any item you can't do:
+For any question you missed on the Week 1 knowledge check:
 
 1. Note which day it came from
 2. Spend 10 minutes reviewing that day's content

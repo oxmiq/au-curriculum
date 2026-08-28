@@ -327,26 +327,6 @@ Complete this decision rule:
 3. Re-read that section of the lesson.
 4. Retake the check after reviewing.
 
-### Practice Knowledge Check
-
-Not gated; draw 5 questions from the Week 6 pool to warm up before the assessed check above.
-
-<div class="ox-self-check" data-widget="self-check" data-id="week-06-m5-wrapup" data-kind="wrap-up" data-draw="5" data-source="Week 6 consolidation - prompt engineering + AI agents">
-
-<script type="application/json" class="ox-self-check__pool">
-[
-  {"stem": "What is the correct order of the five-step agent loop?", "options": ["Plan → Act → Perceive → Observe → Repeat", "Perceive → Plan → Act → Observe → Repeat", "Act → Perceive → Plan → Repeat → Observe", "Observe → Plan → Perceive → Act → Repeat"]},
-  {"stem": "What does chain-of-thought prompting do that direct prompting does not?", "options": ["It provides examples of correct outputs", "It instructs the model to generate step-by-step reasoning before producing the final answer", "It specifies the output format as a numbered list", "It restricts the model to only use factual information"]},
-  {"stem": "What is the end-to-end reliability of a 5-step agent chain where each step has 95% reliability?", "options": ["95%", "90%", "77%", "62%"]},
-  {"stem": "What safety rule must wrap any write tool (a tool with side effects)?", "options": ["Log the call and proceed automatically", "Require a human-in-the-loop confirmation before executing the write action", "Convert the write tool to read-only mode", "Limit write tools to a maximum of 3 calls per agent run"]},
-  {"stem": "What is indirect prompt injection?", "options": ["Manually editing the system prompt to change agent behavior", "Malicious instructions embedded in tool outputs or retrieved content that override the agent's original task when the model processes that content", "An agent calling tools that were not listed in its schema", "A model hallucinating tool names that don't exist"]},
-  {"stem": "When should you use a multi-agent system instead of a single agent?", "options": ["Whenever the task requires more than 5 tool calls", "Only when the task involves external APIs", "When a single agent's context window, expertise, or reliability cannot handle the full task: e.g., tasks with parallel subtasks, specialist sub-domains, or more steps than fit in one context", "Multi-agent is always preferred over single-agent for reliability"]},
-  {"stem": "What are the four MCP (Model Context Protocol) building blocks?", "options": ["Agents, Models, Memories, Actions", "Tools, Resources, Prompts, Sampling", "Context, Schema, Auth, Transport", "Plans, Actions, Observations, Rewards"]},
-  {"stem": "In the planner-worker multi-agent pattern, who decides task decomposition?", "options": ["The workers decide collectively via voting", "The planner agent decomposes the task and assigns subtasks to worker agents", "The user manually specifies which worker handles which subtask", "A separate routing model determines task decomposition"]}
-]
-</script>
-</div>
-
 ### Self-Check List
 
 Go through each item. Mark ✓ if you can do it **without notes**, ✗ if you need to review.

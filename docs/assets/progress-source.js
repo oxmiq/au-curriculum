@@ -83,7 +83,12 @@
         return sb.auth.getUser().then(function (r) {
           if (!r || !r.data || !r.data.user) return null;
           return Promise.all([
-            sb.from("check_taxonomy").select("check_id,week,module,type"),
+            // select("*") rather than naming columns: check_taxonomy is 85 tiny
+            // rows, and `retired` only exists from migration 0015. Naming it
+            // against an older schema would error the whole query and silently
+            // drop us back to static progress; with "*" the field is simply
+            // absent and every check reads as live.
+            sb.from("check_taxonomy").select("*"),
             sb.from("readiness_progress").select("check_id,best_ratio"),
           ]);
         });
@@ -124,8 +129,13 @@
     Object.keys(byModule).forEach(function (id) {
       var checks = byModule[id];
       // Mastery check: the wrap-up, else the canonical (consolidation days).
-      var mastery = checks.filter(function (c) { return c.type === "wrapup"; })[0]
-                 || checks.filter(function (c) { return c.type === "canonical"; })[0]
+      // Retired checks are excluded — they may still hold immutable history, but
+      // a student cannot take one today, so a module must not be gated on it.
+      // Consolidation days carry only the weekly canonical by design; the two
+      // wrap-ups that used to sit on W1 D5 and W6 D30 were retired as outliers.
+      var live = checks.filter(function (c) { return !c.retired; });
+      var mastery = live.filter(function (c) { return c.type === "wrapup"; })[0]
+                 || live.filter(function (c) { return c.type === "canonical"; })[0]
                  || null;
       var masteryBest = mastery && bestBy[mastery.check_id] != null
         ? bestBy[mastery.check_id] : null;

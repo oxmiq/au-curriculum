@@ -436,7 +436,12 @@ function renderPerSelect() {
     const weeks = byPhase[phase];
     let items = [];
     for (const w of Object.keys(weeks).sort((a,b)=>+a-+b)) {
-      for (const t of weeks[w]) items.push({value: t.check_id, label: `W${w} · ${t.type_label} · ${t.check_id}`});
+      for (const t of weeks[w]) items.push({
+        value: t.check_id,
+        // A retired check has no answer key left in the curriculum but may still
+        // hold immutable attempt history, so it stays selectable and is labelled.
+        label: `W${w} · ${t.type_label} · ${t.check_id}` + (t.retired ? "  · retired" : ""),
+      });
     }
     optgroups.push(`<optgroup label="${phase}">${items.map(i => `<option value="${i.value}">${esc(i.label)}</option>`).join("")}</optgroup>`);
   }
@@ -446,7 +451,10 @@ function renderPerSelect() {
 function renderPer() {
   const cid = $("check-select").value;
   const meta = taxonomy.find(t => t.check_id === cid);
-  $("check-meta").textContent = meta ? `${meta.phase} · W${meta.week} · ${meta.type_label}` : "";
+  $("check-meta").textContent = meta
+    ? `${meta.phase} · W${meta.week} · ${meta.type_label}` +
+      (meta.retired ? " · retired from the curriculum; showing historical attempts" : "")
+    : "";
   const rows = percheckRows.filter(r => r.check_id === cid && inCohort(r)).sort((a,b)=>a.rank-b.rank);
   const tb = $("tbl-percheck").querySelector("tbody"); tb.innerHTML = "";
   if (!rows.length) {
