@@ -49,31 +49,34 @@
   .rank-1{ color:var(--gold); } .rank-2{ color:var(--silver); } .rank-3{ color:var(--bronze); }
   .ratio,.num{ font-family:"Oxygen Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums; font-size:.9em; }
   .bar{ height:.5rem; border-radius:3px; background:var(--accent); display:inline-block; vertical-align:middle; }
-  .track{ display:inline-block; width:80px; height:.5rem; border-radius:3px; background:var(--line); vertical-align:middle; margin-right:.4rem; }
+  .track{ display:inline-block; width:64px; height:.4rem; border-radius:3px; background:var(--line); vertical-align:middle; margin-right:.4rem; }
+  .track.w{ width:110px; }
   .muted{ color:var(--muted); }
   .controls{ display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem; flex-wrap:wrap; }
   .who{ margin-left:auto; color:var(--muted); font-size:.82rem; }
   .hidden{ display:none; }
   .err{ color:var(--accent); }
-  .panel{ background:#fff8ec; border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; }
+  .panel{ background:#fff8ec; border:1px solid var(--line); border-radius:10px; padding:.8rem 1rem; }
   .panel.hidden{ display:none; }
   #msg{ padding:.5rem 0; }
-  .podium{ display:flex; gap:.7rem; margin-bottom:.8rem; flex-wrap:wrap; }
-  .pod{ flex:1; min-width:120px; background:#fff8ec; border:1px solid var(--line); border-radius:10px; padding:.6rem; text-align:center; }
-  .pod .pos{ font-size:1.2rem; font-weight:700; }
-  .pod .nm{ font-size:.9rem; margin:.1rem 0; }
-  .pod .sc{ color:var(--muted); font-size:.75rem; }
+  .podium{ display:flex; gap:.5rem; margin-bottom:.6rem; flex-wrap:wrap; }
+  .pod{ flex:1; min-width:110px; background:#fff8ec; border:1px solid var(--line); border-radius:8px;
+    padding:.35rem .5rem; display:flex; align-items:baseline; gap:.4rem; }
+  .pod .pos{ font-size:.8rem; font-weight:700; }
+  .pod .nm{ font-size:.82rem; font-weight:600; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pod .sc{ color:var(--muted); font-size:.7rem; white-space:nowrap; }
   .pod-1{ border-color:var(--gold); } .pod-1 .pos{ color:var(--gold); }
   .pod-2{ border-color:var(--silver); } .pod-2 .pos{ color:var(--silver); }
   .pod-3{ border-color:var(--bronze); } .pod-3 .pos{ color:var(--bronze); }
-  .chart{ width:100%; height:auto; display:block; margin:.3rem 0 .6rem; }
+  .chart{ width:100%; max-width:560px; height:auto; display:block; margin:.2rem 0 .5rem; }
+  .chart.wide{ max-width:760px; }
   .chart .grid{ stroke:var(--line); stroke-width:1; }
-  .chart .axis{ fill:var(--muted); font-size:11px; }
+  .chart .axis{ fill:var(--muted); font-size:9px; }
   .chart .line{ fill:none; stroke:var(--accent); stroke-width:2; }
   .chart .area{ fill:var(--accent); opacity:.08; }
   .chart .dot{ fill:var(--accent); }
-  .chart .lbl{ fill:var(--ink); font-size:11px; }
-  .chart .title{ fill:var(--ink); font-size:13px; font-weight:600; }
+  .chart .lbl{ fill:var(--ink); font-size:9px; }
+  .chart .title{ fill:var(--muted); font-size:10px; font-weight:400; letter-spacing:.03em; }
   .week-pick{ display:inline-flex; gap:.2rem; flex-wrap:wrap; }
   .week-pick button{ padding:.25rem .5rem; font-size:.72rem; }
   .week-pick button.active{ background:var(--accent); }
@@ -151,6 +154,7 @@
     padding:.1rem .42rem; border-radius:4px; border:1px solid transparent; white-space:nowrap; }
   .st-none{ background:#efe7d7; color:var(--muted); border-color:var(--line); }
   .st-risk{ background:#fdeaea; color:var(--red); border-color:#f0c9c9; }
+  .st-behind{ background:#fdf3e3; color:var(--amber); border-color:#f0dcc0; }
   .st-ok{ background:#eef6ee; color:var(--green); border-color:#cde3ce; }
   .st-done{ background:var(--green); color:#fff; }
   .who-name{ font-weight:600; }
@@ -159,6 +163,18 @@
   .drill h3{ margin:0 0 .5rem; font-size:.95rem; }
   .drill table{ margin:0; }
   .mini{ font-size:.8rem; }
+
+  h2{ font-size:.78rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+      color:var(--muted); margin:1rem 0 .35rem; }
+  h2:first-of-type{ margin-top:.2rem; }
+  table{ font-size:.85rem; }
+  th,td{ padding:.32rem .55rem; }
+  .heat td.cell{ width:22px; height:18px; font-size:.62rem; }
+  .heat th.who{ max-width:150px; font-size:.75rem; }
+  .insight{ padding:.5rem .6rem; }
+  .insight .val{ font-size:1.15rem; }
+  .insights{ grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:.45rem; margin-bottom:.6rem; }
+  .remark{ font-size:.82rem; padding:.4rem .6rem; }
 </style>
 </head>
 <body>
@@ -213,9 +229,7 @@
 <!-- Overall -->
 <div id="panel-overall" class="panel">
   <div class="podium" id="podium"></div>
-  <h2>Score by student</h2>
-  <svg id="chart-overall" class="chart" preserveAspectRatio="xMidYMid meet"></svg>
-  <h2>Full ranking</h2>
+  <h2>Ranking</h2>
   <table id="tbl-overall">
     <thead><tr><th class="rank">#</th><th>Student</th><th>Cohort</th><th>Checks</th><th>Attempts</th><th>Correct</th><th>Score</th><th>Last active</th></tr></thead>
     <tbody></tbody>
@@ -227,7 +241,6 @@
   <h2>Cohort trend — average weekly score</h2>
   <svg id="chart-trend" class="chart" preserveAspectRatio="xMidYMid meet"></svg>
   <h2>Per-week ranking — <span id="week-label" class="muted"></span></h2>
-  <svg id="chart-week" class="chart" preserveAspectRatio="xMidYMid meet"></svg>
   <table id="tbl-week">
     <thead><tr><th class="rank">#</th><th>Student</th><th>Cohort</th><th>Checks</th><th>Attempts</th><th>Week score</th><th>Best single</th></tr></thead>
     <tbody></tbody>
@@ -267,6 +280,7 @@
       <button data-st="all" class="active">All</button>
       <button data-st="notstarted">Not started</button>
       <button data-st="atrisk">At risk</button>
+      <button data-st="behind">Behind</button>
       <button data-st="ontrack">On track</button>
       <button data-st="complete">Complete</button>
     </span>
@@ -521,26 +535,27 @@ function weekOf(checkId) {
 function renderOverall() {
   const rows = aggregateByStudent(eligibleRows());
   $("podium").innerHTML = rows.slice(0, 3).map((r, i) =>
-    `<div class="pod pod-${i+1}"><div class="pos">#${i+1}</div><div class="nm">${esc(r.display_name)}</div><div class="sc">${fmt(r.score)} pts · ${r.checks_attempted} checks · ${cohortLabel(r.cohort)}</div></div>`
+    `<div class="pod pod-${i+1}"><span class="pos">#${i+1}</span><span class="nm">${esc(r.display_name)}</span><span class="sc">${fmt(r.score)} · ${r.checks_attempted} checks</span></div>`
   ).join("") || '<div class="empty">No attempts match the current filters.</div>';
   const tb = $("tbl-overall").querySelector("tbody"); tb.innerHTML = "";
   if (!rows.length) {
     tb.innerHTML = '<tr><td colspan="8" class="empty">No attempts match the current filters.</td></tr>';
-    $("chart-overall").innerHTML = '<text class="lbl" x="20" y="30">No data</text>';
     return;
   }
+  // The bar lives inside the Score cell. A separate chart above this table was
+  // the same ranking drawn again at several times the height.
+  const maxScore = Math.max(...rows.map(r => r.score || 0), 0.001);
   rows.forEach(r => {
     const tr = document.createElement("tr");
     tr.innerHTML =
       `<td class="rank ${rankClass(r.rank)}">${r.rank}</td>` +
       `<td>${esc(r.display_name)}</td><td>${cohortTag(r.cohort)}</td>` +
-      `<td>${r.checks_attempted}</td><td>${r.total_attempts}</td>` +
-      `<td>${r.total_correct}</td><td class="ratio">${fmt(r.score)}</td>` +
+      `<td class="num">${r.checks_attempted}</td><td class="num">${r.total_attempts}</td>` +
+      `<td class="num">${r.total_correct}</td>` +
+      `<td class="ratio"><span class="track w"><span class="bar" style="width:${Math.round(Math.min((r.score||0)/maxScore,1)*110)}px"></span></span>${fmt(r.score)}</td>` +
       `<td class="muted">${r.last_active ? new Date(r.last_active).toLocaleDateString() : "—"}</td>`;
     tb.appendChild(tr);
   });
-  drawHBars("chart-overall", rows.map(r => ({label: r.display_name, value: r.score, rank: r.rank})),
-    "Score (Σ best score per check, 1.00 = a perfect check)");
 }
 
 function renderTrend() {
@@ -582,20 +597,19 @@ function renderWeek() {
     : [];
   const tb = $("tbl-week").querySelector("tbody"); tb.innerHTML = "";
   if (!rows.length) {
-    tb.innerHTML = '<tr><td colspan="7" class="empty">No attempts match the current filters.</td></tr>';
-    $("chart-week").innerHTML = '<text class="lbl" x="20" y="30">No data</text>'; return;
+    tb.innerHTML = '<tr><td colspan="7" class="empty">No attempts match the current filters.</td></tr>'; return;
   }
+  const maxW = Math.max(...rows.map(r => r.score || 0), 0.001);
   rows.forEach(r => {
     const tr = document.createElement("tr");
     tr.innerHTML =
       `<td class="rank ${rankClass(r.rank)}">${r.rank}</td>` +
       `<td>${esc(r.display_name)}</td><td>${cohortTag(r.cohort)}</td>` +
-      `<td>${r.checks_attempted}</td><td>${r.total_attempts}</td>` +
-      `<td class="ratio">${fmt(r.score)}</td><td class="ratio">${pct(r.best_single)}</td>`;
+      `<td class="num">${r.checks_attempted}</td><td class="num">${r.total_attempts}</td>` +
+      `<td class="ratio"><span class="track w"><span class="bar" style="width:${Math.round(Math.min((r.score||0)/maxW,1)*110)}px"></span></span>${fmt(r.score)}</td>` +
+      `<td class="ratio">${pct(r.best_single)}</td>`;
     tb.appendChild(tr);
   });
-  drawHBars("chart-week", rows.map(r => ({label: r.display_name, value: r.score, rank: r.rank})),
-    "Week " + currentWeek + " score by student");
 }
 
 // ── By-assessment tab ────────────────────────────────────────────────────────
@@ -894,20 +908,25 @@ function insStudents() {
     a.perCheck.push(r);
     if (r.last_attempt && (!a.last || r.last_attempt > a.last)) a.last = r.last_attempt;
   }
-  const available = taxonomy.filter(t => checkOk(t.check_id)).length;
+  const available = taxonomy.filter(t => checkOk(t.check_id) && !t.retired).length;
   for (const a of byStudent.values()) {
     a.avg = a.done ? a.sum / a.done : 0;
     a.available = available;
-    a.status = a.done === 0 ? "notstarted"
-             : (available && a.done >= available) ? "complete"
-             : a.avg < 0.5 ? "atrisk" : "ontrack";
+    const coverage = available ? a.done / available : 0;
+    a.coverage = coverage;
+    a.status = a.done === 0                         ? "notstarted"
+             : (available && a.done >= available)   ? "complete"
+             : a.avg < 0.5                          ? "atrisk"
+             : coverage < 0.5                       ? "behind"
+             : "ontrack";
   }
   return [...byStudent.values()].sort((x, y) =>
     y.done - x.done || y.avg - x.avg || x.display_name.localeCompare(y.display_name));
 }
 
 const ST = { notstarted:["st-none","Not started"], atrisk:["st-risk","At risk"],
-             ontrack:["st-ok","On track"], complete:["st-done","Complete"] };
+             behind:["st-behind","Behind"], ontrack:["st-ok","On track"],
+             complete:["st-done","Complete"] };
 
 function renderInsights() {
   const all = insStudents();
@@ -997,15 +1016,17 @@ function renderDist() {
     const v = Math.max(0, Math.min(0.9999, Number(r.best_ratio) || 0));
     buckets[Math.floor(v * 10)] += 1;
   }
-  const W=720,H=150,pad=32,bw=(W-pad*2)/10, max=Math.max(...buckets,1);
-  let sv = `<text class="title" x="${pad}" y="16">Best score per assessment · ${rows.length} results</text>`;
+  const W=560,H=104,pad=24,bw=(W-pad*2)/10, max=Math.max(...buckets,1);
+  let sv = `<text class="title" x="${pad}" y="10">Best score per assessment · ${rows.length} results</text>`;
   buckets.forEach((n,i) => {
-    const h=(H-52)*(n/max), x=pad+i*bw, y=H-32-h;
+    const h=(H-38)*(n/max), x=pad+i*bw, y=H-22-h;
     sv += `<rect x="${x+3}" y="${y}" width="${bw-6}" height="${Math.max(h,n?2:0)}" rx="3" fill="var(--accent)" opacity="${0.35+0.65*(i/9)}"><title>${n} result(s) at ${i*10}-${i*10+9}%</title></rect>`;
-    if (n) sv += `<text class="lbl" x="${x+bw/2}" y="${y-4}" text-anchor="middle">${n}</text>`;
-    sv += `<text class="axis" x="${x+bw/2}" y="${H-14}" text-anchor="middle">${i*10}</text>`;
+    if (n) sv += `<text class="lbl" x="${x+bw/2}" y="${y-3}" text-anchor="middle">${n}</text>`;
+    // Label every other bucket only — 0/10/…/90 plus a trailing 100% collided.
+    if (i % 2 === 0) sv += `<text class="axis" x="${x}" y="${H-8}" text-anchor="middle">${i*10}</text>`;
   });
-  sv += `<text class="axis" x="${W-pad}" y="${H-14}" text-anchor="end">100%</text>`;
+  sv += `<text class="axis" x="${W-pad}" y="${H-8}" text-anchor="middle">100</text>`;
+  sv += `<text class="axis" x="${W-pad+16}" y="${H-8}" text-anchor="end">%</text>`;
   const el=$("chart-dist"); el.setAttribute("viewBox",`0 0 ${W} ${H}`); el.innerHTML=sv;
 }
 
@@ -1132,37 +1153,9 @@ function cohortTag(c) {
 }
 
 // ── Inline SVG charts (height scales to row count) ───────────────────────────
-function drawHBars(id, items, title) {
-  const svg = $(id); if (!svg) return;
-  const n = Math.max(1, items.length);
-  const W = 600, rowH = 32, m = { l: 120, r: 60, t: 28, b: 24 };
-  const H = m.t + n * rowH + m.b;
-  const iw = W - m.l - m.r;
-  const max = Math.max(0.001, ...items.map(i => i.value || 0));
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-  let out = `<text class="title" x="${m.l}" y="18">${esc(title)}</text>`;
-  out += `<line class="grid" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${m.t + n*rowH}"/>`;
-  out += `<line class="grid" x1="${m.l}" y1="${m.t + n*rowH}" x2="${m.l+iw}" y2="${m.t + n*rowH}"/>`;
-  for (const g of [0, .25, .5, .75, 1]) {
-    const x = m.l + g * iw;
-    out += `<line class="grid" x1="${x}" y1="${m.t}" x2="${x}" y2="${m.t + n*rowH}" stroke-dasharray="2 3"/>`;
-    out += `<text class="axis" x="${x}" y="${m.t + n*rowH + 14}" text-anchor="middle">${(g*max).toFixed(1)}</text>`;
-  }
-  const barH = 16;
-  items.forEach((it, i) => {
-    const y = m.t + i * rowH + rowH/2;
-    const w = (it.value || 0) / max * iw;
-    const rc = it.rank <= 3 ? ["#b8860b","#888","#b87333"][it.rank-1] : "var(--accent)";
-    out += `<text class="lbl" x="${m.l - 6}" y="${y + 4}" text-anchor="end">${esc(it.label)}</text>`;
-    out += `<rect x="${m.l}" y="${y - barH/2}" width="${w}" height="${barH}" rx="3" style="fill:${rc}"/>`;
-    out += `<text class="lbl" x="${m.l + w + 4}" y="${y + 4}">${fmt(it.value)}</text>`;
-  });
-  svg.innerHTML = out;
-}
-
 function drawTrend(id, points) {
   const svg = $(id); if (!svg) return;
-  const W = 600, H = 200, m = { l: 36, r: 16, t: 26, b: 32 };
+  const W = 560, H = 110, m = { l: 28, r: 12, t: 16, b: 20 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
   const weeks = ["W1","W2","W3","W4","W5","W6","W7","W8","W9","W10"];
   const byW = {}; points.forEach(p => byW[p.x] = p);
