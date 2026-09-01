@@ -75,8 +75,16 @@
   }
 
   // ── live ──────────────────────────────────────────────────────────────────
+  // supabase-js is vendored at assets/vendor/ (self-hosted, like the fonts)
+  // so progress works even where the esm.sh CDN is blocked; the CDN stays as
+  // a fallback for setups missing the vendor file. ROOT is derived above from
+  // this script's own URL.
+  function loadSupaModule() {
+    return import(ROOT + "assets/vendor/supabase-js.esm.js")
+      .catch(function () { return import("https://esm.sh/@supabase/supabase-js@2"); });
+  }
   function loadLive(cfg) {
-    return import("https://esm.sh/@supabase/supabase-js@2")
+    return loadSupaModule()
       .then(function (m) {
         var sb = m.createClient(cfg.url, cfg.key);
         // getUser() lets supabase-js refresh an expired token before we query.
