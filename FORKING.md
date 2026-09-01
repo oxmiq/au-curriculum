@@ -36,7 +36,7 @@ If you are an enrolled student, you'll work in your **own fork** of this repo. Y
 
 ```bash
 source .venv/bin/activate               # Windows: .venv\Scripts\activate
-mkdocs serve                            # local site at http://localhost:8000
+mkdocs serve                            # local site — open the URL it prints (http://localhost:8000/au-curriculum/)
 oxtutor                                 # tutor agent (key required)
 ```
 
@@ -79,6 +79,11 @@ The same sign-in drives the progress pill in the site header and the status
 ticks on the **Roadmap**: they read back your own attempts (and only yours).
 Signed out, the pill reads "Sign in to track progress" rather than 0%, because
 nobody can tell the difference between "no work done" and "not signed in".
+
+> **One address, one sign-in.** The browser treats `http://localhost:8000`,
+> `http://127.0.0.1:8000` and the published site as three *different* sites,
+> and your sign-in (and the progress it unlocks) lives per address. Whichever
+> address you start with, keep using it.
 
 > Use the **same GitHub account** for your fork and for signing in. The site
 > shows a banner if it spots a mismatch.

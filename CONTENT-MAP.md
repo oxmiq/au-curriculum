@@ -166,7 +166,7 @@ Other committed data: `docs/kb/lesson-frontmatter.json` (per-lesson metadata).
 python3 scripts/audit_lessons.py        # lint lesson invariants (L001–L015)
 python3 scripts/build_catalog.py        # regenerate catalog.json (commit if changed)
 mkdocs build --strict                   # the check CI runs
-mkdocs serve                            # local preview at http://127.0.0.1:8000
+mkdocs serve                            # local preview — open the URL it prints (http://localhost:8000/au-curriculum/)
 ```
 
 Regeneration order when editing the concept graph: edit `kb/graph.json` →

@@ -44,7 +44,7 @@ Install these before you start. Version numbers are the minimum tested.
 | **Git** | any recent | To fork, clone, and pull new lessons. |
 | **Python** | **3.10+** | Runs the local lesson site (MkDocs). Check with `python3 --version` (macOS/Linux) or `py --version` (Windows). |
 | **pip** | ships with Python | If `pip` isn't found, use `python3 -m pip …` (see [Troubleshooting](#troubleshooting)). |
-| **A web browser** | any | The lesson site opens at `http://localhost:8000`. |
+| **A web browser** | any | The lesson site opens at the URL `mkdocs serve` prints — `http://localhost:8000/au-curriculum/` on current MkDocs. |
 | VS Code | optional | Any editor works; VS Code is what most of the cohort uses. |
 
 > The **oxtutor** AI tutor also needs the **Capsule CLI**, which is provisioned when you're enrolled; see [oxtutor & Capsule](#oxtutor--capsule-optional-requires-enrollment). It is **not** required to run the lessons.
@@ -70,7 +70,7 @@ source .venv/bin/activate            # Windows: .venv\Scripts\activate
 python3 -m pip install -r requirements.txt
 
 # 4. Run the site locally
-mkdocs serve                         # then open http://localhost:8000
+mkdocs serve                         # then open the URL it prints (http://localhost:8000/au-curriculum/)
 #   if "mkdocs" is not found:  python3 -m mkdocs serve
 
 # 5. Stay current with new lessons (safe: you only ever write to your own folders)
@@ -180,6 +180,9 @@ Not required. The knowledge checks are self-contained in the site. oxtutor can *
 **I'm not enrolled yet; how much can I do?**
 Everything except oxtutor: fork, run the site, read all lessons, take all knowledge checks, and explore the roadmap and concept graph.
 
+**I answered the checks but the header pill says "Sign in to track progress" / never moved.**
+Attempts only record when you're **signed in with GitHub on a check page** — that's the whole mechanism (see [FORKING.md](FORKING.md)). Signed out, a server-graded check is neither scored nor stored at all. Also make sure you take checks at the same address every day; sign-in lives per-address (see [Troubleshooting](#troubleshooting)).
+
 **Where are the Capsule install instructions?**
 In the [Capsule Lab Guide, Module 2](docs/readings/capsule/lab-guide.md). They require an enrolled student's GitHub token.
 
@@ -191,6 +194,8 @@ In the [Capsule Lab Guide, Module 2](docs/readings/capsule/lab-guide.md). They r
 |---------|-----|
 | `pip: command not found` / `zsh: command not found: pip` | Use `python3 -m pip install …` (macOS/Linux) or `py -m pip install …` (Windows). |
 | `mkdocs: command not found` / not recognized (Windows) | Use `python3 -m mkdocs serve` / `py -m mkdocs serve`. This happens when Python's Scripts dir isn't on your PATH; activating the virtualenv (step 3) also fixes it. |
+| A knowledge check says `Not recorded — …` and my score didn't save | You're offline, or the address you opened can't reach the grading service. Check you're online, then serve with `mkdocs serve` and open the URL it prints (`http://localhost:8000/au-curriculum/`). **Stay on one address**: the browser treats `localhost`, `127.0.0.1` and other ports as *different sites*, and your sign-in does not carry across. Then retake the check. |
+| `mkdocs serve` printed `http://127.0.0.1:8000/…` — is that the wrong address? | No — same site, and it records progress too. Just don't mix addresses: sign-in and attempt history are per-address, so using `localhost` one day and `127.0.0.1` the next means signing in twice. |
 | `git pull upstream main` → `'upstream' does not appear to be a git repository` | You skipped step 2. Run `git remote add upstream https://github.com/oxmiq/au-curriculum.git`. |
 | `mkdocs serve` prints `INFO` notes about `planning/source-material/...` links | **Expected.** Those citations point to files outside the site and resolve on GitHub, not the local site. They're informational, not errors; the site still builds and serves. |
 | Repeated `WARNING "GET /ws/..." code 404` in the serve log | Harmless: that's the live-reload websocket reconnecting. The site works fine. |

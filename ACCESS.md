@@ -33,7 +33,7 @@ run the live site (**B**): it's a two-command setup.
    ```
    mkdocs serve
    ```
-   Open **http://127.0.0.1:8000**. The **Roadmap** (with live progress), the **Interactive Concept Graph**, the **Glossary**, and **Concepts** are in the top nav (Plan / Reference tabs).
+   Open the URL it prints — **http://localhost:8000/au-curriculum/** (the `127.0.0.1:8000` link it shows is the same site; either records progress, but stick to **one** address, since your sign-in lives per-address). The **Roadmap** (with live progress), the **Interactive Concept Graph**, the **Glossary**, and **Concepts** are in the top nav (Plan / Reference tabs).
 
 > 🔁 **After re-extracting an updated zip:** restart the server (Ctrl-C, then `mkdocs serve`).
 > Edits inside `docs/` hot-reload automatically, but `mkdocs.yml` and new fonts only load on a restart.
