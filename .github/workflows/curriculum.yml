@@ -32,6 +32,14 @@ jobs:
           # regression here silently mis-states every student's progress.
           node tests/progress_source.test.mjs
 
+      - name: Self-check error classification unit test (hard fail)
+        run: |
+          # The widget's submit-failure copy must route students to the right
+          # fix (auth vs network/CORS vs stale fork). The generic advice sent
+          # already-signed-in students in circles during the 127.0.0.1 CORS
+          # outage; a regression here would do it again.
+          node tests/self_check_errors.test.mjs
+
       - name: Run audit_lessons.py
         run: |
           # Warn-only — do not fail the build yet.

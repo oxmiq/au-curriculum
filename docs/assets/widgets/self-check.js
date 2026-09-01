@@ -54,6 +54,23 @@
   // via the grade-readiness Edge Function. Wrap-up checks keep localStorage.
   var _supa = null, _supaPromise = null;
   function supaCfg() { return (typeof window !== 'undefined' && window.OX_SUPABASE) || null; }
+  // Site root derived from this script's own URL: pages sit at varying depths
+  // and the site is served under a path prefix both locally (mkdocs) and on
+  // Pages, so a bare relative path would not resolve.
+  var ROOT = (function () {
+    var s = (typeof document !== 'undefined' && document.currentScript && document.currentScript.src) || '';
+    return s ? s.replace(/assets\/widgets\/self-check\.js.*$/, '') : '';
+  })();
+  // supabase-js is vendored at assets/vendor/ (same self-hosting principle as
+  // the fonts) so recording works even where the esm.sh CDN is blocked —
+  // campus firewalls took sign-in down silently during the 2026 cohort. The
+  // CDN remains a fallback for odd setups missing the vendor file (e.g. a
+  // file:// page, where local module imports are CORS-blocked but https ones
+  // are not).
+  function loadSupaModule() {
+    return import(ROOT + 'assets/vendor/supabase-js.esm.js')
+      .catch(function () { return import('https://esm.sh/@supabase/supabase-js@2'); });
+  }
   // Server-persist readiness checks, end-of-lesson self-checks, and weekly
   // knowledge-checks (ids ending -readiness / -wrapup / -canonical).
   function serverEnabled(host) { return !!supaCfg() && /-(readiness|wrapup|canonical)$/.test(host.dataset.id || ''); }
@@ -62,7 +79,7 @@
     var cfg = supaCfg();
     if (!cfg) return Promise.resolve(null);
     if (!_supaPromise) {
-      _supaPromise = import('https://esm.sh/@supabase/supabase-js@2')
+      _supaPromise = loadSupaModule()
         .then(function (m) { _supa = m.createClient(cfg.url, cfg.key); return _supa; })
         .catch(function (e) { console.warn('[ox-self-check] supabase load failed', e); return null; });
     }
@@ -75,10 +92,21 @@
         function () { return null; });
     });
   }
-  function signIn() {
+  function signIn(btn) {
     return getSupa().then(function (s) {
-      if (!s) return;
-      return s.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: location.href } });
+      if (!s) {
+        // The auth library could not load (offline / CDN blocked / vendor file
+        // missing). Never leave a dead button: say what happened.
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = 'Sign-in unavailable — the auth library could not load (offline or network-blocked)';
+        }
+        return;
+      }
+      return s.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: location.href } })
+        .catch(function (e) {
+          if (btn) btn.textContent = 'Sign-in failed — ' + String((e && e.message) || e);
+        });
     });
   }
   function signOut() {
@@ -153,25 +181,72 @@
       if (typeof ex[i] === 'string') q.explain = ex[i];
     });
   }
+  // Turn a submit failure into copy a student can act on. The old generic
+  // "grading failed (Failed to fetch). Sign in and retry." sent
+  // already-signed-in students in circles during the 127.0.0.1 CORS outage —
+  // classify the failure mode instead. Exposed for tests via
+  // window.OX_SELF_CHECK (same pattern as progress-source.js's _build).
+  function classifySubmitError(err) {
+    var msg = String((err && err.message) || err || '');
+    if (/not signed in/i.test(msg)) {
+      return { kind: 'auth', hint: 'you are not signed in. Click "Sign in with GitHub" above, then submit again.' };
+    }
+    if (/grading failed \(401\)|invalid session/i.test(msg)) {
+      return { kind: 'auth', hint: 'your sign-in expired. Sign out and back in above, then submit again.' };
+    }
+    if (/grading failed \(429\)|too soon/i.test(msg)) {
+      return { kind: 'throttle', hint: 'that was too soon after your previous attempt on this check. Wait a few seconds, then submit again.' };
+    }
+    if (/grading failed \(404\)/i.test(msg)) {
+      return { kind: 'gone', hint: 'the grading server no longer has this check — your fork is probably stale. Run git pull upstream main, reload, and retake (your recorded attempts are safe).' };
+    }
+    if (/grading failed \(400\)/i.test(msg)) {
+      return { kind: 'mismatch', hint: 'the grading server rejected this submission (check/question mismatch). Run git pull upstream main and retake; if it persists, tell your mentor — the server question set may need a re-sync.' };
+    }
+    if (/storage unavailable/i.test(msg)) {
+      return { kind: 'offline', hint: 'the auth library could not load (offline or network-blocked). Reconnect, reload the page, and try again.' };
+    }
+    if ((err instanceof TypeError) ||
+        /failed to fetch|networkerror|load failed|dynamically imported/i.test(msg)) {
+      var here = (typeof location !== 'undefined' && location && location.origin) || 'this address';
+      return { kind: 'network', hint: 'the grading service could not be reached from ' + here +
+        ' — you may be offline, or this address may not be allowed to record attempts. ' +
+        'Serve with mkdocs serve and open the URL it prints (http://localhost:8000/au-curriculum/ works too), ' +
+        'and stay on ONE address — the browser treats localhost, 127.0.0.1 and other ports as different ' +
+        'sites, and your sign-in does not carry across. Then reload and retake.' };
+    }
+    return { kind: 'server', hint: 'the grading service returned an error (' + msg + '). Retry in a moment; if it keeps happening, tell your mentor.' };
+  }
   function renderAuthBar(host) {
     var bar = el('div', { class: 'ox-self-check__auth' });
     bar.appendChild(el('span', { class: 'ox-self-check__auth-status', text: 'Checking sign-in…' }));
-    currentUser().then(function (user) {
+    function renderSignedOut() {
       clear(bar);
-      if (user) {
+      bar.appendChild(el('span', { class: 'ox-self-check__auth-status',
+        text: 'Sign in to record this attempt (kept in your progress history).' }));
+      var b = el('button', { class: 'ox-self-check__signin', type: 'button', text: 'Sign in with GitHub' });
+      b.addEventListener('click', function () { signIn(b); });
+      bar.appendChild(b);
+    }
+    getSupa().then(function (s) {
+      if (!s) {
+        // Library failed to load; a dead sign-in button helped nobody. Say so.
+        clear(bar);
+        bar.appendChild(el('span', { class: 'ox-self-check__auth-status',
+          text: 'Sign-in unavailable — the auth library could not load (offline or network-blocked). Attempts cannot be recorded until it can; reading the lesson is unaffected.' }));
+        return;
+      }
+      s.auth.getUser().then(function (r) {
+        var user = (r && r.data && r.data.user) || null;
+        if (!user) { renderSignedOut(); return; }
+        clear(bar);
         var who = user.email || (user.user_metadata && user.user_metadata.user_name) || 'you';
         bar.appendChild(el('span', { class: 'ox-self-check__auth-status',
           text: '✓ Signed in as ' + who + '. Your attempts are recorded.' }));
         var out = el('button', { class: 'ox-self-check__signout', type: 'button', text: 'Sign out' });
         out.addEventListener('click', function () { signOut().then(function () { location.reload(); }); });
         bar.appendChild(out);
-      } else {
-        bar.appendChild(el('span', { class: 'ox-self-check__auth-status',
-          text: 'Sign in to record this attempt (kept in your progress history).' }));
-        var b = el('button', { class: 'ox-self-check__signin', type: 'button', text: 'Sign in with GitHub' });
-        b.addEventListener('click', function () { signIn(); });
-        bar.appendChild(b);
-      }
+      }, function () { renderSignedOut(); });
     });
     return bar;
   }
@@ -458,7 +533,7 @@
       }
       if (host._submitError) {
         actions.appendChild(el('div', { class: 'ox-self-check__error',
-          text: 'Not recorded (' + host._submitError + '). Sign in and retry.' }));
+          text: 'Not recorded — ' + classifySubmitError(host._submitError).hint }));
       }
       shell.appendChild(actions);
     } else {
@@ -642,6 +717,12 @@
     host._attempt = buildAttempt(pool, drawN);
     host._submitted = false;
     renderAll(host, pool);
+  }
+
+  // Test hook (same pattern as progress-source.js's _build): the Node unit
+  // test loads this file in a vm and drives classifySubmitError directly.
+  if (typeof window !== 'undefined') {
+    window.OX_SELF_CHECK = { classifySubmitError: classifySubmitError };
   }
 
   // ----- hydration ----------------------------------------------
