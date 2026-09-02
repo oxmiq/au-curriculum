@@ -135,8 +135,18 @@
         body: JSON.stringify(body)
       });
     }).then(function (res) {
-      if (!res.ok) throw new Error('grading failed (' + res.status + ')');
-      return res.json();
+      if (res.ok) return res.json();
+      // Carry the server's own message through. grade-readiness answers 403
+      // with an actionable explanation (e.g. the GitHub primary email is no
+      // longer a college address); throwing only the status code turned that
+      // into "the grading service returned an error (403)" and the student
+      // never saw what to do. Separator is ' :: ' so classifySubmitError can
+      // split it back out.
+      return res.json().catch(function () { return null; }).then(function (body) {
+        var detail = body && (body.message || body.error);
+        throw new Error('grading failed (' + res.status + ')' +
+          (detail ? ' :: ' + detail : ''));
+      });
     });
   }
   function fetchHistory(host) {
@@ -188,6 +198,16 @@
   // window.OX_SELF_CHECK (same pattern as progress-source.js's _build).
   function classifySubmitError(err) {
     var msg = String((err && err.message) || err || '');
+    // The server's own words, when it sent any (see serverSubmit).
+    var sepAt = msg.indexOf(' :: ');
+    var fromServer = sepAt >= 0 ? msg.slice(sepAt + 4).trim() : '';
+    // 403 = this account may not record progress. The server explains why and
+    // how to fix it; show that verbatim rather than paraphrasing a policy the
+    // widget does not own.
+    if (/grading failed \(403\)/.test(msg)) {
+      return { kind: 'ineligible', hint: fromServer ||
+        'this account is not eligible to record progress. Tell your mentor.' };
+    }
     if (/not signed in/i.test(msg)) {
       return { kind: 'auth', hint: 'you are not signed in. Click "Sign in with GitHub" above, then submit again.' };
     }
@@ -214,6 +234,9 @@
         'Serve with mkdocs serve and open the URL it prints (http://localhost:8000/au-curriculum/ works too), ' +
         'and stay on ONE address — the browser treats localhost, 127.0.0.1 and other ports as different ' +
         'sites, and your sign-in does not carry across. Then reload and retake.' };
+    }
+    if (fromServer) {
+      return { kind: 'server', hint: fromServer + ' Retry in a moment; if it keeps happening, tell your mentor.' };
     }
     return { kind: 'server', hint: 'the grading service returned an error (' + msg + '). Retry in a moment; if it keeps happening, tell your mentor.' };
   }
