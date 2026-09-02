@@ -62,7 +62,25 @@ If `git merge upstream/main` reports a conflict in `docs/lessons/`, `docs/kb/`, 
 
 ## Sharing your progress with instructors
 
-**Sign in with GitHub on any knowledge check.** That is the whole mechanism.
+**Sign in with GitHub on any knowledge check, using a GitHub account whose
+primary email is your Andhra University address.** That is the whole mechanism.
+
+> ### Your GitHub primary email must be your college address
+>
+> Progress is tracked against your university address
+> (`<your-roll-number>@andhrauniversity.edu.in`, or your scholar address if you
+> are a research scholar). If your GitHub account's **primary** email is a
+> personal one, your work is not counted toward the AU cohort.
+>
+> Check it at **github.com/settings/emails**. Your college address must be
+> listed, verified, and set as **Primary**. If you change it, sign out and back
+> in here so the site picks it up.
+>
+> If you have already been submitting checks under a college address and then
+> switch your GitHub primary to a personal one, submissions are **rejected** —
+> you will see a message saying so rather than silently losing the work. Set
+> the college address back as Primary and retake the check; everything you had
+> already recorded is safe.
 
 Every readiness, wrap-up and weekly check is graded and stored server-side the
 moment you submit it. The instructor cohort view reads that store directly, so

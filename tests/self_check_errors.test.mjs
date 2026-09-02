@@ -93,4 +93,43 @@ assert.equal(kind("Failed to fetch"), "network");
 assert.equal(kind("grading failed (404)"), "gone");
 console.log("  PASS  bare strings classify the same as Errors");
 
+// 11. 403 = ineligible. grade-readiness rejects a student whose GitHub primary
+// email is no longer their college address, and sends an actionable message.
+// The widget MUST show that message: paraphrasing it ("the grading service
+// returned an error (403)") is what made the earlier CORS outage unfixable
+// from the student's side.
+{
+  const serverMsg =
+    "Your GitHub account's primary email is now someone@gmail.com. Progress is " +
+    "only recorded for GitHub accounts whose primary email is your Andhra " +
+    "University address (323506402103@andhrauniversity.edu.in). Open " +
+    "github.com/settings/emails, set your college address as Primary, then " +
+    "sign out and back in here and retake this check. Your previously " +
+    "recorded attempts are safe.";
+  const c = classify(new Error("grading failed (403) :: " + serverMsg));
+  assert.equal(c.kind, "ineligible");
+  assert.equal(c.hint, serverMsg, "the server's message is shown verbatim, not paraphrased");
+  assert.ok(!/returned an error/.test(c.hint), "the generic server wording is not used");
+  console.log("  PASS  403 shows the server's eligibility message verbatim");
+}
+
+// 12. A 403 with no parseable body still says something useful.
+{
+  const c = classify(new Error("grading failed (403)"));
+  assert.equal(c.kind, "ineligible");
+  assert.ok(/not eligible/i.test(c.hint), "falls back to a plain ineligibility hint");
+  assert.ok(/mentor/i.test(c.hint), "tells them who to ask");
+  console.log("  PASS  403 without a body still explains itself");
+}
+
+// 13. A server message on any other status is surfaced too, rather than the
+// raw thrown string.
+{
+  const c = classify(new Error("grading failed (500) :: the grading service is restarting"));
+  assert.equal(c.kind, "server");
+  assert.ok(c.hint.startsWith("the grading service is restarting"),
+    "the server's words lead the hint");
+  console.log("  PASS  a server message on another status is surfaced");
+}
+
 console.log("\n=== self_check_errors: ALL ASSERTIONS PASSED ===");
