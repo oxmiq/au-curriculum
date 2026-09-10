@@ -915,16 +915,16 @@ async function loadInstructor() {
   }
   const [rp, ros] = await Promise.all([
     sb.from("readiness_progress").select("*"),
-    sb.from("instructor_roster").select("student_id,display_name,cohort,email"),
+    sb.from("instructor_roster").select("student_id,display_name,cohort,recorded_email,github_email,college_id,cohort_source"),
   ]);
-  if (rp.error) { $("ins-msg").innerHTML = '<span class="err">' + esc(rp.error.message) + "</span>"; return; }
+  if (rp.error || ros.error) { $("ins-msg").innerHTML = '<span class="err">' + esc((rp.error || ros.error).message) + "</span>"; return; }
   insRows = rp.data || [];
   insRoster = ros.data || [];
   insCohort = {}; insName = {}; insMail = {};
   for (const r of insRoster) {
     insCohort[r.student_id] = r.cohort;
     insName[r.student_id]   = r.display_name;
-    insMail[r.student_id]   = r.email;
+    insMail[r.student_id]   = r.recorded_email;
   }
   if (!insRoster.length && !insRows.length) { $("ins-msg").textContent = "No students registered yet."; return; }
   $("ins-msg").classList.add("hidden");
@@ -947,7 +947,8 @@ const STATUS_COLOR = { notstarted:"#cfc4ad", behind:"#ef6c00", atrisk:"#c62828",
 function renderMix() {
   const q = ($("filter").value || "").trim().toLowerCase();
   const all = insStudents().filter(s => !q ||
-    s.display_name.toLowerCase().includes(q) || (s.email||"").toLowerCase().includes(q));
+    s.display_name.toLowerCase().includes(q) || (s.email||"").toLowerCase().includes(q)
+    || (s.github_email||"").toLowerCase().includes(q) || (s.college_id||"").toLowerCase().includes(q));
   const el = $("chart-mix");
   if (!all.length) { $("ins-duo").classList.add("hidden"); return; }
   $("ins-duo").classList.remove("hidden");
@@ -1044,7 +1045,10 @@ function insStudents() {
     byStudent.set(r.student_id, {
       student_id: r.student_id,
       display_name: r.display_name || "(no name)",
-      email: r.email || "",
+      email: r.recorded_email || "",
+      github_email: r.github_email || "",
+      college_id: r.college_id || "",
+      cohort_source: r.cohort_source || "",
       cohort: r.cohort,
       done: 0, attempts: 0, sum: 0, best: 0, last: null, perCheck: [],
     });
@@ -1131,6 +1135,8 @@ function renderInsights() {
 
   // Remarks now name people, so they are directly actionable.
   const remarks = [];
+  const switchedAway = all.filter(s => (s.cohort_source||"").startsWith("SWITCHED AWAY"));
+  if (switchedAway.length) remarks.push({src:"identity", text:`${switchedAway.length} student(s) present a personal GitHub primary after being established on a college address — their submissions are being rejected until they switch back: ${switchedAway.map(s=>s.display_name).join(", ")}.`});
   if (notStarted) {
     const names = all.filter(s=>s.done===0).slice(0,6).map(s=>s.display_name);
     remarks.push({src:"not started", text:`${notStarted} student(s) have no recorded attempt in this scope: ${names.join(", ")}${notStarted>names.length?", …":""}. They may not have signed in — progress is only recorded after GitHub sign-in.`});
@@ -1201,7 +1207,8 @@ function renderDist() {
 
 function insMatchesFilter(s) {
   const q = ($("filter").value || "").trim().toLowerCase();
-  if (q && !(s.display_name.toLowerCase().includes(q) || (s.email||"").toLowerCase().includes(q))) return false;
+  if (q && !(s.display_name.toLowerCase().includes(q) || (s.email||"").toLowerCase().includes(q)
+    || (s.github_email||"").toLowerCase().includes(q) || (s.college_id||"").toLowerCase().includes(q))) return false;
   if (insStatusFilter !== "all" && s.status !== insStatusFilter) return false;
   return true;
 }
@@ -1243,6 +1250,12 @@ function renderDrill() {
   if (!s) { d.innerHTML = ""; return; }
   const rows = s.perCheck.slice().sort((a,b) => a.check_id.localeCompare(b.check_id));
   let html = `<div class="drill"><h3>${esc(s.display_name)} <span class="who-mail">${esc(s.email)}</span> ${cohortTag(s.cohort)}</h3>`;
+  const switchedAway = (s.cohort_source||"").startsWith("SWITCHED AWAY");
+  const ident = [];
+  if (s.college_id) ident.push("roll no " + s.college_id);
+  if (s.github_email && s.github_email !== s.email) ident.push("GitHub primary: " + s.github_email);
+  if (s.cohort_source) ident.push(s.cohort_source);
+  if (ident.length) html += `<div class="mini ${switchedAway ? "err" : "muted"}" style="margin:-.3rem 0 .5rem">${esc(ident.join(" · "))}</div>`;
   if (!rows.length) {
     html += '<div class="empty">No recorded attempts in this scope. If this is unexpected, they may not have signed in.</div></div>';
     d.innerHTML = html; return;
